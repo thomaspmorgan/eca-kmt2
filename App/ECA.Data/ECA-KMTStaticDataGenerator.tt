@@ -185,5 +185,23 @@
 		Namespace = nameSpace
 	});
 
+	types.Add(new StaticLookupConfig 
+	{
+		TableName = "DataPointCategory",
+		ClassName = "DataPointCategory",
+		IdColumnName = "DataPointCategoryId",
+		ValueColumnName = "DataPointCategoryName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig 
+	{
+		TableName = "DataPointProperty",
+		ClassName = "DataPointProperty",
+		IdColumnName = "DataPointPropertyId",
+		ValueColumnName = "DataPointPropertyName",
+		Namespace = nameSpace
+	});
+
 	WriteTypes(types, connectionString);
 #>

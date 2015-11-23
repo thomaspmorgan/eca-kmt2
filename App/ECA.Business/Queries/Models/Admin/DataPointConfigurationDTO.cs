@@ -28,13 +28,21 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public int? ProjectId { get; set; }
         /// <summary>
-        /// Gets or sets the category
+        /// Gets or sets the category id
         /// </summary>
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
         /// <summary>
-        /// Gets or sets the property
+        /// Gets or sets the category name
         /// </summary>
-        public string Property { get; set; }
+        public string CategoryName { get; set; }
+        /// <summary>
+        /// Gets or sets the property id
+        /// </summary>
+        public int PropertyId { get; set; }
+        /// <summary>
+        /// Gets or sets the property name
+        /// </summary>
+        public string PropertyName { get; set; }
         /// <summary>
         /// Gets or sets the isHidden flag
         /// </summary>

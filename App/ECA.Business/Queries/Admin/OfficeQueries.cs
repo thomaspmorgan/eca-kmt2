@@ -121,8 +121,10 @@ namespace ECA.Business.Queries.Admin
                 OfficeId = x.OfficeId,
                 ProgramId = x.ProgramId,
                 ProjectId = x.ProjectId,
-                Category = x.Category,
-                Property = x.Property,
+                CategoryId = x.CategoryId,
+                CategoryName = x.Category.DataPointCategoryName,
+                PropertyId = x.PropertyId,
+                PropertyName = x.Property.DataPointPropertyName,
                 IsHidden = x.IsHidden
             });
             return dataPointConfigurations;

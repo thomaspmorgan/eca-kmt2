@@ -3,6 +3,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #region ActorType
 namespace ECA.Data
 {
@@ -180,6 +198,110 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "AddressType", TableName = "AddressType", IdColumnName = "AddressTypeId", ValueColumnName = "AddressName" };
+		}
+	}
+}
+#endregion
+
+#region DataPointCategory
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class DataPointCategory : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Office lookup with id 1.
+		/// </summary>
+		public static StaticLookup Office { get { return new StaticLookup("Office", 1); } }
+		/// <summary>
+		/// Returns the Program lookup with id 2.
+		/// </summary>
+		public static StaticLookup Program { get { return new StaticLookup("Program", 2); } }
+		/// <summary>
+		/// Returns the Project lookup with id 3.
+		/// </summary>
+		public static StaticLookup Project { get { return new StaticLookup("Project", 3); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return DataPointCategory.Office;
+			if (2 == id) return DataPointCategory.Program;
+			if (3 == id) return DataPointCategory.Project;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Office;
+			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Program;
+			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Project;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DataPointCategory", TableName = "DataPointCategory", IdColumnName = "DataPointCategoryId", ValueColumnName = "DataPointCategoryName" };
+		}
+	}
+}
+#endregion
+
+#region DataPointProperty
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class DataPointProperty : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Themes lookup with id 1.
+		/// </summary>
+		public static StaticLookup Themes { get { return new StaticLookup("Themes", 1); } }
+		/// <summary>
+		/// Returns the Goals lookup with id 2.
+		/// </summary>
+		public static StaticLookup Goals { get { return new StaticLookup("Goals", 2); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return DataPointProperty.Themes;
+			if (2 == id) return DataPointProperty.Goals;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Themes".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Themes;
+			if ("Goals".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Goals;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DataPointProperty", TableName = "DataPointProperty", IdColumnName = "DataPointPropertyId", ValueColumnName = "DataPointPropertyName" };
 		}
 	}
 }
@@ -1606,6 +1728,8 @@ namespace ECA.Data
 			var errors = new List<string>();
 			errors.AddRange(validator.Validate<ActorType>());
 			errors.AddRange(validator.Validate<AddressType>());
+			errors.AddRange(validator.Validate<DataPointCategory>());
+			errors.AddRange(validator.Validate<DataPointProperty>());
 			errors.AddRange(validator.Validate<EmailAddressType>());
 			errors.AddRange(validator.Validate<Gender>());
 			errors.AddRange(validator.Validate<ItineraryStatus>());
