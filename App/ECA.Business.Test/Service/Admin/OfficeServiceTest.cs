@@ -2103,16 +2103,28 @@ namespace ECA.Business.Test.Service.Admin
 
         #endregion
 
-        #region Date Point Configurations
+        #region Data Point Configurations
         [TestMethod]
         public async Task TestGetDataPointConfigurations()
         {
+            var dataPointCategory = new DataPointCategory
+            {
+                DataPointCategoryId = DataPointCategory.Office.Id,
+                DataPointCategoryName = DataPointCategory.Office.Value
+            };
+
+            var dataPointProperty = new DataPointProperty
+            {
+                DataPointPropertyId = DataPointProperty.Themes.Id,
+                DataPointPropertyName = DataPointProperty.Themes.Value
+            };
+
             var dataPointConfig = new DataPointConfiguration
             {
                 DataPointConfigurationId = 1,
                 OfficeId = 1,
-                Category = "Office",
-                Property = "Themes",
+                Category = dataPointCategory,
+                Property = dataPointProperty,
                 IsHidden = false
             };
 
@@ -2122,8 +2134,10 @@ namespace ECA.Business.Test.Service.Admin
 
             var result = serviceResult.FirstOrDefault();
             Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
-            Assert.AreEqual(dataPointConfig.Category, result.Category);
-            Assert.AreEqual(dataPointConfig.Property, result.Property);
+            Assert.AreEqual(dataPointConfig.CategoryId, result.CategoryId);
+            Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
+            Assert.AreEqual(dataPointConfig.PropertyId, result.PropertyId);
+            Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
             Assert.AreEqual(dataPointConfig.IsHidden, result.IsHidden);
         }
 
@@ -2134,8 +2148,8 @@ namespace ECA.Business.Test.Service.Admin
             {
                 DataPointConfigurationId = 1,
                 OfficeId = 1,
-                Category = "Office",
-                Property = "Themes",
+                CategoryId = 1,
+                PropertyId = 1,
                 IsHidden = false
             };
 

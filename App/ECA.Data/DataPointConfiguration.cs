@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the id
         /// </summary>
+        [Key]
         public int DataPointConfigurationId { get; set; }
         /// <summary>
         /// Gets or sets the officeId
@@ -28,13 +30,27 @@ namespace ECA.Data
         /// </summary>
         public int? ProjectId { get; set; }
         /// <summary>
+        /// Gets or sets the category id
+        /// </summary>
+        [Required]
+        public int CategoryId { get; set; }
+
+        /// <summary>
         /// Gets or sets the category
         /// </summary>
-        public string Category { get; set; }
+        public DataPointCategory Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the property id
+        /// </summary>
+        [Required]
+        public int PropertyId { get; set; }
+
         /// <summary>
         /// Gets or sets the property
         /// </summary>
-        public string Property { get; set; }
+        public DataPointProperty Property { get; set; }
+
         /// <summary>
         /// Gets or sets the isHidden flag
         /// </summary>
