@@ -2068,6 +2068,1058 @@ namespace ECA.Business.Test.Service.Fundings
         }
         #endregion
 
+        #region Fiscal Year Summaries
+        [TestMethod]
+        public void TestAddMissingFiscalYearSummaryDTOs_EmptyList()
+        {
+            var moneyFlowStatii = new List<MoneyFlowStatus>();
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            moneyFlowStatii.Add(actual);
+
+            var list = new List<FiscalYearSummaryDTO>();
+            var result = service.AddMissingFiscalYearSummaryDTOs(list, moneyFlowStatii);
+            Assert.IsTrue(Object.ReferenceEquals(list, result));
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void TestAddMissingFiscalYearSummaryDTOs_OneFiscalYearMissing()
+        {
+            var moneyFlowStatii = new List<MoneyFlowStatus>();
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            moneyFlowStatii.Add(actual);
+
+            var list = new List<FiscalYearSummaryDTO>();
+            var summary1 = new FiscalYearSummaryDTO
+            {
+                EntityId = 1,
+                EntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                FiscalYear = 2000,
+                IncomingAmount = 20.0m,
+                OutgoingAmount = 10.0m,
+                RemainingAmount = 10.0m,
+                Status = actual.MoneyFlowStatusName,
+                StatusId = actual.MoneyFlowStatusId
+                
+            };
+            var summary2 = new FiscalYearSummaryDTO
+            {
+                EntityId = summary1.EntityId,
+                EntityTypeId = summary1.EntityTypeId,
+                FiscalYear = 2002,
+                IncomingAmount = summary1.IncomingAmount,
+                OutgoingAmount = summary1.OutgoingAmount,
+                RemainingAmount = summary1.RemainingAmount,
+                Status = summary1.Status,
+                StatusId = summary1.StatusId
+            };
+            list.Add(summary1);
+            list.Add(summary2);
+            list = list.OrderBy(x => x.FiscalYear).ToList();//just reverse the sorting for fun...
+
+            var results = service.AddMissingFiscalYearSummaryDTOs(list, moneyFlowStatii);
+            Assert.AreEqual(3, results.Count);
+            Assert.AreEqual(summary2.FiscalYear, results.First().FiscalYear);
+            Assert.AreEqual(summary1.FiscalYear, results.Last().FiscalYear);
+
+            var addedSummary = results[1];
+            Assert.AreEqual(summary1.FiscalYear + 1, addedSummary.FiscalYear);
+            Assert.AreEqual(actual.MoneyFlowStatusId, addedSummary.StatusId);
+            Assert.AreEqual(actual.MoneyFlowStatusName, addedSummary.Status);
+            Assert.AreEqual(summary1.EntityId, addedSummary.EntityId);
+            Assert.AreEqual(summary1.EntityTypeId, addedSummary.EntityTypeId);
+            Assert.AreEqual(0.0m, addedSummary.IncomingAmount);
+            Assert.AreEqual(0.0m, addedSummary.OutgoingAmount);
+            Assert.AreEqual(0.0m, addedSummary.RemainingAmount);
+            Assert.IsTrue(addedSummary.IsEmpty);
+        }
+
+        [TestMethod]
+        public void TestAddMissingFiscalYearSummaryDTOs_TwoFiscalYearsMissing()
+        {
+            var moneyFlowStatii = new List<MoneyFlowStatus>();
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            moneyFlowStatii.Add(actual);
+
+            var list = new List<FiscalYearSummaryDTO>();
+            var summary1 = new FiscalYearSummaryDTO
+            {
+                EntityId = 1,
+                EntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                FiscalYear = 2000,
+                IncomingAmount = 20.0m,
+                OutgoingAmount = 10.0m,
+                RemainingAmount = 10.0m,
+                Status = actual.MoneyFlowStatusName,
+                StatusId = actual.MoneyFlowStatusId
+
+            };
+            var summary2 = new FiscalYearSummaryDTO
+            {
+                EntityId = summary1.EntityId,
+                EntityTypeId = summary1.EntityTypeId,
+                FiscalYear = 2003,
+                IncomingAmount = summary1.IncomingAmount,
+                OutgoingAmount = summary1.OutgoingAmount,
+                RemainingAmount = summary1.RemainingAmount,
+                Status = summary1.Status,
+                StatusId = summary1.StatusId
+            };
+            list.Add(summary1);
+            list.Add(summary2);
+            list = list.OrderBy(x => x.FiscalYear).ToList();
+
+            var results = service.AddMissingFiscalYearSummaryDTOs(list, moneyFlowStatii);
+            Assert.AreEqual(4, results.Count);
+            Assert.AreEqual(summary2.FiscalYear, results.First().FiscalYear);
+            Assert.AreEqual(summary1.FiscalYear, results.Last().FiscalYear);
+            Assert.IsTrue(results[1].IsEmpty);
+            Assert.IsTrue(results[2].IsEmpty);
+        }
+
+        [TestMethod]
+        public void TestAddMissingFiscalYearSummaryDTOs_NoFiscalYearsMissing()
+        {
+            var moneyFlowStatii = new List<MoneyFlowStatus>();
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            moneyFlowStatii.Add(actual);
+
+            var list = new List<FiscalYearSummaryDTO>();
+            var summary1 = new FiscalYearSummaryDTO
+            {
+                EntityId = 1,
+                EntityTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                FiscalYear = 2000,
+                IncomingAmount = 20.0m,
+                OutgoingAmount = 10.0m,
+                RemainingAmount = 10.0m,
+                Status = actual.MoneyFlowStatusName,
+                StatusId = actual.MoneyFlowStatusId
+
+            };
+            var summary2 = new FiscalYearSummaryDTO
+            {
+                EntityId = summary1.EntityId,
+                EntityTypeId = summary1.EntityTypeId,
+                FiscalYear = 2001,
+                IncomingAmount = summary1.IncomingAmount,
+                OutgoingAmount = summary1.OutgoingAmount,
+                RemainingAmount = summary1.RemainingAmount,
+                Status = summary1.Status,
+                StatusId = summary1.StatusId
+            };
+            list.Add(summary1);
+            list.Add(summary2);
+            list = list.OrderBy(x => x.FiscalYear).ToList();
+
+            var results = service.AddMissingFiscalYearSummaryDTOs(list, moneyFlowStatii);
+            Assert.AreEqual(2, results.Count);
+            Assert.AreEqual(summary2.FiscalYear, results.First().FiscalYear);
+            Assert.AreEqual(summary1.FiscalYear, results.Last().FiscalYear);
+        }
+
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByProjectId()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Program;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Programs.Add(sourceProgram);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+            };
+            var serviceResults = service.GetFiscalYearSummariesByProjectId(recipientId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByProjectIdAsync(recipientId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByProjectId_CheckMissingFiscalYearSummaries()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Program;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = moneyFlow.FiscalYear + 2,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+            context.Programs.Add(sourceProgram);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual(1, results.Where(x => x.FiscalYear == moneyFlow.FiscalYear + 1).Count());
+            };
+            var serviceResults = service.GetFiscalYearSummariesByProjectId(recipientId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByProjectIdAsync(recipientId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByProgramId()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Program;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Programs.Add(sourceProgram);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+            };
+            var serviceResults = service.GetFiscalYearSummariesByProgramId(sourceId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByProgramIdAsync(sourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByProgramId_CheckMissingFiscalYearSummaries()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Program;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = moneyFlow.FiscalYear + 2,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+            context.Programs.Add(sourceProgram);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual(1, results.Where(x => x.FiscalYear == moneyFlow.FiscalYear + 1).Count());
+            };
+            var serviceResults = service.GetFiscalYearSummariesByProgramId(sourceId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByProgramIdAsync(sourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByOfficeId()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOffice = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "office",
+                OrganizationTypeId = OrganizationType.Office.Id
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Office;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceOrganization = sourceOffice,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOffice);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+            };
+            var serviceResults = service.GetFiscalYearSummariesByOfficeId(sourceId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByOfficeIdAsync(sourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByOfficeId_CheckMissingFiscalYearSummaries()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOffice = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "office",
+                OrganizationTypeId = OrganizationType.Office.Id
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Office;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceOrganization = sourceOffice,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceOrganization = sourceOffice,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = moneyFlow.FiscalYear + 2,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+            context.Organizations.Add(sourceOffice);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual(1, results.Where(x => x.FiscalYear == moneyFlow.FiscalYear + 1).Count());
+            };
+            var serviceResults = service.GetFiscalYearSummariesByOfficeId(sourceId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByOfficeIdAsync(sourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByOrganizationId()
+        {
+
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Organization;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOrganization = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "program",
+                OrganizationTypeId = OrganizationType.Other.Id
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceOrganization = sourceOrganization,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            
+            context.MoneyFlowSourceRecipientTypes.Add(sourceType);
+            context.MoneyFlowSourceRecipientTypes.Add(recipientType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrganization);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+            };
+            var serviceResults = service.GetFiscalYearSummariesByOrganizationId(sourceId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByOrganizationIdAsync(sourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByOrganizationId_CheckMissingFiscalYearSummaries()
+        {
+
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Organization;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceOrganization = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "program",
+                OrganizationTypeId = OrganizationType.Other.Id
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceOrganization = sourceOrganization,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceOrganization = sourceOrganization,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = moneyFlow.FiscalYear + 2,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.MoneyFlowSourceRecipientTypes.Add(sourceType);
+            context.MoneyFlowSourceRecipientTypes.Add(recipientType);
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+            context.Organizations.Add(sourceOrganization);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual(1, results.Where(x => x.FiscalYear == moneyFlow.FiscalYear + 1).Count());
+            };
+            var serviceResults = service.GetFiscalYearSummariesByOrganizationId(sourceId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByOrganizationIdAsync(sourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByOrganizationId_OrganizationIsAnOffice()
+        {
+            var outgoing = new MoneyFlowType
+            {
+                MoneyFlowTypeId = MoneyFlowType.Outgoing.Id,
+                MoneyFlowTypeName = MoneyFlowType.Outgoing.Value
+            };
+            var organizationType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Organization.Id,
+                TypeName = MoneyFlowSourceRecipientType.Organization.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+
+            var officeType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Office.Id
+            };
+            var sourceOrg = new Organization
+            {
+                OrganizationId = sourceId,
+                Name = "Outgoing",
+                OrganizationType = officeType,
+                OrganizationTypeId = officeType.OrganizationTypeId
+            };
+
+            var recipientOrg = new Organization
+            {
+                OrganizationId = recipientId,
+                Name = "Incoming",
+                OrganizationType = officeType,
+                OrganizationTypeId = officeType.OrganizationTypeId
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceOrganizationId = sourceId,
+                RecipientOrganizationId = recipientId,
+                SourceOrganization = sourceOrg,
+                RecipientOrganization = recipientOrg,
+                SourceType = organizationType,
+                SourceTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = organizationType,
+                RecipientTypeId = organizationType.MoneyFlowSourceRecipientTypeId,
+
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10
+            };
+            context.MoneyFlows.Add(moneyFlow);
+            context.Organizations.Add(sourceOrg);
+            context.Organizations.Add(recipientOrg);
+            context.MoneyFlowTypes.Add(outgoing);
+            context.MoneyFlowSourceRecipientTypes.Add(organizationType);
+            context.MoneyFlowStatuses.Add(actual);
+
+            var message = String.Format("The organization with the given id [{0}] is an office named [{1}].  This office must be accessed using office related methods only.",
+                        sourceId,
+                        sourceOrg.Name);
+            Func<Task> f = () =>
+            {
+                return service.GetFiscalYearSummariesByOrganizationIdAsync(sourceOrg.OrganizationId);
+            };
+            service.Invoking(x => x.GetFiscalYearSummariesByOrganizationId(sourceOrg.OrganizationId)).ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByPersonId()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                FullName = "Full Name",
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceParticipant = new Participant
+            {
+                ParticipantId = sourceId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Participant;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceParticipantId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceParticipant = sourceParticipant,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.Genders.Add(gender);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Participants.Add(sourceParticipant);
+            context.People.Add(person);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+            };
+            var serviceResults = service.GetFiscalYearSummariesByPersonId(person.PersonId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByPersonIdAsync(person.PersonId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFiscalYearSummariesByPersonId_CheckMissingFiscalYearSummaries()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                FullName = "Full Name",
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceParticipant = new Participant
+            {
+                ParticipantId = sourceId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var sourceTypeLookup = MoneyFlowSourceRecipientType.Participant;
+            var recipientTypeLookup = MoneyFlowSourceRecipientType.Project;
+            var sourceType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = sourceTypeLookup.Id,
+                TypeName = sourceTypeLookup.Value
+            };
+            var recipientType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = recipientTypeLookup.Id,
+                TypeName = recipientTypeLookup.Value
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var moneyFlow = new MoneyFlow
+            {
+                SourceParticipantId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceParticipant = sourceParticipant,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            var moneyFlow2 = new MoneyFlow
+            {
+                SourceParticipantId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceParticipant = sourceParticipant,
+                RecipientProject = recipientProject,
+                SourceType = sourceType,
+                SourceTypeId = sourceType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = recipientType,
+                RecipientTypeId = recipientType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = moneyFlow.FiscalYear + 2,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100
+            };
+            context.Genders.Add(gender);
+            context.MoneyFlows.Add(moneyFlow);
+            context.MoneyFlows.Add(moneyFlow2);
+            context.Participants.Add(sourceParticipant);
+            context.People.Add(person);
+            context.Projects.Add(recipientProject);
+            context.MoneyFlowStatuses.Add(actual);
+            Action<List<FiscalYearSummaryDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual(1, results.Where(x => x.FiscalYear == moneyFlow.FiscalYear + 1).Count());
+            };
+            var serviceResults = service.GetFiscalYearSummariesByPersonId(person.PersonId);
+            var serviceResultsAsync = await service.GetFiscalYearSummariesByPersonIdAsync(person.PersonId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
         [TestMethod]
         public void TestGetMoneyFlowType()
         {

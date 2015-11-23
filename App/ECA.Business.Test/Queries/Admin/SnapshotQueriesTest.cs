@@ -280,7 +280,7 @@ namespace ECA.Business.Test.Queries.Admin
             List<int> programIds = new List<int>();
             programIds.Add(program.ProgramId);
             var results = SnapshotQueries.CreateGetProgramBudgetTotalQuery(context, programIds);
-            Assert.AreEqual(250, results.DataValue);
+            Assert.AreEqual(0, results.DataValue);
         }
 
         [TestMethod]
@@ -662,9 +662,9 @@ namespace ECA.Business.Test.Queries.Admin
             List<int> programIds = new List<int>();
             programIds.Add(program.ProgramId);
             var results = SnapshotQueries.CreateGetProgramBudgetByYearQuery(context, programIds);
-            Assert.AreEqual(250, results.Result.Sum(x => x.Value));
-            Assert.AreEqual(results.Result.Where(y => y.Key == 2013).Select(v => v.Value).FirstOrDefault(), 100);
-            Assert.AreEqual(results.Result.Where(y => y.Key == 2014).Select(v => v.Value).FirstOrDefault(), 150);
+            Assert.AreEqual(0, results.Result.Sum(x => x.Value));
+            Assert.AreEqual(results.Result.Where(y => y.Key == 2013).Select(v => v.Value).FirstOrDefault(), 0);
+            Assert.AreEqual(results.Result.Where(y => y.Key == 2014).Select(v => v.Value).FirstOrDefault(), 0);
         }
 
         [TestMethod]

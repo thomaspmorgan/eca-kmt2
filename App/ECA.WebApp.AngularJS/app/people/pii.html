@@ -94,18 +94,16 @@
             <div class="row">
                 <div class="col-md-4 title-label">Place of Birth</div>
                 <div class="col-md-8">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label class="col-md-4 title-label">Country</label>
-                            <div class="col-md-8">
-                                {{pii.IsPlaceOfBirthUnknown ? 'Unknown' : pii.countryOfBirth}}
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 title-label">Country</label>
+                        <div class="col-md-8">
+                            {{pii.IsPlaceOfBirthUnknown ? 'Unknown' : pii.countryOfBirth}}
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 title-label">City</label>
-                            <div class="col-md-8">
-                                {{pii.cityOfBirth}}
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 title-label">City</label>
+                        <div class="col-md-8">
+                            {{pii.cityOfBirth}}
                         </div>
                     </div>
                 </div>
@@ -137,7 +135,7 @@
             <div class="row">
                 <div class="col-md-4 title-label">Addresses</div>
                 <div>
-                    <addresses model="pii" modelid="person.personId" modeltype="'person'" editmode="edit.Pii"/>
+                    <addresses model="pii" modelid="person.personId" modeltype="'person'" editmode="edit.Pii" />
                 </div>
             </div>
             <div class="row">

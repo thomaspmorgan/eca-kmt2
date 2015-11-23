@@ -335,11 +335,11 @@ angular.module('staticApp')
                     { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
                   ]
               };
-
+              
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
               } else if ($scope.newPerson.cityOfBirth) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: $scope.newPerson.cityOfBirth });
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.newPerson.cityOfBirth });
               }
 
               return LocationService.get(params)
