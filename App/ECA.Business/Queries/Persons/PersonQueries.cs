@@ -36,6 +36,17 @@ namespace ECA.Business.Queries.Persons
                             && currentParticipation.Status != null
                             && currentParticipation.Status.Status != null
 
+                        let hasPlaceOfBirth = person.PlaceOfBirth != null
+                        let cityOfBirth = person.PlaceOfBirth
+
+                        let cityOfBirthName = hasPlaceOfBirth ? cityOfBirth.LocationName : null
+
+                        let hasCountryOfBirth = hasPlaceOfBirth && cityOfBirth.Country != null
+                        let countryOfBirthName = hasCountryOfBirth ? cityOfBirth.Country.LocationName : null
+
+                        let hasDivisionOfBirth = hasPlaceOfBirth && cityOfBirth.Division != null
+                        let divisionOfBirthName = hasDivisionOfBirth ? cityOfBirth.Division.LocationName : null
+
                         select new SimplePersonDTO
                         {
                             Alias = person.Alias,
@@ -53,22 +64,12 @@ namespace ECA.Business.Queries.Persons
                             Patronym = person.Patronym,
                             FullName = person.FullName,
                             CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
-                            CountryOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth.Country.LocationName : null,
-                            CityOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth.LocationName : null,
-                            CityOfBirthId = person.PlaceOfBirth != null ? person.PlaceOfBirth.LocationId : (int?)null
+                            CountryOfBirth = countryOfBirthName,
+                            DivisionOfBirth = divisionOfBirthName,
+                            CityOfBirth = cityOfBirthName,
+                            CityOfBirthId = hasPlaceOfBirth ? cityOfBirth.LocationId : default(int?)
                         };
             return query;
-        }
-
-        /// <summary>
-        /// Get a simple person dto by person id
-        /// </summary>
-        /// <param name="context">The context to query</param>
-        /// <param name="personId">The person id to lookup</param>
-        /// <returns>Simple person dto</returns>
-        public static IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOByPersonIdQuery(EcaContext context, int personId)
-        {
-            return CreateGetSimplePersonDTOsQuery(context).Where(x => x.PersonId == personId);
         }
 
         /// <summary>

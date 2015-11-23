@@ -149,7 +149,7 @@ angular.module('staticApp')
               var params = getPersonDuplicateParams();
               PersonService.getPeople(params)
               .then(function (response) {
-                  if(response.data.total > 0) {
+                  if (response.data.total > 0) {
                       $scope.personDuplicates = response.data.results;
                   } else {
                       addNewPerson();
