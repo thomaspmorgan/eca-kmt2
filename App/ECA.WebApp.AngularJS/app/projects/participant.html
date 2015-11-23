@@ -104,9 +104,9 @@
                                 <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(participant)">
                                     <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                                 </div>-->
-                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteParticipantClick(participant)">
-                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isDeleting">delete</i>
-                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteParticipantClick(participant)" ng-show="permissions.editProject">
+                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!participantInfo[participantId].isDeleting">delete</i>
+                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="participantInfo[participantId].isDeleting">autorenew</i>
                                 </div>
                             </div>
                         </td>
