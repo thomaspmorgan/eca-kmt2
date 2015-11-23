@@ -1515,7 +1515,7 @@ namespace ECA.Business.Test.Service.Projects
         }
 
         [TestMethod]
-        public async Task TestGetProjectById_CheckCountryIsos_LocationsAreNotCountries()
+        public async Task TestGetProjectById_CheckCountryIsosByLocations_LocationsAreNotCountries()
         {
             var now = DateTimeOffset.UtcNow;
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -1611,9 +1611,9 @@ namespace ECA.Business.Test.Service.Projects
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(1, serviceResult.CountryIsos.Count());
-                Assert.AreEqual(country.LocationIso, serviceResult.CountryIsos.First().Value);
-                Assert.AreEqual(country.LocationId, serviceResult.CountryIsos.First().Id);
+                Assert.AreEqual(1, serviceResult.CountryIsosByLocations.Count());
+                Assert.AreEqual(country.LocationIso, serviceResult.CountryIsosByLocations.First().Value);
+                Assert.AreEqual(country.LocationId, serviceResult.CountryIsosByLocations.First().Id);
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -1624,7 +1624,7 @@ namespace ECA.Business.Test.Service.Projects
         }
 
         [TestMethod]
-        public async Task TestGetProjectById_CheckCountryIsos_LocationsAreCountries()
+        public async Task TestGetProjectById_CheckCountryIsosByLocations_LocationsAreCountries()
         {
             var now = DateTimeOffset.UtcNow;
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -1712,11 +1712,11 @@ namespace ECA.Business.Test.Service.Projects
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(2, serviceResult.CountryIsos.Count());
-                Assert.AreEqual(country1.LocationIso, serviceResult.CountryIsos.First().Value);
-                Assert.AreEqual(country1.LocationId, serviceResult.CountryIsos.First().Id);
-                Assert.AreEqual(country2.LocationIso, serviceResult.CountryIsos.Last().Value);
-                Assert.AreEqual(country2.LocationId, serviceResult.CountryIsos.Last().Id);
+                Assert.AreEqual(2, serviceResult.CountryIsosByLocations.Count());
+                Assert.AreEqual(country1.LocationIso, serviceResult.CountryIsosByLocations.First().Value);
+                Assert.AreEqual(country1.LocationId, serviceResult.CountryIsosByLocations.First().Id);
+                Assert.AreEqual(country2.LocationIso, serviceResult.CountryIsosByLocations.Last().Value);
+                Assert.AreEqual(country2.LocationId, serviceResult.CountryIsosByLocations.Last().Id);
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -1727,7 +1727,7 @@ namespace ECA.Business.Test.Service.Projects
         }
 
         [TestMethod]
-        public async Task TestGetProjectById_CheckCountryIsos_CheckRegions()
+        public async Task TestGetProjectById_CheckCountryIsosByLocations_CheckRegions()
         {
             var now = DateTimeOffset.UtcNow;
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -1817,9 +1817,9 @@ namespace ECA.Business.Test.Service.Projects
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(1, serviceResult.CountryIsos.Count());
-                Assert.AreEqual(country1.LocationIso, serviceResult.CountryIsos.First().Value);
-                Assert.AreEqual(country1.LocationId, serviceResult.CountryIsos.First().Id);
+                Assert.AreEqual(1, serviceResult.CountryIsosByLocations.Count());
+                Assert.AreEqual(country1.LocationIso, serviceResult.CountryIsosByLocations.First().Value);
+                Assert.AreEqual(country1.LocationId, serviceResult.CountryIsosByLocations.First().Id);
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -1943,9 +1943,9 @@ namespace ECA.Business.Test.Service.Projects
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(1, serviceResult.CountryIsos.Count());
-                Assert.AreEqual(country.LocationIso, serviceResult.CountryIsos.First().Value);
-                Assert.AreEqual(country.LocationId, serviceResult.CountryIsos.First().Id);
+                Assert.AreEqual(1, serviceResult.CountryIsosByLocations.Count());
+                Assert.AreEqual(country.LocationIso, serviceResult.CountryIsosByLocations.First().Value);
+                Assert.AreEqual(country.LocationId, serviceResult.CountryIsosByLocations.First().Id);
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -2165,6 +2165,195 @@ namespace ECA.Business.Test.Service.Projects
             tester(resultAsync);
         }
 
+        [TestMethod]
+        public async Task TestGetProjectById_CheckRegions()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var regionType = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id,
+                LocationTypeName = LocationType.Region.Value
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+                LocationIso = "regionIso",
+                LocationIso2 = "iso2",
+                LocationTypeId = regionType.LocationTypeId,
+                LocationType = regionType
+            };
+            
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Regions.Add(region);
+
+            context.Organizations.Add(owner);
+            context.Projects.Add(project);
+            context.Locations.Add(region);
+            context.LocationTypes.Add(regionType);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.Regions.Count());
+                var testProjectLocation = serviceResult.Regions.First();
+                Assert.AreEqual(region.LocationId, testProjectLocation.Id);
+                Assert.AreEqual(region.LocationName, testProjectLocation.Name);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_CheckCountryIsosByRegions()
+        {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
+
+            var regionType = new LocationType
+            {
+                LocationTypeId = LocationType.Region.Id,
+                LocationTypeName = LocationType.Region.Value
+            };
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "region",
+                LocationIso = "regionIso",
+                LocationIso2 = "iso2",
+                LocationTypeId = regionType.LocationTypeId,
+                LocationType = regionType
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country",
+                LocationIso = "country iso",
+                LocationIso2 = "country iso2",
+                LocationType = countryType,
+                LocationTypeId = countryType.LocationTypeId,
+                Region = region,
+                RegionId = region.LocationId
+            };
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 20,
+                Name = "owner"
+            };
+            var program = new Program
+            {
+                ProgramId = 10,
+                Name = "program",
+                Owner = owner,
+                OwnerId = owner.OrganizationId
+            };
+            owner.OwnerPrograms.Add(program);
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                Description = "description",
+                Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status,
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                },
+                ProgramId = program.ProgramId,
+                ParentProgram = program
+            };
+            project.Regions.Add(region);
+
+            context.Locations.Add(country);
+            context.Organizations.Add(owner);
+            context.Projects.Add(project);
+            context.Locations.Add(region);
+            context.LocationTypes.Add(regionType);
+            context.ProjectStatuses.Add(status);
+            context.Programs.Add(program);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(1, serviceResult.CountryIsosByRegions.Count());
+                var testProjectLocation = serviceResult.CountryIsosByRegions.First();
+                Assert.AreEqual(country.LocationIso, testProjectLocation.Value);
+                Assert.AreEqual(country.LocationId, testProjectLocation.Id);
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        }
 
         [TestMethod]
         public async Task TestGetProjectById_CheckContacts()
@@ -2447,7 +2636,7 @@ namespace ECA.Business.Test.Service.Projects
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
                     serviceResult.Themes.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
-                    serviceResult.CountryIsos.Select(x => x.Value).ToList());
+                    serviceResult.CountryIsosByLocations.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
                     serviceResult.Goals.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Objectives.Select(x => x.ObjectiveName).ToList(),

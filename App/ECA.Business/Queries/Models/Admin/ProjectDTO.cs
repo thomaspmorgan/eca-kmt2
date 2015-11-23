@@ -19,7 +19,7 @@ namespace ECA.Business.Queries.Models.Admin
         public ProjectDTO()
         {
             this.Themes = new List<SimpleLookupDTO>();
-            this.CountryIsos = new List<SimpleLookupDTO>();
+            this.CountryIsosByLocations = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Contacts = new List<SimpleLookupDTO>();
             this.Categories = new List<FocusCategoryDTO>();
@@ -100,7 +100,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the country isos.
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountryIsosByLocations { get; set; }
 
         /// <summary>
         /// Gets or sets the goals.
@@ -131,5 +131,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the regions.
         /// </summary>
         public IEnumerable<LocationDTO> Regions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country isos of the countries that are part of the project region.
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> CountryIsosByRegions { get; set; }
     }
 }
