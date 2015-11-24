@@ -9,7 +9,7 @@ namespace ECA.Business.Validation
     /// The SevisValidatorBase class is used to validate entities before creation or update.
     /// </summary>
     [ContractClass(typeof(SevisValidatorBaseContract<>))]
-    public abstract class SevisValidatorBase<ParticipantPersonSevisValidationDTO> : ISevisValidator
+    public abstract class SevisValidatorBase<SEVISBatchCreateUpdateStudent> : ISevisValidator
     {
         private bool throwExceptionOnValidation;
 
@@ -18,7 +18,7 @@ namespace ECA.Business.Validation
             this.throwExceptionOnValidation = throwExceptionOnValidation;
         }
 
-        public IEnumerable<SevisValidationResult> ValidateSevis(Queries.Models.Persons.ParticipantPersonSevisValidationDTO validationEntity)
+        public IEnumerable<SevisValidationResult> ValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
         {
             if (throwExceptionOnValidation)
             {
@@ -45,7 +45,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The collection of validation results.</returns>
-        public abstract IEnumerable<SevisValidationResult> DoValidateSevis(Queries.Models.Persons.ParticipantPersonSevisValidationDTO validationEntity);
+        public abstract IEnumerable<SevisValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity);
     }
 
     /// <summary>
@@ -53,14 +53,14 @@ namespace ECA.Business.Validation
     /// </summary>
     /// <typeparam name="TUpdate"></typeparam>
     [ContractClassFor(typeof(SevisValidatorBase<>))]
-    public abstract class SevisValidatorBaseContract<ParticipantPersonSevisValidationDTO> : SevisValidatorBase<ParticipantPersonSevisValidationDTO>
+    public abstract class SevisValidatorBaseContract<SEVISBatchCreateUpdateStudent> : SevisValidatorBase<SEVISBatchCreateUpdateStudent>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public override IEnumerable<SevisValidationResult> DoValidateSevis(Queries.Models.Persons.ParticipantPersonSevisValidationDTO validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
         {
             Contract.Ensures(Contract.Result<IEnumerable<SevisValidationResult>>() != null, "The sevis validator must return a non null value.");
             return new List<SevisValidationResult>();
