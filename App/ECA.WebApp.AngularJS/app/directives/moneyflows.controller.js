@@ -23,7 +23,8 @@ angular.module('staticApp')
         ConstantsService,
         NotificationService,
         TableService,
-        StateService
+        StateService,
+        orderByFilter
         ) {
 
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
@@ -241,7 +242,7 @@ angular.module('staticApp')
                   allYears.splice(0, 0, moneyFlow.fiscalYear);
               }
           }          
-          return allYears;
+          return orderByFilter(allYears, '-');
       }
 
       $scope.view.onReloadFiscalYearSummariesClick = function () {
