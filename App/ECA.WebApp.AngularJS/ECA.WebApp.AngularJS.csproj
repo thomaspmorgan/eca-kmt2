@@ -191,6 +191,7 @@
     <Content Include="app\organizations\organizations.routes.js" />
     <Content Include="app\people\people.routes.js" />
     <Content Include="app\programs\programs.routes.js" />
+    <Content Include="app\projects\itinerary.contoller.js" />
     <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\search\spotlight.controller.js" />

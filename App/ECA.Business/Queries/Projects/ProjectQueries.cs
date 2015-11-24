@@ -1,13 +1,13 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 
-namespace ECA.Business.Queries.Admin
+namespace ECA.Business.Queries.Projects
 {
     /// <summary>
     /// Contains queries related to an ECA project that must query the EcaContext.

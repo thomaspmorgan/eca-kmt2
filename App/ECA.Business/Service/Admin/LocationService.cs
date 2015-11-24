@@ -155,6 +155,11 @@ namespace ECA.Business.Service.Admin
             return Context.Addresses.Where(x => x.AddressId == addressId).Include(x => x.Location);
         }
 
+        private IQueryable<ParticipantPerson> CreateGetParticipantPersonsByAddressIdQuery(int addressId)
+        {
+            return Context.ParticipantPersons.Where(x => x.HomeInstitutionAddressId == addressId || x.HostInstitutionAddressId == addressId);
+        }
+
         /// <summary>
         /// Removes the address from the context.
         /// </summary>
@@ -162,7 +167,8 @@ namespace ECA.Business.Service.Admin
         public void Delete(int addressId)
         {
             var address = CreateGetAddressToDeleteByIdQuery(addressId).FirstOrDefault();
-            DoDelete(address);
+            var participantPeople = CreateGetParticipantPersonsByAddressIdQuery(addressId).ToList();
+            DoDelete(address, participantPeople);
         }
 
         /// <summary>
@@ -172,10 +178,11 @@ namespace ECA.Business.Service.Admin
         public async Task DeleteAsync(int addressId)
         {
             var address = await CreateGetAddressToDeleteByIdQuery(addressId).FirstOrDefaultAsync();
-            DoDelete(address);
+            var participantPeople = await CreateGetParticipantPersonsByAddressIdQuery(addressId).ToListAsync();
+            DoDelete(address, participantPeople);
         }
 
-        private void DoDelete(Address addressToDelete)
+        private void DoDelete(Address addressToDelete, IEnumerable<ParticipantPerson> participantPeopleWithAddress)
         {
             if (addressToDelete != null)
             {
@@ -184,6 +191,20 @@ namespace ECA.Business.Service.Admin
                     Context.Locations.Remove(addressToDelete.Location);
                 }
                 Context.Addresses.Remove(addressToDelete);
+                foreach (var person in participantPeopleWithAddress)
+                {
+                    if(person.HomeInstitutionAddressId == addressToDelete.AddressId)
+                    {
+                        person.HomeInstitutionAddress = null;
+                        person.HomeInstitutionAddressId = null;
+                    }
+                    if(person.HostInstitutionAddressId == addressToDelete.AddressId)
+                    {
+                        person.HostInstitutionAddress = null;
+                        person.HostInstitutionAddressId = null;
+                    }
+                }
+
             }
         }
 
@@ -237,12 +258,12 @@ namespace ECA.Business.Service.Admin
             var existingAddresses = additionalAddress.CreateGetAddressesQuery(this.Context).ToList();
 
             return DoCreateAddress<T>(
-    entity: entity,
-    additionalAddress: additionalAddress,
-    existingAddresses: existingAddresses,
-    country: country,
-    division: division,
-    city: city);
+                entity: entity,
+                additionalAddress: additionalAddress,
+                existingAddresses: existingAddresses,
+                country: country,
+                division: division,
+                city: city);
         }
 
         /// <summary>

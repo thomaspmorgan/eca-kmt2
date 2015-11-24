@@ -35,6 +35,11 @@ namespace ECA.Business.Queries.Models.Persons
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
+        /// Gets and sets date of birth estimated.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; set; }
+
+        /// <summary>
         /// Gets or sets the date of birth unknown flag.
         /// </summary>
         public bool? IsDateOfBirthUnknown { get; set; }

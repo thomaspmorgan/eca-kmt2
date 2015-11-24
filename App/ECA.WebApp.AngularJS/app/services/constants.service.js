@@ -17,6 +17,15 @@
 
 angular.module('staticApp').factory('ConstantsService', function() {
 	return {
+		dataPointCategory: {
+			office: {id: 1, value: "Office"},
+			program: {id: 2, value: "Program"},
+			project: {id: 3, value: "Project"}
+		},
+		dataPointProperty: {
+			themes: {id: 1, value: "Themes"},
+			goals: {id: 2, value: "Goals"}
+		},
 		emailAddressType: {
 			home: {id: 1, value: "Home"},
 			homeEmergency: {id: 2, value: "Home Emergency"},
@@ -178,5 +187,4 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		searchDelimiter: ' '
 	};
 });
-
 

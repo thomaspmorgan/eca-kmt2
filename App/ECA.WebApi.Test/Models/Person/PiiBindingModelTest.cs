@@ -10,7 +10,7 @@ namespace ECA.WebApi.Test.Models.Person
     public class PiiBindingModelTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestToUpdatePii()
         {
             var model = new PiiBindingModel();
             model.Alias = "alias";
@@ -30,6 +30,8 @@ namespace ECA.WebApi.Test.Models.Person
             model.NameSuffix = "suffix";
             model.Patronym = "patronym";
             model.PersonId = 2;
+            model.IsDateOfBirthEstimated = true;
+            model.IsDateOfBirthUnknown = true;
 
             var user = new User(1);
             var instance = model.ToUpdatePii(user);
@@ -50,6 +52,8 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.NameSuffix, instance.NameSuffix);
             Assert.AreEqual(model.Patronym, instance.Patronym);
             Assert.AreEqual(model.PersonId, instance.PersonId);
+            Assert.AreEqual(model.IsDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
+            Assert.AreEqual(model.IsDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
         }
     }
 }

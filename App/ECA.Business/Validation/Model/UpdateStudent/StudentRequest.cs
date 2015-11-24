@@ -6,7 +6,7 @@ namespace ECA.Business.Validation.Model
     {
         [Required]
         public bool printForm { get; set; }
-        
+
         public CapGapExtension capGapExtension { get; set; }
 
         [StringLength(1)]

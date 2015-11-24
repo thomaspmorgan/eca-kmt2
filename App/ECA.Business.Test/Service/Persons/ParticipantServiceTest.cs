@@ -1185,6 +1185,8 @@ namespace ECA.Business.Test.Service.Persons
             ParticipantStudentVisitor studentVisitor = null;
             ParticipantPersonSevisCommStatus status = null;
             ParticipantPerson person = null;
+            MoneyFlow sourceMoneyFlow = null;
+            MoneyFlow recipientMoneyFlow = null;
             var user = new User(deletorId);
             var creatorId = 1;
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -1219,6 +1221,20 @@ namespace ECA.Business.Test.Service.Persons
                     Participant = participant,
                     ParticipantId = participant.ParticipantId
                 };
+                sourceMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 1,
+                    SourceParticipant = participant,
+                    SourceParticipantId = participant.ParticipantId
+                };
+                recipientMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 2,
+                    RecipientParticipant = participant,
+                    RecipientParticipantId = participant.ParticipantId
+                };
+                context.MoneyFlows.Add(sourceMoneyFlow);
+                context.MoneyFlows.Add(recipientMoneyFlow);
                 context.ParticipantStudentVisitors.Add(studentVisitor);
                 context.ParticipantPersonSevisCommStatuses.Add(status);
                 context.ParticipantPersons.Add(person);
@@ -1232,6 +1248,102 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.AreEqual(0, context.ParticipantPersons.Count());
                 Assert.AreEqual(0, context.ParticipantStudentVisitors.Count());
+                Assert.AreEqual(0, context.MoneyFlows.Count());
+            };
+            var deletedParticipant = new DeletedParticipant(user, projectId, participantId);
+            context.Revert();
+            service.Delete(deletedParticipant);
+            tester();
+
+            context.Revert();
+            await service.DeleteAsync(deletedParticipant);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_ShouldNotDeleteUnrelatedEntities()
+        {
+            var participantId = 1;
+            var otherParticipantId = 2;
+            var deletorId = 2;
+            var projectId = 3;
+            Project project = null;
+            Participant participant = null;
+            Participant otherParticipant = null;
+            ParticipantStudentVisitor studentVisitor = null;
+            ParticipantPersonSevisCommStatus status = null;
+            ParticipantPerson person = null;
+            MoneyFlow sourceMoneyFlow = null;
+            MoneyFlow recipientMoneyFlow = null;
+            var user = new User(deletorId);
+            var creatorId = 1;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                project.History.CreatedBy = creatorId;
+                project.History.RevisedBy = creatorId;
+                project.History.CreatedOn = yesterday;
+                project.History.RevisedOn = yesterday;
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                otherParticipant = new Participant
+                {
+                    ParticipantId = otherParticipantId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                studentVisitor = new ParticipantStudentVisitor
+                {
+                    Participant = otherParticipant,
+                    ParticipantId = otherParticipant.ParticipantId
+                };
+                status = new ParticipantPersonSevisCommStatus
+                {
+                    ParticipantId = otherParticipant.ParticipantId,
+                    Id = 1,
+                };
+                person = new ParticipantPerson
+                {
+                    Participant = otherParticipant,
+                    ParticipantId = otherParticipant.ParticipantId
+                };
+                sourceMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 1,
+                    SourceParticipant = otherParticipant,
+                    SourceParticipantId = otherParticipant.ParticipantId
+                };
+                recipientMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 2,
+                    RecipientParticipant = otherParticipant,
+                    RecipientParticipantId = otherParticipant.ParticipantId
+                };
+                context.MoneyFlows.Add(sourceMoneyFlow);
+                context.MoneyFlows.Add(recipientMoneyFlow);
+                context.ParticipantStudentVisitors.Add(studentVisitor);
+                context.ParticipantPersonSevisCommStatuses.Add(status);
+                context.ParticipantPersons.Add(person);
+                context.Participants.Add(participant);
+                context.Participants.Add(otherParticipant);
+                context.Projects.Add(project);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Projects.Count());
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(1, context.ParticipantStudentVisitors.Count());
+                Assert.AreEqual(2, context.MoneyFlows.Count());
             };
             var deletedParticipant = new DeletedParticipant(user, projectId, participantId);
             context.Revert();

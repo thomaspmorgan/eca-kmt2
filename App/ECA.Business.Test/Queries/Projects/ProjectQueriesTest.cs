@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Queries.Admin;
-using ECA.Core.Query;
-using ECA.Core.DynamicLinq.Sorter;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Projects;
 using ECA.Core.DynamicLinq;
-using ECA.Business.Queries.Models.Admin;
+using ECA.Core.DynamicLinq.Sorter;
 using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Test.Queries.Projects
 {

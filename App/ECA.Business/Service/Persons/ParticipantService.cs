@@ -150,12 +150,17 @@ namespace ECA.Business.Service.Persons
             var participantPerson = Context.ParticipantPersons.Find(deletedParticipant.ParticipantId);
             var studentVisitor = Context.ParticipantStudentVisitors.Find(deletedParticipant.ParticipantId);
             var statti = Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == deletedParticipant.ParticipantId).ToList();
+
+            var sourceMoneyFlows = Context.MoneyFlows.Where(x => x.SourceParticipantId == deletedParticipant.ParticipantId).ToList();
+            var recipientMoneyFlows = Context.MoneyFlows.Where(x => x.RecipientParticipantId == deletedParticipant.ParticipantId).ToList();
             DoDelete(deletedParticipant: deletedParticipant,
                 project: project,
                 participant: participant,
                 person: participantPerson,
                 studentVisitor: studentVisitor,
-                statii: statti);
+                statii: statti,
+                participantRecipientMoneyFlows: recipientMoneyFlows,
+                participantSourceMoneyFlows: sourceMoneyFlows);
         }
 
         /// <summary>
@@ -174,33 +179,38 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(deletedParticipant.ParticipantId);
             var studentVisitor = await Context.ParticipantStudentVisitors.FindAsync(deletedParticipant.ParticipantId);
 
-
             var statti = await Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == deletedParticipant.ParticipantId).ToListAsync();
+
+            var sourceMoneyFlows = await Context.MoneyFlows.Where(x => x.SourceParticipantId == deletedParticipant.ParticipantId).ToListAsync();
+            var recipientMoneyFlows = await Context.MoneyFlows.Where(x => x.RecipientParticipantId == deletedParticipant.ParticipantId).ToListAsync();
             DoDelete(deletedParticipant: deletedParticipant,
                 project: project,
                 participant: participant,
                 person: participantPerson,
                 studentVisitor: studentVisitor,
-                statii: statti);
+                statii: statti,
+                participantRecipientMoneyFlows: recipientMoneyFlows,
+                participantSourceMoneyFlows: sourceMoneyFlows);
         }
-        
+
         private void DoDelete(
-            DeletedParticipant deletedParticipant, 
-            Project project, 
-            Participant participant, 
-            ParticipantPerson person, 
-            ParticipantStudentVisitor studentVisitor, 
-            IEnumerable<ParticipantPersonSevisCommStatus> statii)
+            DeletedParticipant deletedParticipant,
+            Project project,
+            Participant participant,
+            ParticipantPerson person,
+            ParticipantStudentVisitor studentVisitor,
+            IEnumerable<ParticipantPersonSevisCommStatus> statii,
+            IEnumerable<MoneyFlow> participantSourceMoneyFlows,
+            IEnumerable<MoneyFlow> participantRecipientMoneyFlows)
         {
             Contract.Requires(participant != null, "The participant must not be null.");
-            Contract.Requires(project != null, "The project must not be null.");                        
-            if(studentVisitor != null)
+            Contract.Requires(project != null, "The project must not be null.");
+            Context.ParticipantPersonSevisCommStatuses.RemoveRange(statii);
+            Context.MoneyFlows.RemoveRange(participantSourceMoneyFlows);
+            Context.MoneyFlows.RemoveRange(participantRecipientMoneyFlows);
+            if (studentVisitor != null)
             {
                 Context.ParticipantStudentVisitors.Remove(studentVisitor);
-            }
-            foreach(var status in statii)
-            {
-                Context.ParticipantPersonSevisCommStatuses.Remove(status);
             }
             if (person != null)
             {

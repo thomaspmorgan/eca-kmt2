@@ -182,6 +182,11 @@ namespace ECA.Data
         public Location PlaceOfBirth { get; set; }
         public bool? IsPlaceOfBirthUnknown { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether the date of birth is estimated.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; set; }
+
         public string MedicalConditions { get; set; }
 
         /// <summary>

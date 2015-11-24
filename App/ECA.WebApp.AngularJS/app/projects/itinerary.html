@@ -1,3 +1,8 @@
-<h2 class="project-color tab-header">Travel</h2>
-<img class="placehold" ng-show="program.owner.longName === 'Academic Exchange Programs'"  src="images/placeholders/project/fulbright_itinerary.png" alt="">
-<img class="placehold" ng-show="program.owner.longName === 'International Vistors'"  src="images/placeholders/project/itinerary.png" alt="">
+<div ng-controller="ItineraryCtrl">
+    <h2 class="project-color tab-header">Travel</h2>
+    <div class="row">
+        <div class="pull-right">
+            <button class="btn btn-primary" ng-click="view.onNewTravelingPeriodClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
+        </div>
+    </div>
+</div>

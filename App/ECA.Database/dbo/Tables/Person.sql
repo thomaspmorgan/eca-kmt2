@@ -35,6 +35,7 @@
     [PlaceOfBirth_LocationId] INT NULL, 
     [HasContactAgreement] BIT NOT NULL DEFAULT 0, 
     [IsDateOfBirthUnknown] BIT NULL, 
+	[IsDateOfBirthEstimated] BIT NULL, 
     [IsPlaceOfBirthUnknown] BIT NULL, 
     [IVLP_PersonId] NVARCHAR(32) NULL, 
     CONSTRAINT [PK_dbo.Person] PRIMARY KEY CLUSTERED ([PersonId] ASC),

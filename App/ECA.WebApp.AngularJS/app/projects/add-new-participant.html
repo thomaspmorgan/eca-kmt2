@@ -87,6 +87,12 @@
                                         <button class="btn btn-default" ng-click="toggleDobUnknown($event)" ng-disabled="newPerson.selectedDuplicate" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
                                     </div>
                                 </div>
+                                <div class="input-group" style="margin-top:5px;">
+                                    <label>
+                                        <input type="checkbox" ng-model="newPerson.isDateOfBirthEstimated" />
+                                        Date of Birth Is Estimated
+                                    </label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">COUNTRIES OF CITIZENSHIP</label>
@@ -192,7 +198,7 @@
                             <td><input type="radio" name="duplicate" ng-model="newPerson.selectedDuplicate" ng-value="duplicate"></td>
                             <td><a target="_blank" ui-sref="people.personalinformation({personId: duplicate.personId})">{{duplicate.fullName}}</a></td>
                             <td>{{duplicate.gender}}</td>
-                            <td>{{duplicate.dateOfBirth | date: 'longDate'}}</td>
+                            <td>{{duplicate.dateOfBirth | date: 'longDate'}}<span style="margin-left:5px;">{{duplicate.isDateOfBirthEstimated ? '(Estimated)' : ''}}</span></td>
                             <td>{{duplicate.cityOfBirth}}, {{duplicate.divisionOfBirth}} {{duplicate.countryOfBirth}}</td>
                         </tr>
                     </tbody>

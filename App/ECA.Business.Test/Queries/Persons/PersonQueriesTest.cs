@@ -103,6 +103,75 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(person.Patronym, result.Patronym);
             Assert.AreEqual(person.FullName, result.FullName);
         }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CheckDateOfBirth()
+        {
+
+            var person = new Person
+            {
+                DateOfBirth = DateTime.UtcNow,
+                IsDateOfBirthEstimated = true,
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(person.DateOfBirth, result.DateOfBirth);
+            Assert.AreEqual(person.IsDateOfBirthEstimated, result.IsDateOfBirthEstimated);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CheckDateOfBirthIsUnknown()
+        {
+
+            var person = new Person
+            {
+                IsDateOfBirthUnknown = true,
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(person.IsDateOfBirthUnknown, result.IsDateOfBirthUnknown);
+        }
+
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CheckPlaceOfBirth()
         {
@@ -161,6 +230,39 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(city.LocationName, result.CityOfBirth);
             Assert.AreEqual(division.LocationName, result.DivisionOfBirth);
             Assert.AreEqual(country.LocationName, result.CountryOfBirth);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_PlaceOfBirthIsUnknown()
+        {  
+            var person = new Person
+            {
+
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+                IsPlaceOfBirthUnknown = true
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(result.IsPlaceOfBirthUnknown, result.IsPlaceOfBirthUnknown);
         }
 
 
