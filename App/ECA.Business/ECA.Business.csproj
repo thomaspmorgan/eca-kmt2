@@ -145,7 +145,6 @@
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
-    <Compile Include="Queries\Models\Persons\ParticipantPersonSevisValidationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantStudentVisitorDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
@@ -418,7 +417,47 @@
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
+    <Compile Include="Validation\Model\AddAuthDrop.cs" />
+    <Compile Include="Validation\Model\AddCptEmployment.cs" />
+    <Compile Include="Validation\Model\AddDependent.cs" />
+    <Compile Include="Validation\Model\AddOCEmployment.cs" />
+    <Compile Include="Validation\Model\AddOPTEmployment.cs" />
+    <Compile Include="Validation\Model\AuthDropBelowFC.cs" />
+    <Compile Include="Validation\Model\BatchHeader.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
+    <Compile Include="Validation\Model\CancelAuthDrop.cs" />
+    <Compile Include="Validation\Model\CancelCptEmployment.cs" />
+    <Compile Include="Validation\Model\CancelDependent.cs" />
+    <Compile Include="Validation\Model\CancelEducationLevel.cs" />
+    <Compile Include="Validation\Model\CancelOCEmployment.cs" />
+    <Compile Include="Validation\Model\CancelOPTEmployment.cs" />
+    <Compile Include="Validation\Model\CancelProgramExtension.cs" />
+    <Compile Include="Validation\Model\CancelStudent.cs" />
+    <Compile Include="Validation\Model\ChangeEducationLevel.cs" />
+    <Compile Include="Validation\Model\CompleteProgram.cs" />
+    <Compile Include="Validation\Model\CPTEmployment.cs" />
+    <Compile Include="Validation\Model\CreateDependent.cs" />
+    <Compile Include="Validation\Model\CreateStudent.cs" />
+    <Compile Include="Validation\Model\DeferProgramAttendence.cs" />
+    <Compile Include="Validation\Model\DisciplinaryAction.cs" />
+    <Compile Include="Validation\Model\EditAuthDrop.cs" />
+    <Compile Include="Validation\Model\EditOCEmployment.cs" />
+    <Compile Include="Validation\Model\EditOPTEmployment.cs" />
+    <Compile Include="Validation\Model\EditProgram.cs" />
+    <Compile Include="Validation\Model\EducationalInfo.cs" />
+    <Compile Include="Validation\Model\EducationLevel.cs" />
+    <Compile Include="Validation\Model\EduLevel.cs" />
+    <Compile Include="Validation\Model\EmployerAddress.cs" />
+    <Compile Include="Validation\Model\ExtendOPTEmployment.cs" />
+    <Compile Include="Validation\Model\OffCampusEmployment.cs" />
+    <Compile Include="Validation\Model\EngProficiency.cs" />
+    <Compile Include="Validation\Model\Expense.cs" />
+    <Compile Include="Validation\Model\ExpenseOther.cs" />
+    <Compile Include="Validation\Model\FinancialInfo.cs" />
+    <Compile Include="Validation\Model\ForeignAddress.cs" />
+    <Compile Include="Validation\Model\FullName.cs" />
+    <Compile Include="Validation\Model\Funding.cs" />
+    <Compile Include="Validation\Model\FundingOther.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
     <Compile Include="Service\Programs\ProgramService.cs" />
     <Compile Include="Service\Projects\ProjectService.cs" />
@@ -428,8 +467,32 @@
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
     <Compile Include="Validation\ISevisValidator.cs" />
+    <Compile Include="Validation\Model\OPTEmployment.cs" />
+    <Compile Include="Validation\Model\OPTReportParticipation.cs" />
+    <Compile Include="Validation\Model\PersonalInfo.cs" />
+    <Compile Include="Validation\Model\Program.cs" />
+    <Compile Include="Validation\Model\ProgramExtension.cs" />
+    <Compile Include="Validation\Model\ReactivateDependent.cs" />
+    <Compile Include="Validation\Model\ReprintDependent.cs" />
+    <Compile Include="Validation\Model\School.cs" />
+    <Compile Include="Validation\Model\SEVISBatchCreateUpdateStudent.cs" />
+    <Compile Include="Validation\Model\StudentPersonalInfo.cs" />
+    <Compile Include="Validation\Model\StudentRegistration.cs" />
+    <Compile Include="Validation\Model\StudentReprint.cs" />
+    <Compile Include="Validation\Model\StudentRequest.cs" />
+    <Compile Include="Validation\Model\StudentStatus.cs" />
+    <Compile Include="Validation\Model\StudentUpdate.cs" />
+    <Compile Include="Validation\Model\TerminateDependent.cs" />
+    <Compile Include="Validation\Model\TerminateStudent.cs" />
+    <Compile Include="Validation\Model\TravelInfo.cs" />
+    <Compile Include="Validation\Model\UpdatedDependent.cs" />
+    <Compile Include="Validation\Model\UpdateDependent.cs" />
+    <Compile Include="Validation\Model\UpdateStudent.cs" />
     <Compile Include="Validation\SevisValidationResult.cs" />
     <Compile Include="Validation\SevisValidatorBase.cs" />
+    <Compile Include="Validation\Model\Student.cs" />
+    <Compile Include="Validation\Model\USAddress.cs" />
+    <Compile Include="Validation\ShortenProgram.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -457,6 +520,10 @@
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
       <Name>ECA.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Validation\Model\SevisCreate\" />
+    <Folder Include="Validation\Model\SevisUpdate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.WebApi.Security;
+using ECA.Business.Validation;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -172,7 +173,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="validationEntity"></param>
         /// <returns>validation result</returns>
         [Route("ParticipantPersonsSevis/ValidateSevis")]
-        public async Task<IHttpActionResult> ValidateSevisAsync(ParticipantPersonSevisValidationDTO validationEntity)
+        public async Task<IHttpActionResult> ValidateSevisAsync(SEVISBatchCreateUpdateStudent validationEntity)
         {
             if (ModelState.IsValid)
             {
