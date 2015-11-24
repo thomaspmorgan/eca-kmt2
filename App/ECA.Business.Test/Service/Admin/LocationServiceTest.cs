@@ -973,6 +973,129 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
+        public async Task TestDelete_ParticipantPersonHasHomeAndHostInstitutionAddress()
+        {
+            var location = new Location
+            {
+                LocationId = 1
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = location,
+                LocationId = location.LocationId
+            };
+            ParticipantPerson participantPerson = null;
+
+            context.SetupActions.Add(() =>
+            {
+                participantPerson = new ParticipantPerson
+                {
+                    HomeInstitutionAddress = address,
+                    HomeInstitutionAddressId = address.AddressId,
+                    HostInstitutionAddress = address,
+                    HostInstitutionAddressId = address.AddressId,
+                };
+                context.ParticipantPersons.Add(participantPerson);
+                context.Locations.Add(location);
+                context.Addresses.Add(address);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.Addresses.Count());
+                Assert.AreEqual(1, context.Locations.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(address.AddressId, participantPerson.HomeInstitutionAddressId);
+                Assert.AreEqual(address.AddressId, participantPerson.HostInstitutionAddressId);
+                Assert.IsTrue(Object.ReferenceEquals(address, participantPerson.HomeInstitutionAddress));
+                Assert.IsTrue(Object.ReferenceEquals(address, participantPerson.HostInstitutionAddress));
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(0, context.Addresses.Count());
+                Assert.AreEqual(0, context.Locations.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.IsNull(participantPerson.HomeInstitutionAddress);
+                Assert.IsNull(participantPerson.HostInstitutionAddress);
+                Assert.IsNull(participantPerson.HomeInstitutionAddressId);
+                Assert.IsNull(participantPerson.HostInstitutionAddressId);
+            };
+            context.Revert();
+            beforeTester();
+            service.Delete(address.AddressId);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(address.AddressId);
+            afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_ParticipantPersonHasDifferentHomeAndHostInstitutionAddress()
+        {
+            var location = new Location
+            {
+                LocationId = 1
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                Location = location,
+                LocationId = location.LocationId
+            };
+            var differentAddress = new Address
+            {
+                AddressId = 2
+            };
+            ParticipantPerson participantPerson = null;
+
+            context.SetupActions.Add(() =>
+            {
+                participantPerson = new ParticipantPerson
+                {
+                    HomeInstitutionAddress = differentAddress,
+                    HomeInstitutionAddressId = differentAddress.AddressId,
+                    HostInstitutionAddress = differentAddress,
+                    HostInstitutionAddressId = differentAddress.AddressId,
+                };
+                context.ParticipantPersons.Add(participantPerson);
+                context.Locations.Add(location);
+                context.Addresses.Add(address);
+                context.Addresses.Add(differentAddress);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(2, context.Addresses.Count());
+                Assert.AreEqual(1, context.Locations.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(differentAddress.AddressId, participantPerson.HomeInstitutionAddressId);
+                Assert.AreEqual(differentAddress.AddressId, participantPerson.HostInstitutionAddressId);
+                Assert.IsTrue(Object.ReferenceEquals(differentAddress, participantPerson.HomeInstitutionAddress));
+                Assert.IsTrue(Object.ReferenceEquals(differentAddress, participantPerson.HostInstitutionAddress));
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.Addresses.Count());
+                Assert.AreEqual(0, context.Locations.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(differentAddress.AddressId, participantPerson.HomeInstitutionAddressId);
+                Assert.AreEqual(differentAddress.AddressId, participantPerson.HostInstitutionAddressId);
+                Assert.IsTrue(Object.ReferenceEquals(differentAddress, participantPerson.HomeInstitutionAddress));
+                Assert.IsTrue(Object.ReferenceEquals(differentAddress, participantPerson.HostInstitutionAddress));
+            };
+            context.Revert();
+            beforeTester();
+            service.Delete(address.AddressId);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.DeleteAsync(address.AddressId);
+            afterTester();
+        }
+
+        [TestMethod]
         public async Task TestDelete_LocationDoesNotExist()
         {
             var address = new Address
@@ -1937,7 +2060,7 @@ namespace ECA.Business.Test.Service.Programs
                 cityId,
                 divisionId
                 );
-            
+
             Action<EcaAddressValidationEntity> validationEntityTester = (entity) =>
             {
                 Assert.IsTrue(Object.ReferenceEquals(england, entity.Country));
