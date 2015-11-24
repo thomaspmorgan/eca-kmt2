@@ -5,7 +5,7 @@ namespace ECA.Business.Validation.Model
     {
         public CancelStudent cancel { get; set; }
 
-        public CompleteProgram complete { get; set; }
+        public CompleteStudent complete { get; set; }
 
         public TerminateStudent terminate { get; set; }
 

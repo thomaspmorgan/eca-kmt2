@@ -14,7 +14,7 @@ namespace ECA.Business.Validation.Model
 
         public CancelDependent cancelDependent { get; set; }
 
-        public UpdateDependent updateDependent { get; set; }
+        public EditDependent editDependent { get; set; }
 
         public ReactivateDependent reactivateDependent { get; set; }
 

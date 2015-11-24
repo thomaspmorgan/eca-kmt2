@@ -4,7 +4,9 @@ using ECA.Business.Service.Persons;
 using System.Threading.Tasks;
 using ECA.Data;
 using System.Linq;
-using ECA.Business.Service;
+using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Persons
@@ -14,7 +16,6 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ParticipantPersonsSevisService sevisService;
-        //private ParticipantPersonService personService;
 
         [TestInitialize]
         public void TestInit()
@@ -99,172 +100,78 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestSevisValidation()
+        public void TestSevisValidation()
         {
-            var updaterId = 2;
-            var updater = new User(updaterId);
-            var now = DateTimeOffset.Now;
-            var yesterday = now.AddDays(-1.0);
-
-            var person = new Person
-            {
-                PersonId = 1,
-                FirstName = "firstName",
-                LastName = "lastName"
+            var personalInfo = new PersonalInfo { };
+            var usAddress = new USAddress { };
+            var foreignAddress = new ForeignAddress { };
+            var eduLevel = new EduLevel { };
+            var engProficiency = new EngProficiency { };
+            var educationalInfo = new EducationalInfo {
+                eduLevel = eduLevel,
+                engProficiency = engProficiency
             };
-            var project = new Project
-            {
-                ProjectId = 1
+            var expenseOther = new ExpenseOther { };
+            var expense = new Expense {
+                Other = expenseOther
             };
-            var participantType = new ParticipantType
-            {
-                ParticipantTypeId = ParticipantType.Individual.Id,
-                Name = "name"
+            var schoolFunding = new School { };
+            var otherFunding = new FundingOther { };
+            var funding = new Funding {
+                School = schoolFunding,
+                Other = otherFunding
             };
-            var status = new ParticipantStatus
-            {
-                Status = "status",
+            var financialInfo = new FinancialInfo {
+                Expense = expense,
+                Funding = funding
             };
-            var cstatus = new ParticipantPersonSevisCommStatus
+            var fullName = new FullName { };
+            var dependent = new PersonalInfo
             {
-                Id = 1,
-                ParticipantId = 1,
-                SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
-                AddedOn = yesterday
+                fullName = fullName
             };
-            var cstatus2 = new ParticipantPersonSevisCommStatus
+            var createDependent = new CreateDependent {
+                Dependent = dependent,
+                Remarks = "test dependent"
+            };
+            var student = new Student {
+                requestID = "1",
+                userID = "1",
+                printForm = false,
+                UserDefinedA = "",
+                UserDefinedB = "",
+                personalInfo = personalInfo,
+                IssueReason = "Test",
+                usAddress = usAddress,
+                foreignAddress = foreignAddress,
+                educationalInfo = educationalInfo,
+                financialInfo = financialInfo,
+                createDependent = createDependent,
+                Remarks = "test remarks"
+            };
+            var createStudent = new CreateStudent
             {
-                Id = 2,
-                ParticipantId = 1,
-                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
-                AddedOn = now
+                student = student
             };
-            List<ParticipantPersonSevisCommStatus> cslist = new List<ParticipantPersonSevisCommStatus>();
-            cslist.Add(cstatus);
-            cslist.Add(cstatus2);
+            var updateStudent = new SEVISBatchCreateUpdateStudent {
+                userID = "1",
+                createStudent = createStudent
+            };
             
-            var history = new History
-            {
-                RevisedOn = DateTimeOffset.Now
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = person.PersonId,
-                Person = person,
-                ProjectId = project.ProjectId,
-                Project = project,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId,
-                History = history,
-                Status = status
-            };
-            var fieldofstudy = new FieldOfStudy
-            {
-                FieldOfStudyId = 1
-            };
-            var progcategory = new ProgramCategory
-            {
-                ProgramCategoryId = 1,
-                Description = "program cat 1"
-            };
-            var position = new Position
-            {
-                PositionId = 1,
-                Description = "position 1"
-            };
-            var govagency = new USGovernmentAgency
-            {
-                AgencyId = 1,
-                Description = "agency 1"
-            };
-            var govagency2 = new USGovernmentAgency
-            {
-                AgencyId = 2,
-                Description = "agency 2"
-            };
-            var intlorg1 = new InternationalOrganization
-            {
-                OrganizationId = 1,
-                Description = "Intl org 1"
-            };
-            var intlorg2 = new InternationalOrganization
-            {
-                OrganizationId = 2,
-                Description = "Intl org 2"
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 1,
-                Participant = participant,
-                SevisId = "N0000000001",
-                StudyProject = "studyProject",
-                HomeInstitutionAddressId = 3,
-                HostInstitutionAddressId = 4,
-                FieldOfStudy = fieldofstudy,
-                ProgramCategoryId = progcategory.ProgramCategoryId,
-                ProgramCategory = progcategory,
-                PositionId = position.PositionId,
-                Position = position,
-                GovtAgency1 = govagency,
-                GovtAgency2 = govagency2,
-                IntlOrg1 = intlorg1,
-                IntlOrg2 = intlorg2,
-                ParticipantPersonSevisCommStatuses = cslist
-            };
+            var vc = new ValidationContext(updateStudent, null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(updateStudent, vc, results);
+            
+            Assert.IsTrue(isValid);
+            Assert.AreEqual(0, results.Count);
 
-            participant.Status = status;
-            status.Participants.Add(participant);
-            participantPerson.Participant = participant;
-            project.Participants.Add(participant);
-
-            context.ParticipantPersonSevisCommStatuses.Add(cstatus);
-            context.ParticipantPersonSevisCommStatuses.Add(cstatus2);
-            context.ParticipantStatuses.Add(status);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var updatedPersonSevis = new UpdatedParticipantPersonSevis(
-                    updater: updater,
-                    participantId: participant.ParticipantId,
-                    sevisId: participantPerson.SevisId,
-                    fieldOfStudyId: null,
-                    positionId: null,
-                    programCategoryId: null,
-                    isSentToSevisViaRTI: false,
-                    isValidatedViaRTI: false,
-                    isCancelled: false,
-                    isDS2019Printed: false,
-                    isNeedsUpdate: false,
-                    isDS2019SentToTraveler: false,
-                    startDate: null,
-                    endDate: null,
-                    fundingSponsor: null,
-                    fundingPersonal: null,
-                    fundingVisGovt: null,
-                    fundingVisBNC: null,
-                    fundingGovtAgency1: null,
-                    govtAgency1Id: 1,
-                    govtAgency1OtherName: "Agency 1",
-                    fundingGovtAgency2: null,
-                    govtAgency2Id: 2,
-                    govtAgency2OtherName: "Agency 2",
-                    fundingIntlOrg1: null,
-                    intlOrg1Id: null,
-                    intlOrg1OtherName: "Org 1",
-                    fundingIntlOrg2: null,
-                    intlOrg2Id: 2,
-                    intlOrg2OtherName: "Org 2",
-                    fundingOther: null,
-                    otherName: null,
-                    fundingTotal: null
-                );
-
-            var response = await sevisService.UpdateAsync(updatedPersonSevis);
-            Assert.IsNotNull(response);
-            Assert.AreEqual("Agency 2", response.GovtAgency2OtherName);
+            //if (!isValid)
+            //{
+            //    foreach (var validationResult in results)
+            //    {
+            //        Console.WriteLine(validationResult.ErrorMessage);
+            //    }
+            //}            
         }
 
     }

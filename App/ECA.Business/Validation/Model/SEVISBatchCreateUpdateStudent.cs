@@ -17,9 +17,5 @@ namespace ECA.Business.Validation
         // Student record
         public CreateStudent createStudent { get; set; }
         
-
-
-
-
     }
 }

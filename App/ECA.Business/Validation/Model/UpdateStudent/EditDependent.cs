@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
 {
-    public class UpdateDependent
+    public class EditDependent
     {
         [MaxLength(11)]
         public string dependentSevisID { get; set; }

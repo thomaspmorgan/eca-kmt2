@@ -15,7 +15,7 @@ namespace ECA.Business.Queries.Fundings
         /// <summary>
         /// The placeholder for an itinerary stop.
         /// </summary>
-        public const string ITINERARY_NAME = "Itinerary Stop";
+        public const string ITINERARY_NAME = "Travel Stop";
 
         /// <summary>
         /// The name of the participant when the participant (person/org) can not be found.

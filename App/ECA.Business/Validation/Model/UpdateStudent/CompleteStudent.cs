@@ -2,7 +2,7 @@
 
 namespace ECA.Business.Validation.Model
 {
-    public class CompleteProgram
+    public class CompleteStudent
     {
         [MaxLength(500)]
         public string Remarks { get; set; }

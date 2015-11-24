@@ -703,7 +703,7 @@ namespace ECA.Data
 		/// <summary>
 		/// Returns the Itinerary Stop lookup with id 5.
 		/// </summary>
-		public static StaticLookup ItineraryStop { get { return new StaticLookup("Itinerary Stop", 5); } }
+		public static StaticLookup ItineraryStop { get { return new StaticLookup("Travel Stop", 5); } }
 		/// <summary>
 		/// Returns the Accomodation lookup with id 6.
 		/// </summary>
@@ -754,7 +754,7 @@ namespace ECA.Data
 			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Program;
 			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Project;
 			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Participant;
-			if ("Itinerary Stop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.ItineraryStop;
+			if ("Travel Stop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.ItineraryStop;
 			if ("Accomodation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Accomodation;
 			if ("Transportation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Transportation;
 			if ("Expense".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Expense;
