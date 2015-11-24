@@ -15,17 +15,19 @@ angular.module('staticApp')
               var user = $rootScope.userInfo;
               if (user.isAuthenticated) {
                   $log.info('Check if user registered...');
-                  AuthService.getUserInfo()
+                  return AuthService.getUserInfo()
                   .then(function (userInfoResponse) {
                       var userInfo = userInfoResponse.data;
                       $log.info('User [' + userInfo.userName + '] authenticated.');
+
                       if (!userInfo.isRegistered) {
                           $rootScope.$broadcast(ConstantsService.registeringUserEventName);
-                          AuthService.register()
+                          return AuthService.register()
                               .then(function (registerResponse) {
                                   $rootScope.$broadcast(ConstantsService.registerUserSuccessEventName);
-                                  $log.info('Successfully registered user.');
-                              }, function (registerErrorResponse) {
+                                  $log.info('User successfully registered.');
+                              })
+                              .catch(function () {
                                   $rootScope.$broadcast(ConstantsService.registerUserFailureEventName);
                                   $log.error('Unable to register user.');
                               });
@@ -46,6 +48,5 @@ angular.module('staticApp')
       $rootScope.$on(ConstantsService.adalLoginSuccessEventName, function () {
           service.doRegistration();
       });
-
       return service;
   });

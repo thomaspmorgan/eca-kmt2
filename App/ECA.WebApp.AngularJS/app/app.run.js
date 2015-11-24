@@ -63,11 +63,9 @@ angular.module('staticApp')
           });
           $rootScope.$on(ConstantsService.registerUserFailureEventName, function () {
               $rootScope.currentUser.isBusy = false;
-              NotificationService.showErrorMessage('There was an error registering your user account in this application.');
           });
           $rootScope.$on(ConstantsService.registerUserSuccessEventName, function () {
               $rootScope.currentUser.isBusy = false;
-              NotificationService.showSuccessMessage('This is your first visit to the application!  You have been successfully registered.');
           });
 
           $rootScope.$on('$routeChangeSuccess', function () {
