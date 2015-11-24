@@ -327,8 +327,8 @@
     <Build Include="dbo\Tables\DataPointConfiguration.sql" />
     <Build Include="dbo\Tables\DataPointProperty.sql" />
     <Build Include="dbo\Tables\DataPointCategory.sql" />
-    <Build Include="Scripts\PostDeploy\StaticData\dbo.DataPointCategory.staticdata.sql" />
-    <Build Include="Scripts\PostDeploy\StaticData\dbo.DataPointProperty.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.DataPointCategory.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.DataPointProperty.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
