@@ -1,5 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Fundings;
-using ECA.Business.Queries.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System.Diagnostics.Contracts;
