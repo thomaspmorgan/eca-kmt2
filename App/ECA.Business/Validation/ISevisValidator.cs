@@ -1,5 +1,4 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -16,7 +15,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The validation results found.</returns>
-        IEnumerable<SevisValidationResult> ValidateSevis(ParticipantPersonSevisValidationDTO validationEntity);
+        IEnumerable<SevisValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity);
     }
 
     /// <summary>
@@ -25,7 +24,7 @@ namespace ECA.Business.Validation
     [ContractClassFor(typeof(ISevisValidator))]
     public abstract class ISevisValidatorContract : ISevisValidator
     {
-        public IEnumerable<SevisValidationResult> ValidateSevis(ParticipantPersonSevisValidationDTO validationEntity)
+        public IEnumerable<SevisValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             return new List<SevisValidationResult>().AsQueryable();
