@@ -401,7 +401,7 @@
     <Compile Include="Queries\Models\Programs\SimpleProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleProjectDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\Admin\ProjectQueries.cs" />
+    <Compile Include="Queries\Projects\ProjectQueries.cs" />
     <Compile Include="Queries\Programs\ThemeQueries.cs" />
     <Compile Include="Service\Admin\GoalService.cs" />
     <Compile Include="Service\Admin\IGoalService.cs" />
@@ -416,6 +416,7 @@
     <Compile Include="Service\Lookup\IThemeService.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
+    <Compile Include="Service\Projects\TravelService.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Validation\Model\AddAuthDrop.cs" />
