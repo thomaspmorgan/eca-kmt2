@@ -59,6 +59,11 @@ namespace ECA.WebApi.Models.Person
         public int? CityOfBirth { get; set; }
 
         /// <summary>
+        /// Gets or sets the date of birth is estimated flag.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; set; }
+
+        /// <summary>
         /// Gets or sets the countries of citizenship
         /// </summary>
         public List<int> CountriesOfCitizenship { get; set; }
@@ -70,8 +75,18 @@ namespace ECA.WebApi.Models.Person
         /// <returns>New person business object</returns>
         public NewPerson ToNewPerson(User user)
         {
-            return new NewPerson(user, this.ProjectId, this.ParticipantTypeId, this.FirstName, this.LastName, this.Gender, this.DateOfBirth,
-                                 this.IsDateOfBirthUnknown, this.CityOfBirth, this.CountriesOfCitizenship);
+            return new NewPerson(
+                createdBy: user,
+                projectId: this.ProjectId,
+                participantTypeId: this.ParticipantTypeId,
+                firstName: this.FirstName,
+                lastName: this.LastName,
+                gender: this.Gender,
+                dateOfBirth: this.DateOfBirth,
+                isDateOfBirthUnknown: this.IsDateOfBirthUnknown,
+                isDateOfBirthEstimated: this.IsDateOfBirthEstimated,
+                cityOfBirth: this.CityOfBirth,
+                countriesOfCitizenship: this.CountriesOfCitizenship);
         }
     }
 }
