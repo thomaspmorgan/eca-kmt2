@@ -1,17 +1,14 @@
-﻿using System.Data.Entity;
-using ECA.Core.Service;
+﻿using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using ECA.Business.Queries.Admin;
-using NLog;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service
 {

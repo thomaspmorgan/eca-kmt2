@@ -9,7 +9,27 @@
  */
 angular.module('staticApp')
   .factory('MoneyFlowService', function (DragonBreath, ConstantsService, $q) {
-      return {          
+      return {
+          getFiscalYearSummariesByProjectId: function(id, params){
+              var path = 'projects/' + id + '/moneyFlows/fiscalyears/summary';
+              return DragonBreath.get(params, path);
+          },
+          getFiscalYearSummariesByProgramId: function (id, params) {
+              var path = 'programs/' + id + '/moneyFlows/fiscalyears/summary';
+              return DragonBreath.get(params, path);
+          },
+          getFiscalYearSummariesByOfficeId: function (id, params) {
+              var path = 'offices/' + id + '/moneyFlows/fiscalyears/summary';
+              return DragonBreath.get(params, path);
+          },
+          getFiscalYearSummariesByOrganizationId: function (id, params) {
+              var path = 'organizations/' + id + '/moneyFlows/fiscalyears/summary';
+              return DragonBreath.get(params, path);
+          },
+          getFiscalYearSummariesByPersonId: function (id, params) {
+              var path = 'people/' + id + '/moneyFlows/fiscalyears/summary';
+              return DragonBreath.get(params, path);
+          },
           getMoneyFlowsByProgram: function (id, params) {
               var path = 'programs/' + id + '/moneyFlows';
               return DragonBreath.get(params, path);

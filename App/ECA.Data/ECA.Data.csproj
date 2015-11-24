@@ -139,6 +139,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\BookmarkConfiguration.cs" />
+    <Compile Include="Configuration\DataPointConfigurationConfiguration.cs" />
     <Compile Include="Configuration\FieldOfStudyConfiguration.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
@@ -158,7 +159,9 @@
     <Compile Include="Configuration\ProgramConfiguration.cs" />
     <Compile Include="Configuration\ProgramCategoryConfiguration.cs" />
     <Compile Include="Configuration\ProgramSubjectConfiguration.cs" />
+    <Compile Include="DataPointCategory.cs" />
     <Compile Include="DataPointConfiguration.cs" />
+    <Compile Include="DataPointProperty.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

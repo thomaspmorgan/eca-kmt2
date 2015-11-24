@@ -17,6 +17,82 @@ namespace ECA.Business.Service.Fundings
     [ContractClass(typeof(MoneyFlowServiceContract))]
     public interface IMoneyFlowService : ISaveable
     {
+        #region Fiscal Year Summaries
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the project with the given id.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        List<FiscalYearSummaryDTO> GetFiscalYearSummariesByProjectId(int projectId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the project with the given id.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByProjectIdAsync(int projectId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        List<FiscalYearSummaryDTO> GetFiscalYearSummariesByProgramId(int programId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByProgramIdAsync(int programId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        List<FiscalYearSummaryDTO> GetFiscalYearSummariesByOfficeId(int officeId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByOfficeIdAsync(int officeId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        List<FiscalYearSummaryDTO> GetFiscalYearSummariesByOrganizationId(int organizationId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByOrganizationIdAsync(int organizationId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        List<FiscalYearSummaryDTO> GetFiscalYearSummariesByPersonId(int personId);
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <returns>The fiscal year summaries.</returns>
+        Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByPersonIdAsync(int personId);
+
+        #endregion
+
+        #region Money Flows
+
         /// <summary>
         /// Returns the money flows for the project with the given id.
         /// </summary>
@@ -82,6 +158,24 @@ namespace ECA.Business.Service.Fundings
         Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByOfficeIdAsync(int officeId, QueryableOperator<MoneyFlowDTO> queryOperator);
 
         /// <summary>
+        /// Returns the money flows for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The person's money flows.</returns>
+        PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByPersonId(int personId, QueryableOperator<MoneyFlowDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the money flows for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The person's money flows.</returns>
+        Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByPersonIdAsync(int personId, QueryableOperator<MoneyFlowDTO> queryOperator);
+        #endregion
+
+        #region Crud
+        /// <summary>
         /// Adds the given money flow object to the ECA System.
         /// </summary>
         /// <param name="moneyFlow">The new money flow.</param>
@@ -119,23 +213,9 @@ namespace ECA.Business.Service.Fundings
         /// </summary>
         /// <param name="deletedMoneyFlow">The money flow to delete.</param>
         Task DeleteAsync(DeletedMoneyFlow deletedMoneyFlow);
+        #endregion
 
-        /// <summary>
-        /// Returns the money flows for the person with the given id.
-        /// </summary>
-        /// <param name="personId">The office id.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The person's money flows.</returns>
-        PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByPersonId(int personId, QueryableOperator<MoneyFlowDTO> queryOperator);
-
-        /// <summary>
-        /// Returns the money flows for the person with the given id.
-        /// </summary>
-        /// <param name="personId">The person id.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The person's money flows.</returns>
-        Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByPersonIdAsync(int personId, QueryableOperator<MoneyFlowDTO> queryOperator);
-
+        #region Source Money Flows
         /// <summary>
         /// Returns the source money flows of the project with the given id.  The source money flows will detail the original money flow amount
         /// and remaining money available to withdrawl.
@@ -213,6 +293,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="moneyFlowId">The money flow id.</param>
         /// <returns>The source money flow dto.</returns>
         Task<SourceMoneyFlowDTO> GetSourceMoneyFlowDTOByIdAsync(int moneyFlowId);
+        #endregion
     }
 
     /// <summary>
@@ -519,6 +600,106 @@ namespace ECA.Business.Service.Fundings
         public Task<SourceMoneyFlowDTO> GetSourceMoneyFlowDTOByIdAsync(int moneyFlowId)
         {
             return Task.FromResult<SourceMoneyFlowDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByProjectId(int projectId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        public Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByProjectIdAsync(int projectId)
+        {
+            return Task.FromResult<List<FiscalYearSummaryDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByProgramId(int programId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByProgramIdAsync(int programId)
+        {
+            return Task.FromResult<List<FiscalYearSummaryDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByOfficeId(int officeId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByOfficeIdAsync(int officeId)
+        {
+            return Task.FromResult<List<FiscalYearSummaryDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByOrganizationId(int organizationId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByOrganizationIdAsync(int organizationId)
+        {
+            return Task.FromResult<List<FiscalYearSummaryDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public List<FiscalYearSummaryDTO> GetFiscalYearSummariesByPersonId(int personId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public Task<List<FiscalYearSummaryDTO>> GetFiscalYearSummariesByPersonIdAsync(int personId)
+        {
+            return Task.FromResult<List<FiscalYearSummaryDTO>>(null);
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using NLog;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -23,6 +24,8 @@ namespace ECA.Business.Service.Persons
     public class ParticipantService : DbContextService<EcaContext>, ECA.Business.Service.Persons.IParticipantService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
+        private readonly Action<int, object, Type> throwIfEntityNotFound;
 
         /// <summary>
         /// Creates a new ParticipantService with the given context to operate against.
@@ -32,6 +35,24 @@ namespace ECA.Business.Service.Persons
         public ParticipantService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
+            {
+                if (participant != null && participant.ProjectId != projectId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to delete a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        userId,
+                        participant.ParticipantId,
+                        projectId));
+                }
+            };
+            throwIfEntityNotFound = (id, instance, t) =>
+            {
+                if (instance == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The model type [{0}] with Id [{1}] was not found.", t.Name, id));
+                }
+            };
         }
 
         #region Get
@@ -111,5 +132,83 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
+        #region Delete
+
+        /// <summary>
+        /// Deletes the participant from the datastore given the DeletedParticipant business entity.
+        /// </summary>
+        /// <param name="deletedParticipant">The business entity.</param>
+        public void Delete(DeletedParticipant deletedParticipant)
+        {
+            var participant = Context.Participants.Find(deletedParticipant.ParticipantId);
+            throwIfEntityNotFound(deletedParticipant.ParticipantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(deletedParticipant.Audit.User.Id, deletedParticipant.ProjectId, participant);
+
+            var project = Context.Projects.Find(deletedParticipant.ProjectId);
+            throwIfEntityNotFound(deletedParticipant.ProjectId, project, typeof(Project));
+
+            var participantPerson = Context.ParticipantPersons.Find(deletedParticipant.ParticipantId);
+            var studentVisitor = Context.ParticipantStudentVisitors.Find(deletedParticipant.ParticipantId);
+            var statti = Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == deletedParticipant.ParticipantId).ToList();
+            DoDelete(deletedParticipant: deletedParticipant,
+                project: project,
+                participant: participant,
+                person: participantPerson,
+                studentVisitor: studentVisitor,
+                statii: statti);
+        }
+
+        /// <summary>
+        /// Deletes the participant from the datastore given the DeletedParticipant business entity.
+        /// </summary>
+        /// <param name="deletedParticipant">The business entity.</param>
+        public async Task DeleteAsync(DeletedParticipant deletedParticipant)
+        {
+            var participant = await Context.Participants.FindAsync(deletedParticipant.ParticipantId);
+            throwIfEntityNotFound(deletedParticipant.ParticipantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(deletedParticipant.Audit.User.Id, deletedParticipant.ProjectId, participant);
+
+            var project = await Context.Projects.FindAsync(deletedParticipant.ProjectId);
+            throwIfEntityNotFound(deletedParticipant.ProjectId, project, typeof(Project));
+
+            var participantPerson = await Context.ParticipantPersons.FindAsync(deletedParticipant.ParticipantId);
+            var studentVisitor = await Context.ParticipantStudentVisitors.FindAsync(deletedParticipant.ParticipantId);
+
+
+            var statti = await Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == deletedParticipant.ParticipantId).ToListAsync();
+            DoDelete(deletedParticipant: deletedParticipant,
+                project: project,
+                participant: participant,
+                person: participantPerson,
+                studentVisitor: studentVisitor,
+                statii: statti);
+        }
+        
+        private void DoDelete(
+            DeletedParticipant deletedParticipant, 
+            Project project, 
+            Participant participant, 
+            ParticipantPerson person, 
+            ParticipantStudentVisitor studentVisitor, 
+            IEnumerable<ParticipantPersonSevisCommStatus> statii)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(project != null, "The project must not be null.");                        
+            if(studentVisitor != null)
+            {
+                Context.ParticipantStudentVisitors.Remove(studentVisitor);
+            }
+            foreach(var status in statii)
+            {
+                Context.ParticipantPersonSevisCommStatuses.Remove(status);
+            }
+            if (person != null)
+            {
+                Context.ParticipantPersons.Remove(person);
+            }
+            Context.Participants.Remove(participant);
+            deletedParticipant.Audit.SetHistory(project);
+        }
+        #endregion
     }
 }
