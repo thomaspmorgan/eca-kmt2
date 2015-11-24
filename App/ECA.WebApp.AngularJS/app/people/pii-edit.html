@@ -118,7 +118,7 @@
                     <div class="col-md-8">
                         <div class="input-group">
                             <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
-                                    is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close" placeholder="{{dateOfBirthPlaceholder}}">
+                                   is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close" placeholder="{{dateOfBirthPlaceholder}}">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
                                     <i class="material-icons md-18">event</i>
@@ -127,6 +127,12 @@
                             <div class="pull-right" style="padding-left:2px;">
                                 <button class="btn btn-default" ng-click="toggleDobUnknown($event)" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
                             </div>
+                        </div>
+                        <div class="input-group" style="margin-top:5px;">
+                            <label>
+                                <input type="checkbox" ng-model="pii.isDateOfBirthEstimated" />
+                                Date of Birth Is Estimated
+                            </label>
                         </div>
                     </div>
                 </div>

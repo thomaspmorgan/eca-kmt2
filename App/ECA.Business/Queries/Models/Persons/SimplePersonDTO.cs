@@ -73,6 +73,11 @@ namespace ECA.Business.Queries.Models.Persons
         public bool? IsDateOfBirthUnknown { get; set; }
 
         /// <summary>
+        /// Gets or sets the date of birth estimated flag.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; set; }
+
+        /// <summary>
         /// Gets or sets the gender.
         /// </summary>
         public string Gender { get; set; }

@@ -114,9 +114,9 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            {{pii.isDateOfBirthUnknown ? 'Unknown' : pii.dateOfBirth | date}}
+                            {{pii.isDateOfBirthUnknown ? 'Unknown' : pii.dateOfBirth | date}}<span style="margin-left:5px;">{{pii.isDateOfBirthEstimated ? '(Estimated)' : ''}}</span>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

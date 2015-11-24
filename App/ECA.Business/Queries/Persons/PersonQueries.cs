@@ -51,6 +51,9 @@ namespace ECA.Business.Queries.Persons
                         {
                             Alias = person.Alias,
                             DateOfBirth = person.DateOfBirth,
+                            IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
+                            IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
+                            IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
                             FamilyName = person.FamilyName,
                             FirstName = person.FirstName,
                             Gender = gender.GenderName,
@@ -105,6 +108,7 @@ namespace ECA.Business.Queries.Persons
                             GenderId = person.GenderId,
                             DateOfBirth = person.DateOfBirth,
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
+                            IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,

@@ -107,6 +107,7 @@ namespace ECA.Business.Service.Persons
             person.IsDateOfBirthUnknown = updatePii.IsDateOfBirthUnknown;
             person.MedicalConditions = updatePii.MedicalConditions;
             person.MaritalStatusId = updatePii.MaritalStatusId;
+            person.IsDateOfBirthEstimated = updatePii.IsDateOfBirthEstimated;
 
             SetCountriesOfCitizenship(countriesOfCitizenship, person);
         }
@@ -435,7 +436,8 @@ namespace ECA.Business.Service.Persons
                 GenderId = newPerson.Gender,
                 DateOfBirth = newPerson.DateOfBirth,
                 PlaceOfBirthId = newPerson.CityOfBirth,
-                CountriesOfCitizenship = countriesOfCitizenship
+                CountriesOfCitizenship = countriesOfCitizenship,
+                IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated
             };
 
             newPerson.Audit.SetHistory(person);

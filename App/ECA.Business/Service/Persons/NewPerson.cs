@@ -25,8 +25,19 @@ namespace ECA.Business.Service.Persons
         /// <param name="isDateOfBirthUnknown">Denotes date of birth is unknown</param>
         /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public NewPerson(User createdBy, int projectId, int participantTypeId, string firstName, string lastName, int gender, DateTime? dateOfBirth,
-                         bool? isDateOfBirthUnknown, int? cityOfBirth, List<int> countriesOfCitizenship)
+        /// <param name="isDateOfBirthEstimated">Is the date of birth estimated.</param>
+        public NewPerson(
+            User createdBy,
+            int projectId,
+            int participantTypeId,
+            string firstName,
+            string lastName,
+            int gender,
+            DateTime? dateOfBirth,
+            bool? isDateOfBirthUnknown,
+            bool? isDateOfBirthEstimated,
+            int? cityOfBirth,
+            List<int> countriesOfCitizenship)
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");
 
@@ -39,6 +50,7 @@ namespace ECA.Business.Service.Persons
             this.IsDateOfBirthUnknown = isDateOfBirthUnknown;
             this.CityOfBirth = cityOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
+            this.IsDateOfBirthEstimated = isDateOfBirthEstimated;
             this.Audit = new Create(createdBy);
         }
 
@@ -76,6 +88,12 @@ namespace ECA.Business.Service.Persons
         /// Denotes if date of birth is unknown
         /// </summary>
         public bool? IsDateOfBirthUnknown { get; private set; }
+
+
+        /// <summary>
+        /// Denotes if date of birth is estimated.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; private set; }
 
         /// <summary>
         /// Gets and sets the city of birth
