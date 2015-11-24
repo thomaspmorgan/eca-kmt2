@@ -103,6 +103,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string CityOfBirth { get; set; }
 
         /// <summary>
+        /// Gets or sets the division of birth
+        /// </summary>
+        public string DivisionOfBirth { get; set; }
+
+        /// <summary>
         /// Gets or sets the city of birth id
         /// </summary>
         public int? CityOfBirthId { get; set; }

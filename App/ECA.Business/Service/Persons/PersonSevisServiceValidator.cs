@@ -1,5 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Validation;
+﻿using ECA.Business.Validation;
+using System;
 using System.Collections.Generic;
 //using System.Data;
 //using System.IO;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
-    public class PersonSevisServiceValidator : SevisValidatorBase<ParticipantPersonSevisValidationDTO>
+    public class PersonSevisServiceValidator : SevisValidatorBase<SEVISBatchCreateUpdateStudent>
     {
         /// <summary>
         /// Person not found
@@ -19,13 +19,19 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity">Entity to validate</param>
         /// <returns>Business validation results</returns>        
-        public override IEnumerable<SevisValidationResult> DoValidateSevis(ParticipantPersonSevisValidationDTO validationEntity)
+        public override IEnumerable<SevisValidationResult> DoValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
         {
-            if (validationEntity.sevisPerson == null)
-            {
-                yield return new SevisValidationResult<PersonSevisServiceValidationEntity>(x => x.sevisPerson, PERSON_NOT_FOUND);
-            }
+            //if (validationEntity.sevisPerson == null)
+            //{
+            //    yield return new SevisValidationResult<PersonSevisServiceValidationEntity>(x => x.sevisPerson, PERSON_NOT_FOUND);
+            //}
 
+            //if (validationEntity.sevisPerson.FirstName == null)
+            //{
+
+            //}
+
+            throw new NotImplementedException();
 
 
 
@@ -38,7 +44,7 @@ namespace ECA.Business.Service.Persons
             //MyDataSet.ReadXml(entityXml);            
         }
         
-        //private string SerializeToXmlString(UpdatedParticipantPersonSevisValidationEntity validationEntity)
+        //private string SerializeToXmlString(SEVISBatchCreateUpdateStudent validationEntity)
         //{
         //    string retVal = string.Empty;
         //    TextWriter writer = new StringWriter();

@@ -28,7 +28,8 @@ namespace ECA.WebApi.Test.Models.Projects
                 ThemeIds = new List<int> { 4 },
                 ObjectiveIds = new List<int> { 5 },
                 CategoryIds = new List<int> { 6 },
-                LocationIds = new List<int> { 7 }
+                LocationIds = new List<int> { 7 },
+                RegionIds = new List<int> { 8 }
             };
             var user = new User(1);
             var publishedProject = model.ToPublishedProject(user);
@@ -46,9 +47,8 @@ namespace ECA.WebApi.Test.Models.Projects
             CollectionAssert.AreEqual(model.ObjectiveIds.ToList(), publishedProject.ObjectiveIds.ToList());
             CollectionAssert.AreEqual(model.CategoryIds.ToList(), publishedProject.CategoryIds.ToList());
             CollectionAssert.AreEqual(model.LocationIds.ToList(), publishedProject.LocationIds.ToList());
+            CollectionAssert.AreEqual(model.RegionIds.ToList(), publishedProject.RegionIds.ToList());
         }
-
-
 
         [TestMethod]
         public void TestNameMaxLength()

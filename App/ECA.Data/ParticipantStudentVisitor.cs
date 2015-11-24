@@ -173,5 +173,11 @@ namespace ECA.Data
         /// </summary>
         public History History { get; set; }
 
+        /// <summary>
+        /// Gets or sets the participant person.
+        /// </summary>
+        [ForeignKey("ParticipantId")]
+        public virtual ParticipantPerson ParticipantPerson { get; set; }
+
     }
 }

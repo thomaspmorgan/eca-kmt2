@@ -31,6 +31,7 @@ namespace ECA.Business.Service.Projects
         /// <param name="officeSettings">The office settings.</param>
         /// <param name="allowedCategoryIds">The category ids the project can be assigned as deteremined by the parent program.</param>
         /// <param name="allowedObjectiveIds">The objective ids the project can be assigned as determined by the parent program.</param>
+        /// <param name="regionLocationTypeIds">The location type ids for the given project regions.</param>
         public ProjectServiceUpdateValidationEntity(
             PublishedProject updatedProject, 
             Project projectToUpdate, 
@@ -45,6 +46,7 @@ namespace ECA.Business.Service.Projects
             int numberOfCategories,
             IEnumerable<int> allowedCategoryIds,
             IEnumerable<int> allowedObjectiveIds,
+            IEnumerable<int> regionLocationTypeIds,
             OfficeSettings officeSettings)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
@@ -76,12 +78,18 @@ namespace ECA.Business.Service.Projects
             this.AllowedCategoryIds = allowedCategoryIds == null ? new List<int>() : allowedCategoryIds.Distinct();
             this.AllowedObjectiveIds = allowedObjectiveIds == null ? new List<int>() : allowedObjectiveIds.Distinct();
             this.NewInactiveLocationIds = newInactiveLocations == null ? new List<int>() : newInactiveLocations.Distinct();
+            this.RegionLocationTypeIds = regionLocationTypeIds == null ? new List<int>() : regionLocationTypeIds.Distinct();
         }
 
         /// <summary>
         /// Gets the ids of locations that are inactive and were not previously set on the project.
         /// </summary>
         public IEnumerable<int> NewInactiveLocationIds { get; private set; }
+
+        /// <summary>
+        /// Gets the region location type ids.
+        /// </summary>
+        public IEnumerable<int> RegionLocationTypeIds { get; private set; }
 
         /// <summary>
         /// Gets the category ids.

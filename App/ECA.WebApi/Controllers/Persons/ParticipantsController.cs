@@ -1,9 +1,11 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using CAM.Data;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,16 +32,19 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<SimpleParticipantDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
 
         private IParticipantService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ParticipantsController(IParticipantService service)
+        /// <param name="userProvider">The user provider.</param>
+        public ParticipantsController(IParticipantService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
-            Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -87,6 +92,24 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+        /// <summary>
+        /// Deletes the participant from the project.
+        /// </summary>
+        /// <param name="id">The id of the participant.</param>
+        /// <param name="projectId">The id of the project to get participants for.</param>
+        /// <returns>An Ok Result.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
+        [Route("Projects/{projectId:int}/Participants/{id:int}")]
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> DeleteParticipantAsync(int projectId, int id)
+        {
+            var user = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(user);
+            await this.service.DeleteAsync(new DeletedParticipant(businessUser, projectId, id));
+            await this.service.SaveChangesAsync();
+            return Ok();
+        }
+
 
         /// <summary>
         /// Retrieves the participant with the given id.
@@ -95,7 +118,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The participant with the given id.</returns>
         [ResponseType(typeof(SimpleParticipantDTO))]
         [Route("Participants/{participantId:int}")]
-        public async Task<IHttpActionResult> GetParticipantByIdAsync(int participantId) 
+        public async Task<IHttpActionResult> GetParticipantByIdAsync(int participantId)
         {
             var participant = await this.service.GetParticipantByIdAsync(participantId);
             if (participant != null)

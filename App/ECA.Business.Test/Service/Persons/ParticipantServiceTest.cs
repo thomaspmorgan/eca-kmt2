@@ -11,6 +11,9 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 using System.Collections.Generic;
 using ECA.Business.Queries.Persons;
+using ECA.Business.Service;
+using ECA.Core.Exceptions;
+using FluentAssertions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -969,7 +972,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 RevisedOn = DateTimeOffset.Now
             };
-            
+
             var participantType = new ParticipantType
             {
                 ParticipantTypeId = ParticipantType.Individual.Id,
@@ -1031,6 +1034,325 @@ namespace ECA.Business.Test.Service.Persons
 
             tester(serviceResult);
             tester(serviceResultAsync);
+        }
+        #endregion
+
+        #region Delete
+        [TestMethod]
+        public async Task TestDelete_ParticipantDoesNotExist()
+        {
+            var participantId = 1;
+            var deletorId = 2;
+            var projectId = 3;
+            Assert.AreEqual(0, context.Participants.Count());
+
+            var deletedParticipant = new DeletedParticipant(new User(deletorId), projectId, participantId);
+            var message = String.Format("The model type [{0}] with Id [{1}] was not found.", typeof(Participant).Name, participantId);
+
+            Action a = () => service.Delete(deletedParticipant);
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedParticipant);
+            };
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_ProjectDoesNotExist()
+        {
+            var participantId = 1;
+            var deletorId = 2;
+            var projectId = 3;
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                ProjectId = projectId
+            };
+            context.Participants.Add(participant);
+            Assert.AreEqual(1, context.Participants.Count());
+            Assert.AreEqual(0, context.Projects.Count());
+
+            var deletedParticipant = new DeletedParticipant(new User(deletorId), projectId, participantId);
+            var message = String.Format("The model type [{0}] with Id [{1}] was not found.", typeof(Project).Name, projectId);
+
+            Action a = () => service.Delete(deletedParticipant);
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedParticipant);
+            };
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_ParticipantDoesNotBelongToProject()
+        {
+            var participantId = 1;
+            var deletorId = 2;
+            var projectId = 3;
+            var project = new Project
+            {
+                ProjectId = projectId + 1,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                ProjectId = project.ProjectId,
+                Project = project,
+            };
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+            Assert.AreEqual(1, context.Participants.Count());
+            Assert.AreEqual(1, context.Projects.Count());
+
+            var deletedParticipant = new DeletedParticipant(new User(deletorId), projectId, participantId);
+            var message = String.Format("The user with id [{0}] attempted to delete a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        deletorId,
+                        participant.ParticipantId,
+                        projectId);
+
+            Action a = () => service.Delete(deletedParticipant);
+            Func<Task> f = () =>
+            {
+                return service.DeleteAsync(deletedParticipant);
+            };
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestDelete_CheckProperties()
+        {
+            var participantId = 1;
+            var deletorId = 2;
+            var projectId = 3;
+            Project project = null;
+            Participant participant = null;
+            var user = new User(deletorId);
+            var creatorId = 1;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                project.History.CreatedBy = creatorId;
+                project.History.RevisedBy = creatorId;
+                project.History.CreatedOn = yesterday;
+                project.History.RevisedOn = yesterday;
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+
+                context.Participants.Add(participant);
+                context.Projects.Add(project);
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.Projects.Count());
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Projects.Count());
+                Assert.AreEqual(0, context.Participants.Count());
+
+                Assert.AreEqual(creatorId, project.History.CreatedBy);
+                Assert.AreEqual(yesterday, project.History.CreatedOn);
+                Assert.AreEqual(deletorId, project.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.RevisedOn, 20000);
+            };
+            var deletedParticipant = new DeletedParticipant(user, projectId, participantId);
+            context.Revert();
+            service.Delete(deletedParticipant);
+            tester();
+
+            context.Revert();
+            await service.DeleteAsync(deletedParticipant);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_ShouldDeleteRelatedEntities()
+        {
+            var participantId = 1;
+            var deletorId = 2;
+            var projectId = 3;
+            Project project = null;
+            Participant participant = null;
+            ParticipantStudentVisitor studentVisitor = null;
+            ParticipantPersonSevisCommStatus status = null;
+            ParticipantPerson person = null;
+            MoneyFlow sourceMoneyFlow = null;
+            MoneyFlow recipientMoneyFlow = null;
+            var user = new User(deletorId);
+            var creatorId = 1;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                project.History.CreatedBy = creatorId;
+                project.History.RevisedBy = creatorId;
+                project.History.CreatedOn = yesterday;
+                project.History.RevisedOn = yesterday;
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                studentVisitor = new ParticipantStudentVisitor
+                {
+                    Participant = participant,
+                    ParticipantId = participant.ParticipantId
+                };
+                status = new ParticipantPersonSevisCommStatus
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Id = 1,
+                };
+                person = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participant.ParticipantId
+                };
+                sourceMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 1,
+                    SourceParticipant = participant,
+                    SourceParticipantId = participant.ParticipantId
+                };
+                recipientMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 2,
+                    RecipientParticipant = participant,
+                    RecipientParticipantId = participant.ParticipantId
+                };
+                context.MoneyFlows.Add(sourceMoneyFlow);
+                context.MoneyFlows.Add(recipientMoneyFlow);
+                context.ParticipantStudentVisitors.Add(studentVisitor);
+                context.ParticipantPersonSevisCommStatuses.Add(status);
+                context.ParticipantPersons.Add(person);
+                context.Participants.Add(participant);
+                context.Projects.Add(project);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Projects.Count());
+                Assert.AreEqual(0, context.Participants.Count());
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(0, context.ParticipantPersons.Count());
+                Assert.AreEqual(0, context.ParticipantStudentVisitors.Count());
+                Assert.AreEqual(0, context.MoneyFlows.Count());
+            };
+            var deletedParticipant = new DeletedParticipant(user, projectId, participantId);
+            context.Revert();
+            service.Delete(deletedParticipant);
+            tester();
+
+            context.Revert();
+            await service.DeleteAsync(deletedParticipant);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_ShouldNotDeleteUnrelatedEntities()
+        {
+            var participantId = 1;
+            var otherParticipantId = 2;
+            var deletorId = 2;
+            var projectId = 3;
+            Project project = null;
+            Participant participant = null;
+            Participant otherParticipant = null;
+            ParticipantStudentVisitor studentVisitor = null;
+            ParticipantPersonSevisCommStatus status = null;
+            ParticipantPerson person = null;
+            MoneyFlow sourceMoneyFlow = null;
+            MoneyFlow recipientMoneyFlow = null;
+            var user = new User(deletorId);
+            var creatorId = 1;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                project.History.CreatedBy = creatorId;
+                project.History.RevisedBy = creatorId;
+                project.History.CreatedOn = yesterday;
+                project.History.RevisedOn = yesterday;
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                otherParticipant = new Participant
+                {
+                    ParticipantId = otherParticipantId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                studentVisitor = new ParticipantStudentVisitor
+                {
+                    Participant = otherParticipant,
+                    ParticipantId = otherParticipant.ParticipantId
+                };
+                status = new ParticipantPersonSevisCommStatus
+                {
+                    ParticipantId = otherParticipant.ParticipantId,
+                    Id = 1,
+                };
+                person = new ParticipantPerson
+                {
+                    Participant = otherParticipant,
+                    ParticipantId = otherParticipant.ParticipantId
+                };
+                sourceMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 1,
+                    SourceParticipant = otherParticipant,
+                    SourceParticipantId = otherParticipant.ParticipantId
+                };
+                recipientMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = 2,
+                    RecipientParticipant = otherParticipant,
+                    RecipientParticipantId = otherParticipant.ParticipantId
+                };
+                context.MoneyFlows.Add(sourceMoneyFlow);
+                context.MoneyFlows.Add(recipientMoneyFlow);
+                context.ParticipantStudentVisitors.Add(studentVisitor);
+                context.ParticipantPersonSevisCommStatuses.Add(status);
+                context.ParticipantPersons.Add(person);
+                context.Participants.Add(participant);
+                context.Participants.Add(otherParticipant);
+                context.Projects.Add(project);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Projects.Count());
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(1, context.ParticipantStudentVisitors.Count());
+                Assert.AreEqual(2, context.MoneyFlows.Count());
+            };
+            var deletedParticipant = new DeletedParticipant(user, projectId, participantId);
+            context.Revert();
+            service.Delete(deletedParticipant);
+            tester();
+
+            context.Revert();
+            await service.DeleteAsync(deletedParticipant);
+            tester();
         }
         #endregion
     }

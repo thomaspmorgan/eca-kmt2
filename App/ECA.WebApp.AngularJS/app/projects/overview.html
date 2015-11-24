@@ -87,6 +87,18 @@
                     </ul>
                 </div>
             </div>
+            <div class="row" ng-show="project.regions">
+                <div class="col-md-4 title-label"><ng-pluralize count="project.regions.length" when="{'1':'Region','other':'Regions'}"></ng-pluralize></div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="location in project.regions | orderBy:'name'">
+                            <div>
+                                {{location.name}}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="row" ng-show="project.locations">
                 <div class="col-md-4 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
                 <div class="col-md-8 simple-list">
@@ -107,11 +119,11 @@
     <div class="row">
         <h4 class="tab-subheader">Snapshot</h4>
         <div class="col-md-4">
-            <p class="stat text-center">{{project.countryIsos.length}}</p>
+            <p class="stat text-center">{{project.countryIsosByLocations.length > 0 ? project.countryIsosByLocations.length : project.countryIsosByRegions.length}}</p>
             <p class="title-label text-center">Locations</p>
         </div>
         <div class="col-md-8">
-            <map width="600" height="300" activecolor="5cb9dd" countries="project.countryIsos"></map>
+            <map width="600" height="300" activecolor="5cb9dd" countries="project.countryIsosByLocations.length > 0 ? project.countryIsosByLocations : project.countryIsosByRegions"></map>
         </div>
     </div>
 </div>
