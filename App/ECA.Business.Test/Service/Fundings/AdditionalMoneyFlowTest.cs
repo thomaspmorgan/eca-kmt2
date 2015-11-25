@@ -32,7 +32,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var userId = 1;
             var user = new User(userId);
@@ -62,7 +62,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var userId = 1;
             var user = new User(userId);
@@ -119,7 +119,7 @@ namespace ECA.Business.Test.Service.Fundings
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var recipientEntityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
             var userId = 1;
             var user = new User(userId);
@@ -148,12 +148,12 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public void TestGetMoneyFlow_CheckSourceAndRecipientEntityId_ItineraryStop()
+        public void TestGetMoneyFlow_CheckSourceAndRecipientEntityId_TravelStop()
         {
             var sourceEntityId = 1;
             var recipientEntityId = 2;
-            var sourceEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
-            var recipientEntityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var sourceEntityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
+            var recipientEntityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var userId = 1;
             var user = new User(userId);
             var description = "description";

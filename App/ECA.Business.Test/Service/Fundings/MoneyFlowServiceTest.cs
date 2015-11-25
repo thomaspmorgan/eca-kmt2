@@ -3124,7 +3124,7 @@ namespace ECA.Business.Test.Service.Fundings
         public void TestGetMoneyFlowType()
         {
             var expectedMapping = new Dictionary<int, Type>();
-            expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.TravelStop.Id, typeof(ItineraryStop));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
@@ -3153,7 +3153,7 @@ namespace ECA.Business.Test.Service.Fundings
         public void TestIsMoneyFlowType()
         {
             var expectedMapping = new Dictionary<int, Type>();
-            expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.TravelStop.Id, typeof(ItineraryStop));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));
@@ -3373,7 +3373,7 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
-            var entityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var entityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4058,7 +4058,7 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var sourceEntityId = 3;
-            var entityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var entityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4268,7 +4268,7 @@ namespace ECA.Business.Test.Service.Fundings
             var revisorId = 2;
             var moneyFlowId = 1;
             var recipientEntityId = 3;
-            var entityTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id;
+            var entityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,

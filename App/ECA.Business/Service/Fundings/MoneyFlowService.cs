@@ -588,7 +588,7 @@ namespace ECA.Business.Service.Fundings
         public Type GetMoneyFlowType(int moneyFlowSourceRecipientTypeId)
         {
             var expectedMapping = new Dictionary<int, Type>();
-            expectedMapping.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, typeof(ItineraryStop));
+            expectedMapping.Add(MoneyFlowSourceRecipientType.TravelStop.Id, typeof(ItineraryStop));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Office.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Organization.Id, typeof(Organization));
             expectedMapping.Add(MoneyFlowSourceRecipientType.Participant.Id, typeof(Participant));

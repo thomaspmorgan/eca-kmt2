@@ -158,7 +158,7 @@ namespace ECA.Business.Models.Fundings
             moneyFlow.ParentMoneyFlowId = this.ParentMoneyFlowId;
 
             var sourcePropertyDictionary = new Dictionary<int, Expression<Func<MoneyFlow, int?>>>();
-            sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, x => x.SourceItineraryStopId);
+            sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.TravelStop.Id, x => x.SourceItineraryStopId);
             sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.Office.Id, x => x.SourceOrganizationId);
             sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.Organization.Id, x => x.SourceOrganizationId);
             sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.Participant.Id, x => x.SourceParticipantId);
@@ -170,7 +170,7 @@ namespace ECA.Business.Models.Fundings
             var recipientPropertyDictionary = new Dictionary<int, Expression<Func<MoneyFlow, int?>>>();
             recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.Accomodation.Id, x => x.RecipientAccommodationId);
             recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.Transportation.Id, x => x.RecipientTransportationId);
-            recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.ItineraryStop.Id, x => x.RecipientItineraryStopId);
+            recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.TravelStop.Id, x => x.RecipientItineraryStopId);
             recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.Organization.Id, x => x.RecipientOrganizationId);
             recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.Office.Id, x => x.RecipientOrganizationId);
             recipientPropertyDictionary.Add(MoneyFlowSourceRecipientType.Participant.Id, x => x.RecipientParticipantId);
