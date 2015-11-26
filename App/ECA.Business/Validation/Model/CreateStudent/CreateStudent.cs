@@ -4,8 +4,7 @@ namespace ECA.Business.Validation.Model
 {
     public class CreateStudent
     {
-        [Required(ErrorMessage = "Student information is required")]
+        [Required(ErrorMessage = "Student is required")]
         public Student student { get; set; }
-        
     }
 }

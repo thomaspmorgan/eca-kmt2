@@ -5,16 +5,17 @@ namespace ECA.Business.Validation
 {
     public class SEVISBatchCreateUpdateStudent
     {
-
         // Sevis batch record
         [MaxLength(10)]
         [Required]
         public string userID { get; set; }
-        
+
         // Sevis batch header
+        [Required]
         public BatchHeader batchHeader { get; set; }
 
         // Student record
+        [Required]
         public CreateStudent createStudent { get; set; }
         
     }
