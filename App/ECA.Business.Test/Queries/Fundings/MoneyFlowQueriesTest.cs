@@ -14,7 +14,7 @@ namespace ECA.Business.Test.Queries.Fundings
     public class MoneyFlowQueriesTest
     {
         private TestEcaContext context;
-        private MoneyFlowSourceRecipientType itineraryStopType;
+        private MoneyFlowSourceRecipientType travelStopType;
         private MoneyFlowSourceRecipientType organizationType;
         private MoneyFlowSourceRecipientType programType;
         private MoneyFlowSourceRecipientType projectType;
@@ -41,10 +41,10 @@ namespace ECA.Business.Test.Queries.Fundings
                 MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Office.Id,
                 TypeName = MoneyFlowSourceRecipientType.Office.Value
             };
-            itineraryStopType = new MoneyFlowSourceRecipientType
+            travelStopType = new MoneyFlowSourceRecipientType
             {
-                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.ItineraryStop.Id,
-                TypeName = MoneyFlowSourceRecipientType.ItineraryStop.Value
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.TravelStop.Id,
+                TypeName = MoneyFlowSourceRecipientType.TravelStop.Value
             };
             organizationType = new MoneyFlowSourceRecipientType
             {
@@ -108,7 +108,7 @@ namespace ECA.Business.Test.Queries.Fundings
             };
             context.SetupActions.Add(() =>
             {
-                context.MoneyFlowSourceRecipientTypes.Add(itineraryStopType);
+                context.MoneyFlowSourceRecipientTypes.Add(travelStopType);
                 context.MoneyFlowSourceRecipientTypes.Add(organizationType);
                 context.MoneyFlowSourceRecipientTypes.Add(programType);
                 context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -421,7 +421,7 @@ namespace ECA.Business.Test.Queries.Fundings
             var results = MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, recipientId, MoneyFlowSourceRecipientType.Program.Id).ToList();
             Assert.AreEqual(1, results.Count);
 
-            results = MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, recipientId, MoneyFlowSourceRecipientType.ItineraryStop.Id).ToList();
+            results = MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsByEntityIdAndEntityTypeId(context, recipientId, MoneyFlowSourceRecipientType.TravelStop.Id).ToList();
             Assert.AreEqual(0, results.Count);
         }
 
@@ -803,7 +803,7 @@ namespace ECA.Business.Test.Queries.Fundings
         }
 
         [TestMethod]
-        public void TestCreateOutgoingMoneyFlowDTOsQuery_CheckSourceRecipientProperties_ItineraryStop()
+        public void TestCreateOutgoingMoneyFlowDTOsQuery_CheckSourceRecipientProperties_TravelStop()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -822,10 +822,10 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientItineraryStopId = recipientId,
                 SourceItineraryStop = sourceItineraryStop,
                 RecipientItineraryStop = recipientItineraryStop,
-                SourceType = itineraryStopType,
-                SourceTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
-                RecipientType = itineraryStopType,
-                RecipientTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
+                SourceType = travelStopType,
+                SourceTypeId = travelStopType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = travelStopType,
+                RecipientTypeId = travelStopType.MoneyFlowSourceRecipientTypeId,
                 MoneyFlowStatus = actual,
                 MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
@@ -841,12 +841,12 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(1, results.Count);
             var dto = results.First();
             Assert.AreEqual(sourceId, dto.EntityId);
-            Assert.AreEqual(MoneyFlowSourceRecipientType.ItineraryStop.Id, dto.EntityTypeId);
+            Assert.AreEqual(MoneyFlowSourceRecipientType.TravelStop.Id, dto.EntityTypeId);
 
             Assert.AreEqual(MoneyFlowQueries.ITINERARY_NAME, dto.SourceRecipientName);
             Assert.AreEqual(recipientId, dto.SourceRecipientEntityId);
-            Assert.AreEqual(itineraryStopType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
-            Assert.AreEqual(itineraryStopType.TypeName, dto.SourceRecipientTypeName);
+            Assert.AreEqual(travelStopType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
+            Assert.AreEqual(travelStopType.TypeName, dto.SourceRecipientTypeName);
             Assert.IsNull(dto.ParticipantTypeId);
             Assert.IsNull(dto.ParticipantTypeName);
         }
@@ -1450,7 +1450,7 @@ namespace ECA.Business.Test.Queries.Fundings
         }
 
         [TestMethod]
-        public void TestCreateIncomingMoneyFlowDTOsQuery_CheckSourceRecipientProperties_ItineraryStop()
+        public void TestCreateIncomingMoneyFlowDTOsQuery_CheckSourceRecipientProperties_TravelStop()
         {
             var sourceId = 1;
             var recipientId = 2;
@@ -1469,10 +1469,10 @@ namespace ECA.Business.Test.Queries.Fundings
                 RecipientItineraryStopId = recipientId,
                 SourceItineraryStop = sourceItineraryStop,
                 RecipientItineraryStop = recipientItineraryStop,
-                SourceType = itineraryStopType,
-                SourceTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
-                RecipientType = itineraryStopType,
-                RecipientTypeId = itineraryStopType.MoneyFlowSourceRecipientTypeId,
+                SourceType = travelStopType,
+                SourceTypeId = travelStopType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = travelStopType,
+                RecipientTypeId = travelStopType.MoneyFlowSourceRecipientTypeId,
                 MoneyFlowStatus = actual,
                 MoneyFlowStatusId = actual.MoneyFlowStatusId,
                 TransactionDate = DateTimeOffset.UtcNow,
@@ -1489,12 +1489,12 @@ namespace ECA.Business.Test.Queries.Fundings
             var dto = results.First();
             
             Assert.AreEqual(recipientItineraryStop.ItineraryStopId, dto.EntityId);
-            Assert.AreEqual(MoneyFlowSourceRecipientType.ItineraryStop.Id, dto.EntityTypeId);
+            Assert.AreEqual(MoneyFlowSourceRecipientType.TravelStop.Id, dto.EntityTypeId);
 
             Assert.AreEqual(MoneyFlowQueries.ITINERARY_NAME, dto.SourceRecipientName);
             Assert.AreEqual(sourceId, dto.SourceRecipientEntityId);
-            Assert.AreEqual(itineraryStopType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
-            Assert.AreEqual(itineraryStopType.TypeName, dto.SourceRecipientTypeName);
+            Assert.AreEqual(travelStopType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
+            Assert.AreEqual(travelStopType.TypeName, dto.SourceRecipientTypeName);
             Assert.IsNull(dto.ParticipantTypeId);
             Assert.IsNull(dto.ParticipantTypeName);
         }
@@ -2649,7 +2649,7 @@ namespace ECA.Business.Test.Queries.Fundings
             context.MoneyFlows.Add(moneyFlow);
             context.Programs.Add(sourceProgram);
             context.Projects.Add(recipientProject);
-            var results = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByEntityIdAndEntityTypeIdQuery(context, sourceId, itineraryStopType.MoneyFlowSourceRecipientTypeId).ToList();
+            var results = MoneyFlowQueries.CreateGetFiscalYearSummaryDTOByEntityIdAndEntityTypeIdQuery(context, sourceId, travelStopType.MoneyFlowSourceRecipientTypeId).ToList();
             Assert.AreEqual(0, results.Count);
         }
 

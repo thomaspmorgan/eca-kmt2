@@ -575,13 +575,14 @@ angular.module('staticApp')
                     $log.error('Unable to load user permissions.');
                 });
           }
-          else {
-              $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
+          else {              
               var dfd = $q.defer();
               if ($state.current.name === StateService.stateNames.moneyflow.person) {
+                  $log.info('Moneyflow object is a person, therefore, edit permission is denied.');
                   notAuthorizedCallback();
               }
               else {
+                  $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
                   hasEditPermissionCallback();
               }
 
