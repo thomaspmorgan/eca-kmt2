@@ -17,43 +17,30 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int DataPointConfigurationId { get; set; }
+
         /// <summary>
-        /// Gets or sets the officeId
+        /// Gets or sets the office id
         /// </summary>
         public int? OfficeId { get; set; }
+
         /// <summary>
-        /// Gets or sets the programId
+        /// Gets or sets the program id
         /// </summary>
         public int? ProgramId { get; set; }
+
         /// <summary>
-        /// Gets or sets the projectId
+        /// Gets or sets the project id 
         /// </summary>
         public int? ProjectId { get; set; }
-        /// <summary>
-        /// Gets or sets the category id
-        /// </summary>
-        [Required]
-        public int CategoryId { get; set; }
 
         /// <summary>
-        /// Gets or sets the category
+        /// Gets or sets the category property id
         /// </summary>
-        public DataPointCategory Category { get; set; }
+        public int DataPointCategoryPropertyId { get; set; }
 
         /// <summary>
-        /// Gets or sets the property id
+        /// Gets or sets the category property
         /// </summary>
-        [Required]
-        public int PropertyId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the property
-        /// </summary>
-        public DataPointProperty Property { get; set; }
-
-        /// <summary>
-        /// Gets or sets the isHidden flag
-        /// </summary>
-        public bool IsHidden { get; set; }
+        public DataPointCategoryProperty DataPointCategoryProperty { get; set; }
     }
 }
