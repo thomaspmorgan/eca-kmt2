@@ -196,12 +196,24 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(updatedLanguageProficiency != null, "The updatedLanguageProficiency must not be null.");
             throwIfLanguageProficiencyNotFound(modelToUpdate, updatedLanguageProficiency.LanguageId);
-            modelToUpdate.LanguageId = updatedLanguageProficiency.LanguageId;
-            modelToUpdate.IsNativeLanguage = updatedLanguageProficiency.IsNativeLanguage;
-            modelToUpdate.SpeakingProficiency = updatedLanguageProficiency.SpeakingProficiency;
-            modelToUpdate.ReadingProficiency = updatedLanguageProficiency.ReadingProficiency;
-            modelToUpdate.ComprehensionProficiency = updatedLanguageProficiency.ComprehensionProficiency;
-            updatedLanguageProficiency.Update.SetHistory(modelToUpdate);
+            if(updatedLanguageProficiency.NewLanguageId.HasValue && updatedLanguageProficiency.NewLanguageId != modelToUpdate.LanguageId)
+            {
+                DoDelete(modelToUpdate);
+                User user = updatedLanguageProficiency.Update.User;
+                var newLanguageProficiency = new NewPersonLanguageProficiency(updatedLanguageProficiency.Update.User, updatedLanguageProficiency.PersonId, updatedLanguageProficiency.NewLanguageId.Value,
+                    updatedLanguageProficiency.IsNativeLanguage, updatedLanguageProficiency.SpeakingProficiency, updatedLanguageProficiency.ReadingProficiency, updatedLanguageProficiency.ComprehensionProficiency);
+                var person = Context.People.Find(updatedLanguageProficiency.PersonId);
+                var temp = DoCreate(newLanguageProficiency, person);
+            }
+            else
+            {
+                modelToUpdate.LanguageId = (updatedLanguageProficiency.NewLanguageId.HasValue) ? updatedLanguageProficiency.NewLanguageId.Value : updatedLanguageProficiency.LanguageId;
+                modelToUpdate.IsNativeLanguage = updatedLanguageProficiency.IsNativeLanguage;
+                modelToUpdate.SpeakingProficiency = updatedLanguageProficiency.SpeakingProficiency;
+                modelToUpdate.ReadingProficiency = updatedLanguageProficiency.ReadingProficiency;
+                modelToUpdate.ComprehensionProficiency = updatedLanguageProficiency.ComprehensionProficiency;
+                updatedLanguageProficiency.Update.SetHistory(modelToUpdate);
+            }
             if (updatedLanguageProficiency.IsNativeLanguage)
             {
                 SetAllLanguagesNotNative(updatedLanguageProficiency.PersonId, updatedLanguageProficiency.LanguageId);
