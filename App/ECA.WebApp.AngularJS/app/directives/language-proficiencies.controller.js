@@ -15,7 +15,8 @@ angular.module('staticApp')
         $log,
         LookupService,
         ConstantsService,
-        NotificationService
+        NotificationService,
+        FilterService
         ) {
 
       $scope.view = {};
@@ -26,6 +27,12 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadLanguagesPromise = $q.defer();
       $scope.data.languages = [];
+      $scope.edit = {};
+      var limit = 300;
+
+      $scope.edit.searchLanguages = function (search) {
+          return loadLanguages(search);
+      };
       
       $scope.view.onAddLanguageProficiencyClick = function (entityLanguageProficiencies, personId) {
           console.assert(entityLanguageProficiencies, 'The entity language proficiencies is not defined.');
@@ -65,19 +72,15 @@ angular.module('staticApp')
           });
       });
 
-      function getLanguages() {
-          var params = {
-              start: 0,
-              limit: 300
-          };
-          return LookupService.getAllLanguages(params)
+      function loadLanguages(search) {
+          var languagesFilter = FilterService.add('languageDirective-languages');
+          languagesFilter = languagesFilter.skip(0).take(limit);
+          if (search) {
+              languagesFilter = languagesFilter.like('name', search);
+          }
+          return LookupService.getLanguages(languagesFilter.toParams())
           .then(function (response) {
-              if (response.data.total > params.limit) {
-                  var message = "There are more languages than could be loaded.  Not all languages types will be shown.";
-                  $log.error(message);
-                  NotificationService.showErrorMessage(message);
-              }
-              $log.info('Loaded all languages.');
+              $log.info('Loaded languages, search:' + search);
               var languages = response.data.results;
               $scope.data.loadLanguagesPromise.resolve(languages);
               $scope.data.languages = languages;
@@ -89,5 +92,4 @@ angular.module('staticApp')
               $log.error(message);
           });
       }
-      getLanguages();
   });

@@ -11,8 +11,7 @@ namespace ECA.Data.Configuration
     {
         public DataPointConfigurationConfiguration()
         {
-            HasRequired(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId).WillCascadeOnDelete(false);
-            HasRequired(x => x.Property).WithMany().HasForeignKey(x => x.PropertyId).WillCascadeOnDelete(false);
+            HasRequired(x => x.DataPointCategoryProperty).WithMany().HasForeignKey(x => x.DataPointCategoryPropertyId).WillCascadeOnDelete(false);
         }
     }
 }

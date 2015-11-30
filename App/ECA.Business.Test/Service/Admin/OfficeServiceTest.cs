@@ -2104,6 +2104,7 @@ namespace ECA.Business.Test.Service.Admin
         #endregion
 
         #region Data Point Configurations
+        /*
         [TestMethod]
         public async Task TestGetDataPointConfigurations()
         {
@@ -2157,6 +2158,7 @@ namespace ECA.Business.Test.Service.Admin
             var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(2);
             Assert.AreEqual(0, serviceResult.Count);
         }
+        */
         #endregion
     }
 }
