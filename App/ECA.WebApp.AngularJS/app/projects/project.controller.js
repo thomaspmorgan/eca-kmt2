@@ -126,6 +126,16 @@ angular.module('staticApp')
                   $log.info('User not authorized to edit project  in project.js controller.');
               }
           };
+          config[ConstantsService.permission.viewProject.value] = {
+              hasPermission: function () {
+                  $scope.tabs.moneyflows.active = true;
+                  $log.info('User has view project permission in project.controller.js controller.');
+              },
+              notAuthorized: function () {
+                  $scope.tabs.moneyflows.active = false;
+                  $log.info('User not authorized to view project in project.controller.js controller.');
+              }
+          };
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
             }, function () {
