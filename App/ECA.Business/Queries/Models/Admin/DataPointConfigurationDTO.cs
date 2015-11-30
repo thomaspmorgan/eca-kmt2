@@ -14,7 +14,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the id
         /// </summary>
-        public int DataPointConfigurationId { get; set; }
+        public int? DataPointConfigurationId { get; set; }
         /// <summary>
         /// Gets or sets the officeId
         /// </summary>
@@ -43,9 +43,5 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the property name
         /// </summary>
         public string PropertyName { get; set; }
-        /// <summary>
-        /// Gets or sets the isHidden flag
-        /// </summary>
-        public bool IsHidden { get; set; }
     }
 }
