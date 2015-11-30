@@ -7,16 +7,14 @@ namespace ECA.Business.Validation
     {
         // Sevis batch record
         [MaxLength(10)]
-        [Required]
+        [Required(ErrorMessage = "User id is required")]
         public string userID { get; set; }
 
         // Sevis batch header
-        [Required]
+        [Required(ErrorMessage = "Batch header is required")]
         public BatchHeader batchHeader { get; set; }
 
-        // Student record
-        [Required]
-        public CreateStudent createStudent { get; set; }
-        
+        // Sevis student record
+        public CreateStudent createStudent { get; set; }        
     }
 }

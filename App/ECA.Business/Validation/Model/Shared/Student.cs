@@ -4,30 +4,31 @@ namespace ECA.Business.Validation.Model
 {
     public class Student
     {
-        /// <summary>
-        /// Request id.
-        /// </summary>
-        [MaxLength(20)]
-        [Required]
+        public const int ID_MAX_LENGTH = 20;
+
+        public const int USERDEFINEDA_MAX_LENGTH = 10;
+
+        public const int USERDEFINEDB_MAX_LENGTH = 14;
+
+        public const int ISSUE_REASON_STRING_LENGTH = 1;
+
+        public const int REMARKS_MAX_LENGTH = 500;
+        
+        [MaxLength(ID_MAX_LENGTH)]
+        [Required(ErrorMessage = "Request id is required")]
         public string requestID { get; set; }
 
-        /// <summary>
-        /// User id
-        /// </summary>
-        [MaxLength(20)]
-        [Required]
+        [MaxLength(ID_MAX_LENGTH)]
+        [Required(ErrorMessage = "User id is required")]
         public string userID { get; set; }
 
-        /// <summary>
-        /// Print form flag
-        /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Print form is required")]
         public bool printForm { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(USERDEFINEDA_MAX_LENGTH)]
         public string UserDefinedA { get; set; }
 
-        [MaxLength(14)]
+        [MaxLength(USERDEFINEDB_MAX_LENGTH)]
         public string UserDefinedB { get; set; }
 
         /// <summary>
@@ -38,10 +39,10 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Issue reason
         /// </summary>
-        [StringLength(1)]
+        [StringLength(ISSUE_REASON_STRING_LENGTH)]
         [Required(ErrorMessage = "Issue reason is required")]
         public string IssueReason { get; set; }
-                
+        
         /// <summary>
         /// US address
         /// </summary>
@@ -70,7 +71,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Student record remarks
         /// </summary>
-        [MaxLength(500)]
+        [MaxLength(REMARKS_MAX_LENGTH)]
         public string Remarks { get; set; }
         
     }

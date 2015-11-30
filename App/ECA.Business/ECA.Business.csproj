@@ -419,6 +419,7 @@
     <Compile Include="Service\Projects\TravelService.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
+    <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddAuthDrop.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddCptEmployment.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddDependent.cs" />

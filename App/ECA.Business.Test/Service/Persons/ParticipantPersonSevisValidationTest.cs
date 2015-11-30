@@ -2,11 +2,9 @@
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using static Microsoft.QualityTools.Testing.Fakes.FakesDelegates;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -14,11 +12,13 @@ namespace ECA.Business.Test.Service.Persons
     public class ParticipantPersonSevisValidationTest
     {
         private SevisValidationService sevisService;
+        private InMemoryEcaContext context;
 
         [SetUp]
         public void Setup()
         {
             sevisService = new SevisValidationService();
+            context = new InMemoryEcaContext();
         }
         
         [Test]
@@ -97,7 +97,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var vc = new ValidationContext(updateStudent, null);
-            var results = new List<ValidationResult>();
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
             var isValid = Validator.TryValidateObject(updateStudent, vc, results);
 
             Assert.IsTrue(isValid);
@@ -115,10 +115,9 @@ namespace ECA.Business.Test.Service.Persons
         [Test]
         public void TestSevisValidation_NullStudent()
         {
-            Action<IQueryable<ValidationResult>> tester = (results) =>
+            Action<Student> tester = (results) =>
             {
-                Assert.AreEqual(0, results.Count());
-                Assert.Equals("Student is required", results.First().ErrorMessage);
+                Assert.IsNull(results);
             };
 
             var batchHeader = new BatchHeader
@@ -136,13 +135,10 @@ namespace ECA.Business.Test.Service.Persons
                 batchHeader = batchHeader,
                 createStudent = createStudent
             };
-            //var vc = new ValidationContext(updateStudent, null, null);
-            //var results = new List<ValidationResult>();
-            //var actual = Validator.TryValidateObject(updateStudent, vc, results, true);
-
-            var serviceResults = sevisService.PreSevisValidation(updateStudent);
-
-            tester(serviceResults.Result);
+            
+            tester(updateStudent.createStudent.student);
+            //var serviceResults = sevisService.PreSevisValidation(updateStudent);
+            //Assert.AreEqual(1, serviceResults.Count());
         }
 
     }

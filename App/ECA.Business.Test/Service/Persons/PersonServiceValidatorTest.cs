@@ -1,7 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Service.Persons;
+﻿using ECA.Business.Service.Persons;
+using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
 using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +12,16 @@ namespace ECA.Business.Test.Service.Persons
     [TestClass]
     public class PersonServiceValidatorTest
     {
+        private TestEcaContext context;
+        private SevisValidationService sevisService;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            context = new TestEcaContext();
+            sevisService = new SevisValidationService();
+        }
+
         [TestMethod]
         public void TestValid()
         {
@@ -165,6 +177,34 @@ namespace ECA.Business.Test.Service.Persons
             var validationResult = results.First();
             Assert.AreEqual(PersonServiceValidator.PLACE_OF_BIRTH_ERROR, validationResult.ErrorMessage);
         }
+        
+        [TestMethod]
+        public void TestSevisValidator()
+        {
+            //Action<Student> tester = (results) =>
+            //{
+            //    Assert.IsNull(results);
+            //};
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var createStudent = new CreateStudent
+            {
+                student = null
+            };
+            var updateStudent = new SEVISBatchCreateUpdateStudent
+            {
+                userID = "1",
+                batchHeader = batchHeader,
+                createStudent = createStudent
+            };
 
+            var serviceResults = sevisService.PreSevisValidation(updateStudent);
+            Assert.AreEqual(1, serviceResults.Select(x => x.ErrorMessage == "Student is invalid"));
+            //tester(updateStudent.createStudent.student);
+        }
+        
     }
 }

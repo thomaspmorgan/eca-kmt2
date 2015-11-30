@@ -6,5 +6,7 @@ namespace ECA.Business.Validation.Model
     {
         [Required(ErrorMessage = "Student is required")]
         public Student student { get; set; }
+
+        public CreateStudent() { }
     }
 }

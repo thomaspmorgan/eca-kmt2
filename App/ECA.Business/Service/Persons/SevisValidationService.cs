@@ -19,7 +19,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public async Task<IQueryable<ValidationResult>> PreSevisValidation(SEVISBatchCreateUpdateStudent validationEntity)
+        public async Task<IQueryable<ValidationResult>> PreSevisValidationAsync(SEVISBatchCreateUpdateStudent validationEntity)
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             var validator = new PersonSevisServiceValidator();
@@ -28,5 +28,18 @@ namespace ECA.Business.Service.Persons
             return results.AsQueryable();
         }
 
+        /// <summary>
+        /// Test validation on a sevis object.
+        /// </summary>
+        /// <param name="validationEntity"></param>
+        /// <returns></returns>
+        public IQueryable<ValidationResult> PreSevisValidation(SEVISBatchCreateUpdateStudent validationEntity)
+        {
+            Contract.Requires(validationEntity != null, "The validation entity must not be null.");
+            var validator = new PersonSevisServiceValidator();
+            var results = validator.ValidateSevis(validationEntity).AsQueryable();
+
+            return results;
+        }
     }
 }
