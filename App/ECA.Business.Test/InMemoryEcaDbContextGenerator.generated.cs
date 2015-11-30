@@ -211,6 +211,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Course>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
 		}
 	}
+	public class DataPointCategoryPropertyTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.DataPointCategoryProperty>
+	{
+		public override ECA.Data.DataPointCategoryProperty Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DataPointCategoryPropertyId
+			return this.SingleOrDefault(x => x.DataPointCategoryPropertyId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.DataPointCategoryProperty> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DataPointCategoryPropertyId
+			return Task.FromResult<ECA.Data.DataPointCategoryProperty>(this.SingleOrDefault(x => x.DataPointCategoryPropertyId.Equals(keyValues.First())));
+		}
+	}
 	public class DataPointConfigurationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.DataPointConfiguration>
 	{
 		public override ECA.Data.DataPointConfiguration Find(params object[] keyValues)
@@ -1178,6 +1193,7 @@ namespace ECA.Business.Test
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
+			this.DataPointCategoryProperties = new DataPointCategoryPropertyTestDbSet();
 			this.DataPointConfigurations = new DataPointConfigurationTestDbSet();
 			this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();

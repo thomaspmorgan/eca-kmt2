@@ -127,10 +127,12 @@ namespace ECA.Business.Queries.Admin
                                            {
                                             DataPointConfigurationId = null,
                                             OfficeId = officeId,
+                                            CategoryPropertyId = cp.DataPointCategoryPropertyId,
                                             CategoryId = cp.DataPointCategoryId,
                                             CategoryName = cp.DataPointCategory.DataPointCategoryName,
                                             PropertyId = cp.DataPointPropertyId,
-                                            PropertyName = cp.DataPointProperty.DataPointPropertyName
+                                            PropertyName = cp.DataPointProperty.DataPointPropertyName,
+                                            IsRequired = false
                                            }).Union(
                                            from cp in context.DataPointCategoryProperties
                                            join c in context.DataPointConfigurations on cp.DataPointCategoryPropertyId equals c.DataPointCategoryPropertyId
@@ -139,10 +141,12 @@ namespace ECA.Business.Queries.Admin
                                            {
                                                DataPointConfigurationId = c.DataPointConfigurationId,
                                                OfficeId = c.OfficeId,
+                                               CategoryPropertyId = cp.DataPointCategoryPropertyId,
                                                CategoryId = cp.DataPointCategoryId,
                                                CategoryName = cp.DataPointCategory.DataPointCategoryName,
                                                PropertyId = cp.DataPointPropertyId,
-                                               PropertyName = cp.DataPointProperty.DataPointPropertyName
+                                               PropertyName = cp.DataPointProperty.DataPointPropertyName,
+                                               IsRequired = true
                                            });
             return dataPointConfigurations;
         }
