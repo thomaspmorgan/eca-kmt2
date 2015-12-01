@@ -36,7 +36,7 @@ namespace ECA.Business.Validation
         {
             if (validationResults.Count() > 0)
             {
-                throw new Exceptions.ValidationException("There was an error validating the changes.", validationResults);
+                throw new Exceptions.ValidationException("There was an error validating the record.", validationResults);
             }
         }
 

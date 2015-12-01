@@ -1,34 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Contains all student details
+    /// </summary>
     public class Student
     {
-        public const int ID_MAX_LENGTH = 20;
-
-        public const int USERDEFINEDA_MAX_LENGTH = 10;
-
-        public const int USERDEFINEDB_MAX_LENGTH = 14;
-
-        public const int ISSUE_REASON_STRING_LENGTH = 1;
-
-        public const int REMARKS_MAX_LENGTH = 500;
+        public Student()
+        {
+            personalInfo = new PersonalInfo();
+            usAddress = new USAddress();
+            foreignAddress = new ForeignAddress();
+            educationalInfo = new EducationalInfo();
+            financialInfo = new FinancialInfo();
+            createDependent = new CreateDependent();
+        }
         
-        [MaxLength(ID_MAX_LENGTH)]
-        [Required(ErrorMessage = "Request id is required")]
         public string requestID { get; set; }
-
-        [MaxLength(ID_MAX_LENGTH)]
-        [Required(ErrorMessage = "User id is required")]
+        
         public string userID { get; set; }
-
-        [Required(ErrorMessage = "Print form is required")]
+        
         public bool printForm { get; set; }
-
-        [MaxLength(USERDEFINEDA_MAX_LENGTH)]
+        
         public string UserDefinedA { get; set; }
-
-        [MaxLength(USERDEFINEDB_MAX_LENGTH)]
+        
         public string UserDefinedB { get; set; }
 
         /// <summary>
@@ -39,8 +34,6 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Issue reason
         /// </summary>
-        [StringLength(ISSUE_REASON_STRING_LENGTH)]
-        [Required(ErrorMessage = "Issue reason is required")]
         public string IssueReason { get; set; }
         
         /// <summary>
@@ -71,8 +64,6 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Student record remarks
         /// </summary>
-        [MaxLength(REMARKS_MAX_LENGTH)]
-        public string Remarks { get; set; }
-        
+        public string Remarks { get; set; }        
     }
 }

@@ -179,12 +179,8 @@ namespace ECA.Business.Test.Service.Persons
         }
         
         [TestMethod]
-        public void TestSevisValidator()
+        public void TestSevisValidator_NullStudent()
         {
-            //Action<Student> tester = (results) =>
-            //{
-            //    Assert.IsNull(results);
-            //};
             var batchHeader = new BatchHeader
             {
                 BatchID = "1",
@@ -201,10 +197,43 @@ namespace ECA.Business.Test.Service.Persons
                 createStudent = createStudent
             };
 
-            var serviceResults = sevisService.PreSevisValidation(updateStudent);
-            Assert.AreEqual(1, serviceResults.Select(x => x.ErrorMessage == "Student is invalid"));
-            //tester(updateStudent.createStudent.student);
+            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var results = validator.Validate(updateStudent);
+            Assert.AreEqual(1, results.Errors.Count());
         }
-        
+
+        [TestMethod]
+        public void TestSevisValidator_NullStudentIssueReason()
+        {
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var student = new Student
+            {
+                requestID = "1",
+                userID = "1",
+                printForm = false,
+                UserDefinedA = "2",
+                UserDefinedB = "3",
+                IssueReason = null
+            };
+            var createStudent = new CreateStudent
+            {
+                student = student
+            };
+            var updateStudent = new SEVISBatchCreateUpdateStudent
+            {
+                userID = "1",
+                batchHeader = batchHeader,
+                createStudent = createStudent
+            };
+
+            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var results = validator.Validate(updateStudent);
+            Assert.AreEqual(1, results.Errors.Count());
+        }
+
     }
 }

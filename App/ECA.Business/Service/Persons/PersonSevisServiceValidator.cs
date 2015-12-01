@@ -22,6 +22,8 @@ namespace ECA.Business.Service.Persons
             return results;
         }
         
+        // TODO: for sending XML content to Sevis service
+
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;
         //DataSet MyDataSet = new DataSet();
         //MyDataSet.ReadXmlSchema(@"schema.xsd");
