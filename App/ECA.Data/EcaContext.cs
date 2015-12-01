@@ -112,6 +112,7 @@ namespace ECA.Data
 
         public DbSet<DataPointConfiguration> DataPointConfigurations { get; set; }
 
+        public DbSet<DataPointCategoryProperty> DataPointCategoryProperties { get; set; }
         /// <summary>
         /// Gets or sets external ids.
         /// </summary>

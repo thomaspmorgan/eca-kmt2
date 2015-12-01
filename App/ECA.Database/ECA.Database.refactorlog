@@ -980,4 +980,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PropertyId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="555b29cf-5e68-48cc-b473-9e524ee60087" ChangeDateTime="11/29/2015 15:56:13">
+    <Property Name="ElementName" Value="[dbo].[DataPointCategoryProperty].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointCategoryProperty]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointCategoryPropertyId" />
+  </Operation>
 </Operations>
