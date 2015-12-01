@@ -55,7 +55,7 @@ namespace ECA.Business.Service.Admin
             this.addressValidator = addressValidator;
             throwIfLocationsAlreadyExist = (ecaLocation, locations) =>
             {
-                if(locations.Count() > 0)
+                if (locations.Count() > 0)
                 {
                     throw new UniqueModelException(String.Format("The given location [{0}] already exists in the system.", ecaLocation.LocationName));
                 }
@@ -155,6 +155,11 @@ namespace ECA.Business.Service.Admin
             return Context.Addresses.Where(x => x.AddressId == addressId).Include(x => x.Location);
         }
 
+        private IQueryable<ParticipantPerson> CreateGetParticipantPersonsByAddressIdQuery(int addressId)
+        {
+            return Context.ParticipantPersons.Where(x => x.HomeInstitutionAddressId == addressId || x.HostInstitutionAddressId == addressId);
+        }
+
         /// <summary>
         /// Removes the address from the context.
         /// </summary>
@@ -162,7 +167,8 @@ namespace ECA.Business.Service.Admin
         public void Delete(int addressId)
         {
             var address = CreateGetAddressToDeleteByIdQuery(addressId).FirstOrDefault();
-            DoDelete(address);
+            var participantPeople = CreateGetParticipantPersonsByAddressIdQuery(addressId).ToList();
+            DoDelete(address, participantPeople);
         }
 
         /// <summary>
@@ -172,10 +178,11 @@ namespace ECA.Business.Service.Admin
         public async Task DeleteAsync(int addressId)
         {
             var address = await CreateGetAddressToDeleteByIdQuery(addressId).FirstOrDefaultAsync();
-            DoDelete(address);
+            var participantPeople = await CreateGetParticipantPersonsByAddressIdQuery(addressId).ToListAsync();
+            DoDelete(address, participantPeople);
         }
 
-        private void DoDelete(Address addressToDelete)
+        private void DoDelete(Address addressToDelete, IEnumerable<ParticipantPerson> participantPeopleWithAddress)
         {
             if (addressToDelete != null)
             {
@@ -184,6 +191,20 @@ namespace ECA.Business.Service.Admin
                     Context.Locations.Remove(addressToDelete.Location);
                 }
                 Context.Addresses.Remove(addressToDelete);
+                foreach (var person in participantPeopleWithAddress)
+                {
+                    if(person.HomeInstitutionAddressId == addressToDelete.AddressId)
+                    {
+                        person.HomeInstitutionAddress = null;
+                        person.HomeInstitutionAddressId = null;
+                    }
+                    if(person.HostInstitutionAddressId == addressToDelete.AddressId)
+                    {
+                        person.HostInstitutionAddress = null;
+                        person.HostInstitutionAddressId = null;
+                    }
+                }
+
             }
         }
 
@@ -236,7 +257,13 @@ namespace ECA.Business.Service.Admin
 
             var existingAddresses = additionalAddress.CreateGetAddressesQuery(this.Context).ToList();
 
-            return DoCreateAddress<T>(entity, additionalAddress, existingAddresses);
+            return DoCreateAddress<T>(
+                entity: entity,
+                additionalAddress: additionalAddress,
+                existingAddresses: existingAddresses,
+                country: country,
+                division: division,
+                city: city);
         }
 
         /// <summary>
@@ -264,7 +291,13 @@ namespace ECA.Business.Service.Admin
 
             var existingAddresses = await additionalAddress.CreateGetAddressesQuery(this.Context).ToListAsync();
 
-            return DoCreateAddress<T>(entity, additionalAddress, existingAddresses);
+            return DoCreateAddress<T>(
+                entity: entity,
+                additionalAddress: additionalAddress,
+                existingAddresses: existingAddresses,
+                country: country,
+                division: division,
+                city: city);
         }
 
         private void SetAllAddressNotPrimary(ICollection<Address> addresses)
@@ -272,11 +305,16 @@ namespace ECA.Business.Service.Admin
             addresses.ToList().ForEach(x => x.IsPrimary = false);
         }
 
-        private Address DoCreateAddress<T>(T entity, AdditionalAddress<T> additionalAddress, ICollection<Address> existingAddresses)
-            where T : class, IAddressable
+        private Address DoCreateAddress<T>(
+            T entity,
+            AdditionalAddress<T> additionalAddress,
+            ICollection<Address> existingAddresses,
+            Location country,
+            Location division,
+            Location city) where T : class, IAddressable
         {
             logger.Info("Adding an additional address to the [{0}] entity with id [{1}].", typeof(T).Name, additionalAddress.GetAddressableEntityId());
-            addressValidator.ValidateCreate(ToEcaAddressValidationEntity(additionalAddress));
+            addressValidator.ValidateCreate(ToEcaAddressValidationEntity(address: additionalAddress, country: country, division: division, city: city));
             var address = additionalAddress.AddAddress(entity);
             Context.Addresses.Add(address);
             Context.Locations.Add(address.Location);
@@ -310,7 +348,14 @@ namespace ECA.Business.Service.Admin
 
             var otherAddresses = CreateGetOtherEntityAddressesQuery(address).ToList();
 
-            DoUpdate(updatedAddress, location, address, otherAddresses);
+            DoUpdate(updatedAddress: updatedAddress,
+                location: location,
+                address: address,
+                otherAddresses: otherAddresses,
+                country: country,
+                division: division,
+                city: city
+                );
         }
 
         /// <summary>
@@ -335,7 +380,14 @@ namespace ECA.Business.Service.Admin
 
             var otherAddresses = await CreateGetOtherEntityAddressesQuery(address).ToListAsync();
 
-            DoUpdate(updatedAddress, location, address, otherAddresses);
+            DoUpdate(updatedAddress: updatedAddress,
+                location: location,
+                address: address,
+                otherAddresses: otherAddresses,
+                country: country,
+                division: division,
+                city: city
+                );
         }
 
         private IQueryable<Address> CreateGetOtherEntityAddressesQuery(Address address)
@@ -346,13 +398,20 @@ namespace ECA.Business.Service.Admin
                 && x.AddressId != address.AddressId);
         }
 
-        private void DoUpdate(UpdatedEcaAddress updatedAddress, Location location, Address address, ICollection<Address> otherAddresses)
+        private void DoUpdate(
+            UpdatedEcaAddress updatedAddress,
+            Location location,
+            Address address,
+            ICollection<Address> otherAddresses,
+            Location country,
+            Location division,
+            Location city)
         {
             Contract.Requires(updatedAddress != null, "The updated address must not be null.");
             Contract.Requires(location != null, "The location must not be null.");
             Contract.Requires(address != null, "The address must not be null.");
             logger.Info("Updating the address with id [{0}].", updatedAddress.AddressId);
-            addressValidator.ValidateUpdate(ToEcaAddressValidationEntity(updatedAddress));
+            addressValidator.ValidateUpdate(ToEcaAddressValidationEntity(address: updatedAddress, country: country, division: division, city: city));
             location.CityId = updatedAddress.CityId;
             location.CountryId = updatedAddress.CountryId;
             location.DivisionId = updatedAddress.DivisionId;
@@ -372,9 +431,13 @@ namespace ECA.Business.Service.Admin
             }
         }
 
-        private EcaAddressValidationEntity ToEcaAddressValidationEntity(EcaAddress address)
+        private EcaAddressValidationEntity ToEcaAddressValidationEntity(EcaAddress address, Location country, Location division, Location city)
         {
-            return new EcaAddressValidationEntity(addressTypeId: address.AddressTypeId);
+            return new EcaAddressValidationEntity(
+                addressTypeId: address.AddressTypeId,
+                country: country,
+                division: division,
+                city: city);
         }
 
 
@@ -491,6 +554,7 @@ namespace ECA.Business.Service.Admin
             }
             var newLocation = new Location
             {
+                IsActive = true,
                 City = city,
                 Country = country,
                 Division = division,
@@ -515,7 +579,7 @@ namespace ECA.Business.Service.Admin
 
             var locationType = LocationType.GetStaticLookup(location.LocationTypeId);
             Contract.Assert(locationType != LocationType.Address, "An address should only be created through the address location methods.");
-            if(locationType == LocationType.Building || locationType == LocationType.Place)
+            if (locationType == LocationType.Building || locationType == LocationType.Place)
             {
                 if (location.CityId.HasValue)
                 {
@@ -545,7 +609,7 @@ namespace ECA.Business.Service.Admin
         }
 
         #endregion
-        
+
 
         private LocationValidationEntity GetLocationValidationEntity(EcaLocation location, Location region, Location country, Location division, Location city)
         {
@@ -646,7 +710,7 @@ namespace ECA.Business.Service.Admin
             Location region,
             Location country,
             Location division,
-            Location city,            
+            Location city,
             LocationType locationType)
         {
             var validationEntity = GetLocationValidationEntity(

@@ -1,14 +1,8 @@
-﻿using ECA.Business.Queries.Admin;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Models.Programs;
-using ECA.Business.Queries.Programs;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Projects;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Search
 {

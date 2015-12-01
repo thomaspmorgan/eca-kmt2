@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.WebApi.Security;
+using ECA.Business.Validation;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -26,6 +27,7 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonsSevisService service;
+        private SevisValidationService validation;
         private IUserProvider userProvider;
 
         /// <summary>
@@ -115,7 +117,8 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var participantPersonSevisDTO = await service.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
                 await service.SaveChangesAsync();
-                return Ok();
+                participantPersonSevisDTO = await service.GetParticipantPersonsSevisByIdAsync(participantPersonSevisDTO.ParticipantId);
+                return Ok(participantPersonSevisDTO);
             }
             else
             {
@@ -163,6 +166,26 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// Manually validate a participant sevis record.
+        /// </summary>
+        /// <param name="validationEntity"></param>
+        /// <returns>validation result</returns>
+        [Route("ParticipantPersonsSevis/ValidateSevis")]
+        public async Task<IHttpActionResult> ValidateSevisAsync(SEVISBatchCreateUpdateStudent validationEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                var statuses = await validation.PreSevisValidation(validationEntity);
+                return Ok(statuses);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
 
     }
 }

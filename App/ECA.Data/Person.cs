@@ -176,10 +176,16 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the full name of the person.  This value is a computed column in the database.
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string FullName { get; set; }
 
         public Location PlaceOfBirth { get; set; }
         public bool? IsPlaceOfBirthUnknown { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the date of birth is estimated.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; set; }
 
         public string MedicalConditions { get; set; }
 

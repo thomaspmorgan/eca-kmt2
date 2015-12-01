@@ -29,5 +29,6 @@ angular
     'internationalPhoneNumber',
     'nvd3',
     'angular-appinsights',
+    'angular.filter',
     'templates'
   ]);

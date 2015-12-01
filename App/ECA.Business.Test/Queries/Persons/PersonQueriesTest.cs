@@ -105,6 +105,246 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CheckDateOfBirth()
+        {
+
+            var person = new Person
+            {
+                DateOfBirth = DateTime.UtcNow,
+                IsDateOfBirthEstimated = true,
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(person.DateOfBirth, result.DateOfBirth);
+            Assert.AreEqual(person.IsDateOfBirthEstimated, result.IsDateOfBirthEstimated);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CheckDateOfBirthIsUnknown()
+        {
+
+            var person = new Person
+            {
+                IsDateOfBirthUnknown = true,
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(person.IsDateOfBirthUnknown, result.IsDateOfBirthUnknown);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CheckPlaceOfBirth()
+        {
+            var country = new Location
+            {
+                LocationName = "country",
+                LocationId = 1
+            };
+            var division = new Location
+            {
+                LocationName = "division",
+                LocationId = 2
+            };
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 3,
+                Division = division,
+                DivisionId = division.LocationId,
+                Country = country,
+                CountryId = country.LocationId
+            };
+
+            var person = new Person
+            {
+
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+                PlaceOfBirth = city,
+                PlaceOfBirthId = city.LocationId
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.Locations.Add(country);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(city.LocationId, result.CityOfBirthId);
+            Assert.AreEqual(city.LocationName, result.CityOfBirth);
+            Assert.AreEqual(division.LocationName, result.DivisionOfBirth);
+            Assert.AreEqual(country.LocationName, result.CountryOfBirth);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_PlaceOfBirthIsUnknown()
+        {  
+            var person = new Person
+            {
+
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+                IsPlaceOfBirthUnknown = true
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(result.IsPlaceOfBirthUnknown, result.IsPlaceOfBirthUnknown);
+        }
+
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_CheckPlaceOfBirth_OnlyHasCity()
+        {
+            var city = new Location
+            {
+                LocationName = "city",
+                LocationId = 3,
+            };
+
+            var person = new Person
+            {
+
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+                PlaceOfBirth = city,
+                PlaceOfBirthId = city.LocationId
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.Locations.Add(city);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(city.LocationId, result.CityOfBirthId);
+            Assert.AreEqual(city.LocationName, result.CityOfBirth);
+            Assert.IsNull(result.DivisionOfBirth);
+            Assert.IsNull(result.CountryOfBirth);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_DoesNotHavePlaceOfBirth()
+        {
+
+            var person = new Person
+            {
+
+                FullName = "fullname",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                },
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.IsNull(result.CityOfBirthId);
+            Assert.IsNull(result.CityOfBirth);
+        }
+
+        [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipantion_StatusNameIsNull()
         {
             var person = new Person

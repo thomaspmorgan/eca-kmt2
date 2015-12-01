@@ -29,7 +29,9 @@ gulp.task('cacheTemplates', function () {
     var minifyHTML = require('gulp-minify-html');
     var templateCache = require('gulp-angular-templatecache');
     gulp.src('app/**/*.html')
-        .pipe(minifyHTML({}))
+        .pipe(minifyHTML({
+            loose: true
+        }))
         .pipe(templateCache({
             root: 'app',
             filename: 'app.tpls.js',

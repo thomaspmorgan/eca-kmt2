@@ -18,6 +18,7 @@ angular.module('staticApp')
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
       $scope.newPerson.IsPlaceOfBirthUnknown = false;
+      $scope.unknownCountry = 'Unknown';
 
       // Initialize model for organization tab
       $scope.newOrganization = {};
@@ -110,6 +111,9 @@ angular.module('staticApp')
       }
 
       $scope.countryOfBirthSelected = function () {
+          if ($scope.newPerson.countryOfBirth == 0) {
+              $scope.newPerson.isPlaceOfBirthUnknown = true;
+          }
           $scope.newPerson.cityOfBirth = undefined;
           loadCities();
       }
@@ -145,7 +149,7 @@ angular.module('staticApp')
               var params = getPersonDuplicateParams();
               PersonService.getPeople(params)
               .then(function (response) {
-                  if(response.data.total > 0) {
+                  if (response.data.total > 0) {
                       $scope.personDuplicates = response.data.results;
                   } else {
                       addNewPerson();
@@ -296,7 +300,9 @@ angular.module('staticApp')
 
           return LocationService.get(params)
             .then(function (data) {
-                $scope.countries = data.results;
+                var countriesOfBirth = data.results;
+                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
+                $scope.countries = countriesOfBirth;
             });
       }
 
@@ -312,7 +318,9 @@ angular.module('staticApp')
 
           return LocationService.get(params)
             .then(function (data) {
-                $scope.countriesCopy = data.results;
+                var countriesOfBirth = data.results;
+                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
+                $scope.countriesCopy = countriesOfBirth;
             });
       }
 
@@ -327,9 +335,11 @@ angular.module('staticApp')
                     { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
                   ]
               };
-
+              
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              } else if ($scope.newPerson.cityOfBirth) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.newPerson.cityOfBirth });
               }
 
               return LocationService.get(params)

@@ -29,6 +29,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="englishLanguageProficiencyNotReqdReason"></param>
         /// <param name="tuitionExpense"></param>
         /// <param name="livingExpense"></param>
+        /// <param name="dependentExpense"></param>
         /// <param name="otherExpense"></param>
         /// <param name="expenseRemarks"></param>
         /// <param name="personalFunding"></param>
@@ -40,9 +41,9 @@ namespace ECA.Business.Service.Persons
         public UpdatedParticipantStudentVisitor(
             User updater, 
             int participantId, 
-            int educationLevelId,
+            int? educationLevelId,
             string educationLevelOtherRemarks,
-            int primaryMajorId,
+            int? primaryMajorId,
             int? secondaryMajorId,
             int? minorId,
             int? lengthOfStudy,
@@ -51,6 +52,7 @@ namespace ECA.Business.Service.Persons
             string englishLanguageProficiencyNotReqdReason,
             decimal? tuitionExpense,
             decimal? livingExpense,
+            decimal? dependentExpense,
             decimal? otherExpense,
             string expenseRemarks,
             decimal? personalFunding,
@@ -74,6 +76,7 @@ namespace ECA.Business.Service.Persons
             this.EnglishLanguageProficiencyNotReqdReason = englishLanguageProficiencyNotReqdReason;
             this.TuitionExpense = tuitionExpense;
             this.LivingExpense = livingExpense;
+            this.DependentExpense = dependentExpense;
             this.OtherExpense = otherExpense;
             this.ExpenseRemarks = expenseRemarks;
             this.PersonalFunding = personalFunding;
@@ -92,7 +95,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the student's education Level id
         /// </summary>
-        public int EducationLevelId { get; set; }
+        public int? EducationLevelId { get; set; }
 
         /// <summary>
         /// Gets or sets the student's education Level
@@ -102,7 +105,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the student's PrimaryMajor Id
         /// </summary>
-        public int PrimaryMajorId { get; set; }
+        public int? PrimaryMajorId { get; set; }
 
         /// <summary>
         /// Gets or sets the student's SecondaryMajor Id

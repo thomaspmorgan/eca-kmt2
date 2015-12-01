@@ -91,9 +91,9 @@ namespace CAM.Business.Service
         /// <summary>
         /// Get a ResourceId giving a foreignResourceId and a ResourceTypeId
         /// </summary>
-        /// <param name="foreignResourceId"></param>
-        /// <param name="resourceTypeId"></param>
-        /// <returns></returns>
+        /// <param name="foreignResourceId">The foreign resource id.</param>
+        /// <param name="resourceTypeId">The resource type.</param>
+        /// <returns>The foreign resource cache.</returns>
         public ForeignResourceCache GetResourceByForeignResourceId(int foreignResourceId, int resourceTypeId)
         {
             var cache = GetCachedForeignResourceCache(foreignResourceId, resourceTypeId);
@@ -123,9 +123,9 @@ namespace CAM.Business.Service
         /// <summary>
         /// Get a ResourceId giving a foreignResourceId and a ResourceTypeId
         /// </summary>
-        /// <param name="foreignResourceId"></param>
-        /// <param name="resourceTypeId"></param>
-        /// <returns></returns>
+        /// <param name="foreignResourceId">The foreign resource id.</param>
+        /// <param name="resourceTypeId">The resource type.</param>
+        /// <returns>The foreign resource cache.</returns>
         public async Task<ForeignResourceCache> GetResourceByForeignResourceIdAsync(int foreignResourceId, int resourceTypeId)
         {
             var cache = GetCachedForeignResourceCache(foreignResourceId, resourceTypeId);

@@ -23,6 +23,7 @@ namespace ECA.Data
         IContactable,
         ICategorizable,
         IObjectivable,
+        IRegionable,
         IPermissable
     {
         /// <summary>

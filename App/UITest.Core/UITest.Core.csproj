@@ -50,7 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddOffFund.cs" />
+    <Compile Include="AddFund.cs" />
     <Compile Include="AuthHelper.cs" />
     <Compile Include="ContentMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

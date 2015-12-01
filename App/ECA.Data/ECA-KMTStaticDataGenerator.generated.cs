@@ -3,6 +3,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #region ActorType
 namespace ECA.Data
 {
@@ -180,6 +198,110 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "AddressType", TableName = "AddressType", IdColumnName = "AddressTypeId", ValueColumnName = "AddressName" };
+		}
+	}
+}
+#endregion
+
+#region DataPointCategory
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class DataPointCategory : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Office lookup with id 1.
+		/// </summary>
+		public static StaticLookup Office { get { return new StaticLookup("Office", 1); } }
+		/// <summary>
+		/// Returns the Program lookup with id 2.
+		/// </summary>
+		public static StaticLookup Program { get { return new StaticLookup("Program", 2); } }
+		/// <summary>
+		/// Returns the Project lookup with id 3.
+		/// </summary>
+		public static StaticLookup Project { get { return new StaticLookup("Project", 3); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return DataPointCategory.Office;
+			if (2 == id) return DataPointCategory.Program;
+			if (3 == id) return DataPointCategory.Project;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Office;
+			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Program;
+			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Project;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DataPointCategory", TableName = "DataPointCategory", IdColumnName = "DataPointCategoryId", ValueColumnName = "DataPointCategoryName" };
+		}
+	}
+}
+#endregion
+
+#region DataPointProperty
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class DataPointProperty : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Themes lookup with id 1.
+		/// </summary>
+		public static StaticLookup Themes { get { return new StaticLookup("Themes", 1); } }
+		/// <summary>
+		/// Returns the Goals lookup with id 2.
+		/// </summary>
+		public static StaticLookup Goals { get { return new StaticLookup("Goals", 2); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return DataPointProperty.Themes;
+			if (2 == id) return DataPointProperty.Goals;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Themes".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Themes;
+			if ("Goals".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Goals;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DataPointProperty", TableName = "DataPointProperty", IdColumnName = "DataPointPropertyId", ValueColumnName = "DataPointPropertyName" };
 		}
 	}
 }
@@ -579,9 +701,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Participant { get { return new StaticLookup("Participant", 4); } }
 		/// <summary>
-		/// Returns the Itinerary Stop lookup with id 5.
+		/// Returns the Travel Stop lookup with id 5.
 		/// </summary>
-		public static StaticLookup ItineraryStop { get { return new StaticLookup("Itinerary Stop", 5); } }
+		public static StaticLookup TravelStop { get { return new StaticLookup("Travel Stop", 5); } }
 		/// <summary>
 		/// Returns the Accomodation lookup with id 6.
 		/// </summary>
@@ -613,7 +735,7 @@ namespace ECA.Data
 			if (2 == id) return MoneyFlowSourceRecipientType.Program;
 			if (3 == id) return MoneyFlowSourceRecipientType.Project;
 			if (4 == id) return MoneyFlowSourceRecipientType.Participant;
-			if (5 == id) return MoneyFlowSourceRecipientType.ItineraryStop;
+			if (5 == id) return MoneyFlowSourceRecipientType.TravelStop;
 			if (6 == id) return MoneyFlowSourceRecipientType.Accomodation;
 			if (7 == id) return MoneyFlowSourceRecipientType.Transportation;
 			if (8 == id) return MoneyFlowSourceRecipientType.Expense;
@@ -632,7 +754,7 @@ namespace ECA.Data
 			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Program;
 			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Project;
 			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Participant;
-			if ("Itinerary Stop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.ItineraryStop;
+			if ("Travel Stop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.TravelStop;
 			if ("Accomodation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Accomodation;
 			if ("Transportation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Transportation;
 			if ("Expense".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Expense;
@@ -940,6 +1062,42 @@ namespace ECA.Data
 		/// Returns the Suspended lookup with id 8.
 		/// </summary>
 		public static StaticLookup Suspended { get { return new StaticLookup("Suspended", 8); } }
+		/// <summary>
+		/// Returns the Alternate lookup with id 9.
+		/// </summary>
+		public static StaticLookup Alternate { get { return new StaticLookup("Alternate", 9); } }
+		/// <summary>
+		/// Returns the Approved lookup with id 10.
+		/// </summary>
+		public static StaticLookup Approved { get { return new StaticLookup("Approved", 10); } }
+		/// <summary>
+		/// Returns the Cancelled lookup with id 11.
+		/// </summary>
+		public static StaticLookup Cancelled { get { return new StaticLookup("Cancelled", 11); } }
+		/// <summary>
+		/// Returns the Disapproved lookup with id 12.
+		/// </summary>
+		public static StaticLookup Disapproved { get { return new StaticLookup("Disapproved", 12); } }
+		/// <summary>
+		/// Returns the Intention lookup with id 13.
+		/// </summary>
+		public static StaticLookup Intention { get { return new StaticLookup("Intention", 13); } }
+		/// <summary>
+		/// Returns the No Funds lookup with id 14.
+		/// </summary>
+		public static StaticLookup NoFunds { get { return new StaticLookup("No Funds", 14); } }
+		/// <summary>
+		/// Returns the Pending lookup with id 15.
+		/// </summary>
+		public static StaticLookup Pending { get { return new StaticLookup("Pending", 15); } }
+		/// <summary>
+		/// Returns the Transferred lookup with id 16.
+		/// </summary>
+		public static StaticLookup Transferred { get { return new StaticLookup("Transferred", 16); } }
+		/// <summary>
+		/// Returns the Waitlisted lookup with id 17.
+		/// </summary>
+		public static StaticLookup Waitlisted { get { return new StaticLookup("Waitlisted", 17); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -955,6 +1113,15 @@ namespace ECA.Data
 			if (6 == id) return ParticipantStatus.Terminated;
 			if (7 == id) return ParticipantStatus.Rejected;
 			if (8 == id) return ParticipantStatus.Suspended;
+			if (9 == id) return ParticipantStatus.Alternate;
+			if (10 == id) return ParticipantStatus.Approved;
+			if (11 == id) return ParticipantStatus.Cancelled;
+			if (12 == id) return ParticipantStatus.Disapproved;
+			if (13 == id) return ParticipantStatus.Intention;
+			if (14 == id) return ParticipantStatus.NoFunds;
+			if (15 == id) return ParticipantStatus.Pending;
+			if (16 == id) return ParticipantStatus.Transferred;
+			if (17 == id) return ParticipantStatus.Waitlisted;
 			return null;
 		}
 		///<summary>
@@ -972,6 +1139,15 @@ namespace ECA.Data
 			if ("Terminated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Terminated;
 			if ("Rejected".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Rejected;
 			if ("Suspended".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Suspended;
+			if ("Alternate".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Alternate;
+			if ("Approved".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Approved;
+			if ("Cancelled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Cancelled;
+			if ("Disapproved".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Disapproved;
+			if ("Intention".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Intention;
+			if ("No Funds".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.NoFunds;
+			if ("Pending".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Pending;
+			if ("Transferred".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Transferred;
+			if ("Waitlisted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Waitlisted;
 			return null;
 		}
 
@@ -1090,6 +1266,14 @@ namespace ECA.Data
 		/// Returns the Cell lookup with id 3.
 		/// </summary>
 		public static StaticLookup Cell { get { return new StaticLookup("Cell", 3); } }
+		/// <summary>
+		/// Returns the Visiting lookup with id 4.
+		/// </summary>
+		public static StaticLookup Visiting { get { return new StaticLookup("Visiting", 4); } }
+		/// <summary>
+		/// Returns the Undetermined lookup with id 5.
+		/// </summary>
+		public static StaticLookup Undetermined { get { return new StaticLookup("Undetermined", 5); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1100,6 +1284,8 @@ namespace ECA.Data
 			if (1 == id) return PhoneNumberType.Home;
 			if (2 == id) return PhoneNumberType.Work;
 			if (3 == id) return PhoneNumberType.Cell;
+			if (4 == id) return PhoneNumberType.Visiting;
+			if (5 == id) return PhoneNumberType.Undetermined;
 			return null;
 		}
 		///<summary>
@@ -1112,6 +1298,8 @@ namespace ECA.Data
 			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Home;
 			if ("Work".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Work;
 			if ("Cell".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Cell;
+			if ("Visiting".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Visiting;
+			if ("Undetermined".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Undetermined;
 			return null;
 		}
 
@@ -1540,6 +1728,8 @@ namespace ECA.Data
 			var errors = new List<string>();
 			errors.AddRange(validator.Validate<ActorType>());
 			errors.AddRange(validator.Validate<AddressType>());
+			errors.AddRange(validator.Validate<DataPointCategory>());
+			errors.AddRange(validator.Validate<DataPointProperty>());
 			errors.AddRange(validator.Validate<EmailAddressType>());
 			errors.AddRange(validator.Validate<Gender>());
 			errors.AddRange(validator.Validate<ItineraryStatus>());

@@ -79,6 +79,14 @@ namespace ECA.WebApi.Test.Controllers.Fundings
 
         #region Get moneyflows by project
         [TestMethod]
+        public async Task TestGetFiscalYearSummarysByProjectIdAsync()
+        {
+            var id = 1;
+            var results = controller.GetFiscalYearSummarysByProjectIdAsync(id);
+            moneyFlowService.Verify(x => x.GetFiscalYearSummariesByProjectIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestGetSourceMoneyFlowsByProjectIdAsync()
         {
             var response = await controller.GetSourceMoneyFlowsByProjectIdAsync(1);
@@ -104,6 +112,14 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         #endregion
 
         #region Get moneyflows by program
+        [TestMethod]
+        public async Task TestGetFiscalYearSummarysByProgramIdAsync()
+        {
+            var id = 1;
+            var results = controller.GetFiscalYearSummarysByProgramIdAsync(id);
+            moneyFlowService.Verify(x => x.GetFiscalYearSummariesByProgramIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
         [TestMethod]
         public async Task TestGetSourceMoneyFlowsByProgramIdAsync()
         {
@@ -131,6 +147,14 @@ namespace ECA.WebApi.Test.Controllers.Fundings
 
         #region Get moneyflows by office
         [TestMethod]
+        public async Task TestGetFiscalYearSummarysByOfficeIdAsync()
+        {
+            var id = 1;
+            var results = controller.GetFiscalYearSummarysByOfficeIdAsync(id);
+            moneyFlowService.Verify(x => x.GetFiscalYearSummariesByOfficeIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestGetSourceMoneyFlowsByOfficeIdAsync()
         {
             var response = await controller.GetSourceMoneyFlowsByOfficeIdAsync(1);
@@ -157,6 +181,14 @@ namespace ECA.WebApi.Test.Controllers.Fundings
 
         #region Get moneyflows by organization
         [TestMethod]
+        public async Task TestGetFiscalYearSummarysByOrganizationIdAsync()
+        {
+            var id = 1;
+            var results = controller.GetFiscalYearSummarysByOrganizationIdAsync(id);
+            moneyFlowService.Verify(x => x.GetFiscalYearSummariesByOrganizationIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestGetSourceMoneyFlowsByOrganizationIdAsync()
         {
             var response = await controller.GetSourceMoneyFlowsByOrganizationIdAsync(1);
@@ -182,6 +214,14 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         #endregion
 
         #region Get moneyflows by person
+        [TestMethod]
+        public async Task TestGetFiscalYearSummarysByPersonIdAsync()
+        {
+            var id = 1;
+            var results = controller.GetFiscalYearSummarysByPersonIdAsync(id);
+            moneyFlowService.Verify(x => x.GetFiscalYearSummariesByPersonIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
         [TestMethod]
         public async Task TestGetMoneyFlowsByPersonAsync()
         {

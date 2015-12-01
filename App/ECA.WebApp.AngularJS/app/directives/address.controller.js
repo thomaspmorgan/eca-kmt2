@@ -33,10 +33,13 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       $scope.view.searchLimit = 10;
       $scope.view.autopopulateOnCitySelect = true;
-      $scope.view.collapseAddress = true;      
+      $scope.view.collapseAddress = true;
+      $scope.view.isCountryInactive = false;
+      $scope.view.isDivisionInactive = false;
+      $scope.view.isCityInactive = false;
 
       var originalAddress = angular.copy($scope.address);
-      
+
       if (!isNewAddress($scope.address) && $scope.address.isPrimary) {
           $scope.$parent.view.collapseAddresses = false;
           $scope.view.collapseAddress = false;
@@ -108,16 +111,19 @@ angular.module('staticApp')
               $scope.address.division = $item.division;
               $scope.address.divisionId = $item.divisionId;
           }
+          checkInactiveLocations($scope.address);
       }
 
       $scope.view.onSelectDivision = function ($item, $model, $label) {
           $scope.address.division = $item.name;
           $scope.address.divisionId = $item.id;
+          $scope.view.isDivisionInactive = !$item.isActive;
       }
 
       $scope.view.onSelectCountry = function ($item, $model, $label) {
           $scope.address.country = $item.name;
           $scope.address.countryId = $item.id;
+          $scope.view.isCountryInactive = !$item.isActive;
       }
 
       $scope.view.onSelectCityBlur = function ($event) {
@@ -153,6 +159,7 @@ angular.module('staticApp')
               callbackAfter: function (element) { }
           }
           smoothScroll(getAddressFormDivElement(id), options);
+          checkInactiveLocations($scope.address);
       };
 
       $scope.view.onDeleteAddressClick = function () {
@@ -176,6 +183,66 @@ angular.module('staticApp')
 
       $scope.view.onIsPrimaryChange = function () {
           $scope.$emit(ConstantsService.primaryAddressChangedEventName, $scope.address);
+      }
+
+      function checkInactiveLocations(address) {
+          var promises = [];
+          if (address.countryId) {
+              promises.push(loadLocationById(address.countryId));
+          }
+          if (address.divisionId) {
+              promises.push(loadLocationById(address.divisionId));
+          }
+          if (address.cityId) {
+              promises.push(loadLocationById(address.cityId));
+          }
+
+          if (promises.length > 0) {
+              $q.all(promises)
+              .then(function (loadLocationByIdResults) {
+                  angular.forEach(loadLocationByIdResults, function (locations, index) {
+                      angular.forEach(locations, function (location, locationIndex) {
+                          if (address.countryId === location.id) {
+                              $scope.view.isCountryInactive = !location.isActive;
+                          }
+                          else if (address.divisionId === location.id) {
+                              $scope.view.isDivisionInactive = !location.isActive;
+                          }
+                          else if (address.cityId === location.id) {
+                              $scope.view.isCityInactive = !location.isActive;
+                          }
+                      });
+                  });
+              })
+              .catch(function (response) {
+                  var message = 'Unable to check active locations.';
+                  $log.error(message);
+                  NotificationService.showErrorMessage(message);
+              });
+          }
+      }
+
+      function loadLocationById(id) {
+          var params = {
+              start: 0,
+              limit: 1,
+              filter: [
+                  {
+                      comparison: ConstantsService.equalComparisonType,
+                      value: id,
+                      property: 'id'
+                  }
+              ]
+          };
+          return LocationService.get(params)
+          .then(function (response) {
+              return response.results;
+          })
+          .catch(function () {
+              var message = 'Unable to load location with id ' + id;
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
       }
 
       function removeAddressFromView(address) {
@@ -235,7 +302,7 @@ angular.module('staticApp')
       function getLocations(search, locationTypeId, loadingIndicator) {
           loadingIndicator = true;
           locationsFilter.reset();
-          locationsFilter = locationsFilter.skip(0).take($scope.view.searchLimit).equal('locationTypeId', locationTypeId);
+          locationsFilter = locationsFilter.skip(0).take($scope.view.searchLimit).equal('locationTypeId', locationTypeId).isTrue('isActive');
           if (search) {
               locationsFilter = locationsFilter.like('name', search);
           }

@@ -1,30 +1,29 @@
-using System;
-using System.Linq;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
-using System.Diagnostics.Contracts;
-using ECA.Core.Settings;
-using ECA.Data;
-using ECA.Core.Service;
-using System.Data.Entity;
-using Microsoft.Azure.Search;
+using CAM.Business.Service;
+using CAM.Data;
 using ECA.Business.Search;
-using System.Collections.Generic;
-using ECA.WebApi.Models.Admin;
-using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Fundings;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Service.Projects;
-using ECA.Core.Generation;
 using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
-using CAM.Data;
-using CAM.Business.Service;
+using ECA.Core.Generation;
+using ECA.Core.Service;
+using ECA.Core.Settings;
+using ECA.Data;
+using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Security;
-using System.Runtime.Caching;
+using Microsoft.Azure.Search;
+using Microsoft.Practices.Unity;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Runtime.Caching;
 
 namespace ECA.WebApi.App_Start
 {
@@ -116,7 +115,6 @@ namespace ECA.WebApi.App_Start
                 return indexService;
             }));
         }
-
 
         /// <summary>
         /// Registers Admin services.
@@ -214,8 +212,15 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
                 ParticipantPersonServiceValidator>();
+            container.RegisterType<
+                ISevisValidator, 
+                PersonSevisServiceValidator>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="container"></param>
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
             var appSettings = new AppSettings();

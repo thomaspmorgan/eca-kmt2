@@ -65,6 +65,7 @@ namespace ECA.WebApi.Controllers.Fundings
         }
 
         #region Organization
+
         /// <summary>
         /// Returns the source money flows of the organization with the given id.  The source money flows will detail the original money flow amount
         /// and remaining money available to withdrawl.
@@ -133,6 +134,19 @@ namespace ECA.WebApi.Controllers.Fundings
         public Task<IHttpActionResult> DeleteOrganizationMoneyFlowAsync(int id, int organizationId)
         {
             return DoDeleteAsync(id, organizationId, MoneyFlowSourceRecipientType.Organization.Id);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The id of the organization.</param>
+        /// <returns>The fiscal year summaries by organization id.</returns>
+        [Route("Organizations/{organizationId:int}/MoneyFlows/FiscalYears/Summary")]
+        [ResponseType(typeof(List<FiscalYearSummaryDTO>))]
+        public async Task<IHttpActionResult> GetFiscalYearSummarysByOrganizationIdAsync(int organizationId)
+        {
+            var results = await this.moneyFlowService.GetFiscalYearSummariesByOrganizationIdAsync(organizationId);
+            return Ok(results);
         }
 
         #endregion
@@ -211,6 +225,20 @@ namespace ECA.WebApi.Controllers.Fundings
         public Task<IHttpActionResult> DeleteOfficeMoneyFlowAsync(int id, int officeId)
         {
             return DoDeleteAsync(id, officeId, MoneyFlowSourceRecipientType.Office.Id);
+        }
+
+        /// <summary>
+        /// Returns the fiscal year summaries for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <returns>The fiscal year summaries by office id.</returns>
+        [Route("Offices/{officeId:int}/MoneyFlows/FiscalYears/Summary")]
+        [ResponseType(typeof(List<FiscalYearSummaryDTO>))]
+        [ResourceAuthorize(Permission.VIEW_OFFICE_VALUE, ResourceType.OFFICE_VALUE, "officeId")]
+        public async Task<IHttpActionResult> GetFiscalYearSummarysByOfficeIdAsync(int officeId)
+        {
+            var results = await this.moneyFlowService.GetFiscalYearSummariesByOfficeIdAsync(officeId);
+            return Ok(results);
         }
 
         #endregion
@@ -292,6 +320,20 @@ namespace ECA.WebApi.Controllers.Fundings
             return DoDeleteAsync(id, projectId, MoneyFlowSourceRecipientType.Project.Id);
         }
 
+        /// <summary>
+        /// Returns the fiscal year summaries for the project with the given id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.</param>
+        /// <returns>The fiscal year summaries by project id.</returns>
+        [Route("Projects/{projectId:int}/MoneyFlows/FiscalYears/Summary")]
+        [ResponseType(typeof(List<FiscalYearSummaryDTO>))]
+        [ResourceAuthorize(Permission.VIEW_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> GetFiscalYearSummarysByProjectIdAsync(int projectId)
+        {
+            var results = await this.moneyFlowService.GetFiscalYearSummariesByProjectIdAsync(projectId);
+            return Ok(results);
+        }
+
         #endregion
 
         #region Program
@@ -370,6 +412,19 @@ namespace ECA.WebApi.Controllers.Fundings
             return DoDeleteAsync(id, programId, MoneyFlowSourceRecipientType.Program.Id);
         }
 
+        /// <summary>
+        /// Returns the fiscal year summaries for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program.</param>
+        /// <returns>The fiscal year summaries by program id.</returns>
+        [Route("Programs/{programId:int}/MoneyFlows/FiscalYears/Summary")]
+        [ResponseType(typeof(List<FiscalYearSummaryDTO>))]
+        [ResourceAuthorize(Permission.VIEW_PROGRAM_VALUE, ResourceType.PROGRAM_VALUE, "programId")]
+        public async Task<IHttpActionResult> GetFiscalYearSummarysByProgramIdAsync(int programId)
+        {
+            var results = await this.moneyFlowService.GetFiscalYearSummariesByProgramIdAsync(programId);
+            return Ok(results);
+        }
         #endregion
 
         #region Person
@@ -394,6 +449,18 @@ namespace ECA.WebApi.Controllers.Fundings
             }
         }
 
+        /// <summary>
+        /// Returns the fiscal year summaries for the person with the given id.
+        /// </summary>
+        /// <param name="personId">The id of the person.</param>
+        /// <returns>The fiscal year summaries by person id.</returns>
+        [Route("People/{personId:int}/MoneyFlows/FiscalYears/Summary")]
+        [ResponseType(typeof(List<FiscalYearSummaryDTO>))]
+        public async Task<IHttpActionResult> GetFiscalYearSummarysByPersonIdAsync(int personId)
+        {
+            var results = await this.moneyFlowService.GetFiscalYearSummariesByPersonIdAsync(personId);
+            return Ok(results);
+        }
         #endregion
         private async Task<IHttpActionResult> DoDeleteAsync(int moneyFlowId, int sourceEntityId, int sourceEntityTypeId)
         {

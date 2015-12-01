@@ -73,7 +73,7 @@
                         </ul>
                     </span>
                 </div>
-                <div ng-show="currentUser.isBusy" class=" pull-right" style="margin-top:14px;">
+                <div ng-show="currentUser.isBusy" class="pull-right" style="margin-top:14px;">
                     <i class="material-icons md-18 material-icons-spin">autorenew</i>
                 </div>
             </div>
@@ -153,6 +153,7 @@
     <script src="bower_components/intl-tel-input/build/js/intlTelInput.js"></script>
     <script src="bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"></script>
     <script src="bower_components/international-phone-number/releases/international-phone-number.js"></script>
+    <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
@@ -209,6 +210,7 @@
     <script src="app/projects/project-participant.controller.js"></script>
     <script src="app/projects/project-participant-info.controller.js"></script>
     <script src="app/projects/project.controller.js"></script>
+    <script src="app/projects/itinerary.contoller.js"></script>
     <script src="app/projects/projects.routes.js"></script>
     <script src="app/projects/select-participant-type.controller.js"></script>
     <script src="app/projects/unsaved-changes.controller.js"></script>
@@ -233,6 +235,7 @@
     <script src="app/search/search-modal.controller.js"></script>
     <script src="app/search/spotlight.controller.js"></script>
     <script src="app/toolbar/toolbar-icons.controller.js"></script>
+    <script src="app/data-points/data-points.controller.js"></script>
     <!-- Directives -->
     <script src="app/directives/address.controller.js"></script>
     <script src="app/directives/addresses.controller.js"></script>
@@ -276,7 +279,6 @@
     <script src="app/directives/ui-select-st-search.directive.js"></script>
     <!-- Filters -->
     <script src="app/filters/boolYesNo.filter.js"></script>
-    <script src="app/filters/group-by.filter.js"></script>
     <script src="app/filters/highlight.filter.js"></script>
     <script src="app/filters/props.filter.js"></script>
     <script src="app/filters/tab.filter.js"></script>

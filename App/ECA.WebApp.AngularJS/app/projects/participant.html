@@ -91,9 +91,24 @@
                         <td>{{participant.participantStatus}}</td>
                         <td>{{participant.sevisStatus}}</td>
                         <td>
-                            <img class="icon" src="images/duplicateA.png" alt="">
+                            <!--<img class="icon" src="images/duplicateA.png" alt="">
                             <img class="icon" src="images/editA.png" alt="">
-                            <img class="icon" src="images/trash.png" alt="">
+                            <img class="icon" src="images/trash.png" alt="">-->
+                            <div class="right" style="display:none;" showonparentrow>
+                                <div>
+                                    <!--<div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                        <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
+                                        <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
+                                    </div>
+                                </div>
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(participant)">
+                                    <i class="material-icons md-24 copyEditDeleteOption">edit</i>
+                                </div>-->
+                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteParticipantClick(participant)" ng-show="permissions.editProject">
+                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!participantInfo[participantId].isDeleting">delete</i>
+                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="participantInfo[participantId].isDeleting">autorenew</i>
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
@@ -118,7 +133,7 @@
                                     <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
                                 </tab>
                                 <tab heading="Student Visitor Data" class="tab" select="onStudentVisitorTabSelected(participant.participantId)" deselect="view.tabStudentVisitor=false">
-                                    <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]" />
+                                    <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]" update="saveStudentVisitorInfo(participantId)" />
                                 </tab>
                             </tabset>
                         </td>

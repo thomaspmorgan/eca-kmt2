@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantStudentVisitor', participantStudentVisitor);
 
-    participantStudentVisitor.$inject = ['$log','FilterService', 'LookupService', 'NotificationService'];
+    participantStudentVisitor.$inject = ['$q','$log','FilterService', 'LookupService', 'NotificationService'];
     
-    function participantStudentVisitor($log, FilterService, LookupService, NotificationService) {
+    function participantStudentVisitor($q, $log, FilterService, LookupService, NotificationService) {
         // Usage:
         //     <participant_student_visitor participantId={{id}} studentInfo=studentInfovariable active=activevariable></participant_student_visitor>
         // Creates:
@@ -28,26 +28,78 @@
 
                 $scope.saveFinancialInfo = function () {
                     $scope.update({ participantId: $scope.participantid });
-                    $scope.view.FinancialInfoEdit = false;
+                    $scope.view.FundingEdit = false;
                 };
 
                 $scope.saveEducationInfo = function () {
                     $scope.update({ participantId: $scope.participantid });
-                    $scope.view.EducationInfoEdit = false;
+                    $scope.view.EducationalInformationEdit = false;
                 };
 
-                $scope.edit.searchFieldOfStudies = function (search) {
-                    return loadFieldOfStudies(search);
-                };
-
-                $scope.edit.onFundingEditChange = function () {
-                    $scope.view.FundingEdit = !$scope.view.FundingEdit;
-                    if ($scope.view.FundingEdit) {
-                        //$scope.view.GovtAgency1Other = ($scope.sevisinfo.govtAgency1Id == 22);
-                        //$scope.view.GovtAgency2Other = ($scope.sevisinfo.govtAgency2Id == 22);
-                        //$scope.view.IntlOrg1Other = ($scope.sevisinfo.intlOrg1Id == 18);
-                        //$scope.view.IntlOrg2Other = ($scope.sevisinfo.intlOrg2Id == 18);
+                $scope.edit.searchFieldOfStudiesMajor = function (search) {
+                    if (search && search != '') {
+                        loadFieldOfStudies(search)
+                        .then(function (result) {
+                            $scope.edit.fieldOfStudiesMajor = result.data.results;
+                        });
                     }
+                };
+
+                $scope.edit.searchFieldOfStudiesSecondary = function (search) {
+                    if (search && search != '') {
+                        loadFieldOfStudies(search)
+                        .then(function (result) {
+                            $scope.edit.fieldOfStudiesSecondary = result.data.results;
+                        });
+                    }
+                };
+
+                $scope.edit.searchFieldOfStudiesMinor = function (search) {
+                    if (search && search != '') {
+                        loadFieldOfStudies(search)
+                        .then(function (result) {
+                            $scope.edit.fieldOfStudiesMinor = result.data.results;
+                        });
+                    }
+                };
+
+                $scope.edit.searchFieldOfStudiesMajorId = function (id) {
+                    if (id) {
+                        loadFieldOfStudiesById(id)
+                        .then(function (result) {
+                            $scope.edit.fieldOfStudiesMajor = result.data.results;
+                        });
+                    }
+                };
+
+                $scope.edit.searchFieldOfStudiesSecondaryId = function (id) {
+                    if (id) {
+                        loadFieldOfStudiesById(id)
+                        .then(function (result) {
+                            $scope.edit.fieldOfStudiesSecondary = result.data.results;
+                        });
+                    }
+                };
+
+                $scope.edit.searchFieldOfStudiesMinorId = function (id) {
+                    if (id) {
+                        loadFieldOfStudiesById(id)
+                        .then(function (result) {
+                            $scope.edit.fieldOfStudiesMinor = result.data.results;
+                        });
+                    }
+                };
+
+                $scope.edit.onEducationalInformationEditChange = function () {
+                    $scope.view.EducationalInformationEdit = !$scope.view.EducationalInformationEdit;
+                    if ($scope.view.EducationalInformationEdit) {
+                        if ($scope.studentvisitorinfo.primaryMajor)
+                            $scope.edit.searchFieldOfStudiesMajorId($scope.studentvisitorinfo.primaryMajorId);
+                        if ($scope.studentvisitorinfo.secondaryMajor)
+                            $scope.edit.searchFieldOfStudiesSecondaryId($scope.studentvisitorinfo.secondaryMajorId);
+                        if ($scope.studentvisitorinfo.minor)
+                            $scope.edit.searchFieldOfStudiesMinorId($scope.studentvisitorinfo.minorId);
+                    };
                 };
 
                 $scope.onGovtAgency1Select = function (item) {
@@ -61,26 +113,19 @@
                 };
 
                 function loadFieldOfStudies(search) {
-                    var fieldOfStudiesFilter = FilterService.add('project-participant-editSevis-fieldOfStudies');
-                    fieldOfStudiesFilter = fieldOfStudiesFilter.skip(0).take(limit);
-                    if (search) {
-                        fieldOfStudiesFilter = fieldOfStudiesFilter.like('description', search);
+                    if (search && search != '') {
+                        var fieldOfStudiesFilter = FilterService.add('project-participant-editSevis-fieldOfStudies');
+                        fieldOfStudiesFilter = fieldOfStudiesFilter.like('description', search).skip(0).take(limit);
+                        return LookupService.getSevisFieldOfStudies(fieldOfStudiesFilter.toParams())
                     }
-                    return LookupService.getSevisFieldOfStudies(fieldOfStudiesFilter.toParams())
-                    .then(function (response) {
-                        //if (response.data.total > limit) {
-                        //    var message = "The number of fieldOfStudies loaded is less than the total number.  Some fieldOfStudies may not be shown."
-                        //    NotificationService.showErrorMessage(message);
-                        //    $log.error(message);
-                        //}
-                        $scope.edit.fieldOfStudies = response.data.results;
-                        return $scope.edit.fieldOfStudies;
-                    })
-                    .catch(function (response) {
-                        var message = "Unable to load fieldOfStudies.";
-                        $log.error(message);
-                        NotificationService.showErrorMessage(message);
-                    });
+                }
+
+                function loadFieldOfStudiesById(id) {
+                    if (id) {
+                        var fieldOfStudiesFilter = FilterService.add('project-participant-editSevis-fieldOfStudiesById');
+                        fieldOfStudiesFilter = fieldOfStudiesFilter.equal('id', id).skip(0).take(1);
+                        return LookupService.getSevisFieldOfStudies(fieldOfStudiesFilter.toParams())
+                    }
                 }
 
                 function loadStudentCreations() {
@@ -125,7 +170,7 @@
 
                 loadStudentCreations();
                 loadEducationLevels();
-                //loadFieldOfStudies();
+
             }
         };
         return directive;

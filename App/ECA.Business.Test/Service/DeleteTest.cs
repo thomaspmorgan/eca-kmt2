@@ -32,7 +32,7 @@ namespace ECA.Business.Test.Service
             var delete = new Delete(user);
 
             delete.SetHistory(instance);
-            Assert.IsNull(instance.History);
+            Assert.IsNotNull(instance.History);
         }
 
         [TestMethod]
@@ -42,15 +42,18 @@ namespace ECA.Business.Test.Service
             instance.History = new History();
             var userId = 1;
             var user = new User(userId);
-            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            instance.History.RevisedOn = yesterday;
+            instance.History.CreatedOn = yesterday;
+
             var delete = new Delete(user);
 
             delete.SetHistory(instance);
             Assert.IsNotNull(instance.History);
             Assert.AreEqual(0, instance.History.CreatedBy);
-            Assert.AreEqual(0, instance.History.RevisedBy);
-            instance.History.RevisedOn.Should().NotBe(now);
-            instance.History.CreatedOn.Should().NotBe(now);
+            Assert.AreEqual(userId, instance.History.RevisedBy);
+            Assert.AreEqual(yesterday, instance.History.CreatedOn);
+            instance.History.CreatedOn.Should().BeCloseTo(yesterday, 20000);
         }
     }
 }

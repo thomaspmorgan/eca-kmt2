@@ -23,7 +23,8 @@ angular.module('staticApp')
         ConstantsService,
         NotificationService,
         TableService,
-        StateService
+        StateService,
+        orderByFilter
         ) {
 
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
@@ -32,11 +33,14 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
+      $scope.view.fiscalYearSummaries = [];
       $scope.view.moneyFlowSourceRecipientTypes = [];
       $scope.view.moneyFlowStatii = [];
       $scope.view.moneyFlowTypes = [];
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isLoadingMoneyFlows = false;
+      $scope.view.isLoadingFiscalYearSummaries = false;
+      $scope.view.showEmptyFiscalYearSummaries = false;
       $scope.view.start = 0;
       $scope.view.end = 0;
       $scope.view.total = 0;
@@ -50,6 +54,30 @@ angular.module('staticApp')
 
       //the program id, project id, etc...
       $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
+
+      $scope.view.onShowEmptyFiscalYearSummaries = function () {
+          reloadFiscalYearSummaries();
+      }
+
+      $scope.view.filterFiscalYearSummaries = function (fiscalYearSummary) {
+          if ($scope.view.showEmptyFiscalYearSummaries) {
+              return true;
+          }
+          else {
+              return !fiscalYearSummary.isEmpty;
+          }
+      }
+
+      $scope.view.getFiscalYearSummaries = function (tableState) {
+          TableService.setTableState(tableState);
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+          return loadFiscalYearSummaries(params, tableState);
+      };
 
       $scope.view.getMoneyFlows = function (tableState) {
           TableService.setTableState(tableState);
@@ -124,6 +152,7 @@ angular.module('staticApp')
               }
               moneyFlow.isSavingUpdate = false;
               moneyFlow.currentlyEditing = false;
+              reloadFiscalYearSummaries();
           })
           .catch(function () {
               var message = "Unable to update the funding line item.";
@@ -213,8 +242,16 @@ angular.module('staticApp')
                   allYears.splice(0, 0, moneyFlow.fiscalYear);
               }
           }          
-          return allYears;
+          return orderByFilter(allYears, '-');
       }
+
+      $scope.view.onReloadFiscalYearSummariesClick = function () {
+          reloadFiscalYearSummaries();
+      }
+
+      $scope.view.getScope = function () {
+          return $scope;
+      };
 
       function loadSourceMoneyFlow(moneyFlow) {
           console.assert(moneyFlow.parentMoneyFlowId, "The given money flow should have a parent id.");
@@ -261,6 +298,7 @@ angular.module('staticApp')
           modalInstance.result.then(function (newMoneyFlow) {
               $log.info('Finished adding new money flow.');
               reloadMoneyFlowTable();
+              reloadFiscalYearSummaries();
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -312,6 +350,7 @@ angular.module('staticApp')
               var index = $scope.view.moneyFlows.indexOf(moneyFlow);
               $scope.view.moneyFlows.splice(index, 1);
               NotificationService.showSuccessMessage('Successfully deleted the funding line item.');
+              reloadFiscalYearSummaries();
           })
           .catch(function (response) {
               moneyFlow.isDeleting = false;
@@ -324,6 +363,12 @@ angular.module('staticApp')
       function reloadMoneyFlowTable() {
           console.assert($scope.getMoneyFlowsTableState, "The table state function must exist.");
           $scope.view.getMoneyFlows($scope.getMoneyFlowsTableState());
+          
+      }
+
+      function reloadFiscalYearSummaries() {
+          console.assert($scope.getFiscalYearSummariesTableState, "The table state function must exist.");
+          $scope.view.getFiscalYearSummaries($scope.getFiscalYearSummariesTableState());
       }
 
       function getLookupValueById(values, id) {
@@ -446,7 +491,7 @@ angular.module('staticApp')
               NotificationService.showErrorMessage(message);
               $scope.view.isLoadingMoneyFlows = false;
           });
-      }
+      }      
 
       function getMoneyFlowServiceFunctionByTypeId(moneyFlowSourceRecipientTypeId) {
           if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
@@ -467,6 +512,46 @@ angular.module('staticApp')
           else {
               throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
           }
+      }
+
+      function getFiscalYearSummariesFunctionByTypeId(moneyFlowSourceRecipientTypeId) {
+          if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.program.id) {
+              return MoneyFlowService.getFiscalYearSummariesByProgramId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.project.id) {
+              return MoneyFlowService.getFiscalYearSummariesByProjectId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.office.id) {
+              return MoneyFlowService.getFiscalYearSummariesByOfficeId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.organization.id) {
+              return MoneyFlowService.getFiscalYearSummariesByOrganizationId;
+          }
+          else if (moneyFlowSourceRecipientTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
+              return MoneyFlowService.getFiscalYearSummariesByPersonId;
+          }
+          else {
+              throw Error('A mapping to a money flow service function for the money flow source recipient type id [' + moneyFlowSourceRecipientTypeId + '] does not exist.');
+          }
+      }
+
+      function loadFiscalYearSummaries(params, tableState) {
+          $scope.view.isLoadingFiscalYearSummaries = true;
+          var entityId = $scope.view.entityId;
+          var fn = getFiscalYearSummariesFunctionByTypeId($scope.sourceEntityTypeId)
+          return fn(entityId)
+          .then(function (response) {
+              $scope.view.isLoadingFiscalYearSummaries = false;
+              $scope.view.fiscalYearSummaries = response.data;
+              return $scope.view.fiscalYearSummaries;
+          })
+          .catch(function (response) {
+              $scope.view.isLoadingFiscalYearSummaries = false;
+              var message = "Unable to load fiscal year summaries.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+
       }
 
 
@@ -490,13 +575,14 @@ angular.module('staticApp')
                     $log.error('Unable to load user permissions.');
                 });
           }
-          else {
-              $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
+          else {              
               var dfd = $q.defer();
               if ($state.current.name === StateService.stateNames.moneyflow.person) {
+                  $log.info('Moneyflow object is a person, therefore, edit permission is denied.');
                   notAuthorizedCallback();
               }
               else {
+                  $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
                   hasEditPermissionCallback();
               }
 

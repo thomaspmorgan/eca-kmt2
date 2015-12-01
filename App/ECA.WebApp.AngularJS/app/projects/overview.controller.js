@@ -67,7 +67,4 @@ angular.module('staticApp')
                   $scope.view.isLoading = false;
               });
       });
-
-      
-      
   });

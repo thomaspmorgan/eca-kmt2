@@ -17,16 +17,18 @@ namespace ECA.Business.Service.Persons
         /// Updates a Language Proficiency for a person
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="newLanguageId">The Id of the new Language Proficiency</param>
         /// <param name="personId"></param>
         /// <param name="languageId"></param>
         /// <param name="nativeLanguageInd"></param>
         /// <param name="speakingProficiency"></param>
         /// <param name="readingProficiency"></param>
         /// <param name="comprehensionProficiency"></param>
-        public UpdatedPersonLanguageProficiency(User updator, int personId, int languageId, bool isNativeLanguage, 
+        public UpdatedPersonLanguageProficiency(User updator, int? newLanguageId, int personId, int languageId, bool isNativeLanguage, 
             int speakingProficiency, int readingProficiency, int comprehensionProficiency )
         {
             Contract.Requires(updator != null, "The updator must not be null.");
+            this.NewLanguageId = newLanguageId;
             this.PersonId = personId;
             this.LanguageId = languageId;
             this.IsNativeLanguage = isNativeLanguage;
@@ -35,6 +37,11 @@ namespace ECA.Business.Service.Persons
             this.ComprehensionProficiency = comprehensionProficiency;
             this.Update = new Update(updator);
         }
+
+        /// <summary>
+        /// The Id of the language proficiency
+        /// </summary>
+        public int? NewLanguageId { get; set; }
 
         /// <summary>
         /// Gets/sets the person id.

@@ -1,5 +1,14 @@
 ﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
+		dataPointCategory: {
+			office: {id: 1, value: "Office"},
+			program: {id: 2, value: "Program"},
+			project: {id: 3, value: "Project"}
+		},
+		dataPointProperty: {
+			themes: {id: 1, value: "Themes"},
+			goals: {id: 2, value: "Goals"}
+		},
 		emailAddressType: {
 			home: {id: 1, value: "Home"},
 			homeEmergency: {id: 2, value: "Home Emergency"},
@@ -26,7 +35,7 @@
 			program: {id: 2, value: "Program"},
 			project: {id: 3, value: "Project"},
 			participant: {id: 4, value: "Participant"},
-			itineraryStop: {id: 5, value: "Travel Stop"},
+			travelStop: {id: 5, value: "Travel Stop"},
 			accomodation: {id: 6, value: "Accomodation"},
 			transportation: {id: 7, value: "Transportation"},
 			expense: {id: 8, value: "Expense"},
@@ -43,21 +52,24 @@
 			other: {id: 7, value: "Other"},
 			publicInternationalOrganizationPio: {id: 8, value: "Public International Organization (PIO)"},
 			uSEducationalInstitution: {id: 9, value: "U.S. Educational Institution"},
-			uSNonProfitOrganization501C3: {id: 10, value: "U.S. Non-Profit Organization (501(c)(3))"}
+			uSNonProfitOrganization501C3: {id: 10, value: "U.S. Non-Profit Organization (501(c)(3))"},
+			uSFederalGovernment: {id: 11, value: "U.S. Federal Government"},
+			uSStateOrLocalGovernment: {id: 12, value: "U.S. State or Local Government"},
+			internationalOrganization: {id: 13, value: "International Organization"},
+			uSCompany: {id: 14, value: "U.S. Company"},
+			foreignCompany: {id: 15, value: "Foreign Company"},
+			bilateralCommission: {id: 16, value: "Bilateral Commission"},
+			uSEmbassyAmericanSpace: {id: 17, value: "U.S. Embassy/American Space"}
 		},
 		participantType: {
-			foreignEducationalInstitution: {id: 1, value: "Foreign Educational Institution"},
-			foreignGovernment: {id: 2, value: "Foreign Government"},
-			uSEducationalInstitution: {id: 3, value: "U.S. Educational Institution"},
-			publicInternationalOrganizationPio: {id: 4, value: "Public International Organization (PIO)"},
-			uSNonProfitOrganization501C3: {id: 5, value: "U.S. Non-Profit Organization (501(c)(3))"},
+			organizationalParticipant: {id: 1, value: "Organizational Participant"},
 			individual: {id: 6, value: "Individual"},
-			foreignNgoPvo: {id: 7, value: "Foreign NGO/PVO"},
-			other: {id: 8, value: "Other"},
-			foreignNonTravelingParticipant: {id: 9, value: "Foreign Non Traveling Participant"},
-			uSNonTravelingParticipant: {id: 10, value: "U.S. Non Traveling Participant"},
-			foreignTravelingParticipant: {id: 11, value: "Foreign Traveling Participant"},
-			uSTravelingParticipant: {id: 12, value: "U.S. Traveling Participant"}
+			otherOrganization: {id: 8, value: "Other Organization"},
+			other: {id: 9, value: "Other"},
+			foreignNonTravelingParticipant: {id: 10, value: "Foreign Non Traveling Participant"},
+			uSNonTravelingParticipant: {id: 11, value: "U.S. Non Traveling Participant"},
+			foreignTravelingParticipant: {id: 12, value: "Foreign Traveling Participant"},
+			uSTravelingParticipant: {id: 13, value: "U.S. Traveling Participant"}
 		},
 		permission: {
 			viewOffice: {id: 1, value: "View Office"},
@@ -75,7 +87,9 @@
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
 			work: {id: 2, value: "Work"},
-			cell: {id: 3, value: "Cell"}
+			cell: {id: 3, value: "Cell"},
+			visiting: {id: 4, value: "Visiting"},
+			undetermined: {id: 5, value: "Undetermined"}
 		},
 		programStatus: {
 			active: {id: 1, value: "Active"},
@@ -95,7 +109,10 @@
 			activeUseActuals: {id: 8, value: "Active - Use Actuals"},
 			projectPostponed: {id: 9, value: "Project Postponed"},
 			proposed: {id: 10, value: "Proposed"},
-			rejected: {id: 11, value: "Rejected"}
+			rejected: {id: 11, value: "Rejected"},
+			nominated: {id: 12, value: "Nominated"},
+			transferred: {id: 13, value: "Transferred"},
+			waitlisted: {id: 14, value: "Waitlisted"}
 		},
 		resourceType: {
 			application: {id: 1, value: "Application"},

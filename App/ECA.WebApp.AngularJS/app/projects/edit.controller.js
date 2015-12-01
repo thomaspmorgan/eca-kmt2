@@ -54,6 +54,7 @@ angular.module('staticApp')
       $scope.editView.categories = [];
       $scope.editView.objectives = [];
       $scope.editView.locations = [];
+      $scope.editView.regions = [];
 
       $scope.editView.selectedPointsOfContact = [];
       $scope.editView.selectedGoals = [];
@@ -61,6 +62,7 @@ angular.module('staticApp')
       $scope.editView.selectedCategories = [];
       $scope.editView.selectedObjectives = [];
       $scope.editView.selectedLocations = [];
+      $scope.editView.selectedRegions = [];
 
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
@@ -114,6 +116,10 @@ angular.module('staticApp')
           loadLocations(data);
       }
 
+      $scope.editView.searchRegions = function (data) {
+          loadRegions(data);
+      }
+
       $scope.editView.removeLocations = function () {
           $scope.$parent.project.locationIds = [];
       }
@@ -160,7 +166,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/locations/search-locations.html',
               controller: 'SearchLocationsCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               resolve: {}
           });
 
@@ -179,7 +185,7 @@ angular.module('staticApp')
                       $scope.editView.selectedLocations.push(selectedLocation);
                   }
               });
-              
+
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -304,6 +310,12 @@ angular.module('staticApp')
           updateRelationshipIds(propertyName, 'selectedLocations');
       }
 
+      function updateRegions() {
+          var propertyName = "regionIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedRegions');
+      }
+
       function saveProject($event) {
           $scope.editView.isSaving = true;
           $scope.editView.saveFailed = false;
@@ -315,6 +327,7 @@ angular.module('staticApp')
           updateCategories();
           updateObjectives();
           updateLocations();
+          updateRegions();
           disableProjectStatusButton();
           $scope.$parent.hideProjectEditCancelButton();
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
@@ -403,6 +416,12 @@ angular.module('staticApp')
           var locationsName = 'locations';
           normalizeLookupProperties($scope.$parent.project[locationsName]);
           setSelectedItems(locationsName, 'selectedLocations');
+      }
+
+      function setSelectedRegions() {
+          var regionsName = 'regions';
+          normalizeLookupProperties($scope.$parent.project[regionsName]);
+          setSelectedItems(regionsName, 'selectedRegions');
       }
 
       function normalizeLookupProperties(lookups) {
@@ -518,6 +537,7 @@ angular.module('staticApp')
           locationsFilter.reset();
           locationsFilter = locationsFilter.skip(0).take(10)
             .notEqual('locationTypeId', ConstantsService.locationType.address.id)
+            .isTrue('isActive')
             .isNotNull('name')
             .sortBy('name');
           if ($scope.editView.selectedLocations.length > 0) {
@@ -539,6 +559,36 @@ angular.module('staticApp')
               .catch(function () {
                   $log.error('Unable to load locations.');
                   NotificationService.showErrorMessage('Unable to load locations.');
+              });
+      }
+
+      var regionsFilter = FilterService.add('projectedit_regions');
+      function loadRegions(search) {
+          regionsFilter.reset();
+          regionsFilter = regionsFilter.skip(0).take(10)
+            .equal('locationTypeId', ConstantsService.locationType.region.id)
+            .isTrue('isActive')
+            .isNotNull('name')
+            .sortBy('name');
+          if ($scope.editView.selectedRegions.length > 0) {
+              regionsFilter = regionsFilter.notIn('id', $scope.editView.selectedRegions.map(function (l) { return l.id; }));
+          }
+          if (search) {
+              regionsFilter = regionsFilter.like('name', search);
+          }
+          return LocationService.get(regionsFilter.toParams())
+              .then(function (response) {
+                  angular.forEach(response.results, function (result, index) {
+                      if (!result.name) {
+                          result.name = 'UNKNOWN';
+                      }
+                  });
+                  normalizeLookupProperties(response.results);
+                  $scope.editView.regions = response.results;
+              })
+              .catch(function () {
+                  $log.error('Unable to load regions.');
+                  NotificationService.showErrorMessage('Unable to load regions.');
               });
       }
 
@@ -608,6 +658,7 @@ angular.module('staticApp')
               setSelectedCategories();
               setSelectedObjectives();
               setSelectedLocations();
+              setSelectedRegions();
               showProjectEditCancelButton();
               $scope.editView.isLoading = false;
           })

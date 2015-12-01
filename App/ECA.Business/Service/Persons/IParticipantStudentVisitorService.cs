@@ -70,5 +70,13 @@ namespace ECA.Business.Service.Persons
         /// <returns>The task.</returns>
         Task<ParticipantStudentVisitorDTO> UpdateAsync(UpdatedParticipantStudentVisitor updatedPersonStudentVisitor);
 
+        /// <summary>
+        /// Creates a new participant student visitor record
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <param name="creator"></param>
+        /// <returns></returns>
+        Task CreateParticipantStudentVisitor(int participantId, User creator);
+
     }
 }

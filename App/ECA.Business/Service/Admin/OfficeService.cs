@@ -397,6 +397,17 @@ namespace ECA.Business.Service.Admin
             var settingDtos = await GetSettingsAsync(officeId);
             return DoGetOfficeSettings(settingDtos);
         }
+
+        /// <summary>
+        /// Returns all data point configurations for the specified office
+        /// </summary>
+        /// <param name="officeId">The office id</param>
+        /// <returns>List of data point configurations</returns>
+        public Task<List<DataPointConfigurationDTO>> GetOfficeDataPointConfigurationsAsync(int officeId)
+        {
+            var dataPointConfigurationDtos = OfficeQueries.CreateGetOfficeDataPointConfigurationsDTOByOfficeIdQuery(this.Context, officeId).ToListAsync();
+            return dataPointConfigurationDtos;
+        }
         #endregion
     }
 }

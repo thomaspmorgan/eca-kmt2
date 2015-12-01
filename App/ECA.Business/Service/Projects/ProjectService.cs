@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Projects;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
@@ -284,7 +285,6 @@ namespace ECA.Business.Service.Projects
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
-                Regions = program.Regions,
             };
             draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);
@@ -328,8 +328,9 @@ namespace ECA.Business.Service.Projects
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
 
-            var locationsExist = CheckAllLocationsExist(updatedProject.LocationIds);
-            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", updatedProject.LocationIds));
+            var allLocationIds = updatedProject.LocationIds.Union(updatedProject.RegionIds);
+            var locationsExist = CheckAllLocationsExist(allLocationIds);
+            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", allLocationIds));
 
             var themesExist = CheckAllThemesExist(updatedProject.ThemeIds);
             this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
@@ -356,6 +357,12 @@ namespace ECA.Business.Service.Projects
             var allowedObjectiveIds = CreateGetAllowedObjectiveIdsQuery(office.OrganizationId).ToList();
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
+            var newInactiveLocationIds = GetNewInactiveProjectLocations(updatedProject.ProjectId, updatedProject.LocationIds).Select(x => x.LocationId).ToList();
+            this.logger.Trace("Loaded locations that were not previously set on the project and are inactive.");
+
+            var regionLocationTypeIds = LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionIds.ToList()).ToList();
+            this.logger.Trace("Loaded region location types.");
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -368,6 +375,8 @@ namespace ECA.Business.Service.Projects
                 allowedObjectiveIds: allowedObjectiveIds,
                 categoriesExist: categoriesExist,
                 objectivesExist: objectivesExist,
+                newInactiveLocationIds: newInactiveLocationIds,
+                regionLocationTypeIds: regionLocationTypeIds,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
             DoUpdate(updatedProject, projectToUpdate);
@@ -386,8 +395,9 @@ namespace ECA.Business.Service.Projects
             }
             this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
 
-            var locationsExist = await CheckAllLocationsExistAsync(updatedProject.LocationIds);
-            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", updatedProject.LocationIds));
+            var allLocationIds = updatedProject.LocationIds.Union(updatedProject.RegionIds);
+            var locationsExist = await CheckAllLocationsExistAsync(allLocationIds);
+            this.logger.Trace("Checked all locations with id {0} existed.", String.Join(", ", allLocationIds));
 
             var themesExist = await CheckAllThemesExistAsync(updatedProject.ThemeIds);
             this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
@@ -414,6 +424,12 @@ namespace ECA.Business.Service.Projects
             var allowedObjectiveIds = await CreateGetAllowedObjectiveIdsQuery(office.OrganizationId).ToListAsync();
             this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
 
+            var newInactiveLocationIds = await GetNewInactiveProjectLocations(updatedProject.ProjectId, updatedProject.LocationIds).Select(x => x.LocationId).ToListAsync();
+            this.logger.Trace("Loaded locations that were not previously set on the project and are inactive.");
+
+            var regionLocationTypeIds = await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionIds.ToList()).ToListAsync();
+            this.logger.Trace("Loaded region location types.");
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -426,6 +442,8 @@ namespace ECA.Business.Service.Projects
                 allowedObjectiveIds: allowedObjectiveIds,
                 categoriesExist: categoriesExist,
                 objectivesExist: objectivesExist,
+                newInactiveLocationIds: newInactiveLocationIds,
+                regionLocationTypeIds: regionLocationTypeIds,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
             DoUpdate(updatedProject, projectToUpdate);
@@ -441,6 +459,7 @@ namespace ECA.Business.Service.Projects
             SetCategories(updatedProject.CategoryIds.ToList(), projectToUpdate);
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
             SetLocations<Project>(updatedProject.LocationIds.ToList(), x => x.Locations, projectToUpdate);
+            SetRegions(updatedProject.RegionIds.ToList(), projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;
@@ -465,6 +484,8 @@ namespace ECA.Business.Service.Projects
             int numberOfObjectives,
             List<int> allowedCategoryIds,
             List<int> allowedObjectiveIds,
+            List<int> newInactiveLocationIds,
+            List<int> regionLocationTypeIds,
             OfficeSettings settings)
         {
             return new ProjectServiceUpdateValidationEntity(
@@ -480,7 +501,9 @@ namespace ECA.Business.Service.Projects
                 numberOfObjectives: numberOfObjectives,
                 officeSettings: settings,
                 allowedCategoryIds: allowedCategoryIds,
-                allowedObjectiveIds: allowedObjectiveIds
+                allowedObjectiveIds: allowedObjectiveIds,
+                regionLocationTypeIds: regionLocationTypeIds,
+                newInactiveLocations: newInactiveLocationIds
                 );
         }
         #endregion
@@ -617,7 +640,6 @@ namespace ECA.Business.Service.Projects
                 .Include(x => x.Themes)
                 .Include(x => x.Goals)
                 .Include(x => x.Contacts)
-                .Include(x => x.Regions)
                 .Include(x => x.Categories)
                 .Include(x => x.Objectives)
                 .Where(x => x.ProgramId == programId);
@@ -637,6 +659,6 @@ namespace ECA.Business.Service.Projects
         private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int officeId)
         {
             return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTByOfficeIdOQuery(this.Context, officeId).Select(x => x.Id);
-        }
+        }        
     }
 }

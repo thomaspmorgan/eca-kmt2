@@ -76,6 +76,11 @@ namespace ECA.WebApi.Models.Projects
         public IEnumerable<int> LocationIds { get; set; }
 
         /// <summary>
+        /// The region ids.
+        /// </summary>
+        public IEnumerable<int> RegionIds { get; set; }
+
+        /// <summary>
         /// The start date of the project.
         /// </summary>
         public DateTimeOffset StartDate { get; set; }
@@ -104,6 +109,7 @@ namespace ECA.WebApi.Models.Projects
                 categoryIds: this.CategoryIds,
                 objectiveIds: this.ObjectiveIds,
                 locationIds: this.LocationIds,
+                regionIds: this.RegionIds,
                 startDate: this.StartDate,
                 endDate: this.EndDate);
         }

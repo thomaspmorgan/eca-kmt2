@@ -58,7 +58,7 @@
                             <ui-select-match placeholder="Select a home institution..." allow-clear="true">
                                 {{$select.selected.name}}
                             </ui-select-match>
-                            <ui-select-choices repeat="org.organizationId as org in view.homeInstitutions track by org.organizationId"
+                            <ui-select-choices repeat="org.organizationId as org in view.homeInstitutions"
                                                refresh="view.loadHomeInstitutions($select.search)">
                                 <div ng-bind-html="org.name | highlight: $select.search"></div>
                             </ui-select-choices>
@@ -67,11 +67,13 @@
                                    ng-model="view.selectedHomeInstitutionAddresses"
                                    on-select="view.onSelectHomeInstitutionAddress($item, $model)"
                                    on-remove="view.onRemoveHomeInstitutionAddress($item, $model)"
-                                   limit="1"
                                    style="margin-top:20px;"
                                    theme="select2">
                             <ui-select-match placeholder="Select 1 home institution address...">
                                 <div>
+                                    <div>
+                                        {{$item.addressType}}<span ng-show="$item.isPrimary" style="margin-left:10px;">(Primary)</span>
+                                    </div>
                                     <div ng-show="$item.street1">
                                         {{$item.street1}}
                                     </div>
@@ -92,7 +94,10 @@
                                     </div>
                                 </div>
                             </ui-select-match>
-                            <ui-select-choices repeat="address.addressId as address in view.homeInstitutionAddresses track by address.addressId">
+                            <ui-select-choices repeat="address.addressId as address in view.homeInstitutionAddresses">
+                                <div>
+                                    {{address.addressType}}<span ng-show="address.isPrimary" style="margin-left:10px;">(Primary)</span>
+                                </div>
                                 <div ng-show="address.street1">
                                     {{address.street1}}
                                 </div>
@@ -124,7 +129,7 @@
                             <ui-select-match placeholder="Select a host institution..." allow-clear="true">
                                 {{$select.selected.name}}
                             </ui-select-match>
-                            <ui-select-choices repeat="org.organizationId as org in view.hostInstitutions track by org.organizationId"
+                            <ui-select-choices repeat="org.organizationId as org in view.hostInstitutions"
                                                refresh="view.loadHostInstitutions($select.search)">
                                 <div ng-bind-html="org.name | highlight: $select.search"></div>
                             </ui-select-choices>
@@ -134,11 +139,13 @@
                                    ng-model="view.selectedHostInstitutionAddresses"
                                    on-select="view.onSelectHostInstitutionAddress($item, $model)"
                                    on-remove="view.onRemoveHostInstitutionAddress($item, $model)"
-                                   limit="1"
                                    style="margin-top:20px;"
                                    theme="select2">
                             <ui-select-match placeholder="Select 1 host institution address...">
                                 <div>
+                                    <div>
+                                        {{$item.addressType}}<span ng-show="$item.isPrimary" style="margin-left:10px;">(Primary)</span>
+                                    </div>
                                     <div ng-show="$item.street1">
                                         {{$item.street1}}
                                     </div>
@@ -159,7 +166,10 @@
                                     </div>
                                 </div>
                             </ui-select-match>
-                            <ui-select-choices repeat="address.addressId as address in view.hostInstitutionAddresses track by address.addressId">
+                            <ui-select-choices repeat="address.addressId as address in view.hostInstitutionAddresses">
+                                <div>
+                                    {{address.addressType}}<span ng-show="address.isPrimary" style="margin-left:10px;">(Primary)</span>
+                                </div>
                                 <div ng-show="address.street1">
                                     {{address.street1}}
                                 </div>
@@ -217,6 +227,9 @@
                 <div class="col-md-8" ng-show="view.participantPerson.homeInstitution">
                     <a ng-show="view.participantPerson.homeInstitution.href" href="{{view.participantPerson.homeInstitution.href}}">{{view.participantPerson.homeInstitution.name}}</a>
                     <div style="margin-top:10px;">
+                        <div ng-show="view.participantPerson.homeInstitutionAddress.addressType">
+                            {{view.participantPerson.homeInstitutionAddress.addressType}}<span ng-show="view.participantPerson.homeInstitutionAddress.isPrimary" style="margin-left:10px;">(Primary)</span>
+                        </div>
                         <div ng-show="view.participantPerson.homeInstitutionAddress.street1">
                             {{view.participantPerson.homeInstitutionAddress.street1}}
                         </div>
@@ -246,6 +259,9 @@
                 <div class="col-md-8" ng-show="view.participantPerson.hostInstitution">
                     <a ng-show="view.participantPerson.hostInstitution.href" href="{{view.participantPerson.hostInstitution.href}}">{{view.participantPerson.hostInstitution.name}}</a>
                     <div style="margin-top:20px;">
+                        <div ng-show="view.participantPerson.hostInstitutionAddress.addressType">
+                            {{view.participantPerson.hostInstitutionAddress.addressType}}<span ng-show="view.participantPerson.hostInstitutionAddress.isPrimary" style="margin-left:10px;">  (Primary)</span>
+                        </div>
                         <div ng-show="view.participantPerson.hostInstitutionAddress.street1">
                             {{view.participantPerson.hostInstitutionAddress.street1}}
                         </div>

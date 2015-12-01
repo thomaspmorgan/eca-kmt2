@@ -26,7 +26,12 @@ namespace ECA.Business.Service
         /// <param name="historicalEntity">The historical entity.</param>
         public override void SetHistory(IHistorical historicalEntity)
         {
-           
+            if(historicalEntity.History == null)
+            {
+                historicalEntity.History = new History();
+            }
+            historicalEntity.History.RevisedBy = this.User.Id;
+            historicalEntity.History.RevisedOn = this.Date;
         }
     }
 }

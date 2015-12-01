@@ -11,7 +11,7 @@ angular.module('staticApp')
   .factory('LogoutEventService', function ($rootScope, $q, AuthService, ConstantsService) {      
       var service = {};
       $rootScope.$on(ConstantsService.logoutEventName, function (event, data) {
-          $q.when(AuthService.logOut());
+          return AuthService.logOut();
       });
       return service;
   });

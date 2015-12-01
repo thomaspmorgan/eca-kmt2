@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        MessageBox,
         StateService,
         OrganizationService,
         PersonService,
@@ -50,7 +51,6 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = false;
-      $scope.view.isLoadingParticipantInfo = false;
 
       $scope.view.sevisCommStatuses = null;
 
@@ -65,8 +65,20 @@ angular.module('staticApp')
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
+      $scope.permissions.editProject = false;
       var projectId = $stateParams.projectId;
 
+      $scope.view.onDeleteParticipantClick = function (participant) {
+          MessageBox.confirm({
+              title: 'Confirm',
+              message: 'Are you sure you wish to delete the participant named ' + participant.name + '.',
+              okText: 'Yes',
+              cancelText: 'No',
+              okCallback: function () {
+                  deleteParticipant(participant, projectId);
+              }
+          });
+      };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
           var clientModel = {
@@ -80,6 +92,24 @@ angular.module('staticApp')
               clientModel.organizationId = $item.organizationId;
           }
           addParticipant(clientModel);
+      }
+
+      function deleteParticipant(participant, projectId) {
+          $scope.participantInfo[participant.participantId] = $scope.participantInfo[participant.participantId] || {};
+          $scope.participantInfo[participant.participantId].isDeleting = true;
+          return ParticipantService.deleteParticipant(participant.participantId, projectId)
+          .then(function (response) {
+              $scope.participantInfo[participant.participantId].isDeleting = false;
+              delete $scope.participantInfo[participant.participantId];
+              NotificationService.showSuccessMessage("Successfully deleted the participant " + participant.name + '.');
+              reloadParticipantTable();
+          })
+          .catch(function (response) {
+              $scope.participantInfo[participant.participantId].isDeleting = false;
+              var message = "Unable to delete the participant.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          })
       }
 
       function addParticipant(clientModel) {
@@ -212,11 +242,21 @@ angular.module('staticApp')
           config[ConstantsService.permission.projectOwner.value] = {
               hasPermission: function () {
                   $scope.permissions.isProjectOwner = true;
-                  $log.info('User has project owner permission in collaborator.js controller.');
+                  $log.info('User has project owner permission in project-participant.controller.js.');
               },
               notAuthorized: function () {
                   $scope.permissions.isProjectOwner = false;
-                  $log.info('User not authorized to manage project collaborators in collaborator.js controller.');
+                  $log.info('User not authorized to project ownership in project-participant.controller.js.');
+              }
+          };
+          config[ConstantsService.permission.editProject.value] = {
+              hasPermission: function () {
+                  $scope.permissions.editProject = true;
+                  $log.info('User has edit project permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $scope.permissions.editProject = false;
+                  $log.info('User not authorized to edit project in project-participant.controller.js.');
               }
           };
           return AuthService.getResourcePermissions(resourceType, projectId, config)
@@ -339,6 +379,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
+              $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           }, function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
@@ -348,6 +389,36 @@ angular.module('staticApp')
 
       $scope.saveSevisInfo = function (participantId) {
           saveSevisInfoById(participantId);
+      };
+
+      $scope.validateSevisInfo = function () {
+          var sevisInfo = $scope.sevisInfo[participantId];
+          return ParticipantPersonsSevisService.validateParticipantPersonsSevis(sevisInfo)
+          .then(function (data) {
+              $log.error('Validated participant SEVIS info for participantId: ' + participantId);
+              $scope.errorInfo = data.data;
+              $scope.warningInfo = data.data;
+          }, function (error) {
+              $log.error('Unable to validate participant SEVIS info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to validate participant SEVIS info for participant: ' + participantId + '.');
+          });
+      };
+
+      function saveStudentVisitorById(participantId) {
+          var studentVisitorInfo = $scope.studentVisitorInfo[participantId];
+          return ParticipantStudentVisitorService.updateParticipantStudentVisitor(studentVisitorInfo)
+          .then(function (data) {
+              NotificationService.showSuccessMessage('Participant student visitor info saved successfully.');
+              $scope.studentVisitorInfo[participantId] = data.data;
+              $scope.studentVisitorInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant studdent visitor info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to save participant student visitor info for participant: ' + participantId + '.');
+          });
+      };
+
+      $scope.saveStudentVisitorInfo = function (participantId) {
+          saveStudentVisitorById(participantId);
       };
 
       $scope.onSevisTabSelected = function (participantId) {

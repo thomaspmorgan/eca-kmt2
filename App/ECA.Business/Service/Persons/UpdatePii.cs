@@ -32,8 +32,10 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="isDateOfBirthUnknown">True if date of birth is unknown</param>
         /// <param name="countriesOfCitizenship">The coutries of citizenship</param>
+        /// <param name="isPlaceOfBirthUnknown">The city of birth is unknown</param>
         /// <param name="medicalConditions">The medical conditions</param>
         /// <param name="maritalStatusId">The marital status id</param>
+        /// <param name="isDateOfBirthEstimated">Is the data of birth estimated.</param>
         public UpdatePii(
             User updatedBy,
             int personId,
@@ -51,6 +53,7 @@ namespace ECA.Business.Service.Persons
             int? cityOfBirthId,
             DateTime? dateOfBirth,
             bool? isDateOfBirthUnknown,
+            bool? isDateOfBirthEstimated,
             List<int> countriesOfCitizenship,
             bool? isPlaceOfBirthUnknown,
             string medicalConditions,
@@ -77,6 +80,7 @@ namespace ECA.Business.Service.Persons
             this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
             this.MedicalConditions = medicalConditions;
             this.MaritalStatusId = maritalStatusId;
+            this.IsDateOfBirthEstimated = isDateOfBirthEstimated;
             this.Audit = new Create(updatedBy);
         }
 
@@ -149,6 +153,11 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the place of birth unknown flag.
         /// </summary>
         public bool? IsPlaceOfBirthUnknown { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date of birth estimated.
+        /// </summary>
+        public bool? IsDateOfBirthEstimated { get; private set; }
 
         /// <summary>
         /// Gets or sets the date of birth

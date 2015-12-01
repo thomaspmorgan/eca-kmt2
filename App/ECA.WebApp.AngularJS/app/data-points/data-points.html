@@ -1,0 +1,168 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Required Data for <strong>{{resourceName}}</strong></h3>
+    <p>Checked boxes are considered required <strong>Data Points</strong> within their respective sections.</p>
+</div>
+<div class="modal-body">
+    <div class="list2">
+        <div class="row">
+            <div class="col-md-11">
+                <h4>Office</h4>
+            </div>
+            <div class="col-md-1">
+                <a ng-click="showOfficeSection = !showOfficeSection">
+                    <i class="material-icons md-36" ng-show="showOfficeSection">expand_more</i>
+                    <i class="material-icons md-36" ng-show="!showOfficeSection">expand_less</i>
+                </a>
+            </div>
+        </div>
+        <div class="row" ng-show="showOfficeSection">
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Themes
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Goals
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <h4>Program</h4>
+            </div>
+            <div class="col-md-1">
+                <a ng-click="showProgramSection = !showProgramSection">
+                    <i class="material-icons md-36" ng-show="showProgramSection">expand_more</i>
+                    <i class="material-icons md-36" ng-show="!showProgramSection">expand_less</i>
+                </a>
+            </div>
+        </div>
+        <div class="row" ng-show="showProgramSection">
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Themes
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Goals
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Regions
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Category/Focus
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Objective/Justification
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <h4>Project</h4>
+            </div>
+            <div class="col-md-1">
+                <a ng-click="showProjectSection = !showProjectSection">
+                    <i class="material-icons md-36" ng-show="showProjectSection">expand_more</i>
+                    <i class="material-icons md-36" ng-show="!showProjectSection">expand_less</i>
+                </a>
+            </div>
+        </div>
+        <div class="row" ng-show="showProjectSection">
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Themes
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Goals
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Locations
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Category/Focus
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Objective/Justification
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <h4>Person</h4>
+            </div>
+            <div class="col-md-1">
+                <a ng-click="showPersonSection = !showPersonSection">
+                    <i class="material-icons md-36" ng-show="showPersonSection">expand_more</i>
+                    <i class="material-icons md-36" ng-show="!showPersonSection">expand_less</i>
+                </a>
+            </div>
+        </div>
+        <div class="row" ng-show="showPersonSection">
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Surname / Primary Name
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> First / Given Name
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Gender
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Country of Residence
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Address
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Email
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Language Proficiencies
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Phone Number
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="checkbox-inline">
+                    <input type="checkbox" /> Interests
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="close()">Close</button>
+</div>

@@ -17,7 +17,6 @@ angular.module('staticApp')
         LookupService,
         EmailAddressService,
         ConstantsService,
-        LocationService,
         PersonService,
         NotificationService) {
 

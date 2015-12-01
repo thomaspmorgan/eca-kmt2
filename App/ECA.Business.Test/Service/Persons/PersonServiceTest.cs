@@ -181,7 +181,8 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 Gender = gender,
                 DateOfBirth = DateTime.Now,
-                IsDateOfBirthUnknown = false,
+                IsDateOfBirthUnknown = true,
+                IsDateOfBirthEstimated = true,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NamePrefix = "namePrefix",
@@ -219,6 +220,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.Alias, serviceResult.Alias);
                 Assert.AreEqual(person.Ethnicity, serviceResult.Ethnicity);
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
+                Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
+                Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
             };
 
             var result = this.service.GetPiiById(person.PersonId);
@@ -1621,7 +1624,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync()
         {
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                          Gender.Male.Id, DateTime.Now, false, 1,
+                                          Gender.Male.Id, DateTime.Now, false, false, 1,
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
 
@@ -1629,6 +1632,19 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(newPerson.LastName, person.LastName);
             Assert.AreEqual(newPerson.Gender, person.GenderId);
             Assert.AreEqual(newPerson.DateOfBirth, person.DateOfBirth);
+
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_DateOfBirthIsEstimated()
+        {
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
+                                          Gender.Male.Id, DateTime.Now, false, true, 1,
+                                          new List<int>());
+            var person = await service.CreateAsync(newPerson);
+            Assert.IsTrue(newPerson.IsDateOfBirthEstimated.HasValue);
+            Assert.IsTrue(newPerson.IsDateOfBirthEstimated.Value);
+            Assert.AreEqual(newPerson.IsDateOfBirthEstimated, person.IsDateOfBirthEstimated);
 
         }
 
@@ -1643,7 +1659,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(city);
 
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                        Gender.Male.Id, DateTime.Now, false, city.LocationId,
+                                        Gender.Male.Id, DateTime.Now, false, false, city.LocationId,
                                         new List<int>());
             var person = await service.CreateAsync(newPerson);
             Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
@@ -1661,7 +1677,7 @@ namespace ECA.Business.Test.Service.Persons
 
             List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
             var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, false, 1,
+                                         Gender.Male.Id, DateTime.Now, false, false, 1,
                                          countriesOfCitizenship);
             var person = await service.CreateAsync(newPerson);
             CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
@@ -1679,7 +1695,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
             var participantTypeId = ParticipantType.Individual.Id;
             var newPerson = new NewPerson(new User(0), project.ProjectId, participantTypeId, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, false, 1,
+                                         Gender.Male.Id, DateTime.Now, false, false, 1,
                                          new List<int>());
             var person = await service.CreateAsync(newPerson);
             // Check that participant is associated to person
@@ -1694,7 +1710,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, false, 1, new List<int>());
+            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, false, false, 1, new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNull(person);
         }
@@ -1714,7 +1730,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1735,7 +1751,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1757,7 +1773,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), false, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), false, false, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -1796,6 +1812,7 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     false,
+                                    false,
                                     new List<int>(),
                                     false,
                                     "medicalConditions",
@@ -1813,6 +1830,46 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(pii.Ethnicity, updatedPerson.Ethnicity);
             Assert.AreEqual(pii.DateOfBirth, updatedPerson.DateOfBirth);
             Assert.AreEqual(pii.MedicalConditions, updatedPerson.MedicalConditions);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckDateOfBirthIsEstimated()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            context.People.Add(person);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int),
+                                    DateTime.Now,
+                                    false,
+                                    true,
+                                    new List<int>(),
+                                    false,
+                                    "medicalConditions",
+                                    default(int));
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.IsTrue(updatedPerson.IsDateOfBirthEstimated.HasValue);
+            Assert.IsTrue(updatedPerson.IsDateOfBirthEstimated.Value);
         }
 
         [TestMethod]
@@ -1851,6 +1908,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     default(int),
                                     DateTime.Now,
+                                    false,
                                     false,
                                     new List<int>(),
                                     false,
@@ -1896,6 +1954,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "ethnicity",
                                     placeOfBirth.LocationId,
                                     DateTime.Now,
+                                    false,
                                     false,
                                     new List<int>(),
                                     false,
@@ -1945,6 +2004,7 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     false,
+                                    false,
                                     countriesOfCitizenship,
                                     false,
                                     "medicalConditions",
@@ -1992,6 +2052,7 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     false,
+                                    false,
                                     new List<int>(),
                                     false,
                                     "medicalConditions",
@@ -2036,6 +2097,7 @@ namespace ECA.Business.Test.Service.Persons
                                     default(int),
                                     DateTime.Now,
                                     false,
+                                    false,
                                     new List<int>(),
                                     false,
                                     "medicalConditions",
@@ -2044,7 +2106,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EcaBusinessException), "The person already exists.")]
         public async Task TestUpdatePiiAsync_CheckDuplicate()
         {
             var gender = new Gender
@@ -2097,11 +2158,16 @@ namespace ECA.Business.Test.Service.Persons
                                     placeOfBirth.LocationId,
                                     dateOfBirth,
                                     false,
+                                    false,
                                     new List<int>(),
                                     false,
                                     null,
                                     default(int));
-            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Func<Task> f = () =>
+            {
+                return service.UpdatePiiAsync(pii);
+            };
+            f.ShouldThrow<EcaBusinessException>().WithMessage("The person already exists.");
         }
         #endregion
 

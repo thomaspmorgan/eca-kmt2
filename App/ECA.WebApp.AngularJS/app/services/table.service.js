@@ -58,7 +58,7 @@ angular.module('staticApp')
                             filters.push(newFilter);
                         }
                     }
-                    else if (key !== '$') { //The $ key is used for the search form fields
+                    else if (key !== '$') { //The $ key is used for the search form fields i.e. search fields that do not have st-search directive
                         filters.push({
                             property: key.replace(/'/g, ""),
                             value: predicateObject[key],

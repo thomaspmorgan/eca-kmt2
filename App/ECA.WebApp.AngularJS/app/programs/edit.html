@@ -232,7 +232,7 @@
                             <ui-select-choices refresh="view.searchParentPrograms($select.search)"
                                                refresh-delay="250"
                                                group-by="'isCurrent'"
-                                               repeat="program in view.parentPrograms track by program.programId">
+                                               repeat="program in view.parentPrograms">
                                 <div>
                                     <span ng-bind-html="program.name | highlight: $select.search"></span>
                                 </div>

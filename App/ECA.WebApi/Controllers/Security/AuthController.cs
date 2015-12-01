@@ -130,8 +130,10 @@ namespace ECA.WebApi.Controllers.Security
             var models = new List<ResourcePermissionViewModel>();
             if(resourceTypeId.HasValue)
             {
+                var resource = await this.resourceService.GetResourceByForeignResourceIdAsync(id, resourceTypeId.Value);
                 var userPermissions = (await this.provider.GetPermissionsAsync(user))
-                    .Where(x => x.IsAllowed && x.ForeignResourceId == id && x.ResourceTypeId == resourceTypeId.Value)
+                    .Where(x => x.ResourceId == resource.ResourceId || x.ResourceId == resource.ParentResourceId)
+                    .Where(x => x.IsAllowed)
                     .ToList();
                 foreach (var p in userPermissions)
                 {
@@ -143,7 +145,7 @@ namespace ECA.WebApi.Controllers.Security
                     });
                 }
             }
-            return models;
+            return models.Distinct().ToList();
         }
 
         /// <summary>

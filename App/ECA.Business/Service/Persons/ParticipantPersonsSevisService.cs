@@ -9,13 +9,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Data.Entity;
-using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
-using System.IO;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
@@ -27,7 +23,7 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-
+        
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -248,7 +244,6 @@ namespace ECA.Business.Service.Persons
 
         private void DoUpdate(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
         {
-            //participantPersonValidator.ValidateUpdate(GetUpdatedPersonParticipantValidationEntity(participantType));
             updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
 
             participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
@@ -284,19 +279,14 @@ namespace ECA.Business.Service.Persons
             participantPerson.FundingTotal = updatedParticipantPersonSevis.FundingTotal;
         }
 
+        private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)
+        {
+            return new UpdatedParticipantPersonSevisValidationEntity(participantPerson, participantPersonSevis);
+        }
+
         private IQueryable<ParticipantPerson> CreateGetParticipantPersonsByIdQuery(int participantId)
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
-        }
-
-        private string SerializeToXmlString(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
-        {
-            string retVal = string.Empty;
-            TextWriter writer = new StringWriter();
-            XmlSerializer serializer = new XmlSerializer(updatedParticipantPersonSevis.GetType());
-            serializer.Serialize(writer, updatedParticipantPersonSevis);
-            retVal = writer.ToString();
-            return retVal;
         }
 
 

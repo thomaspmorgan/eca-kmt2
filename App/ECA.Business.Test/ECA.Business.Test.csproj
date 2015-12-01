@@ -202,6 +202,7 @@
     <Compile Include="Service\Admin\LocationServiceAddressValidatorTest.cs" />
     <Compile Include="Service\Admin\LocationServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\LocationValidationEntityTest.cs" />
+    <Compile Include="Service\Admin\EcaAddressValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Service\Persons\MembershipServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidatorTest.cs" />
+    <Compile Include="Service\Persons\DeletedParticipantTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />

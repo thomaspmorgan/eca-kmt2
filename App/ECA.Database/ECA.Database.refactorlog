@@ -903,4 +903,88 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="GovtAgency1OtherName" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e1accbb9-6266-4b77-96a6-b61a50648781" ChangeDateTime="11/18/2015 21:04:38">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointConfigurationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c9fbe5eb-ec59-4777-9e32-9c3568b557f0" ChangeDateTime="11/18/2015 21:46:15">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[Key]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Property" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7cdb68c1-158b-4ede-aaa4-55aa66387cbd" ChangeDateTime="11/18/2015 21:46:22">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[Value]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsHidden" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="124f9102-66a8-4424-9ebb-757775a14be0" ChangeDateTime="11/18/2015 21:46:49">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[Property]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PropertyName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9cae13f6-5aee-442a-9f0e-7265a70bb3d2" ChangeDateTime="11/18/2015 21:46:54">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[PropertyName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Property" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a1dfdc61-af5d-46c2-94bd-64b51f3a1760" ChangeDateTime="11/23/2015 18:19:24">
+    <Property Name="ElementName" Value="[dbo].[DataPointProperty].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointProperty]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointPropertyId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9453b3e8-0449-42ca-a993-5baa510e692e" ChangeDateTime="11/23/2015 18:20:09">
+    <Property Name="ElementName" Value="[dbo].[DataPointCategory].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointCategory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ab4c71dd-913d-47bc-b401-9e626596551b" ChangeDateTime="11/23/2015 18:20:54">
+    <Property Name="ElementName" Value="[dbo].[DataPointProperty].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointProperty]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointPropertyName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3afe058d-7b75-4e4d-840b-77b4bc040978" ChangeDateTime="11/23/2015 18:21:44">
+    <Property Name="ElementName" Value="[dbo].[DataPointCategory].[DataPointCategory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointCategoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b5d86558-53b5-4cd3-abb6-9654b8aa82a6" ChangeDateTime="11/23/2015 18:24:41">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[Category]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="832a7ad8-c538-4340-aa79-f1ffd3515ff5" ChangeDateTime="11/23/2015 18:24:45">
+    <Property Name="ElementName" Value="[dbo].[DataPointConfiguration].[Property]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointConfiguration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PropertyId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="555b29cf-5e68-48cc-b473-9e524ee60087" ChangeDateTime="11/29/2015 15:56:13">
+    <Property Name="ElementName" Value="[dbo].[DataPointCategoryProperty].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DataPointCategoryProperty]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataPointCategoryPropertyId" />
+  </Operation>
 </Operations>

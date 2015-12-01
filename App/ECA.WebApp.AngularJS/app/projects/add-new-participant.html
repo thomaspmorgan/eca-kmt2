@@ -21,7 +21,7 @@
                             <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
                             <ui-select ng-model="newPerson.participantTypeId" theme="select2" tabindex="1" ng-required="true">
                                 <ui-select-match placeholder="Select a participant type...">{{$select.selected.name}}</ui-select-match>
-                                <ui-select-choices repeat="participantType.id as participantType in personParticipantTypes | filter: {name: $select.search} track by participantType.id">
+                                <ui-select-choices repeat="participantType.id as participantType in personParticipantTypes | filter: {name: $select.search}">
                                     <div ng-bind-html="participantType.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
@@ -35,7 +35,7 @@
                                 <label for="">GENDER<span class="asterisk"> *</span></label>
                                 <ui-select ng-model="newPerson.gender" theme="select2" tabindex="4" ng-required="true" ng-disabled="newPerson.selectedDuplicate">
                                     <ui-select-match placeholder="Select a gender...">{{$select.selected.value}}</ui-select-match>
-                                    <ui-select-choices repeat="gender.id as gender in genders | filter: {value: $select.search} track by gender.id">
+                                    <ui-select-choices repeat="gender.id as gender in genders | filter: {value: $select.search}">
                                         <div ng-bind-html="gender.value | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
@@ -44,16 +44,16 @@
                                 <label for="">PLACE OF BIRTH - COUNTRY</label>
                                 <ui-select ng-model="newPerson.countryOfBirth" theme="select2" tabindex="5" on-select="countryOfBirthSelected()" ng-disabled="newPerson.selectedDuplicate">
                                     <ui-select-match placeholder="Select a country of birth...">{{$select.selected.name}}</ui-select-match>
-                                    <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country.id as country in countries track by country.id">
+                                    <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country.id as country in countries">
                                         <div ng-bind-html="country.name"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                             <div class="form-group">
                                 <label for="">PLACE OF BIRTH - CITY</label>
-                                <ui-select ng-model="newPerson.cityOfBirth" theme="select2" tabindex="6" ng-disabled="newPerson.selectedDuplicate" on-select="resetPersonDuplicates()">
+                                <ui-select ng-model="newPerson.cityOfBirth" theme="select2" tabindex="6" ng-disabled="newPerson.countryOfBirth == null || newPerson.countryOfBirth == 0" on-select="resetPersonDuplicates()">
                                     <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
-                                    <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city.id as city in cities track by city.id">
+                                    <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city.id as city in cities">
                                         <span ng-bind-html="city.name"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -87,12 +87,18 @@
                                         <button class="btn btn-default" ng-click="toggleDobUnknown($event)" ng-disabled="newPerson.selectedDuplicate" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
                                     </div>
                                 </div>
+                                <div class="input-group" style="margin-top:5px;">
+                                    <label>
+                                        <input type="checkbox" ng-model="newPerson.isDateOfBirthEstimated" />
+                                        Date of Birth Is Estimated
+                                    </label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="">COUNTRIES OF CITIZENSHIP</label>
                                 <ui-select multiple ng-model="newPerson.countriesOfCitizenship" theme="select2" tabindex="8" ng-disabled="newPerson.selectedDuplicate">
                                     <ui-select-match placeholder="Select countries of citizenship...">{{$item.name}}</ui-select-match>
-                                    <ui-select-choices refresh="searchCountriesCopy($select.search)" refresh-delay="250" repeat="country.id as country in countriesCopy track by country.id">
+                                    <ui-select-choices refresh="searchCountriesCopy($select.search)" refresh-delay="250" repeat="country.id as country in countriesCopy">
                                         <div ng-bind-html="country.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
@@ -106,7 +112,7 @@
                             <label for="">PARTICIPANT TYPE<span class="asterisk"> *</span></label>
                             <ui-select ng-model="newOrganization.participantTypeId" theme="select2" ng-required="true">
                                 <ui-select-match placeholder="Select a participant type...">{{$select.selected.name}}</ui-select-match>
-                                <ui-select-choices repeat="participantType.id as participantType in organizationParticipantTypes | filter: {name: $select.search} track by participantType.id">
+                                <ui-select-choices repeat="participantType.id as participantType in organizationParticipantTypes | filter: {name: $select.search}">
                                     <div ng-bind-html="participantType.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
@@ -115,7 +121,7 @@
                             <label for="">ORGANIZATION TYPE<span class="asterisk"> *</span></label>
                             <ui-select ng-model="newOrganization.organizationType" theme="select2" ng-required="true">
                                 <ui-select-match placeholder="Select a organization type...">{{$select.selected.name}}</ui-select-match>
-                                <ui-select-choices repeat="organizationType.id as organizationType in organizationTypes | filter: {name: $select.search} track by organizationType.id">
+                                <ui-select-choices repeat="organizationType.id as organizationType in organizationTypes | filter: {name: $select.search}">
                                     <div ng-bind-html="organizationType.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
@@ -192,8 +198,8 @@
                             <td><input type="radio" name="duplicate" ng-model="newPerson.selectedDuplicate" ng-value="duplicate"></td>
                             <td><a target="_blank" ui-sref="people.personalinformation({personId: duplicate.personId})">{{duplicate.fullName}}</a></td>
                             <td>{{duplicate.gender}}</td>
-                            <td>{{duplicate.dateOfBirth | date: 'longDate'}}</td>
-                            <td>{{duplicate.cityOfBirth}}, {{duplicate.countryOfBirth}}</td>
+                            <td>{{duplicate.dateOfBirth | date: 'longDate'}}<span style="margin-left:5px;">{{duplicate.isDateOfBirthEstimated ? '(Estimated)' : ''}}</span></td>
+                            <td>{{duplicate.cityOfBirth}}, {{duplicate.divisionOfBirth}} {{duplicate.countryOfBirth}}</td>
                         </tr>
                     </tbody>
                 </table>
