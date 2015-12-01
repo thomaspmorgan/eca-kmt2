@@ -102,7 +102,7 @@ angular.module('staticApp')
       };
 
       $scope.onCancelButtonClick = function ($event) {
-          $scope.$broadcast(ConstantsService.cancelProjectEventName);
+          $scope.$broadcast(ConstantsService.cancelProjectEventName);   
       }
 
       $scope.params = $stateParams;

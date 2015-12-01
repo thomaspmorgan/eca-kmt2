@@ -51,7 +51,7 @@ angular.module('staticApp')
               active: true,
               order: 5
           },
-          funding: {
+          moneyflows: {
               title: 'Funding',
               path: 'moneyflows',
               active: true,
@@ -103,6 +103,16 @@ angular.module('staticApp')
               },
               notAuthorized: function () {
                   $scope.view.showEditProgramButton = false;
+              }
+          };
+          config[ConstantsService.permission.viewProgram.value] = {
+              hasPermission: function () {
+                  $scope.tabs.moneyflows.active = true;
+                  $log.info('User has view project permission in project.controller.js controller.');
+              },
+              notAuthorized: function () {
+                  $scope.tabs.moneyflows.active = false;
+                  $log.info('User not authorized to view project in project.controller.js controller.');
               }
           };
           return AuthService.getResourcePermissions(resourceType, programId, config)
