@@ -2104,7 +2104,7 @@ namespace ECA.Business.Test.Service.Admin
         #endregion
 
         #region Data Point Configurations
-        /*
+
         [TestMethod]
         public async Task TestGetDataPointConfigurations()
         {
@@ -2120,45 +2120,103 @@ namespace ECA.Business.Test.Service.Admin
                 DataPointPropertyName = DataPointProperty.Themes.Value
             };
 
+            var dataPointCategoryProperty = new DataPointCategoryProperty
+            {
+                DataPointCategoryPropertyId = 1,
+                DataPointCategoryId = dataPointCategory.DataPointCategoryId,
+                DataPointCategory = dataPointCategory,
+                DataPointPropertyId = dataPointProperty.DataPointPropertyId,
+                DataPointProperty = dataPointProperty
+            };
+
+            context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
+
             var dataPointConfig = new DataPointConfiguration
             {
                 DataPointConfigurationId = 1,
                 OfficeId = 1,
-                Category = dataPointCategory,
-                Property = dataPointProperty,
-                IsHidden = false
+                DataPointCategoryPropertyId = dataPointCategoryProperty.DataPointCategoryPropertyId
             };
 
             context.DataPointConfigurations.Add(dataPointConfig);
 
             var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(dataPointConfig.OfficeId.Value);
-
             var result = serviceResult.FirstOrDefault();
+            Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
             Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
-            Assert.AreEqual(dataPointConfig.CategoryId, result.CategoryId);
+            Assert.AreEqual(dataPointConfig.DataPointCategoryPropertyId, result.CategoryPropertyId);
+            Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
             Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
-            Assert.AreEqual(dataPointConfig.PropertyId, result.PropertyId);
+            Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
             Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
-            Assert.AreEqual(dataPointConfig.IsHidden, result.IsHidden);
+            Assert.AreEqual(true, result.IsRequired);
+        }
+
+        [TestMethod]
+        public async Task TestGetDataPointConfigurations_NullDataConfig()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Office.Id
+            };
+
+            context.Organizations.Add(office);
+
+            var dataPointCategory = new DataPointCategory
+            {
+                DataPointCategoryId = DataPointCategory.Office.Id,
+                DataPointCategoryName = DataPointCategory.Office.Value
+            };
+
+            var dataPointProperty = new DataPointProperty
+            {
+                DataPointPropertyId = DataPointProperty.Themes.Id,
+                DataPointPropertyName = DataPointProperty.Themes.Value
+            };
+
+            var dataPointCategoryProperty = new DataPointCategoryProperty
+            {
+                DataPointCategoryPropertyId = 1,
+                DataPointCategoryId = dataPointCategory.DataPointCategoryId,
+                DataPointCategory = dataPointCategory,
+                DataPointPropertyId = dataPointProperty.DataPointPropertyId,
+                DataPointProperty = dataPointProperty
+            };
+
+            context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
+
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(office.OrganizationId);
+            var result = serviceResult.FirstOrDefault();
+            Assert.AreEqual(null, result.DataPointConfigurationId);
+            Assert.AreEqual(office.OrganizationId, result.OfficeId);
+            Assert.AreEqual(dataPointCategoryProperty.DataPointCategoryPropertyId, result.CategoryPropertyId);
+            Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
+            Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
+            Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
+            Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
+            Assert.AreEqual(false, result.IsRequired);
+        }
+
+        [TestMethod]
+        public async Task TestGetDataPointConfiguration_WrongType()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Branch.Id
+            };
+
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
+            Assert.AreEqual(0, serviceResult.Count);
         }
 
         [TestMethod]
         public async Task TestGetDataPointConfigurations_Empty()
         {
-            var dataPointConfig = new DataPointConfiguration
-            {
-                DataPointConfigurationId = 1,
-                OfficeId = 1,
-                CategoryId = 1,
-                PropertyId = 1,
-                IsHidden = false
-            };
-
-            context.DataPointConfigurations.Add(dataPointConfig);
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(2);
+            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
             Assert.AreEqual(0, serviceResult.Count);
         }
-        */
         #endregion
     }
 }

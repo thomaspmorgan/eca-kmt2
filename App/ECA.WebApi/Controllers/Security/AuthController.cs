@@ -30,8 +30,8 @@ namespace ECA.WebApi.Controllers.Security
         /// <param name="permissionService">The permission service.</param>
         /// <param name="resourceService">The resource service.</param>
         public AuthController(
-            IUserProvider provider, 
-            IUserService userService, 
+            IUserProvider provider,
+            IUserService userService,
             IResourceService resourceService,
             IPermissionService permissionService)
         {
@@ -128,14 +128,21 @@ namespace ECA.WebApi.Controllers.Security
             var principalId = await this.provider.GetPrincipalIdAsync(user);
             var resourceTypeId = this.resourceService.GetResourceTypeId(type);
             var models = new List<ResourcePermissionViewModel>();
-            if(resourceTypeId.HasValue)
+            if (resourceTypeId.HasValue)
             {
                 var resource = await this.resourceService.GetResourceByForeignResourceIdAsync(id, resourceTypeId.Value);
-                var userPermissions = (await this.provider.GetPermissionsAsync(user))
-                    .Where(x => x.ResourceId == resource.ResourceId || x.ResourceId == resource.ParentResourceId)
-                    .Where(x => x.IsAllowed)
-                    .ToList();
-                foreach (var p in userPermissions)
+                var allPermissions = await this.provider.GetPermissionsAsync(user);
+                //we get all permissions for the resource and its parent
+                var allResourcePermissions = allPermissions.Where(x => x.ResourceId == resource.ResourceId).ToList();
+                var allParentResourcePermissions = allPermissions.Where(x => x.ResourceId == resource.ParentResourceId).ToList();
+
+                //find all of the parent resource permissions that are denied by the resource permission
+                var deniedByResourcePermissions = allParentResourcePermissions.Where(x => allResourcePermissions.Where(p => !p.IsAllowed).Select(r => r.PermissionId).Contains(x.PermissionId)).ToList();
+
+                //find the permissions that are allowed by getting all resource permissions and removing the denied ones.
+                var grantedResourcePermissions = allResourcePermissions.Where(x => x.IsAllowed).Union(allParentResourcePermissions).Except(deniedByResourcePermissions).ToList();
+
+                foreach (var p in grantedResourcePermissions)
                 {
                     var permissionModel = await this.permissionService.GetPermissionByIdAsync(p.PermissionId);
                     models.Add(new ResourcePermissionViewModel

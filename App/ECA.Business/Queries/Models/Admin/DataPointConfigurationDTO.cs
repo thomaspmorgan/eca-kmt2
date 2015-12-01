@@ -14,19 +14,28 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the id
         /// </summary>
-        public int DataPointConfigurationId { get; set; }
+        public int? DataPointConfigurationId { get; set; }
+
         /// <summary>
-        /// Gets or sets the officeId
+        /// Gets or sets the office id
         /// </summary>
         public int? OfficeId { get; set; }
+
         /// <summary>
-        /// Gets or sets the programId
+        /// Gets or sets the program id
         /// </summary>
         public int? ProgramId { get; set; }
+
         /// <summary>
-        /// Gets or sets the projectId
+        /// Gets or sets the project id
         /// </summary>
         public int? ProjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category property id
+        /// </summary>
+        public int CategoryPropertyId { get; set; }
+
         /// <summary>
         /// Gets or sets the category id
         /// </summary>
@@ -43,9 +52,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the property name
         /// </summary>
         public string PropertyName { get; set; }
+
         /// <summary>
-        /// Gets or sets the isHidden flag
+        /// Gets or sets the required flag
         /// </summary>
-        public bool IsHidden { get; set; }
+        public bool IsRequired { get; set; }
     }
 }
