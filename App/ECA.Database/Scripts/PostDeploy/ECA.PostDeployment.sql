@@ -14,6 +14,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.AddressType.staticdata.sql
 :r .\StaticData\dbo.ArtifactType.staticdata.sql
 :r .\StaticData\dbo.DataPointCategory.staticdata.sql
+:r .\StaticData\dbo.DataPointCategoryProperty.staticdata.sql
 :r .\StaticData\dbo.DataPointProperty.staticdata.sql
 :r .\StaticData\dbo.EmailAddressType.staticdata.sql
 :r .\StaticData\dbo.Focus.staticdata.sql
