@@ -23,7 +23,7 @@ SET @DeleteMissingRecords = 0
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
 [OrganizationRoleId] int,
-[OrganizationRoleName] nvarchar(MAX),
+[OrganizationRoleName] nvarchar(100),
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
 [History_RevisedBy] int,
@@ -39,6 +39,7 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([OrganizationRoleId], [OrganizationRoleName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Partner', '0', '1/19/2015 12:00:00 AM -05:00', '0', '1/19/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([OrganizationRoleId], [OrganizationRoleName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Sponsor', '0', '1/1/2015 12:00:00 AM +00:00', '0', '1/1/2016 12:00:00 AM +00:00')
+INSERT INTO @tblTempTable ([OrganizationRoleId], [OrganizationRoleName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Funding Source', '0', '1/1/2015 12:00:00 AM +00:00', '0', '1/1/2016 12:00:00 AM +00:00')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[OrganizationRole] ON
