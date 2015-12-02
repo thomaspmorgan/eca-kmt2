@@ -1,5 +1,5 @@
-﻿using ECA.Business.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -18,12 +18,12 @@ namespace ECA.Business.Validation
             this.throwExceptionOnValidation = throwExceptionOnValidation;
         }
 
-        public IEnumerable<SevisValidationResult> ValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
+        public IEnumerable<ValidationResult> ValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
         {
             if (throwExceptionOnValidation)
             {
                 var results = DoValidateSevis(validationEntity);
-                DoThrowException(results);
+                //DoThrowException(results);
                 return results;
             }
             else
@@ -32,26 +32,25 @@ namespace ECA.Business.Validation
             }
         }
 
-        private void DoThrowException(IEnumerable<SevisValidationResult> validationResults)
+        private void DoThrowException(IEnumerable<ValidationResult> validationResults)
         {
             if (validationResults.Count() > 0)
             {
-                throw new ValidationException("There was an error validating the changes.", validationResults);
+                throw new Exceptions.ValidationException("There was an error validating the record.", validationResults);
             }
         }
 
         /// <summary>
-        /// Override to perform the update entity validation.
+        /// 
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The collection of validation results.</returns>
-        public abstract IEnumerable<SevisValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity);
+        public abstract List<ValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity);
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TUpdate"></typeparam>
     [ContractClassFor(typeof(SevisValidatorBase<>))]
     public abstract class SevisValidatorBaseContract<SEVISBatchCreateUpdateStudent> : SevisValidatorBase<SEVISBatchCreateUpdateStudent>
     {
@@ -60,10 +59,10 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public override IEnumerable<SevisValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
+        public override List<ValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
         {
-            Contract.Ensures(Contract.Result<IEnumerable<SevisValidationResult>>() != null, "The sevis validator must return a non null value.");
-            return new List<SevisValidationResult>();
+            Contract.Ensures(Contract.Result<IEnumerable<ValidationResult>>() != null, "The sevis validator must return a non null value.");
+            return new List<ValidationResult>();
         }
     }
 }

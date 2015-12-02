@@ -39,6 +39,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
+            validation = new SevisValidationService();
             this.userProvider = userProvider;
         }
 
@@ -177,7 +178,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var statuses = await validation.PreSevisValidation(validationEntity);
+                var statuses = await validation.PreSevisValidationAsync(validationEntity);
                 return Ok(statuses);
             }
             else
