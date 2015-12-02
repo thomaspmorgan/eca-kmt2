@@ -783,7 +783,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>5555</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5555/</IISUrl>
+          <IISUrl>http://localhost:5555</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

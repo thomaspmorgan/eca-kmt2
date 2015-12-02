@@ -59,7 +59,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public override List<ValidationResult> DoValidateSevis(Validation.SEVISBatchCreateUpdateStudent validationEntity)
+        public IEnumerable<ValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
         {
             Contract.Ensures(Contract.Result<IEnumerable<ValidationResult>>() != null, "The sevis validator must return a non null value.");
             return new List<ValidationResult>();

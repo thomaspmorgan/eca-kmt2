@@ -14,7 +14,8 @@
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
             getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
-            sendToSevis: sendToSevis
+            sendToSevis: sendToSevis,
+            validateParticipantPersonsSevis: validateParticipantPersonsSevis
         };
 
         return service;
@@ -47,21 +48,19 @@
             return DragonBreath.get(params, path);
         };
 
-        function sendToSevis(participantIds) {
-            return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
-        }
-
         function updateParticipantPersonsSevis(sevisInfo) {
             var path = 'participantPersonsSevis';
             return DragonBreath.save(sevisInfo, path);
         };
 
+        function sendToSevis(participantIds) {
+            return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
+        }
+
         function validateParticipantPersonsSevis(sevisInfo) {
             var path = 'ParticipantPersonsSevis/ValidateSevis';
-            return DragonBreath.get(sevisInfo, path);
+            return DragonBreath.create(sevisInfo, path);
         };
-
-
-
+        
     }
 })();
