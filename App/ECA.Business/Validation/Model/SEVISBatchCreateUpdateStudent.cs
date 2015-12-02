@@ -1,21 +1,22 @@
 ﻿using ECA.Business.Validation.Model;
-using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation
 {
     public class SEVISBatchCreateUpdateStudent
     {
+        public SEVISBatchCreateUpdateStudent()
+        {
+            batchHeader = new BatchHeader();
+            createStudent = new CreateStudent();
+        }
 
         // Sevis batch record
-        [MaxLength(10)]
-        [Required]
         public string userID { get; set; }
-        
+
         // Sevis batch header
         public BatchHeader batchHeader { get; set; }
 
-        // Student record
-        public CreateStudent createStudent { get; set; }
-        
+        // Sevis student record
+        public CreateStudent createStudent { get; set; }        
     }
 }

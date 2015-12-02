@@ -1,33 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Contains all student details
+    /// </summary>
     public class Student
     {
-        /// <summary>
-        /// Request id.
-        /// </summary>
-        [MaxLength(20)]
-        [Required]
+        public Student()
+        {
+            personalInfo = new PersonalInfo();
+            usAddress = new USAddress();
+            foreignAddress = new ForeignAddress();
+            educationalInfo = new EducationalInfo();
+            financialInfo = new FinancialInfo();
+            createDependent = new CreateDependent();
+        }
+        
         public string requestID { get; set; }
-
-        /// <summary>
-        /// User id
-        /// </summary>
-        [MaxLength(20)]
-        [Required]
+        
         public string userID { get; set; }
-
-        /// <summary>
-        /// Print form flag
-        /// </summary>
-        [Required]
+        
         public bool printForm { get; set; }
-
-        [MaxLength(10)]
+        
         public string UserDefinedA { get; set; }
-
-        [MaxLength(14)]
+        
         public string UserDefinedB { get; set; }
 
         /// <summary>
@@ -38,10 +34,8 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Issue reason
         /// </summary>
-        [StringLength(1)]
-        [Required(ErrorMessage = "Issue reason is required")]
         public string IssueReason { get; set; }
-                
+        
         /// <summary>
         /// US address
         /// </summary>
@@ -70,8 +64,6 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Student record remarks
         /// </summary>
-        [MaxLength(500)]
-        public string Remarks { get; set; }
-        
+        public string Remarks { get; set; }        
     }
 }
