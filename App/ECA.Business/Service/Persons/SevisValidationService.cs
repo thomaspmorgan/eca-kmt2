@@ -19,11 +19,11 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public async Task<IQueryable<ValidationResult>> PreSevisValidationAsync(SEVISBatchCreateUpdateStudent validationEntity)
+        public async Task<IQueryable<ValidationResult>> PreSevisValidationAsync(int participantId)
         {
-            Contract.Requires(validationEntity != null, "The validation entity must not be null.");
+            Contract.Requires(participantId > 0, "The participant ID must not be null.");
             var validator = new PersonSevisServiceValidator();
-            var results = await validator.ValidateSevis(validationEntity).AsQueryable().ToListAsync();
+            var results = await validator.ValidateSevis(participantId).AsQueryable().ToListAsync();
 
             return results.AsQueryable();
         }
@@ -33,11 +33,11 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public IQueryable<ValidationResult> PreSevisValidation(SEVISBatchCreateUpdateStudent validationEntity)
+        public IQueryable<ValidationResult> PreSevisValidation(int participantId)
         {
-            Contract.Requires(validationEntity != null, "The validation entity must not be null.");
+            Contract.Requires(participantId > 0, "The participant ID must not be null.");
             var validator = new PersonSevisServiceValidator();
-            var results = validator.ValidateSevis(validationEntity).AsQueryable();
+            var results = validator.ValidateSevis(participantId).AsQueryable();
 
             return results;
         }

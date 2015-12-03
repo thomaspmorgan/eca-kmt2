@@ -459,7 +459,13 @@
     <Compile Include="Validation\Model\Create\CreateStudentValidator.cs" />
     <Compile Include="Validation\Model\SEVISBatchCreateUpdateStudentValidator.cs" />
     <Compile Include="Validation\Model\Shared\BatchHeaderValidator.cs" />
+    <Compile Include="Validation\Model\Shared\CreateDependentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\EducationalInfoValidator.cs" />
+    <Compile Include="Validation\Model\Shared\FinancialInfoValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ForeignAddressValidator.cs" />
+    <Compile Include="Validation\Model\Shared\PersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\USAddressValidator.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddAuthDrop.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddCptEmployment.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddDependent.cs" />

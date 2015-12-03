@@ -1,9 +1,12 @@
-﻿
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
+
 namespace ECA.Business.Validation.Model
 {
     /// <summary>
     /// Contains all student details
     /// </summary>
+    [Validator(typeof(StudentValidator))]
     public class Student
     {
         public Student()
@@ -16,6 +19,8 @@ namespace ECA.Business.Validation.Model
             createDependent = new CreateDependent();
         }
         
+        public bool isNew { get; set; }
+
         public string requestID { get; set; }
         
         public string userID { get; set; }

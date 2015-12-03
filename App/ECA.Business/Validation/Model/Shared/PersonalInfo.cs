@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(PersonalInfoValidator))]
     public class PersonalInfo
     {
-
         /// <summary>
         /// Full name of person
         /// </summary>
-        [Required]
         public FullName fullName { get; set; }
         
         /// <summary>

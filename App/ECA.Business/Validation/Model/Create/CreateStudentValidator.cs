@@ -7,6 +7,7 @@ namespace ECA.Business.Validation.Model.Create
     {
         public CreateStudentValidator()
         {
+            // student cannot be null. set its validator.
             RuleFor(createstudent => createstudent.student).NotNull().WithMessage("Student is required").SetValidator(new StudentValidator());
         }
 

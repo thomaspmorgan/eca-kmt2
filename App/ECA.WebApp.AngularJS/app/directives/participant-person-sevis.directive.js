@@ -212,8 +212,8 @@
                 }
                 
                 // pre-sevis validation
-                $scope.validateSevisInfo = function (sevisInfo) {
-                    return ParticipantPersonsSevisService.validateParticipantPersonsSevis(sevisInfo)
+                $scope.validateSevisInfo = function () {
+                    return ParticipantPersonsSevisService.validateParticipantPersonsSevis($scope.participantid)
                     .then(function (data) {
                         $log.error('Validated participant SEVIS info');
                         $scope.validationResults = data;

@@ -19,14 +19,15 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Do validation for sevis object, which includes participant person object
         /// </summary>
-        /// <param name="validationEntity">Entity to validate</param>
+        /// <param name="participantId">Entity to validate</param>
         /// <returns>validation results</returns>        
-        public new List<ValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
+        public List<ValidationResult> ValidateSevis(int participantId)
         {
-            //var results = new List<ValidationResult>();
-            //var actual = Validator.TryValidateObject(validationEntity, new ValidationContext(validationEntity), results, true);
+            // TODO: get full sevis object
 
-            // temporary object to return validation results
+
+
+            // ****** temporary object to return validation results ***********
             var batchHeader = new BatchHeader
             {
                 BatchID = "1",
