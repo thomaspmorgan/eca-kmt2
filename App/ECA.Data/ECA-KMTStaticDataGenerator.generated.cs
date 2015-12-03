@@ -221,6 +221,10 @@ namespace ECA.Data
 		/// Returns the Project lookup with id 3.
 		/// </summary>
 		public static StaticLookup Project { get { return new StaticLookup("Project", 3); } }
+		/// <summary>
+		/// Returns the Person lookup with id 4.
+		/// </summary>
+		public static StaticLookup Person { get { return new StaticLookup("Person", 4); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -231,6 +235,7 @@ namespace ECA.Data
 			if (1 == id) return DataPointCategory.Office;
 			if (2 == id) return DataPointCategory.Program;
 			if (3 == id) return DataPointCategory.Project;
+			if (4 == id) return DataPointCategory.Person;
 			return null;
 		}
 		///<summary>
@@ -243,6 +248,7 @@ namespace ECA.Data
 			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Office;
 			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Program;
 			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Project;
+			if ("Person".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointCategory.Person;
 			return null;
 		}
 
@@ -272,6 +278,38 @@ namespace ECA.Data
 		/// Returns the Goals lookup with id 2.
 		/// </summary>
 		public static StaticLookup Goals { get { return new StaticLookup("Goals", 2); } }
+		/// <summary>
+		/// Returns the Regions lookup with id 3.
+		/// </summary>
+		public static StaticLookup Regions { get { return new StaticLookup("Regions", 3); } }
+		/// <summary>
+		/// Returns the Categories lookup with id 4.
+		/// </summary>
+		public static StaticLookup Categories { get { return new StaticLookup("Categories", 4); } }
+		/// <summary>
+		/// Returns the Objectives lookup with id 5.
+		/// </summary>
+		public static StaticLookup Objectives { get { return new StaticLookup("Objectives", 5); } }
+		/// <summary>
+		/// Returns the Locations lookup with id 6.
+		/// </summary>
+		public static StaticLookup Locations { get { return new StaticLookup("Locations", 6); } }
+		/// <summary>
+		/// Returns the Addresses lookup with id 7.
+		/// </summary>
+		public static StaticLookup Addresses { get { return new StaticLookup("Addresses", 7); } }
+		/// <summary>
+		/// Returns the Emails lookup with id 8.
+		/// </summary>
+		public static StaticLookup Emails { get { return new StaticLookup("Emails", 8); } }
+		/// <summary>
+		/// Returns the Language Proficiencies lookup with id 9.
+		/// </summary>
+		public static StaticLookup LanguageProficiencies { get { return new StaticLookup("Language Proficiencies", 9); } }
+		/// <summary>
+		/// Returns the Phone Numbers lookup with id 10.
+		/// </summary>
+		public static StaticLookup PhoneNumbers { get { return new StaticLookup("Phone Numbers", 10); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -281,6 +319,14 @@ namespace ECA.Data
 		{
 			if (1 == id) return DataPointProperty.Themes;
 			if (2 == id) return DataPointProperty.Goals;
+			if (3 == id) return DataPointProperty.Regions;
+			if (4 == id) return DataPointProperty.Categories;
+			if (5 == id) return DataPointProperty.Objectives;
+			if (6 == id) return DataPointProperty.Locations;
+			if (7 == id) return DataPointProperty.Addresses;
+			if (8 == id) return DataPointProperty.Emails;
+			if (9 == id) return DataPointProperty.LanguageProficiencies;
+			if (10 == id) return DataPointProperty.PhoneNumbers;
 			return null;
 		}
 		///<summary>
@@ -292,6 +338,14 @@ namespace ECA.Data
 		{
 			if ("Themes".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Themes;
 			if ("Goals".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Goals;
+			if ("Regions".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Regions;
+			if ("Categories".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Categories;
+			if ("Objectives".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Objectives;
+			if ("Locations".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Locations;
+			if ("Addresses".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Addresses;
+			if ("Emails".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.Emails;
+			if ("Language Proficiencies".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.LanguageProficiencies;
+			if ("Phone Numbers".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DataPointProperty.PhoneNumbers;
 			return null;
 		}
 
