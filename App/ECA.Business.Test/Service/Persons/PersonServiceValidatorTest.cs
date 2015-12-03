@@ -471,7 +471,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var validator = new SEVISBatchCreateUpdateStudentValidator();
             var results = validator.Validate(updateStudent);
-            Assert.AreEqual(1, results.Errors.Count());
+            Assert.AreEqual(16, results.Errors.Count());
         }
     }
 }
