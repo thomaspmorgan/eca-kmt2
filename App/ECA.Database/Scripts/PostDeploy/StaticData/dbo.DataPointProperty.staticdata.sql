@@ -36,6 +36,14 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('1', 'Themes')
 INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('2', 'Goals')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('3', 'Regions')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('4', 'Categories')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('5', 'Objectives')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('6', 'Locations')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('7', 'Addresses')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('8', 'Emails')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('9', 'Language Proficiencies')
+INSERT INTO @tblTempTable ([DataPointPropertyId], [DataPointPropertyName]) VALUES ('10', 'Phone Numbers')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[DataPointProperty] ON

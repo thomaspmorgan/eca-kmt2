@@ -87,52 +87,74 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-4 title-label">Place of Birth</div>
+                    <div class="col-md-4 title-label">City of Birth<span class="asterisk" ng-show="!pii.isPlaceOfBirthUnknown"> *</span></div>
                     <div class="col-md-8">
-                        <div class="form-group">
-                            <label class="col-md-4 title-label">Country</label>
-                            <div class="col-md-8">
-                                <ui-select ng-model="pii.countryOfBirthId" theme="select2" on-select="updateCountryOfBirth()">
-                                    <ui-select-match placeholder="Select country"><div>{{$select.selected.name}}</div></ui-select-match>
-                                    <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country.id as country in countries">
-                                        <div ng-bind-html="country.name"></div>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
+                        <div class="input-group" style="margin-top:5px;">
+                            <label>
+                                <input type="checkbox" ng-model="pii.isPlaceOfBirthUnknown" ng-change="onIsPlaceOfBirthUnknownChange()" />
+                                Unknown
+                            </label>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 title-label">City</label>
-                            <div class="col-md-8">
-                                <ui-select ng-model="pii.cityOfBirthId" theme="select2" ng-disabled="pii.countryOfBirthId == null || pii.countryOfBirthId == 0">
-                                    <ui-select-match placeholder="Select a city of birth...">{{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}</ui-select-match>
-                                    <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city.id as city in cities">
-                                        <span ng-bind-html="city.name"></span><span ng-show="city.division" ng-bind-html="', ' + city.division"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
-                        </div>
+                        <ui-select ng-model="pii.cityOfBirthId"
+                                   theme="select2"
+                                   name="cityOfBirthId"
+                                   ng-disabled="pii.isPlaceOfBirthUnknown"
+                                   ui-validate-watch="'pii.isPlaceOfBirthUnknown'"
+                                   ui-validate="{isPlaceOfBirthValid: 'isPlaceOfBirthValid($value)'}"
+                                   on-select="onSelectCityOfBirth()">
+                            <ui-select-match placeholder="Select a city of birth...">
+                                {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
+                            </ui-select-match>
+                            <ui-select-choices refresh="searchCities($select.search)" refresh-delay="250" repeat="city.id as city in cities">
+                                <div ng-bind-html="city.name | highlight: $select.search"></div>
+                                <div style="margin-left:10px;" class="small" ng-show="city.division">{{city.division}}</div>
+                                <div style="margin-left:10px;" class="small" ng-show="city.country">{{city.country}}</div>
+                            </ui-select-choices>
+                        </ui-select>  
+                        <div class="error" ng-show="piiForm.cityOfBirthId.$error.isPlaceOfBirthValid">Please select a city of birth, or select unknown.</div>                      
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-4 title-label">Date of Birth</div>
+                    <div class="col-md-4 title-label">Date of Birth <span class="asterisk" ng-show="!pii.isDateOfBirthUnknown || pii.isDateOfBirthEstimated" > *</span></div>
                     <div class="col-md-8">
+                        <div>
+                            <label>
+                                <input type="checkbox" 
+                                       ng-model="pii.isDateOfBirthUnknown"
+                                       ng-change="onDateOfBirthUnknownChange()"
+                                        />
+                                Unknown
+                            </label>
+                        </div>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
-                                   is-open="datePickerOpen" max-date="maxDateOfBirth" close-text="Close" placeholder="{{dateOfBirthPlaceholder}}">
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="dateOfBirth" 
+                                   id="dateOfBirth" 
+                                   datepicker-popup="dd-MMMM-yyyy" 
+                                   ng-disabled="pii.isDateOfBirthUnknown"
+                                   ng-model="pii.dateOfBirth"
+                                   is-open="datePickerOpen" 
+                                   max-date="maxDateOfBirth" 
+                                   close-text="Close" 
+                                   ng-required="!pii.isDateOfBirthUnknown || pii.isDateOfBirthEstimated"
+                                   placeholder="{{dateOfBirthPlaceholder}}">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
+                                <button type="button" 
+                                        class="btn btn-default" 
+                                        ng-click="openDatePicker($event)">
                                     <i class="material-icons md-18">event</i>
                                 </button>
                             </span>
-                            <div class="pull-right" style="padding-left:2px;">
-                                <button class="btn btn-default" ng-click="toggleDobUnknown($event)" tooltip-placement="top" tooltip="Unknown date of birth">Unknown</button>
-                            </div>
                         </div>
                         <div class="input-group" style="margin-top:5px;">
                             <label>
-                                <input type="checkbox" ng-model="pii.isDateOfBirthEstimated" />
-                                Date of Birth Is Estimated
+                                <input type="checkbox" ng-disabled="pii.isDateOfBirthUnknown" ng-model="pii.isDateOfBirthEstimated" />
+                                Estimated
                             </label>
+                        </div>
+                        <div ng-show="piiForm.$dirty" class="error">
+                            <div ng-show="piiForm.dateOfBirth.$error.required">Please select a date of birth.</div>
                         </div>
                     </div>
                 </div>
@@ -164,7 +186,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 title-label">Medical Conditions</div>
+                    <div class="col-md-4 title-label">Accommodation Needed</div>
                     <div class="col-md-8">
                         <div class="form-group">
                             <label class="col-md-4 title-label"></label>

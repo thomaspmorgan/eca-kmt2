@@ -373,7 +373,7 @@ namespace ECA.WebApi.Test.Controllers.Security
         }
 
         [TestMethod]
-        public async Task TestGetUserPermissionsAsync_UserHasZeroAllowedPermissions()
+        public async Task TestGetUserPermissionsAsync_UserHasDeniedResourcePermission()
         {
             var resourceId = 1;
             var foreignResourceId = 3;
@@ -405,11 +405,122 @@ namespace ECA.WebApi.Test.Controllers.Security
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
             resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
             permissionService.Setup(x => x.GetPermissionByNameAsync(It.IsAny<string>())).ReturnsAsync(permissionModel);
+            permissionService.Setup(x => x.GetPermissionByIdAsync(It.IsAny<int>())).ReturnsAsync(permissionModel);
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
 
             var permissions = await controller.GetUserPermissionsAsync(simpleUser, resourceType, foreignResourceId);
             Assert.AreEqual(0, permissions.Count());
+
+            resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetUserPermissionsAsync_UserHasPermissionGrantedByParentButDeniedByResource()
+        {
+            var resourceId = 1;
+            var parentResourceId = 2;
+            var foreignResourceId = 3;
+            var resourceType = "Program";
+            var resourceTypeId = 1;
+            var parentResourceTypeId = 2;
+            var foreignResourceCache = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, null, null, null);
+            var principalId = 1;
+            var permissionName = "my permission";
+            var permissionModel = new PermissionModel
+            {
+                Id = 1,
+                Name = permissionName
+            };
+            var simpleUser = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var userPermissions = new List<IPermission>();
+            userPermissions.Add(new SimplePermission
+            {
+                IsAllowed = false,
+                ForeignResourceId = foreignResourceId,
+                PermissionId = permissionModel.Id,
+                PrincipalId = principalId,
+                ResourceId = resourceId,
+                ResourceTypeId = resourceTypeId
+            });
+            userPermissions.Add(new SimplePermission
+            {
+                IsAllowed = true,
+                ForeignResourceId = foreignResourceId,
+                PermissionId = permissionModel.Id,
+                PrincipalId = principalId,
+                ResourceId = parentResourceId,
+                ResourceTypeId = parentResourceTypeId
+            });
+
+            resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
+            permissionService.Setup(x => x.GetPermissionByNameAsync(It.IsAny<string>())).ReturnsAsync(permissionModel);
+            permissionService.Setup(x => x.GetPermissionByIdAsync(It.IsAny<int>())).ReturnsAsync(permissionModel);
+            userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
+            userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
+
+            var permissions = await controller.GetUserPermissionsAsync(simpleUser, resourceType, foreignResourceId);
+            Assert.AreEqual(0, permissions.Count());
+
+            resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetUserPermissionsAsync_UserHasPermissionDeniedByParentButGrantedByResource()
+        {
+            var resourceId = 1;
+            var parentResourceId = 2;
+            var foreignResourceId = 3;
+            var resourceType = "Program";
+            var resourceTypeId = 1;
+            var parentResourceTypeId = 2;
+            var foreignResourceCache = new ForeignResourceCache(foreignResourceId, resourceId, resourceTypeId, null, null, null);
+            var principalId = 1;
+            var permissionName = "my permission";
+            var permissionModel = new PermissionModel
+            {
+                Id = 1,
+                Name = permissionName
+            };
+            var simpleUser = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var userPermissions = new List<IPermission>();
+            userPermissions.Add(new SimplePermission
+            {
+                IsAllowed = true,
+                ForeignResourceId = foreignResourceId,
+                PermissionId = permissionModel.Id,
+                PrincipalId = principalId,
+                ResourceId = resourceId,
+                ResourceTypeId = resourceTypeId
+            });
+            userPermissions.Add(new SimplePermission
+            {
+                IsAllowed = false,
+                ForeignResourceId = foreignResourceId,
+                PermissionId = permissionModel.Id,
+                PrincipalId = principalId,
+                ResourceId = parentResourceId,
+                ResourceTypeId = parentResourceTypeId
+            });
+
+            resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
+            resourceService.Setup(x => x.GetResourceByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(foreignResourceCache);
+            permissionService.Setup(x => x.GetPermissionByNameAsync(It.IsAny<string>())).ReturnsAsync(permissionModel);
+            permissionService.Setup(x => x.GetPermissionByIdAsync(It.IsAny<int>())).ReturnsAsync(permissionModel);
+            userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
+            userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
+
+            var permissions = await controller.GetUserPermissionsAsync(simpleUser, resourceType, foreignResourceId);
+            Assert.AreEqual(1, permissions.Count());
+            Assert.AreEqual(permissionName, permissions.First().PermissionName);
+            Assert.AreEqual(permissionModel.Id, permissions.First().PermissionId);
 
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
         }
@@ -496,6 +607,7 @@ namespace ECA.WebApi.Test.Controllers.Security
             Assert.AreEqual(1, permissions.Count());
             var firstPermission = permissions.First();
             Assert.AreEqual(permissionName, firstPermission.PermissionName);
+            Assert.AreEqual(permissionModel.Id, firstPermission.PermissionId);
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
             permissionService.Verify(x => x.GetPermissionByIdAsync(It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>()), Times.Once());

@@ -99,8 +99,14 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<PiiDTO> CreateGetPiiByIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from person in context.People
+
+                        let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
+                        let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
+                        let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
+
                         where person.PersonId == personId
                         select new PiiDTO
                         {
@@ -109,7 +115,7 @@ namespace ECA.Business.Queries.Persons
                             DateOfBirth = person.DateOfBirth,
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }),
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,
@@ -158,11 +164,9 @@ namespace ECA.Business.Queries.Persons
                                              Street2 = location.Street2,
                                              Street3 = location.Street3,
                                          }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
-                            CityOfBirth = person.PlaceOfBirth.LocationName,
-                            CityOfBirthId = person.PlaceOfBirthId,
-                            CountryOfBirth = person.PlaceOfBirth.Country.LocationName,
-                            CountryOfBirthId = person.PlaceOfBirth.Country.LocationId,
-                            IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown
+                            IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
+                            PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null
+
                         };
             return query;
         }

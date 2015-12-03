@@ -64,6 +64,11 @@ namespace ECA.WebApi.Models.Person
         public bool? IsDateOfBirthEstimated { get; set; }
 
         /// <summary>
+        /// Gets or sets the is place of birth unknown flag.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; set; }
+
+        /// <summary>
         /// Gets or sets the countries of citizenship
         /// </summary>
         public List<int> CountriesOfCitizenship { get; set; }
@@ -83,6 +88,7 @@ namespace ECA.WebApi.Models.Person
                 lastName: this.LastName,
                 gender: this.Gender,
                 dateOfBirth: this.DateOfBirth,
+                isPlaceOfBirthUnknown: this.IsPlaceOfBirthUnknown,
                 isDateOfBirthUnknown: this.IsDateOfBirthUnknown,
                 isDateOfBirthEstimated: this.IsDateOfBirthEstimated,
                 cityOfBirth: this.CityOfBirth,
