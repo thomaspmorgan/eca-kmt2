@@ -101,12 +101,12 @@
                                 <div>
                                     <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
                                 </div>
-                                
+
                             </td>
                             <td class="text-right" style="padding:25px;">
                                 <div>
                                     {{moneyFlow.fiscalYear}}
-                                </div>                                
+                                </div>
                             </td>
                             <td>
                                 <div>
@@ -243,10 +243,11 @@
                                                 <input name="amount"
                                                        ng-model="moneyFlow.editableAmount"
                                                        max="{{moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount : view.maxAmount}}"
-                                                       type="number"
+                                                       type="text"
                                                        ng-blur="view.onEditableAmountChange($event, moneyFlow)"
                                                        step="any"
                                                        min="0"
+                                                       ui-money-mask="2"
                                                        class="form-control"
                                                        ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value, moneyFlow)'}"
                                                        placeholder="Enter amount."

@@ -99,6 +99,9 @@
             <div class="text-stack">
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
+                <div ng-controller="AboutCtrl">
+                    <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}} <span ng-show="view.lookupErrorsCount > 0" tooltip="Lookup Errors"><i class="material-icons">warning</i></span></p>
+                </div>
             </div>
         </div>
     </div>
@@ -154,6 +157,7 @@
     <script src="bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"></script>
     <script src="bower_components/international-phone-number/releases/international-phone-number.js"></script>
     <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
@@ -163,6 +167,7 @@
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.run.js"></script>
+    <script src="app/about/about.controller.js"></script>
     <script src="app/home/home.routes.js"></script>
     <script src="app/home/home.controller.js"></script>
     <script src="app/activities/activities.routes.js"></script>
@@ -284,6 +289,7 @@
     <script src="app/filters/tab.filter.js"></script>
     <script src="app/filters/newline.filter.js"></script>
     <!-- Services -->
+    <script src="app/services/about.service.js"></script>
     <script src="app/services/address.service.js"></script>
     <script src="app/services/auth.service.js"></script>
     <script src="app/services/bookmark.service.js"></script>

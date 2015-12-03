@@ -41,23 +41,23 @@ namespace ECA.Business.Service.Persons
         public const string CITY_OF_BIRTH_NOT_FOUND = "The city of birth could not be found.";
 
         /// <summary>
-        /// Countries of citizenship not found
+        /// The date of the birth was estimated but was not provided error message.
         /// </summary>
-        public const string COUNTRIES_OF_CITIZENSHIP_NOT_FOUND = "The countries of citizenship could not be found.";
+        public const string DATE_OF_BIRTH_ESTIMATED_BUT_NO_DATE_OF_BIRTH_GIVEN = "The date of birth is estimated but does not have a value.";
 
         /// <summary>
-        /// Countries of citizenship required
+        /// The date of the birth is unknown but was provided error message.
         /// </summary>
-        public const string COUNTRIES_OF_CITIZENSHIP_REQUIRED = "At least one country of citizenship is required.";
+        public const string DATE_OF_BIRTH_UNKONWN_BUT_DATE_OF_BIRTH_GIVEN = "The date of birth is unknown and therefore can not have a value.";
 
         /// <summary>
-        /// City of birth not authorized
+        /// City of birth not unknown
         /// </summary>
-        public const string PLACE_OF_BIRTH_ERROR = "A city of birth cannot be set if the country of birth is unknown.";
+        public const string PLACE_OF_BIRTH_ERROR = "A Place of birth must be set if the place of birth is not unknown.";
 
         public override IEnumerable<BusinessValidationResult> DoValidateCreate(PersonServiceValidationEntity validationEntity)
         {
-            throw new NotImplementedException();
+            return DoValidateUpdate(validationEntity);
         }
 
         /// <summary>
@@ -71,27 +71,28 @@ namespace ECA.Business.Service.Persons
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.Person, PERSON_NOT_FOUND);
             }
-
             if (Gender.GetStaticLookup(validationEntity.GenderId) == null)
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.GenderId, GENDER_NOT_FOUND);
             }
-
-            if (validationEntity.CountriesOfCitizenship == null) 
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_NOT_FOUND);
-            }
-
-            if (validationEntity.CountriesOfCitizenship != null && validationEntity.CountriesOfCitizenship.Count == 0)
-            {
-                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_REQUIRED);
-            }
-
-            if (validationEntity.PlaceOfBirthId != null && validationEntity.IsPlaceOfBirthUnknown == true)
+            if (validationEntity.PlaceOfBirthId.HasValue
+                && validationEntity.IsPlaceOfBirthUnknown.HasValue
+                && validationEntity.IsPlaceOfBirthUnknown.Value)
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.PlaceOfBirthId, PLACE_OF_BIRTH_ERROR);
             }
-
+            if (validationEntity.IsDateOfBirthEstimated.HasValue
+                && validationEntity.IsDateOfBirthEstimated.Value
+                && !validationEntity.DateOfBirth.HasValue)
+            {
+                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.IsDateOfBirthEstimated, DATE_OF_BIRTH_ESTIMATED_BUT_NO_DATE_OF_BIRTH_GIVEN);
+            }
+            if (validationEntity.IsDateOfBirthUnknown.HasValue
+                && validationEntity.IsDateOfBirthUnknown.Value
+                && validationEntity.DateOfBirth.HasValue)
+            {
+                yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.IsDateOfBirthUnknown, DATE_OF_BIRTH_UNKONWN_BUT_DATE_OF_BIRTH_GIVEN);
+            }
         }
     }
 }

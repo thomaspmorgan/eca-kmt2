@@ -17,7 +17,7 @@
     <div class="row table">
         <h4 class="tab-subheader">Details</h4>
         <div class="col-md-6">
-            <div class="row" ng-show="view.office.themes">
+            <div class="row" ng-show="view.office.themes && view.dataPointConfigurations[constants.dataPointProperty.themes.id]">
                 <div class="col-md-4 title-label">Themes</div>
                 <div class="col-md-8 simple-list">
                     <ul>
@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row" ng-show="view.office.goals">
+            <div class="row" ng-show="view.office.goals && view.dataPointConfigurations[constants.dataPointProperty.goals.id]">
                 <div class="col-md-4 title-label">Goals</div>
                 <div class="col-md-8 simple-list">
                     <ul>

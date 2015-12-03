@@ -12,7 +12,7 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ParticipantPersonsSevisService sevisService;
-        
+
         [TestInitialize]
         public void TestInit()
         {

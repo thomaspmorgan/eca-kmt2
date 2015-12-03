@@ -83,13 +83,13 @@ namespace ECA.Business.Service.Persons
             
             var final = new List<ValidationResult>();
             foreach (var error in results.Errors)
-            {
+        {
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
 
             return final;
         }
-
+        
         // TODO: for sending XML content to Sevis service
 
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;

@@ -12,11 +12,11 @@ namespace ECA.Business.Validation
 
         // Sevis batch record
         public string userID { get; set; }
-
+        
         // Sevis batch header
         public BatchHeader batchHeader { get; set; }
 
         // Sevis student record
-        public CreateStudent createStudent { get; set; }        
+        public CreateStudent createStudent { get; set; }
     }
 }

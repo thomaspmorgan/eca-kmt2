@@ -22,7 +22,7 @@ namespace ECA.Business.Service.Persons
         public async Task<List<ValidationResult>> PreSevisValidationAsync(int participantId)
         {
             Contract.Requires(participantId > 0, "The participant ID must not be null.");
-            var validator = new PersonSevisServiceValidator();            
+            var validator = new PersonSevisServiceValidator();
             var results = await validator.ValidateSevisAsync(participantId);
 
             return results;

@@ -108,20 +108,14 @@ angular.module('staticApp')
           moneyFlow.currentlyEditing = true;
           moneyFlow.editableAmount = moneyFlow.editableAmount < 0 ? -moneyFlow.editableAmount : moneyFlow.editableAmount;
           if (moneyFlow.parentMoneyFlowId) {
-              loadSourceMoneyFlow(moneyFlow);
+              loadSourceMoneyFlow(moneyFlow)
+              .then(scrollToMoneyFlow(moneyFlow));
+          }
+          else {
+              scrollToMoneyFlow(moneyFlow);
           }
 
-          var options = {
-              duration: 500,
-              easing: 'easeIn',
-              offset: 225,
-              callbackBefore: function (element) {
-              },
-              callbackAfter: function (element) { }
-          }
-          var id = $scope.view.getMoneyFlowDivId(moneyFlow)
-          var e = document.getElementById(id);
-          smoothScroll(e, options);
+          
       }
 
       $scope.view.onEditableAmountChange = function ($event, moneyFlow) {
@@ -252,6 +246,20 @@ angular.module('staticApp')
       $scope.view.getScope = function () {
           return $scope;
       };
+
+      function scrollToMoneyFlow(moneyFlow) {
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 225,
+              callbackBefore: function (element) {
+              },
+              callbackAfter: function (element) { }
+          }
+          var id = $scope.view.getMoneyFlowDivId(moneyFlow)
+          var e = document.getElementById(id);
+          smoothScroll(e, options);
+      }
 
       function loadSourceMoneyFlow(moneyFlow) {
           console.assert(moneyFlow.parentMoneyFlowId, "The given money flow should have a parent id.");
@@ -461,6 +469,7 @@ angular.module('staticApp')
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = false;
                   moneyFlow.loadingEntityState = false;
+                  moneyFlow.test = 1000;
                   if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
                       moneyFlow.loadingEntityState = true;
                       getMoneyFlowHref(moneyFlow)

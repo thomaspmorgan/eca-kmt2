@@ -169,6 +169,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\about\about.controller.js" />
     <Content Include="app\activities\activities.routes.js" />
     <Content Include="app\application-insights\angular-appinsights.js" />
     <Content Include="app\app.config.js" />
@@ -195,6 +196,7 @@
     <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\search\spotlight.controller.js" />
+    <Content Include="app\services\about.service.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

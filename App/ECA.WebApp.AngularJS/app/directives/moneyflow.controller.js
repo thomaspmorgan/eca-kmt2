@@ -302,7 +302,14 @@ angular.module('staticApp')
       function handleOrganizationsSearchResponse(response) {
           var orgs = response.results;
           angular.forEach(orgs, function (org, index) {
-              setDataForResultTemplate(org, 'organizationId', org.name, org.location);
+              var roleNames = '';
+              angular.forEach(org.organizationRoleNames, function (roleName, index) {
+                  roleNames += roleName + ', ';
+              });
+              if (roleNames.length > 0) {
+                  roleNames = roleNames.substring(0, roleNames.length - 2);
+              }
+              setDataForResultTemplate(org, 'organizationId', org.name, roleNames);
           });
           return orgs;
       }
@@ -316,7 +323,6 @@ angular.module('staticApp')
                   owner += program.officeSymbol + " - ";
               }
               owner += program.orgName;
-
               setDataForResultTemplate(program, 'programId', program.name, owner);
           });
           return programs;
