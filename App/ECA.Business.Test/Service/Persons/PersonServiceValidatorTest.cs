@@ -1,7 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Service.Persons;
+﻿using ECA.Business.Service.Persons;
+using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
 using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +12,18 @@ namespace ECA.Business.Test.Service.Persons
     [TestClass]
     public class PersonServiceValidatorTest
     {
+       
+
+        private TestEcaContext context;
+        private SevisValidationService sevisService;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            context = new TestEcaContext();
+            sevisService = new SevisValidationService();
+        }
+
         #region DoValidateCreate
 
         [TestMethod]
@@ -403,5 +417,61 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        [TestMethod]
+        public void TestSevisValidator_NullStudent()
+        {
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var createStudent = new CreateStudent
+            {
+                student = null
+            };
+            var updateStudent = new SEVISBatchCreateUpdateStudent
+            {
+                userID = "1",
+                batchHeader = batchHeader,
+                createStudent = createStudent
+            };
+
+            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var results = validator.Validate(updateStudent);
+            Assert.AreEqual(1, results.Errors.Count());
+        }
+
+        [TestMethod]
+        public void TestSevisValidator_NullStudentIssueReason()
+        {
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var student = new Student
+            {
+                requestID = "1",
+                userID = "1",
+                printForm = false,
+                UserDefinedA = "2",
+                UserDefinedB = "3",
+                IssueReason = null
+            };
+            var createStudent = new CreateStudent
+            {
+                student = student
+            };
+            var updateStudent = new SEVISBatchCreateUpdateStudent
+            {
+                userID = "1",
+                batchHeader = batchHeader,
+                createStudent = createStudent
+            };
+
+            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var results = validator.Validate(updateStudent);
+            Assert.AreEqual(1, results.Errors.Count());
+        }
     }
 }
