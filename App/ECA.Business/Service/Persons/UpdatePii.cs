@@ -81,7 +81,7 @@ namespace ECA.Business.Service.Persons
             this.MedicalConditions = medicalConditions;
             this.MaritalStatusId = maritalStatusId;
             this.IsDateOfBirthEstimated = isDateOfBirthEstimated;
-            this.Audit = new Create(updatedBy);
+            this.Audit = new Update(updatedBy);
         }
 
         /// <summary>

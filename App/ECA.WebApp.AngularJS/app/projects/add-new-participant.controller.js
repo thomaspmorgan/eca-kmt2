@@ -9,7 +9,7 @@
  */
 angular.module('staticApp')
   .controller('AddNewParticipantCtrl', function ($q, $scope, $stateParams, $modalInstance, LookupService, LocationService, ConstantsService, PersonService, ProjectService, NotificationService, OrganizationService) {
-    
+
       $scope.personTabActive = true;
 
       // Initialize model for person tab
@@ -17,7 +17,7 @@ angular.module('staticApp')
       $scope.newPerson.countriesOfCitizenship = [];
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
-      $scope.newPerson.IsPlaceOfBirthUnknown = false;
+      $scope.newPerson.isPlaceOfBirthUnknown = false;
       $scope.unknownCountry = 'Unknown';
 
       // Initialize model for organization tab
@@ -81,33 +81,20 @@ angular.module('staticApp')
       $scope.$watch('newPerson.cityOfBirth', function () {
           var city = $scope.newPerson.cityOfBirth;
           if (city) {
-              $scope.newPerson.IsPlaceOfBirthUnknown = false;
+              $scope.newPerson.isPlaceOfBirthUnknown = false;
           }
       });
-
-      $scope.toggleDobUnknown = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.newPerson.isDateOfBirthUnknown = $scope.newPerson.isDateOfBirthUnknown === false ? true : false;
-          if ($scope.newPerson.isDateOfBirthUnknown === true) {
-              $scope.dateOfBirthPlaceholder = 'Unknown'
-              $scope.newPerson.dateOfBirth = undefined;
-              $scope.isDobDatePickerOpen = false;
-          } else {
-              $scope.dateOfBirthPlaceholder = '';
-          }
-      };
 
       $scope.searchCountries = function (search) {
           loadCountries(search);
       }
 
-      $scope.searchCountriesCopy = function (search) {
-          loadCountriesCopy(search);
-      }
-
       $scope.searchCities = function (search) {
           loadCities(search);
+      }
+
+      $scope.onIsPlaceOfBirthUnknownChange = function () {
+          $scope.newPerson.cityOfBirth = null;
       }
 
       $scope.countryOfBirthSelected = function () {
@@ -130,6 +117,24 @@ angular.module('staticApp')
 
       $scope.cancel = function () {
           $modalInstance.close();
+      }
+
+      $scope.isCityOfBirthValid = function ($value) {
+          console.log('here');
+          if (!$scope.newPerson.hasOwnProperty('isPlaceOfBirthUnknown') && !$scope.newPerson.hasOwnProperty('cityOfBirth')) {
+              return true;
+          }
+          if ($scope.newPerson.isPlaceOfBirthUnknown) {
+              return $scope.newPerson.cityOfBirth === undefined || $scope.newPerson.cityOfBirth === null;
+          }
+          else {
+              return $value !== undefined && $value !== null && $value !== 0;
+          }
+      }
+
+      $scope.onDateOfBirthUnknownChange = function () {
+          $scope.newPerson.dateOfBirth = null;
+          $scope.newPerson.isDateOfBirthEstimated = null;
       }
 
       function resetDuplicates() {
@@ -202,7 +207,7 @@ angular.module('staticApp')
       function showError() {
           NotificationService.showErrorMessage('There was an error adding the participant.');
       }
-      
+
       function addExistingPerson() {
           var existingPerson = {
               projectId: $stateParams.projectId,
@@ -272,13 +277,13 @@ angular.module('staticApp')
       }
 
       function loadPersonParticipantTypes() {
-        return LookupService.getParticipantTypes({
-            limit: 300,
-            filter: [{ property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: true }]
-        })
-        .then(function (data) {
-            $scope.personParticipantTypes = data.data.results;
-        });
+          return LookupService.getParticipantTypes({
+              limit: 300,
+              filter: [{ property: 'isPerson', comparison: ConstantsService.equalComparisonType, value: true }]
+          })
+          .then(function (data) {
+              $scope.personParticipantTypes = data.data.results;
+          });
       }
 
       function loadGenders() {
@@ -288,8 +293,8 @@ angular.module('staticApp')
             });
       }
 
-      function loadCountries(search) {
-          var params = {
+      function getLoadCountriesParams(search) {
+          return {
               limit: 300,
               filter: [
                 { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
@@ -297,56 +302,35 @@ angular.module('staticApp')
                 { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
               ]
           };
-
-          return LocationService.get(params)
-            .then(function (data) {
-                var countriesOfBirth = data.results;
-                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
-                $scope.countries = countriesOfBirth;
-            });
       }
 
-      function loadCountriesCopy(search) {
-          var params = {
-              limit: 300,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-                { property: 'name', comparison: ConstantsService.likeComparisonType, value: search },
-                { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
-              ]
-          };
-
-          return LocationService.get(params)
+      function loadCountries(search) {
+          return LocationService.get(getLoadCountriesParams(search))
             .then(function (data) {
-                var countriesOfBirth = data.results;
-                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
-                $scope.countriesCopy = countriesOfBirth;
+                var results = data.results;
+                $scope.countries = results;
             });
       }
 
       function loadCities(search) {
-          if ($scope.newPerson.countryOfBirth) {
+          var params = {
+              limit: 300,
+              filter: [
+                  { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id },
+                  { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
+              ]
+          };
 
-              var params = {
-                  limit: 300,
-                  filter: [
-                    { property: 'countryId', comparison: 'eq', value: $scope.newPerson.countryOfBirth },
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id },
-                    { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
-                  ]
-              };
-              
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              } else if ($scope.newPerson.cityOfBirth) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.newPerson.cityOfBirth });
-              }
-
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.cities = data.results;
-                });
+          if (search) {
+              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+          } else if ($scope.newPerson.cityOfBirth) {
+              params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.newPerson.cityOfBirth });
           }
+
+          return LocationService.get(params)
+          .then(function (data) {
+              $scope.cities = data.results;
+          });
       }
 
       function loadOrganizationParticipantTypes() {
@@ -391,4 +375,4 @@ angular.module('staticApp')
       $q.all([loadPersonParticipantTypes(), loadGenders()]);
       // Lookups for organization
       $q.all([loadOrganizationParticipantTypes(), loadOrganizationTypes(), loadOrganizationRoles(), loadPointsOfContact()]);
-});
+  });
