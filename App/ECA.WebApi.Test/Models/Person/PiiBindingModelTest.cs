@@ -32,6 +32,7 @@ namespace ECA.WebApi.Test.Models.Person
             model.PersonId = 2;
             model.IsDateOfBirthEstimated = true;
             model.IsDateOfBirthUnknown = true;
+            model.IsPlaceOfBirthUnknown = true;
 
             var user = new User(1);
             var instance = model.ToUpdatePii(user);
@@ -54,6 +55,52 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.PersonId, instance.PersonId);
             Assert.AreEqual(model.IsDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
             Assert.AreEqual(model.IsDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
+            Assert.AreEqual(model.IsPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
+        }
+
+        [TestMethod]
+        public void TestToUpdatePii_CheckDateOfBirthEstimated()
+        {
+            var model = new PiiBindingModel();
+            model.IsDateOfBirthEstimated = true;
+            model.IsDateOfBirthUnknown = false;
+            model.IsPlaceOfBirthUnknown = false;
+
+            var user = new User(1);
+            var instance = model.ToUpdatePii(user);
+            Assert.AreEqual(model.IsDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
+            Assert.AreEqual(model.IsDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
+            Assert.AreEqual(model.IsPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
+        }
+
+        [TestMethod]
+        public void TestToUpdatePii_CheckDateOfBirthUnknown()
+        {
+            var model = new PiiBindingModel();
+            model.IsDateOfBirthEstimated = false;
+            model.IsDateOfBirthUnknown = true;
+            model.IsPlaceOfBirthUnknown = false;
+
+            var user = new User(1);
+            var instance = model.ToUpdatePii(user);
+            Assert.AreEqual(model.IsDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
+            Assert.AreEqual(model.IsDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
+            Assert.AreEqual(model.IsPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
+        }
+
+        [TestMethod]
+        public void TestToUpdatePii_CheckPlaceOfBirthUnknown()
+        {
+            var model = new PiiBindingModel();
+            model.IsDateOfBirthEstimated = false;
+            model.IsDateOfBirthUnknown = true;
+            model.IsPlaceOfBirthUnknown = false;
+
+            var user = new User(1);
+            var instance = model.ToUpdatePii(user);
+            Assert.AreEqual(model.IsDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
+            Assert.AreEqual(model.IsDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
+            Assert.AreEqual(model.IsPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
         }
     }
 }

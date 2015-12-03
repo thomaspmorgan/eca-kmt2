@@ -1,13 +1,39 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
 			program: {id: 2, value: "Program"},
-			project: {id: 3, value: "Project"}
+			project: {id: 3, value: "Project"},
+			person: {id: 4, value: "Person"}
 		},
 		dataPointProperty: {
 			themes: {id: 1, value: "Themes"},
-			goals: {id: 2, value: "Goals"}
+			goals: {id: 2, value: "Goals"},
+			regions: {id: 3, value: "Regions"},
+			categories: {id: 4, value: "Categories"},
+			objectives: {id: 5, value: "Objectives"},
+			locations: {id: 6, value: "Locations"},
+			addresses: {id: 7, value: "Addresses"},
+			emails: {id: 8, value: "Emails"},
+			languageProficiencies: {id: 9, value: "Language Proficiencies"},
+			phoneNumbers: {id: 10, value: "Phone Numbers"}
 		},
 		emailAddressType: {
 			home: {id: 1, value: "Home"},
@@ -170,4 +196,5 @@
 		searchDelimiter: ' '
 	};
 });
+
 

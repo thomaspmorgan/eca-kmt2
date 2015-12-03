@@ -118,31 +118,14 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and sets addresses.
         /// </summary>
         public IEnumerable<AddressDTO> Addresses { get; set; }
-
-        /// <summary>
-        /// Gets and sets country of birth 
-        /// </summary>
-        public string CountryOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets and sets country of birth id
-        /// </summary>
-        public int? CountryOfBirthId { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the place of birth unknown flag.
         /// </summary>
         public bool? IsPlaceOfBirthUnknown { get; set; }
-
-        /// <summary>
-        /// Gets and sets city of birth
+        
+        /// Gets or sets the city of birth location.
         /// </summary>
-        public string CityOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets and sets city of birth id
-        /// </summary>
-        public int? CityOfBirthId { get; set; }
-
+        public LocationDTO PlaceOfBirth { get; set; }
     }
 }

@@ -27,6 +27,9 @@ angular.module('staticApp')
           PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
+                 if ($scope.pii.placeOfBirth) {
+                     $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
+                 }
                  if ($scope.pii.dateOfBirth) {
                      $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
                      $scope.pii.isDateOfBirthUnknown = false;
@@ -34,12 +37,6 @@ angular.module('staticApp')
                  } else if ($scope.pii.isDateOfBirthUnknown) {
                      $scope.dateOfBirthPlaceholder = 'Unknown';
                      $scope.pii.dateOfBirth = undefined;
-                 }
-                 if ($scope.pii.cityOfBirthId) {
-                     $scope.pii.IsPlaceOfBirthUnknown = false;
-                 } else {
-                     $scope.pii.IsPlaceOfBirthUnknown = true;
-                     $scope.pii.countryOfBirthId = 0;
                  }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
