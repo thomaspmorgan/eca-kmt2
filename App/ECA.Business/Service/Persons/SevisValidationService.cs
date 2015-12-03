@@ -1,4 +1,4 @@
-﻿using ECA.Business.Validation;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
@@ -19,13 +19,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public async Task<IQueryable<ValidationResult>> PreSevisValidationAsync(int participantId)
+        public async Task<List<ValidationResult>> PreSevisValidationAsync(int participantId)
         {
             Contract.Requires(participantId > 0, "The participant ID must not be null.");
-            var validator = new PersonSevisServiceValidator();
-            var results = await validator.ValidateSevis(participantId).AsQueryable().ToListAsync();
+            var validator = new PersonSevisServiceValidator();            
+            var results = await validator.ValidateSevisAsync(participantId);
 
-            return results.AsQueryable();
+            return results;
         }
 
         /// <summary>
@@ -33,11 +33,11 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public IQueryable<ValidationResult> PreSevisValidation(int participantId)
+        public List<ValidationResult> PreSevisValidation(int participantId)
         {
             Contract.Requires(participantId > 0, "The participant ID must not be null.");
             var validator = new PersonSevisServiceValidator();
-            var results = validator.ValidateSevis(participantId).AsQueryable();
+            var results = validator.ValidateSevis(participantId);
 
             return results;
         }

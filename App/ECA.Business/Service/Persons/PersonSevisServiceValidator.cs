@@ -3,6 +3,8 @@ using ECA.Business.Validation.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Threading.Tasks;
+using FluentValidation.Mvc;
 //using System.Data;
 //using System.IO;
 //using System.Xml.Serialization;
@@ -24,9 +26,7 @@ namespace ECA.Business.Service.Persons
         public List<ValidationResult> ValidateSevis(int participantId)
         {
             // TODO: get full sevis object
-
-
-
+            
             // ****** temporary object to return validation results ***********
             var batchHeader = new BatchHeader
             {
@@ -47,9 +47,49 @@ namespace ECA.Business.Service.Persons
             var validator = new SEVISBatchCreateUpdateStudentValidator();
             var results = validator.Validate(updateStudent);
 
-            return results.Errors as List<ValidationResult>;
+            var final = new List<ValidationResult>();
+
+            foreach (var error in results.Errors)
+            {
+                final.Add(new ValidationResult(error.ErrorMessage));
+            }
+            
+            return final;
         }
-        
+
+        public async Task<List<ValidationResult>> ValidateSevisAsync(int participantId)
+        {
+            // TODO: get full sevis object
+
+            // ****** temporary object to return validation results ***********
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var createStudent = new CreateStudent
+            {
+                student = null
+            };
+            var updateStudent = new SEVISBatchCreateUpdateStudent
+            {
+                userID = "1",
+                batchHeader = batchHeader,
+                createStudent = createStudent
+            };
+
+            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var results = await validator.ValidateAsync(updateStudent);
+            
+            var final = new List<ValidationResult>();
+            foreach (var error in results.Errors)
+            {
+                final.Add(new ValidationResult(error.ErrorMessage));
+            }
+
+            return final;
+        }
+
         // TODO: for sending XML content to Sevis service
 
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;

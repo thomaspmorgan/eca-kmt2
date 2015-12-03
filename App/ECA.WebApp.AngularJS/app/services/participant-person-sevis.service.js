@@ -57,9 +57,9 @@
             return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
         }
 
-        function validateParticipantPersonsSevis(sevisInfo) {
+        function validateParticipantPersonsSevis(id) {
             var path = 'ParticipantPersonsSevis/ValidateSevis';
-            return DragonBreath.create(sevisInfo, path);
+            return DragonBreath.get(path, id);
         };
         
     }

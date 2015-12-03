@@ -456,6 +456,7 @@
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
+    <Compile Include="Validation\Model\Create\AddDependentValidator.cs" />
     <Compile Include="Validation\Model\Create\CreateStudentValidator.cs" />
     <Compile Include="Validation\Model\SEVISBatchCreateUpdateStudentValidator.cs" />
     <Compile Include="Validation\Model\Shared\BatchHeaderValidator.cs" />
@@ -472,6 +473,7 @@
     <Compile Include="Validation\Model\Shared\FundingValidator.cs" />
     <Compile Include="Validation\Model\Shared\PersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\SchoolValidator.cs" />
+    <Compile Include="Validation\Model\Shared\StudentPersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentValidator.cs" />
     <Compile Include="Validation\Model\Shared\USAddressValidator.cs" />
     <Compile Include="Validation\Model\UpdateStudent\AddAuthDrop.cs" />

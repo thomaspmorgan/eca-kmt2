@@ -214,21 +214,15 @@
                 // pre-sevis validation
                 $scope.validateSevisInfo = function () {
                     return ParticipantPersonsSevisService.validateParticipantPersonsSevis($scope.participantid)
-                    .then(function (data) {
+                    .then(function (response) {
                         $log.error('Validated participant SEVIS info');
-                        $scope.validationResults = data;
-                    }, function (error) {
-                        if (error.status === 400) {
-                            if (error.data.message && error.data.modelState) {
-                                var valErrors = [];
-                                for (var key in error.data.modelState) {
-                                    valErrors.push(error.data.modelState[key][0]);
-                                }
-                                $scope.validationResults = valErrors;
-                            } else {
-                                NotificationService.showErrorMessage(error.data);
-                            }
+                        var valErrors = [];
+                        for (var i = 0; i < response.data.length; i++) {                            
+                            valErrors.push(response.data[i].errorMessage);
                         }
+                        $scope.validationResults = valErrors;
+                    }, function (error) {
+                        NotificationService.showErrorMessage(error.data);
                     });
                 };
 

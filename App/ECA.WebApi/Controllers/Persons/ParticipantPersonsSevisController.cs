@@ -173,8 +173,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="participantId"></param>
         /// <returns>validation result</returns>
-        [Route("ParticipantPersonsSevis/ValidateSevis")]
-        public async Task<IHttpActionResult> ValidateSevisAsync(int participantId)
+        [Route("ParticipantPersonsSevis/ValidateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateSevisAsync(int participantId)
         {
             var statuses = await validation.PreSevisValidationAsync(participantId);
             return Ok(statuses);
