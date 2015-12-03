@@ -12,6 +12,7 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.versionNumber = '';
       $scope.view.isDebugBuild = false;
+      $scope.view.lookupErrorsCount = 0;
       function isDebugBuild(about) {
           return about.buildConfiguration === 'Debug';
       }
@@ -22,6 +23,7 @@ angular.module('staticApp')
           var version = response.data.version;
           $scope.view.versionNumber = version;
           $scope.view.isDebugBuild = isDebugBuild(response.data);
+          $scope.view.lookupErrorsCount = response.data.lookupErrors.length;
       })
       .catch(function (response) {
           $log.error('Unable to load about information.');
