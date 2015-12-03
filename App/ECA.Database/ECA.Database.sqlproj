@@ -117,6 +117,7 @@
     <None Include="ECA_PRE.publish.xml" />
     <None Include="Scripts\Users\CreateKMT_UserInDB.sql" />
     <None Include="Data Migration\MigrationScripts\ECA\UpdateParticipantTypeForOrgs.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Organization-FundingSources.data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
