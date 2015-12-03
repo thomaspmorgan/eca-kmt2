@@ -1,7 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Contains dependent details
+    /// </summary>
+    [Validator(typeof(StudentValidator))]
     public class CreateDependent
     {
         /// <summary>
@@ -12,7 +17,6 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Dependent record remarks
         /// </summary>
-        [MaxLength(500)]
         public string Remarks { get; set; }
         
     }
