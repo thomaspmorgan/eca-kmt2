@@ -36,6 +36,7 @@ DECLARE @tblTempTable TABLE (
 INSERT INTO @tblTempTable ([DataPointCategoryId], [DataPointCategoryName]) VALUES ('1', 'Office')
 INSERT INTO @tblTempTable ([DataPointCategoryId], [DataPointCategoryName]) VALUES ('2', 'Program')
 INSERT INTO @tblTempTable ([DataPointCategoryId], [DataPointCategoryName]) VALUES ('3', 'Project')
+INSERT INTO @tblTempTable ([DataPointCategoryId], [DataPointCategoryName]) VALUES ('4', 'Person')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[DataPointCategory] ON
