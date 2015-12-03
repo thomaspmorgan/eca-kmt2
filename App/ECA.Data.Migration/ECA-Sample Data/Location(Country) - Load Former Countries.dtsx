@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Location Country  - Load Former Countries"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{D92A77CA-C015-4E35-8815-8FCBE8F29E2F}">
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{93C655AD-CECA-49FE-9EB1-66FF1C5A38BC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -863,10 +863,6 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="171,42"
-          Id="Package\Load Historical Countries\OLE DB Destination"
-          TopLeft="41.5,302.5" />
-        <NodeLayout
           Size="139,42"
           Id="Package\Load Historical Countries\Excel Source"
           TopLeft="57.5,21.5" />
@@ -878,6 +874,10 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
           Size="154,42"
           Id="Package\Load Historical Countries\Derived Column"
           TopLeft="53.5,126.5" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Load Historical Countries\OLE DB Destination"
+          TopLeft="41.5,302.5" />
         <EdgeLayout
           Id="Package\Load Historical Countries.Paths[Lookup No Match Output]"
           TopLeft="130.5,255.5">
@@ -950,19 +950,6 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Historical Countries\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Load Historical Countries\Excel Source">
     <Properties>
       <Property>
@@ -995,6 +982,19 @@ where [refTable].[LocationName] = ? AND  [refTable].[LocationTypeId] = 3</proper
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Historical Countries\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
