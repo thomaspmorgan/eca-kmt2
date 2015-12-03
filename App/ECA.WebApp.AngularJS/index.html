@@ -99,6 +99,9 @@
             <div class="text-stack">
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
+                <div ng-controller="AboutCtrl">
+                    <p>{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -163,6 +166,7 @@
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.run.js"></script>
+    <script src="app/about/about.controller.js"></script>
     <script src="app/home/home.routes.js"></script>
     <script src="app/home/home.controller.js"></script>
     <script src="app/activities/activities.routes.js"></script>
@@ -284,6 +288,7 @@
     <script src="app/filters/tab.filter.js"></script>
     <script src="app/filters/newline.filter.js"></script>
     <!-- Services -->
+    <script src="app/services/about.service.js"></script>
     <script src="app/services/address.service.js"></script>
     <script src="app/services/auth.service.js"></script>
     <script src="app/services/bookmark.service.js"></script>
