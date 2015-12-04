@@ -16,8 +16,9 @@ With Offices As
 	  ,TopLevelOffice.OfficeSymbol
 	  ,TopLevelOffice.[Name]
 	  ,TopLevelOffice.[Description]
-      ,[ParentOrganization_OrganizationId],
-	  1 as OfficeLevel
+      ,[ParentOrganization_OrganizationId]
+	  ,cast(row_number()over(partition by TopLevelOffice.ParentOrganization_OrganizationId order by TopLevelOffice.Name) as varchar(max)) as [Path]
+	  ,1 as OfficeLevel
   FROM [Organization] as TopLevelOffice
   JOIN OrganizationType as OrgType
   ON TopLevelOffice.OrganizationTypeId = orgType.OrganizationTypeId
@@ -32,6 +33,7 @@ With Offices As
 	  ,Org.Name
       ,Org.Description
       ,Org.[ParentOrganization_OrganizationId]
+	  ,[Path] +'-'+ cast(row_number()over(partition by Org.ParentOrganization_OrganizationId order by Org.Name) as varchar(max))
 	  , OL.OfficeLevel + 1
   FROM [Organization] as Org
   
