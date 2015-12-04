@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
 using System.Threading.Tasks;
-using FluentValidation.Mvc;
 //using System.Data;
 //using System.IO;
 //using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
-    public class PersonSevisServiceValidator : SevisValidatorBase<SEVISBatchCreateUpdateStudent>
+    public class PersonSevisServiceValidator : SevisValidatorBase<SEVISBatchUpdateStudent>
     {
-        public override List<ValidationResult> DoValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
+        public override List<ValidationResult> DoValidateSevis(SEVISBatchUpdateStudent validationEntity)
         {
             throw new NotImplementedException();
         }
@@ -37,14 +36,14 @@ namespace ECA.Business.Service.Persons
             {
                 student = null
             };
-            var updateStudent = new SEVISBatchCreateUpdateStudent
+            var updateStudent = new SEVISBatchUpdateStudent
             {
                 userID = "1",
                 batchHeader = batchHeader,
                 createStudent = createStudent
             };
 
-            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var validator = new SEVISBatchUpdateStudentValidator();
             var results = validator.Validate(updateStudent);
 
             var final = new List<ValidationResult>();
@@ -71,14 +70,14 @@ namespace ECA.Business.Service.Persons
             {
                 student = null
             };
-            var updateStudent = new SEVISBatchCreateUpdateStudent
+            var updateStudent = new SEVISBatchUpdateStudent
             {
                 userID = "1",
                 batchHeader = batchHeader,
                 createStudent = createStudent
             };
 
-            var validator = new SEVISBatchCreateUpdateStudentValidator();
+            var validator = new SEVISBatchUpdateStudentValidator();
             var results = await validator.ValidateAsync(updateStudent);
             
             var final = new List<ValidationResult>();

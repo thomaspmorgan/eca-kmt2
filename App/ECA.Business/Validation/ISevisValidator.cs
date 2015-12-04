@@ -16,7 +16,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The validation results found.</returns>
-        IEnumerable<ValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity);
+        IEnumerable<ValidationResult> ValidateSevis(SEVISBatchUpdateStudent validationEntity);
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ namespace ECA.Business.Validation
     [ContractClassFor(typeof(ISevisValidator))]
     public abstract class ISevisValidatorContract : ISevisValidator
     {
-        public IEnumerable<ValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
+        public IEnumerable<ValidationResult> ValidateSevis(SEVISBatchUpdateStudent validationEntity)
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
             return new List<ValidationResult>().AsQueryable();
