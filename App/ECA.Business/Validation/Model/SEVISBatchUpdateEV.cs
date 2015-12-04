@@ -2,7 +2,7 @@
 
 namespace ECA.Business.Validation.Model
 {
-    public class SEVISBatchCreateUpdateEV
+    public class SEVISBatchUpdateEV
     {
         // Sevis batch record
         [MaxLength(10)]
