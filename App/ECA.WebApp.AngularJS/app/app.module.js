@@ -30,5 +30,6 @@ angular
     'nvd3',
     'angular-appinsights',
     'angular.filter',
+    'ui.utils.masks',
     'templates'
   ]);

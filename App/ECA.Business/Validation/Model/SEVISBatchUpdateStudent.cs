@@ -2,9 +2,9 @@
 
 namespace ECA.Business.Validation
 {
-    public class SEVISBatchCreateUpdateStudent
+    public class SEVISBatchUpdateStudent
     {
-        public SEVISBatchCreateUpdateStudent()
+        public SEVISBatchUpdateStudent()
         {
             batchHeader = new BatchHeader();
             createStudent = new CreateStudent();

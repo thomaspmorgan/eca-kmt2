@@ -100,7 +100,7 @@
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
                 <div ng-controller="AboutCtrl">
-                    <p ng-cloak>{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}} <span ng-show="view.lookupErrorsCount > 0" tooltip="Lookup Errors"><i class="material-icons">warning</i></span></p>
+                    <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}} <span ng-show="view.lookupErrorsCount > 0" tooltip="Lookup Errors"><i class="material-icons">warning</i></span></p>
                 </div>
             </div>
         </div>
@@ -157,6 +157,7 @@
     <script src="bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"></script>
     <script src="bower_components/international-phone-number/releases/international-phone-number.js"></script>
     <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->

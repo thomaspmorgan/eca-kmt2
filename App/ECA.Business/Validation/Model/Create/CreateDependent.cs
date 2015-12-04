@@ -1,19 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Contains new dependent details
+    /// </summary>
+    [Validator(typeof(CreateDependentValidator))]
     public class CreateDependent
     {
         /// <summary>
-        /// Dependent personal information
+        /// New dependent
         /// </summary>
-        public PersonalInfo Dependent { get; set; }
+        public AddDependent Dependent { get; set; }
         
         /// <summary>
         /// Dependent record remarks
         /// </summary>
-        [MaxLength(500)]
-        public string Remarks { get; set; }
-        
+        public string Remarks { get; set; }        
     }
 }

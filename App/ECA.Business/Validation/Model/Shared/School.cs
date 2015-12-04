@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(SchoolValidator))]
     public class School
     {
-
-        [MaxLength(8)]
         public int Amount { get; set; }
         
-        [MaxLength(500)]
-        public string Remarks { get; set; }
-        
+        public string Remarks { get; set; }        
     }
 }
