@@ -9,7 +9,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         public EduLevelValidator()
         {
-            RuleFor(student => student.Level).NotNull().Length(LEVEL_LENGTH).WithMessage("Education Level: Level is required and must be " + LEVEL_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Level).NotNull().WithMessage("Education Level: Level is required").Length(LEVEL_LENGTH).WithMessage("Education Level: Level must be " + LEVEL_LENGTH.ToString() + " characters");
             RuleFor(student => student.OtherRemarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Education Level: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
         }
     }
