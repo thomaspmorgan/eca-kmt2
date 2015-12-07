@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(student => student.printForm).NotNull().WithMessage("Student: Print form option is required");
             RuleFor(student => student.UserDefinedA).Length(0, USERDEFINEDA_MAX_LENGTH).WithMessage("Student: User Defined A can be up to " + USERDEFINEDA_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.UserDefinedB).Length(0, USERDEFINEDB_MAX_LENGTH).WithMessage("Student: User Defined B can be up to " + USERDEFINEDB_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.IssueReason).NotNull().WithMessage("Student: Issue Reason is required").Length(1, ISSUE_REASON_STRING_LENGTH).WithMessage("Student: Issue Reason can be up to " + ISSUE_REASON_STRING_LENGTH.ToString() + " characters");
+            RuleFor(student => student.IssueReason).NotNull().WithMessage("Student: Issue Reason is required").Length(ISSUE_REASON_STRING_LENGTH).WithMessage("Student: Issue Reason can be up to " + ISSUE_REASON_STRING_LENGTH.ToString() + " characters");
             RuleFor(student => student.Remarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Student: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
             When(student => student.requestID != null, () => {
                 // personal info cannot be null
