@@ -1,4 +1,19 @@
 <div class="row row2">
+    <div class="col-md-9" ng-show="validationResults.length > 0">
+        <div class="col-md-4">
+            {{validationResults.length}} fields remaining
+        </div>
+        <div class="col-md-8">
+            <ul>
+                <li ng-repeat="error in validationResults track by $index">{{error}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button ng-click="validateSevisInfo()" class="btn btn-success">TEST VALIDATION</button>
+    </div>
+</div>
+<div class="row row2">
     <div class="col-md-2">
         <h5>DHS Status</h5>
     </div>

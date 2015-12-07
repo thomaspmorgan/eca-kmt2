@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(FinancialInfoValidator))]
     public class FinancialInfo
     {
-        [MaxLength(2)]
         public string AcademicTerm { get; set; }
 
         public Expense Expense { get; set; }

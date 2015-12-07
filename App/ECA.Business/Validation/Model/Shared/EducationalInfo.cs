@@ -1,22 +1,21 @@
-﻿using System;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(EducationalInfoValidator))]
     public class EducationalInfo
     {
         public EduLevel eduLevel { get; set; }
-
-        [MaxLength(7)]
+        
         public string PrimaryMajor { get; set; }
-
-        [MaxLength(7)]
+        
         public string SecondMajor { get; set; }
-
-        [MaxLength(7)]
+        
         public string Minor { get; set; }
-
-        [MaxLength(2)]
+        
         public string LengthOfStudy { get; set; }
 
         public DateTime PrgStartDate { get; set; }
@@ -24,8 +23,7 @@ namespace ECA.Business.Validation.Model
         public DateTime PrgEndDate { get; set; }
 
         public EngProficiency engProficiency { get; set; }
-
-        [MaxLength(500)]
+        
         public string Remarks { get; set; }
     }
 }

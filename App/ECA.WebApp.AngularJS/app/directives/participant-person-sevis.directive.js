@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService'];
     
-    function participantPersonSevis ($log, LookupService, FilterService, NotificationService) {
+    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -127,8 +127,7 @@
                         NotificationService.showErrorMessage(message);
                     });
                 }
-
-
+                
                 function loadFieldOfStudies(search) {
                     var fieldOfStudiesFilter = FilterService.add('project-participant-editSevis-fieldOfStudies');
                     fieldOfStudiesFilter = fieldOfStudiesFilter.skip(0).take(limit);
@@ -211,6 +210,21 @@
                         NotificationService.showErrorMessage(message);
                     });
                 }
+                
+                // pre-sevis validation
+                $scope.validateSevisInfo = function () {
+                    return ParticipantPersonsSevisService.validateParticipantPersonsSevis($scope.participantid)
+                    .then(function (response) {
+                        $log.error('Validated participant SEVIS info');
+                        var valErrors = [];
+                        for (var i = 0; i < response.data.length; i++) {                            
+                            valErrors.push(response.data[i].errorMessage);
+                        }
+                        $scope.validationResults = valErrors;
+                    }, function (error) {
+                        NotificationService.showErrorMessage(error.data);
+                    });
+                };
 
                 loadPositions();
                 loadProgramCategories();
@@ -219,9 +233,8 @@
                 //loadFieldOfStudies();
             }
         };
+
         return directive;
-
     }
-
 })();
 

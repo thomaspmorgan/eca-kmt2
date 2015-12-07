@@ -171,22 +171,14 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Manually validate a participant sevis record.
         /// </summary>
-        /// <param name="validationEntity"></param>
+        /// <param name="participantId"></param>
         /// <returns>validation result</returns>
-        [Route("ParticipantPersonsSevis/ValidateSevis")]
-        public async Task<IHttpActionResult> ValidateSevisAsync(SEVISBatchCreateUpdateStudent validationEntity)
+        [Route("ParticipantPersonsSevis/ValidateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateSevisAsync(int participantId)
         {
-            if (ModelState.IsValid)
-            {
-                var statuses = await validation.PreSevisValidationAsync(validationEntity);
-                return Ok(statuses);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            var statuses = await validation.PreSevisValidationAsync(participantId);
+            return Ok(statuses);
         }
-
-
+        
     }
 }
