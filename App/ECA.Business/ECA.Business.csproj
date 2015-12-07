@@ -232,6 +232,8 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
+    <Compile Include="Service\Itineraries\AddedTravelingPeriod.cs" />
+    <Compile Include="Service\Itineraries\TravelingPeriod.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
     <Compile Include="Service\Lookup\IStudentCreationsService.cs" />
     <Compile Include="Service\Lookup\IEducationLevelService.cs" />

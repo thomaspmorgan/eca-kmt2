@@ -23,6 +23,17 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.isLoading = true;
       $scope.view.project = null;
+      $scope.view.travelPeriods = [];
+
+      $scope.view.travelPeriods.push({
+          name: 'Travel Period 1',
+          groupCount: 4,
+          participantCount: 10,
+          arrivalDestination: 'NYC',
+          departureDestination: 'Europe',
+          startDate: new Date(),
+          endDate: new Date()
+      });
 
       $scope.permissions = {};
       $scope.permissions.editProject = false;

@@ -5,4 +5,7 @@
             <button class="btn btn-primary" ng-click="view.onNewTravelingPeriodClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
         </div>
     </div>
+    <div ng-repeat="travelPeriod in view.travelPeriods">
+        <ng-include src="'app/projects/itineraries.travelperiod.html'"/>
+    </div>
 </div>
