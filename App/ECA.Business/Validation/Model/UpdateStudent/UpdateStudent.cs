@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(UpdateStudentValidator))]
     public class UpdateStudent
     {
-        [Required(ErrorMessage = "Student information is required")]
         public StudentUpdate student { get; set; }
         
     }

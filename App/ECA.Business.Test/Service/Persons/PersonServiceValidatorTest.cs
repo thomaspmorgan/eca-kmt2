@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Service.Persons;
-using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.Create;
+using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,16 +13,16 @@ namespace ECA.Business.Test.Service.Persons
     [TestClass]
     public class PersonServiceValidatorTest
     {
-       
-
         private TestEcaContext context;
         private SevisValidationService sevisService;
+        private SEVISBatchUpdateStudentValidator validator;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
             sevisService = new SevisValidationService();
+            validator = new SEVISBatchUpdateStudentValidator();
         }
 
         #region DoValidateCreate
@@ -417,61 +418,48 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        #region Sevis Validation
+
+        /// <summary>
+        /// Validate that student record is null
+        /// </summary>
         [TestMethod]
         public void TestSevisValidator_NullStudent()
         {
-            var batchHeader = new BatchHeader
-            {
-                BatchID = "1",
-                OrgID = "1"
-            };
+            var validator = new CreateStudentValidator();
+
             var createStudent = new CreateStudent
             {
                 student = null
             };
-            var updateStudent = new SEVISBatchCreateUpdateStudent
-            {
-                userID = "1",
-                batchHeader = batchHeader,
-                createStudent = createStudent
-            };
 
-            var validator = new SEVISBatchCreateUpdateStudentValidator();
-            var results = validator.Validate(updateStudent);
-            Assert.AreEqual(1, results.Errors.Count());
+            var results = validator.Validate(createStudent);            
+            Assert.IsFalse(results.IsValid);
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student information is required"));
         }
-
+        
+        /// <summary>
+        /// Validate student record issue reason is null
+        /// </summary>
         [TestMethod]
         public void TestSevisValidator_NullStudentIssueReason()
         {
-            var batchHeader = new BatchHeader
-            {
-                BatchID = "1",
-                OrgID = "1"
-            };
+            var validator = new StudentValidator();
+
             var student = new Student
             {
                 requestID = "1",
                 userID = "1",
                 printForm = false,
-                UserDefinedA = "2",
-                UserDefinedB = "3",
                 IssueReason = null
             };
-            var createStudent = new CreateStudent
-            {
-                student = student
-            };
-            var updateStudent = new SEVISBatchCreateUpdateStudent
-            {
-                userID = "1",
-                batchHeader = batchHeader,
-                createStudent = createStudent
-            };
 
-            var validator = new SEVISBatchCreateUpdateStudentValidator();
-            var results = validator.Validate(updateStudent);
-            Assert.AreEqual(1, results.Errors.Count());
+            var results = validator.Validate(student);
+            Assert.IsFalse(results.IsValid);
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student: Issue Reason is required"));
         }
+
+        #endregion
+
     }
 }

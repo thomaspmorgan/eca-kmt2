@@ -29,7 +29,7 @@ angular.module('staticApp')
 
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
       console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
-      console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive..');
+      console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive.');
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
@@ -114,8 +114,6 @@ angular.module('staticApp')
           else {
               scrollToMoneyFlow(moneyFlow);
           }
-
-          
       }
 
       $scope.view.onEditableAmountChange = function ($event, moneyFlow) {
@@ -293,7 +291,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/directives/moneyflow.directive.html',
               controller: 'MoneyFlowCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               resolve: {
                   entity: function () {
                       return moneyFlow;

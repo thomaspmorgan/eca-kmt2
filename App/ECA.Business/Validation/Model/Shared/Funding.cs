@@ -1,18 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(FundingValidator))]
     public class Funding
     {
-        [MaxLength(8)]
         public int Personal { get; set; }
 
         public School School { get; set; }
 
         public FundingOther Other { get; set; }
-
-        [MaxLength(8)]
-        public int Employment { get; set; }
         
+        public int Employment { get; set; }        
     }
 }
