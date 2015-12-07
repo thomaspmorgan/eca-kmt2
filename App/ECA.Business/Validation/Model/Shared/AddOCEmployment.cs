@@ -1,24 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(AddOCEmploymentValidator))]
     public class AddOCEmployment
     {
-        [Required]
         public bool printForm { get; set; }
-
-        [MaxLength(10)]
-        public DateTime StartDate { get; set; }
-
-        [MaxLength(10)]
-        public DateTime EndDate { get; set; }
-
-        [StringLength(2)]
-        public string EmploymentType { get; set; }
-
-        [MaxLength(250)]
-        public string Recommendation { get; set; }
         
+        public DateTime StartDate { get; set; }
+        
+        public DateTime EndDate { get; set; }
+        
+        public string EmploymentType { get; set; }
+        
+        public string Recommendation { get; set; }        
     }
 }

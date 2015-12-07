@@ -8,7 +8,7 @@ namespace ECA.Business.Validation.Model.Shared
         public const int CITY_MAX_LENGTH = 60;
         public const int PROVINCE_MAX_LENGTH = 30;
         public const int COUNTRY_CODE_LENGTH = 2;
-        public const int POSTALCODE_LENGTH = 20;
+        public const int POSTAL_CODE_LENGTH = 20;
 
         public ForeignAddressValidator()
         {
@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(student => student.city).Length(0, CITY_MAX_LENGTH).WithMessage("Foreign Address: City can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.province).Length(0, PROVINCE_MAX_LENGTH).WithMessage("Foreign Address: Province can be up to " + PROVINCE_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.countryCode).NotNull().WithMessage("Foreign Address: Country Code is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Foreign Address: Country Code must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
-            RuleFor(student => student.postalCode).Length(POSTALCODE_LENGTH).WithMessage("Foreign Address: Postal Code is required and must be " + POSTALCODE_LENGTH.ToString() + " digits");
+            RuleFor(student => student.postalCode).Length(POSTAL_CODE_LENGTH).WithMessage("Foreign Address: Postal Code must be " + POSTAL_CODE_LENGTH.ToString() + " digits");
         }
 
     }

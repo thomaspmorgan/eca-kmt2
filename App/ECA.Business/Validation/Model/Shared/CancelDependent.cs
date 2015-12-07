@@ -1,18 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(CancelDependentValidator))]
     public class CancelDependent
     {
-        [MaxLength(11)]
         public string dependentSevisID { get; set; }
-
-        [StringLength(2)]
+        
         public string Reason { get; set; }
-
-        [MaxLength(500)]
+        
         public string Remarks { get; set; }
-
     }
 }

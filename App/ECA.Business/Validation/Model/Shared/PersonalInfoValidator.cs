@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(student => student.Gender).NotNull().WithMessage("Personal Info: Gender is required").Length(1);
             RuleFor(student => student.BirthCountryCode).NotNull().WithMessage("Personal Info: Country of birth is required").Length(2);
             RuleFor(student => student.CitizenshipCountryCode).NotNull().WithMessage("Personal Info: Country of citizenship is required").Length(2);
-            RuleFor(student => student.Email).Length(0, EMAIL_MAX_LENGTH).EmailAddress().WithMessage("Personal Info: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Email).Length(0, EMAIL_MAX_LENGTH).WithMessage("Personal Info: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Personal Info: Email is invalid"); ;
             RuleFor(student => student.VisaType).NotNull().WithMessage("Personal Info: Visa type is required").Length(2);
         }
 
