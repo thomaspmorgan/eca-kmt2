@@ -12,8 +12,8 @@ namespace ECA.Business.Validation.Model.Shared
 
         public StudentValidator()
         {
-            RuleFor(student => student.requestID).NotNull().Length(1, ID_MAX_LENGTH).WithMessage("Student: Request ID is required and can be up to " + ID_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.userID).NotNull().Length(1, ID_MAX_LENGTH).WithMessage("Student: User ID is required and can be up to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.requestID).NotNull().WithMessage("Student: Request ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: Request ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.userID).NotNull().WithMessage("Student: User ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: User ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.printForm).NotNull().WithMessage("Student: Print form option is required");
             RuleFor(student => student.UserDefinedA).Length(0, USERDEFINEDA_MAX_LENGTH).WithMessage("Student: User Defined A can be up to " + USERDEFINEDA_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.UserDefinedB).Length(0, USERDEFINEDB_MAX_LENGTH).WithMessage("Student: User Defined B can be up to " + USERDEFINEDB_MAX_LENGTH.ToString() + " characters");
