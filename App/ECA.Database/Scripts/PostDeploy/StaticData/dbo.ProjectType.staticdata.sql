@@ -39,6 +39,13 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'ProjectType1', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'ProjectType2', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Individual', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Individuals Travelling Together', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Multi-Regional Project', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Regional Project', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Single Country Project', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Sub-Regional Project', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ProjectTypeId], [ProjectTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'Unknown', '0', '4/11/2015 12:00:00 AM -00:00', '0', '4/11/2015 12:00:00 AM -00:00')
 
 
 -- 3: Insert any new items into the table from the table variable

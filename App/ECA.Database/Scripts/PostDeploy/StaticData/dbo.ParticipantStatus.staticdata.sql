@@ -45,6 +45,15 @@ INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy],
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Terminated', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Rejected', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
 INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Suspended', '0', '7/8/2015 3:20:21 PM +00:00', '0', '7/8/2015 3:20:21 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'Alternate', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('10', 'Approved', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('11', 'Cancelled', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('12', 'Disapproved', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('13', 'Intention', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('14', 'No Funds', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('15', 'Pending', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('16', 'Transferred', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
+INSERT INTO @tblTempTable ([ParticipantStatusId], [Status], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('17', 'Waitlisted', '0', '11/14/2015 12:00:00 PM +00:00', '0', '11/14/2015 12:00:00 PM +00:00')
 
 
 -- 3: Insert any new items into the table from the table variable

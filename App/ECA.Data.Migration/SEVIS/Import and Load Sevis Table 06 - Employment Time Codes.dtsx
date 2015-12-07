@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 06 - Employment Time Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{4FC9C03B-47D8-4CD8-A7AE-AEFFF3279563}">
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{77A4F989-B776-4061-828B-A0D1646C9387}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -435,7 +435,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[SEVIS].[EmploymentTime]</property>
+                  name="OpenRowset">[sevis].[EmploymentTime]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -478,8 +478,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Employment Time Codes.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{D4DBE7DA-1BF4-4696-814C-C3CD47A2C4C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -772,40 +772,6 @@
           Id="Package\Load Sevis Table 6 - Employment Time Codes\SEVIS Cap-Gap Extension Type Excel Source"
           TopLeft="22.5,49.5" />
         <EdgeLayout
-          Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Data Conversion Output]"
-          TopLeft="478.5,96.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-12,67"
-              Start="0,0"
-              End="-12,59.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,29.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,29.5"
-                    Point2="0,33.5"
-                    Point3="-4,33.5" />
-                  <mssgle:LineSegment
-                    End="-8,33.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-8,33.5"
-                    Point2="-12,33.5"
-                    Point3="-12,37.5" />
-                  <mssgle:LineSegment
-                    End="-12,59.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Sort Output]"
           TopLeft="466.5,205.5">
           <EdgeLayout.Curve>
@@ -875,6 +841,40 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="85.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Table 6 - Employment Time Codes.Paths[Data Conversion Output]"
+          TopLeft="478.5,96.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12,67"
+              Start="0,0"
+              End="-12,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.5"
+                    Point2="0,33.5"
+                    Point3="-4,33.5" />
+                  <mssgle:LineSegment
+                    End="-8,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8,33.5"
+                    Point2="-12,33.5"
+                    Point3="-12,37.5" />
+                  <mssgle:LineSegment
+                    End="-12,59.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
