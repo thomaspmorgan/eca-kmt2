@@ -82,7 +82,7 @@ namespace ECA.Business.Service.Persons
             
             var final = new List<ValidationResult>();
             foreach (var error in results.Errors)
-        {
+            {
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
 
