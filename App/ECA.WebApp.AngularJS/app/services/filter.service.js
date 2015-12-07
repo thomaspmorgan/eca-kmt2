@@ -89,6 +89,12 @@ angular.module('staticApp')
               in: function (propertyName, value) {
                   return this._addFilter(ConstantsService.inComparisonType, propertyName, value);
               },
+              containsAny: function (propertyName, value) {
+                  if (!angular.isArray(value)) {
+                      throw Error('The given value must be an array.');
+                  }
+                  return this._addFilter(ConstantsService.containsAnyComparisonType, propertyName, value);
+              },
 
               notIn: function (propertyName, value) {
                   return this._addFilter(ConstantsService.notInComparisonType, propertyName, value);

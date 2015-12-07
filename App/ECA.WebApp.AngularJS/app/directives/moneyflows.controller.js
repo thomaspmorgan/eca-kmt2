@@ -114,8 +114,6 @@ angular.module('staticApp')
           else {
               scrollToMoneyFlow(moneyFlow);
           }
-
-          
       }
 
       $scope.view.onEditableAmountChange = function ($event, moneyFlow) {
@@ -293,7 +291,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/directives/moneyflow.directive.html',
               controller: 'MoneyFlowCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               resolve: {
                   entity: function () {
                       return moneyFlow;
