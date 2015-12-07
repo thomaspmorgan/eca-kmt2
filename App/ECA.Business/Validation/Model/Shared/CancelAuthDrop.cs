@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System;
 
 namespace ECA.Business.Validation.Model
 {
