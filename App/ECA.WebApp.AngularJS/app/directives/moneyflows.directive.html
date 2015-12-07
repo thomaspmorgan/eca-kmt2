@@ -6,7 +6,8 @@
                     <p class="mute" ng-show="view.total > 0">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
                 </div>
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
+                    <!--Wait for entityName to be defined here also because the directive requires it to show the name of the entity you are adding funding too.-->
+                    <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows && view.canEditMoneyFlows && entityName" ng-click="view.onAddFundingItemClick()">ADD FUNDING ITEM</button>
                 </div>
             </div>
             <div st-pipe="view.getMoneyFlows"
