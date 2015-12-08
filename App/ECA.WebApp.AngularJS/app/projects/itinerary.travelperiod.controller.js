@@ -63,9 +63,17 @@ angular.module('staticApp')
           $log.info('save');
       }
 
+      $scope.view.onDepartureLocationSelect = function ($item, $model) {
+          $scope.view.travelPeriod.departureLocation = $model;
+      }
+
+      $scope.view.onArrivalLocationSelect = function ($item, $model) {
+          $scope.view.travelPeriod.arrivalLocation = $model;
+      }
+
       var arrivalFilter = FilterService.add('itinerary_travelperiod_arrivallocations');
-      $scope.view.getArrivalLocations = function (search) {
-          var params = getSearchParams(arrivalFilter, search, [ConstantsService.locationTypes.city.id]);
+      $scope.view.getArrivalLocations = function ($search) {
+          var params = getSearchParams(arrivalFilter, $search, [ConstantsService.locationType.city.id]);
           return loadLocations(params)
           .then(function (data) {
               $scope.view.arrivalLocations = data.results;
@@ -74,7 +82,23 @@ angular.module('staticApp')
           });
       }
 
-      function getSearchParams(filter, searchText, locationTypesById) {
+      var departureFilter = FilterService.add('itinerary_travelperiod_departurelocations');
+      $scope.view.getDepartureLocations = function ($search) {
+          var params = getSearchParams(arrivalFilter, $search, [
+              ConstantsService.locationType.city.id,
+              ConstantsService.locationType.division.id,
+              ConstantsService.locationType.country.id,
+              ConstantsService.locationType.region.id
+          ]);
+          return loadLocations(params)
+          .then(function (data) {
+              $scope.view.departureLocations = data.results;
+              $scope.view.departureLocationsCount = data.total;
+              return data.results;
+          });
+      }
+
+      function getSearchParams(filter, search, locationTypesById) {
           if (!angular.isArray(locationTypesById)) {
               throw Error('locationTypesById must be an array.');
           }
@@ -84,7 +108,7 @@ angular.module('staticApp')
               .take($scope.view.searchLimit);
               
           if (search) {
-              filter = filter.like('name', $search);
+              filter = filter.like('name', search);
           }
           if (locationTypesById.length > 1) {
               filter = filter.in('locationTypeId', locationTypesById);
@@ -99,7 +123,7 @@ angular.module('staticApp')
       function loadLocations(params) {
           return LocationService.get(params)
           .then(function (response) {
-              return response.data;
+              return response;
           })
           .catch(function (response) {
               $log.error('Unable to load locations.')
