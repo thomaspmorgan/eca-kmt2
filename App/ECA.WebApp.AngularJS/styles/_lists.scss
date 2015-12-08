@@ -328,14 +328,25 @@
 
 .travel-period {
     .travel-period-header {
+        div {
+            height: 75px;
+        }
         h3 {            
             line-height: 75px;
             vertical-align: middle;
             margin-left: 20px;
+        }        
+        input[type="text"] {
+            vertical-align: middle;
+            margin-left: 20px;
         }
-
-        background-color: $project;
+        
+        background-color: $blue;
         color: white;
         margin-top: 15px;
+        
+    }
+    .travel-period-container {
+        border-bottom: 1px solid $lightgray;
     }
 }

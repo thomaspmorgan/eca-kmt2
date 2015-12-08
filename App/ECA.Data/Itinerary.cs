@@ -17,7 +17,7 @@ namespace ECA.Data
         /// <summary>
         /// The max length of the description.
         /// </summary>
-        public const int DESCRIPTION_MAX_LENGTH = 100;
+        public const int NAME_MAX_LENGTH = 100;
 
         /// <summary>
         /// Creates a new default instance and initializes the history.
@@ -76,10 +76,34 @@ namespace ECA.Data
         public int ProjectId { get; set; }
 
         /// <summary>
+        /// Gets or sets the arrival destination location id of this itinerary.
+        /// </summary>
+        [Column("Arrival_LocationId")]
+        public int? ArrivalLocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the arrival destination of this itinerary.
+        /// </summary>
+        [ForeignKey("ArrivalLocationId")]
+        public virtual Location Arrival { get; set; }
+
+        /// <summary>
+        /// Gets or sets the departure destination location id of this itinerary.
+        /// </summary>
+        [Column("Departure_LocationId")]
+        public int? DepartureLocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the departure destination of this itinerary.
+        /// </summary>
+        [ForeignKey("DepartureLocationId")]
+        public virtual Location Departure { get; set; }
+
+        /// <summary>
         /// Gets or sets the description.
         /// </summary>
         [Required]
-        [MaxLength(DESCRIPTION_MAX_LENGTH)]
-        public string Description { get; set; }
+        [MaxLength(NAME_MAX_LENGTH)]
+        public string Name { get; set; }
     }
 }

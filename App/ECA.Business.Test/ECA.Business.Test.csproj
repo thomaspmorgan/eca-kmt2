@@ -218,6 +218,7 @@
     <Compile Include="Queries\Admin\BookmarkQueriesTest.cs" />
     <Compile Include="Queries\Admin\SnapshotQueriesTest.cs" />
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
+    <Compile Include="Queries\Itineraries\ItineraryQueriesTest.cs" />
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Service\Fundings\EditedMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeServiceTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
+    <Compile Include="Service\Itineraries\ItineraryServiceTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantStatusServiceTest.cs" />

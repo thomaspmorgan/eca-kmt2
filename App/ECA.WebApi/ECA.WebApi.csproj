@@ -521,6 +521,7 @@
     <Compile Include="Controllers\Admin\ProgramCategoriesController.cs" />
     <Compile Include="Controllers\Admin\SevisCommStatusesController.cs" />
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
+    <Compile Include="Controllers\Itineraries\ItinerariesController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />

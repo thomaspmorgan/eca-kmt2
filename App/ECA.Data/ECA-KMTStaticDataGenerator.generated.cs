@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -52,9 +34,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup NpacivEventHost { get { return new StaticLookup("NPACIV Event Host", 6); } }
 		/// <summary>
-		/// Returns the NPACIV ORGANIZATION EVENT HOST lookup with id 7.
+		/// Returns the NPACIV Organization Event Host lookup with id 7.
 		/// </summary>
-		public static StaticLookup NpacivOrganizationEventHost { get { return new StaticLookup("NPACIV ORGANIZATION EVENT HOST", 7); } }
+		public static StaticLookup NpacivOrganizationEventHost { get { return new StaticLookup("NPACIV Organization Event Host", 7); } }
 		/// <summary>
 		/// Returns the Simultaneous/Seminar lookup with id 8.
 		/// </summary>
@@ -99,7 +81,7 @@ namespace ECA.Data
 			if ("Appointment Guest".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.AppointmentGuest;
 			if ("NPACIV Event Guest".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivEventGuest;
 			if ("NPACIV Event Host".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivEventHost;
-			if ("NPACIV ORGANIZATION EVENT HOST".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivOrganizationEventHost;
+			if ("NPACIV Organization Event Host".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivOrganizationEventHost;
 			if ("Simultaneous/Seminar".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.SimultaneousSeminar;
 			if ("Consecutive".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Consecutive;
 			if ("Liaison".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Liaison;
