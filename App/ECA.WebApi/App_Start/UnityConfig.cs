@@ -3,6 +3,7 @@ using CAM.Data;
 using ECA.Business.Search;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Fundings;
+using ECA.Business.Service.Itineraries;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
@@ -180,6 +181,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IInternationalOrganizationService, InternationalOrganizationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEducationLevelService, EducationLevelService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentCreationService, StudentCreationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IItineraryService, ItineraryService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

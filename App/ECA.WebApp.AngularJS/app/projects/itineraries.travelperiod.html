@@ -1,127 +1,168 @@
-﻿<div ng-controller="TravelPeriodCtrl" style="margin-bottom:100px;">
-    <div class="travel-period">
-        <div class="travel-period-header">
-            <div class="row">
-                <div class="col-md-10">
-                    <h3>{{view.travelPeriod.name}}</h3>
-                </div>
-                <div class="col-md-2">
-                    <div class="right" style="margin-top:22px;">
-                        <div class="col-md-4" style="cursor:pointer;" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onEditClick(view.travelPeriod)">
-                            <i class="material-icons md-24">edit</i>
-                        </div>
-                        <div class="col-md-4" style="cursor:pointer;" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onCommentClick(view.travelPeriod)">
-                            <i class="material-icons md-24">comment</i>
-                        </div>
-                        <div class="col-md-4" style="cursor:pointer;"  tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(view.travelPeriod)">
-                            <i class="material-icons md-24">delete</i>
+﻿<div ng-controller="TravelPeriodCtrl" class="travel-period" style="margin-bottom:100px;">
+    <div ng-show="!view.isInEditMode">
+        <div>
+            <div class="travel-period-header">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h3>{{view.travelPeriod.name}}</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="right" style="margin-top:22px;">
+                            <div class="col-md-4">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditClick(view.travelPeriod)">edit</i>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentClick(view.travelPeriod)">mode_comment</i>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteClick(view.travelPeriod)">delete</i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-11">
-            <div class="row" style="margin-top:15px;">
-                <div class="col-md-3">
-                    <div class="col-md-4 text-right">
-                        <i class="material-icons md-dark md-24">group</i>
+        <div class="row travel-period-container">
+            <div class="col-md-11">
+                <div class="row" style="margin-top:15px;">
+                    <div class="col-md-3">
+                        <div class="col-md-4 text-right">
+                            <i class="material-icons md-dark md-24">group</i>
+                        </div>
+                        <div class="col-md-8">
+                            <div>
+                                <h5 class="title-label text-right">Groups</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.travelPeriod.groupsCount}}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <div>
-                            <h5 class="title-label text-right">Groups</h5>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">flight_land</i>
                         </div>
-                        <div>
-                            <p class="text-right">{{view.travelPeriod.groupCount}}</p>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">Groups Arrive To</h5>
+                            </div>
+                            <div>
+                                <div class="text-right">
+                                    {{view.travelPeriod.arrivalLocation.name}}
+                                </div>
+                                <div class="text-right mute">
+                                    ({{view.travelPeriod.arrivalLocation.locationTypeName}}:  {{view.travelPeriod.arrivalLocation.divisionIso ? view.travelPeriod.arrivalLocation.divisionIso + ', ' : ''}}{{view.travelPeriod.arrivalLocation.countryIso ? view.travelPeriod.arrivalLocation.countryIso : view.travelPeriod.arrivalLocation.locationIso}})
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">event</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">By This Start Date</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.travelPeriod.startDate | date:'MMMM dd, yyyy'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-primary">Add Travel Stop</button>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="col-md-2 text-right">
-                        <i class="material-icons md-dark md-24">flight_land</i>
-                    </div>
-                    <div class="col-md-10">
-                        <div>
-                            <h5 class="title-label text-right">Groups Arrive To</h5>
+                <div class="row" style="margin-top:15px;">
+                    <div class="col-md-3">
+                        <div class="col-md-4 text-right">
+                            <i class="material-icons md-dark md-24">person</i>
                         </div>
-                        <div>
-                            <p class="text-right">{{view.travelPeriod.arrivalDestination}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-2 text-right">
-                        <i class="material-icons md-dark md-24">event</i>
-                    </div>
-                    <div class="col-md-10">
-                        <div>
-                            <h5 class="title-label text-right">By This Start Date</h5>
-                        </div>
-                        <div>
-                            <p class="text-right">{{view.travelPeriod.startDate | date:'MMMM dd, yyyy'}}</p>
+                        <div class="col-md-8">
+                            <div>
+                                <h5 class="title-label text-right">Participants</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.travelPeriod.participantsCount}}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <button class="btn btn-primary">Add Travel Stop</button>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">flight_takeoff</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">Groups Depart To</h5>
+                            </div>
+                            <div>
+                                <div>
+                                    <div class="text-right">
+                                        {{view.travelPeriod.departureLocation.name}}
+                                    </div>
+                                    <div class="text-right mute">
+                                        ({{view.travelPeriod.departureLocation.locationTypeName}}:  {{view.travelPeriod.departureLocation.divisionIso ? view.travelPeriod.departureLocation.divisionIso + ', ' : ''}}{{view.travelPeriod.departureLocation.countryIso ? view.travelPeriod.departureLocation.countryIso : view.travelPeriod.departureLocation.locationIso}})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">event</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">At This End Date</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.travelPeriod.endDate | date:'MMMM dd, yyyy'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-primary">Manage Groups</button>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="col-md-4 text-right">
-                        <i class="material-icons md-dark md-24">person</i>
+            <div class="col-md-1 right">
+                <div style="cursor:pointer">
+                    <div style="margin-top:45px;">
+                        <i class="material-icons md-dark md-24">expand_more</i>
                     </div>
-                    <div class="col-md-8">
-                        <div>
-                            <h5 class="title-label text-right">Participants</h5>
-                        </div>
-                        <div>
-                            <p class="text-right">{{view.travelPeriod.participantCount}}</p>
-                        </div>
+                    <div style="margin-top:-24px;">
+                        <i class="material-icons md-dark md-24">expand_more</i>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-2 text-right">
-                        <i class="material-icons md-dark md-24">flight_takeoff</i>
-                    </div>
-                    <div class="col-md-10">
-                        <div>
-                            <h5 class="title-label text-right">Groups Depart To</h5>
-                        </div>
-                        <div>
-                            <p class="text-right">{{view.travelPeriod.departureDestination}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-2 text-right">
-                        <i class="material-icons md-dark md-24">event</i>
-                    </div>
-                    <div class="col-md-10">
-                        <div>
-                            <h5 class="title-label text-right">At This End Date</h5>
-                        </div>
-                        <div>
-                            <p class="text-right">{{view.travelPeriod.endDate | date:'MMMM dd, yyyy'}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <button class="btn btn-primary">Manage Groups</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1 right">
-            <div style="cursor:pointer">
-                <div style="margin-top:45px;">
-                    <i class="material-icons md-dark md-24">expand_more</i>
-                </div>
-                <div style="margin-top:-24px;">
-                    <i class="material-icons md-dark md-24">expand_more</i>
                 </div>
             </div>
         </div>
     </div>
 
+
+    <div ng-show="view.isInEditMode">
+        <form>
+            <div>
+                <div class="travel-period-header">
+                    <div class="row">
+                        <div class="col-md-8" style="margin-top:19px;">
+                            <input class="form-control"
+                                   name="name"
+                                   ng-model="view.travelPeriod.name" />
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-4 right" style="margin-top:19px;">
+                                <button class="btn btn-default" style="margin-left:-15px;" ng-click="view.onCancelClick(view.travelPeriod)">Cancel</button>
+                            </div>
+                            <div class="col-md-4 right" style="margin-top:19px;">
+                                <button class="btn btn-success" ng-click="view.onSaveClick(view.travelPeriod)">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
