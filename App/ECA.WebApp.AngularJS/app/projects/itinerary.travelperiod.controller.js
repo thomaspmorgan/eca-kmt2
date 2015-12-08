@@ -31,6 +31,8 @@ angular.module('staticApp')
       $scope.view.departureLocations = [];
       $scope.view.departureLocationsCount = 0;
       $scope.view.searchLimit = 30;
+      $scope.view.isStartDateDatePickerOpen = false;
+      $scope.view.isEndDateDatePickerOpen = false;
 
       var travelPeriodCopy = angular.copy($scope.view.travelPeriod);
 
@@ -69,6 +71,18 @@ angular.module('staticApp')
 
       $scope.view.onArrivalLocationSelect = function ($item, $model) {
           $scope.view.travelPeriod.arrivalLocation = $model;
+      }
+
+      $scope.view.openStartDateDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isStartDateDatePickerOpen = true;
+      }
+
+      $scope.view.openEndDateDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isEndDateDatePickerOpen = true;
       }
 
       var arrivalFilter = FilterService.add('itinerary_travelperiod_arrivallocations');
