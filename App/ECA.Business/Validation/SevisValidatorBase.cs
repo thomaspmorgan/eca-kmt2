@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ECA.Core.Service;
+using ECA.Data;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -8,12 +10,12 @@ namespace ECA.Business.Validation
     /// <summary>
     /// The SevisValidatorBase class is used to validate entities before creation or update.
     /// </summary>
-    [ContractClass(typeof(SevisValidatorBaseContract<>))]
-    public abstract class SevisValidatorBase<SEVISBatchUpdateStudent> : ISevisValidator
+    //[ContractClass(typeof(SevisValidatorBaseContract<>))]
+    public abstract class SevisValidatorBase<SEVISBatchUpdateStudent> : DbContextService<EcaContext>, ISevisValidator
     {
         private bool throwExceptionOnValidation;
 
-        public SevisValidatorBase(bool throwExceptionOnValidation = true)
+        public SevisValidatorBase(EcaContext context, bool throwExceptionOnValidation = true) : base(context)
         {
             this.throwExceptionOnValidation = throwExceptionOnValidation;
         }
@@ -48,21 +50,21 @@ namespace ECA.Business.Validation
         public abstract List<ValidationResult> DoValidateSevis(Validation.SEVISBatchUpdateStudent validationEntity);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [ContractClassFor(typeof(SevisValidatorBase<>))]
-    public abstract class SevisValidatorBaseContract<SEVISBatchUpdateStudent> : SevisValidatorBase<SEVISBatchUpdateStudent>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="validationEntity"></param>
-        /// <returns></returns>
-        public IEnumerable<ValidationResult> ValidateSevis(SEVISBatchUpdateStudent validationEntity)
-        {
-            Contract.Ensures(Contract.Result<IEnumerable<ValidationResult>>() != null, "The sevis validator must return a non null value.");
-            return new List<ValidationResult>();
-        }
-    }
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //[ContractClassFor(typeof(SevisValidatorBase<>))]
+    //public abstract class SevisValidatorBaseContract<SEVISBatchUpdateStudent> : SevisValidatorBase<SEVISBatchUpdateStudent>
+    //{
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    /// <param name="validationEntity"></param>
+    //    /// <returns></returns>
+    //    public IEnumerable<ValidationResult> ValidateSevis(SEVISBatchUpdateStudent validationEntity)
+    //    {
+    //        Contract.Ensures(Contract.Result<IEnumerable<ValidationResult>>() != null, "The sevis validator must return a non null value.");
+    //        return new List<ValidationResult>();
+    //    }
+    //}
 }

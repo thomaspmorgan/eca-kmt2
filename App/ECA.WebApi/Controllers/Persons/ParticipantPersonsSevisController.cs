@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.WebApi.Security;
-using ECA.Business.Validation;
+using ECA.Data;
+using ECA.Core.Service;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -29,6 +30,7 @@ namespace ECA.WebApi.Controllers.Persons
         private IParticipantPersonsSevisService service;
         private SevisValidationService validation;
         private IUserProvider userProvider;
+        private EcaContext context;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
@@ -39,7 +41,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
             this.service = service;
-            validation = new SevisValidationService();
+            validation = new SevisValidationService(this.context);
             this.userProvider = userProvider;
         }
 

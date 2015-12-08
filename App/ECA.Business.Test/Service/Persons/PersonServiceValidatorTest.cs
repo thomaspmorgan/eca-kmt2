@@ -21,7 +21,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestInit()
         {
             context = new TestEcaContext();
-            sevisService = new SevisValidationService();
+            sevisService = new SevisValidationService(context);
             validator = new SEVISBatchUpdateStudentValidator();
         }
 
