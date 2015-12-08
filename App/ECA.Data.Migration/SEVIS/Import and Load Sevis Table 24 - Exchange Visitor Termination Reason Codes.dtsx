@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 24 - Exchange Visitor Termination Reason Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{9F5C5EE8-4F7D-40E6-86FC-9304666FB73E}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{92F69009-88A5-4432-B115-74CC2412CD34}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -33,7 +33,7 @@
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 24 - Exchange Visitor Termination Reason Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 24 - Exchange Visitor Termination Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -477,8 +477,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Reason Codes.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{D4DBE7DA-1BF4-4696-814C-C3CD47A2C4C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -759,17 +759,17 @@
           Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\Sort by Code"
           TopLeft="396.5,163.5" />
         <NodeLayout
-          Size="343,42"
-          Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Codes Excel Source"
-          TopLeft="22.5,49.5" />
+          Size="317,42"
+          Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Reason Codes"
+          TopLeft="650.5,266.5" />
         <NodeLayout
           Size="156,42"
           Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\Data Conversion"
           TopLeft="400.5,54.5" />
         <NodeLayout
-          Size="317,42"
-          Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Reason Codes"
-          TopLeft="650.5,266.5" />
+          Size="343,42"
+          Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Codes Excel Source"
+          TopLeft="22.5,49.5" />
         <EdgeLayout
           Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes.Paths[Sort Output]"
           TopLeft="466.5,205.5">
@@ -805,28 +805,6 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes.Paths[Derived Column Output]"
-          TopLeft="557.5,287.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="93,0"
-              Start="0,0"
-              End="85.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="85.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes.Paths[Excel Source Output]"
           TopLeft="365.5,73">
           <EdgeLayout.Curve>
@@ -840,6 +818,28 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="27.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes.Paths[Derived Column Output]"
+          TopLeft="557.5,287.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93,0"
+              Start="0,0"
+              End="85.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="85.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -886,7 +886,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Reason Codes">
+    design-time-name="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Codes Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -899,7 +899,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Codes Excel Source">
+    design-time-name="Package\Load Sevis Table 24 - Exchange Visitor Termination Reason Codes\SEVIS Exchange Visitor Termination Reason Codes">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

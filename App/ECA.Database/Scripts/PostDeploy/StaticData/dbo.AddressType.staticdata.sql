@@ -37,6 +37,14 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Home', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Host', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Business', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Organization', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Country', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Provider Implementation Location', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Visiting', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([AddressTypeId], [AddressName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Undetermined', '0', '3/20/2015 00:00:00 AM -00:00', '0', '3/20/2015 00:00:00 AM -00:00')
 
 
 -- 3: Insert any new items into the table from the table variable

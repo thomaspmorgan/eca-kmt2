@@ -61,7 +61,9 @@ angular.module('staticApp')
           },
           addOrganizationParticipant: function (params) {
               return DragonBreath.create(params, 'projects/participants/organization/add');
+          },
+          getItineraries: function (projectId) {
+              return DragonBreath.get({}, 'projects/' + projectId + '/itineraries');
           }
-
       };
   });

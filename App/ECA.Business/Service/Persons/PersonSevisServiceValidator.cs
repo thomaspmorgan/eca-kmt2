@@ -33,7 +33,7 @@ namespace ECA.Business.Service.Persons
         public List<ValidationResult> ValidateSevis(int participantId)
         {
             var updateStudent = GetStudent(participantId);
-
+            
             var validator = new SEVISBatchUpdateStudentValidator();
             var results = validator.Validate(updateStudent);
 
@@ -48,21 +48,21 @@ namespace ECA.Business.Service.Persons
         }
 
         public async Task<List<ValidationResult>> ValidateSevisAsync(int participantId)
-        {
+            {
             var updateStudent = GetStudent(participantId);
 
             var validator = new SEVISBatchUpdateStudentValidator();
             var results = await validator.ValidateAsync(updateStudent);
-            
+
             var final = new List<ValidationResult>();
             foreach (var error in results.Errors)
             {
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
-
+            
             return final;
         }
-        
+
         public SEVISBatchUpdateStudent GetStudent(int participantId)
         {
             // Get full sevis object
@@ -156,7 +156,7 @@ namespace ECA.Business.Service.Persons
                         Remarks = visitorInfo.SchoolFundingRemarks
                     },
                     Other = new FundingOther
-                    {
+        {
                         Amount = (int)visitorInfo.OtherFunding,
                         Remarks = visitorInfo.OtherFundingRemarks
                     }
@@ -189,7 +189,7 @@ namespace ECA.Business.Service.Persons
 
             return updateStudent;
         }
-
+        
         // TODO: for sending XML content to Sevis service
 
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;

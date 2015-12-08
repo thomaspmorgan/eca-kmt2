@@ -30,19 +30,19 @@ namespace ECA.Business.Validation.Model
         public string UserDefinedA { get; set; }
         
         public string UserDefinedB { get; set; }
-        
+
         public PersonalInfo personalInfo { get; set; }
         
         public string IssueReason { get; set; }
         
         public USAddress usAddress { get; set; }
-        
+
         public ForeignAddress foreignAddress { get; set; }
-        
+
         public EducationalInfo educationalInfo { get; set; }
-        
+
         public FinancialInfo financialInfo { get; set; }
-        
+
         public CreateDependent createDependent { get; set; }
         
         public string Remarks { get; set; }        
