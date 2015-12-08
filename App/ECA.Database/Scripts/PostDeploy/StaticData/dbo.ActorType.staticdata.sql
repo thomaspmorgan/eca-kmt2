@@ -23,7 +23,7 @@ SET @DeleteMissingRecords = 0
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
 [ActorTypeId] int,
-[ActorName] nvarchar(20),
+[ActorName] nvarchar(50),
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
 [History_RevisedBy] int,
