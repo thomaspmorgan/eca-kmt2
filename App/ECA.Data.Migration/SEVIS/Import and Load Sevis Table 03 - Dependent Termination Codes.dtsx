@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 03 - Dependent Termination Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{6A2E52FF-5A04-4FD5-86FE-837F718D7D88}">
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{CF10E789-8B7D-4BAC-B0E5-49745A047C3F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -313,7 +313,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Sevis].[DependentTermination]</property>
+                  name="OpenRowset">[sevis].[DependentTermination]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -356,8 +356,8 @@
               <connections>
                 <connection
                   refId="Package\Load SEVIS Table 3 - Dependent Termination Codes\Sevis DependentTermination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{D4DBE7DA-1BF4-4696-814C-C3CD47A2C4C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>

@@ -521,6 +521,7 @@
     <Compile Include="Controllers\Admin\ProgramCategoriesController.cs" />
     <Compile Include="Controllers\Admin\SevisCommStatusesController.cs" />
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
+    <Compile Include="Controllers\Itineraries\ItinerariesController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
@@ -740,10 +741,6 @@
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.Sevis.csproj">
-      <Project>{53336ba0-47cd-4692-9864-ab2a0e649d1f}</Project>
-      <Name>ECA.Business.Sevis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
@@ -804,6 +801,7 @@
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets')" />
+  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

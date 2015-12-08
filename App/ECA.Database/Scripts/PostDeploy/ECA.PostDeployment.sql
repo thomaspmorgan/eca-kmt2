@@ -41,5 +41,28 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
 :r .\StaticData\dbo.SevisCommStatus.staticdata.sql
 
+:r .\StaticData\sevis.BirthCountry.staticdata.sql
+:r .\StaticData\sevis.CapGapExtensionType.staticdata.sql
+:r .\StaticData\sevis.DependentCancellationReason.staticdata.sql
+:r .\StaticData\sevis.DependentTermination.staticdata.sql
+:r .\StaticData\sevis.DropBelowFullCourseReason.staticdata.sql
+:r .\StaticData\sevis.EducationLevel.staticdata.sql
+:r .\StaticData\sevis.EmploymentTime.staticdata.sql
+:r .\StaticData\sevis.EndProgramReason.staticdata.sql
+:r .\StaticData\sevis.ExchangeVisitorPosition.staticdata.sql
+:r .\StaticData\sevis.ExchangeVisitorTerminationReason.staticdata.sql
+:r .\StaticData\sevis.FieldOfStudy.staticdata.sql
+:r .\StaticData\sevis.InternationalOrganization.staticdata.sql
+:r .\StaticData\sevis.OccupationalCategory.staticdata.sql
+:r .\StaticData\sevis.Position.staticdata.sql
+:r .\StaticData\sevis.ProgramCategory.staticdata.sql
+:r .\StaticData\sevis.ProgramSubject.staticdata.sql
+:r .\StaticData\sevis.StudentCancellation.staticdata.sql
+:r .\StaticData\sevis.StudentCreation.staticdata.sql
+:r .\StaticData\sevis.StudentReprint.staticdata.sql
+:r .\StaticData\sevis.StudentSecondaryMajorMinor.staticdata.sql
+:r .\StaticData\sevis.StudentTermination.staticdata.sql
+:r .\StaticData\sevis.USGovernmentAgency.staticdata.sql
+
 :r .\CAM.InsertResources.sql
 :r .\CAM.GrantKMTSuperUserRolePermissions.sql

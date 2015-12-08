@@ -272,15 +272,16 @@ angular.module('staticApp')
               valueMapFn = function (role) { return role.value; };
           }
           else if (peerEntityTypeId === ConstantsService.moneyFlowSourceRecipientType.participant.id) {
-              filterEntityTypeId = ConstantsService.moneyFlowSourceRecipientType.project.id;
               loadFn = LookupService.getParticipantStatii;
               propertyToFilter = 'name';
+              idToFilter = 'programId';
               idMapFn = function (role) { return role.id; };
               valueMapFn = function (role) { return role.name; };
           }
 
-          $scope.view.thisEntityCanFilterPeerEntities = entityTypeId === filterEntityTypeId;
-
+          $scope.view.thisEntityCanFilterPeerEntities =
+              filterEntityTypeId !== 0
+              && entityTypeId === filterEntityTypeId
           if (filterOnThisPeerEntity) {
               var entityIdInt = parseInt(entity.entityId, 10);
               valuesThatCanFilterPeerEntitiesFilter = valuesThatCanFilterPeerEntitiesFilter.equal(idToFilter, entityIdInt);

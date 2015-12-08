@@ -435,7 +435,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var results = validator.Validate(createStudent);            
             Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student is required"));
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student information is required"));
         }
         
         /// <summary>
