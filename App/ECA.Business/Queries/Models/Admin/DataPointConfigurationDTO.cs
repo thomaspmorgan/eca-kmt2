@@ -17,6 +17,11 @@ namespace ECA.Business.Queries.Models.Admin
         public int? DataPointConfigurationId { get; set; }
 
         /// <summary>
+        /// Gets or sets the category property id
+        /// </summary>
+        public int CategoryPropertyId { get; set; }
+
+        /// <summary>
         /// Gets or sets the office id
         /// </summary>
         public int? OfficeId { get; set; }
@@ -30,11 +35,6 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the project id
         /// </summary>
         public int? ProjectId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the category property id
-        /// </summary>
-        public int CategoryPropertyId { get; set; }
 
         /// <summary>
         /// Gets or sets the category id
@@ -57,5 +57,10 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the required flag
         /// </summary>
         public bool IsRequired { get; set; }
+
+        /// <summary>
+        /// Gets or setst the inherited flag
+        /// </summary>
+        public bool IsInherited { get; set; }
     }
 }

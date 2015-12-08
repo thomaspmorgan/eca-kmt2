@@ -113,30 +113,11 @@ namespace ECA.Business.Queries.Admin
             return CreateGetOfficeSettingDTOQuery(context).Where(x => x.OfficeId == officeId);
         }
 
-        public static IQueryable<DataPointConfigurationDTO> CreateGetOfficeDataPointConfigurationsDTOByOfficeIdQuery(EcaContext context, int officeId)
+        public static IQueryable<DataPointConfigurationDTO> CreateGetOfficeDataPointConfigurations(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var dataPointConfigurations = (from cp in context.DataPointCategoryProperties
-                                           where (from o in context.Organizations
-                                                  where o.OrganizationId == officeId && o.OrganizationTypeId == OrganizationType.Office.Id
-                                                  select o.OrganizationId).Contains(officeId) &&
-                                                  !(from c in context.DataPointConfigurations
-                                                    where c.OfficeId == officeId
-                                                    select c.DataPointCategoryPropertyId).Contains(cp.DataPointCategoryPropertyId)
-                                           select new DataPointConfigurationDTO
-                                           {
-                                            DataPointConfigurationId = null,
-                                            OfficeId = officeId,
-                                            CategoryPropertyId = cp.DataPointCategoryPropertyId,
-                                            CategoryId = cp.DataPointCategoryId,
-                                            CategoryName = cp.DataPointCategory.DataPointCategoryName,
-                                            PropertyId = cp.DataPointPropertyId,
-                                            PropertyName = cp.DataPointProperty.DataPointPropertyName,
-                                            IsRequired = false
-                                           }).Union(
-                                           from cp in context.DataPointCategoryProperties
                                            join c in context.DataPointConfigurations on cp.DataPointCategoryPropertyId equals c.DataPointCategoryPropertyId
-                                           where c.OfficeId == officeId
                                            select new DataPointConfigurationDTO
                                            {
                                                DataPointConfigurationId = c.DataPointConfigurationId,
