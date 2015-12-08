@@ -26,11 +26,22 @@ angular.module('staticApp')
       $scope.view.travelPeriods = [];
 
       $scope.view.travelPeriods.push({
+          id: 1,
           name: 'Travel Period 1',
           groupCount: 4,
           participantCount: 10,
           arrivalDestination: 'NYC',
           departureDestination: 'Europe',
+          startDate: new Date(),
+          endDate: new Date()
+      });
+      $scope.view.travelPeriods.push({
+          id: 2,
+          name: 'Travel Period 2',
+          groupCount: 1,
+          participantCount: 1,
+          arrivalDestination: 'Nashville',
+          departureDestination: 'LAX',
           startDate: new Date(),
           endDate: new Date()
       });

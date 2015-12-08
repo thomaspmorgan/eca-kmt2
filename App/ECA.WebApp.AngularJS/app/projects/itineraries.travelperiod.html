@@ -1,4 +1,4 @@
-﻿<div ng-controller="TravelPeriodCtrl">
+﻿<div ng-controller="TravelPeriodCtrl" style="margin-bottom:100px;">
     <div class="travel-period">
         <div class="travel-period-header">
             <div class="row">
@@ -7,18 +7,14 @@
                 </div>
                 <div class="col-md-2">
                     <div class="right" style="margin-top:22px;">
-                        <div class="col-md-4">
-                            <div style="cursor:pointer;" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                <i class="material-icons md-24" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
-                                <i class="material-icons md-24 material-icons-spin" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
-                            </div>
-                        </div>
-                        <div style="cursor:pointer;" class="col-md-4" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
+                        <div class="col-md-4" style="cursor:pointer;" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onEditClick(view.travelPeriod)">
                             <i class="material-icons md-24">edit</i>
                         </div>
-                        <div style="cursor:pointer;" class="col-md-4" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
-                            <i class="material-icons md-24" ng-show="!moneyFlow.isDeleting">delete</i>
-                            <i class="material-icons md-24 material-icons-spin" ng-show="moneyFlow.isDeleting">autorenew</i>
+                        <div class="col-md-4" style="cursor:pointer;" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onCommentClick(view.travelPeriod)">
+                            <i class="material-icons md-24">comment</i>
+                        </div>
+                        <div class="col-md-4" style="cursor:pointer;"  tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(view.travelPeriod)">
+                            <i class="material-icons md-24">delete</i>
                         </div>
                     </div>
                 </div>
