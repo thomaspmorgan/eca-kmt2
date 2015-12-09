@@ -15,6 +15,7 @@ namespace ECA.Business.Queries.Models.Office
         public string Name { get; set; }
         public string Description { get; set; }
         public int? ParentOrganization_OrganizationId { get; set; }
+        public string Path { get; set; }
         public int OfficeLevel { get; set; }
     }
 }

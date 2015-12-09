@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 01 - Cap-Gap Extension Type Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{75134E9F-8BA3-4681-86DF-2C7B3C394361}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{C5CBC38A-55E9-4C11-BE37-337928EDAD6C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -43,6 +43,7 @@
       DTS:refId="Package\Load Sevis Table 1 - Cap-Gap Extension Type"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{5BCB0EE1-22CC-4589-B9F7-5D9EC0A15535}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -356,8 +357,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Table 1 - Cap-Gap Extension Type\SEVIS Cap-Gap Extension Type.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{D4DBE7DA-1BF4-4696-814C-C3CD47A2C4C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>

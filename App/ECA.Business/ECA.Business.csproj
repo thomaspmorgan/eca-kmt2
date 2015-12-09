@@ -182,6 +182,8 @@
     <Compile Include="Queries\Admin\PhoneNumberQueries.cs" />
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
     <Compile Include="Queries\Admin\SnapshotQueries.cs" />
+    <Compile Include="Queries\Itineraries\ItineraryDTO.cs" />
+    <Compile Include="Queries\Itineraries\ItineraryQueries.cs" />
     <Compile Include="Queries\Models\Admin\DataPointConfigurationDTO.cs" />
     <Compile Include="Queries\Models\Admin\PhoneNumberDTO.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
@@ -234,6 +236,10 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
+    <Compile Include="Service\Itineraries\AddedTravelingPeriod.cs" />
+    <Compile Include="Service\Itineraries\IItineraryService.cs" />
+    <Compile Include="Service\Itineraries\ItineraryService.cs" />
+    <Compile Include="Service\Itineraries\TravelingPeriod.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
     <Compile Include="Service\Lookup\IStudentCreationsService.cs" />
     <Compile Include="Service\Lookup\IEducationLevelService.cs" />

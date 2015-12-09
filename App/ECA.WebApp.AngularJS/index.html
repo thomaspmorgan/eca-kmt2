@@ -100,7 +100,7 @@
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
                 <div ng-controller="AboutCtrl">
-                    <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}} <span ng-show="view.lookupErrorsCount > 0" tooltip="Lookup Errors"><i class="material-icons">warning</i></span></p>
+                    <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}}</p>
                 </div>
             </div>
         </div>
@@ -216,6 +216,7 @@
     <script src="app/projects/project-participant-info.controller.js"></script>
     <script src="app/projects/project.controller.js"></script>
     <script src="app/projects/itinerary.contoller.js"></script>
+    <script src="app/projects/itinerary.travelperiod.controller.js"></script>
     <script src="app/projects/projects.routes.js"></script>
     <script src="app/projects/select-participant-type.controller.js"></script>
     <script src="app/projects/unsaved-changes.controller.js"></script>

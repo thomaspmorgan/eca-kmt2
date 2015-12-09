@@ -987,6 +987,34 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DataPointCategoryPropertyId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c4389faf-ec74-4100-b83e-6c06a4c14fa9" ChangeDateTime="12/08/2015 16:24:57">
+    <Property Name="ElementName" Value="[dbo].[Itinerary].[ArrivalLocationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Itinerary]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Arrival_LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6d3641f3-0424-4e9a-9a97-9e1705384ae8" ChangeDateTime="12/08/2015 16:24:59">
+    <Property Name="ElementName" Value="[dbo].[Itinerary].[DestinationLocationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Itinerary]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Destination_LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="73c334bc-bf92-4823-a640-343a54aa5501" ChangeDateTime="12/08/2015 16:36:00">
+    <Property Name="ElementName" Value="[dbo].[Itinerary].[Destination_LocationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Itinerary]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Departure_LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7094a331-af77-46de-9938-503a7e8170ac" ChangeDateTime="12/08/2015 16:38:24">
+    <Property Name="ElementName" Value="[dbo].[Itinerary].[Description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Itinerary]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
   <Operation Name="Rename Refactor" Key="2584f892-a54b-45a9-bf2c-f3cd19e556ed" ChangeDateTime="12/07/2015 19:10:04">
     <Property Name="ElementName" Value="[dbo].[ParticipantPerson].[FundingTotal]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />

@@ -42,6 +42,9 @@ INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_
 INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'U', 'Unmarried', '0', '3/27/2015 12:00:00 AM -05:00', '0', '3/27/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'D', 'Divorced', '0', '3/27/2015 12:00:00 AM -05:00', '0', '3/27/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'S', 'Single', '0', '3/27/2015 12:00:00 AM -05:00', '0', '3/27/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'P', 'Separated', '0', '4/11/2015 12:00:00 AM -05:00', '0', '4/11/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'W', 'Widowed', '0', '4/11/2015 12:00:00 AM -05:00', '0', '4/11/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'N', 'Not Disclosed', '0', '4/11/2015 12:00:00 AM -05:00', '0', '4/11/2015 12:00:00 AM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable

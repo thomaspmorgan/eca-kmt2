@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 02 - Dependent Cancellation Reason Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{5CD81430-5F9A-4210-ABA7-CB6CDF0EDA2C}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{626A9C66-272D-43DD-863B-7B6CF0869D96}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -366,8 +366,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  connectionManagerID="{D4DBE7DA-1BF4-4696-814C-C3CD47A2C4C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -780,28 +780,6 @@
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes\SEVIS Dependent Cancellation Reason"
           TopLeft="731.5,293.5" />
         <EdgeLayout
-          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Data Conversion Output]"
-          TopLeft="545,99.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,68"
-              Start="0,0"
-              End="0,60.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,60.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Sort Output]"
           TopLeft="544.25,209.5">
           <EdgeLayout.Curve>
@@ -859,6 +837,28 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="100,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Table 2 - Dependent Cancellation Reason Codes.Paths[Data Conversion Output]"
+          TopLeft="545,99.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68"
+              Start="0,0"
+              End="0,60.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

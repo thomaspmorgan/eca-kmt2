@@ -18,17 +18,11 @@ namespace ECA.WebApi.Models
         /// <summary>
         /// Creates and initializes a new instance of this model.
         /// </summary>
-        public AboutViewModel(IStaticGeneratorValidator validator)
+        public AboutViewModel()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
             this.Version = fileVersion.FileVersion;
-            var ecaErrors = ECA.Data.EcaDataValidator.ValidateAll(validator);
-            var camErrors = CAM.Data.CamDataValidator.ValidateAll(validator);
-            this.LookupErrors = new List<string>();
-            this.LookupErrors.AddRange(ecaErrors);
-            this.LookupErrors.AddRange(camErrors);
-            this.LookupErrors = this.LookupErrors.OrderBy(x => x).ToList();
 
             var appSettings = new AppSettings();
             this.AzureSearchIndexName = appSettings.SearchIndexName;
