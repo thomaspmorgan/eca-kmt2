@@ -30,10 +30,9 @@
     [FundingOther] DECIMAL(12, 2) NULL,
 	[OtherName] NVARCHAR(60) NULL, 
     [FundingTotal] DECIMAL(12, 2) NULL,
-	CONSTRAINT [FK_ParticipantExchangeVisitor_ToParticipantPerson] FOREIGN KEY ([ParticipantId]) REFERENCES [ParticipantPerson]([ParticipantId]), 
     CONSTRAINT [FK_ParticipantExchangeVisitor_ToFieldOfStudy] FOREIGN KEY ([FieldOfStudyId]) REFERENCES [sevis].[FieldOfStudy]([FieldOfStudyId]), 
     CONSTRAINT [FK_ParticipantExchangeVisitor_ToPosition] FOREIGN KEY ([PositionId]) REFERENCES [sevis].[Position]([PositionId]), 
-    CONSTRAINT [FK_ParticipantExchangeVisitor_ToParticipant] FOREIGN KEY ([ParticipantId]) REFERENCES [Participant]([ParticipantId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_ParticipantExchangeVisitor_ToParticipantPerson] FOREIGN KEY ([ParticipantId]) REFERENCES [ParticipantPerson]([ParticipantId]), 
     CONSTRAINT [FK_ParticipantExchangeVisitor_ToProgramCategory] FOREIGN KEY ([ProgramCategoryId]) REFERENCES [sevis].[ProgramCategory]([ProgramCategoryId]), 
     CONSTRAINT [FK_ParticipantExchangeVisitor_ToUSGovernmentAgency_1] FOREIGN KEY ([GovtAgency1Id]) REFERENCES [sevis].[USGovernmentAgency]([AgencyId]), 
     CONSTRAINT [FK_ParticipantExchangeVisitor_ToUSGovermentAgency_2] FOREIGN KEY ([GovtAgency2Id]) REFERENCES [sevis].[USGovernmentAgency]([AgencyId]), 
@@ -43,19 +42,32 @@
 
 GO
 
-CREATE INDEX [IX_ParticipantExchangeVisitor_SevisId] ON [dbo].[ParticipantPerson] ([SevisId])
+CREATE INDEX [IX_ParticipantExchangeVisitor_FieldOfStudyCode] ON [dbo].[ParticipantExchangeVisitor] ([FieldOfStudyId])
 
 GO
 
-CREATE INDEX [IX_ParticipantExchangeVisitor_FieldOfStudyCode] ON [dbo].[ParticipantPerson] ([FieldOfStudyId])
+CREATE INDEX [IX_ParticipantExchangeVisitor_PositionCode] ON [dbo].[ParticipantExchangeVisitor] ([PositionId])
 
 GO
 
-CREATE INDEX [IX_ParticipantExchangeVisitor_PositionCode] ON [dbo].[ParticipantPerson] ([PositionId])
+CREATE INDEX [IX_ParticipantExchangeVisitor_ProgramCategoryCode] ON [dbo].[ParticipantExchangeVisitor] ([ProgramCategoryId])
+
+GO
+
+CREATE INDEX [IX_ParticipantExchangeVisitor_USGovernmentAgency1] ON [dbo].[ParticipantExchangeVisitor] (GovtAgency1Id)
 
 GO
 
 
-CREATE INDEX [IX_ParticipantExchangeVisitor_ProgramCategoryCode] ON [dbo].[ParticipantPerson] ([ProgramCategoryId])
+CREATE INDEX [IX_ParticipantExchangeVisitor_USGovernmentAgency2] ON [dbo].[ParticipantExchangeVisitor] (GovtAgency2Id)
+
+GO
+
+
+CREATE INDEX [IX_ParticipantExchangeVisitor_IntlOrg1] ON [dbo].[ParticipantExchangeVisitor] (IntlOrg1Id)
+
+GO
+
+CREATE INDEX [IX_ParticipantExchangeVisitor_IntlOrg2] ON [dbo].[ParticipantExchangeVisitor] (IntlOrg2Id)
 
 GO
