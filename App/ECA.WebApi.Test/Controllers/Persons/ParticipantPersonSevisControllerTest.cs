@@ -12,16 +12,18 @@ namespace ECA.WebApi.Test.Controllers.Persons
     [TestClass]
     public class ParticipantPersonSevisControllerTest
     {
-        private Mock<IParticipantPersonsSevisService> serviceMock;
         private ParticipantPersonsSevisController controller;
+        private Mock<IParticipantPersonsSevisService> serviceMock;
+        private Mock<ISevisValidationService> validatorMock;
         private Mock<IUserProvider> userProvider;
 
         [TestInitialize]
         public void TestInit()
         {
             serviceMock = new Mock<IParticipantPersonsSevisService>();
+            validatorMock = new Mock<ISevisValidationService>();
             userProvider = new Mock<IUserProvider>();
-            controller = new ParticipantPersonsSevisController(serviceMock.Object, userProvider.Object);
+            controller = new ParticipantPersonsSevisController(serviceMock.Object, validatorMock.Object, userProvider.Object);
         }
 
         [TestMethod]

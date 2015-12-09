@@ -277,6 +277,8 @@
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\IParticipantStudentVisitorService.cs" />
     <Compile Include="Service\Persons\IParticipantPersonsSevisService.cs" />
+    <Compile Include="Service\Persons\IPersonSevisServiceValidator.cs" />
+    <Compile Include="Service\Persons\ISevisValidationService.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewPersonEduEmp.cs" />

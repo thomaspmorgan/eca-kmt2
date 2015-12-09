@@ -13,16 +13,12 @@ namespace ECA.Business.Test.Service.Persons
     [TestClass]
     public class PersonServiceValidatorTest
     {
-        private TestEcaContext context;
-        private SevisValidationService sevisService;
-        private SEVISBatchUpdateStudentValidator validator;
+        //private TestEcaContext context;
 
         [TestInitialize]
         public void TestInit()
         {
-            context = new TestEcaContext();
-            sevisService = new SevisValidationService(context);
-            validator = new SEVISBatchUpdateStudentValidator();
+            //context = new TestEcaContext();
         }
 
         #region DoValidateCreate

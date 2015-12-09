@@ -248,7 +248,6 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEducationsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            //var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
 
             var query = from education in context.ProfessionEducations
                         where education.PersonOfEducation_PersonId == personId

@@ -6,7 +6,7 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(SchoolValidator))]
     public class School
     {
-        public int Amount { get; set; }
+        public int? Amount { get; set; }
         
         public string Remarks { get; set; }        
     }

@@ -20,7 +20,7 @@ namespace ECA.Business.Validation.Model
 
         public DateTime PrgStartDate { get; set; }
 
-        public DateTime PrgEndDate { get; set; }
+        public DateTime? PrgEndDate { get; set; }
 
         public EngProficiency engProficiency { get; set; }
         

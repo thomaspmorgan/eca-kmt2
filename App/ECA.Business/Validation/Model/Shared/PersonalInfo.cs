@@ -16,7 +16,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Student date of birth.
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         /// <summary>
         /// Gender code.

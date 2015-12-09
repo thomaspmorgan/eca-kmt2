@@ -159,6 +159,8 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISevisValidationService, SevisValidationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPersonSevisServiceValidator, PersonSevisServiceValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IProminentCategoryService, ProminentCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IBookmarkService, BookmarkService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
