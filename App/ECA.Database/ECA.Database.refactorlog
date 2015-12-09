@@ -987,4 +987,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DataPointCategoryPropertyId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="5e15a3cf-e655-4cd9-99df-a45dc1dd5e0c" ChangeDateTime="12/09/2015 02:48:15">
+    <Property Name="ElementName" Value="[dbo].[Itinerary].[Description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Itinerary]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2629d134-45b5-47dd-94d4-9a23ee23f13e" ChangeDateTime="12/09/2015 02:54:02">
+    <Property Name="ElementName" Value="[dbo].[Location].[Mission_LocationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SEVIS_LocationISO" />
+  </Operation>
 </Operations>
