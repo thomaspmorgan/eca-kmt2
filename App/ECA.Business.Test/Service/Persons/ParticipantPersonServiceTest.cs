@@ -40,7 +40,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                StudyProject = "studyProject",
             };
             var project = new Project
             {
@@ -66,12 +65,8 @@ namespace ECA.Business.Test.Service.Persons
                 var participantPersonResult = results.Results.First();
 
                 Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-                Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
                 Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
 
-                Assert.IsNull(participantPersonResult.FieldOfStudy);
-                Assert.IsNull(participantPersonResult.ProgramCategory);
-                Assert.IsNull(participantPersonResult.Position);
                 Assert.IsNull(participantPersonResult.HostInstitution);
                 Assert.IsNull(participantPersonResult.HomeInstitution);
             };
@@ -122,7 +117,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                StudyProject = "studyProject",
             };
 
             participantPerson.Participant = participant;
@@ -142,11 +136,7 @@ namespace ECA.Business.Test.Service.Persons
 
                 Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
                 Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-                Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
 
-                Assert.IsNull(participantPersonResult.FieldOfStudy);
-                Assert.IsNull(participantPersonResult.ProgramCategory);
-                Assert.IsNull(participantPersonResult.Position);
                 Assert.IsNull(participantPersonResult.HostInstitution);
                 Assert.IsNull(participantPersonResult.HomeInstitution);
             };
@@ -195,7 +185,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                StudyProject = "studyProject",
             };
             var project = new Project
             {
@@ -217,12 +206,8 @@ namespace ECA.Business.Test.Service.Persons
             Action<SimpleParticipantPersonDTO> tester = (results) =>
             {
                 Assert.AreEqual(participantPerson.SevisId, results.SevisId);
-                Assert.AreEqual(participantPerson.StudyProject, results.StudyProject);
                 Assert.AreEqual(project.ProjectId, results.ProjectId);
 
-                Assert.IsNull(results.FieldOfStudy);
-                Assert.IsNull(results.ProgramCategory);
-                Assert.IsNull(results.Position);
                 Assert.IsNull(results.HostInstitution);
                 Assert.IsNull(results.HomeInstitution);
             };

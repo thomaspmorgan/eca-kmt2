@@ -16,9 +16,14 @@ namespace ECA.Data
     {
 
         /// <summary>
-        /// Gets the max length of a Study Project
+        /// Gets the max length of remark for funding
         /// </summary>
         private const int REMARKS_MAX_LENGTH = 255;
+
+        /// <summary>
+        /// Gets the max length of a Study Project
+        /// </summary>
+        private const int STUDY_PROJECT_MAX_LENGTH = 250;
 
         /// <summary>
         /// constructor to initialize history for a ParticipantStudentVisitor
@@ -87,6 +92,12 @@ namespace ECA.Data
         /// The length of Study in Months
         /// </summary>
         public int? LengthOfStudy { get; set; }
+
+        /// <summary>
+        /// The Study Project for the student (Fulbright)
+        /// </summary>
+        [MaxLength(STUDY_PROJECT_MAX_LENGTH)]
+        public string StudyProject { get; set; }
 
         /// <summary>
         /// does the participant need English Language Proficiency?

@@ -173,6 +173,7 @@ namespace ECA.Business.Service.Persons
             participantStudentVisitor.SecondaryMajorId = updatedParticipantStudentVisitor.SecondaryMajorId;
             participantStudentVisitor.MinorId = updatedParticipantStudentVisitor.MinorId;
             participantStudentVisitor.LengthOfStudy = updatedParticipantStudentVisitor.LengthOfStudy;
+            participantStudentVisitor.StudyProject = updatedParticipantStudentVisitor.StudyProject;
             participantStudentVisitor.IsEnglishProficiencyReqd = updatedParticipantStudentVisitor.IsEnglishLanguageProficiencyReqd;
             participantStudentVisitor.IsEnglishProficiencyMet = updatedParticipantStudentVisitor.IsEnglishLanguageProficiencyMet;
             participantStudentVisitor.EnglishProficiencyNotReqdReason = updatedParticipantStudentVisitor.EnglishLanguageProficiencyNotReqdReason;

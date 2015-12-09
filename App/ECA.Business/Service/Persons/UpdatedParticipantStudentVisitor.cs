@@ -47,6 +47,7 @@ namespace ECA.Business.Service.Persons
             int? secondaryMajorId,
             int? minorId,
             int? lengthOfStudy,
+            string studyProject,
             bool isEnglishLanguageProficiencyReqd,
             bool isEnglishLanguageProficiencyMet,
             string englishLanguageProficiencyNotReqdReason,
@@ -71,6 +72,7 @@ namespace ECA.Business.Service.Persons
             this.SecondaryMajorId = secondaryMajorId;
             this.MinorId = minorId;
             this.LengthOfStudy = lengthOfStudy;
+            this.StudyProject = studyProject;
             this.IsEnglishLanguageProficiencyReqd = isEnglishLanguageProficiencyReqd;
             this.IsEnglishLanguageProficiencyMet = isEnglishLanguageProficiencyMet;
             this.EnglishLanguageProficiencyNotReqdReason = englishLanguageProficiencyNotReqdReason;
@@ -121,6 +123,11 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the student's length of study in months
         /// </summary>
         public int? LengthOfStudy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the student's study project
+        /// </summary>
+        public string StudyProject { get; set; }
 
         /// <summary>
         /// Does the student require English language proficiency

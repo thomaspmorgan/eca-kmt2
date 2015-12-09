@@ -7,6 +7,7 @@
     [SecondaryMajorId] INT NULL, 
     [MinorId] INT NULL, 
     [LengthOfStudy] INT NULL, 
+	[StudyProject] NVARCHAR(250),
     [IsEnglishProficiencyReqd] BIT NOT NULL DEFAULT 0 , 
     [IsEnglishProficiencyMet] BIT NOT NULL DEFAULT 0, 
     [EnglishProficiencyNotReqdReason] NVARCHAR(255) NULL, 

@@ -247,9 +247,6 @@ namespace ECA.Business.Service.Persons
             updatedParticipantPersonSevis.Audit.SetHistory(participantPerson);
 
             participantPerson.SevisId = updatedParticipantPersonSevis.SevisId;
-            participantPerson.FieldOfStudyId = updatedParticipantPersonSevis.FieldOfStudyId;
-            participantPerson.ProgramCategoryId = updatedParticipantPersonSevis.ProgramCategoryId;
-            participantPerson.PositionId = updatedParticipantPersonSevis.PositionId;
             participantPerson.IsSentToSevisViaRTI = updatedParticipantPersonSevis.IsSentToSevisViaRTI;
             participantPerson.IsValidatedViaRTI = updatedParticipantPersonSevis.IsValidatedViaRTI;
             participantPerson.IsCancelled = updatedParticipantPersonSevis.IsCancelled;
@@ -258,25 +255,6 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
-            participantPerson.FundingSponsor = updatedParticipantPersonSevis.FundingSponsor;
-            participantPerson.FundingPersonal = updatedParticipantPersonSevis.FundingPersonal;
-            participantPerson.FundingVisGovt = updatedParticipantPersonSevis.FundingVisGovt;
-            participantPerson.FundingVisBNC = updatedParticipantPersonSevis.FundingVisBNC;
-            participantPerson.FundingGovtAgency1 = updatedParticipantPersonSevis.FundingGovtAgency1;
-            participantPerson.GovtAgency1Id = updatedParticipantPersonSevis.GovtAgency1Id;
-            participantPerson.GovtAgency1OtherName = updatedParticipantPersonSevis.GovtAgency1OtherName;
-            participantPerson.FundingGovtAgency2 = updatedParticipantPersonSevis.FundingGovtAgency2;
-            participantPerson.GovtAgency2Id = updatedParticipantPersonSevis.GovtAgency2Id;
-            participantPerson.GovtAgency2OtherName = updatedParticipantPersonSevis.GovtAgency2OtherName;
-            participantPerson.FundingIntlOrg1 = updatedParticipantPersonSevis.FundingIntlOrg1;
-            participantPerson.IntlOrg1Id = updatedParticipantPersonSevis.IntlOrg1Id;
-            participantPerson.IntlOrg1OtherName = updatedParticipantPersonSevis.IntlOrg1OtherName;
-            participantPerson.FundingIntlOrg2 = updatedParticipantPersonSevis.FundingIntlOrg2;
-            participantPerson.IntlOrg2Id = updatedParticipantPersonSevis.IntlOrg2Id;
-            participantPerson.IntlOrg2OtherName = updatedParticipantPersonSevis.IntlOrg2OtherName;
-            participantPerson.FundingOther = updatedParticipantPersonSevis.FundingOther;
-            participantPerson.OtherName = updatedParticipantPersonSevis.OtherName;
-            participantPerson.FundingTotal = updatedParticipantPersonSevis.FundingTotal;
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)

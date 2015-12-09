@@ -39,6 +39,7 @@ namespace ECA.Business.Queries.Persons
                              MinorId = p.MinorId,
                              Minor = p.Minor == null ? string.Empty : p.Minor.Description,
                              LengthOfStudy = p.LengthOfStudy,
+                             StudyProject = p.StudyProject,
                              IsEnglishLanguageProficiencyReqd = p.IsEnglishProficiencyReqd,
                              IsEnglishLanguageProficiencyMet = p.IsEnglishProficiencyMet,
                              EnglishLanguageProficiencyNotReqdReason = p.EnglishProficiencyNotReqdReason,

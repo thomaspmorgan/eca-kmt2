@@ -55,6 +55,12 @@ namespace ECA.Data
         public ParticipantStudentVisitor ParticipantStudentVisitor { get; set; }
 
         /// <summary>
+        /// reference to the ParticipantExchangeVisitor record for this Participant if person is an ExchangeVisitor
+        /// </summary>
+        [ForeignKey("ParticipantId")]
+        public ParticipantExchangeVisitor ParticipantExchangeVisitor { get; set; }
+
+        /// <summary>
         /// History data for this participant
         /// </summary>
         public History History { get; set; }
