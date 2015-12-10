@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAACMGxonnZfyqREzyDVOc2P6GAkhqXK+m3Mzm9mLNEpmIwAAAAAOgAAAAAIAACAAAAC7UAZZ3SNvGD7p+MVphjWIWLhY+vAqkwUCfSaKLPq1qZAAAAAeh9lJQL60al9OE0/BahmeNLvSUPmYVyVPixRVveU2WznThFAqM8fzviW+KbRO9htZY5tHplkMGa/+NgQQ0ZRb44tOYEfI45lwiJ6LdEG3Uzz7+VuXtDi055JXKUDaZW88EbACTh1xTlcwStybfwb9hn2QPIZI5x0CbDE8Qw2V6n5Sfsw40mYT+5c5bPuT+nVAAAAArLnOPAGLpmlpRdawxSy9FWWOKk9bMPT1j3PPU9C0h+v7R8DeJgr3hxP33u05vq5pX4Ob/qN5t0Zo2WGhNaNHjg==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAACS7IwqYjb0KutibrmNmidBGnzVM+Ks0oyZMjahK2WyjgAAAAAOgAAAAAIAACAAAACcLeWLDMcTmDkValznQOKBsYWkWCy/iMiowfSv8G9RNJAAAAB3r5rjXWWh8KzsnMDdWVB2/8pMXaszbskdMtQKPj39SdtG8wGuK2V1ZeAmMLR0i2QwK4lV1Oyk0YNdfHIPbEdNqqdbW10eivUHylG9Ipx5qRBbZnAEZziZxSiFZyWKXura/1aLXGbgoDAo/QTJke00Vyyuk3PjVMTiC5RUKx80Nu1UKUzh58kKwZYFh/FApiZAAAAAdcAwnSKtV4ySuBedMlMaOFYVIBL0tX/ZqjXdjXYQ6wRuEycTscPKEdUX1HTPbGiSozqimnqnkYaCq72GPJPeGA==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -67,7 +67,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">Data Source=eca.database.windows.net;User ID=ECA;Initial Catalog=ECA_KMT_PRE;Provider=SQLNCLI11.1;Auto Translate=False;</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -82,7 +82,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">ECA_Local</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">ECA_KMT_PRE</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -126,7 +126,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">BE00003308</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">eca.database.windows.net</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -141,6 +141,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">ECA</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
