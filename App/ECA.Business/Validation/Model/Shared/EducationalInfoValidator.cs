@@ -10,7 +10,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         public EducationalInfoValidator()
         {
-            RuleFor(student => student.eduLevel).NotNull().SetValidator(new EduLevelValidator());
+            RuleFor(student => student.eduLevel).NotNull().WithMessage("Education: Education Level is required").SetValidator(new EduLevelValidator());
             RuleFor(student => student.PrimaryMajor).NotNull().WithMessage("Education: Primary Major is required").Length(1, MAJOR_MAX_LENGTH).WithMessage("Education: Primary Major can be up to " + MAJOR_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.SecondMajor).Length(0, MAJOR_MAX_LENGTH).WithMessage("Education: Secondary Major can be up to " + MAJOR_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.Minor).Length(0, MAJOR_MAX_LENGTH).WithMessage("Education: Minor can be up to " + MAJOR_MAX_LENGTH.ToString() + " characters");

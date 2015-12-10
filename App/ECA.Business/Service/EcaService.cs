@@ -657,6 +657,18 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="locationId">Location id to lookup</param>
         /// <returns>Location</returns>
+        public Location GetLocationById(int locationId)
+        {
+            var location = CreateGetLocationById(locationId).FirstOrDefault();
+            logger.Trace("Retrieved location by id {0}.", locationId);
+            return location;
+        }
+        
+        /// <summary>
+        /// Gets a location by id
+        /// </summary>
+        /// <param name="locationId">Location id to lookup</param>
+        /// <returns>Location</returns>
         protected async Task<Location> GetLocationByIdAsync(int locationId)
         {
             var location = await CreateGetLocationById(locationId).FirstOrDefaultAsync();

@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation.Model.Shared;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace ECA.Business.Validation.Model
 {
@@ -7,9 +6,8 @@ namespace ECA.Business.Validation.Model
     {
         public CPTEmploymentValidator()
         {
-
-
-
+            RuleFor(student => student.addCptEmployment).SetValidator(new AddCptEmploymentValidator());
+            RuleFor(student => student.cancelCptEmployment).SetValidator(new CancelCptEmploymentValidator());
         }
     }
 }

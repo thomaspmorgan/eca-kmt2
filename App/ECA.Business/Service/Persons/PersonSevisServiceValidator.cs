@@ -4,45 +4,26 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
 using System.Threading.Tasks;
+using ECA.Data;
+using ECA.Business.Queries.Persons;
+using System.Linq;
 //using System.Data;
 //using System.IO;
 //using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
-    public class PersonSevisServiceValidator : SevisValidatorBase<SEVISBatchUpdateStudent>
-    {
-        public override List<ValidationResult> DoValidateSevis(SEVISBatchUpdateStudent validationEntity)
-        {
-            throw new NotImplementedException();
-        }
-
+    public class PersonSevisServiceValidator : SevisValidatorBase<SEVISBatchUpdateStudent>, IPersonSevisServiceValidator
+    {        
         /// <summary>
         /// Do validation for sevis object, which includes participant person object
         /// </summary>
         /// <param name="participantId">Entity to validate</param>
         /// <returns>validation results</returns>        
-        public List<ValidationResult> ValidateSevis(int participantId)
+        public List<ValidationResult> ValidateSevis(EcaContext context, int participantId)
         {
-            // TODO: get full sevis object
+            var updateStudent = GetStudent(context, participantId);
             
-            // ****** temporary object to return validation results ***********
-            var batchHeader = new BatchHeader
-            {
-                BatchID = "1",
-                OrgID = "1"
-            };
-            var createStudent = new CreateStudent
-            {
-                student = null
-            };
-            var updateStudent = new SEVISBatchUpdateStudent
-            {
-                userID = "1",
-                batchHeader = batchHeader,
-                createStudent = createStudent
-            };
-
             var validator = new SEVISBatchUpdateStudentValidator();
             var results = validator.Validate(updateStudent);
 
@@ -56,11 +37,161 @@ namespace ECA.Business.Service.Persons
             return final;
         }
 
-        public async Task<List<ValidationResult>> ValidateSevisAsync(int participantId)
-        {
-            // TODO: get full sevis object
+        public async Task<List<ValidationResult>> ValidateSevisAsync(EcaContext context, int participantId)
+            {
+            var updateStudent = GetStudent(context, participantId);
 
-            // ****** temporary object to return validation results ***********
+            var validator = new SEVISBatchUpdateStudentValidator();
+            var results = await validator.ValidateAsync(updateStudent);
+
+            var final = new List<ValidationResult>();
+            foreach (var error in results.Errors)
+            {
+                final.Add(new ValidationResult(error.ErrorMessage));
+            }
+            
+            return final;
+        }
+
+        /// <summary>
+        /// Get populated participant person sevis object
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="participantId"></param>
+        /// <returns></returns>
+        public SEVISBatchUpdateStudent GetStudent(EcaContext context, int participantId)
+        {
+            // Get student details
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
+            var personalGeneral = PersonQueries.CreateGetGeneralByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
+            var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
+            var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
+            var studentInfo = PersonQueries.CreateGetEducationsByPersonIdQuery(context, (int)participant.PersonId).FirstOrDefault();
+            var visitorInfo = ParticipantStudentVisitorQueries.CreateGetParticipantStudentVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
+            var primaryAddress = personalPII.Addresses.Where(x => x.IsPrimary == true).FirstOrDefault();
+            var ecaService = new EcaService(context);
+            var citizenship = ecaService.GetLocationById(personalPII.CountriesOfCitizenship.FirstOrDefault().Id);
+
+            var student = new Student();
+            student.requestID = "1";
+            student.userID = participant.PersonId.ToString();
+            student.IssueReason = "I";
+            // personal info
+            student.personalInfo = new PersonalInfo
+            {
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?) null,
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                Email = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+                fullName = new FullName
+                {
+                    FirsName = personalPII.FirstName,
+                    LastName = personalPII.LastName,
+                    NameSuffix = personalPII.NameSuffix,
+                    PreferredName = personalPII.Alias
+                },
+                Gender = personalPII.GenderId.ToString(),
+                VisaType = "H1"
+            };
+            if (primaryAddress != null)
+            {
+                if (primaryAddress.CountryIso2 == "US")
+                {
+                    // us address
+                    student.usAddress = new USAddress
+                    {
+                        address1 = primaryAddress.Street1,
+                        address2 = primaryAddress.Street2,
+                        city = primaryAddress.City,
+                        postalCode = primaryAddress.PostalCode
+                    };
+                }
+                else if (!string.IsNullOrEmpty(primaryAddress.CountryIso2))
+                {
+                    // foreign address
+                    // TODO: foreign address required if new student
+                    //if (isNew) {
+                    student.foreignAddress = new ForeignAddress
+                    {
+                        address1 = primaryAddress.Street1,
+                        address2 = primaryAddress.Street2,
+                        city = primaryAddress.City,
+                        postalCode = primaryAddress.PostalCode,
+                        countryCode = primaryAddress.CountryIso2
+                    };
+                    //}
+                }
+            }
+            if (studentInfo != null)
+            {
+                // education
+                student.educationalInfo = new EducationalInfo
+                {
+                    PrgStartDate = studentInfo.StartDate.DateTime > DateTime.MinValue ? studentInfo.StartDate.DateTime : DateTime.MinValue,
+                    PrgEndDate = studentInfo.EndDate.HasValue ? studentInfo.EndDate.Value.DateTime : DateTime.MinValue,
+                    eduLevel = new EduLevel
+                    {
+                        Level = visitorInfo != null ? visitorInfo.EducationLevel : "",
+                        OtherRemarks = visitorInfo != null ? visitorInfo.EducationLevelOtherRemarks : ""
+                    },
+                    engProficiency = new EngProficiency
+                    {
+                        EngRequired = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyReqd : false,
+                        RequirementsMet = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyMet : false,
+                        NotRequiredReason = visitorInfo != null ? visitorInfo.EnglishLanguageProficiencyNotReqdReason : ""
+                    },
+                    LengthOfStudy = visitorInfo != null ? visitorInfo.LengthOfStudy.ToString() : "",
+                    PrimaryMajor = visitorInfo != null ? visitorInfo.PrimaryMajor : "",
+                    SecondMajor = visitorInfo != null ? visitorInfo.SecondaryMajor : "",
+                    Minor = visitorInfo != null ? visitorInfo.Minor : "",
+                    Remarks = visitorInfo != null ? studentInfo.Title : ""
+                };
+            }
+            if (visitorInfo != null)
+            {
+                // financial
+                student.financialInfo = new FinancialInfo
+                {
+                    AcademicTerm = "",
+                    Expense = new Expense
+                    {
+                        DependentExp = (int)visitorInfo.DependentExpense,
+                        LivingExpense = (int)visitorInfo.LivingExpense,
+                        Tuition = (int)visitorInfo.TuitionExpense,
+                        Other = new ExpenseOther
+                        {
+                            Amount = (int)visitorInfo.OtherExpense,
+                            Remarks = visitorInfo.ExpenseRemarks
+                        }
+                    },
+                    Funding = new Funding
+                    {
+                        Employment = (int)visitorInfo.EmploymentFunding,
+                        Personal = (int)visitorInfo.PersonalFunding,
+                        School = new School
+                        {
+                            Amount = (int)visitorInfo.SchoolFunding,
+                            Remarks = visitorInfo.SchoolFundingRemarks
+                        },
+                        Other = new FundingOther
+                        {
+                            Amount = (int)visitorInfo.OtherFunding,
+                            Remarks = visitorInfo.OtherFundingRemarks
+                        }
+                    }
+                };
+            }
+            // TODO: complete when dependent feature is available
+            student.createDependent = null;
+            student.Remarks = "";
+            //student.createDependent = new CreateDependent
+            //{
+            //    Dependent = new AddDependent {
+
+            //    },
+            //    Remarks = ""
+            //};
+
             var batchHeader = new BatchHeader
             {
                 BatchID = "1",
@@ -68,7 +199,7 @@ namespace ECA.Business.Service.Persons
             };
             var createStudent = new CreateStudent
             {
-                student = null
+                student = student
             };
             var updateStudent = new SEVISBatchUpdateStudent
             {
@@ -77,18 +208,14 @@ namespace ECA.Business.Service.Persons
                 createStudent = createStudent
             };
 
-            var validator = new SEVISBatchUpdateStudentValidator();
-            var results = await validator.ValidateAsync(updateStudent);
-            
-            var final = new List<ValidationResult>();
-            foreach (var error in results.Errors)
-        {
-                final.Add(new ValidationResult(error.ErrorMessage));
-            }
-
-            return final;
+            return updateStudent;
         }
         
+        public override List<ValidationResult> DoValidateSevis(SEVISBatchUpdateStudent validationEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         // TODO: for sending XML content to Sevis service
 
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;
