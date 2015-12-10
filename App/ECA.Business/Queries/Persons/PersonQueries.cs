@@ -152,6 +152,7 @@ namespace ECA.Business.Queries.Persons
                                              CityId = location.CityId,
                                              Country = hasCountry ? country.LocationName : null,
                                              CountryId = location.CountryId,
+                                             CountryIso2 = location.LocationIso2,
                                              Division = hasDivision ? division.LocationName : null,
                                              DivisionId = location.DivisionId,
                                              IsPrimary = address.IsPrimary,

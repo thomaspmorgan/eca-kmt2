@@ -14,11 +14,11 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(student => student.fullName).SetValidator(new FullNameValidator());
             });
             RuleFor(student => student.BirthDate).NotNull().WithMessage("Personal Info: Date of birth is required");
-            RuleFor(student => student.Gender).NotNull().WithMessage("Personal Info: Gender is required").Length(1);
-            RuleFor(student => student.BirthCountryCode).NotNull().WithMessage("Personal Info: Country of birth is required").Length(2);
-            RuleFor(student => student.CitizenshipCountryCode).NotNull().WithMessage("Personal Info: Country of citizenship is required").Length(2);
+            RuleFor(student => student.Gender).NotNull().WithMessage("Personal Info: Gender is required").Length(1).WithMessage("Personal Info: Gender must be 1 character");
+            RuleFor(student => student.BirthCountryCode).NotNull().WithMessage("Personal Info: Country of birth is required").Length(2).WithMessage("Personal Info: Country of birth must be 2 characters");
+            RuleFor(student => student.CitizenshipCountryCode).NotNull().WithMessage("Personal Info: Country of citizenship is required").Length(2).WithMessage("Personal Info: Country of citizenship must be 2 characters");
             RuleFor(student => student.Email).Length(0, EMAIL_MAX_LENGTH).WithMessage("Personal Info: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Personal Info: Email is invalid"); ;
-            RuleFor(student => student.VisaType).NotNull().WithMessage("Personal Info: Visa type is required").Length(2);
+            RuleFor(student => student.VisaType).NotNull().WithMessage("Personal Info: Visa Type is required").Length(2).WithMessage("Personal Info: Visa Type must be 2 characters");
         }
 
     }

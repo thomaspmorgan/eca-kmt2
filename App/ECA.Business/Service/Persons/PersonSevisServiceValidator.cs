@@ -79,10 +79,10 @@ namespace ECA.Business.Service.Persons
             // personal info
             student.personalInfo = new PersonalInfo
             {
-                BirthCountryCode = personalPII.PlaceOfBirth.CountryIso,
-                BirthDate = personalPII.DateOfBirth.Value.Date,
-                CitizenshipCountryCode = citizenship.LocationIso,
-                Email = personalEmail.Select(x => x.Address).FirstOrDefault(),
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?) null,
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                Email = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                 fullName = new FullName
                 {
                     FirsName = personalPII.FirstName,
@@ -93,48 +93,62 @@ namespace ECA.Business.Service.Persons
                 Gender = personalPII.GenderId.ToString(),
                 VisaType = "H1"
             };
-            // us address
-            student.usAddress = new USAddress
+            if (primaryAddress != null)
             {
-                address1 = primaryAddress.Street1,
-                address2 = primaryAddress.Street2,
-                city = primaryAddress.City,
-                postalCode = primaryAddress.PostalCode
-            };
-            // foreign address
-            //if (isNew) { }
-            student.foreignAddress = new ForeignAddress
-            {
-                address1 = primaryAddress.Street1,
-                address2 = primaryAddress.Street2,
-                city = primaryAddress.City,
-                postalCode = primaryAddress.PostalCode,
-                countryCode = primaryAddress.Country
-            };
-            if (studentInfo != null && visitorInfo != null)
+                if (primaryAddress.CountryIso2 == "US")
+                {
+                    // us address
+                    student.usAddress = new USAddress
+                    {
+                        address1 = primaryAddress.Street1,
+                        address2 = primaryAddress.Street2,
+                        city = primaryAddress.City,
+                        postalCode = primaryAddress.PostalCode
+                    };
+                }
+                else if (!string.IsNullOrEmpty(primaryAddress.CountryIso2))
+                {
+                    // foreign address
+                    // TODO: foreign address required if new student
+                    //if (isNew) {
+                    student.foreignAddress = new ForeignAddress
+                    {
+                        address1 = primaryAddress.Street1,
+                        address2 = primaryAddress.Street2,
+                        city = primaryAddress.City,
+                        postalCode = primaryAddress.PostalCode,
+                        countryCode = primaryAddress.CountryIso2
+                    };
+                    //}
+                }
+            }
+            if (studentInfo != null)
             {
                 // education
                 student.educationalInfo = new EducationalInfo
                 {
-                    PrgStartDate = studentInfo.StartDate.DateTime,
-                    PrgEndDate = studentInfo.EndDate.Value.DateTime,
+                    PrgStartDate = studentInfo.StartDate.DateTime > DateTime.MinValue ? studentInfo.StartDate.DateTime : DateTime.MinValue,
+                    PrgEndDate = studentInfo.EndDate.HasValue ? studentInfo.EndDate.Value.DateTime : DateTime.MinValue,
                     eduLevel = new EduLevel
                     {
-                        Level = visitorInfo.EducationLevel,
-                        OtherRemarks = visitorInfo.EducationLevelOtherRemarks
+                        Level = visitorInfo != null ? visitorInfo.EducationLevel : "",
+                        OtherRemarks = visitorInfo != null ? visitorInfo.EducationLevelOtherRemarks : ""
                     },
                     engProficiency = new EngProficiency
                     {
-                        EngRequired = visitorInfo.IsEnglishLanguageProficiencyReqd,
-                        RequirementsMet = visitorInfo.IsEnglishLanguageProficiencyMet,
-                        NotRequiredReason = visitorInfo.EnglishLanguageProficiencyNotReqdReason
+                        EngRequired = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyReqd : false,
+                        RequirementsMet = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyMet : false,
+                        NotRequiredReason = visitorInfo != null ? visitorInfo.EnglishLanguageProficiencyNotReqdReason : ""
                     },
-                    LengthOfStudy = visitorInfo.LengthOfStudy.ToString(),
-                    PrimaryMajor = visitorInfo.PrimaryMajor,
-                    SecondMajor = visitorInfo.SecondaryMajor,
-                    Minor = visitorInfo.Minor,
-                    Remarks = studentInfo.Title
+                    LengthOfStudy = visitorInfo != null ? visitorInfo.LengthOfStudy.ToString() : "",
+                    PrimaryMajor = visitorInfo != null ? visitorInfo.PrimaryMajor : "",
+                    SecondMajor = visitorInfo != null ? visitorInfo.SecondaryMajor : "",
+                    Minor = visitorInfo != null ? visitorInfo.Minor : "",
+                    Remarks = visitorInfo != null ? studentInfo.Title : ""
                 };
+            }
+            if (visitorInfo != null)
+            {
                 // financial
                 student.financialInfo = new FinancialInfo
                 {
@@ -167,6 +181,7 @@ namespace ECA.Business.Service.Persons
                     }
                 };
             }
+            // TODO: complete when dependent feature is available
             student.createDependent = null;
             student.Remarks = "";
             //student.createDependent = new CreateDependent
