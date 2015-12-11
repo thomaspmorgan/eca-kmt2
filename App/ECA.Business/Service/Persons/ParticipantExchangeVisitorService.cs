@@ -153,8 +153,8 @@ namespace ECA.Business.Service.Persons
             var participant = await Context.Participants.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
 
-            var participantStudentVisitor = await Context.ParticipantStudentVisitors.FindAsync(participantId);
-            if (participantStudentVisitor == null)
+            var participantExchangeVisitor = await Context.ParticipantExchangeVisitors.FindAsync(participantId);
+            if (participantExchangeVisitor == null)
             {
                 DoCreateParticipantExchangeVistor(participantId, creator);
             }

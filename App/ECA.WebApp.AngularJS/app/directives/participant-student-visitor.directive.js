@@ -102,6 +102,13 @@
                     };
                 };
 
+                $scope.edit.onFundingEditChange = function () {
+                    $scope.view.FundingEdit = !$scope.view.FundingEdit;
+                    if ($scope.view.FundingEdit) {
+
+                    }
+                };
+
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")

@@ -40,7 +40,7 @@ DECLARE @tblTempTable TABLE (
 INSERT INTO @tblTempTable ([MoneyFlowStatusId], [MoneyFlowStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Estimated', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([MoneyFlowStatusId], [MoneyFlowStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Actual', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([MoneyFlowStatusId], [MoneyFlowStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Appropriated', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
-
+INSERT INTO @tblTempTable ([MoneyFlowStatusId], [MoneyFlowStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Allocated', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[MoneyFlowStatus] ON

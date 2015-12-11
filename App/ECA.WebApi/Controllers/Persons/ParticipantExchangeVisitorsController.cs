@@ -48,7 +48,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of participantExchangeVisitors.</returns>
         [ResponseType(typeof(PagedQueryResults<ParticipantExchangeVisitorDTO>))]
-        [Route("ParticipantStudentVisitors")]
+        [Route("ParticipantExchangeVisitors")]
         public async Task<IHttpActionResult> GetParticipantExchangeVisitorsAsync([FromUri]PagingQueryBindingModel<ParticipantExchangeVisitorDTO> queryModel)
         {
             if (ModelState.IsValid)
@@ -70,7 +70,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="projectId">The id of the project to get participants for.</param>
         /// <returns>The list of participantExchangeVisitors.</returns>
         [ResponseType(typeof(PagedQueryResults<ParticipantExchangeVisitorDTO>))]
-        [Route("Projects/{projectId:int}/ParticipantStudentVisitors")]
+        [Route("Projects/{projectId:int}/ParticipantExchangeVisitors")]
         public async Task<IHttpActionResult> GetParticipantExchangeVisitorsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<ParticipantExchangeVisitorDTO> queryModel)
         {
             if (ModelState.IsValid)
