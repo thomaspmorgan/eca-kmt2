@@ -53,7 +53,7 @@ namespace ECA.Business.Service.Persons
             {
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
-
+            
 
 
             string temp = GetStudentUpdateXml(updateStudent);
@@ -220,7 +220,7 @@ namespace ECA.Business.Service.Persons
 
             return updateStudent;
         }
-
+        
         public string GetStudentUpdateXml(SEVISBatchUpdateStudent validationEntity)
         {
             XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());

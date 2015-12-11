@@ -184,6 +184,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IEducationLevelService, EducationLevelService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentCreationService, StudentCreationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IItineraryService, ItineraryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantExchangeVisitorService, ParticipantExchangeVisitorService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

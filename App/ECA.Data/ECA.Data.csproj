@@ -148,6 +148,7 @@
     <Compile Include="Configuration\LocationConfiguration.cs" />
     <Compile Include="Configuration\OrganizationConfiguration.cs" />
     <Compile Include="Configuration\ParticipantConfiguration.cs" />
+    <Compile Include="Configuration\ParticipantExchangeVisitorConfiguration.cs" />
     <Compile Include="Configuration\ParticipantPersonSevisCommStatusesConfiguration.cs" />
     <Compile Include="Configuration\PersonLanguageProficienciesConfiguration.cs" />
     <Compile Include="Configuration\ParticipantPersonConfiguration.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
+    <Compile Include="ParticipantExchangeVisitor.cs" />
     <Compile Include="ParticipantStudentVisitor.cs" />
     <Compile Include="ParticipantPersonSevisCommStatus.cs" />
     <Compile Include="EducationLevel.cs" />

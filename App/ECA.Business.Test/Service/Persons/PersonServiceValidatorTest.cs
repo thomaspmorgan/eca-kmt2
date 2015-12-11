@@ -454,7 +454,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsFalse(results.IsValid);
             Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student: Issue Reason is required"));
         }
-        
+
 
 
         #endregion
