@@ -1,17 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(TerminateStudentValidator))]
     public class TerminateStudent
     {
-        [StringLength(2)]
         public string Reason { get; set; }
-
-        [MaxLength(500)]
+        
         public string OtherRemarks { get; set; }
-
-        [MaxLength(500)]
+        
         public string Remarks { get; set; }
-
     }
 }

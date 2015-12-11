@@ -4,9 +4,6 @@ using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
-    /// <summary>
-    /// Used for adding a new student dependent record
-    /// </summary>
     [Validator(typeof(AddDependentValidator))]
     public class AddDependent
     {

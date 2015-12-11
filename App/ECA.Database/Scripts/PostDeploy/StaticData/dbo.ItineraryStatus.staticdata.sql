@@ -40,6 +40,7 @@ DECLARE @tblTempTable TABLE (
 INSERT INTO @tblTempTable ([ItineraryStatusId], [ItineraryStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Planned', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([ItineraryStatusId], [ItineraryStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'In Progress', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([ItineraryStatusId], [ItineraryStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Completed', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([ItineraryStatusId], [ItineraryStatusName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Unknown', '0', '12/09/2015 12:00:00 AM -00:00', '0', '12/09/2015 12:00:00 AM -00:00')
 
 
 -- 3: Insert any new items into the table from the table variable
