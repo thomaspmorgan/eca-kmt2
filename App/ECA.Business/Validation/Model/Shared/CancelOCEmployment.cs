@@ -1,21 +1,17 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
+using System;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(CancelOCEmploymentValidator))]
     public class CancelOCEmployment
     {
-        [Required]
         public bool printForm { get; set; }
-
-        [MaxLength(10)]
-        public DateTime StartDate { get; set; }
-
-        [MaxLength(10)]
-        public DateTime EndDate { get; set; }
-
-        [StringLength(2)]
-        public string EmploymentType { get; set; }
         
+        public DateTime StartDate { get; set; }
+        
+        public DateTime EndDate { get; set; }
+        
+        public string EmploymentType { get; set; }        
     }
 }

@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using ECA.Data;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
-    public class SevisValidationService
+    public class SevisValidationService : EcaService, ISevisValidationService
     {
-        public SevisValidationService()
+        private IPersonSevisServiceValidator validator;
+        
+        public SevisValidationService(EcaContext context, IPersonSevisServiceValidator validator) : base(context)
         {
-
+            this.validator = validator;
         }
 
         /// <summary>
@@ -22,8 +23,7 @@ namespace ECA.Business.Service.Persons
         public async Task<List<ValidationResult>> PreSevisValidationAsync(int participantId)
         {
             Contract.Requires(participantId > 0, "The participant ID must not be null.");
-            var validator = new PersonSevisServiceValidator();
-            var results = await validator.ValidateSevisAsync(participantId);
+            var results = await validator.ValidateSevisAsync(this.Context, participantId);
 
             return results;
         }
@@ -36,8 +36,7 @@ namespace ECA.Business.Service.Persons
         public List<ValidationResult> PreSevisValidation(int participantId)
         {
             Contract.Requires(participantId > 0, "The participant ID must not be null.");
-            var validator = new PersonSevisServiceValidator();
-            var results = validator.ValidateSevis(participantId);
+            var results = validator.ValidateSevis(this.Context, participantId);
 
             return results;
         }

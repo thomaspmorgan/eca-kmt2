@@ -7,7 +7,7 @@ namespace ECA.Business.Validation.Model.Shared
         public const int ID_MAX_LENGTH = 20;
         public const int USERDEFINEDA_MAX_LENGTH = 10;
         public const int USERDEFINEDB_MAX_LENGTH = 14;
-        public const int ISSUE_REASON_STRING_LENGTH = 1;
+        public const int ISSUE_REASON_STRING_LENGTH = 1; // I = Initial Attendance, S = Change of Status
         public const int REMARKS_MAX_LENGTH = 500;
 
         public StudentValidator()
@@ -17,25 +17,25 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(student => student.printForm).NotNull().WithMessage("Student: Print form option is required");
             RuleFor(student => student.UserDefinedA).Length(0, USERDEFINEDA_MAX_LENGTH).WithMessage("Student: User Defined A can be up to " + USERDEFINEDA_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.UserDefinedB).Length(0, USERDEFINEDB_MAX_LENGTH).WithMessage("Student: User Defined B can be up to " + USERDEFINEDB_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.IssueReason).NotNull().WithMessage("Student: Issue Reason is required").Length(1, ISSUE_REASON_STRING_LENGTH).WithMessage("Student: Issue Reason can be up to " + ISSUE_REASON_STRING_LENGTH.ToString() + " characters");
+            RuleFor(student => student.IssueReason).NotNull().WithMessage("Student: Issue Reason is required").Length(ISSUE_REASON_STRING_LENGTH).WithMessage("Student: Issue Reason can be up to " + ISSUE_REASON_STRING_LENGTH.ToString() + " characters");
             RuleFor(student => student.Remarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Student: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
-            When(student => student.requestID != null, () => {
+            //When(student => student.requestID != null, () => {
                 // personal info cannot be null
-                RuleFor(student => student.personalInfo).NotNull().WithMessage("Student: Personal Information is required").SetValidator(new PersonalInfoValidator());
+                RuleFor(student => student.personalInfo).NotNull().WithMessage("Student: Personal Information is required").SetValidator(new PersonalInfoValidator()).When(student => student.requestID != null);
                 // education info cannot be null
-                RuleFor(student => student.educationalInfo).NotNull().WithMessage("Student: Educational Information is required").SetValidator(new EducationalInfoValidator());
+                RuleFor(student => student.educationalInfo).NotNull().WithMessage("Student: Educational Information is required").SetValidator(new EducationalInfoValidator()).When(student => student.requestID != null);
                 // financial info cannot be null
-                RuleFor(student => student.financialInfo).NotNull().WithMessage("Student: Financial Information is required").SetValidator(new FinancialInfoValidator());
-            });
-            When(student => student.usAddress != null, () => {
-                RuleFor(student => student.usAddress).SetValidator(new USAddressValidator());
-            });
-            When(student => student.isNew == true, () => {
-                RuleFor(student => student.foreignAddress).NotNull().WithMessage("Student: Foreign Address is required").SetValidator(new ForeignAddressValidator());
-            });
-            When(student => student.createDependent != null, () => {
-                RuleFor(student => student.createDependent).SetValidator(new CreateDependentValidator());
-            });
+                RuleFor(student => student.financialInfo).NotNull().WithMessage("Student: Financial Information is required").SetValidator(new FinancialInfoValidator()).When(student => student.requestID != null);
+            //});
+            //When(student => student.usAddress != null, () => {
+                RuleFor(student => student.usAddress).SetValidator(new USAddressValidator()).When(student => student.usAddress != null);
+            //});
+            //When(student => student.isNew == true, () => {
+                RuleFor(student => student.foreignAddress).NotNull().WithMessage("Student: Foreign Address is required").SetValidator(new ForeignAddressValidator()).When(student => student.isNew == true);
+            //});
+            //When(student => student.createDependent != null, () => {
+                RuleFor(student => student.createDependent).SetValidator(new CreateDependentValidator()).When(student => student.createDependent != null);
+            //});
         }
     }
 }

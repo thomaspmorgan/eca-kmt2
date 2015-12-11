@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation.Model.Shared;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace ECA.Business.Validation.Model
 {
@@ -7,9 +6,7 @@ namespace ECA.Business.Validation.Model
     {
         public EducationLevelValidator()
         {
-
-
-
+            RuleFor(student => student.cancelEducationLevel).SetValidator(new CancelEducationLevelValidator());
         }
     }
 }
