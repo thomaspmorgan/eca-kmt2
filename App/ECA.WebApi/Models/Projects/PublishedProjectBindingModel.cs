@@ -93,7 +93,7 @@ namespace ECA.WebApi.Models.Projects
         /// <summary>
         /// The Visitor Type Id for the app
         /// </summary>
-        public int?  VisitorTypeId { get; set; }
+        public int  VisitorTypeId { get; set; }
 
         /// <summary>
         /// Returns a business entity from this binding model.

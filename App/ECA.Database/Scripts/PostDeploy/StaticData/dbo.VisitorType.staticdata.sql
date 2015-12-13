@@ -37,8 +37,9 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([VisitorTypeId], [VisitorTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Exchange Visitor', '0', '12/11/2015 12:00:00 AM -05:00', '0', '12/11/2015 12:00:00 AM -05:00')
-INSERT INTO @tblTempTable ([VisitorTypeId], [VisitorTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Student Visitor', '0', '12/11/2015 12:00:00 AM -05:00', '0', '12/11/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([VisitorTypeId], [VisitorTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Not Applicable', '0', '12/11/2015 12:00:00 AM -05:00', '0', '12/11/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([VisitorTypeId], [VisitorTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Exchange Visitor', '0', '12/11/2015 12:00:00 AM -05:00', '0', '12/11/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([VisitorTypeId], [VisitorTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Student Visitor', '0', '12/11/2015 12:00:00 AM -05:00', '0', '12/11/2015 12:00:00 AM -05:00')
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[VisitorType] ON

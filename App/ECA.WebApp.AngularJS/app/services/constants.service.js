@@ -1,4 +1,21 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -96,9 +113,7 @@
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
 			work: {id: 2, value: "Work"},
-			cell: {id: 3, value: "Cell"},
-			visiting: {id: 4, value: "Visiting"},
-			undetermined: {id: 5, value: "Undetermined"}
+			cell: {id: 3, value: "Cell"}
 		},
 		programStatus: {
 			active: {id: 1, value: "Active"},
@@ -138,6 +153,11 @@
 			pinterest: {id: 6, value: "Pinterest"},
 			google: {id: 7, value: "Google+"},
 			other: {id: 8, value: "Other"}
+		},
+		visitorType: {
+			notApplicable: {id: 1, value: "Not Applicable"},
+			exchangeVisitor: {id: 2, value: "Exchange Visitor"},
+			studentVisitor: {id: 3, value: "Student Visitor"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
 		cancelProgramChangesEventName: 'cancelProgramEdit',
@@ -179,4 +199,5 @@
 		searchDelimiter: ' '
 	};
 });
+
 

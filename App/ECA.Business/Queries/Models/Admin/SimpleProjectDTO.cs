@@ -105,6 +105,6 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// The visitor type id
         /// </summary>
-        public int? VisitorTypeId { get; set; }
+        public int VisitorTypeId { get; set; }
     }
 }

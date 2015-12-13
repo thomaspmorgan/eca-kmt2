@@ -99,7 +99,7 @@ namespace ECA.Data
         /// <summary>
         /// The Visitor Type Id
         /// </summary>
-        public int? VisitorTypeId { get; set; }
+        public int VisitorTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets the project status.

@@ -52,7 +52,7 @@ namespace ECA.Business.Queries.Projects
                             StartYearAsString = startDate.Year.ToString(),
                             OwnerId = parentProgram.OwnerId,
                             OwnerOfficeSymbol = parentProgram.Owner != null ? parentProgram.Owner.OfficeSymbol : null,
-                            VisitorTypeName = project.VisitorType != null ? project.VisitorType.VisitorTypeName : null,
+                            VisitorTypeName = project.VisitorType.VisitorTypeName,
                             VisitorTypeId = project.VisitorTypeId
                         };
 
@@ -220,7 +220,7 @@ namespace ECA.Business.Queries.Projects
                             Regions = regions,
                             CountryIsosByRegions = projectRegionCountries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }).Distinct(),
                             VisitorTypeId = project.VisitorTypeId,
-                            VisitorTypeName = project.VisitorType != null ? project.VisitorType.VisitorTypeName : null
+                            VisitorTypeName = project.VisitorType.VisitorTypeName
                         };
             return query;
         }

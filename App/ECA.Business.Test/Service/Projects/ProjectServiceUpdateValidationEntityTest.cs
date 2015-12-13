@@ -31,7 +31,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: new List<int> { 4 },
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
                 
             var project = new Project
             {
@@ -104,7 +104,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -160,7 +160,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -217,7 +217,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -273,7 +273,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -329,7 +329,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -385,7 +385,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -441,7 +441,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -497,7 +497,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow,
-                visitorTypeId: null);
+                visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
@@ -553,7 +553,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow,
-                null);
+                1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Other.Id
@@ -607,7 +607,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow,
-                null);
+                1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Other.Id
@@ -661,7 +661,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow,
-                null);
+                1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Other.Id
@@ -715,7 +715,7 @@ namespace ECA.Business.Test.Service.Projects
                 null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow,
-                null);
+                1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Other.Id
@@ -770,7 +770,7 @@ namespace ECA.Business.Test.Service.Projects
                  regionIds: null,
                  startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                  endDate: DateTimeOffset.UtcNow,
-                 visitorTypeId: null);
+                 visitorTypeId: 1);
             var project = new Project
             {
                 ProjectStatusId = ProjectStatus.Other.Id

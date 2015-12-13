@@ -5,7 +5,7 @@ namespace ECA.Data
     /// <summary>
     /// Storage for Visitor Type
     /// </summary>
-    public class VisitorType
+    public partial class VisitorType
     {
         /// <summary>
         /// Key Id Field for VisitorType

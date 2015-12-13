@@ -21,6 +21,6 @@ namespace ECA.Business.Service.Lookup
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The organization types in the system.</returns>
-       Task<ECA.Core.Query.PagedQueryResults<SimpleLookupDTO>> GetAsync(QueryableOperator<SimpleLookupDTO> queryOperator);
+       Task<PagedQueryResults<SimpleLookupDTO>> GetAsync(QueryableOperator<SimpleLookupDTO> queryOperator);
     }
 }

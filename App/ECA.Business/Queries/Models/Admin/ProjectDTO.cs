@@ -95,7 +95,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// The Visitor Type Id for this project
         /// </summary>
-        public int? VisitorTypeId { get; set; }
+        public int VisitorTypeId { get; set; }
 
         /// <summary>
         /// THe Visitor Type Name (exchange, student or null)

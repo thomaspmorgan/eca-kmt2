@@ -43,7 +43,7 @@ namespace ECA.Business.Service.Projects
             IEnumerable<int> regionIds,
             DateTimeOffset startDate,
             DateTimeOffset endDate,
-            int? visitorTypeId
+            int visitorTypeId
             )
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
@@ -140,7 +140,7 @@ namespace ECA.Business.Service.Projects
         /// <summary>
         /// The Visitor Type Id
         /// </summary>
-        public int?  VisitorTypeId { get; private set; }
+        public int  VisitorTypeId { get; private set; }
 
         /// <summary>
         /// Gets the Audit.

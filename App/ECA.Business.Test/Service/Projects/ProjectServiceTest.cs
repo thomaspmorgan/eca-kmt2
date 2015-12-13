@@ -2715,7 +2715,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
             var message = String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId);
             Action a = () => service.Update(updatedProject);
@@ -2792,7 +2792,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -2867,7 +2867,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
             Action tester = () =>
              {
@@ -2932,7 +2932,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -2997,7 +2997,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3062,7 +3062,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3127,7 +3127,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3192,7 +3192,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3256,7 +3256,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: regionIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             Action tester = () =>

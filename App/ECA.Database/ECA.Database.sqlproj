@@ -89,6 +89,7 @@
     <None Include="ECA_PRE.publish.xml" />
     <None Include="Scripts\Users\CreateKMT_UserInDB.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.DataPointCategoryProperty.staticdata.sql" />
+    <None Include="Data Migration\MigrationScripts\ProjectSetNullVisitorIdto1.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />

@@ -242,7 +242,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -324,7 +324,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -408,7 +408,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -491,7 +491,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -574,7 +574,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -658,7 +658,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -741,7 +741,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -824,7 +824,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -907,7 +907,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -990,7 +990,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1073,7 +1073,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1157,7 +1157,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1241,7 +1241,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1327,7 +1327,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1413,7 +1413,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1497,7 +1497,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1582,7 +1582,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1665,7 +1665,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1747,7 +1747,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1828,7 +1828,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1909,7 +1909,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -1990,7 +1990,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2071,7 +2071,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2153,7 +2153,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2237,7 +2237,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2320,7 +2320,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2396,7 +2396,7 @@ namespace ECA.Business.Test.Service.Projects
                     regionIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2479,7 +2479,7 @@ namespace ECA.Business.Test.Service.Projects
                     locationIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2562,7 +2562,7 @@ namespace ECA.Business.Test.Service.Projects
                     locationIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2646,7 +2646,7 @@ namespace ECA.Business.Test.Service.Projects
                     locationIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2730,7 +2730,7 @@ namespace ECA.Business.Test.Service.Projects
                     locationIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2815,7 +2815,7 @@ namespace ECA.Business.Test.Service.Projects
                     locationIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
@@ -2904,7 +2904,7 @@ namespace ECA.Business.Test.Service.Projects
                     locationIds: null,
                     startDate: startDate,
                     endDate: endDate,
-                    visitorTypeId: null
+                    visitorTypeId: 1
                     );
             };
             Func<ProjectServiceUpdateValidationEntity> createEntity = () =>

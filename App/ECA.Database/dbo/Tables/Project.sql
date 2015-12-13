@@ -18,7 +18,7 @@
     [ProjectStatusId]                 INT                DEFAULT ((0)) NOT NULL,
 	[RowVersion] TIMESTAMP NOT NULL, 
     [ProjectNumberIVLP] NVARCHAR(100) NULL, 
-    [VisitorTypeId] INT NULL, 
+    [VisitorTypeId] INT NOT NULL DEFAULT 1, 
     CONSTRAINT [PK_dbo.Project] PRIMARY KEY CLUSTERED ([ProjectId] ASC),
     CONSTRAINT [FK_dbo.Project_dbo.Activity_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([ActivityId]),
     CONSTRAINT [FK_dbo.Project_dbo.Organization_NominationSource_OrganizationId] FOREIGN KEY ([NominationSource_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),

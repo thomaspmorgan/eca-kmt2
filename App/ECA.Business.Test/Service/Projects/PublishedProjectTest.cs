@@ -44,7 +44,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds,
                 startDate,
                 endDate,
-                null);
+                1);
 
             Assert.AreEqual(projectId, instance.ProjectId);
             Assert.AreEqual(projectStatusId, instance.ProjectStatusId);
@@ -99,7 +99,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: regionIds,
                 startDate: startDate,
                 endDate: endDate,
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
 
             CollectionAssert.AreEqual(locationIds.Distinct().ToList(), instance.LocationIds.ToList());
@@ -136,7 +136,7 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: startDate,
                 endDate: endDate,
-                visitorTypeId: null
+                visitorTypeId: 1
                 );
             Assert.IsNotNull(instance.LocationIds);
             Assert.IsNotNull(instance.ThemeIds);
