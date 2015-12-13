@@ -51,7 +51,9 @@ namespace ECA.Business.Queries.Projects
                             StartYear = startDate.Year,
                             StartYearAsString = startDate.Year.ToString(),
                             OwnerId = parentProgram.OwnerId,
-                            OwnerOfficeSymbol = parentProgram.Owner != null ? parentProgram.Owner.OfficeSymbol : null
+                            OwnerOfficeSymbol = parentProgram.Owner != null ? parentProgram.Owner.OfficeSymbol : null,
+                            VisitorTypeName = project.VisitorType != null ? project.VisitorType.VisitorTypeName : null,
+                            VisitorTypeId = project.VisitorTypeId
                         };
 
             return query;
@@ -217,6 +219,8 @@ namespace ECA.Business.Queries.Projects
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
                             Regions = regions,
                             CountryIsosByRegions = projectRegionCountries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }).Distinct(),
+                            VisitorTypeId = project.VisitorTypeId,
+                            VisitorTypeName = project.VisitorType != null ? project.VisitorType.VisitorTypeName : null
                         };
             return query;
         }

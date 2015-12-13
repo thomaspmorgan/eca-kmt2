@@ -264,6 +264,8 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.DataPointProperty.staticdata.sql" />
     <Build Include="dbo\Tables\DataPointCategoryProperty.sql" />
     <Build Include="dbo\Tables\ParticipantExchangeVisitor.sql" />
+    <Build Include="dbo\Tables\VisitorType.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.VisitorType.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

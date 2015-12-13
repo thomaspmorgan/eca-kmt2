@@ -93,6 +93,16 @@ namespace ECA.Business.Queries.Models.Admin
         public DateTimeOffset RevisedOn { get; set; }
 
         /// <summary>
+        /// The Visitor Type Id for this project
+        /// </summary>
+        public int? VisitorTypeId { get; set; }
+
+        /// <summary>
+        /// THe Visitor Type Name (exchange, student or null)
+        /// </summary>
+        public string VisitorTypeName { get; set; }
+
+        /// <summary>
         /// Gets or sets the themes.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }

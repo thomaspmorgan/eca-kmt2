@@ -183,6 +183,7 @@
     <Compile Include="ParticipantPersonSevisCommStatus.cs" />
     <Compile Include="EducationLevel.cs" />
     <Compile Include="InternationalOrganization.cs" />
+    <Compile Include="VisitorType.cs" />
     <Compile Include="USGovernmentAgency.cs" />
     <Compile Include="StudentCreation.cs" />
     <Compile Include="ProgramCategory.cs" />

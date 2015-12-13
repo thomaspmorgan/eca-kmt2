@@ -378,6 +378,11 @@ namespace ECA.Data
         /// </summary>
         public DbSet<OrganizationRole> OrganizationRoles { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Visitor Types for a project
+        /// </summary>
+        public DbSet<VisitorType> VisitorTypes { get; set; }
+
 
         // Sevis Lookup Tables
 
