@@ -505,6 +505,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
+    <Compile Include="Controllers\Admin\VisitorTypesController.cs" />
     <Compile Include="Controllers\Admin\StudentCreationsController.cs" />
     <Compile Include="Controllers\Admin\EducationLevelsController.cs" />
     <Compile Include="Controllers\Admin\USGovernmentAgenciesController.cs" />

@@ -55,6 +55,7 @@ angular.module('staticApp')
       $scope.editView.objectives = [];
       $scope.editView.locations = [];
       $scope.editView.regions = [];
+      $scope.editView.visitorTypes = [];
 
       $scope.editView.selectedPointsOfContact = [];
       $scope.editView.selectedGoals = [];
@@ -63,6 +64,7 @@ angular.module('staticApp')
       $scope.editView.selectedObjectives = [];
       $scope.editView.selectedLocations = [];
       $scope.editView.selectedRegions = [];
+      $scope.editView.selectedVisitorType = null;
 
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
@@ -375,6 +377,13 @@ angular.module('staticApp')
             });
       }
 
+      function loadVisitorTypes() {
+          return LookupService.getVisitorTypes({ start: 0, limit: maxLimit })
+          .then(function (response) {
+              $scope.editView.visitorTypes = response.data.results;
+          });
+      }
+
       function setSelectedItems(projectPropertyName, editViewSelectedPropertyName) {
           console.assert($scope.$parent.project.hasOwnProperty(projectPropertyName), "The project property " + projectPropertyName + " does not exist.");
           console.assert($scope.editView.hasOwnProperty(editViewSelectedPropertyName), "The edit view " + editViewSelectedPropertyName + " property does not exist.");
@@ -649,7 +658,7 @@ angular.module('staticApp')
 
       $scope.editView.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
-          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadOfficeSettings(project.ownerId)])
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadOfficeSettings(project.ownerId)])
           .then(function (results) {
               //results is an array
               setSelectedPointsOfContact();

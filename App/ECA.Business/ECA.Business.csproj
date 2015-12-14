@@ -240,6 +240,8 @@
     <Compile Include="Service\Itineraries\IItineraryService.cs" />
     <Compile Include="Service\Itineraries\ItineraryService.cs" />
     <Compile Include="Service\Itineraries\TravelingPeriod.cs" />
+    <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
+    <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
     <Compile Include="Service\Lookup\IStudentCreationsService.cs" />
     <Compile Include="Service\Lookup\IEducationLevelService.cs" />

@@ -543,4 +543,17 @@ angular.module('staticApp')
       .then(function () {
           $scope.view.isLoading = false;
       });
+
+      $scope.visitorTypeNotApplicable = function () {
+          return $scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id
+      };
+
+      $scope.visitorTypeExchangeVisitor = function () {
+          return $scope.project.visitorTypeId == ConstantsService.visitorType.exchangeVisitor.id
+      };
+
+      $scope.visitorTypeStudentVisitor = function () {
+          return $scope.project.visitorTypeId == ConstantsService.visitorType.studentVisitor.id
+      };
+
   });

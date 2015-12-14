@@ -40,6 +40,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.ProminentCategory.staticdata.sql
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
 :r .\StaticData\dbo.SevisCommStatus.staticdata.sql
+:r .\StaticData\dbo.VisitorType.staticdata.sql
 
 :r .\StaticData\sevis.BirthCountry.staticdata.sql
 :r .\StaticData\sevis.CapGapExtensionType.staticdata.sql

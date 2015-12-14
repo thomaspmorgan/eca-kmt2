@@ -91,6 +91,11 @@ namespace ECA.WebApi.Models.Projects
         public DateTimeOffset EndDate { get; set; }
 
         /// <summary>
+        /// The Visitor Type Id for the app
+        /// </summary>
+        public int  VisitorTypeId { get; set; }
+
+        /// <summary>
         /// Returns a business entity from this binding model.
         /// </summary>
         /// <param name="user">The user making the change.</param>
@@ -111,7 +116,8 @@ namespace ECA.WebApi.Models.Projects
                 locationIds: this.LocationIds,
                 regionIds: this.RegionIds,
                 startDate: this.StartDate,
-                endDate: this.EndDate);
+                endDate: this.EndDate,
+                visitorTypeId: this.VisitorTypeId);
         }
     }
 }

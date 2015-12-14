@@ -92,6 +92,16 @@ namespace ECA.Data
         public int? ProjectTypeId { get; set; }
 
         /// <summary>
+        /// The type of visitor for this project (exchange, student or null)
+        /// </summary>
+        public VisitorType VisitorType { get; set; }
+
+        /// <summary>
+        /// The Visitor Type Id
+        /// </summary>
+        public int VisitorTypeId { get; set; }
+
+        /// <summary>
         /// Gets or sets the project status.
         /// </summary>
         public virtual ProjectStatus Status { get; set; }
