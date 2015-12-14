@@ -77,6 +77,11 @@ namespace ECA.Business.Queries.Models.Persons
         public int? LengthOfStudy { get; set; }
 
         /// <summary>
+        /// Gets or sets the student's study project
+        /// </summary>
+        public string StudyProject { get; set; }
+
+        /// <summary>
         /// Does the student require English language proficiency
         /// </summary>
         public bool IsEnglishLanguageProficiencyReqd { get; set; }

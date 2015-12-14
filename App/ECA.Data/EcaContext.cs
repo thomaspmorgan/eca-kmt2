@@ -214,6 +214,11 @@ namespace ECA.Data
         public DbSet<Participant> Participants { get; set; }
 
         /// <summary>
+        /// Gets or sets the ParticipanteExchangeVisitors
+        /// </summary>
+        public DbSet<ParticipantExchangeVisitor> ParticipantExchangeVisitors { get; set; }
+
+        /// <summary>
         /// Gets or sets participantPersons.
         /// </summary>
         public DbSet<ParticipantPerson> ParticipantPersons { get; set; }
@@ -372,6 +377,11 @@ namespace ECA.Data
         /// Gets or sets the organization roles
         /// </summary>
         public DbSet<OrganizationRole> OrganizationRoles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Visitor Types for a project
+        /// </summary>
+        public DbSet<VisitorType> VisitorTypes { get; set; }
 
 
         // Sevis Lookup Tables

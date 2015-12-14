@@ -203,5 +203,14 @@
 		Namespace = nameSpace
 	});
 
+	types.Add(new StaticLookupConfig 
+	{
+		TableName = "VisitorType",
+		ClassName = "VisitorType",
+		IdColumnName = "VisitorTypeId",
+		ValueColumnName = "VisitorTypeName",
+		Namespace = nameSpace
+	});
+
 	WriteTypes(types, connectionString);
 #>

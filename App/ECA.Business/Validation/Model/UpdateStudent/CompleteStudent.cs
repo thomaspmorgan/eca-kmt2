@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(CompleteStudentValidator))]
     public class CompleteStudent
     {
-        [MaxLength(500)]
         public string Remarks { get; set; }
-        
     }
 }

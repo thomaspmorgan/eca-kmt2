@@ -1,24 +1,19 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(CancelOPTEmploymentValidator))]
     public class CancelOPTEmployment
     {
-        [Required]
         public bool printForm { get; set; }
-
-        [MaxLength(10)]
-        public DateTime StartDate { get; set; }
-
-        [MaxLength(10)]
-        public DateTime EndDate { get; set; }
-
-        [StringLength(2)]
-        public string FullPartTimeIndicator { get; set; }
-
-        [MaxLength(100)]
-        public string EmployerName { get; set; }
         
+        public DateTime StartDate { get; set; }
+        
+        public DateTime EndDate { get; set; }
+        
+        public string FullPartTimeIndicator { get; set; }
+        
+        public string EmployerName { get; set; }        
     }
 }

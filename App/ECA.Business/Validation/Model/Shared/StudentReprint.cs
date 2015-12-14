@@ -1,16 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(StudentReprintValidator))]
     public class StudentReprint
     {
-        [Required]
         public bool printForm { get; set; }
-
-        [StringLength(2)]
+        
         public string Reason { get; set; }
-
-        [MaxLength(500)]
+        
         public string Remarks { get; set; }
     }
 }

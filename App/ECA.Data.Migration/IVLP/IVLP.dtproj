@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAAD5k6RHuThu8VOhPrXHsXLV+49hphahBLHbrrbK4k+UYgAAAAAOgAAAAAIAACAAAADO7q1RuoeocoW7Az0DIflN/CFqOI57Y14yNgOQn5fsh5AAAADrdiVC+vG6Pjn0GDBQiG3YIsgvN593srfbeOMYN/Mi9bGXWpKjxtsE+OC1oS7Sg84xnhwOJoh7WkzSptBJ2lmK4VX5RJXRyxHHMv5xoiEzhukpOUSA6l38i8xNRl3I0NoW73EP9zl1EkJ01YoYbvKDXzSkyeyUo4EnZq03HOL4t6ee+VzgERHV5ro++MY9A6dAAAAAUKUiuxrcEo/bZD7RAo58jqYk2dEO8AdZrgp34DxKa5fzjU8vK4ONeqbQmsSV0tdaWI/y47iayuKej7V46ORG5A==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAACdfu8QEMztcFa57QNX59Mc2aV6jmQCsgCwliHQYj+jkQAAAAAOgAAAAAIAACAAAACT+9GoRMjvlQj2mnl16DTBgqc8T5nflpnpZKkjfbIs2pAAAACSPjgYS+jNILRIyedbK4+yVauD28N3jVtS8wLsVMu715X5Glt21NgjoSG0xe5UrwysB+2ruv/fQl3eAlN6AWiC05S3vKlJekA2k6VV31qx0hCAQChoriurf20ytIMLlSAOkKwyi+UjKSWkwO9RV252RnGttcqPukPZYI3PMfWMxkv4XAGRkX1MeEOX3AFSjxpAAAAAvIgJOFPk5N7B7qPSj6xpijpBmTOZX3R1XvvwSGYdlDI+Tv9JQ4qxZuGBDowolYHsZyqtSF/V8iHyMI2aTc4fLA==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -54,6 +54,7 @@
           <SSIS:Package SSIS:Name="IVLP Participant Load - Oracle Dataset 2.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="IVLP Person Language Proficiency Load - Oracle Dataset 2.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="Migrate IVLP_PERSON_COMMENT.dtsx" SSIS:EntryPoint="1" />
+          <SSIS:Package SSIS:Name="IVLP Itineraries Load - Dataset 2.dtsx" SSIS:EntryPoint="1" />
         </SSIS:Packages>
         <SSIS:ConnectionManagers>
           <SSIS:ConnectionManager SSIS:Name="BE00003308.IVLP_Source_DB.conmgr" />
@@ -339,7 +340,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">Data Source=eca.database.windows.net;User ID=ECA@ECA;Initial Catalog=ECA_KMT_QA;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -354,7 +355,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">ECA_KMT_QA</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">ECA_Local</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -398,7 +399,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">eca.database.windows.net</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">BE00003308</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -413,7 +414,6 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">ECA@ECA</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -8649,6 +8649,23 @@
                   </SSIS:Properties>
                 </SSIS:Parameter>
               </SSIS:Parameters>
+            </SSIS:PackageMetaData>
+            <SSIS:PackageMetaData SSIS:Name="IVLP Itineraries Load - Dataset 2.dtsx">
+              <SSIS:Properties>
+                <SSIS:Property SSIS:Name="ID">{047C6475-3492-4673-9667-8087D30C61C0}</SSIS:Property>
+                <SSIS:Property SSIS:Name="Name">IVLP Itineraries Load - Dataset 2</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">189</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionComments">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{ADCA90EE-6A05-4DD2-BFC0-409AF86526BA}</SSIS:Property>
+                <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                <SSIS:Property SSIS:Name="Description">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="ProtectionLevel">1</SSIS:Property>
+              </SSIS:Properties>
+              <SSIS:Parameters />
             </SSIS:PackageMetaData>
           </SSIS:PackageInfo>
         </SSIS:DeploymentInfo>

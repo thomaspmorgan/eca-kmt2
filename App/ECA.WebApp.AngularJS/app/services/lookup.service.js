@@ -153,6 +153,9 @@ angular.module('staticApp')
           },
           getSevisEducationLevels: function (params) {
               return DragonBreath.getCached(params, 'educationlevels');
+          },
+          getVisitorTypes: function(params) {
+              return DragonBreath.getCached(params,'visitorTypes');
           }
       };
   });

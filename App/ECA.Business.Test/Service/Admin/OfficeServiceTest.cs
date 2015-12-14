@@ -2104,10 +2104,212 @@ namespace ECA.Business.Test.Service.Admin
         #endregion
 
         #region Data Point Configurations
+        [TestMethod]
+        public async Task TestGetParentOfficeIds_HasOneParentOffice()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+
+                var dto1 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 1,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    OfficeSymbol = "eca",
+                    Name = "org 1",
+                    Description = "description",
+                    Path = "1",
+                    OfficeLevel = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 2,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    ParentOrganization_OrganizationId = 1,
+                    OfficeSymbol = "eca",
+                    Name = "org 2",
+                    Description = "description",
+                    Path = "1-1",
+                    OfficeLevel = 2
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                var serviceResults = await service.GetParentOfficeIds(dto2.OrganizationId);
+                Assert.AreEqual(1, serviceResults.Count);
+                CollectionAssert.AreEqual(new List<int> { dto1.OrganizationId }, serviceResults.ToList());
+            }
+        }
 
         [TestMethod]
-        public async Task TestGetDataPointConfigurations()
+        public async Task TestGetParentOfficeIds_HasTwoParentOffices()
         {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+
+                var dto1 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 1,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    OfficeSymbol = "eca",
+                    Name = "org 1",
+                    Description = "description",
+                    Path = "1",
+                    OfficeLevel = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 2,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    ParentOrganization_OrganizationId = 1,
+                    OfficeSymbol = "eca",
+                    Name = "org 2",
+                    Description = "description",
+                    Path = "1-1",
+                    OfficeLevel = 2
+                };
+                var dto3 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 3,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    ParentOrganization_OrganizationId = 2,
+                    OfficeSymbol = "eca",
+                    Name = "org 3",
+                    Description = "description",
+                    Path = "1-1-1",
+                    OfficeLevel = 3
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list.Add(dto3);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                var serviceResults = await service.GetParentOfficeIds(dto3.OrganizationId);
+                Assert.AreEqual(2, serviceResults.Count);
+                CollectionAssert.AreEqual(new List<int> { dto1.OrganizationId, dto2.OrganizationId }, serviceResults.ToList());
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParentOfficeIds_HasNoParentOffice()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+
+                var dto1 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 1,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    OfficeSymbol = "eca",
+                    Name = "org 1",
+                    Description = "description",
+                    Path = "1",
+                    OfficeLevel = 1
+
+                };
+                list.Add(dto1);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
+                var serviceResults = await service.GetParentOfficeIds(dto1.OrganizationId);
+                Assert.AreEqual(0, serviceResults.Count);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeDataPointConfigurationsAsync()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+
             var dataPointCategory = new DataPointCategory
             {
                 DataPointCategoryId = DataPointCategory.Office.Id,
@@ -2150,18 +2352,95 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
             Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
             Assert.AreEqual(true, result.IsRequired);
+                Assert.AreEqual(false, result.IsInherited);
+        }
         }
 
         [TestMethod]
-        public async Task TestGetDataPointConfigurations_NullDataConfig()
+        public async Task TestGetOfficeDataPointConfigurationsAsync_Empty()
         {
-            var office = new Organization
+            using (ShimsContext.Create())
             {
-                OrganizationId = 1,
-                OrganizationTypeId = OrganizationType.Office.Id
-            };
+                var list = new List<SimpleOfficeDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
 
-            context.Organizations.Add(office);
+                var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
+                Assert.AreEqual(0, serviceResult.Count);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetOfficeDataPointConfigurationsAsync_OneParentOffice()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+
+                var dto1 = new SimpleOfficeDTO
+                {
+                OrganizationId = 1,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    OfficeSymbol = "eca",
+                    Name = "org 1",
+                    Description = "description",
+                    Path = "1",
+                    OfficeLevel = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    OrganizationId = 2,
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    OrganizationType = OrganizationType.Office.Value,
+                    ParentOrganization_OrganizationId = 1,
+                    OfficeSymbol = "eca",
+                    Name = "org 2",
+                    Description = "description",
+                    Path = "1-1",
+                    OfficeLevel = 2
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+            };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
 
             var dataPointCategory = new DataPointCategory
             {
@@ -2186,36 +2465,27 @@ namespace ECA.Business.Test.Service.Admin
 
             context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
 
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(office.OrganizationId);
+                var dataPointConfig = new DataPointConfiguration
+                {
+                    DataPointConfigurationId = 1,
+                    OfficeId = 1,
+                    DataPointCategoryPropertyId = dataPointCategoryProperty.DataPointCategoryPropertyId
+                };
+
+                context.DataPointConfigurations.Add(dataPointConfig);
+
+                var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(dto2.OrganizationId);
             var result = serviceResult.FirstOrDefault();
-            Assert.AreEqual(null, result.DataPointConfigurationId);
-            Assert.AreEqual(office.OrganizationId, result.OfficeId);
-            Assert.AreEqual(dataPointCategoryProperty.DataPointCategoryPropertyId, result.CategoryPropertyId);
+                Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
+                Assert.AreEqual(dto2.OrganizationId, result.OfficeId);
+                Assert.AreEqual(dataPointConfig.DataPointCategoryPropertyId, result.CategoryPropertyId);
             Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
             Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
             Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
             Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
-            Assert.AreEqual(false, result.IsRequired);
+                Assert.AreEqual(true, result.IsRequired);
+                Assert.AreEqual(true, result.IsInherited);
         }
-
-        [TestMethod]
-        public async Task TestGetDataPointConfiguration_WrongType()
-        {
-            var office = new Organization
-            {
-                OrganizationId = 1,
-                OrganizationTypeId = OrganizationType.Branch.Id
-            };
-
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
-            Assert.AreEqual(0, serviceResult.Count);
-        }
-
-        [TestMethod]
-        public async Task TestGetDataPointConfigurations_Empty()
-        {
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(1);
-            Assert.AreEqual(0, serviceResult.Count);
         }
         #endregion
     }

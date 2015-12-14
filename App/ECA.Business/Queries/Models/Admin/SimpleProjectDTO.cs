@@ -96,5 +96,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the owner office symbol
         /// </summary>
         public string OwnerOfficeSymbol { get; set; }
+
+        /// <summary>
+        /// The visitor type for this project (exchange, student, null)
+        /// </summary>
+        public string VisitorTypeName { get; set; }
+
+        /// <summary>
+        /// The visitor type id
+        /// </summary>
+        public int VisitorTypeId { get; set; }
     }
 }

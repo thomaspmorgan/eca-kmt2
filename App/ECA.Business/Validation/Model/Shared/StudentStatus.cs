@@ -1,6 +1,8 @@
-﻿
+﻿using FluentValidation.Attributes;
+
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(StudentStatusValidator))]
     public class StudentStatus
     {
         public CancelStudent cancel { get; set; }

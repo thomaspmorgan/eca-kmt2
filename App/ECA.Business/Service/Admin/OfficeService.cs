@@ -22,6 +22,8 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class OfficeService : DbContextService<EcaContext>, ECA.Business.Service.Admin.IOfficeService
     {
+        public static char[] OFFICE_HIERARCHY_SPLIT_CHARS = new char[] { '-' };
+
         /// <summary>
         /// Gets the name of the GetPrograms sproc in the database.
         /// </summary>
@@ -403,10 +405,77 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="officeId">The office id</param>
         /// <returns>List of data point configurations</returns>
-        public Task<List<DataPointConfigurationDTO>> GetOfficeDataPointConfigurationsAsync(int officeId)
+        public async Task<List<DataPointConfigurationDTO>> GetOfficeDataPointConfigurationsAsync(int officeId)
         {
-            var dataPointConfigurationDtos = OfficeQueries.CreateGetOfficeDataPointConfigurationsDTOByOfficeIdQuery(this.Context, officeId).ToListAsync();
-            return dataPointConfigurationDtos;
+            // Get available properties
+            var dataPointConfigurations = await Context.DataPointCategoryProperties.Select(x => new DataPointConfigurationDTO
+            {
+                CategoryPropertyId = x.DataPointCategoryPropertyId,
+                OfficeId = officeId,
+                CategoryId = x.DataPointCategoryId,
+                CategoryName = x.DataPointCategory.DataPointCategoryName,
+                PropertyId = x.DataPointPropertyId,
+                PropertyName = x.DataPointProperty.DataPointPropertyName,
+                IsRequired = false,
+                IsInherited = false
+            }).ToListAsync();
+            
+            // Get parent office data configs
+            var parentOfficeIds = await GetParentOfficeIds(officeId);
+            var parentDataPointConfigurations = OfficeQueries.CreateGetOfficeDataPointConfigurations(this.Context)
+                .Where(x => parentOfficeIds.Contains(x.OfficeId.Value)).ToList();
+            foreach(var config in parentDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                temp.IsRequired = true;
+                temp.IsInherited = true;
+            }
+
+            // Get child office data configs
+            var childDataPointConfigurations = OfficeQueries.CreateGetOfficeDataPointConfigurations(this.Context)
+                .Where(x => x.OfficeId == officeId).ToList();
+            foreach(var config in childDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                if(temp.DataPointConfigurationId == null)
+                {
+                    temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                    temp.IsRequired = true;
+                }
+            }
+
+            return dataPointConfigurations;
+        }
+
+        public async Task<List<int>> GetParentOfficeIds(int officeId)
+        {
+            var office = (await CreateGetOfficesSqlQuery().ToArrayAsync()).Where(x => x.OrganizationId == officeId).FirstOrDefault();
+
+            var parentOfficeIds = new List<int>();
+
+            if (office != null)
+            {
+                var paths = office.Path.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                paths = paths.Take(paths.Length - 1).ToArray();
+                var path = "";
+
+                for (var i = 0; i < paths.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        path = paths[i];
+                    } else
+        {
+                        path += OFFICE_HIERARCHY_SPLIT_CHARS[0] + paths[i];
+                    }
+                    var parentOffice = (await CreateGetOfficesSqlQuery().ToArrayAsync()).Where(x => x.Path == path).FirstOrDefault();
+                    Contract.Assert(parentOffice != null, String.Format("An office with the path [{0}] should exist.", path));
+                    parentOfficeIds.Add(parentOffice.OrganizationId);
+                }
+            }
+
+            return parentOfficeIds;
         }
         #endregion
     }

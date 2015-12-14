@@ -31,44 +31,20 @@ namespace ECA.Business.Validation.Model
         
         public string UserDefinedB { get; set; }
 
-        /// <summary>
-        /// Personal information object
-        /// </summary>
         public PersonalInfo personalInfo { get; set; }
         
-        /// <summary>
-        /// Issue reason
-        /// </summary>
         public string IssueReason { get; set; }
         
-        /// <summary>
-        /// US address
-        /// </summary>
         public USAddress usAddress { get; set; }
 
-        /// <summary>
-        /// Foreign address
-        /// </summary>
         public ForeignAddress foreignAddress { get; set; }
 
-        /// <summary>
-        /// Educational information
-        /// </summary>
         public EducationalInfo educationalInfo { get; set; }
 
-        /// <summary>
-        /// Financial information
-        /// </summary>
         public FinancialInfo financialInfo { get; set; }
 
-        /// <summary>
-        /// Dependents
-        /// </summary>
         public CreateDependent createDependent { get; set; }
         
-        /// <summary>
-        /// Student record remarks
-        /// </summary>
         public string Remarks { get; set; }        
     }
 }
