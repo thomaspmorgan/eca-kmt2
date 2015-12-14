@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
@@ -6,6 +7,10 @@ using ECA.Business.Service.Itineraries;
 using ECA.Data;
 using System.Collections.Generic;
 using ECA.Business.Queries.Itineraries;
+using Moq;
+using ECA.Business.Validation;
+using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Itineraries
 {
@@ -14,13 +19,16 @@ namespace ECA.Business.Test.Service.Itineraries
     {
         private TestEcaContext context;
         private ItineraryService service;
+        private Mock<IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity>> validator;
 
         [TestInitialize]
         public void TestInit()
         {
+            validator = new Mock<IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity>>();
             context = new TestEcaContext();
-            service = new ItineraryService(context);
+            service = new ItineraryService(context, validator.Object);
         }
+        #region Get
 
         [TestMethod]
         public async Task TestGetItinerariesByProjectId()
@@ -96,5 +104,361 @@ namespace ECA.Business.Test.Service.Itineraries
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+        #endregion
+
+        #region Create
+        [TestMethod]
+        public async Task TestCreate_CheckProperties()
+        {
+            var creatorId = 1;
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            Project project = new Project
+            {
+                ProjectId = 10
+            };
+            AddedEcaItinerary model = new AddedEcaItinerary(
+                creator: new User(creatorId),
+                projectId: project.ProjectId,
+                arrivalLocationId: arrivalLocation.LocationId,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0)
+
+                );
+
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Locations.Add(arrivalLocation);
+                context.Locations.Add(departureLocation);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(1, context.Itineraries.Count());
+                var addedItinerary = context.Itineraries.First();
+                
+                Assert.AreEqual(creatorId, addedItinerary.History.CreatedBy);
+                Assert.AreEqual(creatorId, addedItinerary.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedItinerary.History.RevisedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedItinerary.History.CreatedOn, 20000);
+
+                Assert.AreEqual(project.ProjectId, addedItinerary.ProjectId);
+                Assert.AreEqual(model.ArrivalLocationId, addedItinerary.ArrivalLocationId);
+                Assert.AreEqual(model.DepartureLocationId, addedItinerary.DepartureLocationId);
+                Assert.AreEqual(model.StartDate, addedItinerary.StartDate);
+                Assert.AreEqual(model.EndDate, addedItinerary.EndDate);
+                Assert.AreEqual(model.Name, addedItinerary.Name);
+            };
+
+            Action<AddedEcaItineraryValidationEntity> validationEntityTester = (validationEntity) =>
+            {
+                Assert.IsTrue(Object.ReferenceEquals(model, validationEntity.AddedItinerary));
+                Assert.IsTrue(Object.ReferenceEquals(project, validationEntity.Project));
+                Assert.IsTrue(Object.ReferenceEquals(arrivalLocation, validationEntity.ArrivalLocation));
+                Assert.IsTrue(Object.ReferenceEquals(departureLocation, validationEntity.DepartureLocation));
+            };
+            validator.Setup(x => x.ValidateCreate(It.IsAny<AddedEcaItineraryValidationEntity>())).Callback(validationEntityTester);
+
+            context.Revert();
+            service.Create(model);
+            tester();
+
+            context.Revert();
+            await service.CreateAsync(model);
+            tester();
+
+            validator.Verify(x => x.ValidateCreate(It.IsAny<AddedEcaItineraryValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestCreate_ProjectDoesNotExist()
+        {
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            context.Locations.Add(arrivalLocation);
+            context.Locations.Add(departureLocation);
+            AddedEcaItinerary model = new AddedEcaItinerary(
+               creator: new User(1),
+                arrivalLocationId: 1,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0),
+                projectId: -1
+                );
+
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Project).Name, model.ProjectId);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(model);
+            };
+            Action a = () => service.Create(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_ArrivalLocationDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            context.Projects.Add(project);
+            context.Locations.Add(departureLocation);
+            AddedEcaItinerary model = new AddedEcaItinerary(
+                creator: new User(1),
+                arrivalLocationId: 1,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0),
+                projectId: project.ProjectId
+                );
+
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Location).Name, model.ArrivalLocationId);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(model);
+            };
+            Action a = () => service.Create(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_DepartureLocationDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            context.Projects.Add(project);
+            context.Locations.Add(arrivalLocation);
+            AddedEcaItinerary model = new AddedEcaItinerary(
+                creator: new User(1),
+                arrivalLocationId: arrivalLocation.LocationId,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: 2,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0),
+                projectId: project.ProjectId
+                );
+
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Location).Name, model.DepartureLocationId);
+            Func<Task> f = () =>
+            {
+                return service.CreateAsync(model);
+            };
+            Action a = () => service.Create(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+        #endregion
+
+        #region Update
+        [TestMethod]
+        public async Task TestUpdate_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var creatorId = 1;
+            var updatorId = 2;
+            var itineraryId = 1;
+            Itinerary itineraryToUpdate = null;
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            UpdatedEcaItinerary model = new UpdatedEcaItinerary(
+                id: itineraryId,
+                updator: new User(updatorId),
+                arrivalLocationId: arrivalLocation.LocationId,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0)
+
+                );
+
+            context.SetupActions.Add(() =>
+            {
+                itineraryToUpdate = new Itinerary
+                {
+                    ItineraryId = itineraryId
+                };
+                itineraryToUpdate.History.CreatedBy = creatorId;
+                itineraryToUpdate.History.CreatedOn = yesterday;
+                itineraryToUpdate.History.RevisedBy = creatorId;
+                itineraryToUpdate.History.RevisedOn = yesterday;
+                context.Itineraries.Add(itineraryToUpdate);
+                context.Locations.Add(arrivalLocation);
+                context.Locations.Add(departureLocation);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(creatorId, itineraryToUpdate.History.CreatedBy);
+                Assert.AreEqual(yesterday, itineraryToUpdate.History.CreatedOn);
+                Assert.AreEqual(updatorId, itineraryToUpdate.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(itineraryToUpdate.History.RevisedOn, 20000);
+
+                Assert.AreEqual(model.ArrivalLocationId, itineraryToUpdate.ArrivalLocationId);
+                Assert.AreEqual(model.DepartureLocationId, itineraryToUpdate.DepartureLocationId);
+                Assert.AreEqual(model.StartDate, itineraryToUpdate.StartDate);
+                Assert.AreEqual(model.EndDate, itineraryToUpdate.EndDate);
+                Assert.AreEqual(model.Name, itineraryToUpdate.Name);
+            };
+
+            Action<UpdatedEcaItineraryValidationEntity> validationEntityTester = (validationEntity) =>
+            {
+                Assert.IsTrue(Object.ReferenceEquals(itineraryToUpdate, validationEntity.ItineraryToUpdate));
+                Assert.IsTrue(Object.ReferenceEquals(model, validationEntity.UpdatedItinerary));
+                Assert.IsTrue(Object.ReferenceEquals(arrivalLocation, validationEntity.ArrivalLocation));
+                Assert.IsTrue(Object.ReferenceEquals(departureLocation, validationEntity.DepartureLocation));
+            };
+            validator.Setup(x => x.ValidateUpdate(It.IsAny<UpdatedEcaItineraryValidationEntity>())).Callback(validationEntityTester);
+
+
+            context.Revert();
+            service.Update(model);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(model);
+            tester();
+
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<UpdatedEcaItineraryValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_ItineraryDoesNotExist()
+        {
+            var itineraryId = 1;            
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            context.Locations.Add(arrivalLocation);
+            context.Locations.Add(departureLocation);
+            UpdatedEcaItinerary model = new UpdatedEcaItinerary(
+                id: itineraryId,
+                updator: new User(1),
+                arrivalLocationId: arrivalLocation.LocationId,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0)
+
+                );
+            
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Itinerary).Name, itineraryId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(model);
+            };
+            Action a = () => service.Update(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_ArrivalLocationDoesNotExist()
+        {
+            var itineraryId = 1;
+            var itinerary = new Itinerary
+            {
+                ItineraryId = itineraryId
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            context.Itineraries.Add(itinerary);
+            context.Locations.Add(departureLocation);
+            UpdatedEcaItinerary model = new UpdatedEcaItinerary(
+                id: itineraryId,
+                updator: new User(1),
+                arrivalLocationId: 1,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0)
+
+                );
+
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Location).Name, model.ArrivalLocationId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(model);
+            };
+            Action a = () => service.Update(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_DepartureLocationDoesNotExist()
+        {
+            var itineraryId = 1;
+            var itinerary = new Itinerary
+            {
+                ItineraryId = itineraryId
+            };
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            context.Itineraries.Add(itinerary);
+            context.Locations.Add(arrivalLocation);
+            UpdatedEcaItinerary model = new UpdatedEcaItinerary(
+                id: itineraryId,
+                updator: new User(1),
+                arrivalLocationId: arrivalLocation.LocationId,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: 2,
+                name: "Name",
+                startDate: DateTimeOffset.Now.AddDays(-1.0)
+
+                );
+
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Location).Name, model.DepartureLocationId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(model);
+            };
+            Action a = () => service.Update(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+        #endregion
     }
 }

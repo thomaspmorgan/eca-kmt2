@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// Itineraries describe the travel participants take during a project.
     /// </summary>
-    public class Itinerary
+    public class Itinerary : IHistorical
     {
         /// <summary>
         /// The max length of the description.
