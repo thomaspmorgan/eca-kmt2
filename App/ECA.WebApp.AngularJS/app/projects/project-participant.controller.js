@@ -27,7 +27,8 @@ angular.module('staticApp')
         ParticipantService,
         ParticipantPersonsService,
         ParticipantPersonsSevisService,
-        ParticipantStudentVisitorService
+        ParticipantStudentVisitorService,
+        ParticipantExchangeVisitorService
         ) {
 
       $scope.view = {};
@@ -51,11 +52,14 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = false;
+      $scope.view.tabStudentVisitor = false;
+      $scope.view.tabExchangeVistor = false;
 
       $scope.view.sevisCommStatuses = null;
 
       $scope.sevisInfo = {};
       $scope.studentVisitorInfo = {};
+      $scope.exchangeVisitorInfo = {};
       $scope.participantInfo = {};
 
       $scope.actions = {
@@ -370,6 +374,22 @@ angular.module('staticApp')
           });
       };
 
+      function loadExchangeVisitorInfo(participantId) {
+          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(participantId)
+          .then(function (data) {
+              $scope.exchangeVisitorInfo[participantId] = data.data;
+              //$scope.exchangeVisitorInfo[participantId].show = true;
+          }, function (error) {
+              if (error.status === 404) {
+                  $scope.exchangeVisitorInfo[participantId] = {};
+                  //$scope.exchangeVisitorInfo[participantId].show = true;
+              } else {
+                  $log.error('Unable to load participant exchange visitor info for ' + participantId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant exchange visitor info for ' + participantId + '.');
+              }
+          });
+      };
+
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
       }
@@ -389,6 +409,23 @@ angular.module('staticApp')
 
       $scope.saveSevisInfo = function (participantId) {
           saveSevisInfoById(participantId);
+      };
+
+      function saveExchangeVisitorById(participantId) {
+          var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
+          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(exchangeVisitorInfo)
+          .then(function (data) {
+              NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
+              $scope.exchangeVisitorInfo[participantId] = data.data;
+              //$scope.exchangeVisitorInfo[participantId].show = true;
+          }, function (error) {
+              $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to save participant exchange visitor info for participant: ' + participantId + '.');
+          });
+      };
+
+      $scope.saveExchangeVisitorInfo = function (participantId) {
+          saveExchangeVisitorById(participantId);
       };
 
       function saveStudentVisitorById(participantId) {
@@ -416,6 +453,11 @@ angular.module('staticApp')
       $scope.onStudentVisitorTabSelected = function (participantId) {
           $scope.view.tabStudentVisitor = true;
           loadStudentVisitorInfo(participantId)
+      }
+
+      $scope.onExchangeVisitorTabSelected = function (participantId) {
+          $scope.view.tabExchangeVisitor = true;
+          loadExchangeVisitorInfo(participantId)
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
@@ -501,4 +543,17 @@ angular.module('staticApp')
       .then(function () {
           $scope.view.isLoading = false;
       });
+
+      $scope.visitorTypeNotApplicable = function () {
+          return $scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id
+      };
+
+      $scope.visitorTypeExchangeVisitor = function () {
+          return $scope.project.visitorTypeId == ConstantsService.visitorType.exchangeVisitor.id
+      };
+
+      $scope.visitorTypeStudentVisitor = function () {
+          return $scope.project.visitorTypeId == ConstantsService.visitorType.studentVisitor.id
+      };
+
   });

@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model
             RuleFor(student => student.Gender).NotNull().WithMessage("Dependent: Gender is required");
             RuleFor(student => student.BirthCountryCode).NotNull().WithMessage("Dependent: Country of birth is required").Length(2);
             RuleFor(student => student.CitizenshipCountryCode).Length(2).WithMessage("Dependent: Country of citizenship is required");
-            RuleFor(student => student.Email).Length(0, EMAIL_MAX_LENGTH).WithMessage("Dependent: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Dependent: Email is invalid"); ; ;
+            RuleFor(student => student.Email).Length(0, EMAIL_MAX_LENGTH).WithMessage("Dependent: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Dependent: Email is invalid");
             RuleFor(student => student.VisaType).NotNull().WithMessage("Dependent: Visa type is required").Length(2);
             RuleFor(student => student.Relationship).NotNull().WithMessage("Dependent: Relationship is required").Length(2);
             RuleFor(dependent => dependent.Remarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Dependent: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");

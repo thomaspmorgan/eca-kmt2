@@ -152,6 +152,7 @@ namespace ECA.Business.Queries.Persons
                                              CityId = location.CityId,
                                              Country = hasCountry ? country.LocationName : null,
                                              CountryId = location.CountryId,
+                                             CountryIso2 = location.LocationIso2,
                                              Division = hasDivision ? division.LocationName : null,
                                              DivisionId = location.DivisionId,
                                              IsPrimary = address.IsPrimary,
@@ -248,7 +249,6 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<EducationEmploymentDTO> CreateGetEducationsByPersonIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            //var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(context);
 
             var query = from education in context.ProfessionEducations
                         where education.PersonOfEducation_PersonId == personId

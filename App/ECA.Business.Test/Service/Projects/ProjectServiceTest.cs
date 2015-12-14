@@ -325,6 +325,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -333,7 +338,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 100,
                 StartDate = now,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             context.ProjectStatuses.Add(status);
             context.Projects.Add(project);
@@ -412,6 +418,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -420,7 +431,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 100,
                 StartDate = now,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId, 
+                VisitorType = visitorType
             };
             project.Regions.Add(region);
             context.ProjectStatuses.Add(status);
@@ -487,6 +499,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -495,7 +512,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 100,
                 StartDate = now,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project.Regions.Add(region1);
             project.Regions.Add(region2);
@@ -553,6 +571,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -560,7 +583,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
 
             project.Locations = new List<Location>();
@@ -615,6 +639,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project1 = new Project
             {
                 ProgramId = program.ProgramId,
@@ -622,7 +651,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project1.Locations = new List<Location>();
             project1.Locations.Add(location1);
@@ -636,7 +666,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 200,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project2.Locations = new List<Location>();
 
@@ -689,6 +720,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project1 = new Project
             {
                 ProgramId = program.ProgramId,
@@ -696,7 +732,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project1.Locations = new List<Location>();
             project1.Locations.Add(location1);
@@ -751,6 +788,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project1 = new Project
             {
                 ProgramId = program.ProgramId,
@@ -758,7 +800,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project1.Locations = new List<Location>();
             project1.Locations.Add(location1);
@@ -772,7 +815,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 200,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project2.Locations = new List<Location>();
 
@@ -824,6 +868,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -832,7 +881,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 100,
                 StartDate = now,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             context.ProjectStatuses.Add(status);
             context.Projects.Add(project);
@@ -897,6 +947,11 @@ namespace ECA.Business.Test.Service.Projects
                 LocationTypeId = countryType.LocationTypeId,
                 LocationType = countryType
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             country1.Region = region;
             country1.RegionId = region.LocationId;
             country2.Region = region;
@@ -919,7 +974,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 100,
                 StartDate = now,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project.Regions.Add(region);
             context.ProjectStatuses.Add(status);
@@ -986,6 +1042,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -994,7 +1055,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 100,
                 StartDate = now,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project.Regions.Add(region1);
             project.Regions.Add(region2);
@@ -1052,6 +1114,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -1059,8 +1126,10 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType  = visitorType
             };
+
             project.Locations = new List<Location>();
             project.Locations.Add(location1);
             project.Locations.Add(location2);
@@ -1112,6 +1181,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -1119,7 +1193,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
 
             project.Locations = new List<Location>();
@@ -1174,6 +1249,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project1 = new Project
             {
                 ProgramId = program.ProgramId,
@@ -1181,7 +1261,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project1.Locations = new List<Location>();
             project1.Locations.Add(location1);
@@ -1195,7 +1276,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 200,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project2.Locations = new List<Location>();
 
@@ -1248,6 +1330,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project1 = new Project
             {
                 ProgramId = program.ProgramId,
@@ -1255,7 +1342,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project1.Locations = new List<Location>();
             project1.Locations.Add(location1);
@@ -1310,6 +1398,11 @@ namespace ECA.Business.Test.Service.Projects
                 Status = "status",
                 ProjectStatusId = 1
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project1 = new Project
             {
                 ProgramId = program.ProgramId,
@@ -1317,7 +1410,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 100,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project1.Locations = new List<Location>();
             project1.Locations.Add(location1);
@@ -1331,7 +1425,8 @@ namespace ECA.Business.Test.Service.Projects
                 ParentProgram = program,
                 ProjectId = 200,
                 Status = status,
-                ProjectStatusId = status.ProjectStatusId
+                ProjectStatusId = status.ProjectStatusId,
+                VisitorType = visitorType
             };
             project2.Locations = new List<Location>();
 
@@ -1463,6 +1558,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -1483,7 +1583,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             context.Organizations.Add(owner);
             context.Projects.Add(project);
@@ -1574,6 +1675,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -1594,7 +1700,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Locations.Add(projectLocation1);
             project.Locations.Add(projectLocation2);
@@ -1675,6 +1782,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -1695,7 +1807,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Locations.Add(country1);
             project.Locations.Add(country2);
@@ -1781,6 +1894,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -1801,7 +1919,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Locations.Add(region);
 
@@ -1902,6 +2021,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -1922,7 +2046,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Locations.Add(region);
             project.Locations.Add(country);
@@ -1994,6 +2119,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2014,7 +2144,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Regions.Add(region);
 
@@ -2107,6 +2238,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2127,7 +2263,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Locations.Add(projectLocation);
 
@@ -2205,6 +2342,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2225,7 +2367,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Regions.Add(region);
 
@@ -2307,6 +2450,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2327,7 +2475,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
             project.Regions.Add(region);
 
@@ -2387,6 +2536,12 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
+
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2407,7 +2562,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
 
             project.Contacts.Add(contact);
@@ -2468,6 +2624,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2488,7 +2649,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
 
             project.Themes.Add(theme);
@@ -2552,6 +2714,11 @@ namespace ECA.Business.Test.Service.Projects
                 Owner = owner,
                 OwnerId = owner.OrganizationId
             };
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             owner.OwnerPrograms.Add(program);
             var project = new Project
             {
@@ -2572,7 +2739,8 @@ namespace ECA.Business.Test.Service.Projects
                     CreatedOn = createdOn
                 },
                 ProgramId = program.ProgramId,
-                ParentProgram = program
+                ParentProgram = program,
+                VisitorType = visitorType
             };
 
             project.Goals.Add(goal);
@@ -2615,6 +2783,11 @@ namespace ECA.Business.Test.Service.Projects
                 OwnerId = owner.OrganizationId
             };
             owner.OwnerPrograms.Add(program);
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -2622,7 +2795,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Status = new ProjectStatus()
+                Status = new ProjectStatus(),
+                VisitorType = visitorType
             };
             program.Projects.Add(project);
             context.Programs.Add(program);
@@ -2668,6 +2842,11 @@ namespace ECA.Business.Test.Service.Projects
                 OwnerId = owner.OrganizationId
             };
             owner.OwnerPrograms.Add(program);
+            var visitorType = new VisitorType
+            {
+                VisitorTypeId = 1,
+                VisitorTypeName = "test"
+            };
             var project = new Project
             {
                 ProgramId = program.ProgramId,
@@ -2675,7 +2854,8 @@ namespace ECA.Business.Test.Service.Projects
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Status = new ProjectStatus()
+                Status = new ProjectStatus(),
+                VisitorType = visitorType
             };
             program.Projects.Add(project);
             context.Programs.Add(program);
@@ -2714,7 +2894,8 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
             var message = String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId);
             Action a = () => service.Update(updatedProject);
@@ -2790,7 +2971,8 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -2864,7 +3046,8 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
             Action tester = () =>
              {
@@ -2928,7 +3111,8 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -2992,7 +3176,8 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3056,7 +3241,8 @@ namespace ECA.Business.Test.Service.Projects
                 locationIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3120,7 +3306,8 @@ namespace ECA.Business.Test.Service.Projects
                 objectiveIds: objectiveIds,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3184,7 +3371,8 @@ namespace ECA.Business.Test.Service.Projects
                 objectiveIds: null,
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>
@@ -3247,7 +3435,8 @@ namespace ECA.Business.Test.Service.Projects
                 objectiveIds: null,
                 regionIds: regionIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1
                 );
 
             Action tester = () =>

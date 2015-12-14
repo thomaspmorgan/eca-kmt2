@@ -1,49 +1,38 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(EditOPTEmploymentValidator))]
     public class EditOPTEmployment
     {
-        [Required]
         public bool printForm { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime StartDate { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime EndDate { get; set; }
-
-        [StringLength(2)]
+        
         public string FullPartTimeIndicator { get; set; }
-
-        [MaxLength(100)]
+        
         public string EmployerName { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime NewStartDate { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime NewEndDate { get; set; }
-
-        [StringLength(2)]
+        
         public string NewFullPartTimeIndicator { get; set; }
 
         public EmployerAddress employerAddress { get; set; }
-
-        [MaxLength(250)]
+        
         public string CourseRelevance { get; set; }
 
         public bool AcademicYearMet { get; set; }
-
-        [StringLength(2)]
-        public string CompletionType { get; set; }
-
-        [MaxLength(500)]
-        public string StudentRemarks { get; set; }
-
-        [MaxLength(250)]
-        public string Remarks { get; set; }
         
+        public string CompletionType { get; set; }
+        
+        public string StudentRemarks { get; set; }
+        
+        public string Remarks { get; set; }        
     }
 }

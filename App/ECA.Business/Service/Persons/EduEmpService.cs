@@ -145,8 +145,6 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         protected IQueryable<EducationEmploymentDTO> GetSelectDTOQuery()
         {
-            //var allOrganizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(this.Context);
-
             return Context.ProfessionEducations.Select(x => new EducationEmploymentDTO
             {
                 ProfessionEducationId = x.ProfessionEducationId,

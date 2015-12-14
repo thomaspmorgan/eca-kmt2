@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(StudentRequestValidator))]
     public class StudentRequest
     {
-        [Required]
         public bool printForm { get; set; }
 
         public CapGapExtension capGapExtension { get; set; }
-
-        [StringLength(1)]
+        
         public string Status { get; set; }
     }
 }

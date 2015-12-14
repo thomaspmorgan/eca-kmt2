@@ -45,6 +45,11 @@ namespace ECA.WebApi.Models.Person
         public int? LengthOfStudy { get; set; }
 
         /// <summary>
+        /// Gets or sets the student's study project
+        /// </summary>
+        public string StudyProject { get; set; }
+
+        /// <summary>
         /// Does the student require English language proficiency
         /// </summary>
         public bool IsEnglishLanguageProficiencyReqd { get; set; }
@@ -130,6 +135,7 @@ namespace ECA.WebApi.Models.Person
                 secondaryMajorId: this.SecondaryMajorId,
                 minorId: this.MinorId,
                 lengthOfStudy: this.LengthOfStudy,
+                studyProject: this.StudyProject,
                 isEnglishLanguageProficiencyReqd: this.IsEnglishLanguageProficiencyReqd,
                 isEnglishLanguageProficiencyMet: this.IsEnglishLanguageProficiencyMet,
                 englishLanguageProficiencyNotReqdReason: this.EnglishLanguageProficiencyNotReqdReason,

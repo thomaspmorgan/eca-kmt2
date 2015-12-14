@@ -466,6 +466,7 @@ namespace ECA.Business.Service.Projects
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.ProjectStatusId = updatedProject.ProjectStatusId;
             projectToUpdate.StartDate = updatedProject.StartDate;
+            projectToUpdate.VisitorTypeId = updatedProject.VisitorTypeId;
 
             Contract.Assert(updatedProject.Audit != null, "The audit must not be null.");
             updatedProject.Audit.SetHistory(projectToUpdate);

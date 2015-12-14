@@ -1,19 +1,17 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation.Attributes;
+using System;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(StudentRegistrationValidator))]
     public class StudentRegistration
     {
-        [Required]
         public bool printForm { get; set; }
 
         public bool LastSession { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime CurrentSessionEndDate { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime NextSessionStartDate { get; set; }
 
         public bool Commuter { get; set; }
@@ -24,7 +22,6 @@ namespace ECA.Business.Validation.Model
 
         public TravelInfo travelInfo { get; set; }
         
-        [MaxLength(500)]
         public string Remarks { get; set; }
     }
 }

@@ -57,6 +57,11 @@ namespace ECA.Business.Queries.Models.Admin
         public string Country { get; set; }
 
         /// <summary>
+        /// Gets or sets the country iso2.
+        /// </summary>
+        public string CountryIso2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the division id.
         /// </summary>
         public int? DivisionId { get; set; }

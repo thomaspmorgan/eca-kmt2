@@ -1,18 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(CancelProgramExtensionValidator))]
     public class CancelProgramExtension
     {
-        [Required]
         public bool printForm { get; set; }
-
-        [MaxLength(10)]
+        
         public DateTime NewPrgEndDate { get; set; }
-
-        [MaxLength(500)]
+        
         public string Remarks { get; set; }
-
     }
 }

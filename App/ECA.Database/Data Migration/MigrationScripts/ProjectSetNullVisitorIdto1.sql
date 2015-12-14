@@ -1,0 +1,1 @@
+﻿Update dbo.Project set VisitorTypeId=1 where VisitorTypeId Is Null
