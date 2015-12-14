@@ -106,7 +106,6 @@ angular.module('staticApp')
       $scope.view.onEditClick = function (moneyFlow) {
           moneyFlow.original = angular.copy(moneyFlow);
           moneyFlow.currentlyEditing = true;
-          moneyFlow.editableAmount = moneyFlow.editableAmount < 0 ? -moneyFlow.editableAmount : moneyFlow.editableAmount;
           if (moneyFlow.parentMoneyFlowId) {
               loadSourceMoneyFlow(moneyFlow)
               .then(scrollToMoneyFlow(moneyFlow));
@@ -159,7 +158,7 @@ angular.module('staticApp')
           moneyFlow.moneyFlowStatus = getLookupValueById($scope.view.moneyFlowStatii, moneyFlow.moneyFlowStatusId);
           moneyFlow.description = moneyFlow.original.description;
           moneyFlow.amount = moneyFlow.original.amount;
-          moneyFlow.editableAmount = moneyFlow.original.amount;
+          moneyFlow.editableAmount = moneyFlow.original.editableAmount;
           moneyFlow.fiscalYear = moneyFlow.original.fiscalYear;
           delete moneyFlow.original;
           moneyFlow.currentlyEditing = false;
