@@ -92,6 +92,7 @@
                     </div>
                     <div>
                         <ui-select ng-model="view.moneyFlow.peerEntity"
+                                   on-select="view.onSelectPeer($item, $model)"
                                    id="source"
                                    name="source"
                                    ng-disabled="!view.isSourceRecipientFieldEnabled"

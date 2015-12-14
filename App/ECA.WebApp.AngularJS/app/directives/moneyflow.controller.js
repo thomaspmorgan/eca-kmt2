@@ -182,7 +182,7 @@ angular.module('staticApp')
           $scope.view.getPeers(null);
       }
 
-      $scope.view.onSelectPeer = function ($item, $model, $label) {
+      $scope.view.onSelectPeer = function ($item, $model) {
           console.assert($model.peerEntityId, "The $model must have the peer entity id defined.");
           console.assert($scope.view.moneyFlow.peerEntityTypeId, "The money flow must have the peer entity type id defined.");
           $scope.view.moneyFlow.peerEntityId = $model.peerEntityId;
