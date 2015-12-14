@@ -54,12 +54,9 @@ namespace ECA.Business.Service.Persons
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
             
-
-
-            string temp = GetStudentUpdateXml(updateStudent);
-
-
-
+            // temporary to test xml serialization
+            //string temp = GetStudentUpdateXml(updateStudent);
+            
             return final;
         }
 
