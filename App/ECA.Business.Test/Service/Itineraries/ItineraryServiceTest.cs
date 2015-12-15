@@ -131,7 +131,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 departureLocationId: departureLocation.LocationId,
                 name: "Name",
                 startDate: DateTimeOffset.Now.AddDays(-1.0)
-
                 );
 
             context.SetupActions.Add(() =>
@@ -286,6 +285,7 @@ namespace ECA.Business.Test.Service.Itineraries
             var creatorId = 1;
             var updatorId = 2;
             var itineraryId = 1;
+            var projectId = 5;
             Itinerary itineraryToUpdate = null;
             Location arrivalLocation = new Location
             {
@@ -302,6 +302,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 endDate: DateTimeOffset.Now.AddDays(1.0),
                 departureLocationId: departureLocation.LocationId,
                 name: "Name",
+                projectId: projectId,
                 startDate: DateTimeOffset.Now.AddDays(-1.0)
 
                 );
@@ -310,7 +311,8 @@ namespace ECA.Business.Test.Service.Itineraries
             {
                 itineraryToUpdate = new Itinerary
                 {
-                    ItineraryId = itineraryId
+                    ItineraryId = itineraryId,
+                    ProjectId = projectId
                 };
                 itineraryToUpdate.History.CreatedBy = creatorId;
                 itineraryToUpdate.History.CreatedOn = yesterday;
@@ -356,9 +358,67 @@ namespace ECA.Business.Test.Service.Itineraries
         }
 
         [TestMethod]
+        public async Task TestUpdate_DoesNotBelongToGivenProject()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var creatorId = 1;
+            var updatorId = 2;
+            var itineraryId = 1;
+            var projectId = 5;
+            Itinerary itineraryToUpdate = null;
+            Location arrivalLocation = new Location
+            {
+                LocationId = 1
+            };
+            Location departureLocation = new Location
+            {
+                LocationId = 2
+            };
+            UpdatedEcaItinerary model = new UpdatedEcaItinerary(
+                id: itineraryId,
+                updator: new User(updatorId),
+                arrivalLocationId: arrivalLocation.LocationId,
+                endDate: DateTimeOffset.Now.AddDays(1.0),
+                departureLocationId: departureLocation.LocationId,
+                name: "Name",
+                projectId: projectId + 1,
+                startDate: DateTimeOffset.Now.AddDays(-1.0)
+
+                );
+
+            context.SetupActions.Add(() =>
+            {
+                itineraryToUpdate = new Itinerary
+                {
+                    ItineraryId = itineraryId,
+                    ProjectId = projectId
+                };
+                itineraryToUpdate.History.CreatedBy = creatorId;
+                itineraryToUpdate.History.CreatedOn = yesterday;
+                itineraryToUpdate.History.RevisedBy = creatorId;
+                itineraryToUpdate.History.RevisedOn = yesterday;
+                context.Itineraries.Add(itineraryToUpdate);
+                context.Locations.Add(arrivalLocation);
+                context.Locations.Add(departureLocation);
+            });
+            context.Revert();
+            var message = String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
+                        updatorId,
+                        model.ProjectId);
+            Func<Task> f = () =>
+            {
+                return service.UpdateAsync(model);
+            };
+            Action a = () => service.Update(model);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
         public async Task TestUpdate_ItineraryDoesNotExist()
         {
-            var itineraryId = 1;            
+            var itineraryId = 1;
+            var projectId = 5;        
             Location arrivalLocation = new Location
             {
                 LocationId = 1
@@ -376,8 +436,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 endDate: DateTimeOffset.Now.AddDays(1.0),
                 departureLocationId: departureLocation.LocationId,
                 name: "Name",
+                projectId: projectId,
                 startDate: DateTimeOffset.Now.AddDays(-1.0)
-
                 );
             
             var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Itinerary).Name, itineraryId);
@@ -394,6 +454,7 @@ namespace ECA.Business.Test.Service.Itineraries
         public async Task TestUpdate_ArrivalLocationDoesNotExist()
         {
             var itineraryId = 1;
+            var projectId = 5;
             var itinerary = new Itinerary
             {
                 ItineraryId = itineraryId
@@ -411,6 +472,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 endDate: DateTimeOffset.Now.AddDays(1.0),
                 departureLocationId: departureLocation.LocationId,
                 name: "Name",
+                projectId: projectId,
                 startDate: DateTimeOffset.Now.AddDays(-1.0)
 
                 );
@@ -429,6 +491,7 @@ namespace ECA.Business.Test.Service.Itineraries
         public async Task TestUpdate_DepartureLocationDoesNotExist()
         {
             var itineraryId = 1;
+            var projectId = 5;
             var itinerary = new Itinerary
             {
                 ItineraryId = itineraryId
@@ -446,6 +509,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 endDate: DateTimeOffset.Now.AddDays(1.0),
                 departureLocationId: 2,
                 name: "Name",
+                projectId: projectId,
                 startDate: DateTimeOffset.Now.AddDays(-1.0)
 
                 );

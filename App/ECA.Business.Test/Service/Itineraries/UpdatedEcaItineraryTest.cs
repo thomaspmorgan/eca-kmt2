@@ -18,8 +18,9 @@ namespace ECA.Business.Test.Service.Itineraries
             var arrivalLocationId = 3;
             var departureLocationId = 4;
             var name = "name";
+            var projectId = 5;
 
-            var model = new UpdatedEcaItinerary(id, new User(userId), startDate, endDate, name, arrivalLocationId, departureLocationId);
+            var model = new UpdatedEcaItinerary(id, new User(userId), startDate, endDate, name, projectId, arrivalLocationId, departureLocationId);
             Assert.AreEqual(id, model.Id);
             Assert.IsInstanceOfType(model.Audit, typeof(Update));
             Assert.AreEqual(userId, model.Audit.User.Id);
@@ -28,6 +29,7 @@ namespace ECA.Business.Test.Service.Itineraries
             Assert.AreEqual(name, model.Name);
             Assert.AreEqual(arrivalLocationId, model.ArrivalLocationId);
             Assert.AreEqual(departureLocationId, model.DepartureLocationId);
+            Assert.AreEqual(projectId, model.ProjectId);
         }
     }
 }

@@ -15,13 +15,15 @@ namespace ECA.Business.Test.Service.Itineraries
             var name = "name";
             var arrivalLocationId = 3;
             var departureLocationId = 4;
+            var projectId = 5;
 
-            var model = new EcaItinerary(startDate, endDate, name, arrivalLocationId, departureLocationId);
+            var model = new EcaItinerary(startDate, endDate, name, projectId, arrivalLocationId, departureLocationId);
             Assert.AreEqual(startDate, model.StartDate);
             Assert.AreEqual(endDate, model.EndDate);
             Assert.AreEqual(name, model.Name);
             Assert.AreEqual(arrivalLocationId, model.ArrivalLocationId);
             Assert.AreEqual(departureLocationId, model.DepartureLocationId);
+            Assert.AreEqual(projectId, model.ProjectId);
         }
     }
 }

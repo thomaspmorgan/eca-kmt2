@@ -263,6 +263,7 @@
     <Compile Include="Service\Itineraries\ItineraryServiceTest.cs" />
     <Compile Include="Service\Itineraries\AddedEcaitineraryTest.cs" />
     <Compile Include="Service\Itineraries\EcaItineraryTest.cs" />
+    <Compile Include="Service\Itineraries\ItineraryServiceValidatorTest.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />

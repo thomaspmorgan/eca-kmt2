@@ -17,12 +17,14 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         /// <param name="name">The name</param>
+        /// <param name="projectId">The id of the project.</param>
         /// <param name="arrivalLocationId">The location id of the itineraries arrival location.</param>
         /// <param name="departureLocationId">The location id of the itineraries departure location.</param>
         public EcaItinerary(
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             string name,
+            int projectId,
             int arrivalLocationId,
             int departureLocationId)
         {
@@ -31,7 +33,13 @@ namespace ECA.Business.Service.Itineraries
             this.Name = name;
             this.ArrivalLocationId = arrivalLocationId;
             this.DepartureLocationId = departureLocationId;
+            this.ProjectId = projectId;
         }
+
+        /// <summary>
+        /// Gets the id of the project.
+        /// </summary>
+        public int ProjectId { get; private set; }
 
         /// <summary>
         /// Gets the start date.

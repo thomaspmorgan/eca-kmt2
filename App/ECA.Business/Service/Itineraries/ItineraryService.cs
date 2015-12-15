@@ -20,6 +20,7 @@ namespace ECA.Business.Service.Itineraries
     {
         private readonly IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity> validator;
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
+        private readonly Action<int, Itinerary, int> throwSecurityViolationIfDifferentProject;
         /// <summary>
         /// Creates a new service instance with the given context and save actions.
         /// </summary>
@@ -36,6 +37,16 @@ namespace ECA.Business.Service.Itineraries
                 if (instance == null)
                 {
                     throw new ModelNotFoundException(String.Format("The [{0}] with id [{1}] does not exist.", type.Name, id));
+                }
+            };
+            throwSecurityViolationIfDifferentProject = (userId, instance, projectId) =>
+            {
+                if (instance != null && instance.ProjectId != projectId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
+                        userId,
+                        projectId));
                 }
             };
         }
@@ -81,7 +92,7 @@ namespace ECA.Business.Service.Itineraries
             throwIfModelDoesNotExist(itinerary.ArrivalLocationId, arrivalLocation, typeof(Location));
 
             var departureLocation = Context.Locations.Find(itinerary.DepartureLocationId);
-            throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
+            throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));            
 
             return DoCreate(
                 addedItinerary: itinerary, 
@@ -115,6 +126,10 @@ namespace ECA.Business.Service.Itineraries
 
         private AddedEcaItineraryValidationEntity GetAddedEcaItineraryValidationEntity(AddedEcaItinerary addedItinerary, Project project, Location arrivalLocation, Location departureLocation)
         {
+            Contract.Requires(addedItinerary != null, "The added itinerary must not be null.");
+            Contract.Requires(project != null, "The project must not be null.");
+            Contract.Requires(arrivalLocation != null, "The arrival location must not be null.");
+            Contract.Requires(departureLocation != null, "The departure destination location must not be null.");
             return new AddedEcaItineraryValidationEntity(
                 addedEcaItinerary: addedItinerary,
                 project: project,
@@ -162,6 +177,8 @@ namespace ECA.Business.Service.Itineraries
             var departureLocation = Context.Locations.Find(itinerary.DepartureLocationId);
             throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
 
+            throwSecurityViolationIfDifferentProject(itinerary.Audit.User.Id, itineraryToUpdate, itinerary.ProjectId);
+
             DoUpdate(
                 updatedItinerary: itinerary,
                 itineraryToUpdate: itineraryToUpdate,
@@ -183,6 +200,8 @@ namespace ECA.Business.Service.Itineraries
 
             var departureLocation = await Context.Locations.FindAsync(itinerary.DepartureLocationId);
             throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
+
+            throwSecurityViolationIfDifferentProject(itinerary.Audit.User.Id, itineraryToUpdate, itinerary.ProjectId);
 
             DoUpdate(
                 updatedItinerary: itinerary,
@@ -208,6 +227,10 @@ namespace ECA.Business.Service.Itineraries
 
         private UpdatedEcaItineraryValidationEntity GetUpdatedEcaItineraryValidationEntity(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation)
         {
+            Contract.Requires(updatedItinerary != null, "The updated itinerary must not be null.");
+            Contract.Requires(itineraryToUpdate != null, "The itinerary to update must not be null.");
+            Contract.Requires(arrivalLocation != null, "The arrival location must not be null.");
+            Contract.Requires(departureLocation != null, "The departure destination location must not be null.");
             return new UpdatedEcaItineraryValidationEntity(
                 updatedItinerary: updatedItinerary,
                 itineraryToUpdate: itineraryToUpdate,

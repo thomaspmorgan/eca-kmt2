@@ -23,27 +23,22 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="departureLocationId">The location id of the itineraries departure location.</param>
         public AddedEcaItinerary(
             User creator,
-            int projectId,
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             string name,
+            int projectId,
             int arrivalLocationId,
             int departureLocationId)
             : base(
-                startDate,
-                endDate,
-                name,
-                arrivalLocationId,
-                departureLocationId)
+                startDate: startDate,
+                endDate: endDate,
+                arrivalLocationId: arrivalLocationId,
+                projectId: projectId,
+                departureLocationId: departureLocationId,
+                name: name)
         {
             this.Audit = new Create(creator);
-            this.ProjectId = projectId;
         }
-
-        /// <summary>
-        /// Gets the id of the project.
-        /// </summary>
-        public int ProjectId { get; private set; }
 
         /// <summary>
         /// Gets the audit.

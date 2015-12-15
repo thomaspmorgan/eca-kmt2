@@ -16,6 +16,7 @@ namespace ECA.Business.Service.Itineraries
         /// </summary>
         /// <param name="id">The id of the itinerary.</param>
         /// <param name="updator">The updator.</param>
+        /// <param name="projectId">The id of the project.</param>
         /// <param name="startDate">The start date of the itinerary.</param>
         /// <param name="endDate">The end date of the itinerary.</param>
         /// <param name="name">The name of the itinerary.</param>
@@ -27,14 +28,16 @@ namespace ECA.Business.Service.Itineraries
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             string name,
+            int projectId,
             int arrivalLocationId,
             int departureLocationId)
             : base(
-                startDate,
-                endDate,
-                name,
-                arrivalLocationId,
-                departureLocationId)
+                startDate: startDate,
+                endDate: endDate,
+                arrivalLocationId: arrivalLocationId,
+                projectId: projectId,
+                departureLocationId: departureLocationId,
+                name: name)
         {
             this.Id = id;
             this.Audit = new Update(updator);
