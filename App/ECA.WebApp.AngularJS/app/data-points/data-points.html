@@ -18,7 +18,7 @@
         <div class="row" ng-show="expandOfficeSection">
             <div class="col-md-4" ng-repeat="dataConfiguration in dataConfigurations | filter: {categoryId: constants.dataPointCategory.office.id}">
                 <label class="checkbox-inline">
-                    <input type="checkbox" ng-model="dataConfiguration.isRequired" ng-disabled="dataConfiguration.isInherited"/> {{dataConfiguration.propertyName}}
+                    <input type="checkbox" ng-model="dataConfiguration.isRequired" ng-disabled="dataConfiguration.isInherited" ng-change="dataConfigurationChanged(dataConfiguration)"/> {{dataConfiguration.propertyName}}
                 </label>
             </div>
         </div>
