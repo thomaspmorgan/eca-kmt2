@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="eca.database.windows.net.ECA_KMT_DEV.eca"
+  DTS:DTSID="{CA80189D-45FF-492D-81DC-354FFB7AA702}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_DEV;Provider=SQLNCLI11.1;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAADYj368wZkbf8fCrjMUsLRCejiyBzhviyYPxXmIGTxerAAAAAAOgAAAAAIAACAAAADu0I9tW9tifBBndtnKqvNyAdyS1jb/lw5Ekp0WhHa31IAAAABuoHXtLuOFMjZtOy5gVRKafK0xlQZmedUoxJ75r8/YB8VLruTfKxjiZB8cS1Tth7c70Cq0OWgPnxIKKotBU/r8VuOib5ZKbWKoKhtChSLmN98L19i4c5KC9H7Yyd8dbFcPDnhS3i0wMBt9YJ066j1U2B/eVF2hatqR44l8G5VTC0AAAAAuOAA3lbFPktYD1lEAgpvytBrH3NyCknbGz3ejw8t8np0vZU+YczrAkaMmZ2Xb8OhEmF46xWEcjjIa6Qpc1Jge</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
