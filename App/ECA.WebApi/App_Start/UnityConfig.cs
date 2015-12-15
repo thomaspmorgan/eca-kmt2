@@ -216,6 +216,9 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<LocationValidationEntity, LocationValidationEntity>,
                 LocationServiceValidator>();
             container.RegisterType<
+                IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity>,
+                ItineraryServiceValidator>();
+            container.RegisterType<
                 IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
                 ParticipantPersonServiceValidator>();
             container.RegisterType<

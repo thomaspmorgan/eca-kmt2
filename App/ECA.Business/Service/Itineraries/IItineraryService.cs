@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ECA.Business.Queries.Itineraries;
 using ECA.Data;
 using System.Diagnostics.Contracts;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Itineraries
 {
@@ -11,7 +12,7 @@ namespace ECA.Business.Service.Itineraries
     /// An ItineraryService is used to perform crud operations for project itineraries.
     /// </summary>
     [ContractClass(typeof(ItineraryServiceContract))]
-    public interface IItineraryService
+    public interface IItineraryService : ISaveable
     {
         /// <summary>
         /// Returns the itineraries for the given project by project id.
@@ -26,6 +27,22 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="projectId">The id of the project.</param>
         /// <returns>The itineraries of the project.</returns>
         Task<List<ItineraryDTO>> GetItinerariesByProjectIdAsync(int projectId);
+
+        /// <summary>
+        /// Returns the itinerary with the given id and project id.
+        /// </summary>
+        /// <param name="id">The id of the itinerary.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The itinerary.</returns>
+        ItineraryDTO GetItineraryById(int projectId, int id);
+
+        /// <summary>
+        /// Returns the itinerary with the given id and project id.
+        /// </summary>
+        /// <param name="id">The id of the itinerary.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The itinerary.</returns>
+        Task<ItineraryDTO> GetItineraryByIdAsync(int projectId, int id);
 
         /// <summary>
         /// Creates a new itinerary in the eca datastore.
@@ -100,6 +117,46 @@ namespace ECA.Business.Service.Itineraries
         public Task<List<ItineraryDTO>> GetItinerariesByProjectIdAsync(int projectId)
         {
             return Task.FromResult<List<ItineraryDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ItineraryDTO GetItineraryById(int projectId, int id)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<ItineraryDTO> GetItineraryByIdAsync(int projectId, int id)
+        {
+            return Task.FromResult<ItineraryDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int SaveChanges()
+        {
+            return 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> SaveChangesAsync()
+        {
+            return Task.FromResult<int>(1);
         }
 
         /// <summary>

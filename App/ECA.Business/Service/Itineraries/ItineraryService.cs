@@ -74,6 +74,36 @@ namespace ECA.Business.Service.Itineraries
             var itineraries = ItineraryQueries.CreateGetItinerariesByProjectIdQuery(this.Context, projectId).ToList();
             return itineraries;
         }
+
+        /// <summary>
+        /// Returns the itinerary with the given id and project id.
+        /// </summary>
+        /// <param name="id">The id of the itinerary.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The itinerary.</returns>
+        public ItineraryDTO GetItineraryById(int projectId, int id)
+        {
+            var itinerary = CreateGetItineraryByIdAndProjectId(projectId, id).FirstOrDefault();
+            return itinerary;
+        }
+
+        /// <summary>
+        /// Returns the itinerary with the given id and project id.
+        /// </summary>
+        /// <param name="id">The id of the itinerary.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The itinerary.</returns>
+        public async Task<ItineraryDTO> GetItineraryByIdAsync(int projectId, int id)
+        {
+            var itinerary = await CreateGetItineraryByIdAndProjectId(projectId, id).FirstOrDefaultAsync();
+            return itinerary;
+        }
+
+        private IQueryable<ItineraryDTO> CreateGetItineraryByIdAndProjectId(int projectId, int id)
+        {
+            var query = ItineraryQueries.CreateGetItinerariesQuery(this.Context).Where(x => x.ProjectId == projectId && x.Id == id);
+            return query;
+        }
         #endregion
 
         #region Create
@@ -154,7 +184,7 @@ namespace ECA.Business.Service.Itineraries
             itinerary.Name = addedItinerary.Name;
             itinerary.ProjectId = project.ProjectId;
             itinerary.StartDate = addedItinerary.StartDate;
-
+            itinerary.ItineraryStatusId = ItineraryStatus.InProgress.Id;
             this.Context.Itineraries.Add(itinerary);
             return itinerary;
 

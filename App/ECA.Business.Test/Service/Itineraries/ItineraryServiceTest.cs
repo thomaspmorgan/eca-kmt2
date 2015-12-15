@@ -31,6 +31,206 @@ namespace ECA.Business.Test.Service.Itineraries
         #region Get
 
         [TestMethod]
+        public async Task TestGetItineraryById()
+        {
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var countryLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var arrival = new Location
+            {
+                LocationId = 1,
+                LocationName = "city 1",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var departureDestination = new Location
+            {
+                LocationId = 2,
+                LocationName = "country 1",
+                LocationType = countryLocationType,
+                LocationTypeId = countryLocationType.LocationTypeId
+            };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                Arrival = arrival,
+                ArrivalLocationId = arrival.LocationId,
+                Departure = departureDestination,
+                DepartureLocationId = departureDestination.LocationId,
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
+            context.LocationTypes.Add(cityLocationType);
+            context.LocationTypes.Add(countryLocationType);
+            context.Locations.Add(arrival);
+            context.Locations.Add(departureDestination);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+
+            Action<ItineraryDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+
+                Assert.AreEqual(arrival.LocationId, result.ArrivalLocation.Id);
+                Assert.AreEqual(departureDestination.LocationId, result.DepartureLocation.Id);
+                Assert.AreEqual(project.ProjectId, result.ProjectId);
+                Assert.AreEqual(itinerary.History.RevisedOn, result.LastRevisedOn);
+                Assert.AreEqual(itinerary.EndDate, result.EndDate);
+                Assert.AreEqual(itinerary.ItineraryId, result.Id);
+                Assert.AreEqual(itinerary.Name, result.Name);
+                Assert.AreEqual(itinerary.StartDate, result.StartDate);
+                Assert.AreEqual(0, result.ParticipantsCount);
+                Assert.AreEqual(0, result.GroupsCount);
+            };
+
+            var serviceResults = service.GetItineraryById(project.ProjectId, itinerary.ItineraryId);
+            var serviceResultsAsync = await service.GetItineraryByIdAsync(project.ProjectId, itinerary.ItineraryId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetItineraryById_ItineraryByIdDoesNotExist()
+        {
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var countryLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var arrival = new Location
+            {
+                LocationId = 1,
+                LocationName = "city 1",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var departureDestination = new Location
+            {
+                LocationId = 2,
+                LocationName = "country 1",
+                LocationType = countryLocationType,
+                LocationTypeId = countryLocationType.LocationTypeId
+            };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                Arrival = arrival,
+                ArrivalLocationId = arrival.LocationId,
+                Departure = departureDestination,
+                DepartureLocationId = departureDestination.LocationId,
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
+            context.LocationTypes.Add(cityLocationType);
+            context.LocationTypes.Add(countryLocationType);
+            context.Locations.Add(arrival);
+            context.Locations.Add(departureDestination);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+
+            Action<ItineraryDTO> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+
+            var serviceResults = service.GetItineraryById(project.ProjectId, itinerary.ItineraryId + 1);
+            var serviceResultsAsync = await service.GetItineraryByIdAsync(project.ProjectId, itinerary.ItineraryId + 1);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetItineraryById_ItineraryByProjectIdDoesNotExist()
+        {
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var countryLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var arrival = new Location
+            {
+                LocationId = 1,
+                LocationName = "city 1",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var departureDestination = new Location
+            {
+                LocationId = 2,
+                LocationName = "country 1",
+                LocationType = countryLocationType,
+                LocationTypeId = countryLocationType.LocationTypeId
+            };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                Arrival = arrival,
+                ArrivalLocationId = arrival.LocationId,
+                Departure = departureDestination,
+                DepartureLocationId = departureDestination.LocationId,
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
+            context.LocationTypes.Add(cityLocationType);
+            context.LocationTypes.Add(countryLocationType);
+            context.Locations.Add(arrival);
+            context.Locations.Add(departureDestination);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+
+            Action<ItineraryDTO> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+
+            var serviceResults = service.GetItineraryById(project.ProjectId + 1, itinerary.ItineraryId);
+            var serviceResultsAsync = await service.GetItineraryByIdAsync(project.ProjectId + 1, itinerary.ItineraryId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
         public async Task TestGetItinerariesByProjectId()
         {
             var cityLocationType = new LocationType
@@ -155,6 +355,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(model.StartDate, addedItinerary.StartDate);
                 Assert.AreEqual(model.EndDate, addedItinerary.EndDate);
                 Assert.AreEqual(model.Name, addedItinerary.Name);
+                Assert.AreEqual(ItineraryStatus.InProgress.Id, addedItinerary.ItineraryStatusId);
             };
 
             Action<AddedEcaItineraryValidationEntity> validationEntityTester = (validationEntity) =>

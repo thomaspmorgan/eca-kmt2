@@ -47,7 +47,6 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the intinerary stops.
         /// </summary>
-        [Required]
         public virtual ICollection<ItineraryStop> Stops { get; set; }
 
         /// <summary>

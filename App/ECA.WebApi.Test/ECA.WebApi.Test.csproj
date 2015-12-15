@@ -220,6 +220,8 @@
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\UpdateItineraryBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\AddedItineraryBindingModelTest.cs" />
     <Compile Include="Models\Offices\OfficeCollaboratorBindingModelTest.cs" />
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Person\PersonBindingModelTest.cs" />
