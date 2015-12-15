@@ -45,6 +45,6 @@ namespace ECA.Business.Validation.Model
 
         public CreateDependent createDependent { get; set; }
         
-        public string Remarks { get; set; }        
+        public string Remarks { get; set; }
     }
 }

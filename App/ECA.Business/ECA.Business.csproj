@@ -485,6 +485,15 @@
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
+    <Compile Include="Validation\Model\CreateEV\CreateEV.cs" />
+    <Compile Include="Validation\Model\CreateEV\CreateEVValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddSiteOfActivity.cs" />
+    <Compile Include="Validation\Model\Shared\AddSiteOfActivityValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddTIPP.cs" />
+    <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
+    <Compile Include="Validation\Model\Shared\EVFinancialInfo.cs" />
+    <Compile Include="Validation\Model\Shared\EVFinancialInfoValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitor.cs" />
     <Compile Include="Validation\Model\Shared\AddAuthDropValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddCptEmploymentValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddDependentValidator.cs" />
@@ -516,6 +525,7 @@
     <Compile Include="Validation\Model\Shared\EduLevelValidator.cs" />
     <Compile Include="Validation\Model\Shared\EmployerAddressValidator.cs" />
     <Compile Include="Validation\Model\Shared\EngProficiencyValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExpenseOtherValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExpenseValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExtendOPTEmploymentValidator.cs" />
@@ -524,14 +534,32 @@
     <Compile Include="Validation\Model\Shared\FullNameValidator.cs" />
     <Compile Include="Validation\Model\Shared\FundingOtherValidator.cs" />
     <Compile Include="Validation\Model\Shared\FundingValidator.cs" />
+    <Compile Include="Validation\Model\Shared\HostFamily.cs" />
+    <Compile Include="Validation\Model\Shared\International.cs" />
+    <Compile Include="Validation\Model\Shared\InternationalValidator.cs" />
+    <Compile Include="Validation\Model\Shared\LCCoordinator.cs" />
     <Compile Include="Validation\Model\Shared\OPTReportParticipationValidator.cs" />
+    <Compile Include="Validation\Model\Shared\Other.cs" />
+    <Compile Include="Validation\Model\Shared\OtherFunds.cs" />
+    <Compile Include="Validation\Model\Shared\OtherFundsValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ParticipantInfo.cs" />
+    <Compile Include="Validation\Model\Shared\PContact.cs" />
     <Compile Include="Validation\Model\Shared\PersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\ReactivateDependentValidator.cs" />
     <Compile Include="Validation\Model\Shared\ReprintDependentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ResidentialAddress.cs" />
+    <Compile Include="Validation\Model\Shared\ResidentialAddressValidator.cs" />
     <Compile Include="Validation\Model\Shared\SchoolValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SContact.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\StudentPersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SubjectField.cs" />
+    <Compile Include="Validation\Model\Shared\SubjectFieldValidator.cs" />
     <Compile Include="Validation\Model\Shared\TerminateStudentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\TippExemptProgram.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhase.cs" />
+    <Compile Include="Validation\Model\Shared\TippSite.cs" />
     <Compile Include="Validation\Model\Shared\TravelInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\USAddressValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddAuthDrop.cs" />
@@ -549,6 +577,8 @@
     <Compile Include="Validation\Model\Shared\CancelOCEmployment.cs" />
     <Compile Include="Validation\Model\Shared\CancelOPTEmployment.cs" />
     <Compile Include="Validation\Model\Shared\CancelProgramExtension.cs" />
+    <Compile Include="Validation\Model\Shared\USGovt.cs" />
+    <Compile Include="Validation\Model\Shared\USGovtValidator.cs" />
     <Compile Include="Validation\Model\UpdateStudent\CancelStudent.cs" />
     <Compile Include="Validation\Model\Shared\CapGapExtension.cs" />
     <Compile Include="Validation\Model\Shared\ChangeEducationLevel.cs" />
@@ -652,7 +682,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Validation\Model\CreateEV\" />
     <Folder Include="Validation\Model\UpdateEV\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

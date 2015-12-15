@@ -46,6 +46,26 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Visa type
         /// </summary>
-        public string VisaType { get; set; }        
+        public string VisaType { get; set; }
+
+        #region Exchange Visitor only
+
+        /// <summary>
+        /// City of birth (max 50)
+        /// </summary>
+        public string BirthCity { get; set; }
+
+        /// <summary>
+        /// Country of legal permanent residence
+        /// </summary>
+        public string PermanentResidenceCountryCode { get; set; }
+
+        /// <summary>
+        /// (required if USA or territory is country of birth)
+        /// </summary>
+        public string BirthCountryReason { get; set; }
+        
+        #endregion
+        
     }
 }
