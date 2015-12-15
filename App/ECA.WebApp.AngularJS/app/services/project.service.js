@@ -64,6 +64,12 @@ angular.module('staticApp')
           },
           getItineraries: function (projectId) {
               return DragonBreath.get({}, 'projects/' + projectId + '/itineraries');
+          },
+          addItinerary: function (itinerary, projectId) {
+              return DragonBreath.create(itinerary, 'projects/' + projectId + '/itinerary');
+          },
+          updateItinerary: function (itinerary, projectId) {
+              return DragonBreath.save(itinerary, 'projects/' + projectId + '/itinerary');
           }
       };
   });
