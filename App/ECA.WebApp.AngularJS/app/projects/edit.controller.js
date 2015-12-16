@@ -26,6 +26,7 @@ angular.module('staticApp')
         AuthService,
         OfficeService,
         FilterService,
+        StateService,
         NotificationService) {
 
       console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
@@ -246,7 +247,7 @@ angular.module('staticApp')
           $scope.$parent.hideProjectEditCancelButton();
           $scope.form.projectForm.$setUntouched();
           $scope.form.projectForm.$setPristine();
-          $state.go('projects.overview');
+          StateService.goToProjectState($stateParams.projectId, { reload: true })
       }
 
       function getStatusById(stati, id) {
