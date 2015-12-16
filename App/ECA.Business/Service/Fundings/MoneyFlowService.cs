@@ -828,6 +828,7 @@ namespace ECA.Business.Service.Fundings
             moneyFlowToUpdate.MoneyFlowTypeId = updatedMoneyFlow.MoneyFlowTypeId;
             moneyFlowToUpdate.TransactionDate = updatedMoneyFlow.TransactionDate;
             moneyFlowToUpdate.Value = updatedMoneyFlow.Value;
+            moneyFlowToUpdate.GrantNumber = updatedMoneyFlow.GrantNumber;
             updatedMoneyFlow.Audit.SetHistory(moneyFlowToUpdate);
         }
 

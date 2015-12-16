@@ -33,6 +33,12 @@ namespace ECA.WebApi.Models.Fundings
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the grant number.
+        /// </summary>
+        [MaxLength(MoneyFlow.GRANT_NUMBER_MAX_LENGTH)]
+        public string GrantNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the transaction date.
         /// </summary>
         public DateTimeOffset TransactionDate { get; set; }
@@ -94,6 +100,7 @@ namespace ECA.WebApi.Models.Fundings
                 createdBy: user,
                 parentMoneyFlowId: this.ParentMoneyFlowId,
                 description: this.Description,
+                grantNumber: this.GrantNumber,
                 value: this.Value,
                 moneyFlowStatusId: this.MoneyFlowStatusId,
                 transactionDate: this.TransactionDate,
@@ -109,6 +116,7 @@ namespace ECA.WebApi.Models.Fundings
                 return new AdditionalMoneyFlow(
                     createdBy: user,
                     description: this.Description,
+                    grantNumber: this.GrantNumber,
                     parentMoneyFlowId: this.ParentMoneyFlowId,
                     value: this.Value,
                     moneyFlowStatusId: this.MoneyFlowStatusId,

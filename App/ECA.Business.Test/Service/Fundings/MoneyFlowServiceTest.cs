@@ -1293,7 +1293,7 @@ namespace ECA.Business.Test.Service.Fundings
 
         #region Get MoneyFlows By Program Id
         [TestMethod]
-        public async Task TestGetMoneyFlowsByProgramId_CheckProperties()
+        public async Task TestGetMoneyFlowsByProgramId()
         {
             var outgoing = new MoneyFlowType
             {
@@ -1502,12 +1502,14 @@ namespace ECA.Business.Test.Service.Fundings
                 int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
+                var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
 
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: null,
                     description: description,
+                    grantNumber: grantNumber,
                     value: value,
                     moneyFlowStatusId: moneyFlowStatusId,
                     transactionDate: now,
@@ -1546,6 +1548,7 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.AreEqual(fiscalYear, moneyFlow.FiscalYear);
                     Assert.AreEqual(sourceProject.ProjectId, moneyFlow.SourceProjectId);
                     Assert.AreEqual(recipientProject.ProjectId, moneyFlow.RecipientProjectId);
+                    Assert.AreEqual(grantNumber, moneyFlow.GrantNumber);
                     Assert.AreEqual(userId, moneyFlow.History.CreatedBy);
                     Assert.AreEqual(userId, moneyFlow.History.RevisedBy);
                     DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.CreatedOn, 2000);
@@ -1651,12 +1654,14 @@ namespace ECA.Business.Test.Service.Fundings
                 int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
+                var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
 
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: parentMoneyFlow.MoneyFlowId,
                     description: description,
+                    grantNumber: grantNumber,
                     value: value,
                     moneyFlowStatusId: moneyFlowStatusId,
                     transactionDate: now,
@@ -1750,12 +1755,14 @@ namespace ECA.Business.Test.Service.Fundings
                 int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
+                var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
 
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: -1,
                     description: description,
+                    grantNumber: grantNumber,
                     value: value,
                     moneyFlowStatusId: moneyFlowStatusId,
                     transactionDate: now,
@@ -1819,12 +1826,14 @@ namespace ECA.Business.Test.Service.Fundings
                 int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
+                var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
 
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: null,
                     description: description,
+                    grantNumber: grantNumber,
                     value: value,
                     moneyFlowStatusId: moneyFlowStatusId,
                     transactionDate: now,
@@ -1881,6 +1890,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var userId = 1;
                 var creator = new User(userId);
                 var description = "description";
+                var grantNumber = "grant";
                 decimal value = 1.90m;
                 int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
                 var now = DateTimeOffset.UtcNow;
@@ -1891,6 +1901,7 @@ namespace ECA.Business.Test.Service.Fundings
                     createdBy: creator,
                     parentMoneyFlowId: null,
                     description: description,
+                    grantNumber: grantNumber,
                     value: value,
                     moneyFlowStatusId: moneyFlowStatusId,
                     transactionDate: now,
@@ -1998,6 +2009,7 @@ namespace ECA.Business.Test.Service.Fundings
                 int moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
+                var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
                 var participantMoneyFlowTypeId = MoneyFlowSourceRecipientType.Participant.Id;
 
@@ -2005,6 +2017,7 @@ namespace ECA.Business.Test.Service.Fundings
                     createdBy: creator,
                     parentMoneyFlowId: null,
                     description: description,
+                    grantNumber: grantNumber,
                     value: value,
                     moneyFlowStatusId: moneyFlowStatusId,
                     transactionDate: now,
@@ -3753,6 +3766,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             MoneyFlow moneyFlowToUpdate = null;
+            var grantNumber = "grant";
             var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
             context.SetupActions.Add(() =>
             {
@@ -3762,6 +3776,7 @@ namespace ECA.Business.Test.Service.Fundings
                     Description = "old desc",
                     FiscalYear = 1900,
                     MoneyFlowStatusId = -1,
+                    GrantNumber = "old grant",
                     MoneyFlowTypeId = -1,
                     TransactionDate = lastWeek,
                     Value = -1.0m,
@@ -3779,6 +3794,7 @@ namespace ECA.Business.Test.Service.Fundings
                 updator: new User(revisorId),
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: grantNumber,
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -3795,6 +3811,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Assert.AreEqual(updatedMoneyFlow.MoneyFlowStatusId, moneyFlowToUpdate.MoneyFlowStatusId);
                 Assert.AreEqual(updatedMoneyFlow.TransactionDate, moneyFlowToUpdate.TransactionDate);
                 Assert.AreEqual(updatedMoneyFlow.FiscalYear, moneyFlowToUpdate.FiscalYear);
+                Assert.AreEqual(updatedMoneyFlow.GrantNumber, moneyFlowToUpdate.GrantNumber);
                 Assert.AreEqual(creatorId, moneyFlowToUpdate.History.CreatedBy);
                 Assert.AreEqual(revisorId, moneyFlowToUpdate.History.RevisedBy);
                 Assert.AreEqual(yesterday, moneyFlowToUpdate.History.CreatedOn);
@@ -3868,6 +3885,7 @@ namespace ECA.Business.Test.Service.Fundings
                         FiscalYear = 1900,
                         MoneyFlowStatusId = -1,
                         MoneyFlowTypeId = -1,
+                        GrantNumber = "old grant",
                         TransactionDate = lastWeek,
                         Value = -1.0m,
                         SourceProjectId = sourceEntityId,
@@ -3892,6 +3910,7 @@ namespace ECA.Business.Test.Service.Fundings
                     updator: new User(revisorId),
                     id: moneyFlowId,
                     description: "new description",
+                    grantNumber: "new grant",
                     value: 10.00m,
                     moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                     transactionDate: DateTimeOffset.UtcNow,
@@ -3949,6 +3968,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityId: sourceEntityId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 sourceOrRecipientEntityTypeId: entityTypeId,
@@ -3988,6 +4008,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityId: sourceEntityId,
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
+                grantNumber: "grant",
                 description: "new description",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
@@ -4031,6 +4052,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4073,6 +4095,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4115,6 +4138,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4157,6 +4181,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4199,6 +4224,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4241,6 +4267,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4283,6 +4310,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4325,6 +4353,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4367,6 +4396,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4409,6 +4439,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4451,6 +4482,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4493,6 +4525,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
@@ -4535,6 +4568,7 @@ namespace ECA.Business.Test.Service.Fundings
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 id: moneyFlowId,
                 description: "new description",
+                grantNumber: "grant",
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,

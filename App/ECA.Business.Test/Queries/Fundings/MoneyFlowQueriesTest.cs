@@ -769,7 +769,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
-                ParentMoneyFlowId = 100
+                ParentMoneyFlowId = 100,
+                GrantNumber = "grant"
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(recipientProject);
@@ -791,6 +792,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.TransactionDate, dto.TransactionDate);
             Assert.AreEqual(outgoing.MoneyFlowTypeName, dto.MoneyFlowType);
             Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
+            Assert.AreEqual(moneyFlow.GrantNumber, dto.GrantNumber);
 
             Assert.AreEqual(sourceId, dto.EntityId);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -1418,6 +1420,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 Description = "desc",
+                GrantNumber = "grant",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
                 ParentMoneyFlowId = 100
@@ -1438,6 +1441,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.TransactionDate, dto.TransactionDate);
             Assert.AreEqual(incoming.MoneyFlowTypeName, dto.MoneyFlowType);
             Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
+            Assert.AreEqual(moneyFlow.GrantNumber, dto.GrantNumber);
 
             Assert.AreEqual(recipientId, dto.EntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -1911,7 +1915,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,                
-                ParentMoneyFlowId = 100
+                ParentMoneyFlowId = 100,
+                GrantNumber = "grant"
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);

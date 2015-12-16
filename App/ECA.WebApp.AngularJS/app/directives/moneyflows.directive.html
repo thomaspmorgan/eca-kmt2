@@ -18,16 +18,24 @@
                 <table class="col-md-12" style="margin-top:30px;">
                     <thead>
                         <tr class="row">
-                            <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-2 sort-label medium">Transaction Date</th>
+                            <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-1 sort-label medium">Transaction Date</th>
                             <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
                             <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
                             <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
                             <th st-sort="'amount'" class="col-md-1 sort-label medium text-right">Amount</th>
                             <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>
+                            <th st-sort="'grantNumber'" class="col-md-1 sort-label medium">Grant Number</th>
                             <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
-                            <th class="col-md-2">&nbsp;</th>
+                            <th class="col-md-2 text-right">
+                                <div ng-show="!view.showFilters">
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.showFilters = !view.showFilters" tooltip="Show filters.">expand_less</i>
+                                </div>
+                                <div ng-show="view.showFilters">
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.showFilters = !view.showFilters" tooltip="Hide filters.">expand_more</i>
+                                </div>
+                            </th>
                         </tr>
-                        <tr class="row">
+                        <tr class="row" ng-show="view.showFilters">
                             <th>
                                 <div equality-filter property="'transactionDate'" propertytype="'date'"></div>
                             </th>
@@ -41,8 +49,7 @@
                                            ng-model="view.selectedFilterMoneyFlowStatii"
                                            theme="select2"
                                            append-to-body="true"
-                                           title="Choose money flow statii to filter."
-                                           style="min-width: 150px;">
+                                           title="Choose money flow statii to filter.">
                                     <ui-select-match placeholder="Filter statuses...">
                                         <div>{{$item.name}}</div>
                                     </ui-select-match>
@@ -60,8 +67,7 @@
                                            close-on-select="true"
                                            ng-model="view.selectedFilterSourceRecipientTypes"
                                            theme="select2"
-                                           append-to-body="true"
-                                           style="min-width: 130px;">
+                                           append-to-body="true">
                                     <ui-select-match placeholder="Filter types...">
                                         <div>{{$item.name}}</div>
                                     </ui-select-match>
@@ -80,6 +86,9 @@
                                 <div equality-filter property="'fiscalYear'" propertytype="'int'"></div>
                             </th>
                             <th>
+                                <input st-search="'grantNumber'" maxlength="25" placeholder="" type="search" class="form-control" />
+                            </th>
+                            <th>
                                 <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
                             </th>
                             <th>&nbsp;</th>
@@ -87,8 +96,8 @@
                     </thead>
                     <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
                         <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
-                            <td class="col-md-1">
-                                <span style="text-align: left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
+                            <td>
+                                <span class="text-left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                             </td>
                             <td>
                                 {{moneyFlow.moneyFlowStatus}}
@@ -98,18 +107,22 @@
                                 <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
                                 <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
                             </td>
-                            <td class="text-right" style="padding:25px;">
+                            <td text-right" style="padding:25px;">
                                 <div>
                                     <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
                                 </div>
-
                             </td>
-                            <td class="text-right" style="padding:25px;">
+                            <td text-right" style="padding:25px;">
                                 <div>
                                     {{moneyFlow.fiscalYear}}
                                 </div>
                             </td>
                             <td>
+                                <div>
+                                    {{moneyFlow.grantNumber}}
+                                </div>
+                            </td>
+                            <td class="col-md-2">
                                 <div>
                                     <span>{{moneyFlow.description | limitTo: 20}}</span><span ng-show="moneyFlow.description.length > 20">....</span>
                                     <a ng-click="view.onToggleExpandClick(moneyFlow)" class="pull-right" ng-show="moneyFlow.description.length > 20">
@@ -137,7 +150,7 @@
                             </td>
                         </tr>
                         <tr ng-show="moneyFlow.isDeleting">
-                            <td colspan="16">
+                            <td colspan="17">
                                 <div class="spinner">
                                     <div class="bounce1"></div>
                                     <div class="bounce2"></div>
@@ -146,14 +159,14 @@
                             </td>
                         </tr>
                         <tr class="expandedDescription" ng-show="moneyFlow.showDescription">
-                            <td colspan="16" style="padding-top:5px; padding-bottom:5px;">
+                            <td colspan="17" style="padding-top:5px; padding-bottom:5px;">
                                 <div>
                                     Description: {{moneyFlow.description}}
                                 </div>
                             </td>
                         </tr>
                         <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing" ng-repeat-end>
-                            <td colspan="16">
+                            <td colspan="17">
                                 <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
                                     <div class="spinner" ng-show="moneyFlow.isSavingUpdate">
                                         <div class="bounce1"></div>
@@ -162,7 +175,7 @@
                                     </div>
                                     <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
                                         <div class="row row2" style="margin-left:0;padding:5px;">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label for="transactionDate{{moneyFlow.id}}">Transaction Date<span class="asterisk"> *</span></label>
                                                 <p class="input-group">
                                                     <input name="transactionDate"
@@ -185,7 +198,7 @@
                                                     <div class="error" ng-show="form.moneyFlowForm.transactionDate.$error.required">Please select a transaction date.</div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label for="moneyFlowStatus{{moneyFlow.id}}">Status<span class="asterisk"> *</span></label>
                                                 <select class="form-control"
                                                         id="moneyFlowStatus{{moneyFlow.id}}"
@@ -196,6 +209,15 @@
                                                 <div ng-show="form.moneyFlowForm.moneyFlowStatusId.$dirty || form.addressForm.moneyFlowStatusId.$error.required">
                                                     <div class="error" ng-show="form.moneyFlowForm.moneyFlowStatusId.$error.required">Please select a funding status.</div>
                                                 </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="moneyFlowGrantNumber{{moneyFlow.id}}">Grant Number</label>
+                                                <input class="form-control"
+                                                       type="text"
+                                                       maxlength="25"
+                                                       id="moneyFlowGrantNumber{{moneyFlow.id}}"
+                                                       name="moneyFlowGrantNumber"
+                                                       ng-model="moneyFlow.grantNumber" />
                                             </div>
                                         </div>
                                         <div class="row row2" style="margin-left:0;padding:5px;">
@@ -288,7 +310,7 @@
                     </tbody>
                     <tbody ng-show="view.isLoadingRequiredData || view.isLoadingMoneyFlows" id="spinner">
                         <tr>
-                            <td colspan="16">
+                            <td colspan="17">
                                 <div class="spinner">
                                     <div class="bounce1"></div>
                                     <div class="bounce2"></div>

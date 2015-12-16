@@ -20,6 +20,7 @@ namespace ECA.Business.Service.Fundings
         /// <param name="updator">The updator.</param>
         /// <param name="description">The description.</param>
         /// <param name="value">The value.</param>
+        /// <param name="grantNumber">The grant number.</param>
         /// <param name="moneyFlowStatusId">The money flow status id.</param>
         /// <param name="transactionDate">The transaction date.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
@@ -32,6 +33,7 @@ namespace ECA.Business.Service.Fundings
             int sourceOrRecipientEntityId,
             int sourceOrRecipientEntityTypeId,
             string description,
+            string grantNumber,
             decimal value,
             int moneyFlowStatusId,
             DateTimeOffset transactionDate,
@@ -51,7 +53,13 @@ namespace ECA.Business.Service.Fundings
             this.TransactionDate = transactionDate;
             this.FiscalYear = fiscalYear;
             this.MoneyFlowTypeId = MoneyFlowType.Incoming.Id;
+            this.GrantNumber = grantNumber;
         }
+
+        /// <summary>
+        /// Gets the grant number.
+        /// </summary>
+        public string GrantNumber { get; private set; }
 
         /// <summary>
         /// Gets the audit.
