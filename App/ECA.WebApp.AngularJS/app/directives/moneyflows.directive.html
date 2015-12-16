@@ -18,15 +18,15 @@
                 <table class="col-md-12" style="margin-top:30px;">
                     <thead>
                         <tr class="row">
-                            <th st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-1 sort-label medium">Transaction Date</th>
-                            <th st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
-                            <th st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
-                            <th st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
-                            <th st-sort="'amount'" class="col-md-1 sort-label medium text-right">Amount</th>
-                            <th st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>
-                            <th st-sort="'grantNumber'" class="col-md-1 sort-label medium">Grant Number</th>
-                            <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
-                            <th class="col-md-2 text-right">
+                            <th style="padding-left:10px;padding-right:10px;" st-sort="'transactionDate'" st-sort-default="reverse" class="col-md-1 sort-label medium">Transaction Date</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'amount'" class="col-md-1 sort-label medium text-right" ">Amount</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'grantNumber'" class="col-md-1 sort-label medium">Grant Number</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                            <th style="padding-left:15px;padding-right:15px;" class="col-md-2 text-right">
                                 <div ng-show="!view.showFilters">
                                     <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.showFilters = !view.showFilters" tooltip="Show filters.">expand_less</i>
                                 </div>
@@ -96,28 +96,30 @@
                     </thead>
                     <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
                         <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
-                            <td>
+                            <td class="col-md-1">
                                 <span class="text-left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                             </td>
-                            <td>
+                            <td class="col-md-1">
                                 {{moneyFlow.moneyFlowStatus}}
                             </td>
-                            <td>{{moneyFlow.sourceRecipientTypeName}}</td>
-                            <td>
+                            <td class="col-md-1">
+                                {{moneyFlow.sourceRecipientTypeName}}
+                            </td>
+                            <td class="col-md-2">
                                 <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
                                 <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
                             </td>
-                            <td text-right" style="padding:25px;">
+                            <td class="text-right col-md-1">
                                 <div>
                                     <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
                                 </div>
                             </td>
-                            <td text-right" style="padding:25px;">
+                            <td class="text-right col-md-1">
                                 <div>
                                     {{moneyFlow.fiscalYear}}
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-md-1">
                                 <div>
                                     {{moneyFlow.grantNumber}}
                                 </div>
@@ -131,13 +133,11 @@
                                     </a>
                                 </div>
                             </td>
-                            <td ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
+                            <td class="col-md-2" ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
                                 <div class="right" style="display:none;" showonparentrow>
-                                    <div>
-                                        <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                            <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
-                                            <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
-                                        </div>
+                                    <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                        <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
+                                        <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
                                     </div>
                                     <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
                                         <i class="material-icons md-24 copyEditDeleteOption">edit</i>
