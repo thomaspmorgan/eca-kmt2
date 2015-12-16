@@ -1,5 +1,8 @@
-﻿namespace ECA.Business.Validation.Model.Shared
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(OtherValidator))]
     public class Other
     {
         public string name { get; set; }

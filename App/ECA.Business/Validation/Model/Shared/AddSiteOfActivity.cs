@@ -1,5 +1,9 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿using FluentValidation.Attributes;
+using System.ComponentModel.DataAnnotations;
+
+namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(AddSiteOfActivityValidator))]
     public class AddSiteOfActivity
     {
         public AddSiteOfActivity()

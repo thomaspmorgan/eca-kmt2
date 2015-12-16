@@ -1,7 +1,10 @@
 ﻿using System;
+using FluentValidation.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(ParticipantInfoValidator))]
     public class ParticipantInfo
     {
         public bool IsIWT { get; set; }

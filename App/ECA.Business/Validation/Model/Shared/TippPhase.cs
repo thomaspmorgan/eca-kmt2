@@ -1,7 +1,9 @@
 ﻿using System;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(TippPhaseValidator))]
     public class TippPhase
     {
         public string phaseId { get; set; }

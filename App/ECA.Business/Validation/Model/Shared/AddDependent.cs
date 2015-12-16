@@ -12,11 +12,17 @@ namespace ECA.Business.Validation.Model
         public DateTime BirthDate { get; set; }
         
         public string Gender { get; set; }
-        
+
+        public string BirthCity { get; set; }
+
         public string BirthCountryCode { get; set; }
         
         public string CitizenshipCountryCode { get; set; }
-        
+
+        public string PermanentResidenceCountryCode { get; set; }
+
+        public string BirthCountryReason { get; set; }
+
         public string Email { get; set; }
         
         public string VisaType { get; set; }

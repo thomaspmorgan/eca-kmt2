@@ -1,5 +1,8 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(AddTippValidator))]
     public class AddTIPP
     {
         public AddTIPP()

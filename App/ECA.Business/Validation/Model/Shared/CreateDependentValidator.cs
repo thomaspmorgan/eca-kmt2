@@ -10,6 +10,8 @@ namespace ECA.Business.Validation.Model
         {
             RuleFor(dependent => dependent.Dependent).NotNull().WithMessage("Student Dependent: Dependent is required").SetValidator(new AddDependentValidator());
             RuleFor(dependent => dependent.Remarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Student Dependent: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
-        }        
+            // only required for visitors
+            RuleFor(dependent => dependent.addTIPP).NotNull().WithMessage("Student Dependent: T/IPP information is required").SetValidator(new AddTippValidator()).When(x => x.isVisitor == true);
+        }
     }
 }

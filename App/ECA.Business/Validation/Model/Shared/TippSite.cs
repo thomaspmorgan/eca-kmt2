@@ -1,7 +1,10 @@
 ﻿using System;
+using FluentValidation.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(TippSiteValidator))]
     public class TippSite
     {
         public TippSite()
@@ -16,6 +19,8 @@ namespace ECA.Business.Validation.Model.CreateEV
         public string address2 { get; set; }
 
         public string city { get; set; }
+
+        public string state { get; set; }
 
         public string postalCode { get; set; }
 
@@ -73,7 +78,6 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public DateTime evSignatureDate { get; set; }
 
-        public TippPhase tippPhase { get; set; }
-        
+        public TippPhase tippPhase { get; set; }        
     }
 }

@@ -490,6 +490,7 @@
     <Compile Include="Validation\Model\Shared\AddSiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\AddSiteOfActivityValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddTIPP.cs" />
+    <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
     <Compile Include="Validation\Model\Shared\EVFinancialInfo.cs" />
     <Compile Include="Validation\Model\Shared\EVFinancialInfoValidator.cs" />
@@ -542,7 +543,9 @@
     <Compile Include="Validation\Model\Shared\Other.cs" />
     <Compile Include="Validation\Model\Shared\OtherFunds.cs" />
     <Compile Include="Validation\Model\Shared\OtherFundsValidator.cs" />
+    <Compile Include="Validation\Model\Shared\OtherValidator.cs" />
     <Compile Include="Validation\Model\Shared\ParticipantInfo.cs" />
+    <Compile Include="Validation\Model\Shared\ParticipantInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\PContact.cs" />
     <Compile Include="Validation\Model\Shared\PersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\ReactivateDependentValidator.cs" />
@@ -552,6 +555,7 @@
     <Compile Include="Validation\Model\Shared\SchoolValidator.cs" />
     <Compile Include="Validation\Model\Shared\SContact.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivity.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentPersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentValidator.cs" />
     <Compile Include="Validation\Model\Shared\SubjectField.cs" />
@@ -559,7 +563,9 @@
     <Compile Include="Validation\Model\Shared\TerminateStudentValidator.cs" />
     <Compile Include="Validation\Model\Shared\TippExemptProgram.cs" />
     <Compile Include="Validation\Model\Shared\TippPhase.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhaseValidator.cs" />
     <Compile Include="Validation\Model\Shared\TippSite.cs" />
+    <Compile Include="Validation\Model\Shared\TippSiteValidator.cs" />
     <Compile Include="Validation\Model\Shared\TravelInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\USAddressValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddAuthDrop.cs" />

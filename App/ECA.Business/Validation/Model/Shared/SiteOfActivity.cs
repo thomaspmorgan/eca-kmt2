@@ -1,5 +1,9 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿using FluentValidation.Attributes;
+using System.ComponentModel.DataAnnotations;
+
+namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(SiteOfActivityValidator))]
     public class SiteOfActivity
     {
         public string xsitype { get; set; }
@@ -11,6 +15,8 @@
         public string address2 { get; set; }
 
         public string city { get; set; }
+
+        public string state { get; set; }
 
         public string postalCode { get; set; }
 
