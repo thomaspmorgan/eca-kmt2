@@ -8,6 +8,9 @@ using System.Web.Http.Results;
 using System.Collections.Generic;
 using ECA.Business.Queries.Itineraries;
 using System.Threading.Tasks;
+using ECA.WebApi.Models.Itineraries;
+using ECA.Business.Service;
+using ECA.Data;
 
 namespace ECA.WebApi.Test.Controllers.Itineraries
 {
@@ -34,5 +37,78 @@ namespace ECA.WebApi.Test.Controllers.Itineraries
             service.Verify(x => x.GetItinerariesByProjectIdAsync(It.IsAny<int>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<ItineraryDTO>>));
         }
+
+        #region Create
+        [TestMethod]
+        public async Task TestPostCreateItineraryAsync()
+        {
+            var debugUser = new DebugWebApiUser();
+            var businessUser = new User(1);
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(debugUser);
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(businessUser);
+
+            service.Setup(x => x.CreateAsync(It.IsAny<AddedEcaItinerary>())).ReturnsAsync(new Itinerary());
+            service.Setup(x => x.GetItineraryByIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new ItineraryDTO());
+
+            var model = new AddedItineraryBindingModel();
+            var projectId = 1;
+            var response = await controller.PostCreateItineraryAsync(projectId, model);
+            Assert.IsNotNull(response);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ItineraryDTO>));
+
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            service.Verify(x => x.CreateAsync(It.IsAny<AddedEcaItinerary>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
+            service.Verify(x => x.GetItineraryByIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostCreateItineraryAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new AddedItineraryBindingModel();
+            var projectId = 1;
+            var response = await controller.PostCreateItineraryAsync(projectId, model);
+            Assert.IsNotNull(response);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+
+        #region Update
+        [TestMethod]
+        public async Task TestPutUpdateItineraryAsync()
+        {
+            var debugUser = new DebugWebApiUser();
+            var businessUser = new User(1);
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(debugUser);
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(businessUser);
+
+            service.Setup(x => x.GetItineraryByIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new ItineraryDTO());
+
+            var model = new UpdatedItineraryBindingModel();
+            var projectId = 1;
+            var response = await controller.PutUpdateItineraryAsync(projectId, model);
+            Assert.IsNotNull(response);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ItineraryDTO>));
+
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
+            service.Verify(x => x.UpdateAsync(It.IsAny<UpdatedEcaItinerary>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
+            service.Verify(x => x.GetItineraryByIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPutUpdateItineraryAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new UpdatedItineraryBindingModel();
+            var projectId = 1;
+            var response = await controller.PutUpdateItineraryAsync(projectId, model);
+            Assert.IsNotNull(response);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
     }
 }
