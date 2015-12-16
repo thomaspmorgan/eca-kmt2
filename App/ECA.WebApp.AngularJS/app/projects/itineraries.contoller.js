@@ -14,6 +14,7 @@ angular.module('staticApp')
       $stateParams,
       $log,
       $q,
+      $modal,
       ProjectService,
       NotificationService,
       AuthService,
@@ -22,6 +23,7 @@ angular.module('staticApp')
       var projectId = parseInt($stateParams.projectId, 10);
       $scope.view = {};
       $scope.view.isLoading = true;
+      $scope.view.isLoadingProject = true;
       $scope.view.project = null;
       $scope.view.itineraries = [];
       $scope.view.itinerariesCount = 0;
@@ -31,10 +33,29 @@ angular.module('staticApp')
 
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           $scope.view.project = project;
+          $scope.view.isLoadingProject = false;
+          $scope.view.onNewItineraryClick();
       });
 
       $scope.view.onNewItineraryClick = function () {
-          $log.info("Clicked new traveling period.");
+          var addItineraryModal = $modal.open({
+              animation: true,
+              templateUrl: 'app/projects/add-itinerary-modal.html',
+              controller: 'AddItineraryModalCtrl',
+              size: 'lg',
+              backdrop: 'static',
+              resolve: {
+                  project: function () {
+                      return $scope.view.project;
+                  }
+              }
+          });
+          addItineraryModal.result.then(function (addedItinerary) {
+              $log.info('Finished adding itinerary.');
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
       }
 
       function loadPermissions() {
@@ -74,7 +95,7 @@ angular.module('staticApp')
       $scope.view.isLoading = true;
       $q.all([loadPermissions(), loadItineraries(projectId)])
         .then(function () {
-            $scope.view.isLoading = false;
+            $scope.view.isLoading = false;            
         })
         .catch(function () {
             $scope.view.isLoading = false;

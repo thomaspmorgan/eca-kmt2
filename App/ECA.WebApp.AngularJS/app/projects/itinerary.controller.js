@@ -17,11 +17,9 @@ angular.module('staticApp')
       FilterService,
       ProjectService,
       LocationService,
-      AuthService,
       StateService,
       NotificationService,
-      ConstantsService,
-      orderByFilter) {
+      ConstantsService) {
       
       $scope.view = {};
       $scope.view.itinerary = $scope.$parent.itinerary;
