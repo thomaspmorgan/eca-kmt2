@@ -1,5 +1,8 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(HostFamilyValidator))]
     public class HostFamily
     {
         public HostFamily()
@@ -15,6 +18,5 @@
         public string phone { get; set; }
 
         public string phoneExt { get; set; }
-
     }
 }

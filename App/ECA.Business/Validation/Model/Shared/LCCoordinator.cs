@@ -1,5 +1,8 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.CreateEV
 {
+    [Validator(typeof(LCCoordinatorValidator))]
     public class LCCoordinator
     {
         public string LastName { get; set; }

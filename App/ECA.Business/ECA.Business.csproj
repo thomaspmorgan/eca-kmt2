@@ -492,6 +492,7 @@
     <Compile Include="Validation\Model\Shared\AddTIPP.cs" />
     <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
+    <Compile Include="Validation\Model\Shared\BoardingSchoolValidator.cs" />
     <Compile Include="Validation\Model\Shared\EVFinancialInfo.cs" />
     <Compile Include="Validation\Model\Shared\EVFinancialInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExchangeVisitor.cs" />
@@ -536,9 +537,11 @@
     <Compile Include="Validation\Model\Shared\FundingOtherValidator.cs" />
     <Compile Include="Validation\Model\Shared\FundingValidator.cs" />
     <Compile Include="Validation\Model\Shared\HostFamily.cs" />
+    <Compile Include="Validation\Model\Shared\HostFamilyValidator.cs" />
     <Compile Include="Validation\Model\Shared\International.cs" />
     <Compile Include="Validation\Model\Shared\InternationalValidator.cs" />
     <Compile Include="Validation\Model\Shared\LCCoordinator.cs" />
+    <Compile Include="Validation\Model\Shared\LCCoordinatorValidator.cs" />
     <Compile Include="Validation\Model\Shared\OPTReportParticipationValidator.cs" />
     <Compile Include="Validation\Model\Shared\Other.cs" />
     <Compile Include="Validation\Model\Shared\OtherFunds.cs" />
@@ -547,6 +550,7 @@
     <Compile Include="Validation\Model\Shared\ParticipantInfo.cs" />
     <Compile Include="Validation\Model\Shared\ParticipantInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\PContact.cs" />
+    <Compile Include="Validation\Model\Shared\PContactValidator.cs" />
     <Compile Include="Validation\Model\Shared\PersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\ReactivateDependentValidator.cs" />
     <Compile Include="Validation\Model\Shared\ReprintDependentValidator.cs" />
@@ -554,6 +558,7 @@
     <Compile Include="Validation\Model\Shared\ResidentialAddressValidator.cs" />
     <Compile Include="Validation\Model\Shared\SchoolValidator.cs" />
     <Compile Include="Validation\Model\Shared\SContact.cs" />
+    <Compile Include="Validation\Model\Shared\SContactValidator.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentPersonalInfoValidator.cs" />
