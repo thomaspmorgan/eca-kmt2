@@ -245,6 +245,7 @@
     <Compile Include="Service\Admin\LocationServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\LocationValidationEntityTest.cs" />
     <Compile Include="Service\Admin\EcaAddressValidationEntityTest.cs" />
+    <Compile Include="Service\Admin\DataPointConfigurationServiceTest.cs" />
     <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />

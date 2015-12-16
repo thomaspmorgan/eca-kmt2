@@ -169,6 +169,7 @@
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\LocationsControllerTest.cs" />
+    <Compile Include="Controllers\Admin\DataPointConfigurationControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowStatusesControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesControllerTest.cs" />
