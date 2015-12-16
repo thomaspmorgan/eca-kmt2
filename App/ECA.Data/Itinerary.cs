@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// Itineraries describe the travel participants take during a project.
     /// </summary>
-    public class Itinerary
+    public class Itinerary : IHistorical
     {
         /// <summary>
         /// The max length of the description.
@@ -47,7 +47,6 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the intinerary stops.
         /// </summary>
-        [Required]
         public virtual ICollection<ItineraryStop> Stops { get; set; }
 
         /// <summary>

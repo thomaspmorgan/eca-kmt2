@@ -11,6 +11,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Itineraries;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
@@ -60,8 +61,64 @@ namespace ECA.WebApi.Controllers.Itineraries
             var results = await this.itineraryService.GetItinerariesByProjectIdAsync(id);
             return Ok(results);
         }
-        
+
         #endregion
-        
+
+        #region Create
+        /// <summary>
+        /// Creates a new itinerary.
+        /// </summary>
+        /// <param name="id">The id of the project.</param>
+        /// <param name="model">The new itinerary.</param>
+        /// <returns>The created itinerary.</returns>
+        [ResponseType(typeof(ItineraryDTO))]
+        [Route("Projects/{id:int}/Itinerary")]
+        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE)]
+        public async Task<IHttpActionResult> PostCreateItineraryAsync([FromUri]int id, [FromBody]AddedItineraryBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(user);
+                var itinerary = await this.itineraryService.CreateAsync(model.ToAddedEcaItinerary(id, businessUser));
+                await this.itineraryService.SaveChangesAsync();
+                var dto = await this.itineraryService.GetItineraryByIdAsync(id, itinerary.ItineraryId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        #endregion
+
+        #region Update
+        /// <summary>
+        /// Updates the system's itinerary with the given updated itinerary.
+        /// </summary>
+        /// <param name="id">The id of the project.</param>
+        /// <param name="model">The updated itinerary.</param>
+        /// <returns>The updated itinerary.</returns>
+        [ResponseType(typeof(ItineraryDTO))]
+        [Route("Projects/{id:int}/Itinerary")]
+        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE)]
+        public async Task<IHttpActionResult> PutUpdateItineraryAsync([FromUri]int id, [FromBody]UpdatedItineraryBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(user);
+                await this.itineraryService.UpdateAsync(model.ToUpdatedEcaItinerary(id, businessUser));
+                await this.itineraryService.SaveChangesAsync();
+                var dto = await this.itineraryService.GetItineraryByIdAsync(id, model.Id);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        #endregion
+
     }
 }

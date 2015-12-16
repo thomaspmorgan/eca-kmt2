@@ -238,10 +238,15 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
-    <Compile Include="Service\Itineraries\AddedTravelingPeriod.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryValidationEntity.cs" />
     <Compile Include="Service\Itineraries\IItineraryService.cs" />
     <Compile Include="Service\Itineraries\ItineraryService.cs" />
-    <Compile Include="Service\Itineraries\TravelingPeriod.cs" />
+    <Compile Include="Service\Itineraries\EcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\ItineraryServiceValidator.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
     <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
     <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
