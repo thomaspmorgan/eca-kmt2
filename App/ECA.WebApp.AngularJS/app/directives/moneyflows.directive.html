@@ -22,11 +22,12 @@
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'moneyFlowStatus'" class="col-md-1 sort-label medium">Status</th>
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'sourceRecipientTypeName'" class="col-md-1 sort-label medium">Type</th>
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
-                            <th style="padding-left:15px;padding-right:15px;" st-sort="'amount'" class="col-md-1 sort-label medium text-right" ">Amount</th>
-                            <th style="padding-left:15px;padding-right:15px;" st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'grantNumber'" class="col-md-1 sort-label medium">Grant Number</th>
-                            <th style="padding-left:15px;padding-right:15px;" st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
-                            <th style="padding-left:15px;padding-right:15px;" class="col-md-2 text-right">
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'amount'" class="col-md-1 sort-label medium text-right" ">Amount</th>
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>                            
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'description'" class="col-md-1 sort-label medium">Description</th>
+                            <th style="padding-left:15px;padding-right:15px;" class="col-md-1">&nbsp;</th>
+                            <th style="padding-left:15px;padding-right:15px;" class="col-md-1 text-right">
                                 <div ng-show="!view.showFilters">
                                     <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.showFilters = !view.showFilters" tooltip="Show filters.">expand_less</i>
                                 </div>
@@ -80,17 +81,18 @@
                                 <input st-search="'sourceRecipientName'" placeholder="" type="search" class="form-control" />
                             </th>
                             <th>
+                                <input st-search="'grantNumber'" maxlength="25" placeholder="" type="search" class="form-control" />
+                            </th>
+                            <th>
                                 <div equality-filter property="'amount'" propertytype="'float'"></div>
                             </th>
                             <th>
                                 <div equality-filter property="'fiscalYear'" propertytype="'int'"></div>
                             </th>
                             <th>
-                                <input st-search="'grantNumber'" maxlength="25" placeholder="" type="search" class="form-control" />
-                            </th>
-                            <th>
                                 <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
                             </th>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -109,6 +111,11 @@
                                 <a ng-show="!moneyFlow.loadingEntityState" href="{{moneyFlow.href}}">{{moneyFlow.sourceRecipientName}}</a>
                                 <i class="material-icons material-icons-spin md-24" ng-show="moneyFlow.loadingEntityState">autorenew</i>
                             </td>
+                            <td class="col-md-1">
+                                <div>
+                                    {{moneyFlow.grantNumber}}
+                                </div>
+                            </td>
                             <td class="text-right col-md-1">
                                 <div>
                                     <span class="{{moneyFlow.amount < 0 ? 'outgoingMoneyFlow' : 'incomingMoneyFlow'}}">{{moneyFlow.amount | currency}}</span>
@@ -120,18 +127,7 @@
                                 </div>
                             </td>
                             <td class="col-md-1">
-                                <div>
-                                    {{moneyFlow.grantNumber}}
-                                </div>
-                            </td>
-                            <td class="col-md-2">
-                                <div>
-                                    <span>{{moneyFlow.description | limitTo: 20}}</span><span ng-show="moneyFlow.description.length > 20">....</span>
-                                    <a ng-click="view.onToggleExpandClick(moneyFlow)" class="pull-right" ng-show="moneyFlow.description.length > 20">
-                                        <i class="material-icons md-dark md-24 pull-right" ng-show="moneyFlow.showDescription">expand_more</i>
-                                        <i class="material-icons md-dark md-24 pull-right" ng-show="!moneyFlow.showDescription">expand_less</i>
-                                    </a>
-                                </div>
+                                <span>{{moneyFlow.description | limitTo: 20}}</span><span ng-show="moneyFlow.description.length > 20">....</span>
                             </td>
                             <td class="col-md-2" ng-show="!view.moneyFlowsLoading && !moneyFlow.currentlyEditing && view.canEditMoneyFlows">
                                 <div class="right" style="display:none;" showonparentrow>
@@ -148,9 +144,15 @@
                                     </div>
                                 </div>
                             </td>
+                            <td class="col-md-1">
+                                <a ng-click="view.onToggleExpandClick(moneyFlow)" ng-show="moneyFlow.description.length > 20">
+                                    <i class="material-icons md-dark md-24" tooltip="Hide full description." ng-show="moneyFlow.showDescription">expand_more</i>
+                                    <i class="material-icons md-dark md-24" tooltip="Show full description." ng-show="!moneyFlow.showDescription">expand_less</i>
+                                </a>
+                            </td>
                         </tr>
                         <tr ng-show="moneyFlow.isDeleting">
-                            <td colspan="17">
+                            <td colspan="18">
                                 <div class="spinner">
                                     <div class="bounce1"></div>
                                     <div class="bounce2"></div>
@@ -159,14 +161,14 @@
                             </td>
                         </tr>
                         <tr class="expandedDescription" ng-show="moneyFlow.showDescription">
-                            <td colspan="17" style="padding-top:5px; padding-bottom:5px;">
+                            <td colspan="18" style="padding:5px;">
                                 <div>
                                     Description: {{moneyFlow.description}}
                                 </div>
                             </td>
                         </tr>
                         <tr class="expandedDescription" ng-show="moneyFlow.currentlyEditing" ng-repeat-end>
-                            <td colspan="17">
+                            <td colspan="18">
                                 <div id="{{view.getMoneyFlowDivId(moneyFlow)}}">
                                     <div class="spinner" ng-show="moneyFlow.isSavingUpdate">
                                         <div class="bounce1"></div>
@@ -310,7 +312,7 @@
                     </tbody>
                     <tbody ng-show="view.isLoadingRequiredData || view.isLoadingMoneyFlows" id="spinner">
                         <tr>
-                            <td colspan="17">
+                            <td colspan="18">
                                 <div class="spinner">
                                     <div class="bounce1"></div>
                                     <div class="bounce2"></div>
