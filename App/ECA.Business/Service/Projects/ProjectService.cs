@@ -282,6 +282,7 @@ namespace ECA.Business.Service.Projects
                 StartDate = DateTimeOffset.Now,
                 ProjectStatusId = draftProject.StatusId,
                 ProjectTypeId = 0, // need to figure this out
+                VisitorTypeId = draftProject.VisitorTypeId,
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,

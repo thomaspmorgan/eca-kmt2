@@ -31,6 +31,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(description, draftProject.Description);
             Assert.AreEqual(program.ProgramId, draftProject.ProgramId);
             Assert.AreEqual(ProjectStatus.Draft.Id, draftProject.StatusId);
+            Assert.AreEqual(VisitorType.NotApplicable.Id, draftProject.VisitorTypeId);
             Assert.IsInstanceOfType(draftProject.Audit, typeof(Create));
 
             var create = draftProject.Audit as Create;

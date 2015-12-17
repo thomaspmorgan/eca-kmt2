@@ -26,6 +26,7 @@ namespace ECA.Business.Service.Projects
             this.Name = name;
             this.ProgramId = programId;
             this.StatusId = ProjectStatus.Draft.Id;
+            this.VisitorTypeId = VisitorType.NotApplicable.Id;
             this.Description = description;
             this.Audit = new Create(createdBy);
         }
@@ -49,6 +50,11 @@ namespace ECA.Business.Service.Projects
         /// Gets the status id of the draft project.
         /// </summary>
         public int StatusId { get; private set; }
+
+        /// <summary>
+        /// Gets the visitor type id of the draft project.
+        /// </summary>
+        public int VisitorTypeId { get; private set; }
 
         /// <summary>
         /// Gets the project audit
