@@ -1,18 +1,286 @@
-<div ng-controller="ItineraryCtrl">
-    <h2 class="project-color tab-header">Travel</h2>
-    <div class="spinner" ng-show="view.isLoading">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-    </div>
-    <div class="row" style="margin-bottom:10px;" ng-show="!view.isLoading">
-        <div class="pull-right">
-            <button class="btn btn-primary" ng-click="view.onNewTravelingPeriodClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
-        </div>
-    </div>
-    <div ng-repeat="travelPeriod in view.travelPeriods" ng-show="!view.isLoading">
+﻿<div ng-controller="ItineraryCtrl" class="travel-period" style="margin-bottom:100px;">
+    <div ng-show="!view.isInEditMode">
         <div>
-            <ng-include src="'app/projects/itineraries.travelperiod.html'" />
+            <div class="travel-period-header">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h3 style="margin-top:22px; margin-left:20px;">{{view.itinerary.name}}</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="right" style="margin-top:22px;">
+                            <div class="col-md-4">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">edit</i>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">mode_comment</i>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">delete</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="row travel-period-container" ng-show="view.isLoadingRequiredData || view.isSaving">
+            <div class="row" style="margin-top:15px;">
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row travel-period-container" ng-show="!view.isLoadingRequiredData && !view.isSaving">
+            <div class="col-md-11">
+                <div class="row" style="margin-top:15px;">
+                    <div class="col-md-3">
+                        <div class="col-md-4 text-right">
+                            <i class="material-icons md-dark md-24">group</i>
+                        </div>
+                        <div class="col-md-8">
+                            <div>
+                                <h5 class="title-label text-right">Groups</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.groupsCount}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">flight_land</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">Groups Arrive To</h5>
+                            </div>
+                            <div>
+                                <div class="text-right">
+                                    {{view.itinerary.arrivalLocation.name}}
+                                </div>
+                                <div class="text-right mute">
+                                    ({{view.itinerary.arrivalLocation.locationTypeName}}:  {{view.itinerary.arrivalLocation.divisionIso ? view.itinerary.arrivalLocation.divisionIso + ', ' : ''}}{{view.itinerary.arrivalLocation.countryIso ? view.itinerary.arrivalLocation.countryIso : view.itinerary.arrivalLocation.locationIso}})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">event</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">By This Start Date</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.startDate | date:'MMMM dd, yyyy'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData">Add Travel Stop</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:15px;">
+                    <div class="col-md-3">
+                        <div class="col-md-4 text-right">
+                            <i class="material-icons md-dark md-24">person</i>
+                        </div>
+                        <div class="col-md-8">
+                            <div>
+                                <h5 class="title-label text-right">Participants</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.participantsCount}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">flight_takeoff</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">Groups Depart To</h5>
+                            </div>
+                            <div>
+                                <div>
+                                    <div class="text-right">
+                                        {{view.itinerary.departureLocation.name}}
+                                    </div>
+                                    <div class="text-right mute">
+                                        ({{view.itinerary.departureLocation.locationTypeName}}:  {{view.itinerary.departureLocation.divisionIso ? view.itinerary.departureLocation.divisionIso + ', ' : ''}}{{view.itinerary.departureLocation.countryIso ? view.itinerary.departureLocation.countryIso : view.itinerary.departureLocation.locationIso}})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2 text-right">
+                            <i class="material-icons md-dark md-24">event</i>
+                        </div>
+                        <div class="col-md-10">
+                            <div>
+                                <h5 class="title-label text-right">At This End Date</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.endDate | date:'MMMM dd, yyyy'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData">Manage Groups</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 right">
+                <div style="cursor:pointer">
+                    <div style="margin-top:45px;">
+                        <i class="material-icons md-dark md-24">expand_more</i>
+                    </div>
+                    <div style="margin-top:-24px;">
+                        <i class="material-icons md-dark md-24">expand_more</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="view.isInEditMode">
+        <form name="form.editItineraryForm">
+            <div>
+                <div class="travel-period-header">
+                    <div class="row">
+                        <div class="col-md-8" style="margin-top:19px;">
+                            <input class="form-control"
+                                   name="name"
+                                   maxlength="100"
+                                   required
+                                   ng-model="view.itinerary.name" />
+                        </div>
+                        <div class="col-md-4 text-right" style="margin-top:19px;">
+                            <button class="btn btn-success" ng-disabled="form.editItineraryForm.$invalid" ng-click="view.onSaveClick(view.itinerary)">Save</button>
+                            <button class="btn btn-default" ng-click="view.onCancelClick(view.itinerary)">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row travel-period-container">
+                <div class="col-md-12">
+                    <div class="row" style="margin-top:15px;">                        
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div>
+                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">flight_land</i>
+                                    <h5 class="title-label">Groups Arrive To (City)</h5>
+                                </div>
+                                <div>
+                                    <ui-select ng-model="view.itinerary.arrivalLocation"
+                                               id="source"
+                                               name="source"
+                                               on-select="view.onArrivalLocationSelect($item, $model)"
+                                               search-enabled="true"
+                                               reset-search-input="false"
+                                               theme="select2"
+                                               ng-required="false">
+                                        <ui-select-match placeholder="Select an arrival location...">
+                                            {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="location in view.arrivalLocations" refresh="view.getArrivalLocations($select.search)">
+                                            <div ng-bind-html="location.name | highlight: $select.search"></div>
+                                            <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
+                                            <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div>
+                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
+                                    <h5 class="title-label">By This Start Date</h5>
+                                </div>
+                                <div class="form-group">
+                                    <p class="input-group">
+                                        <input name="startDate"
+                                               type="text"
+                                               class="form-control"
+                                               datepicker-popup="dd-MMMM-yyyy"
+                                               show-weeks="false"
+                                               ng-model="view.itinerary.startDate"
+                                               is-open="view.isStartDateDatePickerOpen"
+                                               close-text="Close"
+                                               max-date="view.itinerary.endDate"
+                                               placeholder="Enter start date..."
+                                               ng-required="true" />
+                                        <span class="input-group-btn" style="width:0;">
+                                            <button type="button" class="btn btn-default" ng-click="view.openStartDateDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div>
+                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">flight_takeoff</i>
+                                    <h5 class="title-label">Groups Depart To (Region, Country, Division, or City)</h5>
+                                </div>
+                                <div>
+                                    <div>
+                                        <ui-select ng-model="view.itinerary.departureLocation"
+                                                   on-select="view.onDepartureLocationSelect($item, $model)"
+                                                   id="source"
+                                                   name="source"
+                                                   search-enabled="true"
+                                                   reset-search-input="false"
+                                                   theme="select2"
+                                                   ng-required="false">
+                                            <ui-select-match placeholder="Select a departure location...">
+                                                {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="location in view.departureLocations" refresh="view.getDepartureLocations($select.search)">
+                                                <div ng-bind-html="location.name | highlight: $select.search"></div>
+                                                <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
+                                                <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div>
+                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
+                                    <h5 class="title-label">At This End Date</h5>
+                                </div>
+                                <div class="form-group">
+                                    <p class="input-group">
+                                        <input name="endDate"
+                                               type="text"
+                                               class="form-control"
+                                               datepicker-popup="dd-MMMM-yyyy"
+                                               show-weeks="false"
+                                               ng-model="view.itinerary.endDate"
+                                               is-open="view.isEndDateDatePickerOpen"
+                                               close-text="Close"
+                                               placeholder="Enter end date..."
+                                               min-date="view.itinerary.startDate"
+                                               ng-required="true" />
+                                        <span class="input-group-btn" style="width:0;">
+                                            <button type="button" class="btn btn-default" ng-click="view.openEndDateDatePicker($event)"><i class="material-icons md-18">event</i></button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

@@ -201,6 +201,7 @@
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
+    <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\DataPointConfigurationService.cs" />
     <Compile Include="Service\Admin\IDataPointConfigurationService.cs" />
+    <Compile Include="Service\Admin\NewDataPointConfiguration.cs" />
     <Compile Include="Service\Admin\NewOrganization.cs" />
     <Compile Include="Service\Admin\ParticipantOrganization.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
@@ -238,10 +240,15 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
-    <Compile Include="Service\Itineraries\AddedTravelingPeriod.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryValidationEntity.cs" />
     <Compile Include="Service\Itineraries\IItineraryService.cs" />
     <Compile Include="Service\Itineraries\ItineraryService.cs" />
-    <Compile Include="Service\Itineraries\TravelingPeriod.cs" />
+    <Compile Include="Service\Itineraries\EcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\ItineraryServiceValidator.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
     <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
     <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
@@ -694,6 +701,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
+    <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
   </ItemGroup>
   <ItemGroup>

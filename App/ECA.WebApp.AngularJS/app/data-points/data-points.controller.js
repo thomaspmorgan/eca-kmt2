@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('DataPointsCtrl', function ($scope, $q, $modalInstance, parameters, ConstantsService, OfficeService, DataPointConfigurationService, NotificationService) {
+  .controller('DataPointsCtrl', function ($scope,$state, $q, $modalInstance, parameters, ConstantsService, OfficeService, DataPointConfigurationService, NotificationService) {
 
       $scope.expandOfficeSection = true;
       $scope.expandProgramSection = true;
@@ -14,14 +14,24 @@ angular.module('staticApp')
 
       $scope.dataConfigurationChanged = function (dataConfiguration) {
           if (dataConfiguration.isRequired) {
-              // add new data config
-              // need dataConfiguration.officeId and dataConfiguration.categoryPropertyId
+              DataPointConfigurationService.createDataPointConfiguration(dataConfiguration)
+                .then(function () {
+                    NotificationService.showSuccessMessage('The data point configuration was successfully created.');
+                }, function () {
+                    getDataPointConfigurations();
+                    NotificationService.showErrorMessage('There was an error creating the data point configuration.');
+                }).finally(function () {
+                    reloadCurrentState(dataConfiguration);
+                });
           } else {
               DataPointConfigurationService.deleteDataPointConfiguration(dataConfiguration)
                 .then(function () {
                     NotificationService.showSuccessMessage('The data point configuration was successfully removed.');
                 }, function () {
+                    getDataPointConfigurations();
                     NotificationService.showErrorMessage('There was an error removing the data point configuration.');
+                }).finally(function () {
+                    reloadCurrentState(dataConfiguration);
                 });
           }
       }
@@ -45,6 +55,12 @@ angular.module('staticApp')
                 }, function () {
                     NotificationService.showErrorMessage('Unable to load data point configurations for office with id = ' + parameters.foreignResourceId + ".");
                 });
+          }
+      }
+
+      function reloadCurrentState(dataConfiguration) {
+          if ($state.current.name === "offices.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.office.id) {
+              $state.go($state.current, { }, { reload: true });
           }
       }
 

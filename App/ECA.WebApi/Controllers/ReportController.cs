@@ -131,5 +131,17 @@ namespace ECA.WebApi.Controllers
         {
             return await reportGenerator.ReportYearAwardsAsync(programId, format);
         }
+
+        /// <summary>
+        /// Get a report of projects with grant number for a program
+        /// </summary>
+        /// <param name="programId">the program id</param>
+        /// <param name="format">the output format of the report - pdf, xlsx, or docx</param>
+        /// <returns></returns>
+        [Route("ProjectsWithGrantNumber")]
+        public async Task<HttpResponseMessage> GetProjectsWithGrantNumber(int programId, string format)
+        {
+            return await reportGenerator.ReportProjectsWithGrantNumberAsync(programId, format);
+        }
     }
 }

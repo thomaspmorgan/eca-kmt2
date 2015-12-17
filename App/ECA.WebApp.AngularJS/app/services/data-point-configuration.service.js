@@ -12,6 +12,9 @@ angular.module('staticApp')
       return {
           deleteDataPointConfiguration: function (dataPointConfiguration) {
               return DragonBreath.delete(dataPointConfiguration, 'dataPointConfigurations/' + dataPointConfiguration.dataPointConfigurationId);
+          },
+          createDataPointConfiguration: function (dataPointConfiguration) {
+              return DragonBreath.create(dataPointConfiguration, 'dataPointConfigurations');
           }
       };
   });

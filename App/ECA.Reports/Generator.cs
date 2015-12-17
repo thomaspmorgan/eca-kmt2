@@ -229,6 +229,31 @@ namespace ECA.Reports
             return GetReport(reportViewer, format, out bytes);
         }
 
+
+        /// <summary>
+        /// Generates a report of Project with Grant Number for a program
+        /// </summary>
+        /// <param name="programId">the program id<</param>
+        /// <param name="format">the format of the report (pdf, xlsx, docx)</param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ReportProjectsWithGrantNumberAsync(int programId, string format)
+        {
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var projectsWithGrantNumber = await reportService.GetProjectsWithGrantNumberAsync(programId);
+            var rds = new ReportDataSource("ProjectsWithGrantNumberDS", projectsWithGrantNumber);
+            string programName = reportService.GetProgramName(programId);
+
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.Reports.ProjectsWithGrantNumber.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+            return GetReport(reportViewer, format, out bytes);
+        }
+
         /// <summary>
         /// private function to generate the report with the data source set
         /// </summary>

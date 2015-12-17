@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:TravelPeriodCtrl
+ * @name staticApp.controller:ItineraryCtrl
  * @description
- * # TravelPeriodCtrl
+ * # ItineraryCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('TravelPeriodCtrl', function (
+  .controller('ItineraryCtrl', function (
       $scope,
       $state,
       $stateParams,
@@ -17,13 +17,12 @@ angular.module('staticApp')
       FilterService,
       ProjectService,
       LocationService,
-      AuthService,
       StateService,
-      ConstantsService,
-      orderByFilter) {
-
+      NotificationService,
+      ConstantsService) {
+      
       $scope.view = {};
-      $scope.view.travelPeriod = $scope.$parent.travelPeriod;
+      $scope.view.itinerary = $scope.$parent.itinerary;
       $scope.view.project = null;
       $scope.view.isInEditMode = false;
       $scope.view.arrivalLocations = [];
@@ -33,44 +32,65 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.isStartDateDatePickerOpen = false;
       $scope.view.isEndDateDatePickerOpen = false;
+      $scope.view.isLoadingRequiredData = false;
+      $scope.view.isSaving = false;
 
-      var travelPeriodCopy = angular.copy($scope.view.travelPeriod);
+      var itineraryCopy = angular.copy($scope.view.itinerary);
 
-      $scope.view.onEditClick = function (travelPeriod) {
+      $scope.view.onEditClick = function (itinerary) {
           $log.info('edit');
           $scope.view.isInEditMode = true;
       }
 
-      $scope.view.onCommentClick = function (travelPeriod) {
+      $scope.view.onCommentClick = function (itinerary) {
           $log.info('comment');
       }
 
-      $scope.view.onDeleteClick = function (travelPeriod) {
+      $scope.view.onDeleteClick = function (itinerary) {
           $log.info('delete');
       }
 
+      $scope.view.isLoadingRequiredData = true;
       $scope.$parent.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           $scope.view.project = project;
+          $scope.view.isLoadingRequiredData = false;
       });
 
-      $scope.view.onCancelClick = function (travelPeriod) {
+      $scope.view.onCancelClick = function (itinerary) {
           $log.info('cancel');
-          $scope.view.travelPeriod = travelPeriodCopy;
+          $scope.view.itinerary = itineraryCopy;
           $scope.view.isInEditMode = false;
       }
 
-      $scope.view.onSaveClick = function (travelPeriod) {
+      $scope.view.onSaveClick = function (itinerary) {
           $scope.view.isInEditMode = false;
-          travelPeriodCopy = angular.copy(travelPeriod);
-          $log.info('save');
+          $scope.view.isSaving = true;
+          
+          return ProjectService.updateItinerary(itinerary, $scope.view.project.id)
+          .then(function (response) {
+              $scope.view.isSaving = false;
+              NotificationService.showSuccessMessage("Successfully updated the traveling period.");
+              var updateditinerary = response.data;
+              initializeItinerary(updateditinerary);
+              itineraryCopy = angular.copy(updateditinerary);
+              $scope.view.itinerary = updateditinerary;
+          })
+          .catch(function (response) {
+              $scope.view.isSaving = false;
+              var message = "Unable to save updated itinerary.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
       }
 
       $scope.view.onDepartureLocationSelect = function ($item, $model) {
-          $scope.view.travelPeriod.departureLocation = $model;
+          $scope.view.itinerary.departureLocation = $model;
+          $scope.view.itinerary.departureLocationId = $model.id;
       }
 
       $scope.view.onArrivalLocationSelect = function ($item, $model) {
-          $scope.view.travelPeriod.arrivalLocation = $model;
+          $scope.view.itinerary.arrivalLocation = $model;
+          $scope.view.itinerary.arrivalLocationId = $model.id;
       }
 
       $scope.view.openStartDateDatePicker = function ($event) {
@@ -85,7 +105,7 @@ angular.module('staticApp')
           $scope.view.isEndDateDatePickerOpen = true;
       }
 
-      var arrivalFilter = FilterService.add('itinerary_travelperiod_arrivallocations');
+      var arrivalFilter = FilterService.add('itinerary_arrivallocations');
       $scope.view.getArrivalLocations = function ($search) {
           var params = getSearchParams(arrivalFilter, $search, [ConstantsService.locationType.city.id]);
           return loadLocations(params)
@@ -96,7 +116,7 @@ angular.module('staticApp')
           });
       }
 
-      var departureFilter = FilterService.add('itinerary_travelperiod_departurelocations');
+      var departureFilter = FilterService.add('itinerary_departurelocations');
       $scope.view.getDepartureLocations = function ($search) {
           var params = getSearchParams(arrivalFilter, $search, [
               ConstantsService.locationType.city.id,
@@ -132,7 +152,6 @@ angular.module('staticApp')
           }
           return filter.toParams();
       }
-
       
       function loadLocations(params) {
           return LocationService.get(params)
@@ -143,4 +162,24 @@ angular.module('staticApp')
               $log.error('Unable to load locations.')
           })
       }
+
+      function initializeItinerary(itinerary) {
+          toDate(itinerary, 'startDate');
+          toDate(itinerary, 'endDate');
+          toDate(itinerary, 'lastRevisedOn');
+          if (itinerary.arrivalLocation) {
+              itinerary.arrivalLocationId = itinerary.arrivalLocation.id;
+          }
+          if (itinerary.departureLocation) {
+              itinerary.departureLocationId = itinerary.departureLocation.id;
+          }
+      }
+
+      function toDate(itinerary, datePropertyName) {
+          var date = new Date(itinerary[datePropertyName]);
+          if (!isNaN(date.getTime())) {
+              itinerary[datePropertyName] = date;
+          }
+      }
+      initializeItinerary($scope.view.itinerary);
   });

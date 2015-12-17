@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service.Admin;
+using ECA.WebApi.Models.Admin;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -42,6 +43,25 @@ namespace ECA.WebApi.Controllers.Admin
             await service.DeleteDataPointConfigurationAsync(id);
             await service.SaveChangesAsync();
             return Ok();
+        }
+
+        /// <summary>
+        /// Post a data point configuration
+        /// </summary>
+        /// <returns>OkResult</returns>
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> PostDataPointConfigurationAsync(DataPointConfigurationBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await service.CreateDataPointConfigurationAsync(model.ToNewDataPointConfiguration());
+                await service.SaveChangesAsync();
+                return Ok();
+        }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }

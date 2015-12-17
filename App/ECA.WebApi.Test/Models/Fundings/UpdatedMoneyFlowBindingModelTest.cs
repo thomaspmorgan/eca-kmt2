@@ -21,7 +21,8 @@ namespace ECA.WebApi.Test.Models.Fundings
                 Id = 1,
                 MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
                 TransactionDate = DateTimeOffset.UtcNow,
-                Amount = 1.00m
+                Amount = 1.00m,
+                GrantNumber = "grant"
             };
             var user = new User(1);
             var instance = model.ToUpdatedMoneyFlow(user, sourceEntityId, entityTypeId);
@@ -34,6 +35,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.Amount, instance.Value);
             Assert.AreEqual(sourceEntityId, instance.SourceOrRecipientEntityId);
             Assert.AreEqual(entityTypeId, instance.SourceOrRecipientEntityTypeId);
+            Assert.AreEqual(model.GrantNumber, instance.GrantNumber);
         }
     }
 }

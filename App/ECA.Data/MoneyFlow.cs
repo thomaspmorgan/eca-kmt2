@@ -22,6 +22,11 @@ namespace ECA.Data
         public const int DESCRIPTION_MAX_LENGTH = 255;
 
         /// <summary>
+        /// The max length of the money flow grant number.
+        /// </summary>
+        public const int GRANT_NUMBER_MAX_LENGTH = 25;
+
+        /// <summary>
         /// Creates a new money flow instance.
         /// </summary>
         public MoneyFlow()
@@ -104,6 +109,12 @@ namespace ECA.Data
         /// </summary>
         [MaxLength(DESCRIPTION_MAX_LENGTH)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the grant number.
+        /// </summary>
+        [MaxLength(GRANT_NUMBER_MAX_LENGTH)]
+        public string GrantNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the parent money flow id.
