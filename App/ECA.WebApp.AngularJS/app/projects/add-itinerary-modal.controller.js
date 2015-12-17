@@ -16,6 +16,9 @@ angular.module('staticApp')
         $modal,
         $modalInstance,
         project,
+        NotificationService,
+        ConstantsService,
+        LocationService,
         MessageBox,
         ProjectService,
         FilterService,
@@ -26,12 +29,18 @@ angular.module('staticApp')
       $scope.view.maxNameLength = 100;
       $scope.view.project = project;
       $scope.view.isSavingItinerary = false;
-      
-      $scope.view.itinerary = { projectId: project.id };
-      
+      $scope.view.arrivalLocations = [];
+      $scope.view.arrivalLocationsCount = 0;
+      $scope.view.departureLocations = [];
+      $scope.view.departureLocationsCount = 0;
+      $scope.view.searchLimit = 30;
+      $scope.view.isStartDateOpen = false;
+      $scope.view.isEndDateOpen = false;
+
+      $scope.view.itinerary = {};
 
       $scope.view.onSaveClick = function () {
-          saveProject();
+          saveItinerary();
       }
 
       $scope.view.onCancelClick = function () {
@@ -51,36 +60,90 @@ angular.module('staticApp')
           $scope.view.showConfirmCancel = false;
       }
 
+      $scope.view.openStartDate = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isStartDateOpen = true;
+      }
 
-      var projectsWithSameNameFilter = FilterService.add('addprojectmodal_projectswithsamename');
-      $scope.view.onProjectNameChange = function () {
-          var projectName = $scope.view.project.name;
-          if (projectName && projectName.length > 0) {
-              projectsWithSameNameFilter.reset();
-              projectsWithSameNameFilter = projectsWithSameNameFilter
-                  .skip(0)
-                  .take(1)
-                  .equal('programId', parentProgram.id)
-                  .equal('projectName', projectName);
-              $scope.view.isLoadingLikeProjects = true;
-              return ProjectService.get(projectsWithSameNameFilter.toParams())
-                  .then(function (response) {
-                      $scope.view.matchingProjectsByName = response.data.results;
-                      $scope.view.doesProjectExist = response.data.total > 0;
-                      $scope.view.isLoadingLikeProjects = false;
-                  })
-                  .catch(function (response) {
-                      $scope.view.isLoadingLikeProjects = false;
-                      var message = "Unable to load matching programs.";
-                      $log.error(message);
-                      NotificationService.showErrorMessage(message);
-                  });
+      $scope.view.openEndDate = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isEndDateOpen = true;
+      }
+
+
+      var arrivalFilter = FilterService.add('additinerarymodal_arrivallocations');
+      $scope.view.getArrivalLocations = function ($search) {
+          var params = getSearchParams(arrivalFilter, $search, [ConstantsService.locationType.city.id]);
+          return loadLocations(params)
+          .then(function (data) {
+              $scope.view.arrivalLocations = data.results;
+              $scope.view.arrivalLocationsCount = data.total;
+              return data.results;
+          });
+      }
+
+      var departureFilter = FilterService.add('additinerarymodal_departurelocations');
+      $scope.view.getDepartureLocations = function ($search) {
+          var params = getSearchParams(arrivalFilter, $search, [
+              ConstantsService.locationType.city.id,
+              ConstantsService.locationType.division.id,
+              ConstantsService.locationType.country.id,
+              ConstantsService.locationType.region.id
+          ]);
+          return loadLocations(params)
+          .then(function (data) {
+              $scope.view.departureLocations = data.results;
+              $scope.view.departureLocationsCount = data.total;
+              return data.results;
+          });
+      }
+
+      $scope.view.onDepartureLocationSelect = function ($item, $model) {
+          $scope.view.itinerary.departureLocation = $model;
+          $scope.view.itinerary.departureLocationId = $model.id;
+      }
+
+      $scope.view.onArrivalLocationSelect = function ($item, $model) {
+          $scope.view.itinerary.arrivalLocation = $model;
+          $scope.view.itinerary.arrivalLocationId = $model.id;
+      }
+
+      function getSearchParams(filter, search, locationTypesById) {
+          if (!angular.isArray(locationTypesById)) {
+              throw Error('locationTypesById must be an array.');
           }
+          filter.reset();
+          filter = filter
+              .skip(0)
+              .take($scope.view.searchLimit);
+
+          if (search) {
+              filter = filter.like('name', search);
+          }
+          if (locationTypesById.length > 1) {
+              filter = filter.in('locationTypeId', locationTypesById);
+          }
+          else if (locationTypesById.length === 1) {
+              filter = filter.equal('locationTypeId', locationTypesById[0]);
+          }
+          return filter.toParams();
+      }
+
+      function loadLocations(params) {
+          return LocationService.get(params)
+          .then(function (response) {
+              return response;
+          })
+          .catch(function (response) {
+              $log.error('Unable to load locations.')
+          })
       }
 
       function saveItinerary() {
           $scope.view.isSavingItinerary = true;
-          return ProjectService.create($scope.view.project)
+          return ProjectService.addItinerary($scope.view.itinerary, project.id)
           .then(function (response) {
               $scope.view.isSavingItinerary = false;
               $modalInstance.close(response.data);

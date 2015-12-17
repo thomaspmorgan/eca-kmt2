@@ -1,6 +1,6 @@
 <div ng-controller="ItinerariesCtrl">
     <h2 class="project-color tab-header">Travel</h2>
-    <div class="spinner" ng-show="view.isLoading">
+    <div class="spinner" ng-show="view.isLoadingRequiredData || view.isLoadingItineraries">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
@@ -10,7 +10,7 @@
             <button class="btn btn-primary" ng-click="view.onNewItineraryClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
         </div>
     </div>
-    <div ng-repeat="itinerary in view.itineraries" ng-show="!view.isLoading">
+    <div ng-repeat="itinerary in view.itineraries" ng-show="!view.isLoading && !view.isLoadingItineraries">
         <div>
             <ng-include src="'app/projects/itinerary.html'" />
         </div>

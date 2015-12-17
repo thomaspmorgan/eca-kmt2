@@ -22,8 +22,9 @@ angular.module('staticApp')
 
       var projectId = parseInt($stateParams.projectId, 10);
       $scope.view = {};
-      $scope.view.isLoading = true;
-      $scope.view.isLoadingProject = true;
+      $scope.view.isLoadingRequiredData = false;
+      $scope.view.isLoadingProject = false;
+      $scope.view.isLoadingItineraries = false;
       $scope.view.project = null;
       $scope.view.itineraries = [];
       $scope.view.itinerariesCount = 0;
@@ -34,7 +35,6 @@ angular.module('staticApp')
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           $scope.view.project = project;
           $scope.view.isLoadingProject = false;
-          $scope.view.onNewItineraryClick();
       });
 
       $scope.view.onNewItineraryClick = function () {
@@ -52,6 +52,7 @@ angular.module('staticApp')
           });
           addItineraryModal.result.then(function (addedItinerary) {
               $log.info('Finished adding itinerary.');
+              loadItineraries(projectId);
 
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
@@ -79,25 +80,29 @@ angular.module('staticApp')
             });
       }
 
+      
       function loadItineraries(projectId) {
+          $scope.view.isLoadingItineraries = true;
           return ProjectService.getItineraries(projectId)
           .then(function (response) {
+              $scope.view.isLoadingItineraries = false;
               $scope.view.itineraries = response.data;
               $scope.view.itinerariesCount = response.data.length;
           })
           .catch(function (response) {
+              $scope.view.isLoadingItineraries = false;
               var message = "Unable to load travel periods.";
               NotificationService.showErrorMessage(message);
               $log.error(message);
           })
       }
 
-      $scope.view.isLoading = true;
+      $scope.view.isLoadingRequiredData = true;
       $q.all([loadPermissions(), loadItineraries(projectId)])
         .then(function () {
-            $scope.view.isLoading = false;            
+            $scope.view.isLoadingRequiredData = false;
         })
         .catch(function () {
-            $scope.view.isLoading = false;
+            $scope.view.isLoadingRequiredData = false;
         });
   });
