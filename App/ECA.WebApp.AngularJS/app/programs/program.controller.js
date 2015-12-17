@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $q,
         ConstantsService,
+        OfficeService,
         AuthService,
         StateService,
         NotificationService,
@@ -62,6 +63,7 @@ angular.module('staticApp')
 
       $scope.data = {};
       $scope.data.loadProgramPromise = $q.defer();
+      $scope.data.loadOfficeSettingsPromise = $q.defer();
       $scope.view = {};
       $scope.view.isLoadingProgram = false;
       $scope.view.permalink = '';
@@ -152,12 +154,28 @@ angular.module('staticApp')
             });
       }
 
+      function loadOfficeSettings(officeId) {
+          return OfficeService.getSettings(officeId)
+              .then(function (response) {
+                  var data = response.data;
+                  $scope.data.loadOfficeSettingsPromise.resolve(data);
+              })
+          .catch(function () {
+              $log.error('Unable to load office settings.');
+              NotificationService.showErrorMessage('Unable to load office settings.');
+          });
+      }
+
       $q.all([loadPermissions()])
       .then(function (results) {
-          return $q.all([loadProgramById(programId)])
+          return loadProgramById(programId)
               .then(function () {
+                  var officeId = $scope.program.ownerOrganizationId;
+                  return loadOfficeSettings(officeId)
+                  .then(function () {
 
-              })
+                  });
+              });
       })
       .catch(function () {
           var message = "Unable to load program required data.";

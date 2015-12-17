@@ -1,11 +1,11 @@
-<div class="spinner" ng-show="view.isLoading || view.isSaving">
+<div class="spinner" ng-show="view.isLoading || view.isSaving || view.isLoadingOfficeSetting">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
 
 <div ng-show="!view.isLoading && !view.isSaving">
-    <h2 class="project-color tab-header" ng-show="!editView.isLoading && !editView.isSaving">Overview</h2>
+    <h2 class="project-color tab-header" ng-show="!editView.isLoading && !editView.isSaving && !view.isLoadingOfficeSetting">Overview</h2>
     <div class="row">
         <h5>{{project.description}}</h5>
     </div>
