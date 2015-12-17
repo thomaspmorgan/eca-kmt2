@@ -146,7 +146,6 @@
             </div>
         </div>
     </div>
-
     <div ng-if="view.isInEditMode">
         <form name="form.editItineraryForm">
             <div>
@@ -159,16 +158,9 @@
                                    required
                                    ng-model="view.itinerary.name" />
                         </div>
-                        <div class="col-md-4">
-                            <div class="col-md-4">
-                                &nbsp;
-                            </div>
-                            <div class="col-md-4 right" style="margin-top:19px;">
-                                <button class="btn btn-default" style="margin-left:-15px;" ng-click="view.onCancelClick(view.itinerary)">Cancel</button>
-                            </div>
-                            <div class="col-md-4 right" style="margin-top:19px;">
-                                <button class="btn btn-success" ng-disabled="form.editItineraryForm.$invalid" ng-click="view.onSaveClick(view.itinerary)">Save</button>
-                            </div>
+                        <div class="col-md-4 text-right" style="margin-top:19px;">
+                            <button class="btn btn-success" ng-disabled="form.editItineraryForm.$invalid" ng-click="view.onSaveClick(view.itinerary)">Save</button>
+                            <button class="btn btn-default" ng-click="view.onCancelClick(view.itinerary)">Cancel</button>
                         </div>
                     </div>
                 </div>

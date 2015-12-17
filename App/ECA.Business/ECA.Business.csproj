@@ -223,6 +223,7 @@
     <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
     <Compile Include="Service\Admin\DataPointConfigurationService.cs" />
     <Compile Include="Service\Admin\IDataPointConfigurationService.cs" />
+    <Compile Include="Service\Admin\NewDataPointConfiguration.cs" />
     <Compile Include="Service\Admin\NewOrganization.cs" />
     <Compile Include="Service\Admin\ParticipantOrganization.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />

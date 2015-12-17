@@ -17,11 +17,9 @@ angular.module('staticApp')
       FilterService,
       ProjectService,
       LocationService,
-      AuthService,
       StateService,
       NotificationService,
-      ConstantsService,
-      orderByFilter) {
+      ConstantsService) {
       
       $scope.view = {};
       $scope.view.itinerary = $scope.$parent.itinerary;
@@ -107,7 +105,7 @@ angular.module('staticApp')
           $scope.view.isEndDateDatePickerOpen = true;
       }
 
-      var arrivalFilter = FilterService.add('itinerary_itinerary_arrivallocations');
+      var arrivalFilter = FilterService.add('itinerary_arrivallocations');
       $scope.view.getArrivalLocations = function ($search) {
           var params = getSearchParams(arrivalFilter, $search, [ConstantsService.locationType.city.id]);
           return loadLocations(params)
@@ -118,7 +116,7 @@ angular.module('staticApp')
           });
       }
 
-      var departureFilter = FilterService.add('itinerary_itinerary_departurelocations');
+      var departureFilter = FilterService.add('itinerary_departurelocations');
       $scope.view.getDepartureLocations = function ($search) {
           var params = getSearchParams(arrivalFilter, $search, [
               ConstantsService.locationType.city.id,
