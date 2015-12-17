@@ -201,6 +201,8 @@
     <Content Include="app\projects\itinerary.controller.js" />
     <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
+    <Content Include="app\reports\projects-with-grant-number.html" />
+    <Content Include="app\reports\projects-with-grant-number.controller.js" />
     <Content Include="app\search\spotlight.controller.js" />
     <Content Include="app\services\about.service.js" />
     <Content Include="app\services\constants.service.js">
