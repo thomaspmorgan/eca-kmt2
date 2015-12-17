@@ -123,7 +123,18 @@ namespace ECA.Business.Service.Reports
             logger.Trace("Getting Year Awards for program: [{0}]", programId);
             return ReportQueries.CreateGetYearAward(this.Context, programId);
         }
-        
+
+        public IQueryable <ProjectWithGrantNumberDTO> GetProjectsWithGrantNumber(int programId)
+        {
+            logger.Trace("Getting Year Awards (Async) for program: [{0}]", programId);
+            return ReportQueries.CreateGetProjectsWithGrantNumber(this.Context, programId);
+        }
+
+        public async Task<List<ProjectWithGrantNumberDTO>> GetProjectsWithGrantNumberAsync(int programId)
+        {
+            logger.Trace("Getting Year Awards (Async) for program: [{0}]", programId);
+            return await ReportQueries.CreateGetProjectsWithGrantNumber(this.Context, programId).ToListAsync();
+        }
 
         #endregion
 
