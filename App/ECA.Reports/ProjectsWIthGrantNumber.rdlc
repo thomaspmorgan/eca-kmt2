@@ -501,7 +501,7 @@
                             <TextRun>
                               <Value>=Fields!Amount.Value</Value>
                               <Style>
-                                <Format>0;(0)</Format>
+                                <Format>'$' #,0;('$' #,0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -521,6 +521,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -536,7 +537,7 @@
                             <TextRun>
                               <Value>=Fields!StartDate.Value</Value>
                               <Style>
-                                <Format>'$'#,0;('$'#,0)</Format>
+                                <Format>d-MMM-yyyy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -556,7 +557,6 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
-                        <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -571,7 +571,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!EndDate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>d-MMM-yyyy</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
