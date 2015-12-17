@@ -17,13 +17,33 @@ angular.module('staticApp')
         $log,
         $compile,
         $modalInstance,
+        allowedLocationTypeIds,
         LookupService,
         LocationService,
         ConstantsService,
         NotificationService,
         TableService,
-        FilterService
+        FilterService,
+        containsFilter
         ) {
+      if (allowedLocationTypeIds !== null) {
+          if (containsFilter(allowedLocationTypeIds, ConstantsService.locationType.country.id)) {
+              throw Error('The add location modal does not support adding countries.');
+          }
+          if (containsFilter(allowedLocationTypeIds, ConstantsService.locationType.division.id)) {
+              throw Error('The add location modal does not support adding divisions.');
+          }
+          if (containsFilter(allowedLocationTypeIds, ConstantsService.locationType.region.id)) {
+              throw Error('The add location modal does not support adding regions.');
+          }
+          if (containsFilter(allowedLocationTypeIds, ConstantsService.locationType.post.id)) {
+              throw Error('The add location modal does not support adding posts.');
+          }
+          if (containsFilter(allowedLocationTypeIds, ConstantsService.locationType.address.id)) {
+              throw Error('The add location modal does not support adding posts.');
+          }
+      }
+
       $scope.view = {};
       $scope.view.locationTypes = [];
       $scope.view.regions = [];
@@ -165,7 +185,6 @@ angular.module('staticApp')
           return checkNewLocationExistence();
       }
 
-
       $scope.view.onSearchCityClick = function () {
           return doGeocode($scope.view.search);
       }
@@ -176,7 +195,6 @@ angular.module('staticApp')
           $scope.view.newLocation.latitude = center.lat();
           $scope.view.newLocation.longitude = center.lng();
       }
-
 
       var markers = [];
       function doGeocode(address) {
@@ -380,11 +398,12 @@ angular.module('staticApp')
           });
       }
 
+      var locationTypeIds = allowedLocationTypeIds || [ConstantsService.locationType.city.id, ConstantsService.locationType.building.id, ConstantsService.locationType.place.id];
       var locationTypesFilter = FilterService.add('addlocation_locationTypes');
       var locationTypesParams = locationTypesFilter
           .skip(0)
           .take(300)
-          .in('id', [ConstantsService.locationType.city.id, ConstantsService.locationType.building.id, ConstantsService.locationType.place.id])
+          .in('id', locationTypeIds)
           .sortBy('value')
           .toParams();
       function getLocationTypes() {

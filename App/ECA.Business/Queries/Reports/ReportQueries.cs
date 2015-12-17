@@ -185,5 +185,28 @@ namespace ECA.Business.Queries.Programs
                               });
             return result;
         }
+
+        public static IQueryable<ProjectWithGrantNumberDTO> CreateGetProjectsWithGrantNumber(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from p in context.Projects
+                          join
+                            m in context.MoneyFlows on p.ProjectId equals m.SourceProjectId
+                          where p.ProgramId == programId
+
+                          select new ProjectWithGrantNumberDTO
+                          {
+                              Title = p.Name,
+                              Description = p.Description,
+                              Focus = p.Categories.FirstOrDefault().Focus.FocusName,
+                              Location = p.Locations.FirstOrDefault().LocationName,
+                              Amount = m.Value,
+                              StartDate = p.StartDate,
+                              EndDate = p.EndDate,
+                              GrantNumber = m.GrantNumber,
+                              Organization = m.RecipientOrganization.Name
+                          });
+            return result;
+        }
     }
 }
