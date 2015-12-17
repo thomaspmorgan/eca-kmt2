@@ -49,7 +49,6 @@ namespace ECA.Business.Validation.Model
             RuleFor(student => student.supervisorEmail).NotNull().WithMessage("T/IPP Site: Supervisor Email address is required").Length(1, 255).WithMessage("T/IPP Site: Supervisor Email address can be up to 255 characters");
             RuleFor(student => student.supervisorFax).Length(0, 10).WithMessage("T/IPP Site: Supervisor fax number can be up to 10 characters");
             RuleFor(student => student.officalUserName).Length(7, 10).WithMessage("T/IPP Site: Global username type must be between 7 and 10 characters");
-            RuleFor(student => student.tippPhase).SetValidator(new TippPhaseValidator()).When(student => student.tippPhase != null);
         }
     }
 }

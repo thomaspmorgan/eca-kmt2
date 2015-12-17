@@ -11,69 +11,110 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public ExchangeVisitor()
         {
-            biographical = new PersonalInfo();
-            subjectField = new SubjectField();
-            usAddress = new USAddress();
-            mailAddress = new USAddress();
-            financialInfo = new FinancialInfo();
-            createDependent = new CreateDependent();
-            addSiteOfActivity = new AddSiteOfActivity();
-            addTIPP = new AddTIPP();
-            residentialAddress = new ResidentialAddress();
-            Validate = new ValidateParticipant();
-            Reprint7002 = new Reprint7002();
+            Biographical = new Biographical();
+            SubjectField = new SubjectField();
+            USAddress = new USAddress();
+            MailAddress = new USAddress();
+            FinancialInfo = new FinancialInfo();
+            CreateDependent = new CreateDependent();
+            AddSiteOfActivity = new AddSiteOfActivity();
+            AddTIPP = new AddTIPP();
+            ResidentialAddress = new ResidentialAddress();
         }
-
-        public bool isNew { get; set; }
-
-        public string sevisID { get; set; }
-
+        
+        /// <summary>
+        /// Request identifier
+        /// </summary>
         public string requestID { get; set; }
 
+        /// <summary>
+        /// SEVIS user id
+        /// </summary>
         public string userID { get; set; }
 
-        public string statusCode { get; set; }
-
+        /// <summary>
+        /// Print request indicator
+        /// </summary>
         public bool printForm { get; set; }
 
+        /// <summary>
+        /// User defined field A
+        /// </summary>
         public string UserDefinedA { get; set; }
 
+        /// <summary>
+        /// User defined field B
+        /// </summary>
         public string UserDefinedB { get; set; }
 
-        public PersonalInfo biographical { get; set; }
+        /// <summary>
+        /// Biographical information
+        /// </summary>
+        public Biographical Biographical { get; set; }
 
-        public string positionCode { get; set; }
+        /// <summary>
+        /// Position code (numeric)
+        /// </summary>
+        public string PositionCode { get; set; }
         
+        /// <summary>
+        /// Program start date
+        /// </summary>
         public DateTime PrgStartDate { get; set; }
 
+        /// <summary>
+        /// Program end date
+        /// </summary>
         public DateTime? PrgEndDate { get; set; }
 
-        public string categoryCode { get; set; }
+        /// <summary>
+        /// Program category
+        /// </summary>
+        public string CategoryCode { get; set; }
 
-        public string occupationCategoryCode { get; set; }
+        /// <summary>
+        /// Occupational category code
+        /// </summary>
+        public string OccupationCategoryCode { get; set; }
 
-        public SubjectField subjectField { get; set; }
+        /// <summary>
+        /// Subject or field of study
+        /// </summary>
+        public SubjectField SubjectField { get; set; }
+
+        /// <summary>
+        /// U.S. physical address
+        /// </summary>
+        public USAddress USAddress { get; set; }
+
+        /// <summary>
+        /// U.S. mailing address
+        /// </summary>
+        public USAddress MailAddress { get; set; }
+
+        /// <summary>
+        /// Financial support information
+        /// </summary>
+        public FinancialInfo FinancialInfo { get; set; }
         
-        public USAddress usAddress { get; set; }
-        
-        public USAddress mailAddress { get; set; }
+        /// <summary>
+        /// Dependent information
+        /// </summary>
+        public CreateDependent CreateDependent { get; set; }
 
-        public FinancialInfo financialInfo { get; set; }
-        
-        public CreateDependent createDependent { get; set; }
+        /// <summary>
+        /// Site of activity address
+        /// </summary>
+        public AddSiteOfActivity AddSiteOfActivity { get; set; }
 
-        public EditDependent editDependent { get; set; }
-        
-        public AddSiteOfActivity addSiteOfActivity { get; set; }
+        /// <summary>
+        /// Add T/IPP information
+        /// </summary>
+        public AddTIPP AddTIPP { get; set; }
 
-        public AddTIPP addTIPP { get; set; }
-
-        public ResidentialAddress residentialAddress { get; set; }
-
-        public Status Status { get; set; }
-
-        public ValidateParticipant Validate { get; set; }
-
-        public Reprint7002 Reprint7002 { get; set; }
+        /// <summary>
+        /// Residential address information
+        /// </summary>
+        public ResidentialAddress ResidentialAddress { get; set; }
     }
 }

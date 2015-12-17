@@ -496,12 +496,14 @@
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\Model\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\Model\CreateEV\CreateExchVisitorValidator.cs" />
-    <Compile Include="Validation\Model\SEVISBatchUpdateEVValidator.cs" />
+    <Compile Include="Validation\Model\SEVISBatchCreateUpdateEVValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddSiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\AddSiteOfActivityValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddTIPP.cs" />
     <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
     <Compile Include="Validation\Model\Shared\AmendProgram.cs" />
+    <Compile Include="Validation\Model\Shared\Biographical.cs" />
+    <Compile Include="Validation\Model\Shared\BiographicalValidator.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchoolValidator.cs" />
     <Compile Include="Validation\Model\Shared\CorrectInfraction.cs" />
@@ -663,7 +665,7 @@
     <Compile Include="Validation\Model\Shared\ReactivateDependent.cs" />
     <Compile Include="Validation\Model\Shared\ReprintForm.cs" />
     <Compile Include="Validation\Model\Shared\School.cs" />
-    <Compile Include="Validation\Model\SEVISBatchUpdateEV.cs" />
+    <Compile Include="Validation\Model\SEVISBatchCreateUpdateEV.cs" />
     <Compile Include="Validation\Model\SEVISBatchUpdateStudent.cs" />
     <Compile Include="Validation\Model\Shared\StudentPersonalInfo.cs" />
     <Compile Include="Validation\Model\Shared\StudentRegistration.cs" />

@@ -20,7 +20,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Person name suffix.
         /// </summary>
-        public string NameSuffix { get; set; }
+        public string Suffix { get; set; }
 
         /// <summary>
         /// Person passport name.

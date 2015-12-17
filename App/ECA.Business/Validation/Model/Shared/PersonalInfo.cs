@@ -65,8 +65,6 @@ namespace ECA.Business.Validation.Model
         /// </summary>
         public string Email { get; set; }
         
-        public string EmailAddress { get; set; }
-
         public string Relationship { get; set; }
 
         /// <summary>
