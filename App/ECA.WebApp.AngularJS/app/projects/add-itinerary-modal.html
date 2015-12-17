@@ -74,6 +74,10 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
+                        <div class="right text-right">
+                            <p class="mute">Can't find the location you're looking for?</p>
+                            <button class="btn btn-primary" ng-click="view.onAddNewArrivalLocationClick()">Add New Location</button>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -117,6 +121,10 @@
                                     <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
                                 </ui-select-choices>
                             </ui-select>
+                        </div>
+                        <div class="right text-right">
+                            <p class="mute">Can't find the location you're looking for?</p>
+                            <button class="btn btn-primary" ng-click="view.onAddNewDepartureDestinationLocationClick()">Add New Location</button>
                         </div>
                     </div>
                 </div>

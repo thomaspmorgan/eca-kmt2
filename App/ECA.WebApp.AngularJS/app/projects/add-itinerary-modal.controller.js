@@ -110,6 +110,44 @@ angular.module('staticApp')
           $scope.view.itinerary.arrivalLocationId = $model.id;
       }
 
+      $scope.view.onAddNewArrivalLocationClick = function () {
+          var setArrivalLocationCallback = function (addedLocation) {
+              $scope.view.onArrivalLocationSelect(addedLocation[0], addedLocation[0]);
+          };
+          addNewLocation(setArrivalLocationCallback);
+      }
+
+      $scope.view.onAddNewDepartureDestinationLocationClick = function () {
+          var setDepartureDestinationLocationCallback = function (addedLocation) {
+              $scope.view.onDepartureLocationSelect(addedLocation[0], addedLocation[0]);
+          };
+          addNewLocation(setDepartureDestinationLocationCallback);
+      }
+
+      function addNewLocation(callback) {
+          var addLocationModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/locations/add-location-modal.html',
+              controller: 'AddLocationCtrl',
+              size: 'lg',
+              resolve: {
+                  allowedLocationTypeIds: function () {
+                      return [
+                          ConstantsService.locationType.city.id
+                      ];
+                  }
+              }
+          });
+          addLocationModalInstance.result.then(function (addedLocation) {
+              $log.info('Finished adding locations.');
+              addLocationModalInstance.close([addedLocation]);
+              callback([addedLocation]);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
       function getSearchParams(filter, search, locationTypesById) {
           if (!angular.isArray(locationTypesById)) {
               throw Error('locationTypesById must be an array.');
