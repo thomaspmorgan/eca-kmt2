@@ -5,6 +5,7 @@ using Moq;
 using ECA.WebApi.Controllers.Admin;
 using System.Web.Http.Results;
 using System.Threading.Tasks;
+using ECA.WebApi.Models.Admin;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -29,6 +30,25 @@ namespace ECA.WebApi.Test.Controllers.Admin
             Assert.IsInstanceOfType(response, typeof(OkResult));
             service.Verify(x => x.DeleteDataPointConfigurationAsync(It.IsAny<int>()), Times.Once());
             service.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostDataPointConfigurationAsync()
+        {
+            var model = new DataPointConfigurationBindingModel();
+            var response = await controller.PostDataPointConfigurationAsync(model);
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+            service.Verify(x => x.CreateDataPointConfigurationAsync(It.IsAny<NewDataPointConfiguration>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostDataPointConfigurationAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new DataPointConfigurationBindingModel();
+            var response = await controller.PostDataPointConfigurationAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }
 }
