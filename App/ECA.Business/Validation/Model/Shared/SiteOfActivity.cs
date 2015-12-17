@@ -29,5 +29,9 @@ namespace ECA.Business.Validation.Model.CreateEV
         public bool primarySite { get; set; }
 
         public string remarks { get; set; }
+
+        public DeleteSiteOfActivity Delete { get; set; }
+
+        public EditSiteOfActivity Edit { get; set; }
     }
 }

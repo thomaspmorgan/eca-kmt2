@@ -10,6 +10,8 @@ namespace ECA.Business.Validation.Model.Shared
             otherFunds = new OtherFunds();
         }
 
+        public bool printForm { get; set; }
+
         public bool receivedUSGovtFunds { get; set; }
 
         public string ProgramSponsorFunds { get; set; }

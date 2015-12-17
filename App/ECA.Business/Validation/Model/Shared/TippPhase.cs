@@ -6,6 +6,8 @@ namespace ECA.Business.Validation.Model.CreateEV
     [Validator(typeof(TippPhaseValidator))]
     public class TippPhase
     {
+        public string siteId { get; set; }
+
         public string phaseId { get; set; }
 
         public string phaseName { get; set; }

@@ -1,4 +1,5 @@
-﻿using FluentValidation.Attributes;
+﻿using ECA.Business.Validation.Model.CreateEV;
+using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
@@ -8,21 +9,27 @@ namespace ECA.Business.Validation.Model
     {
         public Program()
         {
-            cancelExtension = new CancelProgramExtension();
-            deferAttendence = new DeferProgramAttendence();
-            edit = new EditProgram();
-            extension = new ProgramExtension();
-            shorten = new ShortenProgram();
+            CancelExtension = new CancelProgramExtension();
+            DeferAttendence = new DeferProgramAttendence();
+            Edit = new EditProgram();
+            Extension = new ProgramExtension();
+            Shorten = new ShortenProgram();
         }
 
-        public CancelProgramExtension cancelExtension { get; set; }
+        public AmendProgram Amend { get; set; }
+
+        public SubjectField EditSubject { get; set; }
+
+        public CancelProgramExtension CancelExtension { get; set; }
         
-        public DeferProgramAttendence deferAttendence { get; set; }
+        public DeferProgramAttendence DeferAttendence { get; set; }
         
-        public EditProgram edit { get; set; }
+        public EditProgram Edit { get; set; }
         
-        public ProgramExtension extension { get; set; }
-        
-        public ShortenProgram shorten { get; set; }        
+        public ProgramExtension Extension { get; set; }
+
+        public MatriculateProgram Matriculate { get; set; }
+
+        public ShortenProgram Shorten { get; set; }
     }
 }

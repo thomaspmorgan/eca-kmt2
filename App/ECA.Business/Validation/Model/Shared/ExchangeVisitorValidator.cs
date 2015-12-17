@@ -6,6 +6,7 @@ namespace ECA.Business.Validation.Model.CreateEV
     public class ExchangeVisitorValidator : AbstractValidator<ExchangeVisitor>
     {
         public const int ID_MAX_LENGTH = 20;
+        public const int SEVISID_MAX_LENGTH = 11;
         public const int USERDEFINEDA_MAX_LENGTH = 10;
         public const int USERDEFINEDB_MAX_LENGTH = 14;
         public const int POSITION_CODE_LENGTH = 3;
@@ -15,6 +16,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public ExchangeVisitorValidator()
         {
+            RuleFor(student => student.sevisID).NotNull().WithMessage("Visitor: Sevis ID is required").Length(1, SEVISID_MAX_LENGTH).WithMessage("Visitor: Sevis ID can be up to " + SEVISID_MAX_LENGTH.ToString() + " characters").When(student => student.isNew == false);
             RuleFor(student => student.requestID).NotNull().WithMessage("Student: Request ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: Request ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.userID).NotNull().WithMessage("Student: User ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: User ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.printForm).NotNull().WithMessage("Student: Print form option is required");

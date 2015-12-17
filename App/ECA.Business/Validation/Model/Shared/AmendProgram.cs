@@ -4,13 +4,14 @@ using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
-    [Validator(typeof(ShortenProgramValidator))]
-    public class ShortenProgram
+    public class AmendProgram
     {
         public bool printForm { get; set; }
-        
-        public DateTime NewPrgEndDate { get; set; }
-        
+
+        public DateTime PrgStartDate { get; set; }
+
+        public DateTime PrgEndDate { get; set; }
+
         public string Remarks { get; set; }
 
         public TippPhaseDates TippPhaseDates { get; set; }

@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model.Shared;
+﻿using ECA.Business.Validation.Model.CreateEV;
+using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,17 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(PersonalInfoValidator))]
     public class PersonalInfo
     {
+        public PersonalInfo()
+        {
+            usAddress = new USAddress();
+            mailAddress = new USAddress();
+            residentialAddress = new ResidentialAddress();
+        }
+
+        public string dependentSevisID { get; set; }
+
+        public bool PrintForm { get; set; }
+
         /// <summary>
         /// Full name of person
         /// </summary>
@@ -52,6 +64,35 @@ namespace ECA.Business.Validation.Model
         /// Email address
         /// </summary>
         public string Email { get; set; }
+        
+        public string EmailAddress { get; set; }
+
+        public string Relationship { get; set; }
+
+        /// <summary>
+        /// EV phone number
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// EV position code
+        /// </summary>
+        public string PositionCode { get; set; }
+
+        /// <summary>
+        /// EV physical address
+        /// </summary>
+        public USAddress usAddress { get; set; }
+
+        /// <summary>
+        /// EV mailing address
+        /// </summary>
+        public USAddress mailAddress { get; set; }
+        
+        /// <summary>
+        /// EV residential address
+        /// </summary>
+        public ResidentialAddress residentialAddress { get; set; }
 
         /// <summary>
         /// Commuter flag
@@ -62,6 +103,11 @@ namespace ECA.Business.Validation.Model
         /// Visa type
         /// </summary>
         public string VisaType { get; set; }
-                
+
+        /// <summary>
+        /// EV remarks
+        /// </summary>
+        public string Remarks { get; set; }
+        
     }
 }

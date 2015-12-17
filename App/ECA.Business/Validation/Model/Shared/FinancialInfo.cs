@@ -11,7 +11,7 @@ namespace ECA.Business.Validation.Model
             Expense = new Expense();
             Funding = new Funding();
         }
-
+        
         public string AcademicTerm { get; set; }
 
         public Expense Expense { get; set; }

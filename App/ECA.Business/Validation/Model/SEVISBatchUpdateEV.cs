@@ -1,14 +1,15 @@
 ﻿using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation
 {
+    [Validator(typeof(SEVISBatchUpdateEVValidator))]
     public class SEVISBatchUpdateEV
     {
         public SEVISBatchUpdateEV()
         {
             batchHeader = new BatchHeader();
-            createVisitor = new CreateEV();
+            createVisitor = new CreateExchVisitor();
         }
 
         // Sevis batch record
@@ -17,7 +18,7 @@ namespace ECA.Business.Validation
         // Sevis batch header
         public BatchHeader batchHeader { get; set; }
 
-        // Sevis student record
-        public CreateEV createVisitor { get; set; }
+        // Sevis visitor record
+        public CreateExchVisitor createVisitor { get; set; }
     }
 }

@@ -9,10 +9,13 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public TippSite()
         {
-            tippPhase = new TippPhase();
+            programOfficial = new ProgramOfficial();
+            supervisors = new Supervisors();
         }
 
         public string siteId { get; set; }
+
+        public ProgramOfficial programOfficial { get; set; }
 
         public string address1 { get; set; }
 
@@ -78,6 +81,6 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public DateTime evSignatureDate { get; set; }
 
-        public TippPhase tippPhase { get; set; }        
+        public Supervisors supervisors { get; set; }
     }
 }

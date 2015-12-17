@@ -3,6 +3,9 @@ using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
+    /// <summary>
+    /// Exchange visitor information
+    /// </summary>
     [Validator(typeof(ExchangeVisitorValidator))]
     public class ExchangeVisitor
     {
@@ -17,13 +20,19 @@ namespace ECA.Business.Validation.Model.CreateEV
             addSiteOfActivity = new AddSiteOfActivity();
             addTIPP = new AddTIPP();
             residentialAddress = new ResidentialAddress();
+            Validate = new ValidateParticipant();
+            Reprint7002 = new Reprint7002();
         }
 
         public bool isNew { get; set; }
 
+        public string sevisID { get; set; }
+
         public string requestID { get; set; }
 
         public string userID { get; set; }
+
+        public string statusCode { get; set; }
 
         public bool printForm { get; set; }
 
@@ -52,11 +61,19 @@ namespace ECA.Business.Validation.Model.CreateEV
         public FinancialInfo financialInfo { get; set; }
         
         public CreateDependent createDependent { get; set; }
+
+        public EditDependent editDependent { get; set; }
         
         public AddSiteOfActivity addSiteOfActivity { get; set; }
 
         public AddTIPP addTIPP { get; set; }
 
-        public ResidentialAddress residentialAddress { get; set; }        
+        public ResidentialAddress residentialAddress { get; set; }
+
+        public Status Status { get; set; }
+
+        public ValidateParticipant Validate { get; set; }
+
+        public Reprint7002 Reprint7002 { get; set; }
     }
 }
