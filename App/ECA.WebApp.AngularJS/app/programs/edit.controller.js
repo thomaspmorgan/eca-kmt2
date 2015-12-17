@@ -205,30 +205,6 @@ angular.module('staticApp')
           }
       }
 
-      $scope.view.isLoadingOfficeSettings = true;
-      $scope.data.loadOfficeSettingsPromise.promise
-      .then(function (settings) {
-          var objectiveLabel = settings.objectiveLabel;
-          var categoryLabel = settings.categoryLabel;
-          var focusLabel = settings.focusLabel;
-          var justificationLabel = settings.justificationLabel;
-          var isCategoryRequired = settings.isCategoryRequired;
-          var isObjectivesRequired = settings.isObjectiveRequired;
-          
-          $scope.view.minimumRequiredFoci = settings.minimumRequiredFoci;
-          $scope.view.maximumRequiredFoci = settings.maximumRequiredFoci;
-
-          $scope.view.categoryLabel = categoryLabel + ' / ' + focusLabel;
-          $scope.view.objectiveLabel = objectiveLabel + ' / ' + justificationLabel;
-          $scope.view.isCategoryRequired = isCategoryRequired;
-          $scope.view.isObjectivesRequired = isObjectivesRequired;
-          $scope.view.isLoadingOfficeSettings = false;
-      })
-      .catch(function (response) {
-          $scope.view.isLoadingOfficeSettings = false;
-      });
-
-
       var searchParentProgramsFilter = FilterService.add('editprogram_searchparentprograms');
       $scope.view.searchParentPrograms = function ($search) {
           searchParentProgramsFilter.reset();
@@ -362,6 +338,32 @@ angular.module('staticApp')
               var message = "Unable to load program statuses.";
               $log.error(message);
               NotificationService.showErrorMessage(message);
+          });
+      }
+
+      function loadOfficeSettings(officeId) {
+          return OfficeService.getSettings(officeId)
+              .then(function (response) {
+                  var objectiveLabel = response.data.objectiveLabel;
+                  var categoryLabel = response.data.categoryLabel;
+                  var focusLabel = response.data.focusLabel;
+                  var justificationLabel = response.data.justificationLabel;
+                  var isCategoryRequired = response.data.isCategoryRequired;
+                  var isObjectiveRequired = response.data.isObjectiveRequired;
+
+                  $scope.view.minimumRequiredFoci = response.data.minimumRequiredFoci;
+                  $scope.view.maximumRequiredFoci = response.data.maximumRequiredFoci;
+
+                  $scope.view.categoryLabel = categoryLabel + '/' + focusLabel;
+                  $scope.view.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+
+                  $scope.view.isCategoryRequired = isCategoryRequired;
+                  $scope.view.isObjectiveRequired = isObjectiveRequired;
+
+              })
+          .catch(function () {
+              $log.error('Unable to load office settings.');
+              NotificationService.showErrorMessage('Unable to load office settings.');
           });
       }
 
@@ -571,6 +573,8 @@ angular.module('staticApp')
           if ($scope.view.program.websites.length === 0) {
               $scope.view.program.websites.push({ value: undefined });
           }
+          $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
+          $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
 
           $scope.view.isLoadingRequiredData = true;
           var officeId = program.ownerOrganizationId;
@@ -581,6 +585,7 @@ angular.module('staticApp')
                 loadRegions(),
                 loadCategories(officeId, program.categories),
                 loadObjectives(officeId),
+                loadOfficeSettings(program.ownerOrganizationId),
                 $scope.view.searchParentPrograms(null),
                 loadProgramStatii()])
           .then(function (results) {

@@ -1364,6 +1364,23 @@ namespace ECA.Business.Test.Service.Programs
                     Name = "owner",
                     OfficeSymbol = "symbol"
                 };
+                var focusOfficeSetting = new OfficeSetting
+                {
+                    Name = OfficeSetting.FOCUS_SETTING_KEY,
+                    Value = "focus",
+                    OfficeId = owner.OrganizationId,
+                    Office = owner,
+                };
+                var objectiveOfficeSetting = new OfficeSetting
+                {
+                    Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
+                    Value = "objective",
+                    OfficeId = owner.OrganizationId,
+                    Office = owner,
+                };
+
+                owner.OfficeSettings.Add(focusOfficeSetting);
+                owner.OfficeSettings.Add(objectiveOfficeSetting);
 
                 var focus = new Focus
                 {
@@ -1429,6 +1446,8 @@ namespace ECA.Business.Test.Service.Programs
                 context.Categories.Add(category);
                 context.Justifications.Add(justification);
                 context.Objectives.Add(objective);
+                context.OfficeSettings.Add(focusOfficeSetting);
+                context.OfficeSettings.Add(objectiveOfficeSetting);
                 context.Organizations.Add(owner);
                 context.Programs.Add(program);
                 context.Contacts.Add(contact);
@@ -1514,6 +1533,87 @@ namespace ECA.Business.Test.Service.Programs
                     Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
                     Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
                     Assert.AreEqual(owner.OfficeSymbol, publishedProgram.OwnerOfficeSymbol);
+                    Assert.AreEqual(focusOfficeSetting.Value, publishedProgram.OwnerOrganizationCategoryLabel);
+                    Assert.AreEqual(objectiveOfficeSetting.Value, publishedProgram.OwnerOrganizationObjectiveLabel);
+
+                };
+                var result = service.GetProgramById(program.ProgramId);
+                var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramById_NoOfficeSettings()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<OrganizationProgramDTO>();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+                var now = DateTime.UtcNow;
+                var creatorId = 1;
+                var revisorId = 2;
+                var status = new ProgramStatus
+                {
+                    ProgramStatusId = 1,
+                    Status = "status"
+                };
+                var program = new Program
+                {
+                    ProgramId = 1,
+                    Name = "name",
+                    Description = "description",
+                    ParentProgram = null,
+                    StartDate = DateTimeOffset.UtcNow,
+                    ProgramStatus = status,
+                    ProgramStatusId = status.ProgramStatusId,
+                    History = new History
+                    {
+                        CreatedBy = creatorId,
+                        CreatedOn = yesterday,
+                        RevisedBy = revisorId,
+                        RevisedOn = now
+                    }
+                };
+
+                var owner = new Organization
+                {
+                    OrganizationId = 30,
+                    Description = "owner desc",
+                    Name = "owner",
+                    OfficeSymbol = "symbol"
+                };
+                program.Owner = owner;
+                context.Programs.Add(program);
+                context.Organizations.Add(owner);
+                context.ProgramStatuses.Add(status);
+
+                Action<ProgramDTO> tester = (publishedProgram) =>
+                {
+                    Assert.AreEqual(0, context.OfficeSettings.Count());
+                    Assert.AreEqual(OfficeSettings.CATEGORY_DEFAULT_LABEL, publishedProgram.OwnerOrganizationCategoryLabel);
+                    Assert.AreEqual(OfficeSettings.OBJECTIVE_DEFAULT_LABEL, publishedProgram.OwnerOrganizationObjectiveLabel);
 
                 };
                 var result = service.GetProgramById(program.ProgramId);

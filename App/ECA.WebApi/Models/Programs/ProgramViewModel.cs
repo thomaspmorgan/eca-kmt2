@@ -48,6 +48,8 @@ namespace ECA.WebApi.Models.Programs
             this.OwnerName = program.OwnerName;
             this.OwnerOrganizationId = program.OwnerOrganizationId;
             this.OwnerOfficeSymbol = program.OwnerOfficeSymbol;
+            this.OwnerOfficeCategoryLabel = program.OwnerOrganizationCategoryLabel;
+            this.OwnerOfficeObjectiveLabel = program.OwnerOrganizationObjectiveLabel;
             this.ParentProgramId = program.ParentProgramId;
             this.ParentProgramName = program.ParentProgramName;
             this.RegionIsos = program.RegionIsos;
@@ -163,6 +165,10 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the owner office symbol.
         /// </summary>
         public string OwnerOfficeSymbol { get; set; }
+
+        public string OwnerOfficeCategoryLabel { get; set; }
+
+        public string OwnerOfficeObjectiveLabel { get; set; }
 
         /// <summary>
         /// Gets or sets the row version.

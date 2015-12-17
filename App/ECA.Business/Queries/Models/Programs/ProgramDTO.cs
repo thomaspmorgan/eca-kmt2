@@ -127,6 +127,16 @@ namespace ECA.Business.Queries.Models.Programs
         public int OwnerOrganizationId { get; set; }
 
         /// <summary>
+        /// Gets or sets the owner's category label.
+        /// </summary>
+        public string OwnerOrganizationCategoryLabel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the owner's object label.
+        /// </summary>
+        public string OwnerOrganizationObjectiveLabel { get; set; }
+
+        /// <summary>
         /// Gets or sets the row version.
         /// </summary>
         public byte[] RowVersion { get; set; }

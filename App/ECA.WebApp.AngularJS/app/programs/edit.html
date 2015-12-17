@@ -1,9 +1,9 @@
-﻿<div class="spinner" ng-show="view.isLoadingProgram || view.isLoadingRequiredData || view.isSaving || view.isLoadingOfficeSettings">
+﻿<div class="spinner" ng-show="view.isLoadingProgram || view.isLoadingRequiredData || view.isSaving">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
-<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving && !view.isLoadingOfficeSettings">
+<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving">
     <div>
         <div class="pull-right">
             <button ng-click="view.onSaveClick($event)"
@@ -261,7 +261,7 @@
                             </ui-select-choices>
                         </ui-select>
                         <div ng-show="form.programForm.categories.$error.minimum">
-                            <span class="error">Please select at least {{view.minimumRequiredFoci}} {{view.categoryLabel}}.</span>
+                            <span class="error">Please select at least one {{view.minimumRequiredFoci}} {{view.categoryLabel}}.</span>
                         </div>
                         <div ng-show="form.programForm.categories.$error.maximum">
                             <span class="error">You may only select up to {{view.maximumRequiredFoci}} {{view.categoryLabel}}.</span>
