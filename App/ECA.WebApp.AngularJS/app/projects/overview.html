@@ -107,15 +107,44 @@
                 <div class="col-md-4 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
                 <div class="col-md-8 simple-list">
                     <ul>
-                        <li ng-repeat="location in project.locations | orderBy:'name'">
+                        <li ng-repeat="location in project.locations">
                             <div>
-                                {{location.name}}
-                                <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
-                                but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
-                                ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})
+                                <div ng-show="location.longitude && location.latitude">
+                                    <span>
+                                        <i class="material-icons">location_on</i>
+                                        <a ng-click="view.onMapMarkerLabelClick(location)">{{location.mapMarkerLabel}}</a>
+                                        <span>:  </span>
+                                    </span>
+                                    {{location.name}}
+                                    <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
+                                    but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
+                                    ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})
+                                    <div style="margin-left:12px;margin-top:5px;margin-bottom:5px;">
+                                        <span ng-show="location.latitude">
+                                            {{location.latitude}}
+                                        </span>
+                                        <span>, </span>
+                                        <span ng-show="location.longitude">
+                                            {{location.longitude}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div ng-show="!location.longitude && !location.latitude">
+                                    {{location.name}}
+                                    <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
+                                    but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
+                                    ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})
+                                </div>
                             </div>
                         </li>
                     </ul>
+                    <div id="mapcanvas"
+                         ng-if="!view.isLoading"
+                         ui-map="view.locationMap"
+                         ui-options="view.mapOptions"
+                         style="height: 275px; width: 275px;"
+                         ui-event="{'map-idle' : 'view.onMapIdle()'}">
+                    </div>
                 </div>
             </div>
         </div>
