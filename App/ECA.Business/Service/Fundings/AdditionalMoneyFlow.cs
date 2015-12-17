@@ -33,10 +33,12 @@ namespace ECA.Business.Models.Fundings
         /// <param name="recipientEntityId">The recipient entity id.</param>
         /// <param name="sourceEntityTypeId">The source entity type id.</param>
         /// <param name="recipientEntityTypeId">The recipient entity type id.</param>
+        /// <param name="grantNumber">The money flow grant number.</param>
         public AdditionalMoneyFlow(
             User createdBy,
             int? parentMoneyFlowId,
             string description,
+            string grantNumber,
             decimal value,
             int moneyFlowStatusId,
             DateTimeOffset transactionDate,
@@ -75,7 +77,13 @@ namespace ECA.Business.Models.Fundings
             this.RecipientEntityId = recipientEntityId;
             this.RecipientEntityTypeId = recipientEntityTypeId;
             this.MoneyFlowTypeId = MoneyFlowType.Incoming.Id;
+            this.GrantNumber = grantNumber;
         }
+
+        /// <summary>
+        /// Gets the grant number.
+        /// </summary>
+        public string GrantNumber { get; private set; }
 
         /// <summary>
         /// Gets the money flow type id.
@@ -156,6 +164,7 @@ namespace ECA.Business.Models.Fundings
             moneyFlow.SourceTypeId = this.SourceEntityTypeId;
             moneyFlow.RecipientTypeId = this.RecipientEntityTypeId;
             moneyFlow.ParentMoneyFlowId = this.ParentMoneyFlowId;
+            moneyFlow.GrantNumber = this.GrantNumber;
 
             var sourcePropertyDictionary = new Dictionary<int, Expression<Func<MoneyFlow, int?>>>();
             sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.TravelStop.Id, x => x.SourceItineraryStopId);

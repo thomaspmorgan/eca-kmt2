@@ -40,7 +40,8 @@ namespace ECA.WebApi.Test.Models.Fundings
                 SourceEntityId = 3,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
-                IsOutgoing = true
+                IsOutgoing = true,
+                GrantNumber = "grant"
             };
             var user = new User(1);
             var instance = model.ToAdditionalMoneyFlow(user);
@@ -49,6 +50,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.FiscalYear, instance.FiscalYear);
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.Value, instance.Value);
+            Assert.AreEqual(model.GrantNumber, instance.GrantNumber);
 
             Assert.AreEqual(model.ParentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(model.SourceEntityId, instance.SourceEntityId);
@@ -71,6 +73,7 @@ namespace ECA.WebApi.Test.Models.Fundings
                 ParentMoneyFlowId = 5,
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
+                GrantNumber = "grant",
                 IsOutgoing = false
             };
             var user = new User(1);
@@ -80,6 +83,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.FiscalYear, instance.FiscalYear);
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.Value, instance.Value);
+            Assert.AreEqual(model.GrantNumber, instance.GrantNumber);
 
             Assert.AreEqual(model.ParentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(model.PeerEntityId, instance.SourceEntityId);

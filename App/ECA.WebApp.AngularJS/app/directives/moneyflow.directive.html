@@ -19,7 +19,7 @@
             </div>
             <hr />
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <label>Status<span class="asterisk"> *</span></label>
                     <div>
                         <select class="form-control"
@@ -33,6 +33,16 @@
                         <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
                     </div>
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Grant Number</label>
+                    <div>
+                        <input class="form-control"
+                               id="moneyFlowGrantNumber"
+                               name="moneyFlowGrantNumber"
+                               maxlength="25"
+                               ng-model="view.moneyFlow.grantNumber" />
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-4">
@@ -40,7 +50,7 @@
                         &nbsp;
                     </div>
                     <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
-                    <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>                    
+                    <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>
                     <div>
                         <select class="form-control"
                                 id="peerEntityTypeId"
@@ -57,9 +67,9 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label>
-                        Filter {{!view.moneyFlow.isOutgoing ? 'Source' : 'Recipient'}} By 
+                        Filter {{!view.moneyFlow.isOutgoing ? 'Source' : 'Recipient'}} By
                         <span ng-show="!view.thisEntityCanFilterPeerEntities">{{view.getPeerEntityFilterDisplayName(view.moneyFlow)}} </span>
-                        <a ng-show="view.thisEntityCanFilterPeerEntities" tooltip="Filter by {{view.entityName}}." ng-click="view.onFilterOnThisPeerEntity(view.moneyFlow)">{{view.getPeerEntityFilterDisplayName(view.moneyFlow)}}</a> 
+                        <a ng-show="view.thisEntityCanFilterPeerEntities" tooltip="Filter by {{view.entityName}}." ng-click="view.onFilterOnThisPeerEntity(view.moneyFlow)">{{view.getPeerEntityFilterDisplayName(view.moneyFlow)}}</a>
                     </label>
                     <div>
                         <span class="mute">Showing {{Math.min(view.searchLimit, view.valuesThatCanFilterPeerEntitiesCount)}} of {{view.valuesThatCanFilterPeerEntitiesCount}}.</span>
@@ -92,13 +102,14 @@
                     </div>
                     <div>
                         <ui-select ng-model="view.moneyFlow.peerEntity"
+                                   on-select="view.onSelectPeer($item, $model)"
                                    id="source"
                                    name="source"
                                    ng-disabled="!view.isSourceRecipientFieldEnabled"
                                    search-enabled="true"
                                    reset-search-input="false"
                                    theme="select2"
-                                   ng-required="view.isSourceRecipientFieldRequired" >
+                                   ng-required="view.isSourceRecipientFieldRequired">
                             <ui-select-match placeholder="{{view.moneyFlow.isOutgoing ? 'Select recipient...' : 'Select source...'}}">
                                 {{$select.selected.primaryText}}
                             </ui-select-match>

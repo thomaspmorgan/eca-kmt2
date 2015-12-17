@@ -169,11 +169,13 @@
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\LocationsControllerTest.cs" />
+    <Compile Include="Controllers\Admin\DataPointConfigurationControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowStatusesControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\BookmarksControllerTest.cs" />
+    <Compile Include="Controllers\Itineraries\ItinerariesControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonSevisControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramStatusControllerTest.cs" />
@@ -219,6 +221,8 @@
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\UpdateItineraryBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\AddedItineraryBindingModelTest.cs" />
     <Compile Include="Models\Offices\OfficeCollaboratorBindingModelTest.cs" />
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Person\PersonBindingModelTest.cs" />

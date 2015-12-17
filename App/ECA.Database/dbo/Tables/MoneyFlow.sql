@@ -25,6 +25,7 @@
     [RecipientItineraryStopId]  INT                NULL,
     [RecipientTransportationId] INT                NULL,
     [Description]               NVARCHAR (255)     NULL,
+	[GrantNumber]               NVARCHAR (25)      NULL,
     CONSTRAINT [PK_dbo.MoneyFlow] PRIMARY KEY CLUSTERED ([MoneyFlowId] ASC),
     CONSTRAINT [FK_dbo.MoneyFlow_dbo.Accommodation_AccommodationId] FOREIGN KEY ([RecipientAccommodationId]) REFERENCES [dbo].[Accommodation] ([AccommodationId]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.MoneyFlow_dbo.ItineraryStop_RecipientItineraryStopId] FOREIGN KEY ([RecipientItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]),

@@ -466,7 +466,7 @@ namespace ECA.Business.Service.Admin
                     {
                         path = paths[i];
                     } else
-                    {
+        {
                         path += OFFICE_HIERARCHY_SPLIT_CHARS[0] + paths[i];
                     }
                     var parentOffice = (await CreateGetOfficesSqlQuery().ToArrayAsync()).Where(x => x.Path == path).FirstOrDefault();

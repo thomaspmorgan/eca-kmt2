@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('DataPointsCtrl', function ($scope, $q, $modalInstance, parameters, ConstantsService, OfficeService, NotificationService) {
+  .controller('DataPointsCtrl', function ($scope, $q, $modalInstance, parameters, ConstantsService, OfficeService, DataPointConfigurationService, NotificationService) {
 
       $scope.expandOfficeSection = true;
       $scope.expandProgramSection = true;
@@ -10,6 +10,20 @@ angular.module('staticApp')
 
       $scope.close = function () {
           $modalInstance.close();
+      }
+
+      $scope.dataConfigurationChanged = function (dataConfiguration) {
+          if (dataConfiguration.isRequired) {
+              // add new data config
+              // need dataConfiguration.officeId and dataConfiguration.categoryPropertyId
+          } else {
+              DataPointConfigurationService.deleteDataPointConfiguration(dataConfiguration)
+                .then(function () {
+                    NotificationService.showSuccessMessage('The data point configuration was successfully removed.');
+                }, function () {
+                    NotificationService.showErrorMessage('There was an error removing the data point configuration.');
+                });
+          }
       }
 
       function getResourceName() {

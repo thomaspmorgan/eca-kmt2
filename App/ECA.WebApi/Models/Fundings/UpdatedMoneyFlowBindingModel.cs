@@ -28,6 +28,12 @@ namespace ECA.WebApi.Models.Fundings
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the grant number.
+        /// </summary>
+        [MaxLength(MoneyFlow.GRANT_NUMBER_MAX_LENGTH)]
+        public string GrantNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the value.
         /// </summary>
         public decimal Amount { get; set; }
@@ -63,6 +69,7 @@ namespace ECA.WebApi.Models.Fundings
                 sourceOrRecipientEntityId: sourceOrRecipientEntityId, 
                 sourceOrRecipientEntityTypeId: sourceOrRecipientEntityTypeId,
                 description: this.Description, 
+                grantNumber: this.GrantNumber,
                 value: this.Amount, 
                 moneyFlowStatusId: this.MoneyFlowStatusId, 
                 transactionDate: this.TransactionDate, 

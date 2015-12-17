@@ -203,7 +203,7 @@ namespace ECA.Business.Queries.Programs
                               Amount = m.Value,
                               StartDate = p.StartDate,
                               EndDate = p.EndDate,
-                              GrantNumber = m.Description,
+                              GrantNumber = m.GrantNumber,
                               Organization = m.RecipientOrganization.Name
                           });
             return result;

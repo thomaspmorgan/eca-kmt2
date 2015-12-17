@@ -1029,4 +1029,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="VisitorTypeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e74936e9-c466-4e19-a7a6-db750d5e6a00" ChangeDateTime="12/15/2015 19:41:03">
+    <Property Name="ElementName" Value="[dbo].[Location].[SEVISCountryCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SEVISCountryCodeId" />
+  </Operation>
 </Operations>

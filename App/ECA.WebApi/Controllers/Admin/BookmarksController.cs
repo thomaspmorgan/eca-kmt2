@@ -21,7 +21,7 @@ using System.Web.Http.Results;
 namespace ECA.WebApi.Controllers.Admin
 {
     /// <summary>
-    /// Bookmarks controllerC:\Workspace\ECA-KMT\App\ECA.WebApp.AngularJS\scripts\controllers\program\
+    /// Bookmarks controller
     /// </summary>
     [Authorize]
     [RoutePrefix("api/bookmarks")]
