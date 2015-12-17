@@ -46,6 +46,8 @@ angular.module('staticApp')
       $scope.editView.isEndDatePickerOpen = false;
       $scope.editView.showCategoryFocus = true;
       $scope.editView.showObjectiveJustification = true;
+      $scope.editView.isCategoryRequired = false;
+      $scope.editView.isObjectivesRequired = false;
 
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];
@@ -69,7 +71,48 @@ angular.module('staticApp')
 
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
+      $scope.editView.minimumRequiredFoci = -1;
+      $scope.editView.maximumRequiredFoci = -1;
       $scope.editView.locationUiSelectId = 'selectLocations';
+      $scope.editView.isLoadingOfficeSetting = false;
+
+      $scope.editView.validateMinimumObjectives = function ($value) {
+          if (!$scope.editView.isObjectivesRequired) {
+              return true;
+          }
+          if (!$value) {
+              return false;
+          }
+          else {
+              return $value.length > 0;
+          }
+      }
+
+      $scope.editView.validateMinimumCategories = function ($value) {
+          if (!$scope.editView.isCategoryRequired) {
+              return true;
+          }
+          if (!$value) {
+              return false;
+          }
+          if ($value.length < $scope.editView.minimumRequiredFoci) {
+              return false;
+          }
+          return true;
+      }
+
+      $scope.editView.validateMaximumCategories = function ($value) {
+          if (!$scope.editView.isCategoryRequired) {
+              return true;
+          }
+          if (!$value) {
+              return true;
+          }
+          if ($value.length > $scope.editView.maximumRequiredFoci) {
+              return false;
+          }
+          return true;
+      }
 
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
@@ -164,6 +207,35 @@ angular.module('staticApp')
           $scope.editView.isEndDatePickerOpen = true;
       }
 
+      $scope.editView.isLoadingOfficeSetting = true;
+      $scope.$parent.data.loadOfficeSettingsPromise.promise
+        .then(function (settings) {
+            console.assert(settings.objectiveLabel, "The objective label must exist.");
+            console.assert(settings.categoryLabel, "The category label must exist.");
+            console.assert(settings.focusLabel, "The focus label must exist.");
+            console.assert(settings.justificationLabel, "The justification label must exist.");
+            console.assert(typeof (settings.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
+            console.assert(typeof (settings.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
+
+            var objectiveLabel = settings.objectiveLabel;
+            var categoryLabel = settings.categoryLabel;
+            var focusLabel = settings.focusLabel;
+            var justificationLabel = settings.justificationLabel;
+            var isCategoryRequired = settings.isCategoryRequired;
+            var isObjectivesRequired = settings.isObjectiveRequired;
+
+            $scope.editView.categoryLabel = categoryLabel + ' / ' + focusLabel;
+            $scope.editView.objectiveLabel = objectiveLabel + ' / ' + justificationLabel;
+            $scope.editView.showCategoryFocus = isCategoryRequired;
+            $scope.editView.showObjectiveJustification = isObjectivesRequired;
+
+            $scope.editView.minimumRequiredFoci = settings.minimumRequiredFoci;
+            $scope.editView.maximumRequiredFoci = settings.maximumRequiredFoci;
+            $scope.editView.isCategoryRequired = isCategoryRequired;
+            $scope.editView.isObjectivesRequired = isObjectivesRequired;
+            $scope.editView.isLoadingOfficeSetting = false;
+        });
+
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
               animation: true,
@@ -192,6 +264,16 @@ angular.module('staticApp')
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
+      }
+
+      function onFormValidStateChange() {
+          var isInvalid = $scope.form.projectForm.$invalid;
+          if (isInvalid) {
+              $scope.$parent.isProjectStatusButtonEnabled = false;
+          }
+          else {
+              $scope.$parent.isProjectStatusButtonEnabled = true;
+          }
       }
 
       function scrollToLocations() {
@@ -602,40 +684,6 @@ angular.module('staticApp')
               });
       }
 
-      function loadOfficeSettings(officeId) {
-          return OfficeService.getSettings(officeId)
-              .then(function (response) {
-                  $log.info('Loading office settings for office with id ' + officeId);
-                  console.assert(response.data.objectiveLabel, "The objective label must exist.");
-                  console.assert(response.data.categoryLabel, "The category label must exist.");
-                  console.assert(response.data.focusLabel, "The focus label must exist.");
-                  console.assert(response.data.justificationLabel, "The justification label must exist.");
-                  console.assert(typeof (response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
-                  console.assert(typeof (response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
-
-                  var objectiveLabel = response.data.objectiveLabel;
-                  var categoryLabel = response.data.categoryLabel;
-                  var focusLabel = response.data.focusLabel;
-                  var justificationLabel = response.data.justificationLabel;
-                  var isCategoryRequired = response.data.isCategoryRequired;
-                  var isObjectiveRequired = response.data.isObjectiveRequired;
-
-                  if (isCategoryRequired) {
-                      $log.info('Category is required by office, category focus fields should be visible');
-                  }
-                  if (isObjectiveRequired) {
-                      $log.info('Objective is required by office, objective justification fields should be visible.');
-                  }
-
-                  $scope.editView.categoryLabel = categoryLabel;
-                  $scope.editView.objectiveLabel = objectiveLabel;
-                  $scope.editView.showCategoryFocus = isCategoryRequired;
-                  $scope.editView.showObjectiveJustification = isObjectiveRequired;
-              }, function (errorResponse) {
-                  $log.error('Failed to load office settings.');
-              });
-      }
-
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var projectId = $stateParams.projectId;
@@ -659,7 +707,7 @@ angular.module('staticApp')
 
       $scope.editView.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
-          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null), loadOfficeSettings(project.ownerId)])
+          $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null)])
           .then(function (results) {
               //results is an array
               setSelectedPointsOfContact();
@@ -670,6 +718,10 @@ angular.module('staticApp')
               setSelectedLocations();
               setSelectedRegions();
               showProjectEditCancelButton();
+              $scope.$watch(function () {
+                  return $scope.form.projectForm.$invalid;
+              }, onFormValidStateChange);
+              onFormValidStateChange();
               $scope.editView.isLoading = false;
           })
           .catch(function () {

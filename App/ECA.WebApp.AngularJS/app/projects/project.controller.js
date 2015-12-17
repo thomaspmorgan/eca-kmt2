@@ -13,6 +13,7 @@ angular.module('staticApp')
       AuthService,
       StateService,
       ConstantsService,
+      OfficeService,
       orderByFilter) {
 
       $scope.project = {};
@@ -28,8 +29,10 @@ angular.module('staticApp')
       $scope.isInEditViewState = false;
       $scope.projectStatusButtonText = "...";
       $scope.isTransactionDatePickerOpen = false;
+
       $scope.data = {};
       $scope.data.loadProjectByIdPromise = $q.defer();
+      $scope.data.loadOfficeSettingsPromise = $q.defer();
 
       $scope.tabs = {
           overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
@@ -49,6 +52,8 @@ angular.module('staticApp')
       function disableProjectStatusButton() {
           $scope.isProjectStatusButtonEnabled = false;
       }
+
+      
 
       ProjectService.getById($stateParams.projectId)
         .then(function (data) {
@@ -73,6 +78,16 @@ angular.module('staticApp')
                 $scope.project.endDate = endDate;
             }
             $scope.data.loadProjectByIdPromise.resolve($scope.project);
+            var officeId = $scope.project.ownerId;
+            OfficeService.getSettings(officeId)
+            .then(function (response) {
+                var data = response.data;
+                $scope.data.loadOfficeSettingsPromise.resolve(data);
+            })
+            .catch(function () {
+                $log.error('Unable to load office settings.');
+                NotificationService.showErrorMessage('Unable to load office settings.');
+            });
         });
 
       var editStateName = StateService.stateNames.edit.project;
@@ -102,7 +117,7 @@ angular.module('staticApp')
       };
 
       $scope.onCancelButtonClick = function ($event) {
-          $scope.$broadcast(ConstantsService.cancelProjectEventName);   
+          $scope.$broadcast(ConstantsService.cancelProjectEventName);
       }
 
       $scope.params = $stateParams;

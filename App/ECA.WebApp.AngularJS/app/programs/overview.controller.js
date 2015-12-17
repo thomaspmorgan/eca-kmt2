@@ -18,6 +18,7 @@ angular.module('staticApp')
 
       $scope.view = {};
       $scope.view.isLoadingProgram = true;
+      $scope.view.isLoadingOfficeSettings = true;
       $scope.view.sortedCategories = [];
       $scope.view.sortedObjectives = [];
       $scope.view.categoryLabel = '';
@@ -26,14 +27,27 @@ angular.module('staticApp')
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
           $scope.view.program = program;
-          $scope.view.categoryLabel = program.ownerOfficeCategoryLabel;
-          $scope.view.objectiveLabel = program.ownerOfficeObjectiveLabel;
           $scope.view.sortedCategories = orderByFilter(program.categories, '+focusName');
           $scope.view.sortedObjectives = orderByFilter(program.objectives, '+justificationName');
           $scope.view.isLoadingProgram = false;
       })
       .catch(function (response) {
           $scope.view.isLoadingProgram = false;
+      });
+
+      $scope.data.loadOfficeSettingsPromise.promise
+      .then(function (settings) {
+          var objectiveLabel = settings.objectiveLabel;
+          var categoryLabel = settings.categoryLabel;
+          var focusLabel = settings.focusLabel;
+          var justificationLabel = settings.justificationLabel;         
+          $scope.view.categoryLabel = categoryLabel + ' / ' + focusLabel;
+          $scope.view.objectiveLabel = objectiveLabel + ' / ' + justificationLabel;
+
+          $scope.view.isLoadingOfficeSettings = false;
+      })
+      .catch(function (response) {
+          $scope.view.isLoadingOfficeSettings = false;
       });
 
   });

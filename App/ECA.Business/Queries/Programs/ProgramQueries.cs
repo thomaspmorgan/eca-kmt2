@@ -99,14 +99,6 @@ namespace ECA.Business.Queries.Programs
                                         where country.LocationTypeId == countryTypeId
                                         select country
 
-                        join officeSetting in context.OfficeSettings
-                        on owner equals officeSetting.Office into focusSetting 
-                        from tempFocusSetting in focusSetting.Where(x => x.Name == OfficeSetting.FOCUS_SETTING_KEY).DefaultIfEmpty()
-
-                        join officeSetting in context.OfficeSettings
-                        on owner equals officeSetting.Office into objectiveSetting
-                        from tempObjectiveSetting in objectiveSetting.Where(x => x.Name == OfficeSetting.OBJECTIVE_SETTING_KEY).DefaultIfEmpty()
-
                         select new ProgramDTO
                         {
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")" }),
@@ -122,8 +114,6 @@ namespace ECA.Business.Queries.Programs
                             OwnerName = owner.Name,
                             OwnerOfficeSymbol = owner.OfficeSymbol,
                             OwnerOrganizationId = owner.OrganizationId,
-                            OwnerOrganizationCategoryLabel = tempFocusSetting == null ? OfficeSettings.CATEGORY_DEFAULT_LABEL : tempFocusSetting.Value,
-                            OwnerOrganizationObjectiveLabel = tempObjectiveSetting == null ? OfficeSettings.OBJECTIVE_DEFAULT_LABEL : tempObjectiveSetting.Value,
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
                             ParentProgramName = parentProgram == null ? null : parentProgram.Name,
                             RevisedOn = program.History.RevisedOn,

@@ -15,56 +15,42 @@ angular.module('staticApp')
         $log,
         orderByFilter,
         ProjectService,
-        OfficeService,
         ConstantsService,
         NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.isLoading = false;
+      $scope.view.isLoadingOfficeSettings = false;
       $scope.categoryLabel = "...";
       $scope.objectiveLabel = "...";
       $scope.sortedCategories = [];
       $scope.sortedObjectives = [];
       
-      
-      function loadOfficeSettings(officeId) {
-          return OfficeService.getSettings(officeId)
-              .then(function (response) {
-                  $log.info('Loading office settings for office with id ' + officeId);
-                  console.assert(response.data.objectiveLabel, "The objective label must exist.");
-                  console.assert(response.data.categoryLabel, "The category label must exist.");
-                  console.assert(response.data.focusLabel, "The focus label must exist.");
-                  console.assert(response.data.justificationLabel, "The justification label must exist.");
-                  console.assert(typeof (response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
-                  console.assert(typeof (response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
+      $scope.view.isLoadingOfficeSetting = true;
+      $scope.$parent.data.loadOfficeSettingsPromise.promise
+        .then(function (settings) {
+            console.assert(settings.objectiveLabel, "The objective label must exist.");
+            console.assert(settings.categoryLabel, "The category label must exist.");
+            console.assert(settings.focusLabel, "The focus label must exist.");
+            console.assert(settings.justificationLabel, "The justification label must exist.");
+            console.assert(typeof (settings.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
+            console.assert(typeof (settings.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
 
-                  var objectiveLabel = response.data.objectiveLabel;
-                  var categoryLabel = response.data.categoryLabel;
-                  var focusLabel = response.data.focusLabel;
-                  var justificationLabel = response.data.justificationLabel;
+            var objectiveLabel = settings.objectiveLabel;
+            var categoryLabel = settings.categoryLabel;
+            var focusLabel = settings.focusLabel;
+            var justificationLabel = settings.justificationLabel;
 
-                  $scope.categoryLabel = categoryLabel;
-                  $scope.objectiveLabel = objectiveLabel;
-
-              }, function (errorResponse) {
-                  $log.error('Failed to load office settings.');
-              });
-      }
+            $scope.categoryLabel = categoryLabel + ' / ' + focusLabel;
+            $scope.objectiveLabel = objectiveLabel + ' / ' + justificationLabel;
+            $scope.view.isLoadingOfficeSetting = false;
+        });
 
       $scope.view.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
           $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
-          $q.all([loadOfficeSettings(project.ownerId)])
-              .then(function (results) {
-                  //results is an array
-
-              }, function (errorResponse) {
-                  $log.error('Failed initial loading of project view.');
-              })
-              .then(function () {
-                  $scope.view.isLoading = false;
-              });
+          $scope.view.isLoading = false;
       });
   });

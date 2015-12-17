@@ -1,9 +1,9 @@
-﻿<div class="spinner" ng-show="editView.isLoading || editView.isSaving">
+﻿<div class="spinner" ng-show="editView.isLoading || editView.isSaving || editView.isLoadingOfficeSetting">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
-<div ng-show="!editView.isLoading && !editView.isSaving" in-context-form>
+<div ng-show="!editView.isLoading && !editView.isSaving && !editView.isLoadingOfficeSetting" in-context-form>
     <div>
         <div class="pull-right">
             <button ng-click="editView.onSaveClick($event)" ng-disabled="form.projectForm.$invalid" class="btn btn-success">Save</button>
@@ -139,16 +139,23 @@
             <div class="col-md-6">
                 <div class="form-group row">
                     <div class="col-md-3 title-label">Office</div>
-                    <div class="col-md-9">{{program.ownerName}}</div>
+                    <div class="col-md-9">{{project.ownerName}}</div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3 title-label">Program</div>
-                    <div class="col-md-9">{{program.name}}</div>
+                    <div class="col-md-9">{{project.programName}}</div>
                 </div>
                 <div class="form-group row" ng-show="editView.showCategoryFocus">
                     <div class="col-md-3 title-label">{{editView.categoryLabel}} <span class="asterisk"> *</span></div>
                     <div class="col-md-9">
-                        <ui-select multiple close-on-select="true" ng-model="editView.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
+                        <ui-select multiple 
+                                   name="categories"
+                                   close-on-select="true" 
+                                   ng-model="editView.selectedCategories" 
+                                   ui-validate="{minimum: 'editView.validateMinimumCategories($value)', maximum: 'editView.validateMaximumCategories($value)'}"
+                                   theme="select2" 
+                                   title="Choose a category." 
+                                   style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -157,11 +164,24 @@
                             </ui-select-choices>
                         </ui-select>
                     </div>
+                    <div ng-show="form.projectForm.categories.$error.minimum">
+                        <span class="error">Please select at least one {{editView.minimumRequiredFoci}} {{editView.categoryLabel}}.</span>
+                    </div>
+                    <div ng-show="form.projectForm.categories.$error.maximum">
+                        <span class="error">You may only select up to {{editView.maximumRequiredFoci}} {{editView.categoryLabel}}.</span>
+                    </div>
                 </div>
                 <div class="form-group row" ng-show="editView.showObjectiveJustification">
                     <div class="col-md-3 title-label">{{editView.objectiveLabel}} <span class="asterisk"> *</span></div>
                     <div class="col-md-9">
-                        <ui-select multiple close-on-select="true" ng-model="editView.selectedObjectives" theme="select2" title="Choose an objective." style="min-width: 200px;">
+                        <ui-select multiple 
+                                   name="objectives"
+                                   close-on-select="true" 
+                                   ng-model="editView.selectedObjectives" 
+                                   theme="select2" 
+                                   title="Choose an objective." 
+                                   ui-validate="{minimum: 'editView.validateMinimumObjectives($value)'}"
+                                   style="min-width: 200px;">
                             <ui-select-match placeholder="Select objectives...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -169,6 +189,9 @@
                                 <div ng-bind-html="objective.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
+                    </div>
+                    <div ng-show="form.projectForm.objectives.$error.minimum">
+                        <span class="error">Please select at least one {{editView.objectiveLabel}}.</span>
                     </div>
                 </div>
                 <div class="form-group row" ng-show="project.contacts">

@@ -1,9 +1,9 @@
-﻿<div class="spinner" ng-show="view.isLoadingProgram || view.isLoadingRequiredData || view.isSaving">
+﻿<div class="spinner" ng-show="view.isLoadingProgram || view.isLoadingRequiredData || view.isSaving || view.isLoadingOfficeSettings">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
-<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving">
+<div ng-show="!view.isLoadingProgram && !view.isLoadingRequiredData && !view.isSaving && !view.isLoadingOfficeSettings">
     <div>
         <div class="pull-right">
             <button ng-click="view.onSaveClick($event)"
