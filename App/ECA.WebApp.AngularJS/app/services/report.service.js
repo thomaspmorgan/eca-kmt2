@@ -44,6 +44,10 @@ angular.module('staticApp')
           getYearAwards: function(programId, format)
           {
               return "report/YearAwards?programId=" + programId + "&format=" + format;
+          },
+          getProjectsWithGrantNumber: function(programId, format)
+          {
+              return "report/ProjectsWithGrantNumber?programId=" + programId + "&format=" + format;
           }
       };
   });

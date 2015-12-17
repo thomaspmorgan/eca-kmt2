@@ -161,7 +161,7 @@
     <EmbeddedResource Include="CountryAwards.rdlc" />
     <EmbeddedResource Include="ProjectAwards.rdlc" />
     <EmbeddedResource Include="PostAwards.rdlc" />
-    <EmbeddedResource Include="ProjectsWIthGrantNumber.rdlc" />
+    <EmbeddedResource Include="ProjectsWithGrantNumber.rdlc" />
     <EmbeddedResource Include="YearAwards.rdlc" />
     <EmbeddedResource Include="RegionAwards.rdlc" />
   </ItemGroup>
