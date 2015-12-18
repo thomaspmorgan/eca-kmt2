@@ -218,7 +218,6 @@ angular.module('staticApp')
                           });
                           markers.push(marker);
                       }, index * 100);
-                      console.log(index);
                   });
                   map.fitBounds(bounds);
               }
