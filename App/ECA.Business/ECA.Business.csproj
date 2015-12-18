@@ -508,6 +508,7 @@
     <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
     <Compile Include="Validation\Model\Shared\AmendProgram.cs" />
     <Compile Include="Validation\Model\Shared\Biographical.cs" />
+    <Compile Include="Validation\Model\Shared\BiographicalUpdate.cs" />
     <Compile Include="Validation\Model\Shared\BiographicalValidator.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchoolValidator.cs" />
@@ -516,8 +517,6 @@
     <Compile Include="Validation\Model\Shared\DeleteSiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\EditSiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\EndProgram.cs" />
-    <Compile Include="Validation\Model\Shared\EVFinancialInfo.cs" />
-    <Compile Include="Validation\Model\Shared\EVFinancialInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExchangeVisitor.cs" />
     <Compile Include="Validation\Model\Shared\AddAuthDropValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddCptEmploymentValidator.cs" />
@@ -550,6 +549,7 @@
     <Compile Include="Validation\Model\Shared\EduLevelValidator.cs" />
     <Compile Include="Validation\Model\Shared\EmployerAddressValidator.cs" />
     <Compile Include="Validation\Model\Shared\EngProficiencyValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitorUpdate.cs" />
     <Compile Include="Validation\Model\Shared\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExpenseOtherValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExpenseValidator.cs" />
@@ -588,8 +588,10 @@
     <Compile Include="Validation\Model\Shared\SContact.cs" />
     <Compile Include="Validation\Model\Shared\SContactValidator.cs" />
     <Compile Include="Validation\Model\Shared\SignatureDates.cs" />
-    <Compile Include="Validation\Model\Shared\SiteOfActivity.cs" />
-    <Compile Include="Validation\Model\Shared\SiteOfActivityValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityExempt.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityExemptValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivitySOA.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivitySOAValidator.cs" />
     <Compile Include="Validation\Model\Shared\Status.cs" />
     <Compile Include="Validation\Model\Shared\StudentPersonalInfoValidator.cs" />
     <Compile Include="Validation\Model\Shared\StudentValidator.cs" />

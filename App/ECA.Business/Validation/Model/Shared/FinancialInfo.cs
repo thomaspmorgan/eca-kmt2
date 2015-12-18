@@ -3,19 +3,29 @@ using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Financial support information
+    /// </summary>
     [Validator(typeof(FinancialInfoValidator))]
     public class FinancialInfo
     {
         public FinancialInfo()
         {
-            Expense = new Expense();
-            Funding = new Funding();
         }
         
-        public string AcademicTerm { get; set; }
+        /// <summary>
+        /// Indicates receipt of US govt funds
+        /// </summary>
+        public bool ReceivedUSGovtFunds { get; set; }
 
-        public Expense Expense { get; set; }
+        /// <summary>
+        /// Program sponsor funds
+        /// </summary>
+        public string ProgramSponsorFunds { get; set; }
 
-        public Funding Funding { get; set; }        
+        /// <summary>
+        /// Other financial support
+        /// </summary>
+        public OtherFunds OtherFunds { get; set; }
     }
 }

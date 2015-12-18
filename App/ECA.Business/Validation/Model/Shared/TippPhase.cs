@@ -6,17 +6,15 @@ namespace ECA.Business.Validation.Model.CreateEV
     [Validator(typeof(TippPhaseValidator))]
     public class TippPhase
     {
-        public string siteId { get; set; }
+        public string PhaseId { get; set; }
 
-        public string phaseId { get; set; }
-
-        public string phaseName { get; set; }
+        public string PhaseName { get; set; }
         
-        public DateTime startDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime endDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public string trainingField { get; set; }
+        public string TrainingField { get; set; }
         
         public string SuperLastName { get; set; }
         
@@ -48,7 +46,6 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public string HowCompetencyMeasured { get; set; }
 
-        public string AdditionalRemarks { get; set; }
-        
+        public string AdditionalRemarks { get; set; }        
     }
 }

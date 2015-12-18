@@ -4,13 +4,12 @@ namespace ECA.Business.Validation.Model.Shared
 {
     public class FinancialInfoValidator : AbstractValidator<FinancialInfo>
     {
-        public const int TERM_MAX_LENGTH = 20;
+        public const int SPONSOR_MAX_LENGTH = 8;
 
         public FinancialInfoValidator()
         {
-            RuleFor(student => student.AcademicTerm).NotNull().WithMessage("Financial: Academic Term is required").Length(1, TERM_MAX_LENGTH).WithMessage("Financial: Academic Term can be up to " + TERM_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.Expense).NotNull().WithMessage("Financial: Expense is required").SetValidator(new ExpenseValidator());
-            RuleFor(student => student.Funding).NotNull().WithMessage("Financial: Funding is required").SetValidator(new FundingValidator());
+            RuleFor(student => student.ReceivedUSGovtFunds).NotNull().WithMessage("Financial Info: Received US Govt Funds option is required");
+            RuleFor(student => student.ProgramSponsorFunds).Length(0, SPONSOR_MAX_LENGTH).WithMessage("Financial Info: Program Sponsor Funds can be up to " + SPONSOR_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

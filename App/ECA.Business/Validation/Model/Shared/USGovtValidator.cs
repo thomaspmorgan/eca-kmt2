@@ -9,8 +9,8 @@ namespace ECA.Business.Validation.Model.Shared
 
         public USGovtValidator()
         {
-            RuleFor(student => student.org1).NotNull().WithMessage("U.S. Gov Funds: U.S. Government Organization 1 is required").Length(1, ORG_LENGTH).WithMessage("U.S. Gov Funds: U.S. Government Organization code must be " + ORG_LENGTH.ToString() + " characters");
-            RuleFor(student => student.amount1).NotNull().WithMessage("U.S. Gov Funds: U.S. Government Organization 1 Amount is required").Length(1, AMOUNT_MAX_LENGTH).WithMessage("U.S. Gov Funds: U.S. Government Organization Amount can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Org1).NotNull().WithMessage("U.S. Gov Funds: U.S. Government Organization 1 is required").Length(1, ORG_LENGTH).WithMessage("U.S. Gov Funds: U.S. Government Organization code must be " + ORG_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Amount1).NotNull().WithMessage("U.S. Gov Funds: U.S. Government Organization 1 Amount is required").Length(1, AMOUNT_MAX_LENGTH).WithMessage("U.S. Gov Funds: U.S. Government Organization Amount can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

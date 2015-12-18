@@ -6,7 +6,7 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public AddSiteOfActivityValidator()
         {
-            RuleFor(student => student.siteOfActivity).NotNull().WithMessage("Visitor: Site of activity address is required").SetValidator(new SiteOfActivityValidator()).When(student => student.siteOfActivity != null);
+            RuleFor(student => student.SiteOfActivitySOA).NotNull().WithMessage("Visitor: Site of activity address is required").SetValidator(new SiteOfActivitySOAValidator()).When(student => student.SiteOfActivitySOA != null);
         }
     }
 }

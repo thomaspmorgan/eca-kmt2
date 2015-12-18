@@ -7,16 +7,16 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public ResidentialAddress()
         {
-            hostFamily = new HostFamily();
-            boardingSchool = new BoardingSchool();
+            HostFamily = new HostFamily();
+            BoardingSchool = new BoardingSchool();
         }
 
-        public string residentialType { get; set; }
+        public string ResidentialType { get; set; }
 
-        public HostFamily hostFamily { get; set; }
+        public HostFamily HostFamily { get; set; }
 
-        public BoardingSchool boardingSchool { get; set; }
+        public BoardingSchool BoardingSchool { get; set; }
 
-        public LCCoordinator lcCoordinator { get; set; }        
+        public LCCoordinator LCCoordinator { get; set; }        
     }
 }

@@ -12,11 +12,9 @@ namespace ECA.Business.Validation.Model
         public CreateDependent()
         {
             Dependent = new AddDependent();
-            addTIPP = new AddTIPP();
+            AddTIPP = new AddTIPP();
         }
-
-        public bool isVisitor { get; set; }
-
+        
         /// <summary>
         /// New dependent
         /// </summary>
@@ -25,7 +23,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// T/IPP information
         /// </summary>
-        public AddTIPP addTIPP { get; set; }
+        public AddTIPP AddTIPP { get; set; }
 
         /// <summary>
         /// Dependent record remarks

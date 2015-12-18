@@ -9,43 +9,40 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public TippSite()
         {
-            programOfficial = new ProgramOfficial();
-            supervisors = new Supervisors();
+            TippPhase = new TippPhase();
         }
 
-        public string siteId { get; set; }
+        public string SiteId { get; set; }
+        
+        public string Address1 { get; set; }
 
-        public ProgramOfficial programOfficial { get; set; }
+        public string Address2 { get; set; }
 
-        public string address1 { get; set; }
+        public string City { get; set; }
 
-        public string address2 { get; set; }
+        public string State { get; set; }
 
-        public string city { get; set; }
+        public string PostalCode { get; set; }
 
-        public string state { get; set; }
+        public string ExplanationCode { get; set; }
 
-        public string postalCode { get; set; }
+        public string Explanation { get; set; }
 
-        public string explanationCode { get; set; }
+        public string SiteName { get; set; }
 
-        public string explanation { get; set; }
-
-        public string siteName { get; set; }
-
-        public bool primarySite { get; set; }
+        public bool PrimarySite { get; set; }
         
         public string Remarks { get; set; }
 
-        public string employerId { get; set; }
+        public string EmployerID { get; set; }
 
-        public string fullTimeEmployees { get; set; }
+        public string FullTimeEmployees { get; set; }
 
-        public string annualRevenue { get; set; }
+        public string AnnualRevenue { get; set; }
 
-        public string websiteURL { get; set; }
+        public string WebsiteURL { get; set; }
 
-        public bool workersCompInd { get; set; }
+        public bool WorkersCompInd { get; set; }
 
         public string WorkersCompCarrier { get; set; }
 
@@ -55,32 +52,32 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public bool StipendInd { get; set; }
 
-        public string stipendAmount { get; set; }
+        public string StipendAmount { get; set; }
 
-        public string stipendFrequency { get; set; }
+        public string StipendFrequency { get; set; }
 
-        public string nonMonetaryComp { get; set; }
+        public string NonMonetaryComp { get; set; }
 
-        public string supervisorLastName { get; set; }
+        public string SupervisorLastName { get; set; }
 
-        public string supervisorFirstName { get; set; }
+        public string SupervisorFirstName { get; set; }
 
-        public string supervisorTitle { get; set; }
+        public string SupervisorTitle { get; set; }
 
-        public string supervisorPhone { get; set; }
+        public string SupervisorPhone { get; set; }
 
-        public string supervisorPhoneExt { get; set; }
+        public string SupervisorPhoneExt { get; set; }
 
-        public string supervisorEmail { get; set; }
+        public string SupervisorEmail { get; set; }
 
-        public string supervisorFax { get; set; }
+        public string SupervisorFax { get; set; }
 
-        public string officalUserName { get; set; }
+        public string OfficialUserName { get; set; }
 
-        public DateTime officalSignatureDate { get; set; }
+        public DateTime OfficialSignatureDate { get; set; }
 
-        public DateTime evSignatureDate { get; set; }
+        public DateTime EvSignatureDate { get; set; }
 
-        public Supervisors supervisors { get; set; }
+        public TippPhase TippPhase { get; set; }
     }
 }

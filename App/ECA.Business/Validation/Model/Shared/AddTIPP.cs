@@ -7,17 +7,17 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public AddTIPP()
         {
-            tippExemptProgram = new TippExemptProgram();
-            participantInfo = new ParticipantInfo();
-            tippSite = new TippSite();
+            TippExemptProgram = new TippExemptProgram();
+            ParticipantInfo = new ParticipantInfo();
+            TippSite = new TippSite();
         }
 
         public bool print7002 { get; set; }
 
-        public TippExemptProgram tippExemptProgram { get; set; }
+        public TippExemptProgram TippExemptProgram { get; set; }
 
-        public ParticipantInfo participantInfo { get; set; }
+        public ParticipantInfo ParticipantInfo { get; set; }
 
-        public TippSite tippSite { get; set; }
+        public TippSite TippSite { get; set; }
     }
 }
