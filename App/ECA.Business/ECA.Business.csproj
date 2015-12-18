@@ -195,6 +195,7 @@
     <Compile Include="Queries\Models\Fundings\FiscalYearSummaryDTO.cs" />
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryGroupParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />

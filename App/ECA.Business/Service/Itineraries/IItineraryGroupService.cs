@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using ECA.Business.Models.Itineraries;
+﻿using ECA.Business.Queries.Models.Itineraries;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Itineraries
 {

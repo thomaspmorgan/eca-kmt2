@@ -1,17 +1,16 @@
-﻿using System;
-using FluentAssertions;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using ECA.Business.Service.Itineraries;
-using ECA.Data;
-using System.Collections.Generic;
-using ECA.Business.Queries.Itineraries;
-using Moq;
-using ECA.Business.Validation;
+﻿using ECA.Business.Queries.Models.Itineraries;
 using ECA.Business.Service;
+using ECA.Business.Service.Itineraries;
+using ECA.Business.Validation;
 using ECA.Core.Exceptions;
-using ECA.Business.Models.Itineraries;
+using ECA.Data;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Itineraries
 {

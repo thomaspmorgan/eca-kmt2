@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Data;
-using ECA.Business.Queries.Itineraries;
-using System.Collections.Generic;
-using ECA.Business.Models.Itineraries;
+﻿using ECA.Business.Queries.Itineraries;
+using ECA.Business.Queries.Models.Itineraries;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECA.Business.Test.Queries.Itineraries
 {

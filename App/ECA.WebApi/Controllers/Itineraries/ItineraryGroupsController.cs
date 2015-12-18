@@ -1,16 +1,11 @@
-﻿using ECA.Business.Models.Itineraries;
+﻿using ECA.Business.Queries.Models.Itineraries;
 using ECA.Business.Service.Itineraries;
 using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;

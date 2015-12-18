@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Itineraries;
-using ECA.Data;
-using System.Diagnostics.Contracts;
+﻿using ECA.Business.Queries.Models.Itineraries;
 using ECA.Core.Service;
-using ECA.Business.Models.Itineraries;
+using ECA.Data;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Itineraries
 {

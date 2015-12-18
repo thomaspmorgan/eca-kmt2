@@ -1,16 +1,15 @@
 ﻿using ECA.Business.Queries.Itineraries;
-using System.Data.Entity;
+using ECA.Business.Queries.Models.Itineraries;
+using ECA.Business.Validation;
+using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ECA.Business.Validation;
-using ECA.Core.Exceptions;
-using ECA.Business.Models.Itineraries;
 
 namespace ECA.Business.Service.Itineraries
 {
