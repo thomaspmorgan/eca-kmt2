@@ -11,11 +11,11 @@ namespace ECA.Business.Validation.Model
 
         public TippPhaseValidator()
         {
-            RuleFor(student => student.phaseId).Length(1, 22).WithMessage("T/IPP: Phase ID can be from 1 to 22 characters");
-            RuleFor(student => student.phaseName).NotNull().WithMessage("T/IPP: Phase name is required").Length(1, PHASENAME_MAX_LENGTH).WithMessage("T/IPP: Phase name can be up to " + PHASENAME_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.startDate).NotNull().WithMessage("T/IPP: Phase start date is required");
-            RuleFor(student => student.endDate).NotNull().WithMessage("T/IPP: Phase end date is required");
-            RuleFor(student => student.trainingField).NotNull().WithMessage("T/IPP: Training field is required").Length(1, TRAININGFIELD_MAX_LENGTH).WithMessage("T/IPP: Training field can be up to " + TRAININGFIELD_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.PhaseId).Length(1, 22).WithMessage("T/IPP: Phase ID can be from 1 to 22 characters");
+            RuleFor(student => student.PhaseName).NotNull().WithMessage("T/IPP: Phase name is required").Length(1, PHASENAME_MAX_LENGTH).WithMessage("T/IPP: Phase name can be up to " + PHASENAME_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.StartDate).NotNull().WithMessage("T/IPP: Phase start date is required");
+            RuleFor(student => student.EndDate).NotNull().WithMessage("T/IPP: Phase end date is required");
+            RuleFor(student => student.TrainingField).NotNull().WithMessage("T/IPP: Training field is required").Length(1, TRAININGFIELD_MAX_LENGTH).WithMessage("T/IPP: Training field can be up to " + TRAININGFIELD_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.SuperLastName).NotNull().WithMessage("T/IPP: Supervisor last name is required").Length(1, 40).WithMessage("T/IPP: Supervisor last name can be up to 40 characters");
             RuleFor(student => student.SuperFirstName).NotNull().WithMessage("T/IPP: Supervisor first name is required").Length(1, 40).WithMessage("T/IPP: Supervisor first name can be up to 40 characters");
             RuleFor(student => student.SuperTitle).NotNull().WithMessage("T/IPP: Supervisor title is required").Length(1, 100).WithMessage("T/IPP: Supervisor title can be up to 100 characters");

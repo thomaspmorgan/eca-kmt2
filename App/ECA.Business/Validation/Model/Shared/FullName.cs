@@ -8,19 +8,14 @@ namespace ECA.Business.Validation.Model
     public class FullName
     {
         /// <summary>
-        /// Person first name.
-        /// </summary>
-        public string FirsName { get; set; }
-
-        /// <summary>
         /// Person last name.
         /// </summary>
         public string LastName { get; set; }
 
         /// <summary>
-        /// Person name suffix.
+        /// Person first name.
         /// </summary>
-        public string Suffix { get; set; }
+        public string FirsName { get; set; }
 
         /// <summary>
         /// Person passport name.
@@ -31,5 +26,10 @@ namespace ECA.Business.Validation.Model
         /// Person preferred name.
         /// </summary>
         public string PreferredName { get; set; }
+
+        /// <summary>
+        /// Person name suffix.
+        /// </summary>
+        public string Suffix { get; set; }
     }
 }

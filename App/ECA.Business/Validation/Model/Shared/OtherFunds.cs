@@ -2,26 +2,47 @@
 
 namespace ECA.Business.Validation.Model.Shared
 {
+    /// <summary>
+    /// Other financial support
+    /// </summary>
     [Validator(typeof(OtherFundsValidator))]
     public class OtherFunds
     {
         public OtherFunds()
         {
-            usGovt = new USGovt();
-            international = new International();
-            other = new Other();
+            USGovt = new USGovt();
+            International = new International();
+            Other = new Other();
         }
 
-        public USGovt usGovt { get; set; }
+        /// <summary>
+        /// US government organization
+        /// </summary>
+        public USGovt USGovt { get; set; }
 
-        public International international { get; set; }
+        /// <summary>
+        /// International organization funding
+        /// </summary>
+        public International International { get; set; }
 
+        /// <summary>
+        /// Funding from exchange visitor government
+        /// </summary>
         public string EVGovt { get; set; }
 
+        /// <summary>
+        /// Funding from binational commission
+        /// </summary>
         public string BinationalCommission { get; set; }
 
-        public Other other { get; set; }
+        /// <summary>
+        /// Other organization funding
+        /// </summary>
+        public Other Other { get; set; }
 
-        public string personal { get; set; }
+        /// <summary>
+        /// Personal funds
+        /// </summary>
+        public string Personal { get; set; }
     }
 }

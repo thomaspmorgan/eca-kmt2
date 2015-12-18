@@ -12,7 +12,8 @@ namespace ECA.Business.Validation.Model.Shared
         {
             RuleFor(student => student.EVGovt).Length(1, EVGOVT_MAX_LENGTH).WithMessage("Other Funds: Visitor's Government amount can be up to " + EVGOVT_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.BinationalCommission).Length(1, BINATIONAL_MAX_LENGTH).WithMessage("Other Funds: Binational Commission amount can be up to " + BINATIONAL_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.personal).Length(1, PERSONAL_MAX_LENGTH).WithMessage("Other Funds: Personal Funds amount can be up to " + PERSONAL_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Personal).Length(1, PERSONAL_MAX_LENGTH).WithMessage("Other Funds: Personal Funds amount can be up to " + PERSONAL_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Other).SetValidator(new OtherValidator()).When(student => student.Other != null);
         }
     }
 }

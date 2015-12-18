@@ -7,16 +7,16 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public HostFamily()
         {
-            pContact = new PContact();
-            sContact = new SContact();
+            PContact = new PContact();
+            SContact = new SContact();
         }
 
-        public PContact pContact { get; set; }
+        public PContact PContact { get; set; }
 
-        public SContact sContact { get; set; }
+        public SContact SContact { get; set; }
         
-        public string phone { get; set; }
+        public string Phone { get; set; }
 
-        public string phoneExt { get; set; }
+        public string PhoneExt { get; set; }
     }
 }
