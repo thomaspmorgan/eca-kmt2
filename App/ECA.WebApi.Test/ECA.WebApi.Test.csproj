@@ -176,6 +176,7 @@
     <Compile Include="Controllers\Fundings\MoneyFlowTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\BookmarksControllerTest.cs" />
     <Compile Include="Controllers\Itineraries\ItinerariesControllerTest.cs" />
+    <Compile Include="Controllers\Itineraries\ItineraryGroupsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonSevisControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramStatusControllerTest.cs" />

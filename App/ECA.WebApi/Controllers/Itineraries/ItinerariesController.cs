@@ -2,6 +2,7 @@
 using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
+using ECA.Business.Models.Itineraries;
 using ECA.Business.Queries.Itineraries;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
@@ -37,7 +38,7 @@ namespace ECA.WebApi.Controllers.Itineraries
         /// <summary>
         /// Creates a new ItinerariesController with the given itinerary service.
         /// </summary>
-        /// <param name="itineraryService">The project service.</param>
+        /// <param name="itineraryService">The itinerary service.</param>
         /// <param name="userProvider">The user provider.</param>
         public ItinerariesController(
             IItineraryService itineraryService,

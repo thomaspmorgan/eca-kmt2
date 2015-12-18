@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ItineraryGroup]
 (
-	[ItineraryGroupId]  INT NOT NULL PRIMARY KEY,
+	[ItineraryGroupId]  INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	[ItineraryId] INT NOT NULL,
 	[Name] VARCHAR(255) NOT NULL,
 	[History_CreatedBy] INT                NOT NULL,

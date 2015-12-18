@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using ECA.WebApi.Models.Itineraries;
 using ECA.Business.Service;
 using ECA.Data;
+using ECA.Business.Models.Itineraries;
 
 namespace ECA.WebApi.Test.Controllers.Itineraries
 {

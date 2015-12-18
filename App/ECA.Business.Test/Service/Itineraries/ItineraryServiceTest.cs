@@ -11,6 +11,7 @@ using Moq;
 using ECA.Business.Validation;
 using ECA.Business.Service;
 using ECA.Core.Exceptions;
+using ECA.Business.Models.Itineraries;
 
 namespace ECA.Business.Test.Service.Itineraries
 {
