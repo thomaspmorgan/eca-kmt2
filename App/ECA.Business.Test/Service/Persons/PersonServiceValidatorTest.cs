@@ -416,44 +416,44 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Sevis Validation
 
-        /// <summary>
-        /// Validate that student record is null
-        /// </summary>
-        [TestMethod]
-        public void TestSevisValidator_NullStudent()
-        {
-            var validator = new CreateStudentValidator();
+        ///// <summary>
+        ///// Validate that student record is null
+        ///// </summary>
+        //[TestMethod]
+        //public void TestSevisValidator_NullStudent()
+        //{
+        //    var validator = new CreateStudentValidator();
 
-            var createStudent = new CreateStudent
-            {
-                student = null
-            };
+        //    var createStudent = new CreateStudent
+        //    {
+        //        student = null
+        //    };
 
-            var results = validator.Validate(createStudent);            
-            Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student information is required"));
-        }
+        //    var results = validator.Validate(createStudent);            
+        //    Assert.IsFalse(results.IsValid);
+        //    Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student information is required"));
+        //}
         
-        /// <summary>
-        /// Validate student record issue reason is null
-        /// </summary>
-        [TestMethod]
-        public void TestSevisValidator_NullStudentIssueReason()
-        {
-            var validator = new StudentValidator();
+        ///// <summary>
+        ///// Validate student record issue reason is null
+        ///// </summary>
+        //[TestMethod]
+        //public void TestSevisValidator_NullStudentIssueReason()
+        //{
+        //    var validator = new StudentValidator();
 
-            var student = new Student
-            {
-                requestID = "1",
-                userID = "1",
-                printForm = false,
-                IssueReason = null
-            };
+        //    var student = new Student
+        //    {
+        //        requestID = "1",
+        //        userID = "1",
+        //        printForm = false,
+        //        IssueReason = null
+        //    };
 
-            var results = validator.Validate(student);
-            Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student: Issue Reason is required"));
-        }
+        //    var results = validator.Validate(student);
+        //    Assert.IsFalse(results.IsValid);
+        //    Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student: Issue Reason is required"));
+        //}
 
 
 
