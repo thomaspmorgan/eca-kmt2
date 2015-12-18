@@ -52,6 +52,7 @@ namespace ECA.WebApi.Controllers.Itineraries
         /// </summary>
         /// <param name="projectId">The project id.</param>
         /// <param name="itineraryId">The itinerary id.</param>
+        /// <param name="queryModel">The query model to page, filter, and sort.</param>
         /// <returns>The list of project itineraries.</returns>
         [ResponseType(typeof(List<ItineraryGroupDTO>))]
         [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Groups")]
