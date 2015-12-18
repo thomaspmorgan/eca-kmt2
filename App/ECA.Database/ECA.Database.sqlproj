@@ -267,6 +267,8 @@
     <Build Include="dbo\Tables\ParticipantExchangeVisitor.sql" />
     <Build Include="dbo\Tables\VisitorType.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.VisitorType.staticdata.sql" />
+    <Build Include="dbo\Tables\ItineraryGroup.sql" />
+    <Build Include="dbo\Tables\ItineraryGroupParticipant.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
