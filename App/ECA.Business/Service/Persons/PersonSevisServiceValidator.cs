@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using ECA.Data;
 using ECA.Business.Queries.Persons;
 using System.Linq;
+using System.IO;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Diagnostics.Contracts;
 //using System.Data;
 //using System.IO;
 //using System.Xml.Serialization;
@@ -50,6 +54,9 @@ namespace ECA.Business.Service.Persons
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
             
+            // temporary to test xml serialization
+            //string temp = GetStudentUpdateXml(updateStudent);
+            
             return final;
         }
 
@@ -87,7 +94,7 @@ namespace ECA.Business.Service.Persons
                 {
                     FirsName = personalPII.FirstName,
                     LastName = personalPII.LastName,
-                    NameSuffix = personalPII.NameSuffix,
+                    Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
                 Gender = personalPII.GenderId.ToString(),
@@ -100,10 +107,10 @@ namespace ECA.Business.Service.Persons
                     // us address
                     student.usAddress = new USAddress
                     {
-                        address1 = primaryAddress.Street1,
-                        address2 = primaryAddress.Street2,
-                        city = primaryAddress.City,
-                        postalCode = primaryAddress.PostalCode
+                        Address1 = primaryAddress.Street1,
+                        Address2 = primaryAddress.Street2,
+                        City = primaryAddress.City,
+                        PostalCode = primaryAddress.PostalCode
                     };
                 }
                 else if (!string.IsNullOrEmpty(primaryAddress.CountryIso2))
@@ -211,27 +218,36 @@ namespace ECA.Business.Service.Persons
             return updateStudent;
         }
         
+        public string GetStudentUpdateXml(SEVISBatchUpdateStudent validationEntity)
+        {
+            XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
+            var settings = new XmlWriterSettings
+            {
+                NewLineHandling = NewLineHandling.Entitize,
+                Encoding = System.Text.Encoding.UTF8,
+                DoNotEscapeUriAttributes = true
+            };
+            using (var stream = new StringWriter())
+            using (var writer = XmlWriter.Create(stream, settings))
+            {
+                serializer.Serialize(writer, validationEntity);
+
+                return stream.ToString();
+            }
+        }
+
+
         public override List<ValidationResult> DoValidateSevis(SEVISBatchUpdateStudent validationEntity)
         {
             throw new NotImplementedException();
         }
 
         // TODO: for sending XML content to Sevis service
-
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;
         //DataSet MyDataSet = new DataSet();
         //MyDataSet.ReadXmlSchema(@"schema.xsd");
         //string entityXml = SerializeToXmlString(validationEntity);
         //MyDataSet.ReadXml(entityXml);    
 
-        //private string SerializeToXmlString(SEVISBatchCreateUpdateStudent validationEntity)
-        //{
-        //    string retVal = string.Empty;
-        //    TextWriter writer = new StringWriter();
-        //    XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
-        //    serializer.Serialize(writer, validationEntity);
-        //    retVal = writer.ToString();
-        //    return retVal;
-        //}
     }
 }

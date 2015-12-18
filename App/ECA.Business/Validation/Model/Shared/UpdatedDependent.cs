@@ -18,6 +18,6 @@ namespace ECA.Business.Validation.Model
 
         public ReactivateDependent reactivateDependent { get; set; }
 
-        public ReprintDependent reprintDependent { get; set; }        
+        public ReprintForm reprintDependent { get; set; }        
     }
 }

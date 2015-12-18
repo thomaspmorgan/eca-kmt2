@@ -1,7 +1,9 @@
 ﻿using ECA.Business.Validation.Model;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation
 {
+    [Validator(typeof(SEVISBatchUpdateStudentValidator))]
     public class SEVISBatchUpdateStudent
     {
         public SEVISBatchUpdateStudent()

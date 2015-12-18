@@ -1306,7 +1306,7 @@ namespace ECA.Business.Test.Service.Admin
             {
                 await service.GetSettingsAsync(office.OrganizationId);
             };
-            
+
             f.ShouldThrow<NotSupportedException>()
                 .WithMessage(String.Format("The office with id [{0}] has duplicated settings with keys [{1}].", office.OrganizationId, "Name"));
 
@@ -2310,50 +2310,50 @@ namespace ECA.Business.Test.Service.Admin
                     return list.ToArray();
                 });
 
-            var dataPointCategory = new DataPointCategory
-            {
-                DataPointCategoryId = DataPointCategory.Office.Id,
-                DataPointCategoryName = DataPointCategory.Office.Value
-            };
+                var dataPointCategory = new DataPointCategory
+                {
+                    DataPointCategoryId = DataPointCategory.Office.Id,
+                    DataPointCategoryName = DataPointCategory.Office.Value
+                };
 
-            var dataPointProperty = new DataPointProperty
-            {
-                DataPointPropertyId = DataPointProperty.Themes.Id,
-                DataPointPropertyName = DataPointProperty.Themes.Value
-            };
+                var dataPointProperty = new DataPointProperty
+                {
+                    DataPointPropertyId = DataPointProperty.Themes.Id,
+                    DataPointPropertyName = DataPointProperty.Themes.Value
+                };
 
-            var dataPointCategoryProperty = new DataPointCategoryProperty
-            {
-                DataPointCategoryPropertyId = 1,
-                DataPointCategoryId = dataPointCategory.DataPointCategoryId,
-                DataPointCategory = dataPointCategory,
-                DataPointPropertyId = dataPointProperty.DataPointPropertyId,
-                DataPointProperty = dataPointProperty
-            };
+                var dataPointCategoryProperty = new DataPointCategoryProperty
+                {
+                    DataPointCategoryPropertyId = 1,
+                    DataPointCategoryId = dataPointCategory.DataPointCategoryId,
+                    DataPointCategory = dataPointCategory,
+                    DataPointPropertyId = dataPointProperty.DataPointPropertyId,
+                    DataPointProperty = dataPointProperty
+                };
 
-            context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
+                context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
 
-            var dataPointConfig = new DataPointConfiguration
-            {
-                DataPointConfigurationId = 1,
-                OfficeId = 1,
-                DataPointCategoryPropertyId = dataPointCategoryProperty.DataPointCategoryPropertyId
-            };
+                var dataPointConfig = new DataPointConfiguration
+                {
+                    DataPointConfigurationId = 1,
+                    OfficeId = 1,
+                    DataPointCategoryPropertyId = dataPointCategoryProperty.DataPointCategoryPropertyId
+                };
 
-            context.DataPointConfigurations.Add(dataPointConfig);
+                context.DataPointConfigurations.Add(dataPointConfig);
 
-            var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(dataPointConfig.OfficeId.Value);
-            var result = serviceResult.FirstOrDefault();
-            Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
-            Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
-            Assert.AreEqual(dataPointConfig.DataPointCategoryPropertyId, result.CategoryPropertyId);
-            Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
-            Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
-            Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
-            Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
-            Assert.AreEqual(true, result.IsRequired);
+                var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(dataPointConfig.OfficeId.Value);
+                var result = serviceResult.FirstOrDefault();
+                Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
+                Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
+                Assert.AreEqual(dataPointConfig.DataPointCategoryPropertyId, result.CategoryPropertyId);
+                Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
+                Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
+                Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
+                Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
+                Assert.AreEqual(true, result.IsRequired);
                 Assert.AreEqual(false, result.IsInherited);
-        }
+            }
         }
 
         [TestMethod]
@@ -2397,7 +2397,7 @@ namespace ECA.Business.Test.Service.Admin
 
                 var dto1 = new SimpleOfficeDTO
                 {
-                OrganizationId = 1,
+                    OrganizationId = 1,
                     OrganizationTypeId = OrganizationType.Office.Id,
                     OrganizationType = OrganizationType.Office.Value,
                     OfficeSymbol = "eca",
@@ -2436,34 +2436,34 @@ namespace ECA.Business.Test.Service.Admin
                         }
                     );
                     return shimDb;
-            };
+                };
                 System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
                 {
                     return list.ToArray();
                 });
 
-            var dataPointCategory = new DataPointCategory
-            {
-                DataPointCategoryId = DataPointCategory.Office.Id,
-                DataPointCategoryName = DataPointCategory.Office.Value
-            };
+                var dataPointCategory = new DataPointCategory
+                {
+                    DataPointCategoryId = DataPointCategory.Office.Id,
+                    DataPointCategoryName = DataPointCategory.Office.Value
+                };
 
-            var dataPointProperty = new DataPointProperty
-            {
-                DataPointPropertyId = DataPointProperty.Themes.Id,
-                DataPointPropertyName = DataPointProperty.Themes.Value
-            };
+                var dataPointProperty = new DataPointProperty
+                {
+                    DataPointPropertyId = DataPointProperty.Themes.Id,
+                    DataPointPropertyName = DataPointProperty.Themes.Value
+                };
 
-            var dataPointCategoryProperty = new DataPointCategoryProperty
-            {
-                DataPointCategoryPropertyId = 1,
-                DataPointCategoryId = dataPointCategory.DataPointCategoryId,
-                DataPointCategory = dataPointCategory,
-                DataPointPropertyId = dataPointProperty.DataPointPropertyId,
-                DataPointProperty = dataPointProperty
-            };
+                var dataPointCategoryProperty = new DataPointCategoryProperty
+                {
+                    DataPointCategoryPropertyId = 1,
+                    DataPointCategoryId = dataPointCategory.DataPointCategoryId,
+                    DataPointCategory = dataPointCategory,
+                    DataPointPropertyId = dataPointProperty.DataPointPropertyId,
+                    DataPointProperty = dataPointProperty
+                };
 
-            context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
+                context.DataPointCategoryProperties.Add(dataPointCategoryProperty);
 
                 var dataPointConfig = new DataPointConfiguration
                 {
@@ -2475,17 +2475,17 @@ namespace ECA.Business.Test.Service.Admin
                 context.DataPointConfigurations.Add(dataPointConfig);
 
                 var serviceResult = await service.GetOfficeDataPointConfigurationsAsync(dto2.OrganizationId);
-            var result = serviceResult.FirstOrDefault();
+                var result = serviceResult.FirstOrDefault();
                 Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
                 Assert.AreEqual(dto2.OrganizationId, result.OfficeId);
                 Assert.AreEqual(dataPointConfig.DataPointCategoryPropertyId, result.CategoryPropertyId);
-            Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
-            Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
-            Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
-            Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
+                Assert.AreEqual(dataPointCategory.DataPointCategoryId, result.CategoryId);
+                Assert.AreEqual(dataPointCategory.DataPointCategoryName, result.CategoryName);
+                Assert.AreEqual(dataPointProperty.DataPointPropertyId, result.PropertyId);
+                Assert.AreEqual(dataPointProperty.DataPointPropertyName, result.PropertyName);
                 Assert.AreEqual(true, result.IsRequired);
                 Assert.AreEqual(true, result.IsInherited);
-        }
+            }
         }
         #endregion
     }

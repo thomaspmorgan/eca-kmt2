@@ -4,19 +4,24 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// U.S. physical address
+    /// </summary>
     [Validator(typeof(USAddressValidator))]
     public class USAddress
     {
-        public string address1 { get; set; }
+        public string Address1 { get; set; }
         
-        public string address2 { get; set; }
+        public string Address2 { get; set; }
         
-        public string city { get; set; }
-        
-        public string postalCode { get; set; }
-        
-        public string explanationCode { get; set; }
+        public string City { get; set; }
 
-        public string explanation { get; set; }
+        public string State { get; set; }
+
+        public string PostalCode { get; set; }
+        
+        public string ExplanationCode { get; set; }
+
+        public string Explanation { get; set; }
     }
 }

@@ -2,12 +2,16 @@
     <div class="col-md-9">
         <div ng-show="validationResults.length > 0">
         <div class="col-md-4">
-            {{validationResults.length}} fields remaining
+            <p class="title-label" style="color:red; display:inline-flex; vertical-align:middle">
+                <i class="icon material-icons md-24">warning</i> {{validationResults.length}} fields remaining
+            </p>
         </div>
         <div class="col-md-8">
-            <ul>
+            <fieldset style="border:1px red solid; border-radius:3px; padding:10px">
+                <ul style="line-height:1.5em">
                 <li ng-repeat="error in validationResults track by $index">{{error}}</li>
             </ul>
+            </fieldset>            
         </div>
     </div>
     </div>
