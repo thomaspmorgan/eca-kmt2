@@ -94,7 +94,7 @@ namespace ECA.Business.Service.Persons
                 {
                     FirsName = personalPII.FirstName,
                     LastName = personalPII.LastName,
-                    NameSuffix = personalPII.NameSuffix,
+                    Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
                 Gender = personalPII.GenderId.ToString(),
@@ -107,10 +107,10 @@ namespace ECA.Business.Service.Persons
                     // us address
                     student.usAddress = new USAddress
                     {
-                        address1 = primaryAddress.Street1,
-                        address2 = primaryAddress.Street2,
-                        city = primaryAddress.City,
-                        postalCode = primaryAddress.PostalCode
+                        Address1 = primaryAddress.Street1,
+                        Address2 = primaryAddress.Street2,
+                        City = primaryAddress.City,
+                        PostalCode = primaryAddress.PostalCode
                     };
                 }
                 else if (!string.IsNullOrEmpty(primaryAddress.CountryIso2))
