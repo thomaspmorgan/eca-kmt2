@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Queries.Itineraries
+namespace ECA.Business.Models.Itineraries
 {
     /// <summary>
     /// An ItineraryDTO contains overview details about an itinerary.

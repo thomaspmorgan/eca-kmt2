@@ -28,6 +28,17 @@ namespace ECA.Business.Test.Queries.Itineraries
         [TestMethod]
         public void TestCreateGetItinerariesQuery_CheckProperties()
         {
+            
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 2
+            };
+
             var cityLocationType = new LocationType
             {
                 LocationTypeId = LocationType.City.Id,
@@ -69,6 +80,24 @@ namespace ECA.Business.Test.Queries.Itineraries
                 Project = project,
                 StartDate = DateTimeOffset.Now.AddDays(-10.0),
             };
+            var group1 = new ItineraryGroup
+            {
+                ItineraryGroupId = 1,
+                Name = "1",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            var group2 = new ItineraryGroup
+            {
+                ItineraryGroupId = 2,
+                Name = "2",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            group1.Participants.Add(participant1);
+            group2.Participants.Add(participant2);
+            itinerary.ItineraryGroups.Add(group1);
+            itinerary.ItineraryGroups.Add(group2);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
             context.LocationTypes.Add(countryLocationType);
@@ -76,6 +105,10 @@ namespace ECA.Business.Test.Queries.Itineraries
             context.Locations.Add(departureDestination);
             context.Projects.Add(project);
             context.Itineraries.Add(itinerary);
+            context.ItineraryGroups.Add(group1);
+            context.ItineraryGroups.Add(group2);
+            context.Participants.Add(participant1);
+            context.Participants.Add(participant2);
 
             var results = ItineraryQueries.CreateGetItinerariesQuery(context);
             Assert.AreEqual(1, results.Count());
@@ -89,13 +122,13 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(itinerary.ItineraryId, firstResult.Id);
             Assert.AreEqual(itinerary.Name, firstResult.Name);
             Assert.AreEqual(itinerary.StartDate, firstResult.StartDate);
-            Assert.AreEqual(0, firstResult.ParticipantsCount);
-            Assert.AreEqual(0, firstResult.GroupsCount);
+            Assert.AreEqual(2, firstResult.ParticipantsCount);
+            Assert.AreEqual(2, firstResult.GroupsCount);
         }
 
         [TestMethod]
         public void TestCreateGetItinerariesQuery_NoArrivalOrDepartureLocation()
-        {   
+        {
             var project = new Project
             {
                 ProjectId = 1
@@ -168,3 +201,4 @@ namespace ECA.Business.Test.Queries.Itineraries
         }
     }
 }
+

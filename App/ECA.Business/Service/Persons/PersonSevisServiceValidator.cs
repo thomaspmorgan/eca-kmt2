@@ -157,36 +157,7 @@ namespace ECA.Business.Service.Persons
             if (visitorInfo != null)
             {
                 // financial
-                student.financialInfo = new FinancialInfo
-                {
-                    AcademicTerm = "",
-                    Expense = new Expense
-                    {
-                        DependentExp = (int)visitorInfo.DependentExpense,
-                        LivingExpense = (int)visitorInfo.LivingExpense,
-                        Tuition = (int)visitorInfo.TuitionExpense,
-                        Other = new ExpenseOther
-                        {
-                            Amount = (int)visitorInfo.OtherExpense,
-                            Remarks = visitorInfo.ExpenseRemarks
-                        }
-                    },
-                    Funding = new Funding
-                    {
-                        Employment = (int)visitorInfo.EmploymentFunding,
-                        Personal = (int)visitorInfo.PersonalFunding,
-                        School = new School
-                        {
-                            Amount = (int)visitorInfo.SchoolFunding,
-                            Remarks = visitorInfo.SchoolFundingRemarks
-                        },
-                        Other = new FundingOther
-                        {
-                            Amount = (int)visitorInfo.OtherFunding,
-                            Remarks = visitorInfo.OtherFundingRemarks
-                        }
-                    }
-                };
+                
             }
             // TODO: complete when dependent feature is available
             student.createDependent = null;

@@ -16,9 +16,9 @@ namespace ECA.Business.Validation.Model
             Edit = new PersonalInfo();
             EndStatus = new CancelDependent();
             Terminate = new TerminateDependent();
-            financialInfo = new EVFinancialInfo();
+            FinancialInfo = new FinancialInfo();
             Reprint = new ReprintForm();
-            SiteOfActivity = new SiteOfActivity();
+            SiteOfActivity = new AddSiteOfActivity();
             TIPP = new AddTIPP();
             AddSite = new TippSite();
             EditSite = new TippSite();
@@ -61,7 +61,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Visitor financial info
         /// </summary>
-        public EVFinancialInfo financialInfo { get; set; }
+        public FinancialInfo FinancialInfo { get; set; }
 
         /// <summary>
         /// Reprint Dependent DS-2019
@@ -71,7 +71,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Site of Activity Events
         /// </summary>
-        public SiteOfActivity SiteOfActivity { get; set; }
+        public AddSiteOfActivity SiteOfActivity { get; set; }
 
         /// <summary>
         /// T/IPP information
