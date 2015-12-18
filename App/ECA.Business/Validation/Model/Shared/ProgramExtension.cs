@@ -7,6 +7,11 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(ProgramExtensionValidator))]
     public class ProgramExtension
     {
+        public ProgramExtension()
+        {
+            TippPhaseDates = new TippPhaseDates();
+        }
+
         public bool printForm { get; set; }
         
         public DateTime NewPrgEndDate { get; set; }
@@ -14,5 +19,7 @@ namespace ECA.Business.Validation.Model
         public string Remarks { get; set; }
         
         public string Explanation { get; set; }
+
+        public TippPhaseDates TippPhaseDates { get; set; }
     }
 }

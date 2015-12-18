@@ -11,6 +11,8 @@ namespace ECA.Business.Validation.Model
         
         public DateTime NewPrgEndDate { get; set; }
         
-        public string Remarks { get; set; }        
+        public string Remarks { get; set; }
+
+        public TippPhaseDates TippPhaseDates { get; set; }
     }
 }

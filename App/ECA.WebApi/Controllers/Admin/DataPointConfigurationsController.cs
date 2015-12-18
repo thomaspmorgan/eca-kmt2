@@ -57,7 +57,7 @@ namespace ECA.WebApi.Controllers.Admin
                 await service.CreateDataPointConfigurationAsync(model.ToNewDataPointConfiguration());
                 await service.SaveChangesAsync();
                 return Ok();
-            }
+        }
             else
             {
                 return BadRequest(ModelState);

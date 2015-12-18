@@ -1,4 +1,5 @@
-﻿using FluentValidation.Attributes;
+﻿using ECA.Business.Validation.Model.CreateEV;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
@@ -8,11 +9,24 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(CreateDependentValidator))]
     public class CreateDependent
     {
+        public CreateDependent()
+        {
+            Dependent = new AddDependent();
+            addTIPP = new AddTIPP();
+        }
+
+        public bool isVisitor { get; set; }
+
         /// <summary>
         /// New dependent
         /// </summary>
         public AddDependent Dependent { get; set; }
-        
+
+        /// <summary>
+        /// T/IPP information
+        /// </summary>
+        public AddTIPP addTIPP { get; set; }
+
         /// <summary>
         /// Dependent record remarks
         /// </summary>

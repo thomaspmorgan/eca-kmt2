@@ -122,7 +122,7 @@ namespace ECA.Business.Service.Admin
             if (newDataPointConfiguration.OfficeId != null)
             {
                 resource = await Context.Organizations.FindAsync(newDataPointConfiguration.OfficeId);
-            }
+        }
             else if (newDataPointConfiguration.ProgramId != null)
             {
                 resource = await Context.Programs.FindAsync(newDataPointConfiguration.ProgramId);

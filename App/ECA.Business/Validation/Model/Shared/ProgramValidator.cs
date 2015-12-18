@@ -6,26 +6,11 @@ namespace ECA.Business.Validation.Model
     {
         public ProgramValidator()
         {
-            When(student => student.cancelExtension != null, () =>
-            {
-                RuleFor(student => student.cancelExtension).SetValidator(new CancelProgramExtensionValidator());
-            });
-            When(student => student.deferAttendence != null, () =>
-            {
-                RuleFor(student => student.deferAttendence).SetValidator(new DeferProgramAttendenceValidator());
-            });
-            When(student => student.edit != null, () =>
-            {
-                RuleFor(student => student.edit).SetValidator(new EditProgramValidator());
-            });
-            When(student => student.extension != null, () =>
-            {
-                RuleFor(student => student.extension).SetValidator(new ProgramExtensionValidator());
-            });
-            When(student => student.shorten != null, () =>
-            {
-                RuleFor(student => student.shorten).SetValidator(new ShortenProgramValidator());
-            });
+            RuleFor(student => student.CancelExtension).SetValidator(new CancelProgramExtensionValidator()).When(student => student.CancelExtension != null);
+            RuleFor(student => student.DeferAttendence).SetValidator(new DeferProgramAttendenceValidator()).When(student => student.DeferAttendence != null);
+            RuleFor(student => student.Edit).SetValidator(new EditProgramValidator()).When(student => student.Edit != null);
+            RuleFor(student => student.Extension).SetValidator(new ProgramExtensionValidator()).When(student => student.Extension != null);
+            RuleFor(student => student.Shorten).SetValidator(new ShortenProgramValidator()).When(student => student.Shorten != null);
         }
     }
 }
