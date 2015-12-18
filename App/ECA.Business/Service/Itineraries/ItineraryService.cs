@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECA.Business.Validation;
 using ECA.Core.Exceptions;
+using ECA.Business.Models.Itineraries;
 
 namespace ECA.Business.Service.Itineraries
 {

@@ -91,6 +91,11 @@ namespace ECA.Data
         public DbSet<Course> Courses { get; set; }
 
         /// <summary>
+        /// Gets or sets the itinerary groups.
+        /// </summary>
+        public DbSet<ItineraryGroup> ItineraryGroups { get; set; }
+
+        /// <summary>
         /// Gets or sets the email addresses.
         /// </summary>
         public DbSet<EmailAddress> EmailAddresses { get; set; }

@@ -16,6 +16,7 @@ namespace ECA.Data
             this.ItineraryStops = new HashSet<ItineraryStop>();
             this.SourceParticipantMoneyFlows = new HashSet<MoneyFlow>();
             this.RecipientParticipantMoneyFlows = new HashSet<MoneyFlow>();
+            this.ItineraryGroups = new HashSet<ItineraryGroup>();
             this.History = new History();
         }
 
@@ -59,6 +60,11 @@ namespace ECA.Data
         /// </summary>
         [ForeignKey("ParticipantId")]
         public ParticipantExchangeVisitor ParticipantExchangeVisitor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant's itinerary groups.
+        /// </summary>
+        public virtual ICollection<ItineraryGroup> ItineraryGroups { get; set; }
 
         /// <summary>
         /// History data for this participant

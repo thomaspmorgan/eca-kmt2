@@ -25,6 +25,7 @@ namespace ECA.Data
         public Itinerary()
         {
             this.History = new History();
+            this.ItineraryGroups = new HashSet<ItineraryGroup>();
         }
 
         /// <summary>
@@ -104,5 +105,10 @@ namespace ECA.Data
         [Required]
         [MaxLength(NAME_MAX_LENGTH)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the itinerary groups.
+        /// </summary>
+        public virtual ICollection<ItineraryGroup> ItineraryGroups { get; set; }
     }
 }

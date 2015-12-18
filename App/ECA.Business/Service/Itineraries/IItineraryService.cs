@@ -5,6 +5,7 @@ using ECA.Business.Queries.Itineraries;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using ECA.Core.Service;
+using ECA.Business.Models.Itineraries;
 
 namespace ECA.Business.Service.Itineraries
 {
