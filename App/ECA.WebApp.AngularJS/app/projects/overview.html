@@ -47,6 +47,18 @@
                     </ul>
                 </div>
             </div>
+            <div class="row" ng-show="project.regions">
+                <div class="col-md-4 title-label"><ng-pluralize count="project.regions.length" when="{'1':'Region','other':'Regions'}"></ng-pluralize></div>
+                <div class="col-md-8 simple-list">
+                    <ul>
+                        <li ng-repeat="location in project.regions | orderBy:'name'">
+                            <div>
+                                {{location.name}}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="row">
@@ -91,18 +103,6 @@
                     </ul>
                 </div>
             </div>
-            <div class="row" ng-show="project.regions">
-                <div class="col-md-4 title-label"><ng-pluralize count="project.regions.length" when="{'1':'Region','other':'Regions'}"></ng-pluralize></div>
-                <div class="col-md-8 simple-list">
-                    <ul>
-                        <li ng-repeat="location in project.regions | orderBy:'name'">
-                            <div>
-                                {{location.name}}
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             <div class="row" ng-show="project.locations">
                 <div class="col-md-4 title-label"><ng-pluralize count="project.locations.length" when="{'1':'Location','other':'Locations'}"></ng-pluralize></div>
                 <div class="col-md-8 simple-list">
@@ -119,7 +119,7 @@
                                     <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
                                     but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
                                     ({{location.locationTypeName}}:  {{location.divisionIso ? location.divisionIso + ', ' : ''}}{{location.countryIso ? location.countryIso : location.locationIso}})
-                                    <div style="margin-left:12px;margin-top:5px;margin-bottom:5px;">
+                                    <div style="margin-left:38px;margin-bottom:15px;">
                                         <span ng-show="location.latitude">
                                             {{location.latitude}}
                                         </span>
@@ -129,7 +129,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div ng-show="!location.longitude && !location.latitude">
+                                <div ng-show="!location.longitude && !location.latitude" style="margin-bottom:15px;">
                                     {{location.name}}
                                     <!--A couple of things can happen here, what we are trying to show is something like name (locationTypeName:  division, country)
                                     but the division may not be known.  Another possibility is that a location is a country itself and therefore it's own iso must be shown.-->
@@ -139,7 +139,7 @@
                         </li>
                     </ul>
                     <div id="mapcanvas"
-                         ng-if="!view.isLoading"
+                         ng-if="!view.isLoading && view.canShowLocationMarkers"
                          ui-map="view.locationMap"
                          ui-options="view.mapOptions"
                          style="height: 275px; width: 275px;"
