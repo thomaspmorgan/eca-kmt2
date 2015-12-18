@@ -51,7 +51,11 @@ namespace ECA.Business.Queries.Itineraries
         public static IQueryable<ItineraryGroupParticipantDTO> CreateGetItineraryGroupParticipantsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return null;
+            var query = from participant in context.Participants
+                        let itineraryGroups = participant.ItineraryGroups
+
+            return query;
+                        
         }
     }
 }
