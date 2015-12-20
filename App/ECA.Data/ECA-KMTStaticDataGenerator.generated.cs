@@ -1768,10 +1768,6 @@ namespace ECA.Data
 		/// Returns the Exchange Visitor lookup with id 2.
 		/// </summary>
 		public static StaticLookup ExchangeVisitor { get { return new StaticLookup("Exchange Visitor", 2); } }
-		/// <summary>
-		/// Returns the Student Visitor lookup with id 3.
-		/// </summary>
-		public static StaticLookup StudentVisitor { get { return new StaticLookup("Student Visitor", 3); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1781,7 +1777,6 @@ namespace ECA.Data
 		{
 			if (1 == id) return VisitorType.NotApplicable;
 			if (2 == id) return VisitorType.ExchangeVisitor;
-			if (3 == id) return VisitorType.StudentVisitor;
 			return null;
 		}
 		///<summary>
@@ -1793,7 +1788,6 @@ namespace ECA.Data
 		{
 			if ("Not Applicable".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return VisitorType.NotApplicable;
 			if ("Exchange Visitor".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return VisitorType.ExchangeVisitor;
-			if ("Student Visitor".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return VisitorType.StudentVisitor;
 			return null;
 		}
 

@@ -156,8 +156,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		},
 		visitorType: {
 			notApplicable: {id: 1, value: "Not Applicable"},
-			exchangeVisitor: {id: 2, value: "Exchange Visitor"},
-			studentVisitor: {id: 3, value: "Student Visitor"}
+			exchangeVisitor: {id: 2, value: "Exchange Visitor"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
 		cancelProgramChangesEventName: 'cancelProgramEdit',
