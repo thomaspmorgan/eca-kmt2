@@ -127,7 +127,7 @@ namespace ECA.Business.Service.Persons
         public ParticipantExchangeVisitorDTO Update(UpdatedParticipantExchangeVisitor updatedParticipantExchangeVisitor)
         {
             var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByIdQuery(updatedParticipantExchangeVisitor.ParticipantId).FirstOrDefault();
-            throwIfModelDoesNotExist(updatedParticipantExchangeVisitor.ParticipantId, participantExchangeVisitor, typeof(ParticipantStudentVisitor));
+            throwIfModelDoesNotExist(updatedParticipantExchangeVisitor.ParticipantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
 
             DoUpdate(participantExchangeVisitor, updatedParticipantExchangeVisitor);
             return this.GetParticipantExchangeVisitorById(updatedParticipantExchangeVisitor.ParticipantId);
