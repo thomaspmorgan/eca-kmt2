@@ -64,6 +64,19 @@ namespace ECA.WebApi.Controllers.Itineraries
             }
         }
 
+        /// <summary>
+        /// Returns the itinerary groups and participant persons given the project id and itinerary id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.  Used for security purposes.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The list of itinerary groups and participant persons per group.</returns>
+        [ResponseType(typeof(List<ItineraryGroupParticipantsDTO>))]
+        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Groups/People")]
+        public async Task<IHttpActionResult> GetItineraryGroupPersonsByItineraryIdAsync(int projectId, int itineraryId)
+        {
+            var results = await this.itineraryGroupService.GetItineraryGroupPersonsByItineraryIdAsync(projectId, itineraryId);
+            return Ok(results);            
+        }
         #endregion
     }
 }

@@ -2,6 +2,7 @@
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Itineraries
@@ -28,5 +29,21 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, sorted itinerary groups.</returns>
         Task<PagedQueryResults<ItineraryGroupDTO>> GetItineraryGroupsByItineraryIdAsync(int projectId, int itineraryId, QueryableOperator<ItineraryGroupDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the itinerary groups and participant persons given the project id and itinerary id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.  Used for security purposes.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The list of itinerary groups and participant persons per group.</returns>
+        Task<List<ItineraryGroupParticipantsDTO>> GetItineraryGroupPersonsByItineraryIdAsync(int projectId, int itineraryId);
+
+        /// <summary>
+        /// Returns the itinerary groups and participant persons given the project id and itinerary id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.  Used for security purposes.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The list of itinerary groups and participant persons per group.</returns>
+        List<ItineraryGroupParticipantsDTO> GetItineraryGroupPersonsByItineraryId(int projectId, int itineraryId);
     }
 }

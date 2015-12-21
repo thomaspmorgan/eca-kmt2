@@ -26,6 +26,8 @@ namespace ECA.Business.Test.Service.Itineraries
             service = new ItineraryGroupService(context);
         }
 
+        #region GetItineraryGroupsByItineraryId
+
         [TestMethod]
         public async Task TestGetItineraryGroupsByItineraryId_ProjectDoesNotExist()
         {
@@ -308,5 +310,229 @@ namespace ECA.Business.Test.Service.Itineraries
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        #endregion
+
+        #region GetItineraryGroupPersonsByItineraryId
+        [TestMethod]
+        public async Task TestCreateGetItineraryGroupParticipantsQuery()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            participant.ItineraryGroups.Add(group);
+            group.Participants.Add(participant);
+            person1.Participations.Add(participant);
+            participant.Person = person1;
+            participant.PersonId = person1.PersonId;
+            person1.Participations.Add(participant);
+
+            context.Participants.Add(participant);
+            context.People.Add(person1);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            Action<List<ItineraryGroupParticipantsDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(group.ItineraryGroupId, firstResult.ItineraryGroupId);
+                Assert.AreEqual(group.Name, firstResult.ItineraryGroupName);
+                Assert.AreEqual(itinerary.ItineraryId, firstResult.ItineraryId);
+                Assert.AreEqual(itinerary.Name, firstResult.ItineraryName);
+                Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+
+                Assert.AreEqual(1, firstResult.People.Count());
+                var firstPerson = firstResult.People.First();
+                Assert.AreEqual(person1.PersonId, firstPerson.PersonId);
+                Assert.AreEqual(person1.FullName, firstPerson.FullName);
+                Assert.AreEqual(participant.ParticipantId, firstPerson.ParticipantId);
+                Assert.AreEqual(participantType.ParticipantTypeId, firstPerson.ParticipantTypeId);
+            };
+
+            var serviceResults = service.GetItineraryGroupPersonsByItineraryId(project.ProjectId, itinerary.ItineraryId);
+            var serviceResultsAsync = await service.GetItineraryGroupPersonsByItineraryIdAsync(project.ProjectId, itinerary.ItineraryId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreateGetItineraryGroupParticipantsQuery_DifferentProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            participant.ItineraryGroups.Add(group);
+            group.Participants.Add(participant);
+            person1.Participations.Add(participant);
+            participant.Person = person1;
+            participant.PersonId = person1.PersonId;
+            person1.Participations.Add(participant);
+
+            context.Participants.Add(participant);
+            context.People.Add(person1);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            Action<List<ItineraryGroupParticipantsDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+
+            var serviceResults = service.GetItineraryGroupPersonsByItineraryId(0, itinerary.ItineraryId);
+            var serviceResultsAsync = await service.GetItineraryGroupPersonsByItineraryIdAsync(0, itinerary.ItineraryId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreateGetItineraryGroupParticipantsQuery_ItineraryDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            participant.ItineraryGroups.Add(group);
+            group.Participants.Add(participant);
+            person1.Participations.Add(participant);
+            participant.Person = person1;
+            participant.PersonId = person1.PersonId;
+            person1.Participations.Add(participant);
+
+            context.Participants.Add(participant);
+            context.People.Add(person1);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            Action<List<ItineraryGroupParticipantsDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+
+            var serviceResults = service.GetItineraryGroupPersonsByItineraryId(project.ProjectId, 0);
+            var serviceResultsAsync = await service.GetItineraryGroupPersonsByItineraryIdAsync(project.ProjectId, 0);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
     }
 }
