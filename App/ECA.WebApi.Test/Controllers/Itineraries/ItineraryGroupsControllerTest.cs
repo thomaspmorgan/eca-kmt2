@@ -7,6 +7,7 @@ using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 
@@ -48,6 +49,17 @@ namespace ECA.WebApi.Test.Controllers.Itineraries
             controller.ModelState.AddModelError("key", "error");
             var results = await controller.GetItinerariesByProjectIdAsync(projectId, itineraryId, model);
             Assert.IsInstanceOfType(results, typeof(InvalidModelStateResult));            
+        }
+
+        [TestMethod]
+        public async Task TestGetItineraryGroupPersonsByItineraryIdAsync()
+        {
+            var projectId = 1;
+            var itineraryId = 2;
+            var model = new PagingQueryBindingModel<ItineraryGroupDTO>();
+            var results = await controller.GetItineraryGroupPersonsByItineraryIdAsync(projectId, itineraryId);
+            Assert.IsInstanceOfType(results, typeof(OkNegotiatedContentResult<List<ItineraryGroupParticipantsDTO>>));
+            service.Verify(x => x.GetItineraryGroupPersonsByItineraryIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
         }
         #endregion
     }

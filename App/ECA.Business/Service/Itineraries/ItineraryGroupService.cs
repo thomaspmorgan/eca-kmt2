@@ -1,4 +1,6 @@
 ﻿using ECA.Business.Queries.Itineraries;
+using System.Data.Entity;
+using System.Linq;
 using ECA.Business.Queries.Models.Itineraries;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -51,6 +53,30 @@ namespace ECA.Business.Service.Itineraries
         public PagedQueryResults<ItineraryGroupDTO> GetItineraryGroupsByItineraryId(int projectId, int itineraryId, QueryableOperator<ItineraryGroupDTO> queryOperator)
         {
             var results = ItineraryGroupQueries.CreateGetItineraryGroupDTOByItineraryIdQuery(this.Context, projectId, itineraryId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return results;
+        }
+
+        /// <summary>
+        /// Returns the itinerary groups and participant persons given the project id and itinerary id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.  Used for security purposes.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The list of itinerary groups and participant persons per group.</returns>
+        public async Task<List<ItineraryGroupParticipantsDTO>> GetItineraryGroupPersonsByItineraryIdAsync(int projectId, int itineraryId)
+        {
+            var results = await ItineraryGroupQueries.CreateGetItineraryGroupParticipantsQuery(this.Context, projectId, itineraryId).ToListAsync();
+            return results;
+        }
+
+        /// <summary>
+        /// Returns the itinerary groups and participant persons given the project id and itinerary id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.  Used for security purposes.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The list of itinerary groups and participant persons per group.</returns>
+        public List<ItineraryGroupParticipantsDTO> GetItineraryGroupPersonsByItineraryId(int projectId, int itineraryId)
+        {
+            var results = ItineraryGroupQueries.CreateGetItineraryGroupParticipantsQuery(this.Context, projectId, itineraryId).ToList();
             return results;
         }
 
