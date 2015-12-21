@@ -90,7 +90,7 @@ namespace ECA.WebApi.Test.Controllers.Itineraries
             var itineraryId = 2;
             var model = new AddedItineraryGroupBindingModel();
             controller.ModelState.AddModelError("key", "error");
-            var results = await controller.PostCreateItineraryGroupAsync(projectId, itineraryId, model);
+            var response = await controller.PostCreateItineraryGroupAsync(projectId, itineraryId, model);
             Assert.IsNotNull(response);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
