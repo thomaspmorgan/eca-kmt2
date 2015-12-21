@@ -243,7 +243,11 @@
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
     <Compile Include="Service\Itineraries\AddedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryGroup.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryGroupValidationEntity.cs" />
     <Compile Include="Service\Itineraries\AddedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryGroup.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryGroupValidator.cs" />
     <Compile Include="Service\Itineraries\EcaItineraryValidationEntity.cs" />
     <Compile Include="Service\Itineraries\IItineraryGroupService.cs" />
     <Compile Include="Service\Itineraries\IItineraryService.cs" />

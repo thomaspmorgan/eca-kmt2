@@ -544,6 +544,7 @@
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
     <Compile Include="Models\Itineraries\AddedItineraryBindingModel.cs" />
+    <Compile Include="Models\Itineraries\AddedItineraryGroupBindingModel.cs" />
     <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />

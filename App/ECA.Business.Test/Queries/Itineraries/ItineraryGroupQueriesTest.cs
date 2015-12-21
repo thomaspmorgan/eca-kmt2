@@ -558,5 +558,440 @@ namespace ECA.Business.Test.Queries.Itineraries
 
         #endregion
 
+        #region
+        [TestMethod]
+        public void TestCreateGetEqualItineraryGroupsQuery_CheckProperties()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 6,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person2 = new Person
+            {
+                PersonId = 7,
+                FullName = "full name2",
+            };
+            participant1.ItineraryGroups.Add(group);
+            group.Participants.Add(participant1);
+            person1.Participations.Add(participant1);
+            participant1.Person = person1;
+            participant1.PersonId = person1.PersonId;
+            person1.Participations.Add(participant1);
+
+            participant2.ItineraryGroups.Add(group);
+            group.Participants.Add(participant2);
+            person2.Participations.Add(participant2);
+            participant2.Person = person2;
+            participant2.PersonId = person2.PersonId;
+            person1.Participations.Add(participant2);
+
+            context.Participants.Add(participant1);
+            context.Participants.Add(participant2);
+            context.People.Add(person1);
+            context.People.Add(person2);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            var results = ItineraryGroupQueries.CreateGetEqualItineraryGroupsQuery(context, itinerary.ItineraryId, project.ProjectId, new List<int> { participant1.ParticipantId, participant2.ParticipantId }).ToList();
+            Assert.AreEqual(1, results.Count);
+            var firstResult = results.First();
+            Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+            Assert.AreEqual(itinerary.ItineraryId, firstResult.ItineraryId);
+            Assert.AreEqual(itinerary.Name, firstResult.ItineraryName);
+            Assert.AreEqual(group.ItineraryGroupId, firstResult.ItineraryGroupId);
+            Assert.AreEqual(group.Name, firstResult.ItineraryGroupName);
+        }
+
+        [TestMethod]
+        public void TestCreateGetEqualItineraryGroupsQuery_ParticipantIdsDuplicatedAndOutOfOrder()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 6,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person2 = new Person
+            {
+                PersonId = 7,
+                FullName = "full name2",
+            };
+            participant1.ItineraryGroups.Add(group);
+            group.Participants.Add(participant1);
+            person1.Participations.Add(participant1);
+            participant1.Person = person1;
+            participant1.PersonId = person1.PersonId;
+            person1.Participations.Add(participant1);
+
+            participant2.ItineraryGroups.Add(group);
+            group.Participants.Add(participant2);
+            person2.Participations.Add(participant2);
+            participant2.Person = person2;
+            participant2.PersonId = person2.PersonId;
+            person1.Participations.Add(participant2);
+
+            context.Participants.Add(participant1);
+            context.Participants.Add(participant2);
+            context.People.Add(person1);
+            context.People.Add(person2);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            var results = ItineraryGroupQueries.CreateGetEqualItineraryGroupsQuery(context, itinerary.ItineraryId, project.ProjectId, new List<int>
+            {
+                participant2.ParticipantId,
+                participant2.ParticipantId,
+                participant2.ParticipantId,
+                participant1.ParticipantId,
+                participant2.ParticipantId,
+                participant2.ParticipantId,
+                participant1.ParticipantId,
+            }).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetEqualItineraryGroupsQuery_DifferentParticipants()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 6,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person2 = new Person
+            {
+                PersonId = 7,
+                FullName = "full name2",
+            };
+            participant1.ItineraryGroups.Add(group);
+            group.Participants.Add(participant1);
+            person1.Participations.Add(participant1);
+            participant1.Person = person1;
+            participant1.PersonId = person1.PersonId;
+            person1.Participations.Add(participant1);
+
+            participant2.ItineraryGroups.Add(group);
+            group.Participants.Add(participant2);
+            person2.Participations.Add(participant2);
+            participant2.Person = person2;
+            participant2.PersonId = person2.PersonId;
+            person1.Participations.Add(participant2);
+
+            context.Participants.Add(participant1);
+            context.Participants.Add(participant2);
+            context.People.Add(person1);
+            context.People.Add(person2);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            var results = ItineraryGroupQueries.CreateGetEqualItineraryGroupsQuery(context, itinerary.ItineraryId, project.ProjectId, new List<int>
+            {
+                3
+            }).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetEqualItineraryGroupsQuery_DifferentItinerary()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 6,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person2 = new Person
+            {
+                PersonId = 7,
+                FullName = "full name2",
+            };
+            participant1.ItineraryGroups.Add(group);
+            group.Participants.Add(participant1);
+            person1.Participations.Add(participant1);
+            participant1.Person = person1;
+            participant1.PersonId = person1.PersonId;
+            person1.Participations.Add(participant1);
+
+            participant2.ItineraryGroups.Add(group);
+            group.Participants.Add(participant2);
+            person2.Participations.Add(participant2);
+            participant2.Person = person2;
+            participant2.PersonId = person2.PersonId;
+            person1.Participations.Add(participant2);
+
+            context.Participants.Add(participant1);
+            context.Participants.Add(participant2);
+            context.People.Add(person1);
+            context.People.Add(person2);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            var results = ItineraryGroupQueries.CreateGetEqualItineraryGroupsQuery(context, itinerary.ItineraryId + 1, project.ProjectId, new List<int> { participant1.ParticipantId, participant2.ParticipantId }).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetEqualItineraryGroupsQuery_DifferentProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 2,
+                Name = "itinerary",
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            var group = new ItineraryGroup
+            {
+                ItineraryGroupId = 3,
+                Name = "group",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            project.Itineraries.Add(itinerary);
+            itinerary.ItineraryGroups.Add(group);
+
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 4,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person1 = new Person
+            {
+                PersonId = 5,
+                FullName = "full name",
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 6,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+            };
+            var person2 = new Person
+            {
+                PersonId = 7,
+                FullName = "full name2",
+            };
+            participant1.ItineraryGroups.Add(group);
+            group.Participants.Add(participant1);
+            person1.Participations.Add(participant1);
+            participant1.Person = person1;
+            participant1.PersonId = person1.PersonId;
+            person1.Participations.Add(participant1);
+
+            participant2.ItineraryGroups.Add(group);
+            group.Participants.Add(participant2);
+            person2.Participations.Add(participant2);
+            participant2.Person = person2;
+            participant2.PersonId = person2.PersonId;
+            person1.Participations.Add(participant2);
+
+            context.Participants.Add(participant1);
+            context.Participants.Add(participant2);
+            context.People.Add(person1);
+            context.People.Add(person2);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ParticipantTypes.Add(participantType);
+            context.ItineraryGroups.Add(group);
+
+            var results = ItineraryGroupQueries.CreateGetEqualItineraryGroupsQuery(context, itinerary.ItineraryId, project.ProjectId + 1, new List<int> { participant1.ParticipantId, participant2.ParticipantId }).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+        #endregion
+
     }
 }
