@@ -538,7 +538,6 @@
     <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantExchangeVisitorsController.cs" />
-    <Compile Include="Controllers\Persons\ParticipantStudentVisitorsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
@@ -548,7 +547,6 @@
     <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
-    <Compile Include="Models\Person\UpdatedParticipantStudentVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />

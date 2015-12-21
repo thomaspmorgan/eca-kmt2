@@ -777,21 +777,7 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ParticipantStatus>(this.SingleOrDefault(x => x.ParticipantStatusId.Equals(keyValues.First())));
 		}
 	}
-	public class ParticipantStudentVisitorTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantStudentVisitor>
-	{
-		public override ECA.Data.ParticipantStudentVisitor Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///ParticipantId
-			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
-		}
-		public override Task<ECA.Data.ParticipantStudentVisitor> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///ParticipantId
-			return Task.FromResult<ECA.Data.ParticipantStudentVisitor>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
-		}
-	}
+
 	public class ParticipantTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantType>
 	{
 		public override ECA.Data.ParticipantType Find(params object[] keyValues)
@@ -1258,7 +1244,6 @@ namespace ECA.Business.Test
 			this.ParticipantPersonSevisCommStatuses = new ParticipantPersonSevisCommStatusTestDbSet();
 			this.Participants = new ParticipantTestDbSet();
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
-			this.ParticipantStudentVisitors = new ParticipantStudentVisitorTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
 			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();

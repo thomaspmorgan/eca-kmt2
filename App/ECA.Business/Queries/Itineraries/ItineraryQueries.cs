@@ -1,12 +1,8 @@
-﻿using ECA.Business.Models.Itineraries;
-using ECA.Business.Queries.Admin;
+﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Itineraries;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Itineraries
 {

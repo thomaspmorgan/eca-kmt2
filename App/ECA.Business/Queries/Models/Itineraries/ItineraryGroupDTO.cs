@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Models.Itineraries
+namespace ECA.Business.Queries.Models.Itineraries
 {
     /// <summary>
     /// An ItineraryGroupDTO represents an itinerary group in the eca system.

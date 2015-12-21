@@ -1,4 +1,4 @@
-﻿using ECA.Business.Models.Itineraries;
+﻿using ECA.Business.Queries.Models.Itineraries;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -40,10 +40,18 @@ namespace ECA.Business.Queries.Itineraries
         /// <returns>The query to get all filtered, sorted, and paged itinerary groups.</returns>
         public static IQueryable<ItineraryGroupDTO> CreateGetItineraryGroupDTOByItineraryIdQuery(EcaContext context, int projectId, int itineraryId, QueryableOperator<ItineraryGroupDTO> queryOperator)
         {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return CreateGetItineraryGroupDTOQuery(context)
                 .Where(x => x.ItineraryId == itineraryId)
                 .Where(x => x.ProjectId == projectId)
                 .Apply(queryOperator);
+        }
+
+        public static IQueryable<ItineraryGroupParticipantDTO> CreateGetItineraryGroupParticipantsQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return null;
         }
     }
 }

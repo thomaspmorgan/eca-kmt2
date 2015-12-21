@@ -181,7 +181,6 @@
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
     <Compile Include="ParticipantExchangeVisitor.cs" />
-    <Compile Include="ParticipantStudentVisitor.cs" />
     <Compile Include="ParticipantPersonSevisCommStatus.cs" />
     <Compile Include="EducationLevel.cs" />
     <Compile Include="InternationalOrganization.cs" />

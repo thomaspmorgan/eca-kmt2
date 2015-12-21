@@ -1182,7 +1182,7 @@ namespace ECA.Business.Test.Service.Persons
             var projectId = 3;
             Project project = null;
             Participant participant = null;
-            ParticipantStudentVisitor studentVisitor = null;
+            ParticipantExchangeVisitor exchangeVisitor = null;
             ParticipantPersonSevisCommStatus status = null;
             ParticipantPerson person = null;
             MoneyFlow sourceMoneyFlow = null;
@@ -1206,7 +1206,7 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = project.ProjectId,
                     Project = project
                 };
-                studentVisitor = new ParticipantStudentVisitor
+                exchangeVisitor = new ParticipantExchangeVisitor
                 {
                     Participant = participant,
                     ParticipantId = participant.ParticipantId
@@ -1235,7 +1235,7 @@ namespace ECA.Business.Test.Service.Persons
                 };
                 context.MoneyFlows.Add(sourceMoneyFlow);
                 context.MoneyFlows.Add(recipientMoneyFlow);
-                context.ParticipantStudentVisitors.Add(studentVisitor);
+                context.ParticipantExchangeVisitors.Add(exchangeVisitor);
                 context.ParticipantPersonSevisCommStatuses.Add(status);
                 context.ParticipantPersons.Add(person);
                 context.Participants.Add(participant);
@@ -1247,7 +1247,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(0, context.Participants.Count());
                 Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.AreEqual(0, context.ParticipantPersons.Count());
-                Assert.AreEqual(0, context.ParticipantStudentVisitors.Count());
+                Assert.AreEqual(0, context.ParticipantExchangeVisitors.Count());
                 Assert.AreEqual(0, context.MoneyFlows.Count());
             };
             var deletedParticipant = new DeletedParticipant(user, projectId, participantId);
@@ -1270,7 +1270,7 @@ namespace ECA.Business.Test.Service.Persons
             Project project = null;
             Participant participant = null;
             Participant otherParticipant = null;
-            ParticipantStudentVisitor studentVisitor = null;
+            ParticipantExchangeVisitor studentVisitor = null;
             ParticipantPersonSevisCommStatus status = null;
             ParticipantPerson person = null;
             MoneyFlow sourceMoneyFlow = null;
@@ -1300,7 +1300,7 @@ namespace ECA.Business.Test.Service.Persons
                     ProjectId = project.ProjectId,
                     Project = project
                 };
-                studentVisitor = new ParticipantStudentVisitor
+                studentVisitor = new ParticipantExchangeVisitor
                 {
                     Participant = otherParticipant,
                     ParticipantId = otherParticipant.ParticipantId
@@ -1329,7 +1329,7 @@ namespace ECA.Business.Test.Service.Persons
                 };
                 context.MoneyFlows.Add(sourceMoneyFlow);
                 context.MoneyFlows.Add(recipientMoneyFlow);
-                context.ParticipantStudentVisitors.Add(studentVisitor);
+                context.ParticipantExchangeVisitors.Add(studentVisitor);
                 context.ParticipantPersonSevisCommStatuses.Add(status);
                 context.ParticipantPersons.Add(person);
                 context.Participants.Add(participant);
@@ -1342,7 +1342,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, context.Participants.Count());
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.AreEqual(1, context.ParticipantPersons.Count());
-                Assert.AreEqual(1, context.ParticipantStudentVisitors.Count());
+                Assert.AreEqual(1, context.ParticipantExchangeVisitors.Count());
                 Assert.AreEqual(2, context.MoneyFlows.Count());
             };
             var deletedParticipant = new DeletedParticipant(user, projectId, participantId);

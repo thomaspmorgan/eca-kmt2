@@ -1,14 +1,13 @@
-﻿using System;
+﻿using ECA.Business.Queries.Models.Itineraries;
+using ECA.Business.Service.Itineraries;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
+using ECA.WebApi.Controllers.Itineraries;
+using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ECA.Business.Service.Itineraries;
-using ECA.WebApi.Security;
-using ECA.WebApi.Controllers.Itineraries;
-using ECA.Business.Models.Itineraries;
-using ECA.WebApi.Models.Query;
 using System.Threading.Tasks;
-using ECA.Core.Query;
-using ECA.Core.DynamicLinq;
 using System.Web.Http.Results;
 
 namespace ECA.WebApi.Test.Controllers.Itineraries

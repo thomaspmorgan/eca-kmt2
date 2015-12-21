@@ -247,7 +247,6 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.SevisCommStatus.staticdata.sql" />
     <Build Include="Sevis\Tables\USGovernmentAgency.sql" />
     <Build Include="Sevis\Tables\InternationalOrganization.sql" />
-    <Build Include="dbo\Tables\ParticipantStudentVisitor.sql" />
     <Build Include="Sevis\Tables\CapGapExtensionType.sql" />
     <Build Include="Sevis\Tables\DependentCancellationReason.sql" />
     <Build Include="Sevis\Tables\DependentTermination.sql" />

@@ -74,7 +74,6 @@ namespace ECA.Business.Service.Persons
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
             var studentInfo = PersonQueries.CreateGetEducationsByPersonIdQuery(context, (int)participant.PersonId).FirstOrDefault();
-            var visitorInfo = ParticipantStudentVisitorQueries.CreateGetParticipantStudentVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
             var primaryAddress = personalPII.Addresses.Where(x => x.IsPrimary == true).FirstOrDefault();
             var ecaService = new EcaService(context);
             var citizenship = ecaService.GetLocationById(personalPII.CountriesOfCitizenship.FirstOrDefault().Id);
@@ -135,29 +134,30 @@ namespace ECA.Business.Service.Persons
                 student.educationalInfo = new EducationalInfo
                 {
                     PrgStartDate = studentInfo.StartDate.DateTime > DateTime.MinValue ? studentInfo.StartDate.DateTime : DateTime.MinValue,
-                    PrgEndDate = studentInfo.EndDate.HasValue ? studentInfo.EndDate.Value.DateTime : DateTime.MinValue,
-                    eduLevel = new EduLevel
-                    {
-                        Level = visitorInfo != null ? visitorInfo.EducationLevel : "",
-                        OtherRemarks = visitorInfo != null ? visitorInfo.EducationLevelOtherRemarks : ""
-                    },
-                    engProficiency = new EngProficiency
-                    {
-                        EngRequired = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyReqd : false,
-                        RequirementsMet = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyMet : false,
-                        NotRequiredReason = visitorInfo != null ? visitorInfo.EnglishLanguageProficiencyNotReqdReason : ""
-                    },
-                    LengthOfStudy = visitorInfo != null ? visitorInfo.LengthOfStudy.ToString() : "",
-                    PrimaryMajor = visitorInfo != null ? visitorInfo.PrimaryMajor : "",
-                    SecondMajor = visitorInfo != null ? visitorInfo.SecondaryMajor : "",
-                    Minor = visitorInfo != null ? visitorInfo.Minor : "",
-                    Remarks = visitorInfo != null ? studentInfo.Title : ""
+                    PrgEndDate = studentInfo.EndDate.HasValue ? studentInfo.EndDate.Value.DateTime : DateTime.MinValue
+                    //        eduLevel = new EduLevel
+                    //        {
+                    //            Level = visitorInfo != null ? visitorInfo.EducationLevel : "",
+                    //            OtherRemarks = visitorInfo != null ? visitorInfo.EducationLevelOtherRemarks : ""
+                    //        },
+                    //        engProficiency = new EngProficiency
+                    //        {
+                    //            EngRequired = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyReqd : false,
+                    //            RequirementsMet = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyMet : false,
+                    //            NotRequiredReason = visitorInfo != null ? visitorInfo.EnglishLanguageProficiencyNotReqdReason : ""
+                    //        },
+                    //        LengthOfStudy = visitorInfo != null ? visitorInfo.LengthOfStudy.ToString() : "",
+                    //        PrimaryMajor = visitorInfo != null ? visitorInfo.PrimaryMajor : "",
+                    //        SecondMajor = visitorInfo != null ? visitorInfo.SecondaryMajor : "",
+                    //        Minor = visitorInfo != null ? visitorInfo.Minor : "",
+                    //        Remarks = visitorInfo != null ? studentInfo.Title : ""
+                    //    };
+                    //}
+                    //if (visitorInfo != null)
+                    //{
+                    //    // financial
+
                 };
-            }
-            if (visitorInfo != null)
-            {
-                // financial
-                
             }
             // TODO: complete when dependent feature is available
             student.createDependent = null;

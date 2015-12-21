@@ -1,27 +1,12 @@
-﻿using CAM.Business.Model;
-using CAM.Business.Queries.Models;
-using CAM.Business.Service;
-using CAM.Data;
-using ECA.Business.Models.Itineraries;
-using ECA.Business.Queries.Itineraries;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+﻿using ECA.Business.Queries.Models.Itineraries;
 using ECA.Business.Service.Itineraries;
-using ECA.Business.Service.Projects;
-using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Filter;
-using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.Query;
 using ECA.WebApi.Models.Itineraries;
-using ECA.WebApi.Models.Projects;
-using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Itineraries
 {

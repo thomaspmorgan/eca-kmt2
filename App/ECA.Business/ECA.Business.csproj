@@ -195,11 +195,11 @@
     <Compile Include="Queries\Models\Fundings\FiscalYearSummaryDTO.cs" />
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryGroupParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantExchangeVisitorDTO.cs" />
-    <Compile Include="Queries\Models\Persons\ParticipantStudentVisitorDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
@@ -209,7 +209,6 @@
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
-    <Compile Include="Queries\Persons\ParticipantStudentVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
@@ -293,7 +292,6 @@
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\IParticipantExchangeVisitorService.cs" />
-    <Compile Include="Service\Persons\IParticipantStudentVisitorService.cs" />
     <Compile Include="Service\Persons\IParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\IPersonSevisServiceValidator.cs" />
     <Compile Include="Service\Persons\ISevisValidationService.cs" />
@@ -304,14 +302,11 @@
     <Compile Include="Service\Persons\NewPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
     <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
-    <Compile Include="Service\Persons\ParticipantStudentVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidator.cs" />
     <Compile Include="Service\Persons\SevisValidationService.cs" />
-    <Compile Include="Service\Persons\NewParticipantStudentVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
-    <Compile Include="Service\Persons\UpdatedParticipantStudentVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />

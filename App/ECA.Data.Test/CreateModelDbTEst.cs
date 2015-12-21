@@ -7,7 +7,7 @@ namespace ECA.Data.Test
     [TestClass]
     public class CreateModelDbTest
     {
-        [TestMethod]
+        //[TestMethod]
         public void TestCreateDatabase()
         {
             using (var context = new EcaContext(@"Data Source=(LocalDb)\v11.0;Initial Catalog=Test;Integrated Security=True"))
