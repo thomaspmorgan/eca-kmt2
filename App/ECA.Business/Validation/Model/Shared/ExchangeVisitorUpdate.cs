@@ -17,12 +17,7 @@ namespace ECA.Business.Validation.Model.Shared
             Validate = new ValidateParticipant();
             Reprint7002 = new Reprint7002();
         }
-
-        /// <summary>
-        /// Print request indicator
-        /// </summary>
-        public bool printForm { get; set; }
-
+        
         /// <summary>
         /// Sevis batch ID
         /// </summary>

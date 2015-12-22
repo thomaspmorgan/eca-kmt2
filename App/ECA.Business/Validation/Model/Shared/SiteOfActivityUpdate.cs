@@ -14,7 +14,6 @@ namespace ECA.Business.Validation.Model.Shared
 
         public DeleteSiteOfActivity Delete { get; set; }
 
-        public EditSiteOfActivity Edit { get; set; }
-        
+        public EditSiteOfActivity Edit { get; set; }        
     }
 }

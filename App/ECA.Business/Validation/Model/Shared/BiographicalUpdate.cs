@@ -13,7 +13,12 @@ namespace ECA.Business.Validation.Model.Shared
             MailAddress = new USAddress();
             ResidentialAddress = new ResidentialAddress();
         }
-        
+
+        /// <summary>
+        /// Print request indicator
+        /// </summary>
+        public bool printForm { get; set; }
+
         /// <summary>
         /// Current phone number
         /// </summary>

@@ -20,9 +20,14 @@ namespace ECA.Business.Validation.Model
         }
 
         /// <summary>
-        /// Print request indicator
+        /// User defined field A
         /// </summary>
-        public bool printForm { get; set; }
+        public string UserDefinedA { get; set; }
+
+        /// <summary>
+        /// User defined field B
+        /// </summary>
+        public string UserDefinedB { get; set; }
 
         /// <summary>
         /// Add depedent
