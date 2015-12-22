@@ -1,7 +1,9 @@
-﻿using ECA.Business.Queries.Models.Itineraries;
+﻿using CAM.Data;
+using ECA.Business.Queries.Models.Itineraries;
 using ECA.Business.Service.Itineraries;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.WebApi.Models.Itineraries;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System.Collections.Generic;
@@ -64,6 +66,45 @@ namespace ECA.WebApi.Controllers.Itineraries
             }
         }
 
+        /// <summary>
+        /// Returns the itinerary groups and participant persons given the project id and itinerary id.
+        /// </summary>
+        /// <param name="projectId">The id of the project.  Used for security purposes.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The list of itinerary groups and participant persons per group.</returns>
+        [ResponseType(typeof(List<ItineraryGroupParticipantsDTO>))]
+        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Groups/People")]
+        public async Task<IHttpActionResult> GetItineraryGroupPersonsByItineraryIdAsync(int projectId, int itineraryId)
+        {
+            var results = await this.itineraryGroupService.GetItineraryGroupPersonsByItineraryIdAsync(projectId, itineraryId);
+            return Ok(results);            
+        }
+        #endregion
+
+        #region Create
+        /// <summary>
+        /// Creates a new itinerary group.
+        /// </summary>
+        /// <returns>The ok result with the created itinerary group.</returns>
+        [ResponseType(typeof(ItineraryGroupDTO))]
+        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Group")]
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> PostCreateItineraryGroupAsync(int projectId, int itineraryId, AddedItineraryGroupBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(currentUser);
+                var itineraryGroup = await this.itineraryGroupService.CreateAsync(model.ToAddedEcaItinerary(businessUser, projectId, itineraryId));
+                await this.itineraryGroupService.SaveChangesAsync();
+                var dto = await this.itineraryGroupService.GetItineraryGroupByIdAsync(projectId, itineraryGroup.ItineraryGroupId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
         #endregion
     }
 }

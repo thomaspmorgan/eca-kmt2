@@ -211,7 +211,7 @@ namespace ECA.Business.Test.Queries.Admin
             Assert.AreEqual(bookmark.ProjectId, firstResult.ProjectId);
             Assert.AreEqual(bookmark.PrincipalId, firstResult.PrincipalId);
             Assert.AreEqual(bookmark.Automatic, firstResult.Automatic);
-            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 3000);
+            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 20000);
             Assert.AreEqual("Project", firstResult.Type);
             Assert.AreEqual(owner1.OfficeSymbol, firstResult.OfficeSymbolOrStatus);
             Assert.AreEqual(project.Name, firstResult.Name);

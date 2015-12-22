@@ -225,6 +225,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 ISevisValidator, 
                 PersonSevisServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<AddedEcaItineraryGroupValidationEntity, object>,
+                EcaItineraryGroupValidator>();
         }
 
         /// <summary>
