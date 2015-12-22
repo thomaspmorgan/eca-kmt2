@@ -1,4 +1,6 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿using ECA.Business.Validation.Model.Shared;
+
+namespace ECA.Business.Validation.Model.CreateEV
 {
     /// <summary>
     /// EV Status Change Events

@@ -16,8 +16,14 @@ namespace ECA.Business.Validation.Model
             residentialAddress = new ResidentialAddress();
         }
 
+        /// <summary>
+        /// Dependent Sevis ID
+        /// </summary>
         public string dependentSevisID { get; set; }
 
+        /// <summary>
+        /// Print request indicator
+        /// </summary>
         public bool PrintForm { get; set; }
 
         /// <summary>
@@ -65,6 +71,9 @@ namespace ECA.Business.Validation.Model
         /// </summary>
         public string Email { get; set; }
         
+        /// <summary>
+        /// Relationship
+        /// </summary>
         public string Relationship { get; set; }
 
         /// <summary>

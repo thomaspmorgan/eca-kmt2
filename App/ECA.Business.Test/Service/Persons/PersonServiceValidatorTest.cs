@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.Create;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

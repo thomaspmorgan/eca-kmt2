@@ -4,28 +4,28 @@
     {
         public bool printForm { get; set; }
 
-        public string address1 { get; set; }
+        public string Address1 { get; set; }
 
-        public string address2 { get; set; }
+        public string Address2 { get; set; }
 
-        public string city { get; set; }
+        public string City { get; set; }
 
-        public string state { get; set; }
+        public string State { get; set; }
 
-        public string postalCode { get; set; }
+        public string PostalCode { get; set; }
 
-        public string explanationCode { get; set; }
+        public string ExplanationCode { get; set; }
 
-        public string explanation { get; set; }
+        public string Explanation { get; set; }
 
-        public string siteName { get; set; }
+        public string SiteName { get; set; }
 
         public string SiteId { get; set; }
 
-        public string newSiteName { get; set; }
+        public string NewSiteName { get; set; }
 
-        public string primarySite { get; set; }
+        public string PrimarySite { get; set; }
 
-        public string remarks { get; set; }
+        public string Remarks { get; set; }
     }
 }

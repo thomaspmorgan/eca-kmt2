@@ -23,11 +23,6 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// T/IPP information
         /// </summary>
-        public AddTIPP AddTIPP { get; set; }
-
-        /// <summary>
-        /// Dependent record remarks
-        /// </summary>
-        public string Remarks { get; set; }        
+        public AddTIPP AddTIPP { get; set; }        
     }
 }

@@ -3,21 +3,55 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Edit dependent
+    /// </summary>
     [Validator(typeof(UpdatedDependentValidator))]
     public class UpdatedDependent
     {
-        public string UserDefinedA { get; set; }
+        public UpdatedDependent()
+        {
+            Add = new AddUpdatedDependent();
+            Delete = new DeleteDependent();
+            Edit = new EditDependent();
+            EndStatus = new EndDependentStatus();
+            Reprint = new ReprintForm();
+            Terminate = new TerminateDependent();
+        }
+
+        /// <summary>
+        /// Print request indicator
+        /// </summary>
+        public bool printForm { get; set; }
+
+        /// <summary>
+        /// Add depedent
+        /// </summary>
+        public AddUpdatedDependent Add { get; set; }
+
+        /// <summary>
+        /// Delete dependent
+        /// </summary>
+        public DeleteDependent Delete { get; set; }
+
+        /// <summary>
+        /// Dependent personal information
+        /// </summary>
+        public EditDependent Edit { get; set; }
         
-        public string UserDefinedB { get; set; }
-        
-        public AddDependent addDependent { get; set; }
+        /// <summary>
+        /// End the status for a dependent
+        /// </summary>
+        public EndDependentStatus EndStatus { get; set; }
 
-        public CancelDependent cancelDependent { get; set; }
+        /// <summary>
+        /// Reprint dependent DS-2019
+        /// </summary>
+        public ReprintForm Reprint { get; set; }
 
-        public EditDependent editDependent { get; set; }
-
-        public ReactivateDependent reactivateDependent { get; set; }
-
-        public ReprintForm reprintDependent { get; set; }        
+        /// <summary>
+        /// Terminate dependent
+        /// </summary>
+        public TerminateDependent Terminate { get; set; }
     }
 }

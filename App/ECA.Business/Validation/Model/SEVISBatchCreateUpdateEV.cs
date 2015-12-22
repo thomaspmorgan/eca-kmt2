@@ -26,8 +26,13 @@ namespace ECA.Business.Validation
         public BatchHeader BatchHeader { get; set; }
 
         /// <summary>
-        /// Exchange visitor record
+        /// Create an exchange visitor record
         /// </summary>
         public CreateExchVisitor CreateEV { get; set; }
+
+        /// <summary>
+        /// Update an exchange visitor record
+        /// </summary>
+        public UpdateExchVisitor UpdateEV { get; set; }
     }
 }
