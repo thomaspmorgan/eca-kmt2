@@ -15,7 +15,5 @@ namespace ECA.Business.Validation.Model.Shared
         public ParticipantInfoUpdate ParticipantInfo { get; set; }
 
         public TippSite TippSite { get; set; }
-
-
     }
 }

@@ -1,11 +1,9 @@
-﻿using ECA.Business.Validation.Model.CreateEV;
-using System;
+﻿using System;
 
 namespace ECA.Business.Validation.Model.Shared
 {
     public class EditTippSite
     {
-
         public string SiteId { get; set; }
 
         public string Address1 { get; set; }

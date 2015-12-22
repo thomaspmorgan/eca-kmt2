@@ -2,6 +2,9 @@
 
 namespace ECA.Business.Validation.Model.Shared
 {
+    /// <summary>
+    /// correct minor or technical infractions
+    /// </summary>
     public class CorrectInfraction
     {
         public CorrectInfraction()
@@ -15,6 +18,9 @@ namespace ECA.Business.Validation.Model.Shared
 
         public string Remarks { get; set; }
 
+        /// <summary>
+        /// T/IPP phase dates
+        /// </summary>
         public TippPhaseDatesUpdate TippPhaseDates { get; set; }
     }
 }
