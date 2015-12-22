@@ -18,8 +18,6 @@ namespace ECA.Business.Validation.Model
         
         public string Remarks { get; set; }
         
-        public string Explanation { get; set; }
-
         public TippPhaseDates TippPhaseDates { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using FluentValidation.Attributes;
-using ECA.Business.Validation.Model.CreateEV;
+﻿using ECA.Business.Validation.Model.CreateEV;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -8,11 +6,23 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public ExchangeVisitorUpdate()
         {
-            Biographical = new Biographical();
-
-
+            Biographical = new BiographicalUpdate();
+            Dependent = new UpdatedDependent();
+            FinancialInfo = new FinancialInfoUpdate();
+            Program = new Program();
+            Reprint = new ReprintFormUpdate();
+            SiteOfActivity = new SiteOfActivityUpdate();
+            TIPP = new TippUpdate();
+            Status = new StatusUpdate();
+            Validate = new ValidateParticipant();
+            Reprint7002 = new Reprint7002();
         }
         
+        /// <summary>
+        /// Sevis batch ID
+        /// </summary>
+        public string sevisID { get; set; }
+
         /// <summary>
         /// Request identifier
         /// </summary>
@@ -41,16 +51,51 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Biographical information
         /// </summary>
-        public Biographical Biographical { get; set; }
+        public BiographicalUpdate Biographical { get; set; }
+        
+        /// <summary>
+        /// Edit dependent
+        /// </summary>
+        public UpdatedDependent Dependent { get; set; }
 
         /// <summary>
-        /// Print request indicator
+        /// Update financial info
         /// </summary>
-        public bool printForm { get; set; }
+        public FinancialInfoUpdate FinancialInfo { get; set; }
 
+        /// <summary>
+        /// Program events
+        /// </summary>
+        public Program Program { get; set; }
 
+        /// <summary>
+        /// Reprint form DS-2019
+        /// </summary>
+        public ReprintFormUpdate Reprint { get; set; }
 
+        /// <summary>
+        /// Site of activity events
+        /// </summary>
+        public SiteOfActivityUpdate SiteOfActivity { get; set; }
 
+        /// <summary>
+        /// T/IPP information
+        /// </summary>
+        public TippUpdate TIPP { get; set; }
 
+        /// <summary>
+        /// EV status change events
+        /// </summary>
+        public StatusUpdate Status { get; set; }
+
+        /// <summary>
+        /// Validate participant
+        /// </summary>
+        public ValidateParticipant Validate { get; set; }
+
+        /// <summary>
+        /// Reprint DS-7002
+        /// </summary>
+        public Reprint7002 Reprint7002 { get; set; }
     }
 }
