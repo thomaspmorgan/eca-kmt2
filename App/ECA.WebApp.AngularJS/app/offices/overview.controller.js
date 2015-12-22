@@ -14,7 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $filter,
-        OfficeService,
+        DataPointConfigurationService,
         ConstantsService,
         NotificationService) {
 
@@ -28,7 +28,8 @@ angular.module('staticApp')
       $scope.data.loadedOfficePromise.promise
       .then(function (office) {
           $scope.view.office = office;
-          OfficeService.getDataPointConfigurations(office.id)
+          var params = { officeId: office.id };
+          DataPointConfigurationService.getDataPointConfigurations(params)
                 .then(function (response) {
                     var array = $filter('filter')(response.data, { categoryId: ConstantsService.dataPointCategory.office.id });
                     for (var i = 0; i < array.length; i++) {

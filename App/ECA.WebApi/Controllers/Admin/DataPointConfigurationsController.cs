@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Admin;
 using ECA.WebApi.Models.Admin;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,19 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Gets data point configurations
+        /// </summary>
+        /// <param name="officeId">The office id</param>
+        /// <param name="programId">The program id</param>
+        /// <returns></returns>
+        [ResponseType(typeof(List<DataPointConfigurationDTO>))]
+        public async Task<IHttpActionResult> GetDataPointConfigurationsAsync(int? officeId = null, int? programId = null)
+        {
+            var dataPointConfigurations = await service.GetDataPointConfigurationsAsync(officeId, programId);
+            return Ok(dataPointConfigurations);
         }
     }
 }

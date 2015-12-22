@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body">
     <div class="list2">
-        <div class="row">
+        <div class="row" ng-show="resourceTypeId === constants.resourceType.office.id">
             <div class="col-md-11">
                 <h4>Office</h4>
             </div>
@@ -15,7 +15,7 @@
                 </a>
             </div>
         </div>
-        <div class="row" ng-show="expandOfficeSection">
+        <div class="row" ng-show="expandOfficeSection && resourceTypeId === constants.resourceType.office.id">
             <div class="col-md-4" ng-repeat="dataConfiguration in dataConfigurations | filter: {categoryId: constants.dataPointCategory.office.id}">
                 <label class="checkbox-inline">
                     <input type="checkbox" ng-model="dataConfiguration.isRequired" ng-disabled="dataConfiguration.isInherited" ng-change="dataConfigurationChanged(dataConfiguration)"/> {{dataConfiguration.propertyName}}

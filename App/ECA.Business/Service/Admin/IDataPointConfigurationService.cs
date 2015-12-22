@@ -1,4 +1,5 @@
-﻿using ECA.Core.Service;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="newDataPointConfiguration">The data point to create</param>
         /// <returns>Data point configuration</returns>
         Task<DataPointConfiguration> CreateDataPointConfigurationAsync(NewDataPointConfiguration newDataPointConfiguration);
+
+        /// <summary>
+        /// Gets the data point configurations
+        /// </summary>
+        /// <param name="officeId">The office id</param>
+        /// <param name="programId">The program id</param>
+        /// <returns>List of data point configurations</returns>
+        Task<List<DataPointConfigurationDTO>> GetDataPointConfigurationsAsync(int? officeId, int? programId);
     }
 }

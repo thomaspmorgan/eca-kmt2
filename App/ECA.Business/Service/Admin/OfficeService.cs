@@ -29,7 +29,7 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         public const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
 
-        private const string GET_OFFICES_SPROC_NAME = "GetOffices";
+        public const string GET_OFFICES_SPROC_NAME = "GetOffices";
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 

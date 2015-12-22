@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('DataPointsCtrl', function ($scope,$state, $q, $modalInstance, parameters, ConstantsService, OfficeService, DataPointConfigurationService, NotificationService) {
+  .controller('DataPointsCtrl', function ($scope,$state, $q, $modalInstance, parameters, ConstantsService, OfficeService, ProgramService, DataPointConfigurationService, NotificationService) {
 
       $scope.expandOfficeSection = true;
       $scope.expandProgramSection = true;
@@ -45,17 +45,32 @@ angular.module('staticApp')
                     NotificationService.showErrorMessage('Unable to load office with id = ' + parameters.foreignResourceId + ".");
                 });
           }
+          else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
+              ProgramService.get(parameters.foreignResourceId)
+                .then(function (response) {
+                    $scope.resourceName = response.name;
+                }, function () {
+                    NotificationService.showErrorMessage('Unable to load office with id = ' + parameters.foreignResourceId + ".");
+                });
+          }
       }
 
       function getDataPointConfigurations() {
+
+          var params = {};
+
           if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
-              OfficeService.getDataPointConfigurations(parameters.foreignResourceId)
-                .then(function (response) {
-                    $scope.dataConfigurations = response.data;
-                }, function () {
-                    NotificationService.showErrorMessage('Unable to load data point configurations for office with id = ' + parameters.foreignResourceId + ".");
-                });
+              params.officeId = parameters.foreignResourceId;
           }
+          else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
+              params.programId = parameters.foreignResourceId;
+          }
+          DataPointConfigurationService.getDataPointConfigurations(params)
+            .then(function (response) {
+                $scope.dataConfigurations = response.data;
+            }, function () {
+                NotificationService.showErrorMessage('Unable to load data point configurations for id = ' + parameters.foreignResourceId + ".");
+            });
       }
 
       function reloadCurrentState(dataConfiguration) {
@@ -64,5 +79,9 @@ angular.module('staticApp')
           }
       }
 
-      $q.all(getResourceName(), getDataPointConfigurations());
+      function setResourceTypeId() {
+          $scope.resourceTypeId = parameters.resourceType.id;
+      }
+
+      $q.all(setResourceTypeId(), getResourceName(), getDataPointConfigurations());
   });
