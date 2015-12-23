@@ -1,10 +1,12 @@
 ﻿using ECA.Business.Validation.Model.CreateEV;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.Shared
 {
     /// <summary>
     /// Edit exchange visitor biographical information
     /// </summary>
+    [Validator(typeof(BiographicalUpdateValidator))]
     public class BiographicalUpdate : Biographical
     {
         public BiographicalUpdate()

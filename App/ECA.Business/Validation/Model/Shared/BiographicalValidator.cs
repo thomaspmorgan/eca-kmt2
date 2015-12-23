@@ -14,8 +14,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public BiographicalValidator()
         {
-            RuleFor(student => student.FullName).NotNull().WithMessage("Biographical Info: Full Name is required");
-            RuleFor(student => student.FullName).SetValidator(new FullNameValidator()).When(student => student.FullName != null);
+            RuleFor(student => student.FullName).NotNull().WithMessage("Biographical Info: Full Name is required").SetValidator(new FullNameValidator()).When(student => student.FullName != null);
             RuleFor(student => student.BirthDate).NotNull().WithMessage("Biographical Info: Date of Birth is required");
             RuleFor(student => student.Gender).NotNull().WithMessage("Biographical Info: Gender is required").Length(GENDER_CODE_LENGTH).WithMessage("Biographical Info: Gender must be " + GENDER_CODE_LENGTH.ToString() + " character");
             RuleFor(student => student.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("Biographical Info: City of Birth can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
