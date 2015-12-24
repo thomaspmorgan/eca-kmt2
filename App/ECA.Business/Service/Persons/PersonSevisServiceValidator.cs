@@ -10,6 +10,8 @@ using System.Linq;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
+using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.Model.CreateEV;
 using System.Diagnostics.Contracts;
 //using System.Data;
 //using System.IO;
@@ -26,42 +28,37 @@ namespace ECA.Business.Service.Persons
         /// <returns>validation results</returns>        
         public List<ValidationResult> ValidateSevis(EcaContext context, int participantId)
         {
-            throw new NotImplementedException();
+            var updateStudent = GetUpdateExchangeVisitor(context, participantId);
 
-            //var updateStudent = GetStudent(context, participantId);
+            var validator = new SEVISBatchCreateUpdateEVValidator();
+            var results = validator.Validate(updateStudent);
 
-            //var validator = new SEVISBatchCreateUpdateEVValidator();
-            //var results = validator.Validate(updateStudent);
+            var final = new List<ValidationResult>();
+            foreach (var error in results.Errors)
+            {
+                final.Add(new ValidationResult(error.ErrorMessage));
+            }
 
-            //var final = new List<ValidationResult>();
-
-            //foreach (var error in results.Errors)
-            //{
-            //    final.Add(new ValidationResult(error.ErrorMessage));
-            //}
-
-            //return final;
+            return final;
         }
 
         public async Task<List<ValidationResult>> ValidateSevisAsync(EcaContext context, int participantId)
         {
-            throw new NotImplementedException();
+            var updateVisitor = GetUpdateExchangeVisitor(context, participantId);
 
-            //var updateStudent = GetStudent(context, participantId);
+            var validator = new SEVISBatchCreateUpdateEVValidator();
+            var results = await validator.ValidateAsync(updateVisitor);
 
-            //var validator = new SEVISBatchCreateUpdateEVValidator();
-            //var results = await validator.ValidateAsync(updateStudent);
+            var final = new List<ValidationResult>();
+            foreach (var error in results.Errors)
+            {
+                final.Add(new ValidationResult(error.ErrorMessage));
+            }
 
-            //var final = new List<ValidationResult>();
-            //foreach (var error in results.Errors)
-            //{
-            //    final.Add(new ValidationResult(error.ErrorMessage));
-            //}
+            // temporary to test xml serialization
+            string temp = GetStudentUpdateXml(updateVisitor);
 
-            //// temporary to test xml serialization
-            ////string temp = GetStudentUpdateXml(updateStudent);
-
-            //return final;
+            return final;
         }
 
         /// <summary>
@@ -70,149 +67,227 @@ namespace ECA.Business.Service.Persons
         /// <param name="context"></param>
         /// <param name="participantId"></param>
         /// <returns></returns>
-        public SEVISBatchCreateUpdateEV GetExchangeVisitor(EcaContext context, int participantId)
+        public SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(EcaContext context, int participantId)
         {
-            throw new NotImplementedException();
+            //Get student details
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
+            var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
+            var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
+            var mailingAddress = personalPII.Addresses.Where(x => x.AddressType == AddressType.Visiting.Value).FirstOrDefault();
+            var physicalAddress = personalPII.Addresses.Where(x => x.AddressType == AddressType.Host.Value).FirstOrDefault();
+            var ecaService = new EcaService(context);
+            var citizenship = ecaService.GetLocationById(personalPII.CountriesOfCitizenship.FirstOrDefault().Id);
 
-            // Get student details
-            //var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
-            //var personalGeneral = PersonQueries.CreateGetGeneralByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
-            //var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
-            //var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
-            //var studentInfo = PersonQueries.CreateGetEducationsByPersonIdQuery(context, (int)participant.PersonId).FirstOrDefault();
-            //var primaryAddress = personalPII.Addresses.Where(x => x.IsPrimary == true).FirstOrDefault();
-            //var ecaService = new EcaService(context);
-            //var citizenship = ecaService.GetLocationById(personalPII.CountriesOfCitizenship.FirstOrDefault().Id);
+            var ExchVisitor = new ExchangeVisitorUpdate();
+            // biographical
+            ExchVisitor.Biographical = new BiographicalUpdate
+            {
+                BirthCity = personalPII.PlaceOfBirth.City,
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                BirthCountryReason = "",
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+                FullName = new FullName
+                {
+                    FirsName = personalPII.FirstName,
+                    LastName = personalPII.LastName,
+                    Suffix = personalPII.NameSuffix,
+                    PreferredName = personalPII.Alias
+                },
+                Gender = personalPII.GenderId.ToString(),
+                PermanentResidenceCountryCode = physicalAddress.CountryIso2,
+                PhoneNumber = "",
+                PositionCode = "",
+                printForm = false,
+                Remarks = "Test remark"
+            };
+            if (mailingAddress != null)
+            {
+                ExchVisitor.Biographical.MailAddress = new USAddress
+                {
+                    Address1 = mailingAddress.Street1,
+                    Address2 = mailingAddress.Street2,
+                    City = mailingAddress.City,
+                    State = "",
+                    PostalCode = mailingAddress.PostalCode,
+                    Explanation = "",
+                    ExplanationCode = ""
+                };
+            }
+            if (physicalAddress != null)
+            {
+                ExchVisitor.Biographical.USAddress = new USAddress
+                {
+                    Address1 = physicalAddress.Street1,
+                    Address2 = physicalAddress.Street2,
+                    City = physicalAddress.City,
+                    State = "",
+                    PostalCode = physicalAddress.PostalCode,
+                    Explanation = "",
+                    ExplanationCode = ""
+                };
+                ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
+                {
+                    BoardingSchool = new BoardingSchool
+                    {
+                        Name = "",
+                        Phone = ""
+                    },
+                    HostFamily = new HostFamily
+                    {
+                        PContact = new PContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        SContact = new SContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        Phone = ""
+                    },
+                    LCCoordinator = new LCCoordinator
+                    {
+                        FirsName = "",
+                        LastName = ""
+                    },
+                    ResidentialType = ""
+                };
+            }
+            // financial
+            ExchVisitor.FinancialInfo = new FinancialInfoUpdate
+            {
+                printForm = false,
+                ReceivedUSGovtFunds = false,
+                ProgramSponsorFunds = "1200",
+                OtherFunds = new OtherFunds
+                {
+                    Personal = "",
+                    BinationalCommission = "",
+                    EVGovt = "",
+                    International = new International
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "org 1",
+                        OtherName1 = "on 1",
+                        Org2 = "org 2",
+                        OtherName2 = "on 2"
+                    },
+                    USGovt = new USGovt
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "govorg 1",
+                        OtherName1 = "govon 1",
+                        Org2 = "govorg 2",
+                        OtherName2 = "govon 2"
+                    },
+                    Other = new Other
+                    {
+                        amount = "30",
+                        name = "other nm"
+                    }
+                }
+            };
+            // program and subject
+            ExchVisitor.Program = new Validation.Model.Program
+            {
+                EditSubject = new SubjectFieldUpdate
+                {
+                    printForm = false,
+                    SubjectFieldCode = "SF code",
+                    SubjectFieldRemarks = "SF rmks",
+                    ForeignDegreeLevel = "FD lvl",
+                    ForeignFieldOfStudy = "F FS",
+                    Remarks = "Rmks"
+                }
+            };
+            // Reprint
+            ExchVisitor.Reprint = new ReprintFormUpdate
+            {
+                printForm = false,
+                dependentSevisID = "1",
+                Reason = "Reprint reason",
+                Remarks = "Remarks",
+                OtherRemarks = "Other remarks"
+            };
+            // Reprint 7002
+            ExchVisitor.Reprint7002 = new Reprint7002
+            {
+                print7002 = false,
+                SiteId = "1"
+            };
+            ExchVisitor.requestID = "1";
+            ExchVisitor.sevisID = "1";
+            ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
+            {
 
-            //var student = new Student();
-            //student.requestID = "1";
-            //student.userID = participant.PersonId.ToString();
-            //student.IssueReason = "I";
-            //// personal info
-            //student.personalInfo = new PersonalInfo
-            //{
-            //    BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
-            //    BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?) null,
-            //    CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
-            //    Email = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
-            //    fullName = new FullName
-            //    {
-            //        FirsName = personalPII.FirstName,
-            //        LastName = personalPII.LastName,
-            //        Suffix = personalPII.NameSuffix,
-            //        PreferredName = personalPII.Alias
-            //    },
-            //    Gender = personalPII.GenderId.ToString(),
-            //    VisaType = "H1"
-            //};
-            //if (primaryAddress != null)
-            //{
-            //    if (primaryAddress.CountryIso2 == "US")
-            //    {
-            //        // us address
-            //        student.usAddress = new USAddress
-            //        {
-            //            Address1 = primaryAddress.Street1,
-            //            Address2 = primaryAddress.Street2,
-            //            City = primaryAddress.City,
-            //            PostalCode = primaryAddress.PostalCode
-            //        };
-            //    }
-            //    else if (!string.IsNullOrEmpty(primaryAddress.CountryIso2))
-            //    {
-            //        // foreign address
-            //        // TODO: foreign address required if new student
-            //        //if (isNew) {
-            //        student.foreignAddress = new ForeignAddress
-            //        {
-            //            address1 = primaryAddress.Street1,
-            //            address2 = primaryAddress.Street2,
-            //            city = primaryAddress.City,
-            //            postalCode = primaryAddress.PostalCode,
-            //            countryCode = primaryAddress.CountryIso2
-            //        };
-            //        //}
-            //    }
-            //}
-            //if (studentInfo != null)
-            //{
-            //    // education
-            //    student.educationalInfo = new EducationalInfo
-            //    {
-            //        PrgStartDate = studentInfo.StartDate.DateTime > DateTime.MinValue ? studentInfo.StartDate.DateTime : DateTime.MinValue,
-            //        PrgEndDate = studentInfo.EndDate.HasValue ? studentInfo.EndDate.Value.DateTime : DateTime.MinValue
-            //        //        eduLevel = new EduLevel
-            //        //        {
-            //        //            Level = visitorInfo != null ? visitorInfo.EducationLevel : "",
-            //        //            OtherRemarks = visitorInfo != null ? visitorInfo.EducationLevelOtherRemarks : ""
-            //        //        },
-            //        //        engProficiency = new EngProficiency
-            //        //        {
-            //        //            EngRequired = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyReqd : false,
-            //        //            RequirementsMet = visitorInfo != null ? visitorInfo.IsEnglishLanguageProficiencyMet : false,
-            //        //            NotRequiredReason = visitorInfo != null ? visitorInfo.EnglishLanguageProficiencyNotReqdReason : ""
-            //        //        },
-            //        //        LengthOfStudy = visitorInfo != null ? visitorInfo.LengthOfStudy.ToString() : "",
-            //        //        PrimaryMajor = visitorInfo != null ? visitorInfo.PrimaryMajor : "",
-            //        //        SecondMajor = visitorInfo != null ? visitorInfo.SecondaryMajor : "",
-            //        //        Minor = visitorInfo != null ? visitorInfo.Minor : "",
-            //        //        Remarks = visitorInfo != null ? studentInfo.Title : ""
-            //        //    };
-            //        //}
-            //        //if (visitorInfo != null)
-            //        //{
-            //        //    // financial
+            };
+            ExchVisitor.Status = new StatusUpdate
+            {                
+            };
+            ExchVisitor.statusCode = "A";
+            ExchVisitor.TIPP = new TippUpdate
+            {                
+            };
+            ExchVisitor.UserDefinedA = "UD A";
+            ExchVisitor.UserDefinedB = "UD B";
+            ExchVisitor.Validate = new ValidateParticipant
+            {
 
-            //    };
-            //}
-            //// TODO: complete when dependent feature is available
+            };
+            ExchVisitor.userID = participant.PersonId.ToString();
+            
+            // TODO: complete when dependent feature is available
             //student.createDependent = null;
-            //student.Remarks = "";
-            ////student.createDependent = new CreateDependent
-            ////{
-            ////    Dependent = new AddDependent {
+            //student.createDependent = new CreateDependent
+            //{
+            //    Dependent = new AddDependent {
 
-            ////    },
-            ////    Remarks = ""
-            ////};
-
-            //var batchHeader = new BatchHeader
-            //{
-            //    BatchID = "1",
-            //    OrgID = "1"
-            //};
-            //var createStudent = new CreateStudent
-            //{
-            //    student = student
-            //};
-            //var updateStudent = new SEVISBatchUpdateStudent
-            //{
-            //    userID = "1",
-            //    batchHeader = batchHeader,
-            //    createStudent = createStudent
+            //    },
+            //    Remarks = ""
             //};
 
-            //return updateStudent;
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var updateVisitor = new UpdateExchVisitor
+            {
+                ExchangeVisitor = ExchVisitor
+            };
+            var updateVisitorBatch = new SEVISBatchCreateUpdateEV
+            {
+                userID = "1",
+                BatchHeader = batchHeader,
+                UpdateEV = updateVisitor
+            };
+
+            return updateVisitorBatch;
         }
 
-        //public string GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
-        //{
-        //    XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
-        //    var settings = new XmlWriterSettings
-        //    {
-        //        NewLineHandling = NewLineHandling.Entitize,
-        //        Encoding = System.Text.Encoding.UTF8,
-        //        DoNotEscapeUriAttributes = true
-        //    };
-        //    using (var stream = new StringWriter())
-        //    using (var writer = XmlWriter.Create(stream, settings))
-        //    {
-        //        serializer.Serialize(writer, validationEntity);
+        public string GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
+        {
+            XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
+            var settings = new XmlWriterSettings
+            {
+                NewLineHandling = NewLineHandling.Entitize,
+                Encoding = System.Text.Encoding.UTF8,
+                DoNotEscapeUriAttributes = true
+            };
+            using (var stream = new StringWriter())
+            using (var writer = XmlWriter.Create(stream, settings))
+            {
+                serializer.Serialize(writer, validationEntity);
 
-        //        return stream.ToString();
-        //    }
-        //}
-        
+                return stream.ToString();
+            }
+        }
+
         public override List<ValidationResult> DoValidateSevis(SEVISBatchCreateUpdateEV validationEntity)
         {
             throw new NotImplementedException();

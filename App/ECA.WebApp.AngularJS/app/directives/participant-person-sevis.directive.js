@@ -5,7 +5,7 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService'];
     
     function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService) {
         // Usage:
@@ -37,23 +37,6 @@
                     $event.stopPropagation();
                     $scope.edit.isEndDatePickerOpen = true
                 }
-
-              
-                
-                // pre-sevis validation
-                $scope.validateSevisInfo = function () {
-                    return ParticipantPersonsSevisService.validateParticipantPersonsSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.error('Validated participant SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.length; i++) {                            
-                            valErrors.push(response.data[i].errorMessage);
-                        }
-                        $scope.validationResults = valErrors;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                    });
-                };
             }
         };
 

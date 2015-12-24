@@ -513,6 +513,7 @@
     <Compile Include="Validation\Model\Shared\AmendProgramUpdate.cs" />
     <Compile Include="Validation\Model\Shared\Biographical.cs" />
     <Compile Include="Validation\Model\Shared\BiographicalUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\BiographicalUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\BiographicalValidator.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
     <Compile Include="Validation\Model\Shared\BoardingSchoolValidator.cs" />
@@ -533,6 +534,7 @@
     <Compile Include="Validation\Model\Shared\CreateDependentValidator.cs" />
     <Compile Include="Validation\Model\Shared\EditDependentValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExchangeVisitorUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitorUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Model\Shared\FinancialInfoUpdate.cs" />
     <Compile Include="Validation\Model\Shared\FinancialInfoValidator.cs" />
@@ -573,6 +575,7 @@
     <Compile Include="Validation\Model\Shared\SiteOfActivitySOA.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivitySOAValidator.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\StatusUpdate.cs" />
     <Compile Include="Validation\Model\Shared\SubjectField.cs" />
     <Compile Include="Validation\Model\Shared\SubjectFieldUpdate.cs" />

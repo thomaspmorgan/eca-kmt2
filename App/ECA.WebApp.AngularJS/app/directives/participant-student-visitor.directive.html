@@ -1,3 +1,24 @@
+<div class="row row2">
+    <div class="col-md-9">
+        <div ng-show="validationResults.length > 0">
+            <div class="col-md-4">
+                <p class="title-label" style="color:red; display:inline-flex; vertical-align:middle">
+                    <i class="icon material-icons md-24">warning</i> {{validationResults.length}} fields remaining
+                </p>
+            </div>
+            <div class="col-md-8">
+                <fieldset style="border:1px red solid; border-radius:3px; padding:10px">
+                    <ul style="line-height:1.5em">
+                        <li ng-repeat="error in validationResults track by $index">{{error}}</li>
+                    </ul>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button ng-click="validateSevisInfo()" class="btn btn-success">TEST VALIDATION</button>
+    </div>
+</div>
 <div class="table">
     <div class="row row2">
         <div class="col-md-5">
@@ -14,52 +35,52 @@
         </div>
     </div>
     <div ng-if="!view.EducationalInformationEdit">
-    <div ng-show="view.EducationalInformation">
-        <div class="row row4">
-            <div class="col-md-3 title-label">Education Level</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.educationLevel}}
+        <div ng-show="view.EducationalInformation">
+            <div class="row row4">
+                <div class="col-md-3 title-label">Education Level</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.educationLevel}}
+                </div>
+                <div class="col-md-3 title-label">'Other' Remarks</div>
+                <div class="col-md-3">
+                    <textarea disabled ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
+                </div>
             </div>
-            <div class="col-md-3 title-label">'Other' Remarks</div>
-            <div class="col-md-3">
-                <textarea disabled ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
+            <div class="row row4">
+                <div class="col-md-3 title-label">Primary Major</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.primaryMajor}} <!--required-->
+                </div>
+                <div class="col-md-3 title-label">English Proficiency Required?</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
+                </div>
             </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Primary Major</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.primaryMajor}} <!--required-->
+            <div class="row row4">
+                <div class="col-md-3 title-label">Secondary Major</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.secondaryMajor}}
+                </div>
+                <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
+                </div>
             </div>
-            <div class="col-md-3 title-label">English Proficiency Required?</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
+            <div class="row row4">
+                <div class="col-md-3 title-label">Minor</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.minor}}
+                </div>
+                <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
+                <div class="col-md-3">
+                    <textarea disabled ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
+                </div>
             </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Secondary Major</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.secondaryMajor}}
-            </div>
-            <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Minor</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.minor}}
-            </div>
-            <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
-            <div class="col-md-3">
-                <textarea disabled ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Length Of Study</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.lengthOfStudy}} Months
-            </div>
+            <div class="row row4">
+                <div class="col-md-3 title-label">Length Of Study</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.lengthOfStudy}} Months
+                </div>
                 <div class="col-md-3 title-label">&nbsp;</div>
                 <div class="col-md-3">&nbsp;</div>
             </div>
@@ -376,7 +397,7 @@
             <div class="row row4">
                 <div class="col-md-2">
                     <label class="title-label">Other</label>
-        </div>
+                </div>
                 <div class="col-md-7 text-right">
                     $
                 </div>
@@ -406,4 +427,3 @@
         </form>
     </div>
 </div>
-
