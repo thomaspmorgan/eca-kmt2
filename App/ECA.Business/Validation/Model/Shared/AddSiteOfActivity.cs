@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -16,13 +17,15 @@ namespace ECA.Business.Validation.Model.CreateEV
         }
 
         /// <summary>
-        /// xsi:type = SOA
+        /// Site of activity address
         /// </summary>
+        [XmlArrayItem("SiteOfActivity xsi:type=\"SOA\"")]
         public SiteOfActivitySOA SiteOfActivitySOA { get; set; }
 
         /// <summary>
-        /// xsi:type = EXEMPT
+        /// Site of activity information for exempt
         /// </summary>
-        public SiteOfActivityExempt SiteOfActivityExempt { get; set; }        
+        [XmlArrayItem("SiteOfActivity xsi:type=\"EXEMPT\"")]
+        public SiteOfActivityExempt SiteOfActivityExempt { get; set; }
     }
 }

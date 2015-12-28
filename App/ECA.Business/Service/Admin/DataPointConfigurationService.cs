@@ -8,6 +8,11 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Business.Queries.Models.Admin;
+using System.Data.Entity;
+using ECA.Business.Queries.Admin;
+using System.Data.Entity.Infrastructure;
+using ECA.Business.Queries.Models.Office;
 
 namespace ECA.Business.Service.Admin
 {
@@ -16,6 +21,8 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class DataPointConfigurationService : DbContextService<EcaContext>, IDataPointConfigurationService
     {
+        public static char[] PATH_SPLIT_CHARS = new char[] { '-' };
+
         /// <summary>
         /// Data point configuration not found error
         /// </summary>
@@ -149,5 +156,188 @@ namespace ECA.Business.Service.Admin
             return dataPointConfiguration;
         }
 
+        /// <summary>
+        /// Gets the data point configurations
+        /// </summary>
+        /// <param name="officeId">The office id</param>
+        /// <param name="programId">The program id</param>
+        /// <returns>The data point configurations</returns>
+        public async Task<List<DataPointConfigurationDTO>> GetDataPointConfigurationsAsync(int? officeId, int? programId)
+        {
+            var dataPointConfigurations = new List<DataPointConfigurationDTO>();
+
+            if(officeId.HasValue)
+            {
+                dataPointConfigurations = await GetOfficeDataPointConfigurationsAsync(officeId.Value);
+            }
+            else if (programId.HasValue)
+            {
+                dataPointConfigurations = await GetProgramDataPointConfigurationsAsync(programId.Value);
+            }
+
+            return dataPointConfigurations;
+        }
+
+        private async Task<List<DataPointConfigurationDTO>> GetOfficeDataPointConfigurationsAsync(int officeId)
+        {
+            // Get available properties
+            var dataPointConfigurations = await Context.DataPointCategoryProperties.Select(x => new DataPointConfigurationDTO
+            {
+                CategoryPropertyId = x.DataPointCategoryPropertyId,
+                OfficeId = officeId,
+                CategoryId = x.DataPointCategoryId,
+                CategoryName = x.DataPointCategory.DataPointCategoryName,
+                PropertyId = x.DataPointPropertyId,
+                PropertyName = x.DataPointProperty.DataPointPropertyName,
+                IsRequired = false,
+                IsInherited = false
+            }).ToListAsync();
+
+            // Get parent office data configs
+            var parentOfficeIds = await GetParentOfficeIds(officeId);
+            var parentDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
+                .Where(x => parentOfficeIds.Contains(x.OfficeId.Value)).ToList();
+            foreach (var config in parentDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                temp.IsRequired = true;
+                temp.IsInherited = true;
+            }
+
+            // Get child office data configs
+            var childDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
+                .Where(x => x.OfficeId == officeId).ToList();
+            foreach (var config in childDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                if (temp.DataPointConfigurationId == null)
+                {
+                    temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                    temp.IsRequired = true;
+                }
+            }
+
+            return dataPointConfigurations;
+        }
+
+        public async Task<List<DataPointConfigurationDTO>> GetProgramDataPointConfigurationsAsync(int programId)
+        {
+            // Get available properties
+            var dataPointConfigurations = await Context.DataPointCategoryProperties.Select(x => new DataPointConfigurationDTO
+            {
+                CategoryPropertyId = x.DataPointCategoryPropertyId,
+                ProgramId = programId,
+                CategoryId = x.DataPointCategoryId,
+                CategoryName = x.DataPointCategory.DataPointCategoryName,
+                PropertyId = x.DataPointPropertyId,
+                PropertyName = x.DataPointProperty.DataPointPropertyName,
+                IsRequired = false,
+                IsInherited = false
+            }).ToListAsync();
+
+            var program = Context.Programs.Where(x => x.ProgramId == programId).FirstOrDefault();
+
+            var parentOfficeIds = await GetParentOfficeIds(program.OwnerId);
+            parentOfficeIds.Add(program.OwnerId);
+
+            var parentProgramIds = await GetParentProgramIds(program.ProgramId);
+
+            var parentDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
+                .Where(x => parentOfficeIds.Contains(x.OfficeId.Value) || parentProgramIds.Contains(x.ProgramId.Value)).ToList();
+            foreach (var config in parentDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                temp.IsRequired = true;
+                temp.IsInherited = true;
+            }
+
+            var childDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
+                .Where(x => x.ProgramId == programId).ToList();
+            foreach (var config in childDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                if (temp.DataPointConfigurationId == null)
+                {
+                    temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                    temp.IsRequired = true;
+                }
+            }
+
+            return dataPointConfigurations;
+        }
+
+        public async Task<List<int>> GetParentOfficeIds(int officeId)
+        {
+            var office = (await CreateGetOfficesSqlQuery().ToArrayAsync()).Where(x => x.OrganizationId == officeId).FirstOrDefault();
+
+            var parentOfficeIds = new List<int>();
+
+            if (office != null)
+            {
+                var paths = office.Path.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                paths = paths.Take(paths.Length - 1).ToArray();
+                var path = "";
+
+                for (var i = 0; i < paths.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        path = paths[i];
+                    }
+                    else
+                    {
+                        path += PATH_SPLIT_CHARS[0] + paths[i];
+                    }
+                    var parentOffice = (await CreateGetOfficesSqlQuery().ToArrayAsync()).Where(x => x.Path == path).FirstOrDefault();
+                    Contract.Assert(parentOffice != null, String.Format("An office with the path [{0}] should exist.", path));
+                    parentOfficeIds.Add(parentOffice.OrganizationId);
+                }
+            }
+
+            return parentOfficeIds;
+        }
+
+        public async Task<List<int>> GetParentProgramIds(int programId)
+        {
+            var program = (await CreateGetProgramsSqlQuery().ToArrayAsync()).Where(x => x.ProgramId == programId).FirstOrDefault();
+
+            var parentProgramIds = new List<int>();
+
+            if (program != null)
+            {
+                var paths = program.Path.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                paths = paths.Take(paths.Length - 1).ToArray();
+                var path = "";
+
+                for (var i = 0; i < paths.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        path = paths[i];
+                    }
+                    else
+                    {
+                        path += PATH_SPLIT_CHARS[0] + paths[i];
+                    }
+                    var parentProgram = (await CreateGetProgramsSqlQuery().ToArrayAsync()).Where(x => x.Path == path).FirstOrDefault();
+                    Contract.Assert(parentProgram != null, String.Format("A program with the path [{0}] should exist.", path));
+                    parentProgramIds.Add(parentProgram.ProgramId);
+                }
+            }
+
+            return parentProgramIds;
+        }
+
+        private DbRawSqlQuery<SimpleOfficeDTO> CreateGetOfficesSqlQuery()
+        {
+            return this.Context.Database.SqlQuery<SimpleOfficeDTO>(OfficeService.GET_OFFICES_SPROC_NAME);
+        }
+
+        private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsSqlQuery()
+        {
+            return this.Context.Database.SqlQuery<OrganizationProgramDTO>(OfficeService.GET_PROGRAMS_SPROC_NAME);
+        }
     }
 }

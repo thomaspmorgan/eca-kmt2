@@ -8,7 +8,7 @@ namespace ECA.Business.Service.Persons
 {
     public interface IPersonSevisServiceValidator
     {
-        SEVISBatchUpdateStudent GetStudent(EcaContext context, int participantId);
+        SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(EcaContext context, int participantId);
         List<ValidationResult> ValidateSevis(EcaContext context, int participantId);
         Task<List<ValidationResult>> ValidateSevisAsync(EcaContext context, int participantId);
     }

@@ -7,6 +7,6 @@
     {
         public bool print7002 { get; set; }
 
-        public string siteId { get; set; }
+        public string SiteId { get; set; }
     }
 }

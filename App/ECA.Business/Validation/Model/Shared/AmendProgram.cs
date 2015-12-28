@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {

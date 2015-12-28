@@ -15,6 +15,9 @@ angular.module('staticApp')
           },
           createDataPointConfiguration: function (dataPointConfiguration) {
               return DragonBreath.create(dataPointConfiguration, 'dataPointConfigurations');
+          },
+          getDataPointConfigurations: function (params) {
+              return DragonBreath.get(params, 'dataPointConfigurations');
           }
       };
   });

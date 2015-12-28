@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.Create;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -419,21 +418,25 @@ namespace ECA.Business.Test.Service.Persons
         ///// <summary>
         ///// Validate that student record is null
         ///// </summary>
-        //[TestMethod]
-        //public void TestSevisValidator_NullStudent()
-        //{
-        //    var validator = new CreateStudentValidator();
+        [TestMethod]
+        public void TestSevisValidator_NullBiographical()
+        {
+            var validator = new ExchangeVisitorUpdateValidator();
 
-        //    var createStudent = new CreateStudent
-        //    {
-        //        student = null
-        //    };
+            var updateVisitor = new ExchangeVisitorUpdate
+            {
+                requestID = "1",
+                sevisID = "1",
+                statusCode = "AS",
+                userID = "1",
+                Biographical = null
+            };
 
-        //    var results = validator.Validate(createStudent);            
-        //    Assert.IsFalse(results.IsValid);
-        //    Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student information is required"));
-        //}
-        
+            var results = validator.Validate(updateVisitor);
+            Assert.IsFalse(results.IsValid);
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Visitor: Biographical Information is required"));
+        }
+
         ///// <summary>
         ///// Validate student record issue reason is null
         ///// </summary>
@@ -454,9 +457,7 @@ namespace ECA.Business.Test.Service.Persons
         //    Assert.IsFalse(results.IsValid);
         //    Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Student: Issue Reason is required"));
         //}
-
-
-
+        
         #endregion
 
     }

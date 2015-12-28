@@ -7,6 +7,11 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(AddDependentValidator))]
     public class AddDependent
     {
+        public AddDependent()
+        {
+            FullName = new FullName();
+        }
+
         public FullName FullName { get; set; }
         
         public DateTime BirthDate { get; set; }
@@ -24,7 +29,9 @@ namespace ECA.Business.Validation.Model
         public string BirthCountryReason { get; set; }
         
         public string EmailAddress { get; set; }
-        
+
+        public string Relationship { get; set; }
+
         public string UserDefinedA { get; set; }
 
         public string UserDefinedB { get; set; }
