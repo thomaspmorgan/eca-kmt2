@@ -1,4 +1,32 @@
 <div class="row row2">
+    <div class="col-md-9">
+        <div ng-show="validationResults.length > 0">
+            <div class="col-md-4">
+                <p class="title-label" style="color:red; display:inline-flex; vertical-align:middle">
+                    <i class="icon material-icons md-24">warning</i> {{validationResults.length}} field(s) remaining
+                </p>
+            </div>
+            <div class="col-md-8">
+                <div ng-show="edit.isValidationLoading">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+                <fieldset style="border:1px solid red; border-radius:3px; padding:10px">
+                    <ul style="line-height:1.5em">
+                        <li ng-repeat="error in validationResults track by $index">{{error}}</li>
+                    </ul>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button ng-click="validateSevisInfo()" class="btn btn-success">TEST VALIDATION</button>
+    </div>
+</div>
+<div class="row row2">
     <div class="col-md-5"><h5>Position and Field</h5></div>
     <div class="col-md-7">
         <a ng-click="view.PositionAndField=!view.PositionAndField">

@@ -56,7 +56,7 @@ namespace ECA.Business.Service.Persons
             }
 
             // temporary to test xml serialization
-            string temp = GetStudentUpdateXml(updateVisitor);
+            //string temp = GetStudentUpdateXml(updateVisitor);
 
             return final;
         }
@@ -82,7 +82,7 @@ namespace ECA.Business.Service.Persons
             // biographical
             ExchVisitor.Biographical = new BiographicalUpdate
             {
-                BirthCity = personalPII.PlaceOfBirth.City,
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
                 BirthCountryReason = "",
                 BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
@@ -96,7 +96,6 @@ namespace ECA.Business.Service.Persons
                     PreferredName = personalPII.Alias
                 },
                 Gender = personalPII.GenderId.ToString(),
-                PermanentResidenceCountryCode = physicalAddress.CountryIso2,
                 PhoneNumber = "",
                 PositionCode = "",
                 printForm = false,
@@ -117,6 +116,7 @@ namespace ECA.Business.Service.Persons
             }
             if (physicalAddress != null)
             {
+                ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.CountryIso2 != null ? physicalAddress.CountryIso2 : "";
                 ExchVisitor.Biographical.USAddress = new USAddress
                 {
                     Address1 = physicalAddress.Street1,

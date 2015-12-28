@@ -12,7 +12,8 @@
             getParticipantExchangeVisitors: getParticipantExchangeVisitors,
             getParticipantExchangeVisitorsByProject: getParticipantExchangeVisitorsByProject,
             getParticipantExchangeVisitorById: getParticipantExchangeVisitorById,
-            updateParticipantExchangeVisitor: updateParticipantExchangeVisitor
+            updateParticipantExchangeVisitor: updateParticipantExchangeVisitor,
+            validateParticipantPersonsSevis: validateParticipantPersonsSevis
         };
 
         return service;
@@ -39,11 +40,15 @@
         function getParticipantExchangeVisitorById(id) {
             return DragonBreath.get('ParticipantExchangeVisitors', id);
         };
-
-
+        
         function updateParticipantExchangeVisitor(exchangeVisitorInfo) {
             var path = 'ParticipantExchangeVisitors';
             return DragonBreath.save(exchangeVisitorInfo, path);
+        };
+
+        function validateParticipantPersonsSevis(id) {
+            var path = 'ParticipantPersonsSevis/ValidateSevis';
+            return DragonBreath.get(path, id);
         };
     }
 })();
