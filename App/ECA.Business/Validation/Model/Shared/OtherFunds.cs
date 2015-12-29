@@ -24,7 +24,7 @@ namespace ECA.Business.Validation.Model.Shared
         /// International organization funding
         /// </summary>
         public International International { get; set; }
-
+        
         /// <summary>
         /// Funding from exchange visitor government
         /// </summary>

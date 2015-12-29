@@ -14,15 +14,15 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public BiographicalValidator()
         {
-            RuleFor(student => student.FullName).NotNull().WithMessage("Biographical Info: Full Name is required").SetValidator(new FullNameValidator()).When(student => student.FullName != null);
-            RuleFor(student => student.BirthDate).NotNull().WithMessage("Biographical Info: Date of Birth is required");
-            RuleFor(student => student.Gender).NotNull().WithMessage("Biographical Info: Gender is required").Length(GENDER_CODE_LENGTH).WithMessage("Biographical Info: Gender must be " + GENDER_CODE_LENGTH.ToString() + " character");
-            RuleFor(student => student.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("Biographical Info: City of Birth can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.BirthCountryCode).NotNull().WithMessage("Biographical Info: Country of Birth is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Biographical Info: Country of Birth must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
-            RuleFor(student => student.CitizenshipCountryCode).NotNull().WithMessage("Biographical Info: Country of Citizenship is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Biographical Info: Country of Citizenship must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
-            RuleFor(student => student.PermanentResidenceCountryCode).NotNull().WithMessage("Biographical Info: Permanent Residence Country is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Biographical Info: Permanent Residence Country must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
-            RuleFor(student => student.BirthCountryReason).Length(BIRTH_COUNTRY_REASON_LENGTH).WithMessage("Biographical Info: Birth Country Reason must be " + BIRTH_COUNTRY_REASON_LENGTH.ToString() + " characters");
-            RuleFor(student => student.EmailAddress).Length(0, EMAIL_MAX_LENGTH).WithMessage("Biographical Info: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Biographical Info: Email is invalid");
+            RuleFor(visitor => visitor.FullName).NotNull().WithMessage("Biographical Info: Full Name is required").SetValidator(new FullNameValidator()).When(visitor => visitor.FullName != null);
+            RuleFor(visitor => visitor.BirthDate).NotNull().WithMessage("Biographical Info: Date of Birth is required");
+            RuleFor(visitor => visitor.Gender).NotNull().WithMessage("Biographical Info: Gender is required").Length(GENDER_CODE_LENGTH).WithMessage("Biographical Info: Gender must be " + GENDER_CODE_LENGTH.ToString() + " character");
+            RuleFor(visitor => visitor.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("Biographical Info: City of Birth can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.BirthCountryCode).NotNull().WithMessage("Biographical Info: Country of Birth is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Biographical Info: Country of Birth must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.CitizenshipCountryCode).NotNull().WithMessage("Biographical Info: Country of Citizenship is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Biographical Info: Country of Citizenship must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.PermanentResidenceCountryCode).NotNull().WithMessage("Biographical Info: Permanent Residence Country is required").Length(COUNTRY_CODE_LENGTH).WithMessage("Biographical Info: Permanent Residence Country must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.BirthCountryReason).Length(0, BIRTH_COUNTRY_REASON_LENGTH).WithMessage("Biographical Info: Birth Country Reason must be " + BIRTH_COUNTRY_REASON_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.EmailAddress).Length(0, EMAIL_MAX_LENGTH).WithMessage("Biographical Info: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Biographical Info: Email is invalid");
         }
     }
 }

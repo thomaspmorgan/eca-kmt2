@@ -1,5 +1,8 @@
-﻿namespace ECA.Business.Validation.Model.Shared
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(SiteOfActivitySeekingGempValidator))]
     public class SiteOfActivitySeekingGemp
     {
         /// <summary>
