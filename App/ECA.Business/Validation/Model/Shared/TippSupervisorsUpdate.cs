@@ -1,4 +1,5 @@
-﻿namespace ECA.Business.Validation.Model.Shared
+﻿
+namespace ECA.Business.Validation.Model.Shared
 {
     public class TippSupervisorsUpdate
     {

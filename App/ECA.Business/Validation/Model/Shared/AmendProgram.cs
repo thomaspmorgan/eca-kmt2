@@ -4,6 +4,11 @@ namespace ECA.Business.Validation.Model
 {
     public class AmendProgram
     {
+        public AmendProgram()
+        {
+            TippPhaseDates = new TippPhaseDates();
+        }
+
         public bool printForm { get; set; }
 
         public DateTime PrgStartDate { get; set; }

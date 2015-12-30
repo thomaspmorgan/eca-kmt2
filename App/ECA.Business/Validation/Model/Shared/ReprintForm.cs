@@ -6,6 +6,9 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(ReprintFormValidator))]
     public class ReprintForm
     {
+        public ReprintForm()
+        { }
+
         public bool printForm { get; set; }
         
         public string Reason { get; set; }

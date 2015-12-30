@@ -9,6 +9,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         {
             HostFamily = new HostFamily();
             BoardingSchool = new BoardingSchool();
+            LCCoordinator = new LCCoordinator();
         }
 
         public string ResidentialType { get; set; }

@@ -8,6 +8,9 @@ namespace ECA.Business.Validation.Model.Shared
     [Validator(typeof(USGovtValidator))]
     public class USGovt
     {
+        public USGovt()
+        { }
+
         /// <summary>
         /// US government organization 1
         /// </summary>

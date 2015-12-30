@@ -1,4 +1,5 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿
+namespace ECA.Business.Validation.Model.CreateEV
 {
     /// <summary>
     /// Validate the exchange visitor’s participation in the program

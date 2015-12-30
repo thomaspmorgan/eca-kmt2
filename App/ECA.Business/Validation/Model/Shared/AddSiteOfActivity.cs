@@ -19,13 +19,13 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Site of activity address
         /// </summary>
-        [XmlArrayItem("SiteOfActivity xsi:type=\"SOA\"")]
+        [XmlElement("SiteOfActivity xsi:type=\"SOA\"")]
         public SiteOfActivitySOA SiteOfActivitySOA { get; set; }
 
         /// <summary>
         /// Site of activity information for exempt
         /// </summary>
-        [XmlArrayItem("SiteOfActivity xsi:type=\"EXEMPT\"")]
+        [XmlElement("SiteOfActivity xsi:type=\"EXEMPT\"")]
         public SiteOfActivityExempt SiteOfActivityExempt { get; set; }
     }
 }

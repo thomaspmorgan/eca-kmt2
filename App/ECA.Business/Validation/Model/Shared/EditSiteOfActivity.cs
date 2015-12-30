@@ -1,7 +1,11 @@
-﻿namespace ECA.Business.Validation.Model.CreateEV
+﻿
+namespace ECA.Business.Validation.Model.CreateEV
 {
     public class EditSiteOfActivity
     {
+        public EditSiteOfActivity()
+        { }
+
         public bool printForm { get; set; }
 
         public string Address1 { get; set; }

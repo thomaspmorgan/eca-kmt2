@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation.Model.CreateEV;
-
+﻿
 namespace ECA.Business.Validation.Model.Shared
 {
     public class UpdateSignatureDates
