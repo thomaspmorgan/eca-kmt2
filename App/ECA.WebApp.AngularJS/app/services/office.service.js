@@ -8,7 +8,7 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('OfficeService', function (DragonBreath, $q) {
+  .factory('OfficeService', function (DragonBreath, ProgramService, $q) {
 
       return {
           get: function (id) {

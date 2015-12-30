@@ -36,7 +36,10 @@
         </thead>
         <tbody class="list2">
             <tr ng-repeat="program in view.programs" class="hover" ng-show="!view.isLoadingPrograms">
-                <td>
+                <td class="narrowPadding">
+                    <program-table-cell program="program" programfilter="view.programFilter" />
+                </td>
+                <!--<td>
                     <div ng-style="{marginLeft: (program.programLevel) * 60}">
                         <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:view.programFilter">{{office.officeSymbol}}</span>
                         <h4>
@@ -57,7 +60,7 @@
                             <i class="material-icons md-24 copyEditDeleteOption">delete</i>
                         </div>
                     </div>
-                </td>
+                </td>-->
             </tr>
             <tr>
                 <td colspan="5" ng-show="isLoadingPrograms">

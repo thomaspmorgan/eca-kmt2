@@ -64,7 +64,13 @@
                     </td>
                 </tr>
                 <tr ng-repeat="program in view.programs" ng-show="!program.isHidden && !view.programsLoading" class="hover">
+                    <!--<td class="narrowPadding">
+                        <ng-include src="'app/partials/program-table-cell.html'" />
+                    </td>-->
                     <td class="narrowPadding">
+                        <program-table-cell program ="program" programfilter="view.programFilter"/>
+                    </td>
+                    <!--<td class="narrowPadding">
                         <div id="{{program.divId}}">
                             <div class="col-md-10" ng-style="{'padding-left': (40*program.programLevel)}">
                                 <div ng-if="!program.isRoot" ng-class="{'col-md-1': !program.isRoot}">
@@ -112,7 +118,7 @@
                                 </div>
                             </div>
                         </div>
-                    </td>
+                    </td>-->
                 </tr>
             </tbody>
         </table>
