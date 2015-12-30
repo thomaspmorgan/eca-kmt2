@@ -5,7 +5,7 @@
         .module('staticApp')
         .directive('participantStudentVisitor', participantStudentVisitor);
 
-    participantStudentVisitor.$inject = ['$q', '$log', 'FilterService', 'LookupService', 'NotificationService', 'ParticipantPersonsSevisService'];
+    participantStudentVisitor.$inject = ['$q', '$log', 'FilterService', 'LookupService', 'NotificationService'];
     
     function participantStudentVisitor($q, $log, FilterService, LookupService, NotificationService) {
         // Usage:
@@ -177,26 +177,10 @@
 
                 loadStudentCreations();
                 loadEducationLevels();
-
-                // pre-sevis validation
-                $scope.validateSevisInfo = function () {
-                    return ParticipantPersonsSevisService.validateParticipantPersonsSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.error('Validated participant SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.length; i++) {
-                            valErrors.push(response.data[i].errorMessage);
                         }
-                        $scope.validationResults = valErrors;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                    });
                 };
 
-            }
-        };
         return directive;
-
     }
 
 })();

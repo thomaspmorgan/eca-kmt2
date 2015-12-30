@@ -1,7 +1,9 @@
 ﻿using ECA.Business.Validation.Model.CreateEV;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(AddTIPPUpdateValidator))]
     public class AddTIPPUpdate
     {
         public AddTIPPUpdate()

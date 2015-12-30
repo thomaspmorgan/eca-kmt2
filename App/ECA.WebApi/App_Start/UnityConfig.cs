@@ -223,9 +223,6 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
                 ParticipantPersonServiceValidator>();
             container.RegisterType<
-                ISevisValidator, 
-                PersonSevisServiceValidator>();
-            container.RegisterType<
                 IBusinessValidator<AddedEcaItineraryGroupValidationEntity, object>,
                 EcaItineraryGroupValidator>();
         }

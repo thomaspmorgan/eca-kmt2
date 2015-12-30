@@ -1,9 +1,12 @@
-﻿namespace ECA.Business.Validation.Model.Shared
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(ReprintFormUpdateValidator))]
     public class ReprintFormUpdate : ReprintForm
     {
         /// <summary>
-        /// Print request indicator
+        /// Dependent Sevis ID
         /// </summary>
         public string dependentSevisID { get; set; }
     }

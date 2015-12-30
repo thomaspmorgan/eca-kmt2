@@ -22,11 +22,10 @@
             },
             templateUrl: 'app/directives/participant-exchange-visitor.directive.html',
             controller: function ($scope, $attrs) {
-
+                                
                 var limit = 300;
                 $scope.edit = [];
-
-
+                
                 $scope.saveFunding = function () {
                     $scope.update({ participantId: $scope.participantid });
                     $scope.view.FundingEdit = false;
@@ -205,10 +204,27 @@
                 loadUSGovernmentAgencies();
                 loadInternationalOrganizations();
                 //loadFieldOfStudies();
+                
+                // pre-sevis validation
+                $scope.validateSevisInfo = function () {
+                    $scope.edit.isValidationLoading = true;
+                    return ParticipantExchangeVisitorService.validateParticipantPersonsSevis($scope.participantid)
+                    .then(function (response) {
+                        $log.info('Validated participant SEVIS info');
+                        var valErrors = [];
+                        for (var i = 0; i < response.data.length; i++) {
+                            valErrors.push(response.data[i].errorMessage);
+                        }
+                        $scope.validationResults = valErrors;
+                        $scope.edit.isValidationLoading = false;
+                    }, function (error) {
+                        NotificationService.showErrorMessage(error.data);
+                        $scope.edit.isValidationLoading = false;
+                    });
+                };
             }
         };
 
         return directive;
     }
 })();
-

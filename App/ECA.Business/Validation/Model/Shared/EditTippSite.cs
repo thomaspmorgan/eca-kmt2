@@ -1,9 +1,16 @@
 ﻿using System;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(EditTippSiteValidator))]
     public class EditTippSite
     {
+        public EditTippSite()
+        {
+            Supervisors = new SupervisorsUpdate();
+        }
+
         public string SiteId { get; set; }
 
         public string Address1 { get; set; }
