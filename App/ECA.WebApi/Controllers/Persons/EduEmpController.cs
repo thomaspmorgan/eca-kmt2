@@ -61,6 +61,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// Returns employment info associated with a person
         /// </summary>
         /// <param name="personId">The person id to find employments info for</param>
+        /// <param name="queryModel">The query model</param>
         /// <returns>Employment info associated with person</returns>
         [ResponseType(typeof(IList<EducationEmploymentDTO>))]
         [Route("EduEmp/{personId:int}/Employments")]

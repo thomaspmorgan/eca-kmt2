@@ -62,7 +62,7 @@ namespace ECA.Business.Service.Fundings
                 if (instance == null && actualMoneyFlow != null)
                 {
                     throw new BusinessSecurityException(
-                        String.Format("The user with id [{0}] attempted edit a money flow with id [{1}] but should have been denied access.",
+                        String.Format("The user with id [{0}] attempted to edit a money flow with id [{1}] but should have been denied access.",
                         userId,
                         actualMoneyFlow.MoneyFlowId));
                 }
@@ -828,6 +828,7 @@ namespace ECA.Business.Service.Fundings
             moneyFlowToUpdate.MoneyFlowTypeId = updatedMoneyFlow.MoneyFlowTypeId;
             moneyFlowToUpdate.TransactionDate = updatedMoneyFlow.TransactionDate;
             moneyFlowToUpdate.Value = updatedMoneyFlow.Value;
+            moneyFlowToUpdate.GrantNumber = updatedMoneyFlow.GrantNumber;
             updatedMoneyFlow.Audit.SetHistory(moneyFlowToUpdate);
         }
 

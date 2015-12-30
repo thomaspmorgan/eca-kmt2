@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 14 - Secondary Major and Minor Codes for Students"
   DTS:PackageType="5"
-  DTS:VersionBuild="15"
-  DTS:VersionGUID="{2E016E21-99EF-4754-8109-A36E66CE65B8}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{5A3B137C-728F-460D-B8C5-B2D28732E4AE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -63,8 +63,8 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{4DF56B34-D7E8-4EAD-BA0B-196E2A6EDAD8}"
-          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisProgramSubject]&#xA;SET FormattedProgramSubjectCode = FORMAT (CAST([program subject code] AS FLOAT),'00.0000')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{9FD39539-8229-43A2-A262-EC9C82A0DB88}"
+          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisSecondaryMajorMinorCodesForStudents]&#xA;SET FormattedSecondaryMajorMinorCode = FORMAT (CAST([program subject code] AS FLOAT),'00.0000')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -83,11 +83,11 @@
           version="1">
           <components>
             <component
-              refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source"
+              refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source"
               componentClassID="Microsoft.ExcelSource"
               contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Excel Source"
-              name="Sevis Program Subject Excel Source"
+              name="Sevis Secondary Major Monir Codes for Students Excel Source"
               usesDispositions="true"
               version="1">
               <properties>
@@ -124,7 +124,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Connections[OleDbConnection]"
+                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
                   connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
                   description="The OLE DB runtime connection used to access the database."
@@ -132,71 +132,71 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output]"
+                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output]"
                   name="Excel Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
                       length="255"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]"
                       name="PROGRAM SUBJECT CODE"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
                       length="255"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       name="PROGRAM SUBJECT DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       length="255"
                       name="PROGRAM SUBJECT CODE" />
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
                       dataType="wstr"
                       length="255"
                       name="PROGRAM SUBJECT DESCRIPTION" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output]"
+                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output]"
                   isErrorOut="true"
                   name="Excel Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT CODE]"
                       name="PROGRAM SUBJECT CODE" />
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       name="PROGRAM SUBJECT DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -205,11 +205,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject"
+              refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="SevisProgramSubject"
+              name="SevisSecondaryMajorMinorCodesForStudents"
               usesDispositions="true"
               version="4">
               <properties>
@@ -220,7 +220,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[SevisProgramSubject]</property>
+                  name="OpenRowset">[SevisSecondaryMajorMinorCodesForStudents]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -262,74 +262,74 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Connections[OleDbConnection]"
-                  connectionManagerID="{4DF56B34-D7E8-4EAD-BA0B-196E2A6EDAD8}:invalid"
-                  connectionManagerRefId="{4DF56B34-D7E8-4EAD-BA0B-196E2A6EDAD8}:invalid"
+                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308.SEVIS]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.SEVIS]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <inputs>
                 <input
-                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input]"
+                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].Columns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].Columns[PROGRAM SUBJECT CODE]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="PROGRAM SUBJECT CODE"
-                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT CODE]"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]" />
+                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]" />
                     <inputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="PROGRAM SUBJECT DESCRIPTION"
-                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]" />
+                      externalMetadataColumnId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       length="255"
                       name="PROGRAM SUBJECT CODE" />
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
                       dataType="wstr"
                       length="255"
                       name="PROGRAM SUBJECT DESCRIPTION" />
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input].ExternalColumns[FormattedProgramSubjectCode]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input].ExternalColumns[FormattedSecondaryMajorMinorCode]"
                       codePage="1252"
                       dataType="str"
                       length="7"
-                      name="FormattedProgramSubjectCode" />
+                      name="FormattedSecondaryMajorMinorCode" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -341,21 +341,21 @@
           <paths>
             <path
               refId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source.Paths[Excel Source Output]"
-              endId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject.Inputs[OLE DB Destination Input]"
+              endId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents.Inputs[OLE DB Destination Input]"
               name="Excel Source Output"
-              startId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source.Outputs[Excel Source Output]" />
+              startId="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source.Outputs[Excel Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load ProgramSubject"
+      DTS:refId="Package\Load Secondary Major Minor Codes for Students table"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{EC87E915-482A-4F86-931A-4F05CFEAF5DF}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load ProgramSubject"
+      DTS:ObjectName="Load Secondary Major Minor Codes for Students table"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -363,7 +363,7 @@
           version="1">
           <components>
             <component
-              refId="Package\Load ProgramSubject\Add Required Columns"
+              refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
@@ -371,7 +371,7 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load ProgramSubject\Add Required Columns.Inputs[Derived Column Input]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <externalMetadataColumns />
@@ -379,18 +379,18 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\Load ProgramSubject\Add Required Columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       name="History_CreatedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -408,11 +408,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       name="History_CreatedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -430,11 +430,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       name="History_RevisedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -452,11 +452,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       name="History_RevisedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -477,23 +477,23 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\Load ProgramSubject\Add Required Columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -502,7 +502,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load ProgramSubject\Data Conversion"
+              refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion"
               componentClassID="Microsoft.DataConvert"
               contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Data Conversion"
@@ -510,33 +510,33 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Inputs[Data Conversion Input]"
                   name="Data Conversion Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="Description"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]" />
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Output]"
                   exclusionGroup="1"
                   name="Data Conversion Output"
-                  synchronousInputId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]">
+                  synchronousInputId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Inputs[Data Conversion Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       length="200"
-                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
                       name="Copy of Description"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -544,7 +544,7 @@
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]}</property>
+                          name="SourceInputColumnLineageID">#{Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]}</property>
                         <property
                           dataType="System.Boolean"
                           description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -555,22 +555,22 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Data Conversion Error Output"
-                  synchronousInputId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]">
+                  synchronousInputId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Inputs[Data Conversion Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -579,7 +579,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load ProgramSubject\Local SevisProgramSubject"
+              refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -594,7 +594,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[SevisProgramSubject]</property>
+                  name="OpenRowset">[dbo].[SevisSecondaryMajorMinorCodesForStudents]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -628,7 +628,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load ProgramSubject\Local SevisProgramSubject.Connections[OleDbConnection]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308.SEVIS]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308.SEVIS]"
                   description="The OLE DB runtime connection used to access the database."
@@ -636,95 +636,95 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
                       length="255"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[PROGRAM SUBJECT CODE]"
                       name="PROGRAM SUBJECT CODE"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
                       length="255"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[Description]"
                       name="Description"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedProgramSubjectCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedSecondaryMajorMinorCode]"
                       codePage="1252"
                       dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[FormattedProgramSubjectCode]"
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[FormattedSecondaryMajorMinorCode]"
                       length="7"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedProgramSubjectCode]"
-                      name="FormattedProgramSubjectCode"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedSecondaryMajorMinorCode]"
+                      name="FormattedSecondaryMajorMinorCode"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       length="255"
                       name="PROGRAM SUBJECT CODE" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
                       dataType="wstr"
                       length="255"
                       name="PROGRAM SUBJECT DESCRIPTION" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[FormattedProgramSubjectCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].ExternalColumns[FormattedSecondaryMajorMinorCode]"
                       codePage="1252"
                       dataType="str"
                       length="7"
-                      name="FormattedProgramSubjectCode" />
+                      name="FormattedSecondaryMajorMinorCode" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT CODE]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT CODE]"
                       name="PROGRAM SUBJECT CODE" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
                       name="PROGRAM SUBJECT DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[FormattedProgramSubjectCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[FormattedSecondaryMajorMinorCode]"
                       codePage="1252"
                       dataType="str"
                       length="7"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[FormattedProgramSubjectCode]"
-                      name="FormattedProgramSubjectCode" />
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[FormattedSecondaryMajorMinorCode]"
+                      name="FormattedSecondaryMajorMinorCode" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -733,7 +733,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor"
+              refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -790,92 +790,92 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308.ECA_Local]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Connections[OleDbConnection]"
+                  connectionManagerID="{D4DBE7DA-1BF4-4696-814C-C3CD47A2C4C8}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
                       cachedDataType="i4"
                       cachedName="History_CreatedBy"
-                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_CreatedOn"
-                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
                       cachedDataType="i4"
                       cachedName="History_RevisedBy"
-                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_RevisedOn"
-                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      lineageId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[FormattedProgramSubjectCode]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="7"
-                      cachedName="FormattedProgramSubjectCode"
-                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
-                      lineageId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedProgramSubjectCode]" />
-                    <inputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
                       cachedDataType="wstr"
                       cachedLength="200"
                       cachedName="Copy of Description"
-                      externalMetadataColumnId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
+                    <inputColumn
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].Columns[FormattedSecondaryMajorMinorCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="7"
+                      cachedName="FormattedSecondaryMajorMinorCode"
+                      externalMetadataColumnId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output].Columns[FormattedSecondaryMajorMinorCode]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectId]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectId]"
                       dataType="i4"
                       name="ProgramSubjectId" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[ProgramSubjectCode]"
                       codePage="1252"
                       dataType="str"
                       length="7"
                       name="ProgramSubjectCode" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="wstr"
                       length="200"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_CreatedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_RevisedOn"
                       scale="7" />
@@ -884,22 +884,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -910,20 +910,20 @@
           </components>
           <paths>
             <path
-              refId="Package\Load ProgramSubject.Paths[Data Conversion Output]"
-              endId="Package\Load ProgramSubject\Add Required Columns.Inputs[Derived Column Input]"
+              refId="Package\Load Secondary Major Minor Codes for Students table.Paths[Data Conversion Output]"
+              endId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Inputs[Derived Column Input]"
               name="Data Conversion Output"
-              startId="Package\Load ProgramSubject\Data Conversion.Outputs[Data Conversion Output]" />
+              startId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Outputs[Data Conversion Output]" />
             <path
-              refId="Package\Load ProgramSubject.Paths[Derived Column Output]"
-              endId="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]"
+              refId="Package\Load Secondary Major Minor Codes for Students table.Paths[Derived Column Output]"
+              endId="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
-              startId="Package\Load ProgramSubject\Add Required Columns.Outputs[Derived Column Output]" />
+              startId="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Load ProgramSubject.Paths[OLE DB Source Output]"
-              endId="Package\Load ProgramSubject\Data Conversion.Inputs[Data Conversion Input]"
+              refId="Package\Load Secondary Major Minor Codes for Students table.Paths[OLE DB Source Output]"
+              endId="Package\Load Secondary Major Minor Codes for Students table\Data Conversion.Inputs[Data Conversion Input]"
               name="OLE DB Source Output"
-              startId="Package\Load ProgramSubject\Local SevisProgramSubject.Outputs[OLE DB Source Output]" />
+              startId="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -945,7 +945,7 @@
       DTS:From="Package\Create Formatted ProgramSubject Code"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Load ProgramSubject" />
+      DTS:To="Package\Load Secondary Major Minor Codes for Students table" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -962,29 +962,41 @@
         <NodeLayout
           Size="266,42"
           Id="Package\Create Formatted ProgramSubject Code"
-          TopLeft="82.5,133.5" />
+          TopLeft="357.5,202.5" />
         <NodeLayout
           Size="427,42"
           Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="180,42"
-          Id="Package\Load ProgramSubject"
-          TopLeft="132.5,245.5" />
+          Size="332,42"
+          Id="Package\Load Secondary Major Minor Codes for Students table"
+          TopLeft="153.5,349.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="217.25,47.5">
+          TopLeft="219,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,86"
+              EndConnector="271.5,155"
               Start="0,0"
-              End="0,78.5">
+              End="271.5,147.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,78.5" />
+                    End="0,73.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,73.5"
+                    Point2="0,77.5"
+                    Point3="4,77.5" />
+                  <mssgle:LineSegment
+                    End="267.5,77.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="267.5,77.5"
+                    Point2="271.5,77.5"
+                    Point3="271.5,81.5" />
+                  <mssgle:LineSegment
+                    End="271.5,147.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -995,18 +1007,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="219,175.5">
+          TopLeft="490.5,244.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,70"
+              EndConnector="-171,105"
               Start="0,0"
-              End="0,62.5">
+              End="-171,97.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,62.5" />
+                    End="0,48.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48.5"
+                    Point2="0,52.5"
+                    Point3="-4,52.5" />
+                  <mssgle:LineSegment
+                    End="-167,52.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-167,52.5"
+                    Point2="-171,52.5"
+                    Point3="-171,56.5" />
+                  <mssgle:LineSegment
+                    End="-171,97.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1024,39 +1048,27 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="247,42"
-          Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source"
-          TopLeft="5.5,5.5" />
+          Size="370,42"
+          Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source"
+          TopLeft="185.5,35.5" />
         <NodeLayout
-          Size="178,42"
-          Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject"
-          TopLeft="52.5,124.5" />
+          Size="290,42"
+          Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents"
+          TopLeft="229.5,167.5" />
         <EdgeLayout
           Id="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source.Paths[Excel Source Output]"
-          TopLeft="129,47.5">
+          TopLeft="372.5,77.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="12.5,77"
+              EndConnector="0,90"
               Start="0,0"
-              End="12.5,69.5">
+              End="0,82.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,34.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,34.5"
-                    Point2="0,38.5"
-                    Point3="4,38.5" />
-                  <mssgle:LineSegment
-                    End="8.5,38.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="8.5,38.5"
-                    Point2="12.5,38.5"
-                    Point3="12.5,42.5" />
-                  <mssgle:LineSegment
-                    End="12.5,69.5" />
+                    End="0,82.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1069,7 +1081,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Program Subject Excel Source">
+    design-time-name="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\Sevis Secondary Major Monir Codes for Students Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1082,7 +1094,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisProgramSubject">
+    design-time-name="Package\Import Sevis Secondary Major and Minor Codes for Students Excel Source\SevisSecondaryMajorMinorCodesForStudents">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1095,50 +1107,28 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Load ProgramSubject">
+    design-time-name="Package\Load Secondary Major Minor Codes for Students table">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="156,42"
+          Id="Package\Load Secondary Major Minor Codes for Students table\Data Conversion"
+          TopLeft="377.5,43.5" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor"
+          TopLeft="643.5,148.5" />
+        <NodeLayout
           Size="205,42"
-          Id="Package\Load ProgramSubject\Local SevisProgramSubject"
+          Id="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject"
           TopLeft="28.5,39.5" />
         <NodeLayout
           Size="186,42"
-          Id="Package\Load ProgramSubject\Add Required Columns"
+          Id="Package\Load Secondary Major Minor Codes for Students table\Add Required Columns"
           TopLeft="360.5,152.5" />
-        <NodeLayout
-          Size="249,42"
-          Id="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor"
-          TopLeft="643.5,148.5" />
         <EdgeLayout
-          Id="Package\Load ProgramSubject.Paths[Derived Column Output]"
-          TopLeft="546.5,171.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="97,0"
-              Start="0,0"
-              End="89.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="89.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Load ProgramSubject\Data Conversion"
-          TopLeft="377.5,43.5" />
-        <EdgeLayout
-          Id="Package\Load ProgramSubject.Paths[OLE DB Source Output]"
+          Id="Package\Load Secondary Major Minor Codes for Students table.Paths[OLE DB Source Output]"
           TopLeft="233.5,62.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1160,7 +1150,29 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load ProgramSubject.Paths[Data Conversion Output]"
+          Id="Package\Load Secondary Major Minor Codes for Students table.Paths[Derived Column Output]"
+          TopLeft="546.5,171.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97,0"
+              Start="0,0"
+              End="89.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="89.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Secondary Major Minor Codes for Students table.Paths[Data Conversion Output]"
           TopLeft="454.5,85.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -1185,7 +1197,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load ProgramSubject\Local SevisProgramSubject">
+    design-time-name="Package\Load Secondary Major Minor Codes for Students table\SEVIS StudentSecondaryMajorMinor">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1198,7 +1210,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load ProgramSubject\SEVIS StudentSecondaryMajorMinor">
+    design-time-name="Package\Load Secondary Major Minor Codes for Students table\Local SevisProgramSubject">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

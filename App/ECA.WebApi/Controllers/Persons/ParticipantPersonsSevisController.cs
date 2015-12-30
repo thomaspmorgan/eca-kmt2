@@ -3,14 +3,13 @@ using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
-using ECA.WebApi.Models.Query;
 using ECA.WebApi.Models.Person;
+using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ECA.WebApi.Security;
-using ECA.Business.Validation;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -26,19 +25,22 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
-        private IParticipantPersonsSevisService service;
-        private SevisValidationService validation;
+        private IParticipantPersonsSevisService participantService;
+        private ISevisValidationService validationService;
         private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
-        /// <param name="service">The service.</param>
+        /// <param name="participantService">participant person sevis service.</param>
+        /// <param name="validationService">sevis validation service</param>
         /// <param name="userProvider">user provider</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService service, IUserProvider userProvider)
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, 
+            ISevisValidationService validationService, IUserProvider userProvider)
         {
-            Contract.Requires(service != null, "The participantPersonSevis service must not be null.");
-            this.service = service;
+            Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
+            this.participantService = participantService;
+            this.validationService = validationService;
             this.userProvider = userProvider;
         }
 
@@ -53,7 +55,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantPersonsSevisAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.participantService.GetParticipantPersonsSevisAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -74,7 +76,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantPersonsSevisByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.participantService.GetParticipantPersonsSevisByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -92,7 +94,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("ParticipantPersonsSevis/{participantId:int}")]
         public async Task<IHttpActionResult> GetParticipantPersonsSevisByIdAsync(int participantId) 
         {
-            var participantPerson = await service.GetParticipantPersonsSevisByIdAsync(participantId);
+            var participantPerson = await participantService.GetParticipantPersonsSevisByIdAsync(participantId);
             if (participantPerson != null)
             {
                 return Ok(participantPerson);
@@ -115,9 +117,9 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var participantPersonSevisDTO = await service.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
-                await service.SaveChangesAsync();
-                participantPersonSevisDTO = await service.GetParticipantPersonsSevisByIdAsync(participantPersonSevisDTO.ParticipantId);
+                var participantPersonSevisDTO = await participantService.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
+                await participantService.SaveChangesAsync();
+                participantPersonSevisDTO = await participantService.GetParticipantPersonsSevisByIdAsync(participantPersonSevisDTO.ParticipantId);
                 return Ok(participantPersonSevisDTO);
             }
             else
@@ -138,7 +140,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantPersonsSevisCommStatusesByIdAsync(participantId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.participantService.GetParticipantPersonsSevisCommStatusesByIdAsync(participantId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -157,8 +159,8 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var statuses = await service.SendToSevis(participantIds);
-                await service.SaveChangesAsync();
+                var statuses = await participantService.SendToSevis(participantIds);
+                await participantService.SaveChangesAsync();
                 return Ok(statuses);
             }
             else
@@ -170,22 +172,14 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Manually validate a participant sevis record.
         /// </summary>
-        /// <param name="validationEntity"></param>
+        /// <param name="participantId"></param>
         /// <returns>validation result</returns>
-        [Route("ParticipantPersonsSevis/ValidateSevis")]
-        public async Task<IHttpActionResult> ValidateSevisAsync(SEVISBatchCreateUpdateStudent validationEntity)
+        [Route("ParticipantPersonsSevis/ValidateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateSevisAsync(int participantId)
         {
-            if (ModelState.IsValid)
-            {
-                var statuses = await validation.PreSevisValidation(validationEntity);
-                return Ok(statuses);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            var statuses = await validationService.PreSevisValidationAsync(participantId);
+            return Ok(statuses);
         }
-
-
+        
     }
 }

@@ -3,6 +3,7 @@ using CAM.Data;
 using ECA.Business.Search;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Fundings;
+using ECA.Business.Service.Itineraries;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
@@ -90,6 +91,7 @@ namespace ECA.WebApi.App_Start
                 list.Add(new AddressToEntityDocumentSaveAction(new AppSettings()));
                 return list;
             }));
+            System.Data.Entity.Database.SetInitializer<EcaContext>(new NullDatabaseInitializer<EcaContext>());
         }
 
         /// <summary>
@@ -158,6 +160,8 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISevisValidationService, SevisValidationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPersonSevisServiceValidator, PersonSevisServiceValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IProminentCategoryService, ProminentCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IBookmarkService, BookmarkService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
@@ -172,7 +176,6 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IPhoneNumberHandler, PhoneNumberHandler>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonsSevisService, ParticipantPersonsSevisService>(new HierarchicalLifetimeManager());
             container.RegisterType<ISnapshotService, SnapshotService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IParticipantStudentVisitorService, ParticipantStudentVisitorService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFieldOfStudyService, FieldOfStudyService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramCategoryService, ProgramCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPositionService, PositionService>(new HierarchicalLifetimeManager());
@@ -180,6 +183,11 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IInternationalOrganizationService, InternationalOrganizationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEducationLevelService, EducationLevelService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStudentCreationService, StudentCreationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IItineraryService, ItineraryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantExchangeVisitorService, ParticipantExchangeVisitorService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IVisitorTypeService, VisitorTypeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IDataPointConfigurationService, DataPointConfigurationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IItineraryGroupService, ItineraryGroupService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -210,11 +218,14 @@ namespace ECA.WebApi.App_Start
                 IBusinessValidator<LocationValidationEntity, LocationValidationEntity>,
                 LocationServiceValidator>();
             container.RegisterType<
+                IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity>,
+                ItineraryServiceValidator>();
+            container.RegisterType<
                 IBusinessValidator<object, UpdatedParticipantPersonValidationEntity>,
                 ParticipantPersonServiceValidator>();
             container.RegisterType<
-                ISevisValidator, 
-                PersonSevisServiceValidator>();
+                IBusinessValidator<AddedEcaItineraryGroupValidationEntity, object>,
+                EcaItineraryGroupValidator>();
         }
 
         /// <summary>

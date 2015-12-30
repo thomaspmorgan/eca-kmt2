@@ -17,9 +17,9 @@
                     Outgoing
                 </span>
             </div>
-            <hr/>
+            <hr />
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <label>Status<span class="asterisk"> *</span></label>
                     <div>
                         <select class="form-control"
@@ -33,9 +33,22 @@
                         <div class="error" ng-show="form.newMoneyFlow.moneyFlowStatusId.$error.required">Please select a status.</div>
                     </div>
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Grant Number</label>
+                    <div>
+                        <input class="form-control"
+                               id="moneyFlowGrantNumber"
+                               name="moneyFlowGrantNumber"
+                               maxlength="25"
+                               ng-model="view.moneyFlow.grantNumber" />
+                    </div>
+                </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
+                    <div>
+                        &nbsp;
+                    </div>
                     <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
                     <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>
                     <div>
@@ -52,34 +65,73 @@
                         <div class="error" ng-show="form.newMoneyFlow.peerEntityTypeId.$error.required && view.moneyFlow.isOutgoing">Please select a recipient type.</div>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
-                    <label>{{view.moneyFlow.isOutgoing ? 'Recipient' : 'Source'}}<span ng-show="view.isSourceRecipientFieldRequired" class="asterisk"> *</span></label>
+                <div class="form-group col-md-4">
+                    <label>
+                        Filter {{!view.moneyFlow.isOutgoing ? 'Source' : 'Recipient'}} By
+                        <span ng-show="!view.thisEntityCanFilterPeerEntities">{{view.getPeerEntityFilterDisplayName(view.moneyFlow)}} </span>
+                        <a ng-show="view.thisEntityCanFilterPeerEntities" tooltip="Filter by {{view.entityName}}." ng-click="view.onFilterOnThisPeerEntity(view.moneyFlow)">{{view.getPeerEntityFilterDisplayName(view.moneyFlow)}}</a>
+                    </label>
                     <div>
-                        <input type="search"
-                               id="source"
-                               name="source"
-                               class="search-contextual"
-                               maxlength="100"
-                               typeahead-append-to-body="false"
-                               ng-disabled="!view.isSourceRecipientFieldEnabled"
-                               placeholder="{{view.moneyFlow.isOutgoing ? 'Select recipient...' : 'Select source...'}}"
-                               ng-model="view.moneyFlow.peerEntity"
-                               typeahead-wait-ms="400"
-                               typeahead-loading="view.isLoadingSources"
-                               typeahead="peer as peer.primaryText for peer in view.getPeers($viewValue) | limitTo : view.searchLimit"
-                               typeahead-on-select="view.onSelectPeer($item, $model, $label)"
-                               typeahead-template-url="selectSourceTemplate.html"
-                               typeahead-editable="false"
-                               typeahead-input-formatter="view.formatPeerEntity($item, $model, $label)"
-                               ng-required="view.isSourceRecipientFieldRequired" />
-                        <i class="material-icons md-18 contextual" ng-show="!view.isLoadingSources">search</i>
-                        <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingSources">autorenew</i>
+                        <span class="mute">Showing {{Math.min(view.searchLimit, view.valuesThatCanFilterPeerEntitiesCount)}} of {{view.valuesThatCanFilterPeerEntitiesCount}}.</span>
                     </div>
+                    <div>
+                        <ui-select ng-model="view.filterPeerEntityValue"
+                                   search-enabled="true"
+                                   reset-search-input="false"
+                                   on-select="view.onFilterPeerEntityValueSelect($item, $model)"
+                                   ng-disabled="!view.isPeerEntitiesFilterEnabled(view.moneyFlow)"
+                                   theme="select2">
+                            <ui-select-match placeholder="Select a value to filter by..." allow-clear="true">
+                                {{$select.selected.value}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="filterValue in view.valuesThatCanFilterPeerEntities" refresh="view.loadValuesThatCanFilterPeerEntities($select.search, view.moneyFlow)">
+                                <div style="margin-top:5px;margin-bottom:5px;">
+                                    <p>{{filterValue.value}}</p>
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>
+                        {{view.moneyFlow.isOutgoing ? 'Recipient' : 'Source'}}
+                        <span ng-show="view.isSourceRecipientFieldRequired" class="asterisk"> *</span>
+                    </label>
+                    <div>
+                        <span class="mute">Showing {{Math.min(view.searchLimit, view.peerCount)}} of {{view.peerCount}}.</span>
+                    </div>
+                    <div>
+                        <ui-select ng-model="view.moneyFlow.peerEntity"
+                                   on-select="view.onSelectPeer($item, $model)"
+                                   id="source"
+                                   name="source"
+                                   ng-disabled="!view.isSourceRecipientFieldEnabled"
+                                   search-enabled="true"
+                                   reset-search-input="false"
+                                   theme="select2"
+                                   ng-required="view.isSourceRecipientFieldRequired">
+                            <ui-select-match placeholder="{{view.moneyFlow.isOutgoing ? 'Select recipient...' : 'Select source...'}}">
+                                {{$select.selected.primaryText}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="peer in view.peers" refresh="view.getPeers($select.search)">
+                                <div style="margin-top:10px;margin-bottom:10px;">
+                                    <div ng-show="peer.primaryText">
+                                        <span ng-bind-html="peer.primaryText | typeaheadHighlight:query"></span>
+                                    </div>
+                                    <div ng-show="peer.secondaryText" style="margin-left: 30px;">
+                                        <span ng-bind-html="peer.secondaryText | typeaheadHighlight:query"></span>
+                                    </div>
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
                     <div ng-show="form.newMoneyFlow.source.$dirty">
-                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required ">Please select a {{view.moneyFlow.isOutgoing ? 'recipient' : 'source'}}.</div>
+                        <div class="error" ng-show="form.newMoneyFlow.source.$error.required">Please select a {{view.moneyFlow.isOutgoing ? 'recipient' : 'source'}}.</div>
                     </div>
                 </div>
             </div>
+            <hr />
             <div class="row">
                 <div class="form-group col-md-6">
                     <label>Transaction Date<span class="asterisk"> *</span></label>
@@ -116,7 +168,7 @@
                             <div style="margin-top:5px;margin-bottom:5px;">
                                 <p><strong>{{fiscalYear}}</strong></p>
                                 <p class="small">{{(view.sourceMoneyFlows | filter : fiscalYear).length}} source fundings.</p>
-                            </div>                            
+                            </div>
                         </ui-select-choices>
                     </ui-select>
                     <div ng-show="form.newMoneyFlow.fiscalYear.$dirty">
@@ -183,7 +235,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Amount<span class="asterisk"> *</span></label>
-                    <input type="number"
+                    <input type="text"
                            step="any"
                            id="amount"
                            name="amount"
@@ -191,6 +243,7 @@
                            ui-validate="{exceedsSourceAmount: 'view.validateSourceRemainingAmount($value)'}"
                            min="0"
                            class="form-control"
+                           ui-money-mask="2"
                            ng-model="view.moneyFlow.value"
                            placeholder="Enter amount."
                            ng-required="true"
@@ -238,13 +291,3 @@
     <button ng-disabled="form.newMoneyFlow.$invalid || view.isCopyingMoneyFlow || view.isSaving" class="btn btn-success" ng-click="view.save()">Save</button>
     <button ng-disabled="view.isSaving" class="btn btn-cancel" ng-click="view.cancel()">Cancel</button>
 </div>
-<script type="text/ng-template" id="selectSourceTemplate.html">
-    <a>
-        <div ng-show="match.model.primaryText">
-            <span ng-bind-html="match.model.primaryText | typeaheadHighlight:query"></span>
-        </div>
-        <div ng-show="match.model.secondaryText" style="margin-left: 30px;">
-            <span ng-bind-html="match.model.secondaryText | typeaheadHighlight:query"></span>
-        </div>
-    </a>
-</script>

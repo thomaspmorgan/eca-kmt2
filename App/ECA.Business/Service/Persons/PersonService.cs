@@ -13,6 +13,7 @@ using ECA.Business.Exceptions;
 using ECA.Business.Validation;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -23,6 +24,7 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
+        private Action<Location, int> throwIfLocationNotFound;
 
         /// <summary>
         /// Constructor
@@ -35,6 +37,14 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");
             this.validator = validator;
+
+            throwIfLocationNotFound = (location, id) =>
+            {
+                if (location == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The location entity with id [{0}] was not found.", id));
+                }
+            };
         }
         #region Pii
 
@@ -69,26 +79,36 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person updated</returns>
         public async Task<Person> UpdatePiiAsync(UpdatePii pii)
         {
-            var existingPerson = await GetExistingPerson(pii);
+            var existingPerson = await GetExistingPersonAsync(pii);
             if (existingPerson != null && pii.PersonId != existingPerson.PersonId)
             {
                 this.logger.Trace("Found existing person {0}.", existingPerson);
                 throw new EcaBusinessException("The person already exists.");
             }
             var personToUpdate = await GetPersonModelByIdAsync(pii.PersonId);
-            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.GetValueOrDefault());
-            if (pii.CityOfBirthId == null)
+            Location cityOfBirth = null;
+            if (pii.CityOfBirthId.HasValue)
             {
-                pii.IsPlaceOfBirthUnknown = true;
+                cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId.Value);
+                throwIfLocationNotFound(cityOfBirth, pii.CityOfBirthId.Value);
             }
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
             DoUpdate(pii, personToUpdate, cityOfBirth, countriesOfCitizenship);
-
             return personToUpdate;
         }
 
         private void DoUpdate(UpdatePii updatePii, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship)
         {
+            validator.ValidateUpdate(GetPersonServiceValidationEntity(
+                person: person,
+                dateOfBirth: updatePii.DateOfBirth,
+                genderId: updatePii.GenderId,
+                countriesOfCitizenship: countriesOfCitizenship,
+                placeOfBirthId: cityOfBirth != null ? cityOfBirth.LocationId : default(int?),
+                isDateOfBirthUnknown: updatePii.IsDateOfBirthUnknown,
+                isDateOfBirthEstimated: updatePii.IsDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: updatePii.IsPlaceOfBirthUnknown
+                ));
             person.FirstName = updatePii.FirstName;
             person.LastName = updatePii.LastName;
             person.NamePrefix = updatePii.NamePrefix;
@@ -108,7 +128,7 @@ namespace ECA.Business.Service.Persons
             person.MedicalConditions = updatePii.MedicalConditions;
             person.MaritalStatusId = updatePii.MaritalStatusId;
             person.IsDateOfBirthEstimated = updatePii.IsDateOfBirthEstimated;
-
+            updatePii.Audit.SetHistory(person);
             SetCountriesOfCitizenship(countriesOfCitizenship, person);
         }
 
@@ -351,6 +371,16 @@ namespace ECA.Business.Service.Persons
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
             var participant = CreateParticipant(person, newPerson.ParticipantTypeId, project);
+            this.validator.ValidateCreate(GetPersonServiceValidationEntity(
+                person: person,
+                dateOfBirth: newPerson.DateOfBirth,
+                genderId: newPerson.Gender,
+                countriesOfCitizenship: countriesOfCitizenship,
+                placeOfBirthId: newPerson.CityOfBirth,
+                isDateOfBirthUnknown: newPerson.IsDateOfBirthUnknown,
+                isDateOfBirthEstimated: newPerson.IsDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: newPerson.IsPlaceOfBirthUnknown
+                ));
             this.logger.Trace("Created participant {0}.", newPerson);
             return person;
         }
@@ -360,7 +390,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="newPerson">The person to lookup</param>
         /// <returns>The person found</returns>
-        public async Task<Person> GetExistingPerson(NewPerson newPerson)
+        public async Task<Person> GetExistingPersonAsync(NewPerson newPerson)
         {
             this.logger.Trace("Retrieving person {0}.", newPerson);
             return await CreateGetPerson(newPerson.FirstName, newPerson.LastName, newPerson.Gender, newPerson.DateOfBirth, newPerson.CityOfBirth).FirstOrDefaultAsync();
@@ -371,10 +401,31 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="pii">The pii to lookup</param>
         /// <returns>The person found</returns>
-        public async Task<Person> GetExistingPerson(UpdatePii pii)
+        public async Task<Person> GetExistingPersonAsync(UpdatePii pii)
         {
             this.logger.Trace("Retrieving person {0}.", pii);
             return await CreateGetPerson(pii.FirstName, pii.LastName, pii.GenderId, pii.DateOfBirth, pii.CityOfBirthId).FirstOrDefaultAsync();
+        }
+
+        private PersonServiceValidationEntity GetPersonServiceValidationEntity(
+            Person person, 
+            DateTime? dateOfBirth,
+            int genderId, 
+            List<Location> countriesOfCitizenship, 
+            int? placeOfBirthId, 
+            bool? isDateOfBirthUnknown,
+            bool? isDateOfBirthEstimated,
+            bool? isPlaceOfBirthUnknown)
+        {
+            return new PersonServiceValidationEntity(
+                person: person, 
+                dateOfBirth: dateOfBirth,
+                genderId: genderId, 
+                countriesOfCitizenship: countriesOfCitizenship, 
+                placeOfBirthId: placeOfBirthId, 
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown);
         }
 
         /// <summary>
@@ -437,7 +488,9 @@ namespace ECA.Business.Service.Persons
                 DateOfBirth = newPerson.DateOfBirth,
                 PlaceOfBirthId = newPerson.CityOfBirth,
                 CountriesOfCitizenship = countriesOfCitizenship,
-                IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated
+                IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated,
+                IsDateOfBirthUnknown = newPerson.IsDateOfBirthUnknown,
+                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown,
             };
 
             newPerson.Audit.SetHistory(person);
@@ -555,18 +608,5 @@ namespace ECA.Business.Service.Persons
         {
             return Context.Participants.Where(x => x.ParticipantId == participantId);
         }
-
-        private PersonServiceValidationEntity GetValidationEntity(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
-        {
-            return new PersonServiceValidationEntity(person, prominentCategories);
-        }
-
-        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Location cityOfBirth,
-                                                                    List<Location> countriesOfCititzenship)
-        {
-            return new PersonServiceValidationEntity(person, pii.GenderId, countriesOfCititzenship, pii.CityOfBirthId, pii.IsPlaceOfBirthUnknown);
-        }
-
-
     }
 }

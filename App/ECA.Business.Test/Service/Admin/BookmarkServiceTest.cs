@@ -60,7 +60,7 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(newBookmark.OrganizationId, bookmark.OrganizationId);
             Assert.AreEqual(newBookmark.PrincipalId, bookmark.PrincipalId);
             Assert.AreEqual(newBookmark.Automatic, bookmark.Automatic);
-            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now);
+            bookmark.AddedOn.Should().BeCloseTo(DateTimeOffset.Now, 20000);
         }
 
         [TestMethod]

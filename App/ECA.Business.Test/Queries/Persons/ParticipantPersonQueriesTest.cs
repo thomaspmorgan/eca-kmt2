@@ -24,7 +24,6 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 ParticipantId = 1,
                 SevisId = "N0000000001",
-                StudyProject = "studyProject",
                 HomeInstitutionAddressId = 3,
                 HostInstitutionAddressId = 4,
             };
@@ -48,7 +47,6 @@ namespace ECA.Business.Test.Queries.Persons
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
             Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-            Assert.AreEqual(participantPerson.StudyProject, participantPersonResult.StudyProject);
             Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
             Assert.AreEqual(participantPerson.HomeInstitutionAddressId, participantPersonResult.HomeInstitutionAddressId);
             Assert.AreEqual(participantPerson.HostInstitutionAddressId, participantPersonResult.HostInstitutionAddressId);
@@ -62,115 +60,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(participantPersonResult.HomeInstitution);
         }
 
-        [TestMethod]
-        public void TestCreateGetSimpleParticipantPersonsDTOQuery_CheckFieldOfStudy()
-        {
-            var fieldOfStudy = new FieldOfStudy
-            {
-                FieldOfStudyId = 1,
-                FieldOfStudyCode = "123",
-                Description = "description"
-            };
-
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 1,
-                FieldOfStudy = fieldOfStudy
-            };
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = participantPerson.ParticipantId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            participantPerson.Participant = participant;
-            project.Participants.Add(participant);
-
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
-
-            Assert.AreEqual(fieldOfStudy.Description, participantPersonResult.FieldOfStudy);
-        }
-
-        [TestMethod]
-        public void TestCreateGetSimpleParticipantPersonsDTOQuery_CheckProgramSubject()
-        {
-            var programCategory = new ProgramCategory
-            {
-                ProgramCategoryId = 1,
-                ProgramCategoryCode = "123",
-                Description = "description"
-            };
-
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 1,
-                ProgramCategory = programCategory
-            };
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = participantPerson.ParticipantId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            participantPerson.Participant = participant;
-            project.Participants.Add(participant);
-
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            
-            var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
-
-            Assert.AreEqual(programCategory.Description, participantPersonResult.ProgramCategory);
-        }
-
-        [TestMethod]
-        public void TestCreateGetSimpleParticipantPersonsDTOQuery_CheckPosition()
-        {
-            var position = new Position
-            {
-                PositionId = 1,
-                PositionCode = "123",
-                Description = "description"
-            };
-
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 1,
-                Position = position
-            };
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = participantPerson.ParticipantId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            participantPerson.Participant = participant;
-            project.Participants.Add(participant);
-
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
-
-            Assert.AreEqual(position.Description, participantPersonResult.Position);
-        }
+  
 
         [TestMethod]
         public void TestCreateGetSimpleParticipantPersonsDTOQuery_HomeInstitution()

@@ -1,21 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model;
+using FluentValidation.Attributes;
 
-namespace ECA.Business.Validation.Model
+namespace ECA.Business.Validation
 {
+    /// <summary>
+    /// SEVIS batch create or update exchange visitors
+    /// </summary>
+    [Validator(typeof(SEVISBatchCreateUpdateEVValidator))]
     public class SEVISBatchCreateUpdateEV
     {
-        // Sevis batch record
-        [MaxLength(10)]
-        [Required]
+        public SEVISBatchCreateUpdateEV()
+        {
+            BatchHeader = new BatchHeader();
+            CreateEV = new CreateExchVisitor();
+        }
+
+        /// <summary>
+        /// Sevis batch record
+        /// </summary>
         public string userID { get; set; }
 
-        // Sevis batch header
-        public BatchHeader batchHeader { get; set; }
+        /// <summary>
+        /// Sevis batch header
+        /// </summary>
+        public BatchHeader BatchHeader { get; set; }
 
-        // CreateEV
+        /// <summary>
+        /// Create an exchange visitor record
+        /// </summary>
+        public CreateExchVisitor CreateEV { get; set; }
 
-        // UpdateEV
-
-
+        /// <summary>
+        /// Update an exchange visitor record
+        /// </summary>
+        public UpdateExchVisitor UpdateEV { get; set; }
     }
 }

@@ -99,6 +99,9 @@
             <div class="text-stack">
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
+                <div ng-controller="AboutCtrl">
+                    <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -154,6 +157,7 @@
     <script src="bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"></script>
     <script src="bower_components/international-phone-number/releases/international-phone-number.js"></script>
     <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
@@ -163,6 +167,7 @@
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.run.js"></script>
+    <script src="app/about/about.controller.js"></script>
     <script src="app/home/home.routes.js"></script>
     <script src="app/home/home.controller.js"></script>
     <script src="app/activities/activities.routes.js"></script>
@@ -177,6 +182,7 @@
     <script src="app/reports/objective-awards.controller.js"></script>
     <script src="app/reports/post-awards.controller.js"></script>
     <script src="app/reports/project-awards.controller.js"></script>
+    <script src="app/reports/projects-with-grant-number.controller.js"></script>
     <script src="app/reports/region-awards.controller.js"></script>
     <script src="app/reports/reports.controller.js"></script>
     <script src="app/reports/reports.routes.js"></script>
@@ -205,14 +211,17 @@
     <script src="app/programs/subprograms-and-projects.controller.js"></script>
     <script src="app/projects/add-new-participant.controller.js"></script>
     <script src="app/projects/add-project-modal.controller.js"></script>
+    <script src="app/projects/add-itinerary-modal.controller.js"></script>
     <script src="app/projects/edit.controller.js"></script>
     <script src="app/projects/overview.controller.js"></script>
     <script src="app/projects/project-participant.controller.js"></script>
     <script src="app/projects/project-participant-info.controller.js"></script>
     <script src="app/projects/project.controller.js"></script>
-    <script src="app/projects/itinerary.contoller.js"></script>
+    <script src="app/projects/itineraries.contoller.js"></script>
+    <script src="app/projects/itinerary.controller.js"></script>
     <script src="app/projects/projects.routes.js"></script>
     <script src="app/projects/select-participant-type.controller.js"></script>
+    <script src="app/projects/project-location-marker.controller.js"></script>
     <script src="app/projects/unsaved-changes.controller.js"></script>
     <script src="app/offices/all-offices.controller.js"></script>
     <script src="app/offices/branches-and-programs.controller.js"></script>
@@ -260,6 +269,7 @@
     <script src="app/directives/moneyflow.controller.js"></script>
     <script src="app/directives/moneyflows.directive.js"></script>
     <script src="app/directives/moneyflows.controller.js"></script>
+    <script src="app/directives/participant-exchange-visitor.directive.js"></script>
     <script src="app/directives/participant-person-info.directive.js"></script>
     <script src="app/directives/participant-person-sevis.directive.js"></script>
     <script src="app/directives/participant-student-visitor.directive.js"></script>
@@ -284,10 +294,12 @@
     <script src="app/filters/tab.filter.js"></script>
     <script src="app/filters/newline.filter.js"></script>
     <!-- Services -->
+    <script src="app/services/about.service.js"></script>
     <script src="app/services/address.service.js"></script>
     <script src="app/services/auth.service.js"></script>
     <script src="app/services/bookmark.service.js"></script>
     <script src="app/services/constants.service.js"></script>
+    <script src="app/services/data-point-configuration.service.js"></script>
     <script src="app/services/download.service.js"></script>
     <script src="app/services/dragon-breath.service.js"></script>
     <script src="app/services/education-employment.service.js"></script>
@@ -304,9 +316,9 @@
     <script src="app/services/notification.service.js"></script>
     <script src="app/services/office.service.js"></script>
     <script src="app/services/organization.service.js"></script>
+    <script src="app/services/participant-exchange-visitor.service.js"></script>
     <script src="app/services/participant-person.service.js"></script>
     <script src="app/services/participant-person-sevis.service.js"></script>
-    <script src="app/services/participant-student-visitor.service.js"></script>
     <script src="app/services/participant.service.js"></script>
     <script src="app/services/person.service.js"></script>
     <script src="app/services/person-evaluation.service.js"></script>

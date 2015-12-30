@@ -58,53 +58,198 @@ namespace ECA.Data
             this.History = new History();
             this.Categories = new HashSet<Category>();
             this.Objectives = new HashSet<Objective>();
+            this.Itineraries = new HashSet<Itinerary>();
         }
 
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
         [Key]
         public int ProjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
         [Required]
         [MaxLength(MAX_NAME_LENGTH)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
         [Required]
         [MaxLength(MAX_DESCRIPTION_LENGTH)]
         public string Description { get; set; }
-        public ProjectType ProjectType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project type.
+        /// </summary>
+        public virtual ProjectType ProjectType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project type id.
+        /// </summary>
         public int? ProjectTypeId { get; set; }
-        public ProjectStatus Status { get; set; }
+
+        /// <summary>
+        /// The type of visitor for this project (exchange, student or null)
+        /// </summary>
+        public VisitorType VisitorType { get; set; }
+
+        /// <summary>
+        /// The Visitor Type Id
+        /// </summary>
+        public int VisitorTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project status.
+        /// </summary>
+        public virtual ProjectStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project status id.
+        /// </summary>
         [Required]
         public int ProjectStatusId { get; set; }
-        public ICollection<MoneyFlow> SourceProjectMoneyFlows { get; set; }
-        public ICollection<MoneyFlow> RecipientProjectMoneyFlows { get; set; }
-        public Organization NominationSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source project money flows.
+        /// </summary>
+        public virtual ICollection<MoneyFlow> SourceProjectMoneyFlows { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recipient project money flows.
+        /// </summary>
+        public virtual ICollection<MoneyFlow> RecipientProjectMoneyFlows { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nomination source.
+        /// </summary>
+        public virtual Organization NominationSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start date.
+        /// </summary>
         [Required]
         public DateTimeOffset StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end date.
+        /// </summary>
         public DateTimeOffset? EndDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the regions.
+        /// </summary>
         [InverseProperty("RegionProjects")]
-        public ICollection<Location> Regions { get; set; }
+        public virtual ICollection<Location> Regions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the locations.
+        /// </summary>
         [InverseProperty("LocationProjects")]
-        public ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language.
+        /// </summary>
         public string Language { get; set; }
+
+        /// <summary>
+        /// Gets or sets the targets.
+        /// </summary>
         [InverseProperty("TargetProjects")]
-        public ICollection<Location> Targets { get; set; }
-        public ICollection<Theme> Themes { get; set; }
-        public ICollection<Goal> Goals { get; set; }
-        public Program ParentProgram { get; set; }
+        public virtual ICollection<Location> Targets { get; set; }
+
+        /// <summary>
+        /// Gets or sets the themes.
+        /// </summary>
+        public virtual ICollection<Theme> Themes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the goals.
+        /// </summary>
+        public virtual ICollection<Goal> Goals { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent program.
+        /// </summary>
+        public virtual Program ParentProgram { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent program id.
+        /// </summary>
         [Required]
         public int ProgramId { get; set; }
-        public int AudienceReach { get; set; }
-        public ICollection<Artifact> Artifacts { get; set; }
-        public ICollection<Participant> Participants { get; set; }
-        public ICollection<Project> RelatedProjects { get; set; }
-        public ICollection<Project> OtherRelatedProjects { get; set; }
-        public ICollection<string> TreatiesAgreementsContracts { get; set; }
-        public ICollection<Impact> Impacts { get; set; }
-        public Activity Activity { get; set; }
-        public int? ActivityId { get; set; }
-        public ICollection<Contact> Contacts { get; set; }
-        
-        public ICollection<Objective> Objectives { get; set; }
-        public ICollection<Category> Categories { get; set; }
 
+        /// <summary>
+        /// Gets or sets the audience reach.
+        /// </summary>
+        public int AudienceReach { get; set; }
+
+        /// <summary>
+        /// Gets or sets the artifacts.
+        /// </summary>
+        public virtual ICollection<Artifact> Artifacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participants.
+        /// </summary>
+        public virtual ICollection<Participant> Participants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the related projects.
+        /// </summary>
+        public virtual ICollection<Project> RelatedProjects { get; set; }
+
+        /// <summary>
+        /// Gets or sets other related projects.
+        /// </summary>
+        public virtual ICollection<Project> OtherRelatedProjects { get; set; }
+
+        /// <summary>
+        /// Gets or sets the treaties agreements contracts.
+        /// </summary>
+        public virtual ICollection<string> TreatiesAgreementsContracts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the impacts.
+        /// </summary>
+        public virtual ICollection<Impact> Impacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the activity.
+        /// </summary>
+        public virtual Activity Activity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the activity id.
+        /// </summary>
+        public int? ActivityId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the contacts.
+        /// </summary>
+        public virtual ICollection<Contact> Contacts { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the objectives.
+        /// </summary>
+        public virtual ICollection<Objective> Objectives { get; set; }
+
+        /// <summary>
+        /// Gets or sets the categories.
+        /// </summary>
+        public virtual ICollection<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the itineraries.
+        /// </summary>
+        public virtual ICollection<Itinerary> Itineraries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the history.
+        /// </summary>
         public History History { get; set; }
 
         /// <summary>

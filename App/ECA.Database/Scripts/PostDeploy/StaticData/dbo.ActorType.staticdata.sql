@@ -23,7 +23,7 @@ SET @DeleteMissingRecords = 0
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
 [ActorTypeId] int,
-[ActorName] nvarchar(20),
+[ActorName] nvarchar(50),
 [History_CreatedBy] int,
 [History_CreatedOn] datetimeoffset,
 [History_RevisedBy] int,
@@ -39,6 +39,14 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('1', 'Person', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Organization', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Appointment Host', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Appointment Guest', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'NPACIV Event Guest', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'NPACIV Event Host', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'NPACIV Organization Event Host', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Simultaneous/Seminar', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'Consecutive', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
+INSERT INTO @tblTempTable ([ActorTypeId], [ActorName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('10', 'Liaison', '0', '5/13/2015 12:00:00 AM -00:00', '0', '5/13/2015 12:00:00 AM -00:00')
 
 
 -- 3: Insert any new items into the table from the table variable

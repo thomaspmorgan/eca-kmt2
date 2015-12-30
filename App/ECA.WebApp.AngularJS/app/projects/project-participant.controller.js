@@ -27,7 +27,7 @@ angular.module('staticApp')
         ParticipantService,
         ParticipantPersonsService,
         ParticipantPersonsSevisService,
-        ParticipantStudentVisitorService
+        ParticipantExchangeVisitorService
         ) {
 
       $scope.view = {};
@@ -51,11 +51,13 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = false;
+      $scope.view.tabStudentVisitor = false;
+      $scope.view.tabExchangeVistor = false;
 
       $scope.view.sevisCommStatuses = null;
 
       $scope.sevisInfo = {};
-      $scope.studentVisitorInfo = {};
+      $scope.exchangeVisitorInfo = {};
       $scope.participantInfo = {};
 
       $scope.actions = {
@@ -354,18 +356,18 @@ angular.module('staticApp')
           });
       };
 
-      function loadStudentVisitorInfo(participantId) {
-          return ParticipantStudentVisitorService.getParticipantStudentVisitorById(participantId)
+      function loadExchangeVisitorInfo(participantId) {
+          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(participantId)
           .then(function (data) {
-              $scope.studentVisitorInfo[participantId] = data.data;
-              $scope.studentVisitorInfo[participantId].show = true;
+              $scope.exchangeVisitorInfo[participantId] = data.data;
+              //$scope.exchangeVisitorInfo[participantId].show = true;
           }, function (error) {
               if (error.status === 404) {
-                  $scope.studentVisitorInfo[participantId] = {};
-                  $scope.studentVisitorInfo[participantId].show = true;
+                  $scope.exchangeVisitorInfo[participantId] = {};
+                  //$scope.exchangeVisitorInfo[participantId].show = true;
               } else {
-                  $log.error('Unable to load participant student visitor info for ' + participantId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant student visitor info for ' + participantId + '.');
+                  $log.error('Unable to load participant exchange visitor info for ' + participantId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant exchange visitor info for ' + participantId + '.');
               }
           });
       };
@@ -391,44 +393,33 @@ angular.module('staticApp')
           saveSevisInfoById(participantId);
       };
 
-      $scope.validateSevisInfo = function () {
-          var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantPersonsSevisService.validateParticipantPersonsSevis(sevisInfo)
+      function saveExchangeVisitorById(participantId) {
+          var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
+          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(exchangeVisitorInfo)
           .then(function (data) {
-              $log.error('Validated participant SEVIS info for participantId: ' + participantId);
-              $scope.errorInfo = data.data;
-              $scope.warningInfo = data.data;
+              NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
+              $scope.exchangeVisitorInfo[participantId] = data.data;
+              //$scope.exchangeVisitorInfo[participantId].show = true;
           }, function (error) {
-              $log.error('Unable to validate participant SEVIS info for participantId: ' + participantId);
-              NotificationService.showErrorMessage('Unable to validate participant SEVIS info for participant: ' + participantId + '.');
+              $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);
+              NotificationService.showErrorMessage('Unable to save participant exchange visitor info for participant: ' + participantId + '.');
           });
       };
 
-      function saveStudentVisitorById(participantId) {
-          var studentVisitorInfo = $scope.studentVisitorInfo[participantId];
-          return ParticipantStudentVisitorService.updateParticipantStudentVisitor(studentVisitorInfo)
-          .then(function (data) {
-              NotificationService.showSuccessMessage('Participant student visitor info saved successfully.');
-              $scope.studentVisitorInfo[participantId] = data.data;
-              $scope.studentVisitorInfo[participantId].show = true;
-          }, function (error) {
-              $log.error('Unable to save participant studdent visitor info for participantId: ' + participantId);
-              NotificationService.showErrorMessage('Unable to save participant student visitor info for participant: ' + participantId + '.');
-          });
+      $scope.saveExchangeVisitorInfo = function (participantId) {
+          saveExchangeVisitorById(participantId);
       };
 
-      $scope.saveStudentVisitorInfo = function (participantId) {
-          saveStudentVisitorById(participantId);
-      };
+
 
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);
       };
 
-      $scope.onStudentVisitorTabSelected = function (participantId) {
-          $scope.view.tabStudentVisitor = true;
-          loadStudentVisitorInfo(participantId)
+      $scope.onExchangeVisitorTabSelected = function (participantId) {
+          $scope.view.tabExchangeVisitor = true;
+          loadExchangeVisitorInfo(participantId)
       }
 
       $scope.toggleParticipantInfo = function (participantId) {
@@ -467,9 +458,6 @@ angular.module('staticApp')
       }
 
       $scope.selectedActionChanged = function () {
-
-          console.log($scope.selectedAction);
-
           $scope.selectAll = false;
           $scope.selectedParticipants = {};
           var tableState = $scope.getParticipantsTableState();
@@ -499,7 +487,6 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage("Failed to queue participants.");
               });
           }
-
       }
 
       $scope.selectedParticipant = function (participant, checked) {
@@ -518,4 +505,23 @@ angular.module('staticApp')
       .then(function () {
           $scope.view.isLoading = false;
       });
+
+      $scope.showSevisTab = function (participantTypeId) {
+          return ( !($scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id) 
+               && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id || 
+                   participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
+                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id || 
+                   participantTypeId == ConstantsService.participantType.organizationalParticipant.id ||
+                   participantTypeId == ConstantsService.participantType.otherOrganization.id));
+      };
+
+      $scope.visitorTypeExchangeVisitor = function (participantTypeId) {
+          return ($scope.project.visitorTypeId == ConstantsService.visitorType.exchangeVisitor.id)
+              && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id || 
+                   participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
+                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id || 
+                   participantTypeId == ConstantsService.participantType.organizationalParticipant.id ||
+                   participantTypeId == ConstantsService.participantType.otherOrganization.id);
+      };
+
   });

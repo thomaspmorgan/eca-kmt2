@@ -16,6 +16,7 @@ using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -422,19 +423,48 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetPiiById_PlaceOfBirth()
         {
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var divisionType = new LocationType
+            {
+                LocationTypeId = LocationType.Division.Id,
+                LocationTypeName = LocationType.Division.Value
+            };
+            var cityType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName= LocationType.City.Value
+            };
+
             var country = new Location
             {
                 LocationId = 1,
-                LocationTypeId = LocationType.Country.Id,
+                LocationType = countryType,
+                LocationTypeId = countryType.LocationTypeId,
                 LocationName = "country"
             };
-
+            var division = new Location
+            {
+                LocationId = 3,
+                LocationType = divisionType,
+                LocationTypeId = divisionType.LocationTypeId,
+                LocationName = "division",
+                Country = country,
+                CountryId = country.LocationId,
+            };
             var city = new Location
             {
                 LocationId = 2,
-                LocationTypeId = LocationType.City.Id,
+                LocationType = cityType,
+                LocationTypeId = cityType.LocationTypeId,
                 Country = country,
-                CountryId = country.CountryId
+                CountryId = country.CountryId,
+                LocationName = "city",
+                Division = division,
+                DivisionId = division.LocationId
             };
 
             var person = new Person
@@ -448,12 +478,16 @@ namespace ECA.Business.Test.Service.Persons
 
             context.Locations.Add(country);
             context.Locations.Add(city);
+            context.Locations.Add(division);
+            context.LocationTypes.Add(countryType);
+            context.LocationTypes.Add(divisionType);
+            context.LocationTypes.Add(cityType);
             context.People.Add(person);
 
             Action<PiiDTO> tester = (serviceResult) =>
             {
-                Assert.AreEqual(city.LocationName, serviceResult.CityOfBirth);
-                Assert.AreEqual(country.LocationName, serviceResult.CountryOfBirth);
+                Assert.IsNotNull(serviceResult.PlaceOfBirth);
+                Assert.AreEqual(city.LocationId, serviceResult.PlaceOfBirth.Id);
             };
 
             var result = service.GetPiiById(person.PersonId);
@@ -1243,367 +1277,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(employment.Role, dto.Role);
                 Assert.AreEqual(employment.DateFrom, dto.StartDate);
                 Assert.AreEqual(employment.DateTo, dto.EndDate);
-                //Assert.AreEqual(employment.Organization, dto.Organization);
-                //Assert.AreEqual(organization.OrganizationId, dto.Organization.OrganizationId);
-                //Assert.AreEqual(organizationType.OrganizationTypeName, dto.Organization.OrganizationType);
-                //Assert.AreEqual(organization.Status, dto.Organization.Status);
-                //Assert.AreEqual(organization.Name, dto.Organization.Name);
             };
             var results = service.GetEmploymentsByPersonId(person.PersonId);
             var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
             tester(results.ToList());
             tester(resultsAsync.ToList());
         }
-
-        //[TestMethod]
-        //public async Task TestGetEmploymentsByPersonId_CheckUsesPrimaryAddress()
-        //{
-        //    var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-        //    var today = DateTimeOffset.UtcNow;
-        //    var person = new Person
-        //    {
-        //        PersonId = 1,
-        //    };
-        //    var city = new Location
-        //    {
-        //        LocationId = 1,
-        //        LocationName = "city",
-        //    };
-        //    var country = new Location
-        //    {
-        //        LocationId = 2,
-        //        LocationName = "country"
-        //    };
-        //    var addressLocation = new Location
-        //    {
-        //        LocationId = 3,
-        //        Country = country,
-        //        CountryId = country.LocationId,
-        //        City = city,
-        //        CityId = city.LocationId,
-        //    };
-        //    var primaryAddress = new Address
-        //    {
-        //        AddressId = 1,
-        //        IsPrimary = true,
-        //        Location = addressLocation,
-        //        LocationId = addressLocation.LocationId
-        //    };
-        //    var otherAddress = new Address
-        //    {
-        //        AddressId = 2,
-        //        IsPrimary = false,
-        //    };
-        //    var organizationType = new OrganizationType
-        //    {
-        //        OrganizationTypeId = 1,
-        //        OrganizationTypeName = "type"
-        //    };
-        //    var organization = new Organization
-        //    {
-        //        OrganizationId = 1,
-        //        Name = "name",
-        //        Status = "status",
-        //        OrganizationTypeId = organizationType.OrganizationTypeId,
-        //        OrganizationType = organizationType
-        //    };
-        //    organization.Addresses.Add(primaryAddress);
-        //    primaryAddress.Organization = organization;
-        //    primaryAddress.OrganizationId = organization.OrganizationId;
-
-        //    organization.Addresses.Add(otherAddress);
-        //    otherAddress.Organization = organization;
-        //    otherAddress.OrganizationId = organization.OrganizationId;
-        //    var employment = new ProfessionEducation
-        //    {
-        //        PersonOfProfession_PersonId = person.PersonId,
-        //        ProfessionEducationId = 1,
-        //        Title = "title",
-        //        Role = "role",
-        //        DateFrom = yesterday,
-        //        DateTo = today,
-        //        OrganizationId = organization.OrganizationId,
-        //        Organization = organization
-        //    };
-
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        context.People.Add(person);
-        //        context.Locations.Add(city);
-        //        context.Locations.Add(country);
-        //        context.Locations.Add(addressLocation);
-        //        context.Addresses.Add(primaryAddress);
-        //        context.Addresses.Add(otherAddress);
-        //        context.Organizations.Add(organization);
-        //        context.OrganizationTypes.Add(organizationType);
-        //        context.ProfessionEducations.Add(employment);
-        //    });
-        //    context.Revert();
-        //    Action<List<EducationEmploymentDTO>> tester = (list) =>
-        //    {
-        //        Assert.AreEqual(1, list.Count);
-        //        var dto = list.First();
-        //        Assert.AreEqual(employment.Organization, dto.Organization);
-        //    };
-        //    var results = service.GetEmploymentsByPersonId(person.PersonId);
-        //    var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
-        //    tester(results.ToList());
-        //    tester(resultsAsync.ToList());
-        //}
-
-        //[TestMethod]
-        //public async Task TestGetEmploymentsByPersonId_AddressDoesNotHaveLocation()
-        //{
-        //    var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-        //    var today = DateTimeOffset.UtcNow;
-        //    var person = new Person
-        //    {
-        //        PersonId = 1,
-        //    };
-        //    var address = new Address
-        //    {
-        //        AddressId = 1,
-        //        IsPrimary = true,
-        //    };
-        //    var organizationType = new OrganizationType
-        //    {
-        //        OrganizationTypeId = 1,
-        //        OrganizationTypeName = "type"
-        //    };
-        //    var organization = new Organization
-        //    {
-        //        OrganizationId = 1,
-        //        Name = "name",
-        //        Status = "status",
-        //        OrganizationTypeId = organizationType.OrganizationTypeId,
-        //        OrganizationType = organizationType
-        //    };
-        //    organization.Addresses.Add(address);
-        //    address.Organization = organization;
-        //    address.OrganizationId = organization.OrganizationId;
-        //    var employment = new ProfessionEducation
-        //    {
-        //        PersonOfProfession_PersonId = person.PersonId,
-        //        ProfessionEducationId = 1,
-        //        Title = "title",
-        //        Role = "role",
-        //        DateFrom = yesterday,
-        //        DateTo = today,
-        //        OrganizationId = organization.OrganizationId,
-        //        Organization = organization
-        //    };
-
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        context.People.Add(person);
-        //        context.Addresses.Add(address);
-        //        context.Organizations.Add(organization);
-        //        context.OrganizationTypes.Add(organizationType);
-        //        context.ProfessionEducations.Add(employment);
-        //    });
-        //    context.Revert();
-        //    Action<List<EducationEmploymentDTO>> tester = (list) =>
-        //    {
-        //        Assert.AreEqual(1, list.Count);
-        //        var dto = list.First();
-        //        Assert.IsNull(dto.Organization.Location);
-        //    };
-        //    var results = service.GetEmploymentsByPersonId(person.PersonId);
-        //    var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
-        //    tester(results.ToList());
-        //    tester(resultsAsync.ToList());
-        //}
-
-        //[TestMethod]
-        //public async Task TestGetEmploymentsByPersonId_AddressDoesNotHaveCity()
-        //{
-        //    var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-        //    var today = DateTimeOffset.UtcNow;
-        //    var person = new Person
-        //    {
-        //        PersonId = 1,
-        //    };
-        //    var country = new Location
-        //    {
-        //        LocationId = 2,
-        //        LocationName = "country"
-        //    };
-        //    var addressLocation = new Location
-        //    {
-        //        LocationId = 3,
-        //        Country = country,
-        //        CountryId = country.LocationId,
-        //    };
-        //    var address = new Address
-        //    {
-        //        AddressId = 1,
-        //        IsPrimary = true,
-        //        Location = addressLocation,
-        //        LocationId = addressLocation.LocationId
-        //    };
-        //    var organizationType = new OrganizationType
-        //    {
-        //        OrganizationTypeId = 1,
-        //        OrganizationTypeName = "type"
-        //    };
-        //    var organization = new Organization
-        //    {
-        //        OrganizationId = 1,
-        //        Name = "name",
-        //        Status = "status",
-        //        OrganizationTypeId = organizationType.OrganizationTypeId,
-        //        OrganizationType = organizationType
-        //    };
-        //    organization.Addresses.Add(address);
-        //    address.Organization = organization;
-        //    address.OrganizationId = organization.OrganizationId;
-        //    var employment = new ProfessionEducation
-        //    {
-        //        PersonOfProfession_PersonId = person.PersonId,
-        //        ProfessionEducationId = 1,
-        //        Title = "title",
-        //        Role = "role",
-        //        DateFrom = yesterday,
-        //        DateTo = today,
-        //        OrganizationId = organization.OrganizationId,
-        //        Organization = organization
-        //    };
-
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        context.People.Add(person);
-        //        context.Locations.Add(country);
-        //        context.Locations.Add(addressLocation);
-        //        context.Addresses.Add(address);
-        //        context.Organizations.Add(organization);
-        //        context.OrganizationTypes.Add(organizationType);
-        //        context.ProfessionEducations.Add(employment);
-        //    });
-        //    context.Revert();
-        //    Action<List<EducationEmploymentDTO>> tester = (list) =>
-        //    {
-        //        Assert.AreEqual(1, list.Count);
-        //        var dto = list.First();
-        //        Assert.IsNull(dto.Organization.Location);
-        //    };
-        //    var results = service.GetEmploymentsByPersonId(person.PersonId);
-        //    var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
-        //    tester(results.ToList());
-        //    tester(resultsAsync.ToList());
-        //}
-
-        //[TestMethod]
-        //public async Task TestGetEmploymentsByPersonId_AddressDoesNotHaveCountry()
-        //{
-        //    var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-        //    var today = DateTimeOffset.UtcNow;
-        //    var person = new Person
-        //    {
-        //        PersonId = 1,
-        //    };
-        //    var city = new Location
-        //    {
-        //        LocationId = 1,
-        //        LocationName = "city",
-        //    };
-        //    var addressLocation = new Location
-        //    {
-        //        LocationId = 3,
-        //        City = city,
-        //        CityId = city.LocationId,
-        //    };
-        //    var address = new Address
-        //    {
-        //        AddressId = 1,
-        //        IsPrimary = true,
-        //        Location = addressLocation,
-        //        LocationId = addressLocation.LocationId
-        //    };
-        //    var organizationType = new OrganizationType
-        //    {
-        //        OrganizationTypeId = 1,
-        //        OrganizationTypeName = "type"
-        //    };
-        //    var organization = new Organization
-        //    {
-        //        OrganizationId = 1,
-        //        Name = "name",
-        //        Status = "status",
-        //        OrganizationTypeId = organizationType.OrganizationTypeId,
-        //        OrganizationType = organizationType
-        //    };
-        //    organization.Addresses.Add(address);
-        //    address.Organization = organization;
-        //    address.OrganizationId = organization.OrganizationId;
-        //    var employment = new ProfessionEducation
-        //    {
-        //        PersonOfProfession_PersonId = person.PersonId,
-        //        ProfessionEducationId = 1,
-        //        Title = "title",
-        //        Role = "role",
-        //        DateFrom = yesterday,
-        //        DateTo = today,
-        //        OrganizationId = organization.OrganizationId,
-        //        Organization = organization
-        //    };
-
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        context.People.Add(person);
-        //        context.Locations.Add(city);
-        //        context.Locations.Add(addressLocation);
-        //        context.Addresses.Add(address);
-        //        context.Organizations.Add(organization);
-        //        context.OrganizationTypes.Add(organizationType);
-        //        context.ProfessionEducations.Add(employment);
-        //    });
-        //    context.Revert();
-        //    Action<List<EducationEmploymentDTO>> tester = (list) =>
-        //    {
-        //        Assert.AreEqual(1, list.Count);
-        //        var dto = list.First();
-        //        Assert.IsNull(dto.Organization.Location);
-        //    };
-        //    var results = service.GetEmploymentsByPersonId(person.PersonId);
-        //    var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
-        //    tester(results.ToList());
-        //    tester(resultsAsync.ToList());
-        //}
-
-        //[TestMethod]
-        //public async Task TestGetEmploymentsByPersonId_DoesNotHaveOrganization()
-        //{
-        //    var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-        //    var today = DateTimeOffset.UtcNow;
-        //    var person = new Person
-        //    {
-        //        PersonId = 1,
-        //    };
-        //    var employment = new ProfessionEducation
-        //    {
-        //        PersonOfProfession_PersonId = person.PersonId,
-        //        ProfessionEducationId = 1,
-        //        Title = "title",
-        //        Role = "role",
-        //        DateFrom = yesterday,
-        //        DateTo = today,
-        //    };
-
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        context.People.Add(person);
-        //        context.ProfessionEducations.Add(employment);
-        //    });
-        //    context.Revert();
-        //    Action<List<EducationEmploymentDTO>> tester = (list) =>
-        //    {
-        //        Assert.AreEqual(1, list.Count);
-        //    };
-        //    var results = service.GetEmploymentsByPersonId(person.PersonId);
-        //    var resultsAsync = await service.GetEmploymentsByPersonIdAsync(person.PersonId);
-        //    tester(results.ToList());
-        //    tester(resultsAsync.ToList());
-        //}
 
         [TestMethod]
         public async Task TestGetEmploymentsByPersonId_PersonDoesNotExist()
@@ -1621,31 +1300,192 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Create
         [TestMethod]
-        public async Task TestCreateAsync()
+        public async Task TestCreateAsync_CheckProperties()
         {
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                          Gender.Male.Id, DateTime.Now, false, false, 1,
-                                          new List<int>());
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int>();
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            context.SetupActions.Add(() =>
+            {
+
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
+                Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
+                Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
+                Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
+                Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+                Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
+                Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
+            };
+            context.Revert();
             var person = await service.CreateAsync(newPerson);
-
-            Assert.AreEqual(newPerson.FirstName, person.FirstName);
-            Assert.AreEqual(newPerson.LastName, person.LastName);
-            Assert.AreEqual(newPerson.Gender, person.GenderId);
-            Assert.AreEqual(newPerson.DateOfBirth, person.DateOfBirth);
-
+            tester(person);
+            validator.Verify(x => x.ValidateCreate(It.IsAny<PersonServiceValidationEntity>()), Times.Once());
         }
 
         [TestMethod]
-        public async Task TestCreateAsync_DateOfBirthIsEstimated()
+        public async Task TestCreateAsync_DateOfBirthEstimated()
         {
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                          Gender.Male.Id, DateTime.Now, false, true, 1,
-                                          new List<int>());
-            var person = await service.CreateAsync(newPerson);
-            Assert.IsTrue(newPerson.IsDateOfBirthEstimated.HasValue);
-            Assert.IsTrue(newPerson.IsDateOfBirthEstimated.Value);
-            Assert.AreEqual(newPerson.IsDateOfBirthEstimated, person.IsDateOfBirthEstimated);
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = false;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int>();
 
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            context.SetupActions.Add(() =>
+            {
+
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
+                Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
+                Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+            };
+            context.Revert();
+            var person = await service.CreateAsync(newPerson);
+            tester(person);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_DateOfBirthUnknown()
+        {
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = false;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int>();
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            context.SetupActions.Add(() =>
+            {
+
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
+                Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
+                Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+            };
+            context.Revert();
+            var person = await service.CreateAsync(newPerson);
+            tester(person);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_PlaceOfBirthUnknown()
+        {
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int>();
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            context.SetupActions.Add(() =>
+            {
+
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
+                Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+                Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
+            };
+            context.Revert();
+            var person = await service.CreateAsync(newPerson);
+            tester(person);
         }
 
         [TestMethod]
@@ -1658,11 +1498,43 @@ namespace ECA.Business.Test.Service.Persons
 
             context.Locations.Add(city);
 
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                        Gender.Male.Id, DateTime.Now, false, false, city.LocationId,
-                                        new List<int>());
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = city.LocationId;
+            var countriesOfCitizenship = new List<int>();
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(city);
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(city.LocationId, testPerson.PlaceOfBirthId);
+            };
+            context.Revert();
             var person = await service.CreateAsync(newPerson);
-            Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
+            tester(person);
         }
 
         [TestMethod]
@@ -1673,15 +1545,44 @@ namespace ECA.Business.Test.Service.Persons
                 LocationId = 2
             };
 
-            context.Locations.Add(country);
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int> { country.LocationId };
 
-            List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, false, false, 1,
-                                         countriesOfCitizenship);
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(country);
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+            };
+            context.Revert();
             var person = await service.CreateAsync(newPerson);
-            CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
-                person.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+            tester(person);
+
         }
 
         [TestMethod]
@@ -1693,30 +1594,84 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             context.Projects.Add(project);
+            
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = project.ProjectId;
             var participantTypeId = ParticipantType.Individual.Id;
-            var newPerson = new NewPerson(new User(0), project.ProjectId, participantTypeId, "firstName", "lastName",
-                                         Gender.Male.Id, DateTime.Now, false, false, 1,
-                                         new List<int>());
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int> { 1 };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            Action<Person> tester = (testPerson) =>
+            {
+                var participant = context.Participants.Where(x => x.PersonId == testPerson.PersonId).FirstOrDefault();
+                Assert.AreEqual(testPerson.PersonId, participant.PersonId);
+                Assert.AreEqual(participantTypeId, participant.ParticipantTypeId);
+                // Check that participant is associated to project
+                var participantProject = participant.Project;
+                Assert.IsTrue(Object.ReferenceEquals(project, participant.Project));
+            };
+
             var person = await service.CreateAsync(newPerson);
-            // Check that participant is associated to person
-            var participant = await context.Participants.Where(x => x.PersonId == person.PersonId).FirstOrDefaultAsync();
-            Assert.AreEqual(person.PersonId, participant.PersonId);
-            Assert.AreEqual(participantTypeId, participant.ParticipantTypeId);
-            // Check that participant is associated to project
-            var participantProject = participant.Project;
-            Assert.IsTrue(Object.ReferenceEquals(project, participant.Project));
+            tester(person);
         }
 
         [TestMethod]
-        public async Task TestGetExistingPerson_DoesNotExist()
+        public async Task TestGetExistingPersonAsync_DoesNotExist()
         {
-            var newPerson = new NewPerson(new User(0), 1, 1, "firstName", "lastName", 1, DateTime.Now, false, false, 1, new List<int>());
-            var person = await service.GetExistingPerson(newPerson);
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.Individual.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var countriesOfCitizenship = new List<int> { 1 };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNull(person);
         }
 
         [TestMethod]
-        public async Task TestGetExistingPerson_NamesDifferentCases()
+        public async Task TestGetExistingPersonAsync_NamesDifferentCases()
         {
             var existingPerson = new Person
             {
@@ -1729,15 +1684,37 @@ namespace ECA.Business.Test.Service.Persons
 
             context.People.Add(existingPerson);
 
-            var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, false, 1,
-                                          new List<int>());
-            var person = await service.GetExistingPerson(newPerson);
+            var user = new User(1);
+            var projectId = 1;
+            var participantTypeId = ParticipantType.Individual.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var countriesOfCitizenship = new List<int> { 1 };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: existingPerson.FirstName.ToUpper(),
+                lastName: existingPerson.LastName.ToLower(),
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
 
         [TestMethod]
-        public async Task TestGetExistingPerson_NamesHaveSpacesBeforeAndAfter()
+        public async Task TestGetExistingPersonAsync_NamesHaveSpacesBeforeAndAfter()
         {
             var existingPerson = new Person
             {
@@ -1750,15 +1727,36 @@ namespace ECA.Business.Test.Service.Persons
 
             context.People.Add(existingPerson);
 
-            var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, false, false, 1,
-                                          new List<int>());
-            var person = await service.GetExistingPerson(newPerson);
+            var user = new User(1);
+            var projectId = 1;
+            var participantTypeId = ParticipantType.Individual.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var countriesOfCitizenship = new List<int> { 1 };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: existingPerson.FirstName.Trim(),
+                lastName: existingPerson.LastName.Trim(),
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+            var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
 
         [TestMethod]
-        public async Task TestGetExistingPerson_DateOfBirthWithDifferentTime()
+        public async Task TestGetExistingPersonAsync_DateOfBirthWithDifferentTime()
         {
             var dateAndTime = new DateTime(2008, 5, 1, 8, 6, 32, DateTimeKind.Utc);
             var existingPerson = new Person
@@ -1772,10 +1770,31 @@ namespace ECA.Business.Test.Service.Persons
 
             context.People.Add(existingPerson);
 
-            var newPerson = new NewPerson(new User(0), 1, 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), false, false, 1,
-                                          new List<int>());
-            var person = await service.GetExistingPerson(newPerson);
+            var user = new User(1);
+            var projectId = 1;
+            var participantTypeId = ParticipantType.Individual.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var countriesOfCitizenship = new List<int> { 1 };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: projectId,
+                participantTypeId: participantTypeId,
+                firstName: existingPerson.FirstName.ToUpper(),
+                lastName: existingPerson.LastName.ToUpper(),
+                gender: gender,
+                dateOfBirth: existingPerson.DateOfBirth.Value.AddHours(2),
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                countriesOfCitizenship: countriesOfCitizenship);
+            var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
         #endregion
@@ -1784,6 +1803,9 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestUpdatePiiAsync_CheckProperties()
         {
+            var creatorId = 1;
+            var updatorId = 2;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var person = new Person
             {
                 PersonId = 1,
@@ -1792,11 +1814,14 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Male.Id,
                 PlaceOfBirthId = default(int)
             };
-
+            person.History.CreatedBy = creatorId;
+            person.History.CreatedOn = yesterday;
+            person.History.RevisedBy = creatorId;
+            person.History.RevisedOn = yesterday;
 
             context.People.Add(person);
 
-            var pii = new UpdatePii(new User(0),
+            var pii = new UpdatePii(new User(updatorId),
                                     person.PersonId,
                                     "firstName",
                                     "lastName",
@@ -1809,7 +1834,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "alias",
                                     default(int),
                                     "ethnicity",
-                                    default(int),
+                                    default(int?),
                                     DateTime.Now,
                                     false,
                                     false,
@@ -1830,6 +1855,12 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(pii.Ethnicity, updatedPerson.Ethnicity);
             Assert.AreEqual(pii.DateOfBirth, updatedPerson.DateOfBirth);
             Assert.AreEqual(pii.MedicalConditions, updatedPerson.MedicalConditions);
+            Assert.AreEqual(creatorId, updatedPerson.History.CreatedBy);
+            Assert.AreEqual(yesterday, updatedPerson.History.CreatedOn);
+            Assert.AreEqual(updatorId, updatedPerson.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedPerson.History.RevisedOn, 20000);
+
+            validator.Verify(x => x.ValidateUpdate(It.IsAny<PersonServiceValidationEntity>()), Times.Once());
         }
 
         [TestMethod]
@@ -1859,7 +1890,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "alias",
                                     default(int),
                                     "ethnicity",
-                                    default(int),
+                                    default(int?),
                                     DateTime.Now,
                                     false,
                                     true,
@@ -1870,6 +1901,85 @@ namespace ECA.Business.Test.Service.Persons
             var updatedPerson = await service.UpdatePiiAsync(pii);
             Assert.IsTrue(updatedPerson.IsDateOfBirthEstimated.HasValue);
             Assert.IsTrue(updatedPerson.IsDateOfBirthEstimated.Value);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckDateOfBirthIsUnknown()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            context.People.Add(person);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int?),
+                                    null,
+                                    true,
+                                    true,
+                                    new List<int>(),
+                                    false,
+                                    "medicalConditions",
+                                    default(int));
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.IsTrue(updatedPerson.IsDateOfBirthUnknown.HasValue);
+            Assert.IsTrue(updatedPerson.IsDateOfBirthUnknown.Value);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckPlaceOfBirthIsUnknown()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+            };
+
+            context.People.Add(person);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int?),
+                                    DateTime.Now,
+                                    false,
+                                    true,
+                                    new List<int>(),
+                                    true,
+                                    "medicalConditions",
+                                    default(int));
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.IsTrue(updatedPerson.IsPlaceOfBirthUnknown.HasValue);
+            Assert.IsTrue(updatedPerson.IsPlaceOfBirthUnknown.Value);
         }
 
         [TestMethod]
@@ -1887,7 +1997,6 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "",
                 LastName = "",
                 GenderId = Gender.Male.Id,
-                PlaceOfBirthId = default(int)
             };
 
             context.Genders.Add(gender);
@@ -1906,7 +2015,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "alias",
                                     gender.GenderId,
                                     "ethnicity",
-                                    default(int),
+                                    default(int?),
                                     DateTime.Now,
                                     false,
                                     false,
@@ -1932,7 +2041,7 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "",
                 LastName = "",
                 GenderId = Gender.Male.Id,
-                PlaceOfBirthId = default(int)
+                
             };
 
 
@@ -1978,7 +2087,6 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "",
                 LastName = "",
                 GenderId = Gender.Male.Id,
-                PlaceOfBirthId = default(int)
             };
 
 
@@ -2001,7 +2109,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "alias",
                                     default(int),
                                     "ethnicity",
-                                    default(int),
+                                    default(int?),
                                     DateTime.Now,
                                     false,
                                     false,
@@ -2012,6 +2120,49 @@ namespace ECA.Business.Test.Service.Persons
             var updatedPerson = await service.UpdatePiiAsync(pii);
 
             CollectionAssert.AreEqual(countriesOfCitizenship, updatedPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_PlaceOfBirthDoesNotExist()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+            };
+
+            var placeOfBirthId = 0;
+            context.People.Add(person);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    placeOfBirthId,
+                                    DateTime.Now,
+                                    false,
+                                    false,
+                                    new List<int>(),
+                                    false,
+                                    "medicalConditions",
+                                    default(int));
+            Func<Task> f = () =>
+            {
+                return service.UpdatePiiAsync(pii);
+            };
+            var message = String.Format("The location entity with id [{0}] was not found.", placeOfBirthId);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -2029,7 +2180,6 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "",
                 LastName = "",
                 GenderId = Gender.Male.Id,
-                PlaceOfBirthId = default(int)
             };
 
 
@@ -2049,7 +2199,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "alias",
                                     default(int),
                                     "ethnicity",
-                                    default(int),
+                                    default(int?),
                                     DateTime.Now,
                                     false,
                                     false,
@@ -2070,7 +2220,6 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "",
                 LastName = "",
                 GenderId = Gender.Male.Id,
-                PlaceOfBirthId = default(int)
             };
 
             var participant = new Participant
@@ -2094,7 +2243,7 @@ namespace ECA.Business.Test.Service.Persons
                                     "alias",
                                     default(int),
                                     "ethnicity",
-                                    default(int),
+                                    default(int?),
                                     DateTime.Now,
                                     false,
                                     false,

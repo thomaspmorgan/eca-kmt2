@@ -5,7 +5,7 @@
         .module('staticApp')
         .directive('participantStudentVisitor', participantStudentVisitor);
 
-    participantStudentVisitor.$inject = ['$q','$log','FilterService', 'LookupService', 'NotificationService'];
+    participantStudentVisitor.$inject = ['$q', '$log', 'FilterService', 'LookupService', 'NotificationService'];
     
     function participantStudentVisitor($q, $log, FilterService, LookupService, NotificationService) {
         // Usage:
@@ -102,6 +102,13 @@
                     };
                 };
 
+                $scope.edit.onFundingEditChange = function () {
+                    $scope.view.FundingEdit = !$scope.view.FundingEdit;
+                    if ($scope.view.FundingEdit) {
+
+                    }
+                };
+
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")
@@ -170,11 +177,10 @@
 
                 loadStudentCreations();
                 loadEducationLevels();
+                        }
+                };
 
-            }
-        };
         return directive;
-
     }
 
 })();

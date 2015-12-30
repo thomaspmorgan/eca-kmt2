@@ -59,7 +59,11 @@ angular.module('staticApp')
               templateUrl: 'app/locations/add-location-modal.html',
               controller: 'AddLocationCtrl',
               size: 'lg',
-              resolve: {}
+              resolve: {
+                  allowedLocationTypeIds: function () {
+                      return null;
+                  }
+              }
           });
           addLocationModalInstance.result.then(function (addedLocation) {
               $log.info('Finished adding locations.');

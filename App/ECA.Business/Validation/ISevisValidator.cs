@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace ECA.Business.Validation
         /// </summary>
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The validation results found.</returns>
-        IEnumerable<SevisValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity);
+        IEnumerable<ValidationResult> ValidateSevis(SEVISBatchCreateUpdateEV validationEntity);
     }
 
     /// <summary>
@@ -24,10 +25,10 @@ namespace ECA.Business.Validation
     [ContractClassFor(typeof(ISevisValidator))]
     public abstract class ISevisValidatorContract : ISevisValidator
     {
-        public IEnumerable<SevisValidationResult> ValidateSevis(SEVISBatchCreateUpdateStudent validationEntity)
+        public IEnumerable<ValidationResult> ValidateSevis(SEVISBatchCreateUpdateEV validationEntity)
         {
             Contract.Requires(validationEntity != null, "The validation entity must not be null.");
-            return new List<SevisValidationResult>().AsQueryable();
+            return new List<ValidationResult>().AsQueryable();
         }
         
     }

@@ -14,44 +14,40 @@ angular.module('staticApp')
       $scope.piiLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
-      $scope.unknownCountry = 'Unknown';
+      $scope.unknownCountryId = 0;
       $scope.personIdDeferred = $q.defer();
-
-      $scope.$watch('pii.cityOfBirth', function () {
-          var city = $scope.pii.countryOfBirthId;
-          if (city) {
-              $scope.pii.isPlaceOfBirthUnknown = false;
-          }
-      });
 
       $scope.updateGender = function () {
           $scope.pii.gender = getObjectById($scope.pii.genderId, $scope.genders).value;
       };
 
-      $scope.updateCountryOfBirth = function () {
-          if (!$scope.pii.countryOfBirthId) {
-              $scope.pii.isPlaceOfBirthUnknown = true;
-          }
-          $scope.pii.cityOfBirth = undefined;
-          loadCities();
-      }
-
       $scope.updateMaritalStatus = function () {
           $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
 
-      $scope.toggleDobUnknown = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.pii.isDateOfBirthUnknown = $scope.pii.isDateOfBirthUnknown === false ? true : false;
-          if ($scope.pii.isDateOfBirthUnknown === true) {
-              $scope.dateOfBirthPlaceholder = 'Unknown';
-              $scope.pii.dateOfBirth = '';
-              $scope.datePickerOpen = false;
-          } else {
-              $scope.dateOfBirthPlaceholder = '';
+      $scope.onSelectCityOfBirth = function () {
+          $scope.pii.isPlaceOfBirthUnknown = false;
+      }
+
+      $scope.isPlaceOfBirthValid = function ($value) {
+          if ($value === undefined && $scope.pii.isPlaceOfBirthUnknown) {
+              return true;
           }
-      };
+          if ($value === undefined && !$scope.pii.isPlaceOfBirthUnknown) {
+              return false;
+          }
+          else {
+              if (($value === 0 || $value === null) && !$scope.pii.isPlaceOfBirthUnknown) {
+                  return false;
+              }
+              else if($scope.pii.isPlaceOfBirthUnknown) {
+                  return $value === undefined || $value === null || $value === 0;
+              }
+              else {
+                  return true;
+              }
+          }
+      }
 
       PersonService.getPersonById($stateParams.personId)
         .then(function (data) {
@@ -66,17 +62,14 @@ angular.module('staticApp')
 
       function loadPii(personId) {
           $scope.piiLoading = true;
-          PersonService.getPiiById(personId)
+          return PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
+                 if ($scope.pii.placeOfBirth) {
+                     $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
+                 }
                  if ($scope.pii.dateOfBirth) {
                      $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
-                     $scope.pii.isDateOfBirthUnknown = false;
-                     $scope.dateOfBirthPlaceholder = '';
-                 } else if ($scope.pii.isDateOfBirthUnknown) {
-                     $scope.dateOfBirthPlaceholder = 'Unknown';
-                     $scope.pii.dateOfBirth = undefined;
-                     $scope.datePickerOpen = false;
                  }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
@@ -84,64 +77,64 @@ angular.module('staticApp')
                      location.name = obj.value;
                      return location;
                  });
-                 if ($scope.pii.countryOfBirthId == 0) {
-                     $scope.pii.isPlaceOfBirthUnknown = false;
-                 } else if ($scope.pii.isPlaceOfBirthUnknown) {
-                     $scope.pii.countryOfBirthId = 0;
-                 }
                  $scope.piiLoading = false;
-                 loadCities();
              });
       };
 
-      $scope.searchCountries = function (search) {
-          loadCountries(search);
+      $scope.isCityOfBirthValid = function ($value) {
+          if (!$scope.pii.hasOwnProperty('isPlaceOfBirthUnknown') && !$scope.pii.hasOwnProperty('placeOfBirth')) {
+              return true;
+          }
+          if ($scope.pii.isPlaceOfBirthUnknown) {
+              return $scope.pii.cityOfBirthId === undefined || $scope.pii.cityOfBirthId === null;
+          }
+          else {
+              return $value !== undefined && $value !== null && $value !== 0;
+          }
       }
 
       $scope.searchCities = function (search) {
-          loadCities(search);
+          return loadCities(search);
       }
 
-      function loadCountries(search) {
-          var params = {
-              limit: 300,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-                { property: 'name', comparison: ConstantsService.likeComparisonType, value: search },
-                { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
-              ]
-          };
+      $scope.onIsPlaceOfBirthUnknownChange = function () {
+          if ($scope.pii.isPlaceOfBirthUnknown) {
+              $scope.pii.cityOfBirthId = null;
+          }          
+      }
 
-          return LocationService.get(params)
-            .then(function (data) {
-                var countriesOfBirth = data.results;
-                countriesOfBirth.splice(0, 0, { id: 0, name: $scope.unknownCountry })
-                $scope.countries = countriesOfBirth;
-            });
+      $scope.onDateOfBirthUnknownChange = function () {
+          $scope.pii.dateOfBirth = null;
+          $scope.pii.isDateOfBirthEstimated = null;
       }
 
       function loadCities(search) {
-          if ($scope.pii.countryOfBirthId) {
-              var params = {
-                  limit: 300,
-                  filter: [
-                    { property: 'countryId', comparison: 'eq', value: $scope.pii.countryOfBirthId },
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id },
-                    { property: 'name', comparison: ConstantsService.isNotNullComparisonType }
-                  ]
-              };
-
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              } else if ($scope.pii.cityOfBirth) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: $scope.pii.cityOfBirth });
-              }
-
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.cities = data.results;
-                });
+          var params = {
+              limit: 30,
+              filter: [
+                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
+              ]
+          };
+          if (search) {
+              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
           }
+          else if ($scope.pii.cityOfBirthId) {
+              params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.pii.cityOfBirthId });
+          }
+          return LocationService.get(params)
+            .then(function (data) {
+                $scope.cities = data.results;
+                return $scope.cities;
+            });
+      }
+
+      function loadLocationById(id) {
+          return LocationService.get({
+              limit: 1,
+              filter: [
+                  { property: 'id', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id, value: id }
+              ]
+          });
       }
 
       LookupService.getAllGenders({ limit: 300 })
@@ -153,7 +146,7 @@ angular.module('staticApp')
         .then(function (data) {
             $scope.maritalStatuses = data.results;
         });
-      
+
       $scope.cancelEditPii = function () {
           this.edit.Pii = false;
           loadPii($scope.person.personId);
@@ -198,4 +191,4 @@ angular.module('staticApp')
           $event.stopPropagation();
           $scope.datePickerOpen = true;
       };
-}); 
+  });

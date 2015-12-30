@@ -95,8 +95,8 @@
                             <img class="icon" src="images/editA.png" alt="">
                             <img class="icon" src="images/trash.png" alt="">-->
                             <div class="right" style="display:none;" showonparentrow>
-                                <div>
-                                    <!--<div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
+                                <!--<div>
+                                    <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
                                         <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
                                         <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
                                     </div>
@@ -129,11 +129,11 @@
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" deselect="view.tabInfo=false">
                                     <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
                                 </tab>
-                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false">
+                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false" ng-if="showSevisTab(participant.participantTypeId)">
                                     <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
                                 </tab>
-                                <tab heading="Student Visitor Data" class="tab" select="onStudentVisitorTabSelected(participant.participantId)" deselect="view.tabStudentVisitor=false">
-                                    <participant-student-visitor participantid="{{participant.participantId}}" active="view.tabStudentVisitor" studentvisitorinfo="studentVisitorInfo[participant.participantId]" update="saveStudentVisitorInfo(participantId)" />
+                                <tab heading="Exchange Visitor Data" class="tab" select="onExchangeVisitorTabSelected(participant.participantId)" deselect="view.tabExchangeVisitor=false" ng-if="visitorTypeExchangeVisitor(participant.participantTypeId)">
+                                    <participant-exchange-visitor participantid="{{participant.participantId}}" active="view.tabExchangeVisitor" exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]" update="saveExchangeVisitorInfo(participantId)" />
                                 </tab>
                             </tabset>
                         </td>

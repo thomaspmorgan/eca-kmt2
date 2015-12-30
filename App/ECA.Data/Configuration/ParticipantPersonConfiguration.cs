@@ -17,10 +17,7 @@ namespace ECA.Data.Configuration
             Property(a => a.HomeInstitutionId).HasColumnName("HomeInstitutionId");
             Property(a => a.HostInstitutionId).HasColumnName("HostInstitutionId");
 
-            HasOptional(a => a.GovtAgency1).WithMany().HasForeignKey(a => a.GovtAgency1Id).WillCascadeOnDelete(false);
-            HasOptional(a => a.GovtAgency2).WithMany().HasForeignKey(a => a.GovtAgency2Id).WillCascadeOnDelete(false);
-            HasOptional(a => a.IntlOrg1).WithMany().HasForeignKey(a => a.IntlOrg1Id).WillCascadeOnDelete(false);
-            HasOptional(a => a.IntlOrg2).WithMany().HasForeignKey(a => a.IntlOrg2Id).WillCascadeOnDelete(false);
+
         }
     }
 }

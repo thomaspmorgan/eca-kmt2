@@ -70,12 +70,12 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.0.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.1.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.0.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+    <Reference Include="FluentAssertions.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.1.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -110,9 +110,9 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -169,11 +169,14 @@
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\LocationsControllerTest.cs" />
+    <Compile Include="Controllers\Admin\DataPointConfigurationControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowStatusesControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowSourceRecipientTypesControllerTest.cs" />
     <Compile Include="Controllers\Fundings\MoneyFlowTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\BookmarksControllerTest.cs" />
+    <Compile Include="Controllers\Itineraries\ItinerariesControllerTest.cs" />
+    <Compile Include="Controllers\Itineraries\ItineraryGroupsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonSevisControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramStatusControllerTest.cs" />
@@ -219,8 +222,11 @@
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\UpdateItineraryBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\AddedItineraryBindingModelTest.cs" />
     <Compile Include="Models\Offices\OfficeCollaboratorBindingModelTest.cs" />
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
+    <Compile Include="Models\Person\PersonBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />

@@ -5,25 +5,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 namespace ECA.Business.Test
 {
 	using System;
@@ -209,6 +190,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///Id
 			return Task.FromResult<ECA.Data.Course>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
+		}
+	}
+	public class DataPointCategoryPropertyTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.DataPointCategoryProperty>
+	{
+		public override ECA.Data.DataPointCategoryProperty Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DataPointCategoryPropertyId
+			return this.SingleOrDefault(x => x.DataPointCategoryPropertyId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.DataPointCategoryProperty> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DataPointCategoryPropertyId
+			return Task.FromResult<ECA.Data.DataPointCategoryProperty>(this.SingleOrDefault(x => x.DataPointCategoryPropertyId.Equals(keyValues.First())));
 		}
 	}
 	public class DataPointConfigurationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.DataPointConfiguration>
@@ -419,6 +415,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ItineraryId
 			return Task.FromResult<ECA.Data.Itinerary>(this.SingleOrDefault(x => x.ItineraryId.Equals(keyValues.First())));
+		}
+	}
+	public class ItineraryGroupTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ItineraryGroup>
+	{
+		public override ECA.Data.ItineraryGroup Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ItineraryGroupId
+			return this.SingleOrDefault(x => x.ItineraryGroupId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ItineraryGroup> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ItineraryGroupId
+			return Task.FromResult<ECA.Data.ItineraryGroup>(this.SingleOrDefault(x => x.ItineraryGroupId.Equals(keyValues.First())));
 		}
 	}
 	public class ItineraryStopTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ItineraryStop>
@@ -691,6 +702,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.OrganizationType>(this.SingleOrDefault(x => x.OrganizationTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class ParticipantExchangeVisitorTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantExchangeVisitor>
+	{
+		public override ECA.Data.ParticipantExchangeVisitor Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ParticipantExchangeVisitor> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return Task.FromResult<ECA.Data.ParticipantExchangeVisitor>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
+		}
+	}
 	public class ParticipantPersonTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantPerson>
 	{
 		public override ECA.Data.ParticipantPerson Find(params object[] keyValues)
@@ -751,21 +777,7 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ParticipantStatus>(this.SingleOrDefault(x => x.ParticipantStatusId.Equals(keyValues.First())));
 		}
 	}
-	public class ParticipantStudentVisitorTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantStudentVisitor>
-	{
-		public override ECA.Data.ParticipantStudentVisitor Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///ParticipantId
-			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
-		}
-		public override Task<ECA.Data.ParticipantStudentVisitor> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///ParticipantId
-			return Task.FromResult<ECA.Data.ParticipantStudentVisitor>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
-		}
-	}
+
 	public class ParticipantTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantType>
 	{
 		public override ECA.Data.ParticipantType Find(params object[] keyValues)
@@ -1141,6 +1153,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.USGovernmentAgency>(this.SingleOrDefault(x => x.AgencyId.Equals(keyValues.First())));
 		}
 	}
+	public class VisitorTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.VisitorType>
+	{
+		public override ECA.Data.VisitorType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///VisitorTypeId
+			return this.SingleOrDefault(x => x.VisitorTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.VisitorType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///VisitorTypeId
+			return Task.FromResult<ECA.Data.VisitorType>(this.SingleOrDefault(x => x.VisitorTypeId.Equals(keyValues.First())));
+		}
+	}
 	public class WebsiteTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Website>
 	{
 		public override ECA.Data.Website Find(params object[] keyValues)
@@ -1178,6 +1205,7 @@ namespace ECA.Business.Test
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
+			this.DataPointCategoryProperties = new DataPointCategoryPropertyTestDbSet();
 			this.DataPointConfigurations = new DataPointConfigurationTestDbSet();
 			this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
@@ -1192,6 +1220,7 @@ namespace ECA.Business.Test
 			this.InterestSpecializations = new InterestSpecializationTestDbSet();
 			this.InternationalOrganizations = new InternationalOrganizationTestDbSet();
 			this.Itineraries = new ItineraryTestDbSet();
+			this.ItineraryGroups = new ItineraryGroupTestDbSet();
 			this.ItineraryStops = new ItineraryStopTestDbSet();
 			this.Justifications = new JustificationTestDbSet();
 			this.Languages = new LanguageTestDbSet();
@@ -1210,11 +1239,11 @@ namespace ECA.Business.Test
 			this.OrganizationRoles = new OrganizationRoleTestDbSet();
 			this.Organizations = new OrganizationTestDbSet();
 			this.OrganizationTypes = new OrganizationTypeTestDbSet();
+			this.ParticipantExchangeVisitors = new ParticipantExchangeVisitorTestDbSet();
 			this.ParticipantPersons = new ParticipantPersonTestDbSet();
 			this.ParticipantPersonSevisCommStatuses = new ParticipantPersonSevisCommStatusTestDbSet();
 			this.Participants = new ParticipantTestDbSet();
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
-			this.ParticipantStudentVisitors = new ParticipantStudentVisitorTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
 			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
@@ -1240,6 +1269,7 @@ namespace ECA.Business.Test
 			this.Transportations = new TransportationTestDbSet();
 			this.UserAccounts = new UserAccountTestDbSet();
 			this.USGovernmentAgencies = new USGovernmentAgencyTestDbSet();
+			this.VisitorTypes = new VisitorTypeTestDbSet();
 			this.Websites = new WebsiteTestDbSet();
 		}
 

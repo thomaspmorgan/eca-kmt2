@@ -114,6 +114,22 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation.WebApi, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.WebApi.5.6.2.0\lib\Net45\FluentValidation.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.1.2\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -122,6 +138,39 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -130,9 +179,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Queries\Admin\BookmarkQueries.cs" />
+    <Compile Include="Queries\Admin\DataPointConfigurationQueries.cs" />
     <Compile Include="Queries\Admin\PhoneNumberQueries.cs" />
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
     <Compile Include="Queries\Admin\SnapshotQueries.cs" />
+    <Compile Include="Queries\Itineraries\ItineraryGroupQueries.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryDTO.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryGroupDTO.cs" />
+    <Compile Include="Queries\Itineraries\ItineraryQueries.cs" />
     <Compile Include="Queries\Models\Admin\DataPointConfigurationDTO.cs" />
     <Compile Include="Queries\Models\Admin\PhoneNumberDTO.cs" />
     <Compile Include="Queries\Models\Admin\EmailAddressDTO.cs" />
@@ -142,18 +196,21 @@
     <Compile Include="Queries\Models\Fundings\FiscalYearSummaryDTO.cs" />
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryGroupParticipantsDTO.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryGroupPersonDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
-    <Compile Include="Queries\Models\Persons\ParticipantStudentVisitorDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ParticipantExchangeVisitorDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
+    <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisCommStatusQueries.cs" />
-    <Compile Include="Queries\Persons\ParticipantStudentVisitorQueries.cs" />
+    <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
@@ -167,6 +224,9 @@
     <Compile Include="Search\ProgramDocumentService.cs" />
     <Compile Include="Search\ProgramDTODocumentConfiguration.cs" />
     <Compile Include="Search\ProjectDTODocumentConfiguration.cs" />
+    <Compile Include="Service\Admin\DataPointConfigurationService.cs" />
+    <Compile Include="Service\Admin\IDataPointConfigurationService.cs" />
+    <Compile Include="Service\Admin\NewDataPointConfiguration.cs" />
     <Compile Include="Service\Admin\NewOrganization.cs" />
     <Compile Include="Service\Admin\ParticipantOrganization.cs" />
     <Compile Include="Service\Admin\PhoneNumberService.cs" />
@@ -183,6 +243,23 @@
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeService.cs" />
     <Compile Include="Service\Admin\ISnapshotService.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryGroup.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryGroupValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryGroup.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryGroupValidator.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\IItineraryGroupService.cs" />
+    <Compile Include="Service\Itineraries\IItineraryService.cs" />
+    <Compile Include="Service\Itineraries\ItineraryGroupService.cs" />
+    <Compile Include="Service\Itineraries\ItineraryService.cs" />
+    <Compile Include="Service\Itineraries\EcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\ItineraryServiceValidator.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
+    <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
     <Compile Include="Service\Lookup\IStudentCreationsService.cs" />
     <Compile Include="Service\Lookup\IEducationLevelService.cs" />
@@ -220,20 +297,22 @@
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
-    <Compile Include="Service\Persons\IParticipantStudentVisitorService.cs" />
+    <Compile Include="Service\Persons\IParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IParticipantPersonsSevisService.cs" />
+    <Compile Include="Service\Persons\IPersonSevisServiceValidator.cs" />
+    <Compile Include="Service\Persons\ISevisValidationService.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
+    <Compile Include="Service\Persons\NewParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\NewPersonEduEmp.cs" />
     <Compile Include="Service\Persons\NewPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
-    <Compile Include="Service\Persons\ParticipantStudentVisitorService.cs" />
+    <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidator.cs" />
     <Compile Include="Service\Persons\SevisValidationService.cs" />
-    <Compile Include="Service\Persons\NewParticipantStudentVisitor.cs" />
-    <Compile Include="Service\Persons\UpdatedParticipantStudentVisitor.cs" />
+    <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />
@@ -419,48 +498,125 @@
     <Compile Include="Service\Projects\TravelService.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\AddAuthDrop.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\AddCptEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\AddDependent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\AddOCEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\AddOPTEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\AuthDropBelowFC.cs" />
+    <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
+    <Compile Include="Validation\Model\CreateEV\CreateExchVisitor.cs" />
+    <Compile Include="Validation\Model\CreateEV\CreateExchVisitorValidator.cs" />
+    <Compile Include="Validation\Model\SEVISBatchCreateUpdateEVValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddPhase.cs" />
+    <Compile Include="Validation\Model\Shared\AddSiteOfActivity.cs" />
+    <Compile Include="Validation\Model\Shared\AddSiteOfActivityValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddTIPP.cs" />
+    <Compile Include="Validation\Model\Shared\AddTIPPUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\AddTIPPUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddUpdatedDependent.cs" />
+    <Compile Include="Validation\Model\Shared\AmendProgram.cs" />
+    <Compile Include="Validation\Model\Shared\AmendProgramUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\Biographical.cs" />
+    <Compile Include="Validation\Model\Shared\BiographicalUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\BiographicalUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\BiographicalValidator.cs" />
+    <Compile Include="Validation\Model\Shared\BoardingSchool.cs" />
+    <Compile Include="Validation\Model\Shared\BoardingSchoolValidator.cs" />
+    <Compile Include="Validation\Model\Shared\CorrectInfraction.cs" />
+    <Compile Include="Validation\Model\Shared\DeleteDependent.cs" />
+    <Compile Include="Validation\Model\Shared\DeletePhase.cs" />
+    <Compile Include="Validation\Model\Shared\DeletePhaseValidator.cs" />
+    <Compile Include="Validation\Model\Shared\DeleteSiteOfActivity.cs" />
+    <Compile Include="Validation\Model\Shared\DeleteTippSite.cs" />
+    <Compile Include="Validation\Model\Shared\EditPhase.cs" />
+    <Compile Include="Validation\Model\Shared\EditSiteOfActivity.cs" />
+    <Compile Include="Validation\Model\Shared\EditTippSite.cs" />
+    <Compile Include="Validation\Model\Shared\EditTippSiteValidator.cs" />
+    <Compile Include="Validation\Model\Shared\EndDependentStatus.cs" />
+    <Compile Include="Validation\Model\Shared\EndProgram.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitor.cs" />
+    <Compile Include="Validation\Model\Shared\AddDependentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\BatchHeaderValidator.cs" />
+    <Compile Include="Validation\Model\Shared\CancelDependentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\CreateDependentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\EditDependentValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitorUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitorUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ExchangeVisitorValidator.cs" />
+    <Compile Include="Validation\Model\Shared\FinancialInfoUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\FinancialInfoUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\FinancialInfoValidator.cs" />
+    <Compile Include="Validation\Model\Shared\FullNameValidator.cs" />
+    <Compile Include="Validation\Model\Shared\HostFamily.cs" />
+    <Compile Include="Validation\Model\Shared\HostFamilyValidator.cs" />
+    <Compile Include="Validation\Model\Shared\International.cs" />
+    <Compile Include="Validation\Model\Shared\InternationalValidator.cs" />
+    <Compile Include="Validation\Model\Shared\InvalidStatus.cs" />
+    <Compile Include="Validation\Model\Shared\LCCoordinator.cs" />
+    <Compile Include="Validation\Model\Shared\LCCoordinatorValidator.cs" />
+    <Compile Include="Validation\Model\Shared\MatriculateProgram.cs" />
+    <Compile Include="Validation\Model\Shared\NoShowStatus.cs" />
+    <Compile Include="Validation\Model\Shared\Other.cs" />
+    <Compile Include="Validation\Model\Shared\OtherFunds.cs" />
+    <Compile Include="Validation\Model\Shared\OtherFundsValidator.cs" />
+    <Compile Include="Validation\Model\Shared\OtherValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ParticipantInfo.cs" />
+    <Compile Include="Validation\Model\Shared\ParticipantInfoUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\ParticipantInfoUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ParticipantInfoValidator.cs" />
+    <Compile Include="Validation\Model\Shared\PContact.cs" />
+    <Compile Include="Validation\Model\Shared\PContactValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ProgramOfficial.cs" />
+    <Compile Include="Validation\Model\Shared\Reprint7002.cs" />
+    <Compile Include="Validation\Model\Shared\ReprintFormUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\ReprintFormUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ReprintFormValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ResidentialAddress.cs" />
+    <Compile Include="Validation\Model\Shared\ResidentialAddressValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SContact.cs" />
+    <Compile Include="Validation\Model\Shared\SContactValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ShortenProgramUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SignatureDatesUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityAddOnTravel.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityExempt.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityExemptUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityExemptUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityExemptValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivitySeekingGemp.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivitySeekingGempValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivitySOA.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivitySOAValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityUpdateValidator.cs" />
+    <Compile Include="Validation\Model\Shared\StatusUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SubjectField.cs" />
+    <Compile Include="Validation\Model\Shared\SubjectFieldUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SubjectFieldValidator.cs" />
+    <Compile Include="Validation\Model\Shared\SupervisorsUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TerminateVisitor.cs" />
+    <Compile Include="Validation\Model\Shared\TippExemptProgram.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhase.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhaseDates.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhaseDatesUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhaseUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhaseValidator.cs" />
+    <Compile Include="Validation\Model\Shared\TippSite.cs" />
+    <Compile Include="Validation\Model\Shared\TippSiteUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TippSiteValidator.cs" />
+    <Compile Include="Validation\Model\Shared\TippSupervisorPhaseUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TippSupervisorsUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TippUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TravelInfoValidator.cs" />
+    <Compile Include="Validation\Model\Shared\UpdateSignatureDates.cs" />
+    <Compile Include="Validation\Model\Shared\USAddressValidator.cs" />
+    <Compile Include="Validation\Model\Shared\AddDependent.cs" />
     <Compile Include="Validation\Model\Shared\BatchHeader.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelAuthDrop.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelCptEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelDependent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelEducationLevel.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelOCEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelOPTEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelProgramExtension.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CancelStudent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CapGapExtension.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\ChangeEducationLevel.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CompleteStudent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\CPTEmployment.cs" />
-    <Compile Include="Validation\Model\CreateStudent\CreateDependent.cs" />
-    <Compile Include="Validation\Model\CreateStudent\CreateStudent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\DeferProgramAttendence.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\DisciplinaryAction.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EditAuthDrop.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EditOCEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EditOPTEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EditProgram.cs" />
-    <Compile Include="Validation\Model\Shared\EducationalInfo.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EducationLevel.cs" />
-    <Compile Include="Validation\Model\Shared\EduLevel.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EmployerAddress.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\ExtendOPTEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\OffCampusEmployment.cs" />
-    <Compile Include="Validation\Model\Shared\EngProficiency.cs" />
-    <Compile Include="Validation\Model\Shared\Expense.cs" />
-    <Compile Include="Validation\Model\Shared\ExpenseOther.cs" />
+    <Compile Include="Validation\Model\Shared\CancelDependent.cs" />
+    <Compile Include="Validation\Model\Shared\USGovt.cs" />
+    <Compile Include="Validation\Model\Shared\USGovtValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ValidateParticipant.cs" />
+    <Compile Include="Validation\Model\UpdateEV\UpdateExchVisitor.cs" />
+    <Compile Include="Validation\Model\UpdateEV\UpdateExchVisitorValidator.cs" />
+    <Compile Include="Validation\Model\Shared\CreateDependent.cs" />
     <Compile Include="Validation\Model\Shared\FinancialInfo.cs" />
-    <Compile Include="Validation\Model\Shared\ForeignAddress.cs" />
     <Compile Include="Validation\Model\Shared\FullName.cs" />
-    <Compile Include="Validation\Model\Shared\Funding.cs" />
-    <Compile Include="Validation\Model\Shared\FundingOther.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
     <Compile Include="Service\Programs\ProgramService.cs" />
     <Compile Include="Service\Projects\ProjectService.cs" />
@@ -470,37 +626,27 @@
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
     <Compile Include="Validation\ISevisValidator.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\OPTEmployment.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\OPTReportParticipation.cs" />
-    <Compile Include="Validation\Model\Shared\PersonalInfo.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\Program.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\ProgramExtension.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\ReactivateDependent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\ReprintDependent.cs" />
-    <Compile Include="Validation\Model\Shared\School.cs" />
+    <Compile Include="Validation\Model\Shared\Program.cs" />
+    <Compile Include="Validation\Model\Shared\ProgramExtension.cs" />
+    <Compile Include="Validation\Model\Shared\ReprintForm.cs" />
     <Compile Include="Validation\Model\SEVISBatchCreateUpdateEV.cs" />
-    <Compile Include="Validation\Model\SEVISBatchCreateUpdateStudent.cs" />
-    <Compile Include="Validation\Model\Shared\StudentPersonalInfo.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\StudentRegistration.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\StudentReprint.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\StudentRequest.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\StudentStatus.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\StudentUpdate.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\TerminateDependent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\TerminateStudent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\TravelInfo.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\UpdatedDependent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\EditDependent.cs" />
-    <Compile Include="Validation\Model\UpdateStudent\UpdateStudent.cs" />
+    <Compile Include="Validation\Model\Shared\ProgramExtensionValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ProgramValidator.cs" />
+    <Compile Include="Validation\Model\Shared\ShortenProgramValidator.cs" />
+    <Compile Include="Validation\Model\Shared\TerminateDependent.cs" />
+    <Compile Include="Validation\Model\Shared\TravelInfo.cs" />
+    <Compile Include="Validation\Model\Shared\UpdatedDependent.cs" />
+    <Compile Include="Validation\Model\Shared\EditDependent.cs" />
+    <Compile Include="Validation\Model\Shared\UpdatedDependentValidator.cs" />
     <Compile Include="Validation\SevisValidationResult.cs" />
-    <Compile Include="Validation\SevisValidatorBase.cs" />
-    <Compile Include="Validation\Model\Shared\Student.cs" />
     <Compile Include="Validation\Model\Shared\USAddress.cs" />
     <Compile Include="Validation\ShortenProgram.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
+    <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
   </ItemGroup>
   <ItemGroup>
@@ -521,10 +667,7 @@
       <Name>ECA.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Validation\Model\CreateEV\" />
-    <Folder Include="Validation\Model\UpdateEV\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

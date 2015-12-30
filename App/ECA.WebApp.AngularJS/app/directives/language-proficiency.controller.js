@@ -51,6 +51,10 @@ angular.module('staticApp')
               .catch(onSaveLanguageProficiencyError);
           }
           else {
+              if (originalLanguageProficiency.languageId != $scope.languageProficiency.languageId) {
+                  $scope.languageProficiency.newLanguageId = $scope.languageProficiency.languageId;
+                  $scope.languageProficiency.languageId = originalLanguageProficiency.languageId;
+              }
               return LanguageProficiencyService.updateLanguageProficiency($scope.languageProficiency, $scope.view.params.personId)
                   .then(onSaveLanguageProficiencySuccess)
                   .catch(onSaveLanguageProficiencyError);

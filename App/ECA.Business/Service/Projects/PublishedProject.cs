@@ -25,6 +25,7 @@ namespace ECA.Business.Service.Projects
         /// <param name="pointsOfContactIds">The points of contact by id.</param>
         /// <param name="startDate">The start date of the project.</param>
         /// <param name="endDate">The end date of the project.</param>
+        /// <param name="visitorTypeId">The type of visitor for this project</param>
         /// <param name="categoryIds">The categories by id.</param>
         /// <param name="objectiveIds">The objectives by id.</param>
         public PublishedProject(
@@ -41,7 +42,8 @@ namespace ECA.Business.Service.Projects
             IEnumerable<int> locationIds,
             IEnumerable<int> regionIds,
             DateTimeOffset startDate,
-            DateTimeOffset endDate
+            DateTimeOffset endDate,
+            int visitorTypeId
             )
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
@@ -58,6 +60,7 @@ namespace ECA.Business.Service.Projects
             this.RegionIds = regionIds ?? new List<int>();
             this.StartDate = startDate;
             this.EndDate = endDate;
+            this.VisitorTypeId = visitorTypeId;
             this.Audit = new Update(updatedBy);
 
             this.GoalIds = this.GoalIds.Distinct();
@@ -133,6 +136,11 @@ namespace ECA.Business.Service.Projects
         /// Gets the end date.
         /// </summary>
         public DateTimeOffset EndDate { get; private set; }
+
+        /// <summary>
+        /// The Visitor Type Id
+        /// </summary>
+        public int  VisitorTypeId { get; private set; }
 
         /// <summary>
         /// Gets the Audit.

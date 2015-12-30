@@ -29,8 +29,9 @@ angular.module('staticApp')
 
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
       console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
-      console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive..');
+      console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive.');
       $scope.view = {};
+      $scope.view.showFilters = false;
       $scope.view.params = $stateParams;
       $scope.view.moneyFlows = [];
       $scope.view.fiscalYearSummaries = [];
@@ -106,22 +107,13 @@ angular.module('staticApp')
       $scope.view.onEditClick = function (moneyFlow) {
           moneyFlow.original = angular.copy(moneyFlow);
           moneyFlow.currentlyEditing = true;
-          moneyFlow.editableAmount = moneyFlow.editableAmount < 0 ? -moneyFlow.editableAmount : moneyFlow.editableAmount;
           if (moneyFlow.parentMoneyFlowId) {
-              loadSourceMoneyFlow(moneyFlow);
+              loadSourceMoneyFlow(moneyFlow)
+              .then(scrollToMoneyFlow(moneyFlow));
           }
-
-          var options = {
-              duration: 500,
-              easing: 'easeIn',
-              offset: 225,
-              callbackBefore: function (element) {
-              },
-              callbackAfter: function (element) { }
+          else {
+              scrollToMoneyFlow(moneyFlow);
           }
-          var id = $scope.view.getMoneyFlowDivId(moneyFlow)
-          var e = document.getElementById(id);
-          smoothScroll(e, options);
       }
 
       $scope.view.onEditableAmountChange = function ($event, moneyFlow) {
@@ -167,7 +159,7 @@ angular.module('staticApp')
           moneyFlow.moneyFlowStatus = getLookupValueById($scope.view.moneyFlowStatii, moneyFlow.moneyFlowStatusId);
           moneyFlow.description = moneyFlow.original.description;
           moneyFlow.amount = moneyFlow.original.amount;
-          moneyFlow.editableAmount = moneyFlow.original.amount;
+          moneyFlow.editableAmount = moneyFlow.original.editableAmount;
           moneyFlow.fiscalYear = moneyFlow.original.fiscalYear;
           delete moneyFlow.original;
           moneyFlow.currentlyEditing = false;
@@ -253,6 +245,20 @@ angular.module('staticApp')
           return $scope;
       };
 
+      function scrollToMoneyFlow(moneyFlow) {
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 225,
+              callbackBefore: function (element) {
+              },
+              callbackAfter: function (element) { }
+          }
+          var id = $scope.view.getMoneyFlowDivId(moneyFlow)
+          var e = document.getElementById(id);
+          smoothScroll(e, options);
+      }
+
       function loadSourceMoneyFlow(moneyFlow) {
           console.assert(moneyFlow.parentMoneyFlowId, "The given money flow should have a parent id.");
           moneyFlow.isLoadingSource = true;
@@ -285,7 +291,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/directives/moneyflow.directive.html',
               controller: 'MoneyFlowCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               resolve: {
                   entity: function () {
                       return moneyFlow;
@@ -316,6 +322,7 @@ angular.module('staticApp')
           copiedMoneyFlow.peerEntityTypeId = moneyFlow.sourceRecipientEntityTypeId;
           copiedMoneyFlow.peerEntityId = moneyFlow.sourceRecipientEntityId;
           copiedMoneyFlow.value = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
+          copiedMoneyFlow.grantNumber = moneyFlow.grantNumber;
           copiedMoneyFlow.peerEntity = {
               primaryText: moneyFlow.sourceRecipientName
           };
@@ -461,6 +468,7 @@ angular.module('staticApp')
                   moneyFlow.editableAmount = moneyFlow.amount < 0 ? -moneyFlow.amount : moneyFlow.amount;
                   moneyFlow.isTransactionDatePickerOpen = false;
                   moneyFlow.loadingEntityState = false;
+                  moneyFlow.test = 1000;
                   if (StateService.isStateAvailableByMoneyFlowSourceRecipientTypeId(moneyFlow.sourceRecipientEntityTypeId)) {
                       moneyFlow.loadingEntityState = true;
                       getMoneyFlowHref(moneyFlow)
@@ -575,13 +583,14 @@ angular.module('staticApp')
                     $log.error('Unable to load user permissions.');
                 });
           }
-          else {
-              $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
+          else {              
               var dfd = $q.defer();
               if ($state.current.name === StateService.stateNames.moneyflow.person) {
+                  $log.info('Moneyflow object is a person, therefore, edit permission is denied.');
                   notAuthorizedCallback();
               }
               else {
+                  $log.info('Moneyflow object is not a resource type used in permissions, therefore, edit permission is granted.');
                   hasEditPermissionCallback();
               }
 

@@ -61,7 +61,15 @@ angular.module('staticApp')
           },
           addOrganizationParticipant: function (params) {
               return DragonBreath.create(params, 'projects/participants/organization/add');
+          },
+          getItineraries: function (projectId) {
+              return DragonBreath.get({}, 'projects/' + projectId + '/itineraries');
+          },
+          addItinerary: function (itinerary, projectId) {
+              return DragonBreath.create(itinerary, 'projects/' + projectId + '/itinerary');
+          },
+          updateItinerary: function (itinerary, projectId) {
+              return DragonBreath.save(itinerary, 'projects/' + projectId + '/itinerary');
           }
-
       };
   });

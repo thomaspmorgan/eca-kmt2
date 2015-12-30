@@ -1,15 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// Financial support information
+    /// </summary>
+    [Validator(typeof(FinancialInfoValidator))]
     public class FinancialInfo
     {
-        [MaxLength(2)]
-        public string AcademicTerm { get; set; }
-
-        public Expense Expense { get; set; }
-
-        public Funding Funding { get; set; }
+        public FinancialInfo()
+        {
+        }
         
+        /// <summary>
+        /// Indicates receipt of US govt funds
+        /// </summary>
+        public bool ReceivedUSGovtFunds { get; set; }
+
+        /// <summary>
+        /// Program sponsor funds
+        /// </summary>
+        public string ProgramSponsorFunds { get; set; }
+
+        /// <summary>
+        /// Other financial support
+        /// </summary>
+        public OtherFunds OtherFunds { get; set; }
     }
 }

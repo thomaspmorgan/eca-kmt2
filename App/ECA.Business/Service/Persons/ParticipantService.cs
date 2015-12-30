@@ -148,7 +148,7 @@ namespace ECA.Business.Service.Persons
             throwIfEntityNotFound(deletedParticipant.ProjectId, project, typeof(Project));
 
             var participantPerson = Context.ParticipantPersons.Find(deletedParticipant.ParticipantId);
-            var studentVisitor = Context.ParticipantStudentVisitors.Find(deletedParticipant.ParticipantId);
+            var exchangeVisitor = Context.ParticipantExchangeVisitors.Find(deletedParticipant.ParticipantId);
             var statti = Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == deletedParticipant.ParticipantId).ToList();
 
             var sourceMoneyFlows = Context.MoneyFlows.Where(x => x.SourceParticipantId == deletedParticipant.ParticipantId).ToList();
@@ -157,7 +157,7 @@ namespace ECA.Business.Service.Persons
                 project: project,
                 participant: participant,
                 person: participantPerson,
-                studentVisitor: studentVisitor,
+                exchangeVisitor: exchangeVisitor,
                 statii: statti,
                 participantRecipientMoneyFlows: recipientMoneyFlows,
                 participantSourceMoneyFlows: sourceMoneyFlows);
@@ -177,7 +177,7 @@ namespace ECA.Business.Service.Persons
             throwIfEntityNotFound(deletedParticipant.ProjectId, project, typeof(Project));
 
             var participantPerson = await Context.ParticipantPersons.FindAsync(deletedParticipant.ParticipantId);
-            var studentVisitor = await Context.ParticipantStudentVisitors.FindAsync(deletedParticipant.ParticipantId);
+            var exchangeVisitor = await Context.ParticipantExchangeVisitors.FindAsync(deletedParticipant.ParticipantId);
 
             var statti = await Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == deletedParticipant.ParticipantId).ToListAsync();
 
@@ -187,7 +187,7 @@ namespace ECA.Business.Service.Persons
                 project: project,
                 participant: participant,
                 person: participantPerson,
-                studentVisitor: studentVisitor,
+                exchangeVisitor: exchangeVisitor,
                 statii: statti,
                 participantRecipientMoneyFlows: recipientMoneyFlows,
                 participantSourceMoneyFlows: sourceMoneyFlows);
@@ -198,7 +198,7 @@ namespace ECA.Business.Service.Persons
             Project project,
             Participant participant,
             ParticipantPerson person,
-            ParticipantStudentVisitor studentVisitor,
+            ParticipantExchangeVisitor exchangeVisitor,
             IEnumerable<ParticipantPersonSevisCommStatus> statii,
             IEnumerable<MoneyFlow> participantSourceMoneyFlows,
             IEnumerable<MoneyFlow> participantRecipientMoneyFlows)
@@ -208,9 +208,9 @@ namespace ECA.Business.Service.Persons
             Context.ParticipantPersonSevisCommStatuses.RemoveRange(statii);
             Context.MoneyFlows.RemoveRange(participantSourceMoneyFlows);
             Context.MoneyFlows.RemoveRange(participantRecipientMoneyFlows);
-            if (studentVisitor != null)
+            if (exchangeVisitor != null)
             {
-                Context.ParticipantStudentVisitors.Remove(studentVisitor);
+                Context.ParticipantExchangeVisitors.Remove(exchangeVisitor);
             }
             if (person != null)
             {

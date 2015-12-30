@@ -19,7 +19,8 @@ angular.module('staticApp')
           { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" },
           { Title: "Objective Awards", Published: "7/6/2015", Author: "Tom Morgan", Prompts: "Program, Objective" },
-          { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" }
+          { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" },
+          { Title: "Projects with Grant Number", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" }        
       ];
       $scope.formats = [{ type: 'Portable Document Format - PDF', key: 'pdf', mimetype: 'application/pdf' },
                         { type: 'Microsoft Excel - XLSX', key: 'xlsx', mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
@@ -124,6 +125,10 @@ angular.module('staticApp')
           else if (title == 'Year Awards') {
               var template = "/app/reports/year-awards.html";
               var controller = "YearAwardsCtrl";
+          }
+          else if (title == 'Projects with Grant Number') {
+              var template = "/app/reports/projects-with-grant-number.html";
+              var controller = "ProjectsWithGrantNumberCtrl";
           }
           else
           {

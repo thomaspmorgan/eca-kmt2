@@ -16,6 +16,11 @@ namespace ECA.WebApi.Models.Person
         public int LanguageId { get; set; }
 
         /// <summary>
+        /// The new language id, if set
+        /// </summary>
+        public int? NewLanguageId { get; set; }
+
+        /// <summary>
         /// Gets and sets the person id
         /// </summary>
         [Required]
@@ -55,6 +60,7 @@ namespace ECA.WebApi.Models.Person
         {
             return new UpdatedPersonLanguageProficiency(
                 updator: user,
+                newLanguageId: this.NewLanguageId,
                 languageId: this.LanguageId,
                 personId: this.PersonId,
                 isNativeLanguage: this.IsNativeLanguage,

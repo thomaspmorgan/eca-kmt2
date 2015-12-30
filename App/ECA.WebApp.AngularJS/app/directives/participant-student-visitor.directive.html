@@ -14,52 +14,52 @@
         </div>
     </div>
     <div ng-if="!view.EducationalInformationEdit">
-    <div ng-show="view.EducationalInformation">
-        <div class="row row4">
-            <div class="col-md-3 title-label">Education Level</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.educationLevel}}
+        <div ng-show="view.EducationalInformation">
+            <div class="row row4">
+                <div class="col-md-3 title-label">Education Level</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.educationLevel}}
+                </div>
+                <div class="col-md-3 title-label">'Other' Remarks</div>
+                <div class="col-md-3">
+                    <textarea disabled ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
+                </div>
             </div>
-            <div class="col-md-3 title-label">'Other' Remarks</div>
-            <div class="col-md-3">
-                <textarea disabled ng-model="studentvisitorinfo.educationLevelOtherRemarks"></textarea>
+            <div class="row row4">
+                <div class="col-md-3 title-label">Primary Major</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.primaryMajor}} <!--required-->
+                </div>
+                <div class="col-md-3 title-label">English Proficiency Required?</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
+                </div>
             </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Primary Major</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.primaryMajor}} <!--required-->
+            <div class="row row4">
+                <div class="col-md-3 title-label">Secondary Major</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.secondaryMajor}}
+                </div>
+                <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
+                </div>
             </div>
-            <div class="col-md-3 title-label">English Proficiency Required?</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.isEnglishLanguageProficiencyReqd | boolYesNo}}
+            <div class="row row4">
+                <div class="col-md-3 title-label">Minor</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.minor}}
+                </div>
+                <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
+                <div class="col-md-3">
+                    <textarea disabled ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
+                </div>
             </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Secondary Major</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.secondaryMajor}}
-            </div>
-            <div class="col-md-3 title-label">English Proficiency Requirements Met?</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.isEnglishLanguageProficiencyMet | boolYesNo}}
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Minor</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.minor}}
-            </div>
-            <div class="col-md-3 title-label">Reason if Eng. Prof. Not Reqd</div>
-            <div class="col-md-3">
-                <textarea disabled ng-model="studentvisitorinfo.englishLanguageProficiencyNotReqdReason"></textarea>
-            </div>
-        </div>
-        <div class="row row4">
-            <div class="col-md-3 title-label">Length Of Study</div>
-            <div class="col-md-3">
-                {{studentvisitorinfo.lengthOfStudy}} Months
-            </div>
+            <div class="row row4">
+                <div class="col-md-3 title-label">Length Of Study</div>
+                <div class="col-md-3">
+                    {{studentvisitorinfo.lengthOfStudy}} Months
+                </div>
                 <div class="col-md-3 title-label">&nbsp;</div>
                 <div class="col-md-3">&nbsp;</div>
             </div>
@@ -376,7 +376,7 @@
             <div class="row row4">
                 <div class="col-md-2">
                     <label class="title-label">Other</label>
-        </div>
+                </div>
                 <div class="col-md-7 text-right">
                     $
                 </div>
@@ -406,4 +406,3 @@
         </form>
     </div>
 </div>
-

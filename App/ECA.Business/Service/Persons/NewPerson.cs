@@ -36,6 +36,7 @@ namespace ECA.Business.Service.Persons
             DateTime? dateOfBirth,
             bool? isDateOfBirthUnknown,
             bool? isDateOfBirthEstimated,
+            bool? isPlaceOfBirthUnknown,
             int? cityOfBirth,
             List<int> countriesOfCitizenship)
         {
@@ -51,6 +52,7 @@ namespace ECA.Business.Service.Persons
             this.CityOfBirth = cityOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsDateOfBirthEstimated = isDateOfBirthEstimated;
+            this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
             this.Audit = new Create(createdBy);
         }
 
@@ -88,12 +90,16 @@ namespace ECA.Business.Service.Persons
         /// Denotes if date of birth is unknown
         /// </summary>
         public bool? IsDateOfBirthUnknown { get; private set; }
-
-
+        
         /// <summary>
         /// Denotes if date of birth is estimated.
         /// </summary>
         public bool? IsDateOfBirthEstimated { get; private set; }
+
+        /// <summary>
+        /// Gets whether the place of birth is unknown.
+        /// </summary>
+        public bool? IsPlaceOfBirthUnknown { get; private set; }
 
         /// <summary>
         /// Gets and sets the city of birth

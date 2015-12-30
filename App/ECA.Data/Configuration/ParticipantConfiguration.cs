@@ -21,7 +21,7 @@ namespace ECA.Data.Configuration
 
             HasOptional(a => a.ParticipantPerson).WithRequired(p => p.Participant).WillCascadeOnDelete(false);
 
-            HasOptional(a => a.ParticipantStudentVisitor).WithRequired(p => p.Participant).WillCascadeOnDelete(false);
+            HasOptional(a => a.ParticipantExchangeVisitor).WithRequired(p => p.Participant).WillCascadeOnDelete(false);
         }
     }
 }

@@ -127,7 +127,7 @@ angular.module('staticApp')
           getAllProminentCategories: function (params) {
               return DragonBreath.getCached(params, 'prominentCategories');
           },
-          getAllLanguages: function (params) {
+          getLanguages: function (params) {
               return DragonBreath.getCached(params, 'languages');
           },
           getSevisCommStatuses: function(params) {
@@ -153,6 +153,9 @@ angular.module('staticApp')
           },
           getSevisEducationLevels: function (params) {
               return DragonBreath.getCached(params, 'educationlevels');
+          },
+          getVisitorTypes: function(params) {
+              return DragonBreath.getCached(params,'visitorTypes');
           }
       };
   });

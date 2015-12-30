@@ -55,10 +55,12 @@
                                 <div class="form-group row" id="languageProficiencyForm{{languageProficiency.languageId}}" name="languageProficiencyForm{{languageProficiency.languageId}}">
                                     <label class="title-label col-md-4" for="languageprof">Language<span class="asterisk"> *</span></label>
                                     <div class="col-md-8">
-                                        <select class="form-control" id="languageprof" name="languageprof" ng-model="languageProficiency.languageId" placeholder="Select a language..."
-                                                ng-options="language.id as language.name for language in data.languages | filterExisting:model.languageProficiencies:this" required>
-                                            <option value=""></option>
-                                        </select>
+                                        <ui-select ng-model="languageProficiency.languageId" theme="select2" tabindex="1" ng-required="false">
+                                            <ui-select-match allow-clear="true" placeholder="Select a language...">{{$select.selected.name}}</ui-select-match>
+                                            <ui-select-choices refresh="edit.searchLanguages($select.search)" refresh-delay="250" repeat="language.id as language in data.languages | filter: {name: $select.search} track by language.id">
+                                                <div ng-bind-html="language.name | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
                                     </div>
                                     <div ng-show="form.languageProficiencyForm.languageprof.$dirty || form.languageProficiencyForm.languageprof.$error.required">
                                         <div class="error" ng-show="form.languageProficiencyForm.languageprof.$error.required">Please select a language.</div>

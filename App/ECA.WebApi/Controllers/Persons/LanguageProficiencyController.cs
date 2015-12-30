@@ -87,10 +87,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// Updates a LanguageProficiency to the person.
         /// </summary>
         /// <param name="model">The updated LanguageProficiency.</param>
+        /// <param name="personId">The person id of the language to be updated</param>
         /// <returns>void</returns>
         [ResponseType(typeof(LanguageProficiencyDTO))]
         [Route("People/{personId:int}/LanguageProficiency")]
-        public async Task<IHttpActionResult> PutLanguageProficiencyAsync(UpdatedPersonLanguageProficiencyBindingModel model)
+        public async Task<IHttpActionResult> PutLanguageProficiencyAsync(UpdatedPersonLanguageProficiencyBindingModel model, int personId)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await service.UpdateAsync(model.ToUpdatedPersonLanguageProficiency(businessUser));
                 await service.SaveChangesAsync();
-                var dto = await service.GetByIdAsync(model.LanguageId, model.PersonId);
+                var dto = await service.GetByIdAsync(model.NewLanguageId.HasValue ? model.NewLanguageId.Value : model.LanguageId, model.PersonId);
                 return Ok(dto);
             }
             else

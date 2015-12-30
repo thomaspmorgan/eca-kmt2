@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $q,
         ConstantsService,
+        OfficeService,
         AuthService,
         StateService,
         NotificationService,
@@ -51,7 +52,7 @@ angular.module('staticApp')
               active: true,
               order: 5
           },
-          funding: {
+          moneyflows: {
               title: 'Funding',
               path: 'moneyflows',
               active: true,
@@ -62,6 +63,7 @@ angular.module('staticApp')
 
       $scope.data = {};
       $scope.data.loadProgramPromise = $q.defer();
+      $scope.data.loadOfficeSettingsPromise = $q.defer();
       $scope.view = {};
       $scope.view.isLoadingProgram = false;
       $scope.view.permalink = '';
@@ -105,6 +107,16 @@ angular.module('staticApp')
                   $scope.view.showEditProgramButton = false;
               }
           };
+          config[ConstantsService.permission.viewProgram.value] = {
+              hasPermission: function () {
+                  $scope.tabs.moneyflows.active = true;
+                  $log.info('User has view program permission in program.controller.js controller.');
+              },
+              notAuthorized: function () {
+                  $scope.tabs.moneyflows.active = false;
+                  $log.info('User not authorized to view program in program.controller.js controller.');
+              }
+          };
           return AuthService.getResourcePermissions(resourceType, programId, config)
             .then(function (result) {
 
@@ -142,12 +154,28 @@ angular.module('staticApp')
             });
       }
 
+      function loadOfficeSettings(officeId) {
+          return OfficeService.getSettings(officeId)
+              .then(function (response) {
+                  var data = response.data;
+                  $scope.data.loadOfficeSettingsPromise.resolve(data);
+              })
+          .catch(function () {
+              $log.error('Unable to load office settings.');
+              NotificationService.showErrorMessage('Unable to load office settings.');
+          });
+      }
+
       $q.all([loadPermissions()])
       .then(function (results) {
-          return $q.all([loadProgramById(programId)])
+          return loadProgramById(programId)
               .then(function () {
+                  var officeId = $scope.program.ownerOrganizationId;
+                  return loadOfficeSettings(officeId)
+                  .then(function () {
 
-              })
+                  });
+              });
       })
       .catch(function () {
           var message = "Unable to load program required data.";

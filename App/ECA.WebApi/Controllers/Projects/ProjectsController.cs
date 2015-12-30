@@ -135,7 +135,6 @@ namespace ECA.WebApi.Controllers.Projects
         /// <param name="id">The project id to fetch</param>
         /// <returns>Project</returns>
         [ResponseType(typeof(ProjectDTO))]
-        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE)]
         [Route("Projects/{id:int}")]
         public async Task<IHttpActionResult> GetProjectByIdAsync(int id)
         {

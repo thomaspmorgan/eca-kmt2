@@ -505,6 +505,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
+    <Compile Include="Controllers\Admin\DataPointConfigurationsController.cs" />
+    <Compile Include="Controllers\Admin\VisitorTypesController.cs" />
     <Compile Include="Controllers\Admin\StudentCreationsController.cs" />
     <Compile Include="Controllers\Admin\EducationLevelsController.cs" />
     <Compile Include="Controllers\Admin\USGovernmentAgenciesController.cs" />
@@ -521,6 +523,8 @@
     <Compile Include="Controllers\Admin\ProgramCategoriesController.cs" />
     <Compile Include="Controllers\Admin\SevisCommStatusesController.cs" />
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
+    <Compile Include="Controllers\Itineraries\ItinerariesController.cs" />
+    <Compile Include="Controllers\Itineraries\ItineraryGroupsController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
@@ -533,13 +537,17 @@
     <Compile Include="Controllers\Admin\ParticipantTypesController.cs" />
     <Compile Include="Controllers\Admin\SocialMediasController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
-    <Compile Include="Controllers\Persons\ParticipantStudentVisitorsController.cs" />
+    <Compile Include="Controllers\Persons\ParticipantExchangeVisitorsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
+    <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
+    <Compile Include="Models\Itineraries\AddedItineraryBindingModel.cs" />
+    <Compile Include="Models\Itineraries\AddedItineraryGroupBindingModel.cs" />
+    <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
-    <Compile Include="Models\Person\UpdatedParticipantStudentVisitorBindingModel.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />
@@ -740,10 +748,6 @@
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.Sevis.csproj">
-      <Project>{53336ba0-47cd-4692-9864-ab2a0e649d1f}</Project>
-      <Name>ECA.Business.Sevis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
@@ -783,7 +787,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>5555</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5555/</IISUrl>
+          <IISUrl>http://localhost:5555</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -804,6 +808,7 @@
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets')" />
+  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

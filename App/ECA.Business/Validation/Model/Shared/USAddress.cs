@@ -1,27 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ECA.Business.Validation.Model.Shared;
+using FluentValidation.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model
 {
+    /// <summary>
+    /// U.S. physical address
+    /// </summary>
+    [Validator(typeof(USAddressValidator))]
     public class USAddress
     {
-        [MaxLength(64)]
-        [Required(ErrorMessage = "Address is required")]
-        public string address1 { get; set; }
-
-        [MaxLength(64)]
-        public string address2 { get; set; }
+        public string Address1 { get; set; }
         
-        [MaxLength(60)]
-        public string city { get; set; }
+        public string Address2 { get; set; }
+        
+        public string City { get; set; }
 
-        [StringLength(5)]
+        public string State { get; set; }
+
         public string PostalCode { get; set; }
-
-        [StringLength(2)]
+        
         public string ExplanationCode { get; set; }
 
-        [MinLength(5)]
-        [MaxLength(200)]
         public string Explanation { get; set; }
     }
 }

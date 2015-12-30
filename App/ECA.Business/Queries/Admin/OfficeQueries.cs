@@ -113,20 +113,22 @@ namespace ECA.Business.Queries.Admin
             return CreateGetOfficeSettingDTOQuery(context).Where(x => x.OfficeId == officeId);
         }
 
-        public static IQueryable<DataPointConfigurationDTO> CreateGetOfficeDataPointConfigurationsDTOByOfficeIdQuery(EcaContext context, int officeId)
+        public static IQueryable<DataPointConfigurationDTO> CreateGetOfficeDataPointConfigurations(EcaContext context)
         {
-            var dataPointConfigurations = context.DataPointConfigurations.Where(x => x.OfficeId == officeId).Select(x => new DataPointConfigurationDTO
-            {
-                DataPointConfigurationId = x.DataPointConfigurationId,
-                OfficeId = x.OfficeId,
-                ProgramId = x.ProgramId,
-                ProjectId = x.ProjectId,
-                CategoryId = x.CategoryId,
-                CategoryName = x.Category.DataPointCategoryName,
-                PropertyId = x.PropertyId,
-                PropertyName = x.Property.DataPointPropertyName,
-                IsHidden = x.IsHidden
-            });
+            Contract.Requires(context != null, "The context must not be null.");
+            var dataPointConfigurations = (from cp in context.DataPointCategoryProperties
+                                           join c in context.DataPointConfigurations on cp.DataPointCategoryPropertyId equals c.DataPointCategoryPropertyId
+                                           select new DataPointConfigurationDTO
+                                           {
+                                               DataPointConfigurationId = c.DataPointConfigurationId,
+                                               OfficeId = c.OfficeId,
+                                               CategoryPropertyId = cp.DataPointCategoryPropertyId,
+                                               CategoryId = cp.DataPointCategoryId,
+                                               CategoryName = cp.DataPointCategory.DataPointCategoryName,
+                                               PropertyId = cp.DataPointPropertyId,
+                                               PropertyName = cp.DataPointProperty.DataPointPropertyName,
+                                               IsRequired = true
+                                           });
             return dataPointConfigurations;
         }
     }

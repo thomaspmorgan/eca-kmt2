@@ -39,7 +39,7 @@ angular.module('staticApp')
     })
     .state('projects.itineraries', {
         url: '/itinerary',
-        templateUrl: 'app/projects/itinerary.html',
+        templateUrl: 'app/projects/itineraries.html',
         requireADLogin: true
     })
     .state('projects.implementers', {
