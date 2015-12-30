@@ -176,9 +176,9 @@
                 }
 
                 loadStudentCreations();
-                loadEducationLevels();                
-            }
-        };
+                loadEducationLevels();
+                        }
+                };
 
         return directive;
     }

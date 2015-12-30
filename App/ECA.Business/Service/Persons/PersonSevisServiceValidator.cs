@@ -60,7 +60,7 @@ namespace ECA.Business.Service.Persons
 
             // temporary to test xml serialization
             //GetStudentUpdateXml(updateVisitor);
-            
+
             return final;
         }
 
@@ -204,7 +204,7 @@ namespace ECA.Business.Service.Persons
                     ForeignDegreeLevel = "FD lvl",
                     ForeignFieldOfStudy = "F FS",
                     Remarks = "Rmks"
-                }                
+                }
             };
             // site of activity
             ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
@@ -253,7 +253,7 @@ namespace ECA.Business.Service.Persons
 
             };
             ExchVisitor.userID = participant.PersonId.ToString();
-
+            
             // TODO: complete when dependent feature is available
             ExchVisitor.Dependent = new UpdatedDependent
             {
@@ -293,7 +293,7 @@ namespace ECA.Business.Service.Persons
         }
 
         private void GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
-        {
+            {
             //XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
             //var settings = new XmlWriterSettings
             //{
@@ -317,7 +317,7 @@ namespace ECA.Business.Service.Persons
             if (file.Exists)
             {
                 file.Delete();
-            }            
+            }
             XmlWriter xfile = XmlWriter.Create(path);
             writer.Serialize(xfile, validationEntity);
             xfile.Close();

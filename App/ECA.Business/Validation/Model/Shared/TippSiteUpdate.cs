@@ -25,7 +25,7 @@ namespace ECA.Business.Validation.Model.Shared
         /// Signature date by EV
         /// </summary>
         public DateTime EvSignatureDate { get; set; }
-
+        
         /// <summary>
         /// Supervisor signature
         /// </summary>
