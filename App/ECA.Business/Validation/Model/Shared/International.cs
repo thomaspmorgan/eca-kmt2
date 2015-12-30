@@ -8,6 +8,9 @@ namespace ECA.Business.Validation.Model.Shared
     [Validator(typeof(InternationalValidator))]
     public class International
     {
+        public International()
+        { }
+
         /// <summary>
         /// International organization 1
         /// </summary>

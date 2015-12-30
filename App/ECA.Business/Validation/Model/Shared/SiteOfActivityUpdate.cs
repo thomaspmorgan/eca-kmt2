@@ -10,28 +10,31 @@ namespace ECA.Business.Validation.Model.Shared
     [Validator(typeof(SiteOfActivityUpdateValidator))]
     public class SiteOfActivityUpdate
     {
+        public SiteOfActivityUpdate()
+        { }
+
         /// <summary>
         /// Add site of activity
         /// </summary>
-        [XmlArrayItem("Add xsi:type=\"AddSOA\"")]
+        [XmlElement("Add xsi:type=\"AddSOA\"")]
         public SiteOfActivitySOA AddSOA { get; set; }
 
         /// <summary>
         /// Site of activity indicating site is exempt
         /// </summary>
-        [XmlArrayItem("Add xsi:type=\"AddEXEMPT\"")]
+        [XmlElement("Add xsi:type=\"AddEXEMPT\"")]
         public SiteOfActivityExemptUpdate AddEXEMPT { get; set; }
 
         /// <summary>
         /// Site of activity indicating site is seeking employment
         /// </summary>
-        [XmlArrayItem("Add xsi:type=\"AddSEEKINGEMP\"")]
+        [XmlElement("Add xsi:type=\"AddSEEKINGEMP\"")]
         public SiteOfActivitySeekingGemp AddSEEKINGEMP { get; set; }
 
         /// <summary>
         /// Site of activity indicating site is on travel
         /// </summary>
-        [XmlArrayItem("Add xsi:type=\"AddONTRAVEL\"")]
+        [XmlElement("Add xsi:type=\"AddONTRAVEL\"")]
         public SiteOfActivityAddOnTravel AddONTRAVEL { get; set; }
 
         /// <summary>

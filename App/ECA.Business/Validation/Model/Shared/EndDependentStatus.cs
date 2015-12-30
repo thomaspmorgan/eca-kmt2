@@ -1,4 +1,5 @@
-﻿namespace ECA.Business.Validation.Model
+﻿
+namespace ECA.Business.Validation.Model
 {
     /// <summary>
     /// End the status for a dependent

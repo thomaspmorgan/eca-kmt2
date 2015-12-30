@@ -6,6 +6,9 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(CancelDependentValidator))]
     public class CancelDependent
     {
+        public CancelDependent()
+        { }
+
         public string dependentSevisID { get; set; }
         
         public string Reason { get; set; }
