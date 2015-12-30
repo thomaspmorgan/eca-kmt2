@@ -91,7 +91,6 @@ namespace ECA.WebApi.App_Start
                 list.Add(new AddressToEntityDocumentSaveAction(new AppSettings()));
                 return list;
             }));
-            System.Data.Entity.Database.SetInitializer<EcaContext>(new NullDatabaseInitializer<EcaContext>());
         }
 
         /// <summary>

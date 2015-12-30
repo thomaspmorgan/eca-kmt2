@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddFund.cs" />
+    <Compile Include="AddFundConfig.cs" />
     <Compile Include="AuthHelper.cs" />
     <Compile Include="ContentMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,7 +11,7 @@ namespace UITest.Core
 {
     public class OutgoingFund
     {
-        public static void AddFundOut(BrowserWindow browserWindow)
+        public static void AddFundOut(BrowserWindow browserWindow, AddFundConfig config)
         {
             //add funding item prop
             HtmlButton addNewFund = new HtmlButton(browserWindow);
@@ -82,6 +82,7 @@ namespace UITest.Core
             RefFYField.WaitForControlReady();
             Assert.AreEqual(true, RefFYField.Exists);
 
+
             //select funding source name label
             HtmlLabel SelectSource = new HtmlLabel(browserWindow);
             SelectSource.SearchProperties.Add(HtmlLabel.PropertyNames.InnerText,
@@ -139,6 +140,13 @@ namespace UITest.Core
             Assert.AreEqual(true, CancelFund.Exists);
 
             //END OF MODAL PROPS
+
+            //MODAL ACTIONS OUTGOING
+
+
+            //select FY value
+            Mouse.Click(RefFYField.);
+
         }
 
     }
