@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 using UITest.Core;
 using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
+using ECA.Data;
 
 namespace OfficeFunding.Test
 {
@@ -70,8 +71,12 @@ namespace OfficeFunding.Test
             //Add Outgoing Funding Item***
             //
             //TestPropertyAttribute?
+            var config = new AddFundConfig();
+            config.FiscalYear = DateTime.Now.Year;
+            config.SourceRecipientTypeName = MoneyFlowSourceRecipientType.Project.Value;
+            config.SearchRecipient = "Cultural Heritage Center";
+            OutgoingFund.AddFundOut(browserWindow, config);
 
-            OutgoingFund.AddFundOut(browserWindow);
 
             IncomingFund.AddFundIn(browserWindow);
 
