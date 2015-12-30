@@ -59,7 +59,7 @@ namespace ECA.Business.Service.Persons
             }
 
             // temporary to test xml serialization
-            GetStudentUpdateXml(updateVisitor);
+            //GetStudentUpdateXml(updateVisitor);
             
             return final;
         }
@@ -204,6 +204,18 @@ namespace ECA.Business.Service.Persons
                     ForeignDegreeLevel = "FD lvl",
                     ForeignFieldOfStudy = "F FS",
                     Remarks = "Rmks"
+                }                
+            };
+            // site of activity
+            ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
+            {
+                AddSOA = new SiteOfActivitySOA
+                {
+                    printForm = false,
+                    Address1 = "123 Some St",
+                    PostalCode = "12345",
+                    SiteName = "site 1",
+                    PrimarySite = true
                 }
             };
             // Reprint
@@ -241,16 +253,25 @@ namespace ECA.Business.Service.Persons
 
             };
             ExchVisitor.userID = participant.PersonId.ToString();
-            
-            // TODO: complete when dependent feature is available
-            //student.createDependent = null;
-            //student.createDependent = new CreateDependent
-            //{
-            //    Dependent = new AddDependent {
 
-            //    },
-            //    Remarks = ""
-            //};
+            // TODO: complete when dependent feature is available
+            ExchVisitor.Dependent = new UpdatedDependent
+            {
+                Edit = new EditDependent
+                {
+                    dependentSevisID = "1",
+                    printForm = false,
+                    BirthDate = new DateTime(1988, 4, 18),
+                    Gender = "1",
+                    BirthCountryCode = "01",
+                    CitizenshipCountryCode = "01",
+                    FullName = new FullName
+                    {
+                        FirsName = "Some",
+                        LastName = "Dependent"
+                    }
+                }
+            };
 
             var batchHeader = new BatchHeader
             {
@@ -289,10 +310,14 @@ namespace ECA.Business.Service.Persons
 
             // write file
             XmlSerializer writer = new XmlSerializer(validationEntity.GetType());
-
-            var path = @"C:\Users\Wassim Boustani\Documents\SevisBatch.xml";
-                //Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SevisBatch.xml";
+            var path = @"C:\temp\SevisBatch.xml";
+            //Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SevisBatch.xml";
             //FileStream file = File.Create(path);
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }            
             XmlWriter xfile = XmlWriter.Create(path);
             writer.Serialize(xfile, validationEntity);
             xfile.Close();
