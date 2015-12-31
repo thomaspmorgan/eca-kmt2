@@ -77,6 +77,9 @@ angular.module('staticApp')
       }
 
       $scope.view.getOffices = function (tableState) {
+          if ($scope.view.listType === $scope.view.hierarchyKey && tableState.search && tableState.search.predicateObject) {
+              delete tableState.search.predicateObject.$;
+          }
           $scope.view.officesLoading = true;
           TableService.setTableState(tableState);
           var params = {
