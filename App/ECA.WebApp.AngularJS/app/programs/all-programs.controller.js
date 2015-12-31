@@ -153,15 +153,19 @@ angular.module('staticApp')
 
       function loadProgramsInHierarchy(params, tableState) {
           $scope.view.programsLoading = true;
+          //return ProgramService.getAllProgramsHierarchy(params)
+          //.then(function (data) {
+          //    processData(data, tableState, params);
+          //});
           return ProgramService.getAllProgramsHierarchy(params)
-          .then(function (data) {
-              processData(data, tableState, params);
+          .then(function (response) {
+              processData(response, tableState, params);
           });
       };
 
-      function processData(data, tableState, params) {
-          var programs = data.results;
-          var total = data.total;
+      function processData(response, tableState, params) {
+          var programs = response.data.results || response.results;
+          var total = response.data.total || response.total;
           var start = 0;
           if (programs.length > 0) {
               start = params.start + 1;

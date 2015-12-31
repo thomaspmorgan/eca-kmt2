@@ -153,8 +153,8 @@ angular.module('staticApp')
                   }
               }
               transformedLocation.locationDisplay = result[service.geoCodingConstants.display];
-              transformedLocation.latitude = result.geometry.location.G;
-              transformedLocation.longitude = result.geometry.location.K;
+              transformedLocation.latitude = result.geometry.location.lat();
+              transformedLocation.longitude = result.geometry.location.lng();
               return service.get(service.getCountryLocationParams(transformedLocation))
               .then(function (resultCountries) {
                   if (resultCountries.total === 1) {

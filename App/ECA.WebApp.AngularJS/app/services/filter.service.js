@@ -45,11 +45,11 @@ angular.module('staticApp')
               },
 
               sortBy: function (propertyName) {
-                  return this._sortBy(propertyName, 'asc');
+                  return this._sortBy(propertyName, ConstantsService.ascending);
               },
 
               sortByDescending: function (propertyName) {
-                  return this._sortBy(propertyName, 'desc');
+                  return this._sortBy(propertyName, ConstantsService.descending);
               },
 
               _sortBy: function (propertyName, direction) {
@@ -63,11 +63,11 @@ angular.module('staticApp')
               },
 
               thenBy: function (propertyName) {
-                  return this._thenBy(propertyName, 'asc');
+                  return this._thenBy(propertyName, ConstantsService.ascending);
               },
 
               thenByDescending: function (propertyName) {
-                  return this._thenBy(propertyName, 'desc');
+                  return this._thenBy(propertyName, ConstantsService.descending);
               },
 
               _thenBy: function (propertyName, direction) {
