@@ -21,9 +21,10 @@ namespace ECA.Business.Service.Persons
     {
         private IParticipantPersonsSevisService participantService;
 
-        public PersonSevisServiceValidator(EcaContext context) : base(context)
+        public PersonSevisServiceValidator(EcaContext context, IParticipantPersonsSevisService participantService) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            this.participantService = participantService;
         }
 
         /// <summary>
