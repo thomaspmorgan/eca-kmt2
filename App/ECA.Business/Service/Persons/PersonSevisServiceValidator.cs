@@ -19,6 +19,8 @@ namespace ECA.Business.Service.Persons
 {
     public class PersonSevisServiceValidator : DbContextService<EcaContext>, IPersonSevisServiceValidator
     {
+        private IParticipantPersonsSevisService participantService;
+
         public PersonSevisServiceValidator(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -42,6 +44,8 @@ namespace ECA.Business.Service.Persons
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
 
+            participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
+
             return final;
         }
 
@@ -58,12 +62,14 @@ namespace ECA.Business.Service.Persons
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
 
+            participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
+
             // temporary to test xml serialization
             //GetStudentUpdateXml(updateVisitor);
 
             return final;
         }
-
+        
         /// <summary>
         /// Get populated participant person sevis object
         /// </summary>

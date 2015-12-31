@@ -269,7 +269,31 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
+        
+        /// <summary>
+        /// Update a participant SEVIS validation status
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <param name="count"></param>
+        public void UpdateParticipantPersonSevisCommStatus(int participantId, int count)
+        {
+            var newStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participantId,
+                AddedOn = DateTimeOffset.Now
+            };
 
+            if (count > 0)
+            {
+                newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
+            }
+            else
+            {
+                newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
+            }
+
+            Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+        }
 
         #endregion
     }

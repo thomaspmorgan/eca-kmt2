@@ -109,5 +109,8 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantIds">The participant ids to update communcation status</param>
         /// <returns>List of participant ids that were updated</returns>
         Task<int[]> SendToSevis(int[] participantIds);
+
+
+        void UpdateParticipantPersonSevisCommStatus(int participantId, int count);
     }
 }

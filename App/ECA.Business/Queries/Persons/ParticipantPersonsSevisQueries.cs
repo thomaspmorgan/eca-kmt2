@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -25,7 +26,6 @@ namespace ECA.Business.Queries.Persons
                              ParticipantId = p.ParticipantId,
                              SevisId = p.SevisId,
                              ProjectId = p.Participant.ProjectId,
-
                              ParticipantType = p.Participant.ParticipantType != null ? p.Participant.ParticipantType.Name : null,
                              ParticipantStatus = p.Participant.Status != null ? p.Participant.Status.Status : null,
                              IsCancelled = p.IsCancelled,
@@ -36,7 +36,6 @@ namespace ECA.Business.Queries.Persons
                              IsValidatedViaRTI = p.IsValidatedViaRTI,
                              StartDate = p.StartDate,
                              EndDate = p.EndDate,
-
                              SevisCommStatuses = p.ParticipantPersonSevisCommStatuses.Select(s => new ParticipantPersonSevisCommStatusDTO()
                              {
                                  Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId,
@@ -46,7 +45,7 @@ namespace ECA.Business.Queries.Persons
                          });
             return query;
         }
-
+        
         /// <summary>
         /// Creates a query to return all participantPersonSevises in the context.
         /// </summary>
