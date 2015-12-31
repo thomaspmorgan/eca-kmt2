@@ -36,7 +36,6 @@ angular.module('staticApp')
       $scope.view.isCollaboratorExpanded = false;
       $scope.view.numberOfCollaborators = -1;
       $scope.view.collaboratorsLastUpdated = null;
-
       $scope.view.addPersonFilterValue = 'person';
       $scope.view.addOrganizationFilterValue = 'organization';
       $scope.view.addParticipantFilter = 'person';
@@ -53,7 +52,6 @@ angular.module('staticApp')
       $scope.view.tabInfo = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.tabExchangeVistor = false;
-
       $scope.view.sevisCommStatuses = null;
 
       $scope.sevisInfo = {};
@@ -134,7 +132,6 @@ angular.module('staticApp')
               $log.info('Dismiss select participant type dialog...');
           })
           .then(function () {
-
           });
       };
 
@@ -201,8 +198,7 @@ angular.module('staticApp')
           }
           $scope.view.isLoadingAvailableParticipants = true;
           var dfd = null;
-
-
+          
           if (participantType === $scope.view.addPersonFilterValue) {
               dfd = PersonService.getPeople(params);
           }
@@ -409,9 +405,7 @@ angular.module('staticApp')
       $scope.saveExchangeVisitorInfo = function (participantId) {
           saveExchangeVisitorById(participantId);
       };
-
-
-
+      
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           loadSevisInfo(participantId);
