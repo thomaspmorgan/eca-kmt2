@@ -1,21 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-angular.module('staticApp').factory('ConstantsService', function() {
+﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -159,9 +142,11 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			exchangeVisitor: {id: 2, value: "Exchange Visitor"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
+		ascending: 'ASC',
 		cancelProgramChangesEventName: 'cancelProgramEdit',
 		cancelProjectEventName: 'cancelProjectEdit',
 		containsAnyComparisonType: 'containsany',
+		descending: 'DESC',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
 		greaterThanComparisonType: 'gt',
@@ -198,5 +183,4 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		searchDelimiter: ' '
 	};
 });
-
 

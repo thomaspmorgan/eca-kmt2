@@ -8,7 +8,7 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('OfficeService', function (DragonBreath, $q) {
+  .factory('OfficeService', function (DragonBreath, ProgramService, orderByFilter, $q) {
 
       return {
           get: function (id) {
@@ -20,9 +20,17 @@ angular.module('staticApp')
           create: function (program) {
               return DragonBreath.create(program, 'offices');
           },
-          getPrograms: function (params, officeId) {
+          getProgramsAlphabetically: function (params, officeId) {
               var path = 'offices/' + officeId + '/Programs';
-              return DragonBreath.get(params, path)
+              return DragonBreath.get(params, path);
+          },
+          getProgramsByHierarchy: function (params, officeId) {
+              return this.getProgramsAlphabetically(params, officeId)
+              .success(function (data) {
+                  ProgramService.setChildrenOfProgramHierarchy(data.results);
+                  data.results = orderByFilter(data.results, 'sortOrder');
+                  return data;
+              });
           },
           getChildOffices: function (officeId) {
               var path = 'offices/' + officeId + '/ChildOffices';

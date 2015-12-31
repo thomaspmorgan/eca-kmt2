@@ -69,7 +69,7 @@ namespace ECA.Business.Service.Persons
 
             return final;
         }
-        
+
         /// <summary>
         /// Get populated participant person sevis object
         /// </summary>
