@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Model.Shared
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Validator(typeof(ParticipantInfoUpdateValidator))]
     public class ParticipantInfoUpdate
     {
