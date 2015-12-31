@@ -566,7 +566,6 @@
     <Content Include="index.html" />
     <Content Include="app\app.module.js" />
     <Content Include="app\offices\all-offices.controller.js" />
-    <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\home\home.controller.js" />
     <Content Include="app\auth\logout.controller.js" />
     <Content Include="app\offices\office.controller.js" />

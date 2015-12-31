@@ -6,7 +6,6 @@ angular.module('staticApp')
     $stateProvider.state('allprograms', {
         url: '/allprograms',
         templateUrl: 'app/programs/all-programs.html',
-        controller: 'AllProgramsCtrl',
         requireADLogin: true
     })
     .state('programs', {
