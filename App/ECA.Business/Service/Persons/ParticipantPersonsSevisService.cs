@@ -171,7 +171,11 @@ namespace ECA.Business.Service.Persons
             return participantPersonSevisCommStatuses;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="participantIds"></param>
+        /// <returns></returns>
         public IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds)
         {
             var results = ParticipantPersonsSevisCommStatusQueries.CreateParticipantPersonsSevisCommStatusesDTOsByParticipantIdsQuery(Context, participantIds);
@@ -200,7 +204,6 @@ namespace ECA.Business.Service.Persons
                     ParticipantId = status.ParticipantId,
                     SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
                     AddedOn = DateTimeOffset.Now
-
                 };
 
                 Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
