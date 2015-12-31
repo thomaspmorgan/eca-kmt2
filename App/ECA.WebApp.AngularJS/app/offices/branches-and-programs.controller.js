@@ -35,6 +35,9 @@ angular.module('staticApp')
       $scope.view.isLoadingBranches = true;
       $scope.view.header = 'Branches & Programs';
       $scope.view.programsLimit = 25;
+      $scope.view.hierarchyKey = "hierarchy";
+      $scope.view.alphabeticalKey = "alpha";
+      $scope.view.listType = $scope.view.hierarchyKey;
 
       $scope.view.onCreateProgramClick = function () {
           var addProgramModalInstance = $modal.open({
@@ -62,6 +65,16 @@ angular.module('staticApp')
           });
       }
 
+      $scope.view.onSearchChange = function () {
+          $scope.view.listType = $scope.view.alphabeticalKey;
+      };
+
+      $scope.view.onProgramFiltersChange = function () {
+          console.assert($scope.getAllProgramsTableState, "The table state function must exist.");
+          var tableState = $scope.getAllProgramsTableState();
+          return $scope.view.getPrograms(tableState);
+      }
+
       function getIds(element) {
           return element.id;
       };
@@ -83,7 +96,11 @@ angular.module('staticApp')
       }
 
       $scope.view.getPrograms = function (tableState) {
-          $scope.view.isLoadingPrograms = true;
+          //remove keyword search parameter if viewing programs in hiearchy
+          if ($scope.view.listType === $scope.view.hierarchyKey && tableState.search && tableState.search.predicateObject) {
+              delete tableState.search.predicateObject.$;
+          }
+
           TableService.setTableState(tableState);
           var params = {
               start: TableService.getStart(),
@@ -91,20 +108,49 @@ angular.module('staticApp')
               sort: TableService.getSort(),
               filter: TableService.getFilter(),
               keyword: TableService.getKeywords()
-          };
-          return OfficeService.getPrograms(params, officeId)
-              .then(function (data, status, headers, config) {
-                  $scope.view.isLoadingPrograms = false;
-                  processData(data, tableState, params);
-              })
-              .catch(function (response) {
-                  var message = "Unable to load office programs.";
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
+          };          
+          if ($scope.view.listType === $scope.view.alphabeticalKey) {
+              return loadProgramsAlphabetically(params, tableState);
+          }
+          else {
+              return loadProgramsInHierarchy(params, tableState);
+          }
+      };
+
+      function loadProgramsAlphabetically(params, tableState) {
+          $scope.view.isLoadingPrograms = true;
+          return OfficeService.getProgramsAlphabetically(params, officeId)
+          .then(function (response) {
+              angular.forEach(response.data.results, function (program, index) {
+                  program.isRoot = true;
+                  program.isHidden = false;
+                  program.programLevel = 0;
               });
-      }
+              processData(response, tableState, params);
+          })
+          .catch(function (response) {
+              var message = "Unable to load programs.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      };
+
+      function loadProgramsInHierarchy(params, tableState) {
+          $scope.view.isLoadingPrograms = true;
+          return OfficeService.getProgramsByHierarchy(params, officeId)
+          .then(function (response) {
+              processData(response, tableState, params);
+          })
+          .catch(function (response) {
+              var message = "Unable to load programs.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      };
+
 
       function processData(response, tableState, params) {
+          
           var programs = response.data.results;
           var total = response.data.total;
           var start = 0;
@@ -119,7 +165,7 @@ angular.module('staticApp')
           tableState.pagination.numberOfPages = Math.ceil(total / limit);
 
           $scope.view.programs = programs;
-          $scope.view.programsLoading = false;
+          $scope.view.isLoadingPrograms = false;
       };
 
       function loadChildOffices(officesId) {

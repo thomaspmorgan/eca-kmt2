@@ -8,7 +8,7 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('ProgramService', function (DragonBreath, $q) {
+  .factory('ProgramService', function (DragonBreath, ConstantsService, $q) {
       var newProgram;
       function getProgram(data) {
           if (data.results) {
@@ -53,20 +53,41 @@ angular.module('staticApp')
               var path = 'programs/' + programId + '/collaborators';
               return DragonBreath.get(params, path);
           },
-          getValidParentPrograms: function(programId, params){
+          getValidParentPrograms: function (programId, params) {
               var path = 'programs/' + programId + '/ParentPrograms';
               return DragonBreath.get(params, path);
           },
-          getAllProgramsHierarchy: function (params) {
+
+          //if parentProgramId is defined, the first level children will be returned
+          //if parentProgramId is not defined, then the root programs returned
+          getAllProgramsHierarchy: function (params, parentProgramId) {
               var me = this;
-              var defer = $q.defer();
               var path = 'programs/Hierarchy';
-              DragonBreath.get(params, path)
+              params = params || {};
+              params.filter = params.filter || [];
+
+              if (parentProgramId) {
+                  params.filter.push({
+                      comparison: ConstantsService.equalComparisonType,
+                      property: 'parentProgram_ProgramId',
+                      value: parentProgramId
+                  });
+              }
+              else {
+                  params.filter.push({
+                      comparison: ConstantsService.equalComparisonType,
+                      property: 'programLevel',
+                      value: 0
+                  });
+              }
+
+              return DragonBreath.get(params, path)
                 .success(function (data) {
-                    me.setChildrenOfProgramHierarchy(data.results);
-                    defer.resolve(data);
+                    angular.forEach(data.results, function (program, index) {
+                        program.isRoot = program.programLevel === 0;
+                    });
+                    return data;
                 });
-              return defer.promise;
           },
 
           setChildrenOfProgramHierarchy: function (programsAsFlatList) {
