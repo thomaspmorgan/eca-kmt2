@@ -65,7 +65,7 @@
                                 </h4>
                             </div>
                         </div>
-                        <div class="col-md-2" ng-show="!office.loadingChildrenOffices">
+                        <div class="col-md-2" ng-show="!office.loadingChildrenOffices && office.hasChildren">
                             <span ng-click="view.onExpandClick(office)" ng-show="view.listType === view.hierarchyKey && (!office.children || office.children.length > 0)" style="cursor:pointer;" class="right">
                                 <i class="material-icons md-24" ng-show="!office.isExpanded">expand_less</i>
                             </span>

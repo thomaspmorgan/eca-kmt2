@@ -18,6 +18,7 @@ With Offices As
 	  ,TopLevelOffice.[Description]
       ,[ParentOrganization_OrganizationId]
 	  ,cast(row_number()over(partition by TopLevelOffice.ParentOrganization_OrganizationId order by TopLevelOffice.Name) as varchar(max)) as [Path]
+	  ,CASE WHEN EXISTS (SELECT 1 FROM dbo.Organization AS o1 WHERE o1.ParentOrganization_OrganizationId = TopLevelOffice.OrganizationId) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS HasChildren
 	  ,1 as OfficeLevel
   FROM [Organization] as TopLevelOffice
   JOIN OrganizationType as OrgType
@@ -34,6 +35,7 @@ With Offices As
       ,Org.Description
       ,Org.[ParentOrganization_OrganizationId]
 	  ,[Path] +'-'+ cast(row_number()over(partition by Org.ParentOrganization_OrganizationId order by Org.Name) as varchar(max))
+	  ,CASE WHEN EXISTS (SELECT 1 FROM dbo.Organization AS o2 WHERE o2.ParentOrganization_OrganizationId = Org.OrganizationId) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS HasChildren
 	  , OL.OfficeLevel + 1
   FROM [Organization] as Org
   
