@@ -62,6 +62,11 @@ namespace ECA.Business.Service.Persons
             var validator = new SEVISBatchCreateUpdateEVValidator();
             var results = await validator.ValidateAsync(updateVisitor);
 
+            if (results.IsValid)
+            {
+
+            }
+
             var final = new List<ValidationResult>();
             foreach (var error in results.Errors)
             {
