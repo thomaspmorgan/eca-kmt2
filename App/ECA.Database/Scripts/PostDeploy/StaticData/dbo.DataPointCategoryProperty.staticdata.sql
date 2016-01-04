@@ -36,9 +36,6 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('1', '1', '1')
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('2', '1', '2')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('3', '2', '1')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('4', '2', '2')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('5', '2', '3')
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('6', '2', '4')
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('7', '2', '5')
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('8', '3', '1')
