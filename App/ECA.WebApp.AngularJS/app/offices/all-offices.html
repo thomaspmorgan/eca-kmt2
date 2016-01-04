@@ -61,11 +61,11 @@
                             <div ng-class="{'col-md-12': office.isRoot, 'col-md-11': !office.isRoot}">
                                 <span class="owner-office" ng-bind-html="office.officeSymbol | highlight:view.officeFilter">{{officeSymbol.officeSymbol}}</span>
                                 <h4>
-                                    <a ng-bind-html="office.name | highlight:view.officeFilter" ui-sref="office.overview({officeId: office.organizationId})">{{office.name}}</a>
+                                    <a ng-bind-html="office.name | highlight:view.officeFilter" ui-sref="offices.overview({officeId: office.organizationId})">{{office.name}}</a>
                                 </h4>
                             </div>
                         </div>
-                        <div class="col-md-2" ng-show="!office.loadingChildrenOffices">
+                        <div class="col-md-2" ng-show="!office.loadingChildrenOffices && office.hasChildren">
                             <span ng-click="view.onExpandClick(office)" ng-show="view.listType === view.hierarchyKey && (!office.children || office.children.length > 0)" style="cursor:pointer;" class="right">
                                 <i class="material-icons md-24" ng-show="!office.isExpanded">expand_less</i>
                             </span>

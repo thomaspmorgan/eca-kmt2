@@ -249,10 +249,18 @@
 
                 function scrollToProgram(program) {
                     var id = program.divId;
+                    var toolbarDivs = document.getElementsByClassName('toolbar');
+                    var additionalOffset = 0;
+                    if (toolbarDivs.length > 0) {
+                        angular.forEach(toolbarDivs, function (toolbarDiv, index) {
+                            var angularElement = angular.element(toolbarDiv)[0];
+                            additionalOffset += angularElement.offsetHeight;
+                        });
+                    }
                     var options = {
                         duration: 500,
                         easing: 'easeIn',
-                        offset: 115,
+                        offset: 70 + additionalOffset,
                         callbackBefore: function (element) { },
                         callbackAfter: function (element) { }
                     }

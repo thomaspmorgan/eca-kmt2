@@ -211,7 +211,7 @@ angular.module('staticApp')
           var options = {
               duration: 500,
               easing: 'easeIn',
-              offset: 115,
+              offset: 70,
               callbackBefore: function (element) { },
               callbackAfter: function (element) { }
           }

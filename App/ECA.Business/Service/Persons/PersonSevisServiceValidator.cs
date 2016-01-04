@@ -31,7 +31,7 @@ namespace ECA.Business.Service.Persons
         /// Do validation for sevis object, which includes participant person object
         /// </summary>
         /// <param name="participantId">Entity to validate</param>
-        /// <returns>validation results</returns>
+        /// <returns>validation results</returns>        
         public List<ValidationResult> ValidateSevis(int participantId)
         {
             var updateStudent = GetUpdateExchangeVisitor(participantId);
