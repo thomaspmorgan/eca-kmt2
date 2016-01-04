@@ -31,7 +31,7 @@ namespace ECA.Business.Service.Persons
         /// Do validation for sevis object, which includes participant person object
         /// </summary>
         /// <param name="participantId">Entity to validate</param>
-        /// <returns>validation results</returns>        
+        /// <returns>validation results</returns>
         public List<ValidationResult> ValidateSevis(int participantId)
         {
             var updateStudent = GetUpdateExchangeVisitor(participantId);
@@ -50,6 +50,11 @@ namespace ECA.Business.Service.Persons
             return final;
         }
 
+        /// <summary>
+        /// Do validation for sevis object, which includes participant person object
+        /// </summary>
+        /// <param name="participantId">Entity to validate</param>
+        /// <returns>validation results</returns>
         public async Task<List<ValidationResult>> ValidateSevisAsync(int participantId)
         {
             var updateVisitor = GetUpdateExchangeVisitor(participantId);
@@ -62,7 +67,7 @@ namespace ECA.Business.Service.Persons
             {
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
-
+            // update the participant sevis status
             participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
 
             // temporary to test xml serialization
