@@ -271,7 +271,7 @@ namespace ECA.Business.Service.Persons
         }
         
         /// <summary>
-        /// Update a participant SEVIS validation status
+        /// Update a participant SEVIS pre-validation status
         /// </summary>
         /// <param name="participantId"></param>
         /// <param name="count"></param>
