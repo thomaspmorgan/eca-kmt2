@@ -223,7 +223,6 @@ namespace ECA.Business.Service.Admin
 
         public async Task<List<DataPointConfigurationDTO>> GetProgramDataPointConfigurationsAsync(int programId)
         {
-            // Get available properties
             var dataPointConfigurations = await Context.DataPointCategoryProperties.Select(x => new DataPointConfigurationDTO
             {
                 CategoryPropertyId = x.DataPointCategoryPropertyId,

@@ -1,0 +1,209 @@
+missionCode,missionName,regionCode
+ABW,U.S. Mission to Aruba,WHA
+AFG,U.S. Mission to Afghanistan,SCA
+AGO,U.S. Mission to Angola,AF
+ALB,U.S. Mission to Albania,EUR
+AND,U.S. Mission to Andorra,EUR
+ARE,U.S. Mission to United Arab Emirates,NEA
+ARG,U.S. Mission to Argentina,WHA
+ARM,U.S. Mission to Armenia,EUR
+ASEAN,U.S. Mission to Association of Southeast Asian Nations,EAP
+ATG,U.S. Mission to Antigua and Barbuda,WHA
+AUS,U.S. Mission to Australia,EAP
+AUT,U.S. Mission to Austria,EUR
+AZE,U.S. Mission to Azerbaijan,EUR
+BDI,U.S. Mission to Burundi,AF
+BEL,U.S. Mission to Belgium,EUR
+BEN,U.S. Mission to Benin,AF
+BFA,U.S. Mission to Burkina Faso,AF
+BGD,U.S. Mission to Bangladesh,SCA
+BGR,U.S. Mission to Bulgaria,EUR
+BHR,U.S. Mission to Bahrain,NEA
+BHS,U.S. Mission to Bahamas,WHA
+BIH,U.S. Mission to Bosnia and Herzegovina,EUR
+BLR,U.S. Mission to Belarus,EUR
+BLZ,U.S. Mission to Belize,WHA
+BMU,U.S. Mission to Bermuda,WHA
+BOL,U.S. Mission to Bolivia,WHA
+BRA,U.S. Mission to Brazil,WHA
+BRB,U.S. Mission to Barbados,WHA
+BRN,U.S. Mission to Brunei ,EAP
+BWA,U.S. Mission to Botswana,AF
+CAF,U.S. Mission to Central African Republic,AF
+CAN,U.S. Mission to Canada,WHA
+CHE,U.S. Mission to Switzerland,EUR
+CHL,U.S. Mission to Chile,WHA
+CHN,U.S. Mission to China,EAP
+CIV,U.S. Mission to Cote d'Ivoire,AF
+CMR,U.S. Mission to Cameroon,AF
+COD,U.S. Mission to Democratic Republic of the Congo (Kinshasa),AF
+COG,U.S. Mission to Republic of the Congo (Brazzaville),AF
+COL,U.S. Mission to Colombia,WHA
+COM,U.S. Mission to Comoros,AF
+CPV,U.S. Mission to Cabo Verde,AF
+CRI,U.S. Mission to Costa Rica,WHA
+CUB,U.S. Mission to Cuba,WHA
+CUW,U.S. Mission to Curacao,WHA
+CYM,U.S. Mission to Cayman Islands,WHA
+CYP,U.S. Mission to Cyprus,EUR
+CZE,U.S. Mission to Czech Republic,EUR
+DEU,U.S. Mission to Germany,EUR
+DJI,U.S. Mission to Djibouti,AF
+DMA,U.S. Mission to Dominica,WHA
+DNK,U.S. Mission to Denmark,EUR
+DOM,U.S. Mission to Dominican Republic,WHA
+DZA,U.S. Mission to Algeria,NEA
+ECU,U.S. Mission to Ecuador,WHA
+EGY,U.S. Mission to Egypt,NEA
+ERI,U.S. Mission to Eritrea,AF
+ESP,U.S. Mission to Spain,EUR
+EST,U.S. Mission to Estonia,EUR
+ETH,U.S. Mission to Ethiopia,AF
+FIN,U.S. Mission to Finland,EUR
+FJI,"U.S. Mission to Fiji, Kiribati, Nauru, Tonga, Tuvalu",EAP
+FRA,U.S. Mission to France,EUR
+FSM,"U.S. Mission to Micronesia, Federated States of",EAP
+GAB,U.S. Mission to Gabon,AF
+GBR,U.S. Mission to United Kingdom,EUR
+GEO,U.S. Mission to Georgia,EUR
+GHA,U.S. Mission to Ghana,AF
+GIN,U.S. Mission to Guinea,AF
+GMB,U.S. Mission to Gambia,AF
+GNB,U.S. Mission to Guinea-Bissau,AF
+GNQ,U.S. Mission to Equatorial Guinea,AF
+GRC,U.S. Mission to Greece,EUR
+GRD,U.S. Mission to Grenada,WHA
+GTM,U.S. Mission to Guatemala,WHA
+GUY,U.S. Mission to Guyana,WHA
+HKG,U.S. Mission to Hong Kong and Macau,EAP
+HND,U.S. Mission to Honduras,WHA
+HRV,U.S. Mission to Croatia,EUR
+HTI,U.S. Mission to Haiti,WHA
+HUN,U.S. Mission to Hungary,EUR
+IDN,U.S. Mission to Indonesia,EAP
+IND,U.S. Mission to India,SCA
+IRL,U.S. Mission to Ireland,EUR
+IRN,U.S. Mission to Iran,NEA
+IRQ,U.S. Mission to Iraq,NEA
+ISL,U.S. Mission to Iceland,EUR
+ISR,U.S. Mission to Israel,NEA
+ITA,U.S. Mission to Italy,EUR
+JAM,U.S. Mission to Jamaica,WHA
+JOR,U.S. Mission to Jordan,NEA
+JPN,U.S. Mission to Japan,EAP
+JRU,U.S. Mission to Jerusalem,NEA
+KAZ,U.S. Mission to Kazakhstan,SCA
+KEN,U.S. Mission to Kenya,AF
+KGZ,U.S. Mission to Kyrgyz Republic,SCA
+KHM,U.S. Mission to Cambodia,EAP
+KNA,U.S. Mission to Saint Kitts and Nevis,WHA
+KOR,"U.S. Mission to (South) Korea, Republic of",EAP
+KOS,U.S. Mission to Kosovo,EUR
+KWT,U.S. Mission to Kuwait,NEA
+LAO,U.S. Mission to Laos People's Democratic Republic,EAP
+LBN,U.S. Mission to Lebanon,NEA
+LBR,U.S. Mission to Liberia,AF
+LBY,U.S. Mission to Libya,NEA
+LCA,U.S. Mission to Saint Lucia,WHA
+LIE,U.S. Mission to Liechtenstein,EUR
+LKA,U.S. Mission to Sri Lanka and Maldives,SCA
+LSO,U.S. Mission to Lesotho,AF
+LTU,U.S. Mission to Lithuania,EUR
+LUX,U.S. Mission to Luxembourg,EUR
+LVA,U.S. Mission to Latvia,EUR
+MAR,U.S. Mission to Morocco,NEA
+MCO,U.S. Mission to Monaco,EUR
+MDA,"U.S. Mission to Moldova, Republic of",EUR
+MDG,U.S. Mission to Madagascar,AF
+MDV,U.S. Mission to Maldives,SCA
+MEX,U.S. Mission to Mexico,WHA
+MHL,U.S. Mission to Marshall Islands,EAP
+MKD,"U.S. Mission to Macedonia, the Republic of",EUR
+MLI,U.S. Mission to Mali,AF
+MLT,U.S. Mission to Malta,EUR
+MMR,U.S. Mission to Burma,EAP
+MNE,U.S. Mission to Montenegro,EUR
+MNG,U.S. Mission to Mongolia,EAP
+MOZ,U.S. Mission to Mozambique,AF
+MRT,U.S. Mission to Mauritania,AF
+MUS,U.S. Mission to Mauritius,AF
+MWI,U.S. Mission to Malawi,AF
+MYS,U.S. Mission to Malaysia,EAP
+NAM,U.S. Mission to Namibia,AF
+NATO,U.S. Mission to North Atlantic Treaty Organization (NATO),EUR
+NEA,Test,NEA
+NER,U.S. Mission to Niger,AF
+NGA,U.S. Mission to Nigeria,AF
+NIC,U.S. Mission to Nicaragua,WHA
+NLD,U.S. Mission to Netherlands,EUR
+NOR,U.S. Mission to Norway,EUR
+NPL,U.S. Mission to Nepal,SCA
+NZL,U.S. Mission to New Zealand,EAP
+OMN,U.S. Mission to Oman,NEA
+OSCE,U.S. Mission to the Organization for Security and Cooperation in Europe (USOSCE),EUR
+PAK,U.S. Mission to Pakistan,SCA
+PAN,U.S. Mission to Panama,WHA
+PER,U.S. Mission to Peru,WHA
+PHL,U.S. Mission to Philippines,EAP
+PLW,U.S. Mission to Palau,EAP
+PNG,U.S. Mission to Papua New Guinea,EAP
+POL,U.S. Mission to Poland,EUR
+PRK,"U.S. Mission to (North) Korea, Democratic People's Republic of",EAP
+PRT,U.S. Mission to Portugal,EUR
+PRY,U.S. Mission to Paraguay,WHA
+QAT,U.S. Mission to Qatar,NEA
+ROU,U.S. Mission to Romania,EUR
+RUS,U.S. Mission to Russia,EUR
+RWA,U.S. Mission to Rwanda,AF
+SAU,U.S. Mission to Saudi Arabia,NEA
+SDN,U.S. Mission to Sudan,AF
+SEN,U.S. Mission to Senegal,AF
+SGP,U.S. Mission to Singapore,EAP
+SLE,U.S. Mission to Sierra Leone,AF
+SLV,U.S. Mission to El Salvador,WHA
+SMR,U.S. Mission to San Marino,EUR
+SOM,U.S. Mission to Somalia,AF
+SRB,U.S. Mission to Serbia,EUR
+SSD,U.S. Mission to South Sudan,AF
+STP,U.S. Mission to Sao Tome and Principe,AF
+SUR,U.S. Mission to Suriname,WHA
+SVK,U.S. Mission to Slovakia,EUR
+SVN,U.S. Mission to Slovenia,EUR
+SWE,U.S. Mission to Sweden,EUR
+SWZ,U.S. Mission to Swaziland,AF
+SYC,U.S. Mission to Seychelles,AF
+SYR,U.S. Mission to Syrian Arab Republic,NEA
+TCD,U.S. Mission to Chad,AF
+TEST,Mission for Testing,IO
+TGO,U.S. Mission to Togo,AF
+THA,U.S. Mission to Thailand,EAP
+TJK,U.S. Mission to Tajikistan,SCA
+TKM,U.S. Mission to Turkmenistan,SCA
+TLS,U.S. Mission to Timor-Leste,EAP
+TTO,U.S. Mission to Trinidad and Tobago,WHA
+TUN,U.S. Mission to Tunisia,NEA
+TUR,U.S. Mission to Turkey,EUR
+TWN,U.S. Mission to Taiwan,EAP
+TZA,"U.S. Mission to Tanzania, United Republic of",AF
+UGA,U.S. Mission to Uganda,AF
+UKR,U.S. Mission to Ukraine,EUR
+UNES,U.S. Mission to UNESCO (USUNESCO),IO
+UNGE,"U.S. Mission to the European Office of the United Nations, Geneva (USUN Geneva)",IO
+UNNY,U.S. Mission to the United Nations (USUN NY),IO
+UNRO,U.S. Mission to the UN Agencies in Rome (USUN Rome),IO
+UNVI,U.S. Mission to International Organizations in Vienna (UNVIE),IO
+URY,U.S. Mission to Uruguay,WHA
+USAU,U.S. Mission to the African Union (USAU),AF
+USEU,U.S. Mission to the European Union (USEU),EUR
+UZB,U.S. Mission to Uzbekistan,SCA
+VAT,U.S. Mission to Holy See (Vatican City State),EUR
+VCT,U.S. Mission to Saint Vincent and the Grenadines,WHA
+VEN,U.S. Mission to Venezuela,WHA
+VNM,U.S. Mission to Vietnam,EAP
+WSM,U.S. Mission to Samoa,EAP
+XFPC,Foreign Press Centers,IO
+XIO,U.S. Mission to International,IO
+YEM,U.S. Mission to Yemen,NEA
+ZAF,U.S. Mission to South Africa,AF
+ZMB,U.S. Mission to Zambia,AF
+ZWE,U.S. Mission to Zimbabwe,AF

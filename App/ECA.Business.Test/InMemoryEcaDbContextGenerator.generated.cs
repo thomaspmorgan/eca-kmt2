@@ -5,6 +5,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace ECA.Business.Test
 {
 	using System;
@@ -777,7 +796,6 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ParticipantStatus>(this.SingleOrDefault(x => x.ParticipantStatusId.Equals(keyValues.First())));
 		}
 	}
-
 	public class ParticipantTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantType>
 	{
 		public override ECA.Data.ParticipantType Find(params object[] keyValues)

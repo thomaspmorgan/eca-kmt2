@@ -149,44 +149,6 @@ angular.module('staticApp')
           }
       }
 
-      $scope.view.validateMinimumCategories = function ($value) {
-          if (!$scope.view.isCategoryRequired) {
-              return true;
-          }
-          if (!$value) {
-              return false;
-          }
-          if ($value.length < $scope.view.minimumRequiredFoci) {
-              return false;
-          }
-          return true;
-      }
-
-      $scope.view.validateMaximumCategories = function ($value) {
-          if (!$scope.view.isCategoryRequired) {
-              return true;
-          }
-          if (!$value) {
-              return true;
-          }
-          if ($value.length > $scope.view.maximumRequiredFoci) {
-              return false;
-          }
-          return true;
-      }
-
-      $scope.view.validateMinimumObjectives = function ($value) {
-          if (!$scope.view.isObjectivesRequired) {
-              return true;
-          }
-          if (!$value) {
-              return false;
-          }
-          else {
-              return $value.length > 0;
-          }
-      }
-
       $scope.view.validateMinimumPointsOfContact = function ($value) {
           if (!$value) {
               return false;
