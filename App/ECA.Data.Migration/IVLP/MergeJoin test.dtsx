@@ -1,0 +1,2815 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/22/2015 2:12:34 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{C40B3C6D-9549-4E69-B396-530D656F019F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MergeJoin test"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{598FEED9-111C-479E-945C-BAC386CE3DF2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{C8439E9D-A58E-49BA-94B3-DEF3E694BFF3}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\IVLP_ITINERARY_STOP"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IVLP_ITINERARY_STOP"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[IVLP_ITINERARY_STOP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Connections[OleDbConnection]"
+                  connectionManagerID="{1BFADDA8-32BA-4DC6-9374-881F888D0F56}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.KM_IVLP]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[START_DATE]"
+                      name="START_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[END_DATE]"
+                      name="END_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[CITY]"
+                      length="100"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[CITY]"
+                      name="CITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[STATE_CD]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[STATE_CD]"
+                      name="STATE_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_ORG_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_PERSON_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_DT]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_DT]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      name="START_DATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      name="END_DATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[CITY]"
+                      name="CITY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[STATE_CD]"
+                      name="STATE_CD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IVLP_ITINERARY_STOP_2"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[IVLP_ITINERARY_STOP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Connections[OleDbConnection]"
+                  connectionManagerID="{1BFADDA8-32BA-4DC6-9374-881F888D0F56}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.KM_IVLP]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[START_DATE]"
+                      name="START_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[END_DATE]"
+                      name="END_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[CITY]"
+                      length="100"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[CITY]"
+                      name="CITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[STATE_CD]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[STATE_CD]"
+                      name="STATE_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_ORG_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_PERSON_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_DT]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_ID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_DT]"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].ExternalColumns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      name="START_DATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      name="END_DATE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[CITY]"
+                      name="CITY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[STATE_CD]"
+                      name="STATE_CD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">2</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[START_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="START_DATE"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[START_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[END_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="END_DATE"
+                      cachedSortKeyPosition="3"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[END_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_ID"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[CITY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="CITY"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[STATE_CD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STATE_CD"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[STATE_CD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_ORG_ID"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[LOCAL_SPONSOR_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_PERSON_ID"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[LOCAL_SPONSOR_PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_CREATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_CREATE_ID"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_CREATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_CREATE_DT"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_UPDATE_ID"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_UPDATE_DT"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_ID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[START_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="START_DATE"
+                      cachedSortKeyPosition="3"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[START_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[END_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="END_DATE"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[END_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_ID"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[CITY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="CITY"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[STATE_CD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STATE_CD"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[STATE_CD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_ORG_ID"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[LOCAL_SPONSOR_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_PERSON_ID"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[LOCAL_SPONSOR_PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_CREATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_CREATE_ID"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_CREATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_CREATE_DT"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_UPDATE_ID"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_UPDATE_DT"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[START_DATE]"
+                      name="START_DATE"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[START_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[END_DATE]"
+                      name="END_DATE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[END_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[CITY]"
+                      name="CITY">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[CITY]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[STATE_CD]"
+                      name="STATE_CD">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[STATE_CD]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[LOCAL_SPONSOR_ORG_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[LOCAL_SPONSOR_PERSON_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_CREATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_CREATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_UPDATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input].Columns[ITINERARY_STOP_UPDATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_ID (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_ID (1)]"
+                      name="ITINERARY_STOP_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_ID (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_ID (1)]"
+                      name="ITINERARY_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[START_DATE (1)]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[START_DATE (1)]"
+                      name="START_DATE (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[START_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[END_DATE (1)]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[END_DATE (1)]"
+                      name="END_DATE (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[END_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[CITY (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[CITY (1)]"
+                      name="CITY (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[CITY]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[STATE_CD (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[STATE_CD (1)]"
+                      name="STATE_CD (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[STATE_CD]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_ORG_ID (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_ORG_ID (1)]"
+                      name="LOCAL_SPONSOR_ORG_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[LOCAL_SPONSOR_ORG_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_PERSON_ID (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_PERSON_ID (1)]"
+                      name="LOCAL_SPONSOR_PERSON_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[LOCAL_SPONSOR_PERSON_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_ID (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_ID (1)]"
+                      name="ITINERARY_STOP_CREATE_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_CREATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_DT (1)]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_DT (1)]"
+                      name="ITINERARY_STOP_CREATE_DT (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_CREATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_ID (1)]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_ID (1)]"
+                      name="ITINERARY_STOP_UPDATE_ID (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_UPDATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_DT (1)]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_DT (1)]"
+                      name="ITINERARY_STOP_UPDATE_DT (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input].Columns[ITINERARY_STOP_UPDATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[IVLP_MergeJoinTest]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{FF1415A8-7007-4D37-8D35-38ED28116B2F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308 IVLP_XREF_DB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[START_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="START_DATE"
+                      cachedSortKeyPosition="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[START_DATE]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[START_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[END_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="END_DATE"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[END_DATE]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[END_DATE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_ID"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_ID]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_ID"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_ID]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CITY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="CITY"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CITY]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STATE_CD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STATE_CD"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STATE_CD]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[STATE_CD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_ORG_ID"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_ORG_ID]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_PERSON_ID"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_PERSON_ID]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_CREATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_CREATE_ID"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_ID]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_CREATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_CREATE_DT"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_DT]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_UPDATE_ID"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_ID]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_UPDATE_DT"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_DT]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_DT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_ID (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_ID (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_ID1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_ID (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_ID (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_ID1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[START_DATE (1)]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="START_DATE (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[START_DATE1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[START_DATE (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[END_DATE (1)]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="END_DATE (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[END_DATE1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[END_DATE (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CITY (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="CITY (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CITY1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[CITY (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STATE_CD (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STATE_CD (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STATE_CD1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[STATE_CD (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LOCAL_SPONSOR_ORG_ID (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_ORG_ID (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_ORG_ID1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_ORG_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LOCAL_SPONSOR_PERSON_ID (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_PERSON_ID (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_PERSON_ID1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[LOCAL_SPONSOR_PERSON_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_CREATE_ID (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_CREATE_ID (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_ID1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_CREATE_DT (1)]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_CREATE_DT (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_DT1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_CREATE_DT (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_UPDATE_ID (1)]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_UPDATE_ID (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_ID1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_ID (1)]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ITINERARY_STOP_UPDATE_DT (1)]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_UPDATE_DT (1)"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_DT1]"
+                      lineageId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output].Columns[ITINERARY_STOP_UPDATE_DT (1)]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_UPDATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_ID1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_ID1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_ID1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_ID1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[START_DATE1]"
+                      dataType="dbTimeStamp2"
+                      name="START_DATE1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[END_DATE1]"
+                      dataType="dbTimeStamp2"
+                      name="END_DATE1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CITY1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="CITY1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STATE_CD1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="STATE_CD1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_ORG_ID1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_ORG_ID1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCAL_SPONSOR_PERSON_ID1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LOCAL_SPONSOR_PERSON_ID1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_ID1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_CREATE_ID1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_CREATE_DT1]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_CREATE_DT1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_ID1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ITINERARY_STOP_UPDATE_ID1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ITINERARY_STOP_UPDATE_DT1]"
+                      dataType="dbTimeStamp2"
+                      name="ITINERARY_STOP_UPDATE_DT1" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[ITINERARY_STOP_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[ITINERARY_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[START_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="START_DATE"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[START_DATE]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[END_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="END_DATE"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[END_DATE]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[CITY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="CITY"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[CITY]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[STATE_CD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STATE_CD"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[STATE_CD]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_ORG_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_PERSON_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[ITINERARY_STOP_CREATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_CREATE_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[ITINERARY_STOP_CREATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_CREATE_DT"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_UPDATE_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort.Inputs[Sort Input].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_UPDATE_DT"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[START_DATE]"
+                      name="START_DATE"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[START_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[END_DATE]"
+                      name="END_DATE"
+                      sortKeyPosition="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[END_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[CITY]"
+                      name="CITY">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[CITY]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[STATE_CD]"
+                      name="STATE_CD">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[STATE_CD]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Sort 1"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort 1"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[ITINERARY_STOP_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[ITINERARY_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[START_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="START_DATE"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[START_DATE]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[END_DATE]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="END_DATE"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[END_DATE]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[CITY]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="CITY"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[CITY]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[STATE_CD]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="STATE_CD"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[STATE_CD]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_ORG_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LOCAL_SPONSOR_PERSON_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[ITINERARY_STOP_CREATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_CREATE_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[ITINERARY_STOP_CREATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_CREATE_DT"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ITINERARY_STOP_UPDATE_ID"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Sort 1.Inputs[Sort Input].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="ITINERARY_STOP_UPDATE_DT"
+                      lineageId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_ID]"
+                      name="ITINERARY_STOP_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_ID]"
+                      name="ITINERARY_ID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[START_DATE]"
+                      name="START_DATE"
+                      sortKeyPosition="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[START_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[END_DATE]"
+                      name="END_DATE"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[END_DATE]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[CITY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[CITY]"
+                      name="CITY">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[CITY]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[STATE_CD]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[STATE_CD]"
+                      name="STATE_CD">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[STATE_CD]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[LOCAL_SPONSOR_ORG_ID]"
+                      name="LOCAL_SPONSOR_ORG_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_ORG_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[LOCAL_SPONSOR_PERSON_ID]"
+                      name="LOCAL_SPONSOR_PERSON_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[LOCAL_SPONSOR_PERSON_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_ID]"
+                      name="ITINERARY_STOP_CREATE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_CREATE_DT]"
+                      name="ITINERARY_STOP_CREATE_DT">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_CREATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_ID]"
+                      name="ITINERARY_STOP_UPDATE_ID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_ID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Data Flow Task\Sort 1.Outputs[Sort Output].Columns[ITINERARY_STOP_UPDATE_DT]"
+                      name="ITINERARY_STOP_UPDATE_DT">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output].Columns[ITINERARY_STOP_UPDATE_DT]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Merge Join Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Merge Join Output"
+              startId="Package\Data Flow Task\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Sort.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\IVLP_ITINERARY_STOP.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output1]"
+              endId="Package\Data Flow Task\Sort 1.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\IVLP_ITINERARY_STOP_2.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Sort Output]"
+              endId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\Data Flow Task\Sort.Outputs[Sort Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Sort Output1]"
+              endId="Package\Data Flow Task\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Data Flow Task\Sort 1.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Data Flow Task\IVLP_ITINERARY_STOP"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Data Flow Task\IVLP_ITINERARY_STOP_2"
+          TopLeft="356,63" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Data Flow Task\Sort 1"
+          TopLeft="361,163" />
+        <NodeLayout
+          Size="98,42"
+          Id="Package\Data Flow Task\Sort"
+          TopLeft="158,161" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Data Flow Task\Merge Join"
+          TopLeft="241,267" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="155.5,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="51.5,59"
+              Start="0,0"
+              End="51.5,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="4,29.5" />
+                  <mssgle:LineSegment
+                    End="47.5,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="47.5,29.5"
+                    Point2="51.5,29.5"
+                    Point3="51.5,33.5" />
+                  <mssgle:LineSegment
+                    End="51.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output1]"
+          TopLeft="457.5,105">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-43,58"
+              Start="0,0"
+              End="-43,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25"
+                    Point2="0,29"
+                    Point3="-4,29" />
+                  <mssgle:LineSegment
+                    End="-39,29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-39,29"
+                    Point2="-43,29"
+                    Point3="-43,33" />
+                  <mssgle:LineSegment
+                    End="-43,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Sort Output]"
+          TopLeft="207,203">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="99,64"
+              Start="0,0"
+              End="99,56.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28"
+                    Point2="0,32"
+                    Point3="4,32" />
+                  <mssgle:LineSegment
+                    End="95,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="95,32"
+                    Point2="99,32"
+                    Point3="99,36" />
+                  <mssgle:LineSegment
+                    End="99,56.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Sort Output1]"
+          TopLeft="414.5,205">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-88.1666666666667,62"
+              Start="0,0"
+              End="-88.1666666666667,54.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.7477203647416" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.7477203647416"
+                    Point2="0,36.7477203647416"
+                    Point3="-4,36.7477203647416" />
+                  <mssgle:LineSegment
+                    End="-84.1666666666667,36.7477203647416" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-84.1666666666667,36.7477203647416"
+                    Point2="-88.1666666666667,36.7477203647416"
+                    Point3="-88.1666666666667,40.7477203647416" />
+                  <mssgle:LineSegment
+                    End="-88.1666666666667,54.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="469.5,296.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Merge Join Output]"
+          TopLeft="371,288">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="98.5,29.5"
+              Start="0,0"
+              End="91,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="45.25,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="45.25,0"
+                    Point2="49.25,0"
+                    Point3="49.25,4" />
+                  <mssgle:LineSegment
+                    End="49.25,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="49.25,25.5"
+                    Point2="49.25,29.5"
+                    Point3="53.25,29.5" />
+                  <mssgle:LineSegment
+                    End="91,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
