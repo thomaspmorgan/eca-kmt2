@@ -243,7 +243,7 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-show="view.isCategoryRequired">
                     <div class="col-md-3 title-label">{{view.categoryLabel}} <span class="asterisk" ng-show="view.isCategoryRequired"> *</span></div>
                     <div class="col-md-9">
                         <ui-select multiple close-on-select="true"
@@ -268,7 +268,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-show="view.isObjectiveRequired">
                     <div class="col-md-3 title-label">{{view.objectiveLabel}} <span class="asterisk" ng-show="view.isObjectiveRequired"> *</span></div>
                     <div class="col-md-9">
                         <ui-select multiple
