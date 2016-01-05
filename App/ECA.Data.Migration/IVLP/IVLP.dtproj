@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAACdfu8QEMztcFa57QNX59Mc2aV6jmQCsgCwliHQYj+jkQAAAAAOgAAAAAIAACAAAACT+9GoRMjvlQj2mnl16DTBgqc8T5nflpnpZKkjfbIs2pAAAACSPjgYS+jNILRIyedbK4+yVauD28N3jVtS8wLsVMu715X5Glt21NgjoSG0xe5UrwysB+2ruv/fQl3eAlN6AWiC05S3vKlJekA2k6VV31qx0hCAQChoriurf20ytIMLlSAOkKwyi+UjKSWkwO9RV252RnGttcqPukPZYI3PMfWMxkv4XAGRkX1MeEOX3AFSjxpAAAAAvIgJOFPk5N7B7qPSj6xpijpBmTOZX3R1XvvwSGYdlDI+Tv9JQ4qxZuGBDowolYHsZyqtSF/V8iHyMI2aTc4fLA==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAADKsLErN5ae+VrAllNEbk8E4EnyWIpgAgwuME7a5jmP+QAAAAAOgAAAAAIAACAAAAAgD+ET2+Ede2sM1SEyg+9gwYThjWkQAnRHHoycYh2iBpAAAAA36E8DKNOfxbQMrXmfSBc4MaIJ9IGeCWamEjE2n0cFHQxDciFmM1g0vIgIVoc54oV0GcamyfWKhrt6O4of0BCTS+tZmfZGNtpqzjsmIlWoYADzgrgdMQ6y1QAPqNydXQeAT4TByxcTdUbcP89vdxhc97KS3QjWOlxa3zZ7IMLxDED6/H8EcYDZw5PiA48hjApAAAAArETCETtvEyDEsXCCtabBeO6qMUklQgpxYC/TBE1PeGexaH5E44MYa3y/mAbL5z+TtsAq6ZkAZzhVkIPhh/6LSg==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -55,6 +55,7 @@
           <SSIS:Package SSIS:Name="IVLP Person Language Proficiency Load - Oracle Dataset 2.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="Migrate IVLP_PERSON_COMMENT.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="IVLP Itineraries Load - Dataset 2.dtsx" SSIS:EntryPoint="1" />
+          <SSIS:Package SSIS:Name="MergeJoin test.dtsx" SSIS:EntryPoint="1" />
         </SSIS:Packages>
         <SSIS:ConnectionManagers>
           <SSIS:ConnectionManager SSIS:Name="BE00003308.IVLP_Source_DB.conmgr" />
@@ -252,7 +253,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">Data Source=BE00003308;Initial Catalog=IVLP_XREF_ECA_KMT_QA_DB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">Data Source=BE00003308;Initial Catalog=IVLP_XREF_Local_DB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -267,7 +268,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">IVLP_XREF_ECA_KMT_QA_DB</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">IVLP_XREF_Local_DB</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -8656,10 +8657,27 @@
                 <SSIS:Property SSIS:Name="Name">IVLP Itineraries Load - Dataset 2</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">189</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">224</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{ADCA90EE-6A05-4DD2-BFC0-409AF86526BA}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{99BB3EF5-52B3-49C4-A90A-7A49CF86FF9A}</SSIS:Property>
+                <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                <SSIS:Property SSIS:Name="Description">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="ProtectionLevel">1</SSIS:Property>
+              </SSIS:Properties>
+              <SSIS:Parameters />
+            </SSIS:PackageMetaData>
+            <SSIS:PackageMetaData SSIS:Name="MergeJoin test.dtsx">
+              <SSIS:Properties>
+                <SSIS:Property SSIS:Name="ID">{C40B3C6D-9549-4E69-B396-530D656F019F}</SSIS:Property>
+                <SSIS:Property SSIS:Name="Name">MergeJoin test</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionComments">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{BE138CF3-8F2D-430F-9008-AC4B19C2D17C}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>

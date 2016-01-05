@@ -1,0 +1,59 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/23/2015 2:25:08 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{BF389A23-FAB5-437E-928F-B62D3CA56FEF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Create CE XREF Data"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{BAB813DB-8742-4121-B126-EFB9A406391D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F544E599-0A17-4072-A8D2-487E7DC7CCF0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5D8F5C50-636D-463C-A91F-EE92820556FD}"
+          SQLTask:SqlStatementSource="select *&#xA; from eca_kmt_dev.eca_kmt_dev.dbo.participant p&#xA;join eca_kmt_dev.eca_kmt_dev.dbo.person ps on (ps.personid = p.personid)&#xA;join dbo.VisitingScholarData v on ((v.[last name] is null and ps.lastname is null or upper(v.[last name]) = upper(ps.lastname))&#xA;and (v.[First Name] is null and ps.firstname is null or upper(v.[First Name]) = upper(ps.firstname))&#xA;and (v.[Prefix] is null and ps.nameprefix is null or upper(v.[Prefix]) = upper(ps.nameprefix))&#xA;and (v.[Suffix] is null and ps.namesuffix is null or upper(v.[Suffix]) = upper(ps.namesuffix))&#xA;and (v.[Second Last Name] is null and ps.secondlastname is null or upper(v.[Second Last Name]) = upper(ps.secondlastname))&#xA;and (v.[Middle Name] is null and ps.middlename is null or upper(v.[Middle Name]) = upper(ps.middlename)))&#xA;and (CAST(v.[Date of Birth] AS DATE) = CAST(ps.dateofbirth AS DATE) or v.[Date of Birth] is null and ps.dateofbirth IS NULL)&#xA;where p.projectid = 1521"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="57.5,30.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
