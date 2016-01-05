@@ -223,6 +223,7 @@
     <Compile Include="Models\Fundings\AdditionalProjectMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\AdditionalMoneyFlowBindingModelTest.cs" />
     <Compile Include="Models\Fundings\UpdatedMoneyFlowBindingModelTest.cs" />
+    <Compile Include="Models\Itineraries\AddedItineryGroupBindingModelTest.cs" />
     <Compile Include="Models\Itineraries\UpdatedEcaItineraryStopBindingModelTest.cs" />
     <Compile Include="Models\Itineraries\AddedEcaItineraryStopBindingModelTest.cs" />
     <Compile Include="Models\Itineraries\UpdateItineraryBindingModelTest.cs" />

@@ -1,7 +1,7 @@
-﻿<div ng-controller="ItineraryCtrl" class="travel-period" style="margin-bottom:100px;">
+﻿<div ng-controller="ItineraryCtrl" class="itinerary" style="margin-bottom:100px;">
     <div ng-show="!view.isInEditMode">
         <div>
-            <div class="travel-period-header">
+            <div class="itinerary-header">
                 <div class="row">
                     <div class="col-md-10">
                         <h3 style="margin-top:22px; margin-left:20px;">{{view.itinerary.name}}</h3>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="row travel-period-container" ng-show="view.isLoadingRequiredData || view.isSaving">
+        <div class="row itinerary-container" ng-show="view.isLoadingRequiredData || view.isSaving">
             <div class="row" style="margin-top:15px;">
                 <div class="spinner">
                     <div class="bounce1"></div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="row travel-period-container" ng-show="!view.isLoadingRequiredData && !view.isSaving">
+        <div class="row itinerary-container" ng-show="!view.isLoadingRequiredData && !view.isSaving">
             <div class="col-md-11">
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-3">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 text-center">
-                        <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData">Add Travel Stop</button>
+                        <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData" ng-click="view.onAddItineraryStopClick(view.itinerary)">Add City Stop</button>
                     </div>
                 </div>
                 <div class="row" style="margin-top:15px;">
@@ -134,8 +134,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-1 right">
-                <div style="cursor:pointer">
+            <div class="col-md-1 right" ng-show="!view.isItineraryExpanded">
+                <div style="cursor:pointer" ng-click="view.onItineraryExpandClick()">
                     <div style="margin-top:45px;">
                         <i class="material-icons md-dark md-24">expand_more</i>
                     </div>
@@ -144,12 +144,25 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-1 right" ng-show="view.isItineraryExpanded">
+                <div style="cursor:pointer" ng-click="view.onItineraryCollapseClick()">
+                    <div style="margin-top:45px;">
+                        <i class="material-icons md-dark md-24">expand_less</i>
+                    </div>
+                    <div style="margin-top:-24px;">
+                        <i class="material-icons md-dark md-24">expand_less</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded">
+            <ng-include src="'app/projects/itinerary-stop.html'"/>
         </div>
     </div>
     <div ng-if="view.isInEditMode">
         <form name="form.editItineraryForm">
             <div>
-                <div class="travel-period-header">
+                <div class="itinerary-header">
                     <div class="row">
                         <div class="col-md-8" style="margin-top:19px;">
                             <input class="form-control"
@@ -165,7 +178,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row travel-period-container">
+            <div class="row itinerary-container">
                 <div class="col-md-12">
                     <div class="row" style="margin-top:15px;">                        
                         <div class="col-md-6">

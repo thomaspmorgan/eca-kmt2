@@ -1,0 +1,160 @@
+﻿<div ng-controller="ItineraryStopCtrl">
+    <div ng-show="!view.isInEditMode">
+        <div class="row itinerary-stop-header" style="height:75px;">
+            <div class="col-md-10" style="margin-top:12px;">
+                <div class="col-md-3">
+                    <h3 style="margin-left:20px;">{{view.itineraryStop.name}}</h3>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-3">
+                        <i class="material-icons md-24">event</i>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="title-label" style="color: white;">
+                            Arrival Date
+                        </div>
+                        <div>
+                            {{view.itineraryStop.arrivalDate | date: 'MMMM dd, yyyy'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-3">
+                        <i class="material-icons md-24">event</i>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="title-label" style="color: white;">
+                            Departure Date
+                        </div>
+                        <div>
+                            {{view.itineraryStop.departureDate | date: 'MMMM dd, yyyy'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-3">
+                        <i class="material-icons md-24">person</i>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="title-label" style="color: white;">
+                            Participants
+                        </div>
+                        <div>
+                            {{view.itineraryStop.participantsCount}} of {{view.itinerary.participantsCount}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin-top:12px;">
+                <div class="right">
+                    <div class="col-md-3">
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditClick(view.itineraryStop)" ng-show="!view.isLoadingRequiredData">edit</i>
+                    </div>
+                    <div class="col-md-3">
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentClick(view.itineraryStop)" ng-show="!view.isLoadingRequiredData">mode_comment</i>
+                    </div>
+                    <div class="col-md-3">
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteClick(view.itineraryStop)" ng-show="!view.isLoadingRequiredData">delete</i>
+                    </div>
+                    <div class="col-md-3">
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryStopClick(view.itineraryStop)" ng-show="!view.isItineraryStopExpanded">expand_more</i>
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryStopClick(view.itineraryStop)" ng-show="view.isItineraryStopExpanded">expand_less</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="list2 row itinerary-stop-container">
+            <div class="row row2">
+                <div class="col-md-4">
+                    <div class="col-md-2">
+                        <i class="material-icons md-dark md-24">flight_land</i>
+                    </div>
+                    <div class="col-md-10 title-label">
+                        Travel Stop Destination
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    {{view.itineraryStop.destination.name}}{{view.itineraryStop.destination.division ? ', ' + view.itineraryStop.destination.division : ''}}{{view.itineraryStop.destination.country ? ' ' + view.itineraryStop.destination.country : ''}}
+                </div>
+            </div>
+            <div ng-show="view.isItineraryStopExpanded">
+                <div class="row row2">
+                    <div class="col-md-4 title-label">
+                        Groups &amp; Participants
+                    </div>
+                    <div class="col-md-8 title-label">
+                        Traveling From
+                    </div>
+                </div>
+                <div ng-repeat="group in view.itineraryStop.groups">
+                    <div class="row row2">
+                        <div class="col-md-10">
+                            <h5>{{group.name}}</h5>
+                        </div>
+                        <div class="col-md-2" style="margin-top:12px;">
+                            <div class="right">
+                                <div class="col-md-3">
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditItineraryGroupClick(group)" ng-show="!view.isLoadingRequiredData">edit</i>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentItineraryGroupClick(group)" ng-show="!view.isLoadingRequiredData">mode_comment</i>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteitineraryGroupClick(group)" ng-show="!view.isLoadingRequiredData">delete</i>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryGroupClick(group)" ng-show="!view.isItineraryGroupStopExpanded">expand_more</i>
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryGroupClick(group)" ng-show="view.isItineraryGroupStopExpanded">expand_less</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row2 hover" ng-repeat="participant in group.participants">
+                        <div class="col-md-4">
+                            <h5><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
+                        </div>
+                        <div class="col-md-4">
+                            <!--{{view.itineraryStop.destination.name}}{{view.itineraryStop.destination.division ? ', ' + view.itineraryStop.destination.division : ''}}{{view.itineraryStop.destination.country ? ' ' + view.itineraryStop.destination.country : ''}}-->
+                            Travel from here...
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <i class="material-icons md-dark md-24">flight</i>
+                            <a>Itinerary information</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row2">
+                    <div class="col-md-10">
+                        <h5>Participants</h5>
+                    </div>
+                    <div class="col-md-2" style="margin-top:12px;">
+                        <div class="right">
+                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryGroupClick(group)" ng-show="!view.isItineraryGroupStopExpanded">expand_more</i>
+                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryGroupClick(group)" ng-show="view.isItineraryGroupStopExpanded">expand_less</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row2 hover" ng-repeat="participant in view.itineraryStop.participants">                    
+                    <div class="col-md-4">
+                        <h5><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
+                    </div>
+                    <div class="col-md-4">
+                        <!--{{view.itineraryStop.destination.name}}{{view.itineraryStop.destination.division ? ', ' + view.itineraryStop.destination.division : ''}}{{view.itineraryStop.destination.country ? ' ' + view.itineraryStop.destination.country : ''}}-->
+                        Travel from here...
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <i class="material-icons md-dark md-24">flight</i>
+                        <a>Itinerary information</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div ng-show="view.isInEditMode">
+
+    </div>
+</div>

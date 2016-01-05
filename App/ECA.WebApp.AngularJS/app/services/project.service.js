@@ -70,6 +70,12 @@ angular.module('staticApp')
           },
           updateItinerary: function (itinerary, projectId) {
               return DragonBreath.save(itinerary, 'projects/' + projectId + '/itinerary');
-          }
+          },
+          getItineraryStops: function (projectId, itineraryId) {
+              return DragonBreath.get({}, 'projects/' + projectId + '/itinerary/' + itineraryId + '/stops');
+          },
+          addItineraryStop: function (itineraryStop, projectId, itineraryId) {
+              return DragonBreath.create(itineraryStop, 'projects/' + projectId + '/itinerary/' + itineraryId + '/stops');
+          },
       };
   });
