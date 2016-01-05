@@ -7,34 +7,73 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Itineraries
 {
+    /// <summary>
+    /// An ItineraryStopDTO is used to represent an itinerary stop to a BL client.
+    /// </summary>
     public class ItineraryStopDTO
     {
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public ItineraryStopDTO()
         {
             this.Groups = new List<ItineraryStopGroupDTO>();
             this.Participants = new List<ItineraryStopParticipantDTO>();
         }
 
+        /// <summary>
+        /// Gets or sets the itinerary id.
+        /// </summary>
         public int ItineraryId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the itinerary stop id.
+        /// </summary>
         public int ItineraryStopId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the project id.
+        /// </summary>
         public int ProjectId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the arrival date of the itinerary stop.
+        /// </summary>
         public DateTimeOffset ArrivalDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets the departure date of the itinerary stop.
+        /// </summary>
         public DateTimeOffset DepartureDate { get; set; }
 
+        /// <summary>
+        /// Gets or sets the destination of the itinerary stop.
+        /// </summary>
         public LocationDTO Destination { get; set; }
 
+        /// <summary>
+        /// Gets or sets the last revised date.
+        /// </summary>
         public DateTimeOffset LastRevisedOn { get; set; }
 
+        /// <summary>
+        /// Gets or sets the count of participants in the itinerary stop.
+        /// </summary>
         public int ParticipantsCount { get; set; }
 
+        /// <summary>
+        /// Gets or sets the group.
+        /// </summary>
         public IEnumerable<ItineraryStopGroupDTO> Groups { get; set; }
 
+        /// <summary>
+        /// Gets or sets the participants.
+        /// </summary>
         public IEnumerable<ItineraryStopParticipantDTO> Participants { get; set; }
     }
 }
