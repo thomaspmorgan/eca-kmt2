@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Validation.Model;
 using FluentValidation.Attributes;
+using System;
 
 namespace ECA.Business.Validation
 {
@@ -7,6 +8,7 @@ namespace ECA.Business.Validation
     /// SEVIS batch create or update exchange visitors
     /// </summary>
     [Validator(typeof(SEVISBatchCreateUpdateEVValidator))]
+    [Serializable]
     public class SEVISBatchCreateUpdateEV
     {
         public SEVISBatchCreateUpdateEV()

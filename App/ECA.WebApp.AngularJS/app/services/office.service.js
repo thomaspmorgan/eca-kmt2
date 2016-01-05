@@ -20,16 +20,18 @@ angular.module('staticApp')
           create: function (program) {
               return DragonBreath.create(program, 'offices');
           },
-          getPrograms: function (params, officeId) {
-              var path = 'offices/' + officeId + '/Programs';
-              return DragonBreath.get(params, path)
-          },
           getChildOffices: function (officeId) {
               var path = 'offices/' + officeId + '/ChildOffices';
               return DragonBreath.get(path)
           },
           getAll: function (params) {
-              return DragonBreath.get(params, 'offices');
+              return DragonBreath.get(params, 'offices')
+                  .success(function (data) {
+                      angular.forEach(data.results, function (office, index) {
+                          office.isRoot = office.officeLevel === 1;
+                      });
+                      return data;
+                  });
           },
           getSettings: function (officeId) {
               var path = 'offices/' + officeId + '/Settings';

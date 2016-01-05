@@ -33,6 +33,11 @@ namespace ECA.Business.Queries.Models.Admin
         public int? ParentProgram_ProgramId { get; set; }
 
         /// <summary>
+        /// Gets or sets whether this instance has children.
+        /// </summary>
+        public bool HasChildren { get; set; }
+
+        /// <summary>
         /// Gets or sets the owner organization id.
         /// </summary>
         public int Owner_OrganizationId { get; set; }

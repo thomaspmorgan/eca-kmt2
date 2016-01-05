@@ -10,6 +10,9 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(USAddressValidator))]
     public class USAddress
     {
+        public USAddress()
+        { }
+
         public string Address1 { get; set; }
         
         public string Address2 { get; set; }

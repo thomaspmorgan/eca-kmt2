@@ -25,16 +25,9 @@ angular.module('staticApp')
       $scope.view.isOfficeLoading = false;
       $scope.view.office = {};
 
-      $scope.view.programs = [];
       $scope.view.branches = [];
-      $scope.view.totalNumberOfPrograms = 0;
-      $scope.view.skippedNumberOfPrograms = 0;
-      $scope.view.numberOfPrograms = 0;
-      $scope.view.programFilter = '';
-      $scope.view.isLoadingPrograms = false;
       $scope.view.isLoadingBranches = true;
       $scope.view.header = 'Branches & Programs';
-      $scope.view.programsLimit = 25;
 
       $scope.view.onCreateProgramClick = function () {
           var addProgramModalInstance = $modal.open({
@@ -66,12 +59,6 @@ angular.module('staticApp')
           return element.id;
       };
 
-      function updatePagingDetails(total, start, count) {
-          $scope.view.totalNumberOfPrograms = total;
-          $scope.view.skippedNumberOfPrograms = start;
-          $scope.view.numberOfPrograms = count;
-      }
-
       function setFundingTabEnabled(isEnabled) {
           $scope.isFundingTabEnabled = isEnabled;
       }
@@ -81,46 +68,6 @@ angular.module('staticApp')
               $scope.view.header = "Programs";
           }
       }
-
-      $scope.view.getPrograms = function (tableState) {
-          $scope.view.isLoadingPrograms = true;
-          TableService.setTableState(tableState);
-          var params = {
-              start: TableService.getStart(),
-              limit: TableService.getLimit(),
-              sort: TableService.getSort(),
-              filter: TableService.getFilter(),
-              keyword: TableService.getKeywords()
-          };
-          return OfficeService.getPrograms(params, officeId)
-              .then(function (data, status, headers, config) {
-                  $scope.view.isLoadingPrograms = false;
-                  processData(data, tableState, params);
-              })
-              .catch(function (response) {
-                  var message = "Unable to load office programs.";
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
-              });
-      }
-
-      function processData(response, tableState, params) {
-          var programs = response.data.results;
-          var total = response.data.total;
-          var start = 0;
-          if (programs.length > 0) {
-              start = params.start + 1;
-          };
-          var count = params.start + programs.length;
-
-          updatePagingDetails(total, start, count);
-
-          var limit = TableService.getLimit();
-          tableState.pagination.numberOfPages = Math.ceil(total / limit);
-
-          $scope.view.programs = programs;
-          $scope.view.programsLoading = false;
-      };
 
       function loadChildOffices(officesId) {
           $scope.view.isLoadingBranches = true;

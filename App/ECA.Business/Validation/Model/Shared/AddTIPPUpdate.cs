@@ -3,6 +3,9 @@ using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.Shared
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Validator(typeof(AddTIPPUpdateValidator))]
     public class AddTIPPUpdate
     {

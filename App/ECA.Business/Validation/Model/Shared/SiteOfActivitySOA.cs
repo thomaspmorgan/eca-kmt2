@@ -6,6 +6,9 @@ namespace ECA.Business.Validation.Model.CreateEV
     [Validator(typeof(SiteOfActivitySOAValidator))]
     public class SiteOfActivitySOA
     {
+        public SiteOfActivitySOA()
+        { }
+
         public bool printForm { get; set; }
 
         public string Address1 { get; set; }

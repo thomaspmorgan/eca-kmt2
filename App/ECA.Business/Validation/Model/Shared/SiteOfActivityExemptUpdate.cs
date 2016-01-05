@@ -7,6 +7,9 @@ namespace ECA.Business.Validation.Model.Shared
     [Validator(typeof(SiteOfActivityExemptUpdateValidator))]
     public class SiteOfActivityExemptUpdate : SiteOfActivityExempt
     {
+        public SiteOfActivityExemptUpdate()
+        { }
+
         /// <summary>
         /// Print request indicator
         /// </summary>

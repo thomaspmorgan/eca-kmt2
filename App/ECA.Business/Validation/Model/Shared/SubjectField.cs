@@ -8,6 +8,9 @@ namespace ECA.Business.Validation.Model.CreateEV
     [Validator(typeof(SubjectFieldValidator))]
     public class SubjectField
     {
+        public SubjectField()
+        { }
+
         /// <summary>
         /// Code for subject (format: 12.1234)
         /// </summary>

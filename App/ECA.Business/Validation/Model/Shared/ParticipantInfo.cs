@@ -7,6 +7,9 @@ namespace ECA.Business.Validation.Model.CreateEV
     [Validator(typeof(ParticipantInfoValidator))]
     public class ParticipantInfo
     {
+        public ParticipantInfo()
+        { }
+
         public bool IsIWT { get; set; }
 
         public string EmailAddress { get; set; }

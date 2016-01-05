@@ -181,6 +181,8 @@
     <Content Include="app\directives\participant-person-info.directive.js" />
     <Content Include="app\directives\participant-exchange-visitor.directive.html" />
     <Content Include="app\directives\participant-exchange-visitor.directive.js" />
+    <Content Include="app\directives\programs.directive.html" />
+    <Content Include="app\directives\programs.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
     <Content Include="app\directives\snapshots-graphs.directive.html" />
     <Content Include="app\directives\snapshots-graphs.directive.js" />
@@ -564,7 +566,6 @@
     <Content Include="index.html" />
     <Content Include="app\app.module.js" />
     <Content Include="app\offices\all-offices.controller.js" />
-    <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\home\home.controller.js" />
     <Content Include="app\auth\logout.controller.js" />
     <Content Include="app\offices\office.controller.js" />

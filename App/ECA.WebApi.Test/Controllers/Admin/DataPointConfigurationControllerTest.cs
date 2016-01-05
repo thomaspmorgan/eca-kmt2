@@ -6,6 +6,8 @@ using ECA.WebApi.Controllers.Admin;
 using System.Web.Http.Results;
 using System.Threading.Tasks;
 using ECA.WebApi.Models.Admin;
+using ECA.Business.Queries.Models.Admin;
+using System.Collections.Generic;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -50,5 +52,13 @@ namespace ECA.WebApi.Test.Controllers.Admin
             var response = await controller.PostDataPointConfigurationAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
+        [TestMethod]
+        public async Task TestGetDataPointConfigurationsAsync()
+        {
+            var response = await controller.GetDataPointConfigurationsAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<DataPointConfigurationDTO>>));
+        }
+
     }
 }

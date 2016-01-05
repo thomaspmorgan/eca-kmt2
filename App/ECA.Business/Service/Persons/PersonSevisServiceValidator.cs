@@ -1,30 +1,30 @@
-﻿using ECA.Business.Validation;
+﻿using ECA.Business.Queries.Persons;
+using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
+using ECA.Business.Validation.Model.Shared;
+using ECA.Core.Service;
+using ECA.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System;
-using System.Threading.Tasks;
-using ECA.Data;
-using ECA.Business.Queries.Persons;
-using System.Linq;
-using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Model.CreateEV;
 using System.Diagnostics.Contracts;
-using ECA.Core.Service;
-//using System.Data;
-//using System.IO;
-//using System.Xml.Serialization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
     public class PersonSevisServiceValidator : DbContextService<EcaContext>, IPersonSevisServiceValidator
-    {        
-        public PersonSevisServiceValidator(EcaContext context) : base(context)
+    {
+        private IParticipantPersonsSevisService participantService;
+
+        public PersonSevisServiceValidator(EcaContext context, IParticipantPersonsSevisService participantService) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            this.participantService = participantService;
         }
 
         /// <summary>
@@ -45,9 +45,16 @@ namespace ECA.Business.Service.Persons
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
 
+            participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
+
             return final;
         }
 
+        /// <summary>
+        /// Do validation for sevis object, which includes participant person object
+        /// </summary>
+        /// <param name="participantId">Entity to validate</param>
+        /// <returns>validation results</returns>
         public async Task<List<ValidationResult>> ValidateSevisAsync(int participantId)
         {
             var updateVisitor = GetUpdateExchangeVisitor(participantId);
@@ -60,9 +67,11 @@ namespace ECA.Business.Service.Persons
             {
                 final.Add(new ValidationResult(error.ErrorMessage));
             }
+            // update the participant sevis status
+            participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
 
             // temporary to test xml serialization
-            //string temp = GetStudentUpdateXml(updateVisitor);
+            //GetStudentUpdateXml(updateVisitor);
 
             return final;
         }
@@ -81,10 +90,9 @@ namespace ECA.Business.Service.Persons
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(this.Context, (int)participant.PersonId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
             var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
-                //personalPII.Addresses.Where(x => x.AddressType == AddressType.Visiting.Value).FirstOrDefault();
             var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
-            //personalPII.Addresses.Where(x => x.AddressType == AddressType.Host.Value).FirstOrDefault();
-            var citizenship = Context.Locations.Where(x => x.LocationId == personalPII.CountriesOfCitizenship.FirstOrDefault().Id).FirstOrDefault();
+            //var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
+            //var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitorUpdate();
             // biographical
@@ -94,7 +102,7 @@ namespace ECA.Business.Service.Persons
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
                 BirthCountryReason = "",
                 BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
-                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                CitizenshipCountryCode = "", // citizenship != null ? citizenship.LocationIso2 : 
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                 FullName = new FullName
                 {
@@ -210,6 +218,18 @@ namespace ECA.Business.Service.Persons
                     Remarks = "Rmks"
                 }
             };
+            // site of activity
+            ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
+            {
+                AddSOA = new SiteOfActivitySOA
+                {
+                    printForm = false,
+                    Address1 = "123 Some St",
+                    PostalCode = "12345",
+                    SiteName = "site 1",
+                    PrimarySite = true
+                }
+            };
             // Reprint
             ExchVisitor.Reprint = new ReprintFormUpdate
             {
@@ -236,7 +256,7 @@ namespace ECA.Business.Service.Persons
             };
             ExchVisitor.statusCode = "A";
             ExchVisitor.TIPP = new TippUpdate
-            {                
+            {
             };
             ExchVisitor.UserDefinedA = "UD A";
             ExchVisitor.UserDefinedB = "UD B";
@@ -247,14 +267,23 @@ namespace ECA.Business.Service.Persons
             ExchVisitor.userID = participant.PersonId.ToString();
             
             // TODO: complete when dependent feature is available
-            //student.createDependent = null;
-            //student.createDependent = new CreateDependent
-            //{
-            //    Dependent = new AddDependent {
-
-            //    },
-            //    Remarks = ""
-            //};
+            ExchVisitor.Dependent = new UpdatedDependent
+            {
+                Edit = new EditDependent
+                {
+                    dependentSevisID = "1",
+                    printForm = false,
+                    BirthDate = new DateTime(1988, 4, 18),
+                    Gender = "1",
+                    BirthCountryCode = "01",
+                    CitizenshipCountryCode = "01",
+                    FullName = new FullName
+                    {
+                        FirsName = "Some",
+                        LastName = "Dependent"
+                    }
+                }
+            };
 
             var batchHeader = new BatchHeader
             {
@@ -275,24 +304,37 @@ namespace ECA.Business.Service.Persons
             return updateVisitorBatch;
         }
 
-        private string GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
-        {
-            XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
-            var settings = new XmlWriterSettings
+        private void GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
             {
-                NewLineHandling = NewLineHandling.Entitize,
-                Encoding = System.Text.Encoding.UTF8,
-                DoNotEscapeUriAttributes = true
-            };
-            using (var stream = new StringWriter())
-            using (var writer = XmlWriter.Create(stream, settings))
+            //XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
+            //var settings = new XmlWriterSettings
+            //{
+            //    NewLineHandling = NewLineHandling.Entitize,
+            //    Encoding = System.Text.Encoding.UTF8,
+            //    DoNotEscapeUriAttributes = true
+            //};
+            //using (var stream = new StringWriter())
+            //using (var writer = XmlWriter.Create(stream, settings))
+            //{
+            //    serializer.Serialize(writer, validationEntity);
+            //    return stream.ToString();
+            //}
+
+            // write file
+            XmlSerializer writer = new XmlSerializer(validationEntity.GetType());
+            var path = @"C:\temp\SevisBatch.xml";
+            //Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SevisBatch.xml";
+            //FileStream file = File.Create(path);
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
             {
-                serializer.Serialize(writer, validationEntity);
-                return stream.ToString();
+                file.Delete();
             }
+            XmlWriter xfile = XmlWriter.Create(path);
+            writer.Serialize(xfile, validationEntity);
+            xfile.Close();
         }
-
-
+        
         // TODO: for sending XML content to Sevis service
         //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;
         //DataSet MyDataSet = new DataSet();

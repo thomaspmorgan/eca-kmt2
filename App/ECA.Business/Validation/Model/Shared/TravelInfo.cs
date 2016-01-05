@@ -7,6 +7,9 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(TravelInfoValidator))]
     public class TravelInfo
     {
+        public TravelInfo()
+        { }
+
         public string PassportNumber { get; set; }
         
         public string PassportIssuingCntry { get; set; }

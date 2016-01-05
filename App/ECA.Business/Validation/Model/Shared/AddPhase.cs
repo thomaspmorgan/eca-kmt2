@@ -6,6 +6,10 @@ namespace ECA.Business.Validation.Model.Shared
     [Validator(typeof(TippPhaseValidator))]
     public class AddPhase
     {
+        public AddPhase()
+        {
+        }
+
         public string SiteId { get; set; }
 
         public string PhaseName { get; set; }

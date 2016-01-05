@@ -11,6 +11,7 @@ namespace ECA.Business.Validation.Model
     {
         public FinancialInfo()
         {
+            OtherFunds = new OtherFunds();
         }
         
         /// <summary>

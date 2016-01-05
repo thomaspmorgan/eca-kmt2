@@ -1,13 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {
@@ -51,7 +46,7 @@ namespace ECA.Business.Queries.Persons
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
                             SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
-                            StatusId = participant.ParticipantStatusId,
+                            StatusId = participant.ParticipantStatusId
                         };
             return query;
         }
@@ -65,6 +60,7 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
+                        let participantPerson = participant.ParticipantPerson
                         let org = participant.Organization
                         let location = org == null ? null : org.Addresses.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
                         let participantType = participant.ParticipantType
@@ -90,8 +86,8 @@ namespace ECA.Business.Queries.Persons
                             ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
-                            SevisStatus = "N/A",
-                            StatusId = participant.ParticipantStatusId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            StatusId = participant.ParticipantStatusId
                         };
 
             return query;

@@ -59,6 +59,9 @@
 	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
 	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
 
+	otherConstants["ascending"] = SortDirection.Ascending.Value;
+	otherConstants["descending"] = SortDirection.Descending.Value;
+
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
 	otherConstants["likeComparisonType"] = ComparisonType.Like.Value;

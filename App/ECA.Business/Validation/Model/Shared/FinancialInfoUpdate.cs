@@ -8,6 +8,9 @@ namespace ECA.Business.Validation.Model.Shared
     [Validator(typeof(FinancialInfoUpdateValidator))]
     public class FinancialInfoUpdate : FinancialInfo
     {
+        public FinancialInfoUpdate()
+        { }
+
         /// <summary>
         /// Print request indicator
         /// </summary>

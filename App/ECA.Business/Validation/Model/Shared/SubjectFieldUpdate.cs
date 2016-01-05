@@ -4,6 +4,9 @@ namespace ECA.Business.Validation.Model.Shared
 {
     public class SubjectFieldUpdate : SubjectField
     {
+        public SubjectFieldUpdate()
+        { }
+
         /// <summary>
         /// Print request indicator
         /// </summary>

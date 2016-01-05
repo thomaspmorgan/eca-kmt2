@@ -7,6 +7,9 @@ namespace ECA.Business.Validation.Model
     [Validator(typeof(FullNameValidator))]
     public class FullName
     {
+        public FullName()
+        { }
+
         /// <summary>
         /// Person last name.
         /// </summary>

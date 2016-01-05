@@ -4,6 +4,9 @@ namespace ECA.Business.Validation.Model
 {
     public class TerminateDependent
     {
+        public TerminateDependent()
+        { }
+
         public string dependentSevisID { get; set; }
         
         public string Reason { get; set; }
