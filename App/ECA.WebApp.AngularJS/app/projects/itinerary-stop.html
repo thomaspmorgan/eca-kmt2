@@ -63,8 +63,8 @@
                 </div>
             </div>
         </div>
-        
-        <div class="list2 row itinerary-stop-container">
+
+        <div class="list2 itinerary-stop-container">
             <div class="row row2">
                 <div class="col-md-4">
                     <div class="col-md-2">
@@ -95,22 +95,22 @@
                         <div class="col-md-2" style="margin-top:12px;">
                             <div class="right">
                                 <div class="col-md-3">
-                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditItineraryGroupClick(group)" ng-show="!view.isLoadingRequiredData">edit</i>
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditGroupClick(group)" ng-show="!view.isLoadingRequiredData">edit</i>
                                 </div>
                                 <div class="col-md-3">
-                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentItineraryGroupClick(group)" ng-show="!view.isLoadingRequiredData">mode_comment</i>
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentGroupClick(group)" ng-show="!view.isLoadingRequiredData">mode_comment</i>
                                 </div>
                                 <div class="col-md-3">
-                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteitineraryGroupClick(group)" ng-show="!view.isLoadingRequiredData">delete</i>
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteGroupClick(group)" ng-show="!view.isLoadingRequiredData">delete</i>
                                 </div>
                                 <div class="col-md-3">
-                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryGroupClick(group)" ng-show="!view.isItineraryGroupStopExpanded">expand_more</i>
-                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryGroupClick(group)" ng-show="view.isItineraryGroupStopExpanded">expand_less</i>
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandGroupClick(group)" ng-show="!group.isExpanded">expand_more</i>
+                                    <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseGroupClick(group)" ng-show="group.isExpanded">expand_less</i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row row2 hover" ng-repeat="participant in group.participants">
+                    <div class="row row2 hover" ng-repeat="participant in group.participants" ng-show="group.isExpanded">
                         <div class="col-md-4">
                             <h5><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
                         </div>
@@ -124,18 +124,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="row row2">
+                <div class="row row2" ng-show="view.itineraryStop.participants.length > 0">
                     <div class="col-md-10">
                         <h5>Participants</h5>
                     </div>
                     <div class="col-md-2" style="margin-top:12px;">
                         <div class="right">
-                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryGroupClick(group)" ng-show="!view.isItineraryGroupStopExpanded">expand_more</i>
-                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryGroupClick(group)" ng-show="view.isItineraryGroupStopExpanded">expand_less</i>
+                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandParticipantsClick()" ng-show="!view.isParticipantsExpanded">expand_more</i>
+                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseParticipantsClick()" ng-show="view.isParticipantsExpanded">expand_less</i>
                         </div>
                     </div>
                 </div>
-                <div class="row row2 hover" ng-repeat="participant in view.itineraryStop.participants">                    
+                <div class="row row2 hover" ng-repeat="participant in view.itineraryStop.participants" ng-show="view.isParticipantsExpanded">
                     <div class="col-md-4">
                         <h5><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
                     </div>

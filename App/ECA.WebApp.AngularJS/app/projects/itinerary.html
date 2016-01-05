@@ -135,7 +135,7 @@
                 </div>
             </div>
             <div class="col-md-1 right" ng-show="!view.isItineraryExpanded">
-                <div style="cursor:pointer" ng-click="view.onItineraryExpandClick()">
+                <div style="cursor:pointer" ng-click="view.onItineraryExpandClick(view.itinerary)">
                     <div style="margin-top:45px;">
                         <i class="material-icons md-dark md-24">expand_more</i>
                     </div>
@@ -145,7 +145,7 @@
                 </div>
             </div>
             <div class="col-md-1 right" ng-show="view.isItineraryExpanded">
-                <div style="cursor:pointer" ng-click="view.onItineraryCollapseClick()">
+                <div style="cursor:pointer" ng-click="view.onItineraryCollapseClick(view.itinerary)">
                     <div style="margin-top:45px;">
                         <i class="material-icons md-dark md-24">expand_less</i>
                     </div>

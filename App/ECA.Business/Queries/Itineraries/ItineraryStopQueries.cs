@@ -51,8 +51,8 @@ namespace ECA.Business.Queries.Itineraries
                                     ParticipantId = p.ParticipantId,
                                     PersonId = p.Person.PersonId,
                                     //TravelingFrom = null
-                                })
-                            }),
+                                }).OrderBy(p => p.FullName)
+                            }).OrderBy(g => g.Name),
                             Participants = itineraryStop.Participants.Where(p => p.PersonId.HasValue).Select(p => new ItineraryStopParticipantDTO
                             {
                                 FullName = p.Person.FullName,
@@ -61,7 +61,7 @@ namespace ECA.Business.Queries.Itineraries
                                 ParticipantId = p.ParticipantId,
                                 PersonId = p.Person.PersonId,
                                 //TravelingFrom = null
-                            }),
+                            }).OrderBy(p => p.FullName),
                             ItineraryId = itineraryStop.ItineraryId,
                             ItineraryStopId = itineraryStop.ItineraryStopId,
                             LastRevisedOn = itineraryStop.History.RevisedOn,

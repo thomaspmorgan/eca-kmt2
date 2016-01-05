@@ -55,7 +55,7 @@ angular.module('staticApp')
 
       $scope.view.onItineraryExpandClick = function (itinerary) {
           $scope.view.isItineraryExpanded = true;
-          return loadItinerarStops(itinerary);
+          return loadItineraryStops(itinerary);
       }
 
       $scope.view.onItineraryCollapseClick = function (itinerary) {
@@ -169,7 +169,7 @@ angular.module('staticApp')
           });
       }
 
-      function loadItinerarStops(itinerary) {
+      function loadItineraryStops(itinerary) {
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
               angular.forEach(response.data, function (stop, index) {
