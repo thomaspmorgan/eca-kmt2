@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
 using ECA.Core.Service;
+using ECA.Business.Validation;
 
 namespace ECA.Business.Service.Persons
 {
@@ -56,7 +57,21 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participantPersonSevis</returns>
         Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId);
 
-        /// Sevis Comm Status
+        /// <summary>
+        /// Get populated create participant sevis object
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <returns>Create exchange visitor object</returns>
+        SEVISBatchCreateUpdateEV GetCreateExchangeVisitor(int participantId);
+
+        /// <summary>
+        /// Get populated update participant sevis object
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <returns>Update exchange visitor object</returns>
+        SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(int participantId);
+        
+        /// **** Sevis Comm Status ****
 
         /// <summary>
         /// Returns the participantPersonSevises in the system.

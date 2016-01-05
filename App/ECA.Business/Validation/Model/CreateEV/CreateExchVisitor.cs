@@ -4,14 +4,19 @@ using FluentValidation.Attributes;
 namespace ECA.Business.Validation.Model
 {
     /// <summary>
-    /// Exchange visitor record
+    /// Exchange visitor record for create
     /// </summary>
     [Validator(typeof(CreateExchVisitorValidator))]
     public class CreateExchVisitor
     {
+        public CreateExchVisitor()
+        {
+            ExchangeVisitor = new ExchangeVisitor();
+        }
+
         /// <summary>
         /// Exchange visitor information
         /// </summary>
-        public ExchangeVisitor visitor { get; set; }        
+        public ExchangeVisitor ExchangeVisitor { get; set; }        
     }
 }

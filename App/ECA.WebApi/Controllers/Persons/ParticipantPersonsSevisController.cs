@@ -170,14 +170,26 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves participant sevis record validation results.
+        /// Retrieves create participant sevis record validation results.
         /// </summary>
         /// <param name="participantId">Participant ID</param>
         /// <returns>Validation results</returns>
-        [Route("ParticipantPersonsSevis/ValidateSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetValidateSevisAsync(int participantId)
+        [Route("ParticipantPersonsSevis/ValidateCreateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateCreateSevisAsync(int participantId)
         {
-            var status = await validationService.PreSevisValidationAsync(participantId);
+            var status = await validationService.PreCreateSevisValidationAsync(participantId);
+            return Ok(status);
+        }
+
+        /// <summary>
+        /// Retrieves update participant sevis record validation results.
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <returns>Validation results</returns>
+        [Route("ParticipantPersonsSevis/ValidateUpdateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateUpdateSevisAsync(int participantId)
+        {
+            var status = await validationService.PreUpdateSevisValidationAsync(participantId);
             return Ok(status);
         }
 
