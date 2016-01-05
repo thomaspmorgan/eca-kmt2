@@ -9,13 +9,15 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Business.Queries.Models.Itineraries;
+using ECA.Business.Queries.Itineraries;
 
 namespace ECA.Business.Service.Itineraries
 {
     /// <summary>
     /// An ItineraryStopService is used to perform crud operations on itinerary stops using an EcaContext instance.
     /// </summary>
-    public class ItineraryStopService : EcaService
+    public class ItineraryStopService : EcaService, IItineraryStopService
     {
         private readonly IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity> validator;
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
@@ -54,7 +56,57 @@ namespace ECA.Business.Service.Itineraries
 
         
         #region Get
+        /// <summary>
+        /// Returns a list of itinerary stops for the itinerary with the given id and project by id.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>Returns the itinerary stops for the itinerary and project by ids.</returns>
+        public List<ItineraryStopDTO> GetItineraryStopsByItineraryId(int projectId, int itineraryId)
+        {
+            return CreateGetItineraryStopsByItineraryIdAndProjectIdQuery(projectId, itineraryId).ToList();
+        }
 
+        /// <summary>
+        /// Returns a list of itinerary stops for the itinerary with the given id and project by id.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>Returns the itinerary stops for the itinerary and project by ids.</returns>
+        public Task<List<ItineraryStopDTO>> GetItineraryStopsByItineraryIdAsync(int projectId, int itineraryId)
+        {
+            return CreateGetItineraryStopsByItineraryIdAndProjectIdQuery(projectId, itineraryId).ToListAsync();
+        }
+
+        private IQueryable<ItineraryStopDTO> CreateGetItineraryStopsByItineraryIdAndProjectIdQuery(int projectId, int itineraryId)
+        {
+            return ItineraryStopQueries.CreateGetItineraryStopsByItineraryIdQuery(this.Context, itineraryId).Where(x => x.ProjectId == projectId).OrderBy(x => x.ArrivalDate);
+        }
+
+        /// <summary>
+        /// Returns the itinerary stopo with the given id.
+        /// </summary>
+        /// <param name="itineraryStopId">The itinerary stop id.</param>
+        /// <returns>The itinerary stop dto.</returns>
+        public ItineraryStopDTO GetItineraryStopById(int itineraryStopId)
+        {
+            return CreateGetItineraryStopDTOByIdQuery(itineraryStopId).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the itinerary stopo with the given id.
+        /// </summary>
+        /// <param name="itineraryStopId">The itinerary stop id.</param>
+        /// <returns>The itinerary stop dto.</returns>
+        public Task<ItineraryStopDTO> GetItineraryStopByIdAsync(int itineraryStopId)
+        {
+            return CreateGetItineraryStopDTOByIdQuery(itineraryStopId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<ItineraryStopDTO> CreateGetItineraryStopDTOByIdQuery(int itineraryStopId)
+        {
+            return ItineraryStopQueries.CreateGetItineraryStopsQuery(this.Context).Where(x => x.ItineraryStopId == itineraryStopId);
+        }
         #endregion
 
         #region Create

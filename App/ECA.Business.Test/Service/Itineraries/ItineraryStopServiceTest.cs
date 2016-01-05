@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using ECA.Data;
 using ECA.Business.Service;
 using ECA.Core.Exceptions;
+using ECA.Business.Queries.Models.Itineraries;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Itineraries
 {
@@ -26,6 +28,352 @@ namespace ECA.Business.Test.Service.Itineraries
             context = new TestEcaContext();
             service = new ItineraryStopService(context, validator.Object);
         }
+
+        #region Get
+        [TestMethod]
+        public async Task TestGetItineraryStopsById()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+            };
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var location = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "person 1"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                FullName = "person 2"
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 2,
+                PersonId = person2.PersonId,
+                Person = person2
+            };
+            var itineraryGroup = new ItineraryGroup
+            {
+                Name = "group1",
+            };
+            itineraryGroup.Participants.Add(participant1);
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 1,
+                Name = "itinerary name",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-100.0),
+                EndDate = DateTimeOffset.UtcNow.AddDays(100.0),
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            itinerary.ItineraryGroups.Add(itineraryGroup);
+            itineraryGroup.Itinerary = itinerary;
+            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+            var stop = new ItineraryStop
+            {
+                DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
+                DateLeave = DateTimeOffset.UtcNow.AddDays(10.0),
+                Destination = location,
+                DestinationId = location.LocationId,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+                Name = "stop"
+            };
+            stop.History.RevisedOn = DateTimeOffset.UtcNow;
+            stop.Groups.Add(itineraryGroup);
+            stop.Participants.Add(participant2);
+
+            context.ItineraryStops.Add(stop);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(cityLocationType);
+
+            Action<ItineraryStopDTO> tester = (results) =>
+            {
+                Assert.IsNotNull(results);
+            };
+            var serviceResults = service.GetItineraryStopById(stop.ItineraryStopId);
+            var serviceResultsAsync = await service.GetItineraryStopByIdAsync(stop.ItineraryStopId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetItineraryStopsById_StopDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+            };
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var location = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "person 1"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                FullName = "person 2"
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 2,
+                PersonId = person2.PersonId,
+                Person = person2
+            };
+            var itineraryGroup = new ItineraryGroup
+            {
+                Name = "group1",
+            };
+            itineraryGroup.Participants.Add(participant1);
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 1,
+                Name = "itinerary name",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-100.0),
+                EndDate = DateTimeOffset.UtcNow.AddDays(100.0),
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            itinerary.ItineraryGroups.Add(itineraryGroup);
+            itineraryGroup.Itinerary = itinerary;
+            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+            var stop = new ItineraryStop
+            {
+                DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
+                DateLeave = DateTimeOffset.UtcNow.AddDays(10.0),
+                Destination = location,
+                DestinationId = location.LocationId,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+                Name = "stop"
+            };
+            stop.History.RevisedOn = DateTimeOffset.UtcNow;
+            stop.Groups.Add(itineraryGroup);
+            stop.Participants.Add(participant2);
+
+            context.ItineraryStops.Add(stop);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(cityLocationType);
+
+            Action<ItineraryStopDTO> tester = (results) =>
+            {
+                Assert.IsNull(results);
+            };
+            var serviceResults = service.GetItineraryStopById(stop.ItineraryStopId + 1);
+            var serviceResultsAsync = await service.GetItineraryStopByIdAsync(stop.ItineraryStopId + 1);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetItineraryStopsByItineraryId()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+            };
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var location = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "person 1"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                FullName = "person 2"
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 2,
+                PersonId = person2.PersonId,
+                Person = person2
+            };
+            var itineraryGroup = new ItineraryGroup
+            {
+                Name = "group1",
+            };
+            itineraryGroup.Participants.Add(participant1);
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 1,
+                Name = "itinerary name",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-100.0),
+                EndDate = DateTimeOffset.UtcNow.AddDays(100.0),
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            itinerary.ItineraryGroups.Add(itineraryGroup);
+            itineraryGroup.Itinerary = itinerary;
+            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+            var stop = new ItineraryStop
+            {
+                DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
+                DateLeave = DateTimeOffset.UtcNow.AddDays(10.0),
+                Destination = location,
+                DestinationId = location.LocationId,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+                Name = "stop"
+            };
+            stop.History.RevisedOn = DateTimeOffset.UtcNow;
+            stop.Groups.Add(itineraryGroup);
+            stop.Participants.Add(participant2);
+
+            context.ItineraryStops.Add(stop);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(cityLocationType);
+
+            Action<List<ItineraryStopDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+            };
+            var serviceResults = service.GetItineraryStopsByItineraryId(project.ProjectId, itinerary.ItineraryId);
+            var serviceResultsAsync = await service.GetItineraryStopsByItineraryIdAsync(project.ProjectId, itinerary.ItineraryId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetItineraryStopsByItineraryId_DifferentProjectId()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+            };
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var location = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "person 1"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                FullName = "person 2"
+            };
+            var participant2 = new Participant
+            {
+                ParticipantId = 2,
+                PersonId = person2.PersonId,
+                Person = person2
+            };
+            var itineraryGroup = new ItineraryGroup
+            {
+                Name = "group1",
+            };
+            itineraryGroup.Participants.Add(participant1);
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 1,
+                Name = "itinerary name",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-100.0),
+                EndDate = DateTimeOffset.UtcNow.AddDays(100.0),
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            itinerary.ItineraryGroups.Add(itineraryGroup);
+            itineraryGroup.Itinerary = itinerary;
+            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+            var stop = new ItineraryStop
+            {
+                DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
+                DateLeave = DateTimeOffset.UtcNow.AddDays(10.0),
+                Destination = location,
+                DestinationId = location.LocationId,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+                Name = "stop"
+            };
+            stop.History.RevisedOn = DateTimeOffset.UtcNow;
+            stop.Groups.Add(itineraryGroup);
+            stop.Participants.Add(participant2);
+
+            context.ItineraryStops.Add(stop);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(cityLocationType);
+
+            Action<List<ItineraryStopDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+            var serviceResults = service.GetItineraryStopsByItineraryId(project.ProjectId + 1, itinerary.ItineraryId);
+            var serviceResultsAsync = await service.GetItineraryStopsByItineraryIdAsync(project.ProjectId + 1, itinerary.ItineraryId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
 
         #region Create
         [TestMethod]

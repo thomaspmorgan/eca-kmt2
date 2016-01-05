@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Itineraries;
 using ECA.Data;
 using System;
@@ -30,11 +31,14 @@ namespace ECA.Business.Queries.Itineraries
                         let groupParticipants = itineraryStop.Groups.SelectMany(x => x.Participants)
                         let participantsCount = itineraryStop.Participants.Count() + groupParticipants.Count()
 
+                        let hasDestination = itineraryStop.DestinationId.HasValue
+                        let destination = hasDestination ? locationQuery.Where(x => x.Id == itineraryStop.DestinationId.Value).FirstOrDefault() : null
+
                         select new ItineraryStopDTO
                         {
                             ArrivalDate = itineraryStop.DateArrive,
                             DepartureDate = itineraryStop.DateLeave,
-                            Destination = locationQuery.Where(x => x.Id == itineraryStop.DestinationId).FirstOrDefault(),
+                            Destination = destination,
                             Groups = itineraryStop.Groups.Select(x => new ItineraryStopGroupDTO
                             {
                                 ItineraryGroupId = x.ItineraryGroupId,
@@ -46,7 +50,7 @@ namespace ECA.Business.Queries.Itineraries
                                     ItineraryStopId = itineraryStop.ItineraryStopId,
                                     ParticipantId = p.ParticipantId,
                                     PersonId = p.Person.PersonId,
-                                    TravelingFrom = null
+                                    //TravelingFrom = null
                                 })
                             }),
                             Participants = itineraryStop.Participants.Where(p => p.PersonId.HasValue).Select(p => new ItineraryStopParticipantDTO
@@ -56,7 +60,7 @@ namespace ECA.Business.Queries.Itineraries
                                 ItineraryStopId = itineraryStop.ItineraryStopId,
                                 ParticipantId = p.ParticipantId,
                                 PersonId = p.Person.PersonId,
-                                TravelingFrom = null
+                                //TravelingFrom = null
                             }),
                             ItineraryId = itineraryStop.ItineraryId,
                             ItineraryStopId = itineraryStop.ItineraryStopId,
