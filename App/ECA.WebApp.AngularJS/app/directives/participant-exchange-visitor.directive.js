@@ -5,13 +5,13 @@
         .module('staticApp')
         .directive('participantExchangeVisitor', participantExchangeVisitor);
 
-    participantExchangeVisitor.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantExchangeVisitorService'];
+    participantExchangeVisitor.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService'];
     
-    function participantExchangeVisitor($log, LookupService, FilterService, NotificationService, ParticipantExchangeVisitorService) {
+    function participantExchangeVisitor($log, LookupService, FilterService, NotificationService) {
         // Usage:
         //     <participant_exchange_visitor participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
-        // 
+        //
         var directive = {
             restrict: 'E',
             scope: {
@@ -203,25 +203,7 @@
                 loadProgramCategories();
                 loadUSGovernmentAgencies();
                 loadInternationalOrganizations();
-                //loadFieldOfStudies();
-                
-                // pre-sevis validation
-                $scope.validateSevisInfo = function () {
-                    $scope.edit.isValidationLoading = true;
-                    return ParticipantExchangeVisitorService.validateParticipantPersonsSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.info('Validated participant SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.length; i++) {
-                            valErrors.push(response.data[i].errorMessage);
-                        }
-                        $scope.validationResults = valErrors;
-                        $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                        $scope.edit.isValidationLoading = false;
-                    });
-                };
+                //loadFieldOfStudies();                
             }
         };
 

@@ -14,7 +14,9 @@
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
             getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
-            sendToSevis: sendToSevis
+            sendToSevis: sendToSevis,
+            validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
+            validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis
         };
 
         return service;
@@ -55,6 +57,21 @@
         function sendToSevis(participantIds) {
             return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
         }
-                
+        
+        // validate a sevis create object
+        function validateParticipantPersonsCreateSevis(id) {
+            var path = 'ParticipantPersonsSevis/ValidateCreateSevis';
+            return DragonBreath.get(path, id);
+        };
+
+        // validate a sevis update object
+        function validateParticipantPersonsUpdateSevis(id) {
+            var path = 'ParticipantPersonsSevis/ValidateUpdateSevis';
+            return DragonBreath.get(path, id);
+        };
+
+        // update participant sevis status
+
+
     }
 })();

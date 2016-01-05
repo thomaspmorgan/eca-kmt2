@@ -139,15 +139,18 @@ namespace ECA.Business.Service.Persons
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitor();
+
+            ExchVisitor.requestID = "1";
+            ExchVisitor.userID = "1";
+            ExchVisitor.PositionCode = "123";
+            ExchVisitor.PrgStartDate = new DateTime(2005, 4, 18);
+            ExchVisitor.PrgEndDate = new DateTime(2009, 4, 18);
+            ExchVisitor.CategoryCode = "23";
+            ExchVisitor.OccupationCategoryCode = "";
+
             // biographical
             ExchVisitor.Biographical = new Biographical
             {
-                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
-                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
-                BirthCountryReason = "",
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
-                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
-                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                 FullName = new FullName
                 {
                     FirsName = personalPII.FirstName,
@@ -155,13 +158,16 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
-                Gender = personalPII.GenderId.ToString()
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : new DateTime(1974, 4, 15),
+                Gender = personalPII.GenderId.ToString(),
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "Arlington",
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "US",
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "US",
+                PermanentResidenceCountryCode = "US",
+                BirthCountryReason = "",
+                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : ""
             };
-            ExchVisitor.PositionCode = "";
-            ExchVisitor.PrgStartDate = new DateTime(2019, 4, 18);
-            ExchVisitor.PrgEndDate = (DateTime?)null;
-            ExchVisitor.CategoryCode = "";
-            ExchVisitor.OccupationCategoryCode = "";
+            // subject field
             ExchVisitor.SubjectField = new SubjectField
             {
                 SubjectFieldCode = "12 1234",
@@ -180,6 +186,39 @@ namespace ECA.Business.Service.Persons
                     State = physicalAddress.Division.LocationName,
                     PostalCode = physicalAddress.PostalCode
                 };
+                ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
+                {
+                    ResidentialType = "",
+                    HostFamily = new HostFamily
+                    {
+                        PContact = new PContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        SContact = new SContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        Phone = ""
+                    },
+                    BoardingSchool = new BoardingSchool
+                    {
+                        Name = "",
+                        Phone = ""
+                    },
+                    LCCoordinator = new LCCoordinator
+                    {
+                        FirsName = "",
+                        LastName = ""
+                    }
+                };
+            }
+            else
+            {
+                ExchVisitor.USAddress = null;
+                ExchVisitor.Biographical.ResidentialAddress = null;
             }
             if (mailingAddress != null)
             {
@@ -191,6 +230,10 @@ namespace ECA.Business.Service.Persons
                     State = mailingAddress.Division.LocationName,
                     PostalCode = mailingAddress.PostalCode
                 };
+            }
+            else
+            {
+                ExchVisitor.MailAddress = null;
             }
             // financial
             ExchVisitor.FinancialInfo = new FinancialInfo
@@ -225,6 +268,7 @@ namespace ECA.Business.Service.Persons
                 }
             };
             // TODO: complete when dependent feature is available
+            ExchVisitor.CreateDependent = null;
             //ExchVisitor.CreateDependent = new CreateDependent
             //{
             //    Dependent = new AddDependent
@@ -252,7 +296,7 @@ namespace ECA.Business.Service.Persons
                     PostalCode = "22206",
                     SiteName = "Office 1",
                     PrimarySite = true,
-                    Remarks = "Test site"                    
+                    Remarks = "Test site"
                 },
                 SiteOfActivityExempt = new SiteOfActivityExempt
                 {
@@ -315,12 +359,7 @@ namespace ECA.Business.Service.Persons
             // biographical
             ExchVisitor.Biographical = new BiographicalUpdate
             {
-                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
-                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
-                BirthCountryReason = "",
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
-                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
-                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+                printForm = false,
                 FullName = new FullName
                 {
                     FirsName = personalPII.FirstName,
@@ -328,10 +367,15 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
                 Gender = personalPII.GenderId.ToString(),
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                BirthCountryReason = "",
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                 PhoneNumber = "",
                 PositionCode = "",
-                printForm = false,
                 Remarks = "Test remark"
             };
             if (mailingAddress != null)
@@ -346,6 +390,10 @@ namespace ECA.Business.Service.Persons
                     Explanation = "",
                     ExplanationCode = ""
                 };
+            }
+            else
+            {
+                ExchVisitor.Biographical.MailAddress = null;
             }
             if (physicalAddress != null)
             {
@@ -362,6 +410,7 @@ namespace ECA.Business.Service.Persons
                 };
                 ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
                 {
+                    ResidentialType = "",
                     BoardingSchool = new BoardingSchool
                     {
                         Name = "",
@@ -385,9 +434,13 @@ namespace ECA.Business.Service.Persons
                     {
                         FirsName = "",
                         LastName = ""
-                    },
-                    ResidentialType = ""
+                    }
                 };
+            }
+            else
+            {
+                ExchVisitor.Biographical.USAddress = null;
+                ExchVisitor.Biographical.ResidentialAddress = null;
             }
             // financial
             ExchVisitor.FinancialInfo = new FinancialInfoUpdate
@@ -464,10 +517,6 @@ namespace ECA.Business.Service.Persons
             };
             ExchVisitor.requestID = "1";
             ExchVisitor.sevisID = "1";
-            ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
-            {
-
-            };
             ExchVisitor.Status = new StatusUpdate
             {
             };
@@ -484,6 +533,7 @@ namespace ECA.Business.Service.Persons
             ExchVisitor.userID = participant.PersonId.ToString();
 
             // TODO: complete when dependent feature is available
+            ExchVisitor.Dependent = null;
             //ExchVisitor.Dependent = new UpdatedDependent
             //{
             //    Edit = new EditDependent

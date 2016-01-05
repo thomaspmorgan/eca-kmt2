@@ -45,7 +45,9 @@ namespace ECA.Business.Service.Persons
 
             var validator = new SEVISBatchCreateUpdateEVValidator();
             var results = await validator.ValidateAsync(createEV);
-            
+
+            //GetStudentUpdateXml(createEV);
+
             return results;
         }
         
