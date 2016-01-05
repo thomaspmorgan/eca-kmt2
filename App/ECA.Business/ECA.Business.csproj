@@ -198,10 +198,9 @@
     <Compile Include="Queries\Models\Fundings\SourceMoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryGroupParticipantsDTO.cs" />
-    <Compile Include="Queries\Models\Itineraries\ItineraryGroupPersonDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopGroupDTO.cs" />
-    <Compile Include="Queries\Models\Itineraries\ItineraryStopGroupParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -264,6 +263,7 @@
     <Compile Include="Service\Itineraries\EcaItinerary.cs" />
     <Compile Include="Service\Itineraries\ItineraryServiceValidator.cs" />
     <Compile Include="Service\Itineraries\ItineraryStopService.cs" />
+    <Compile Include="Service\Itineraries\ItineraryStopServiceValidator.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryStop.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />

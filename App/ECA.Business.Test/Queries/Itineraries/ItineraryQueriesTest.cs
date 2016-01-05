@@ -38,6 +38,10 @@ namespace ECA.Business.Test.Queries.Itineraries
             {
                 ParticipantId = 2
             };
+            var participant3 = new Participant
+            {
+                ParticipantId = 3
+            };
 
             var cityLocationType = new LocationType
             {
@@ -94,10 +98,17 @@ namespace ECA.Business.Test.Queries.Itineraries
                 Itinerary = itinerary,
                 ItineraryId = itinerary.ItineraryId
             };
+            var stop = new ItineraryStop
+            {
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+            };
+            stop.Participants.Add(participant3);
             group1.Participants.Add(participant1);
             group2.Participants.Add(participant2);
             itinerary.ItineraryGroups.Add(group1);
             itinerary.ItineraryGroups.Add(group2);
+            itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
             context.LocationTypes.Add(countryLocationType);
@@ -107,8 +118,10 @@ namespace ECA.Business.Test.Queries.Itineraries
             context.Itineraries.Add(itinerary);
             context.ItineraryGroups.Add(group1);
             context.ItineraryGroups.Add(group2);
+            context.ItineraryStops.Add(stop);
             context.Participants.Add(participant1);
             context.Participants.Add(participant2);
+            context.Participants.Add(participant3);
 
             var results = ItineraryQueries.CreateGetItinerariesQuery(context);
             Assert.AreEqual(1, results.Count());
@@ -122,7 +135,7 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(itinerary.ItineraryId, firstResult.Id);
             Assert.AreEqual(itinerary.Name, firstResult.Name);
             Assert.AreEqual(itinerary.StartDate, firstResult.StartDate);
-            Assert.AreEqual(2, firstResult.ParticipantsCount);
+            Assert.AreEqual(3, firstResult.ParticipantsCount);
             Assert.AreEqual(2, firstResult.GroupsCount);
         }
 

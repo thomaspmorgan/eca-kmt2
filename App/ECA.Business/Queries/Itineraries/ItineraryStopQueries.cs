@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Itineraries
 {
+    /// <summary>
+    /// ItineraryStopQueries contains queries for retrieving itinerary stops from the eca context.
+    /// </summary>
     public static class ItineraryStopQueries
     {
         /// <summary>
@@ -23,20 +26,58 @@ namespace ECA.Business.Queries.Itineraries
             var locationQuery = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from itineraryStop in context.ItineraryStops
+
+                        let groupParticipants = itineraryStop.Groups.SelectMany(x => x.Participants)
+                        let participantsCount = itineraryStop.Participants.Count() + groupParticipants.Count()
+
                         select new ItineraryStopDTO
                         {
                             ArrivalDate = itineraryStop.DateArrive,
                             DepartureDate = itineraryStop.DateLeave,
                             Destination = locationQuery.Where(x => x.Id == itineraryStop.DestinationId).FirstOrDefault(),
-                            Groups = null,
+                            Groups = itineraryStop.Groups.Select(x => new ItineraryStopGroupDTO
+                            {
+                                ItineraryGroupId = x.ItineraryGroupId,
+                                Name = x.Name,
+                                Participants = x.Participants.Where(p => p.PersonId.HasValue).Select(p => new ItineraryStopParticipantDTO
+                                {
+                                    FullName = p.Person.FullName,
+                                    ItineraryInformationId = -1,
+                                    ItineraryStopId = itineraryStop.ItineraryStopId,
+                                    ParticipantId = p.ParticipantId,
+                                    PersonId = p.Person.PersonId,
+                                    TravelingFrom = null
+                                })
+                            }),
+                            Participants = itineraryStop.Participants.Where(p => p.PersonId.HasValue).Select(p => new ItineraryStopParticipantDTO
+                            {
+                                FullName = p.Person.FullName,
+                                ItineraryInformationId = -1,
+                                ItineraryStopId = itineraryStop.ItineraryStopId,
+                                ParticipantId = p.ParticipantId,
+                                PersonId = p.Person.PersonId,
+                                TravelingFrom = null
+                            }),
                             ItineraryId = itineraryStop.ItineraryId,
                             ItineraryStopId = itineraryStop.ItineraryStopId,
                             LastRevisedOn = itineraryStop.History.RevisedOn,
                             Name = itineraryStop.Name,
-                            ParticipantsCount = 0,
+                            ParticipantsCount = participantsCount,
                             ProjectId = itineraryStop.Itinerary.ProjectId
                         };
             return query;
+        }
+
+        /// <summary>
+        /// Returns the itinerary stops for the itinerary with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The itinerary stops for the itinerary with the given id.</returns>
+        public static IQueryable<ItineraryStopDTO> CreateGetItineraryStopsByItineraryIdQuery(EcaContext context, int itineraryId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetItineraryStopsQuery(context).Where(x => x.ItineraryId == itineraryId);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace ECA.Business.Queries.Models.Itineraries
     {
         public ItineraryStopGroupDTO()
         {
-            this.Participants = new List<ItineraryStopGroupParticipantDTO>();
+            this.Participants = new List<ItineraryStopParticipantDTO>();
         }
 
         public int ItineraryGroupId { get; set; }
 
         public string Name { get; set; }
 
-        public IEnumerable<ItineraryStopGroupParticipantDTO> Participants { get; set; }
+        public IEnumerable<ItineraryStopParticipantDTO> Participants { get; set; }
     }
 }

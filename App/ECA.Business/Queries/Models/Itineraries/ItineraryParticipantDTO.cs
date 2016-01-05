@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Itineraries
 {
-    public class ItineraryStopGroupParticipantDTO
+    public class ItineraryParticipantDTO
     {
         public int ParticipantId { get; set; }
 
         public int PersonId { get; set; }
 
         public string FullName { get; set; }
+    }
 
+    public class ItineraryStopParticipantDTO : ItineraryParticipantDTO
+    {
         public int ItineraryInformationId { get; set; }
 
         public LocationDTO TravelingFrom { get; set; }

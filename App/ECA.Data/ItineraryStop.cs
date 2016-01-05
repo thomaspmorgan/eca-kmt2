@@ -22,6 +22,10 @@ namespace ECA.Data
         public ItineraryStop()
         {
             this.History = new History();
+            this.Participants = new HashSet<Participant>();
+            this.Groups = new HashSet<ItineraryGroup>();
+            this.SourceItineraryStopMoneyFlows = new HashSet<MoneyFlow>();
+            this.RecipientItineraryStopMoneyFlows = new HashSet<MoneyFlow>();
         }
 
         /// <summary>

@@ -13,12 +13,12 @@ namespace ECA.Business.Queries.Models.Itineraries
     {
         public ItineraryGroupParticipantsDTO()
         {
-            this.People = new List<ItineraryGroupPersonDTO>();
+            this.People = new List<ItineraryParticipantDTO>();
         }
 
         /// <summary>
         /// Gets or sets the people in the itinerary group.
         /// </summary>
-        public IEnumerable<ItineraryGroupPersonDTO> People { get; set; }
+        public IEnumerable<ItineraryParticipantDTO> People { get; set; }
     }
 }
