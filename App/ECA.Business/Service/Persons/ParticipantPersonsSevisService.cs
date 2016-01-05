@@ -128,15 +128,170 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         public SEVISBatchCreateUpdateEV GetCreateExchangeVisitor(int participantId)
         {
-            var updateVisitorBatch = new SEVISBatchCreateUpdateEV
+            //Get student details
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var personalPII = PersonQueries.CreateGetPiiByIdQuery(this.Context, (int)participant.PersonId).FirstOrDefault();
+            var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
+            var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+            var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
+            var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
+
+            var ExchVisitor = new ExchangeVisitor();
+            // biographical
+            ExchVisitor.Biographical = new Biographical
             {
-                userID = "1",
-                BatchHeader = null,
-                UpdateEV = null,
-                CreateEV = null
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                BirthCountryReason = "",
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+                FullName = new FullName
+                {
+                    FirsName = personalPII.FirstName,
+                    LastName = personalPII.LastName,
+                    Suffix = personalPII.NameSuffix,
+                    PreferredName = personalPII.Alias
+                },
+                Gender = personalPII.GenderId.ToString()
+            };
+            ExchVisitor.PositionCode = "";
+            ExchVisitor.PrgStartDate = new DateTime(2019, 4, 18);
+            ExchVisitor.PrgEndDate = (DateTime?)null;
+            ExchVisitor.CategoryCode = "";
+            ExchVisitor.OccupationCategoryCode = "";
+            ExchVisitor.SubjectField = new SubjectField
+            {
+                SubjectFieldCode = "12 1234",
+                ForeignDegreeLevel = "Bachelors",
+                ForeignFieldOfStudy = "Business",
+                Remarks = "testing"
+            };
+            // addresses
+            if (physicalAddress != null)
+            {
+                ExchVisitor.USAddress = new USAddress
+                {
+                    Address1 = physicalAddress.Street1,
+                    Address2 = physicalAddress.Street2,
+                    City = physicalAddress.City.LocationName,
+                    State = physicalAddress.Division.LocationName,
+                    PostalCode = physicalAddress.PostalCode
+                };
+            }
+            if (mailingAddress != null)
+            {
+                ExchVisitor.MailAddress = new USAddress
+                {
+                    Address1 = mailingAddress.Street1,
+                    Address2 = mailingAddress.Street2,
+                    City = mailingAddress.City.LocationName,
+                    State = mailingAddress.Division.LocationName,
+                    PostalCode = mailingAddress.PostalCode
+                };
+            }
+            // financial
+            ExchVisitor.FinancialInfo = new FinancialInfo
+            {
+                ReceivedUSGovtFunds = false,
+                ProgramSponsorFunds = "1200",
+                OtherFunds = new OtherFunds
+                {
+                    International = new International
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "org 1",
+                        OtherName1 = "on 1",
+                        Org2 = "org 2",
+                        OtherName2 = "on 2"
+                    },
+                    USGovt = new USGovt
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "govorg 1",
+                        OtherName1 = "govon 1",
+                        Org2 = "govorg 2",
+                        OtherName2 = "govon 2"
+                    },
+                    Other = new Other
+                    {
+                        amount = "30",
+                        name = "other nm"
+                    }
+                }
+            };
+            // TODO: complete when dependent feature is available
+            //ExchVisitor.CreateDependent = new CreateDependent
+            //{
+            //    Dependent = new AddDependent
+            //    {
+            //        BirthDate = new DateTime(1988, 4, 18),
+            //        Gender = "1",
+            //        BirthCountryCode = "01",
+            //        CitizenshipCountryCode = "01",
+            //        FullName = new FullName
+            //        {
+            //            FirsName = "Some",
+            //            LastName = "Dependent"
+            //        }
+            //    }
+            //};
+            // site of activity
+            ExchVisitor.AddSiteOfActivity = new AddSiteOfActivity
+            {
+                SiteOfActivitySOA = new SiteOfActivitySOA
+                {
+                    printForm = false,
+                    Address1 = "123 Some St",
+                    City = "Arlington",
+                    State = "VA",
+                    PostalCode = "22206",
+                    SiteName = "Office 1",
+                    PrimarySite = true,
+                    Remarks = "Test site"                    
+                },
+                SiteOfActivityExempt = new SiteOfActivityExempt
+                {
+                    Remarks = "test site exempt"
+                }
+            };
+            // T/IPP
+            ExchVisitor.AddTIPP = new AddTIPP
+            {
+                print7002 = false,
+                ParticipantInfo = new ParticipantInfo
+                {
+                    EmailAddress = "test@domain.com",
+                    FieldOfStudy = "Business",
+                    TypeOfDegree = "Bachelors",
+                    DateAwardedOrExpected = new DateTime(2009, 5, 12)
+                }
             };
 
-            return updateVisitorBatch;
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+
+            var createVisitor = new CreateExchVisitor
+            {
+                ExchangeVisitor = ExchVisitor
+            };
+
+            var createEVBatch = new SEVISBatchCreateUpdateEV
+            {
+                userID = "1",
+                BatchHeader = batchHeader,
+                UpdateEV = null,
+                CreateEV = createVisitor
+            };
+
+            return createEVBatch;
         }
 
         /// <summary>
@@ -329,23 +484,23 @@ namespace ECA.Business.Service.Persons
             ExchVisitor.userID = participant.PersonId.ToString();
 
             // TODO: complete when dependent feature is available
-            ExchVisitor.Dependent = new UpdatedDependent
-            {
-                Edit = new EditDependent
-                {
-                    dependentSevisID = "1",
-                    printForm = false,
-                    BirthDate = new DateTime(1988, 4, 18),
-                    Gender = "1",
-                    BirthCountryCode = "01",
-                    CitizenshipCountryCode = "01",
-                    FullName = new FullName
-                    {
-                        FirsName = "Some",
-                        LastName = "Dependent"
-                    }
-                }
-            };
+            //ExchVisitor.Dependent = new UpdatedDependent
+            //{
+            //    Edit = new EditDependent
+            //    {
+            //        dependentSevisID = "1",
+            //        printForm = false,
+            //        BirthDate = new DateTime(1988, 4, 18),
+            //        Gender = "1",
+            //        BirthCountryCode = "01",
+            //        CitizenshipCountryCode = "01",
+            //        FullName = new FullName
+            //        {
+            //            FirsName = "Some",
+            //            LastName = "Dependent"
+            //        }
+            //    }
+            //};
 
             var batchHeader = new BatchHeader
             {
