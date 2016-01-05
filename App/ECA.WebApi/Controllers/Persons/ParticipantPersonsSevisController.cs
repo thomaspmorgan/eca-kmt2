@@ -170,10 +170,10 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Manually validate a participant sevis record.
+        /// Retrieves participant sevis record validation results.
         /// </summary>
-        /// <param name="participantId"></param>
-        /// <returns>validation result</returns>
+        /// <param name="participantId">Participant ID</param>
+        /// <returns>Validation results</returns>
         [Route("ParticipantPersonsSevis/ValidateSevis/{participantId:int}")]
         public async Task<IHttpActionResult> GetValidateSevisAsync(int participantId)
         {

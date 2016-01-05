@@ -32,22 +32,14 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">Entity to validate</param>
         /// <returns>validation results</returns>        
-        public List<ValidationResult> ValidateSevis(int participantId)
+        public FluentValidation.Results.ValidationResult ValidateSevis(int participantId)
         {
             var updateStudent = GetUpdateExchangeVisitor(participantId);
 
             var validator = new SEVISBatchCreateUpdateEVValidator();
             var results = validator.Validate(updateStudent);
-
-            var final = new List<ValidationResult>();
-            foreach (var error in results.Errors)
-            {
-                final.Add(new ValidationResult(error.ErrorMessage));
-            }
-
-            participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
-
-            return final;
+            
+            return results;
         }
 
         /// <summary>
@@ -55,30 +47,25 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">Entity to validate</param>
         /// <returns>validation results</returns>
-        public async Task<List<ValidationResult>> ValidateSevisAsync(int participantId)
+        public async Task<FluentValidation.Results.ValidationResult> ValidateSevisAsync(int participantId)
         {
             var updateVisitor = GetUpdateExchangeVisitor(participantId);
 
             var validator = new SEVISBatchCreateUpdateEVValidator();
             var results = await validator.ValidateAsync(updateVisitor);
-
-            if (results.IsValid)
-            {
-
-            }
-
-            var final = new List<ValidationResult>();
-            foreach (var error in results.Errors)
-            {
-                final.Add(new ValidationResult(error.ErrorMessage));
-            }
+            
+            //var final = new List<ValidationResult>();
+            //foreach (var error in results.Errors)
+            //{
+            //    final.Add(new ValidationResult(error.ErrorMessage));
+            //}
             // update the participant sevis status
-            participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count);
+            //participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count, results.IsValid);
 
             // temporary to test xml serialization
             //GetStudentUpdateXml(updateVisitor);
 
-            return final;
+            return results;
         }
 
         /// <summary>
@@ -96,8 +83,8 @@ namespace ECA.Business.Service.Persons
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
             var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
             var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
-            //var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
-            //var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
+            var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
+            var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitorUpdate();
             // biographical
@@ -107,7 +94,7 @@ namespace ECA.Business.Service.Persons
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
                 BirthCountryReason = "",
                 BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
-                CitizenshipCountryCode = "", // citizenship != null ? citizenship.LocationIso2 : 
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                 FullName = new FullName
                 {

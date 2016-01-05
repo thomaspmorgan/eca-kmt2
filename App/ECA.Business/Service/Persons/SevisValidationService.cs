@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
@@ -18,7 +16,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>List of errors</returns>
-        public async Task<List<ValidationResult>> PreSevisValidationAsync(int participantId)
+        public async Task<FluentValidation.Results.ValidationResult> PreSevisValidationAsync(int participantId)
         {            
             var results = await validator.ValidateSevisAsync(participantId);
 
@@ -30,7 +28,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationEntity"></param>
         /// <returns></returns>
-        public List<ValidationResult> PreSevisValidation(int participantId)
+        public FluentValidation.Results.ValidationResult PreSevisValidation(int participantId)
         {            
             var results = validator.ValidateSevis(participantId);
 

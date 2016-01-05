@@ -269,13 +269,14 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
-        
+
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
-        /// <param name="participantId"></param>
-        /// <param name="count"></param>
-        public void UpdateParticipantPersonSevisCommStatus(int participantId, int count)
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="errorCount">Count of validation errors</param>
+        /// <param name="isValid">Validation status</param>
+        public void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid)
         {
             var newStatus = new ParticipantPersonSevisCommStatus
             {
@@ -283,11 +284,11 @@ namespace ECA.Business.Service.Persons
                 AddedOn = DateTimeOffset.Now
             };
 
-            if (count > 0)
+            if (errorCount > 0)
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
             }
-            else
+            else if (isValid)
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
             }
