@@ -12,6 +12,7 @@
     [Arrival_LocationId] INT NULL, 
     [Departure_LocationId] INT NULL, 
     [IVLP_ItineraryId] NVARCHAR(32) NULL, 
+    [CE_ComponentId] NVARCHAR(32) NULL, 
     CONSTRAINT [PK_dbo.Itinerary] PRIMARY KEY CLUSTERED ([ItineraryId] ASC),
     CONSTRAINT [FK_dbo.Itinerary_dbo.ItineraryStatus_ItineraryStatusId] FOREIGN KEY ([ItineraryStatusId]) REFERENCES [dbo].[ItineraryStatus] ([ItineraryStatusId]) ON DELETE CASCADE, 
     CONSTRAINT [FK_dbo.Itinerary_dbo.Project_ProjectId] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]), 

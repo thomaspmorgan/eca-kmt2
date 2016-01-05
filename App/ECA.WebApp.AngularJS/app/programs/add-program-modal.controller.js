@@ -166,12 +166,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onObjectivesSelect = function () {
-          if ($scope.view.selectedObjectives.length > 0) {
-              $scope.view.isSelectedObjectivesValid = true;
-          }
-          else {
-              $scope.view.isSelectedObjectivesValid = false;
-          }
+          $scope.view.isSelectedObjectivesValid = true;
       }
 
 
@@ -194,12 +189,6 @@ angular.module('staticApp')
 
       $scope.view.onCategoriesSelect = function () {
           $scope.view.isSelectedCategoriesValid = true;
-          if ($scope.view.selectedCategories.length < $scope.view.minimumRequiredFoci) {
-              $scope.view.isSelectedCategoriesValid = false;
-          }
-          if ($scope.view.selectedCategories.length > $scope.view.maximumRequiredFoci) {
-              $scope.view.isSelectedCategoriesValid = false;
-          }
       }
 
       $scope.view.onContactsChange = function () {
