@@ -190,8 +190,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group" ng-show="view.isCategoryRequired">
-                                <label>{{view.categoryLabel}}<span class="asterisk"> *</span></label>
+                            <div class="form-group" ng-show="view.isCategoryRequired && view.dataPointConfigurations[constants.dataPointProperty.categories.id]">
+                                <label>{{view.categoryLabel}}</label>
                                 <ui-select multiple
                                            name="categories"
                                            close-on-select="true"
@@ -208,17 +208,9 @@
                                         <div ng-bind-html="category.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.categories.$dirty">
-                                    <div ng-show="view.selectedCategories.length < view.minimumRequiredFoci">
-                                        <span class="error">Please select at least one {{view.minimumRequiredFoci}} {{view.categoryLabel}}.</span>
-                                    </div>
-                                    <div ng-show="view.selectedCategories.length > view.maximumRequiredFoci">
-                                        <span class="error">You may only select up to {{view.maximumRequiredFoci}} {{view.categoryLabel}}.</span>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="form-group" ng-show="view.isObjectiveRequired">
-                                <label>{{view.objectiveLabel}}<span class="asterisk"> *</span></label>
+                            <div class="form-group" ng-show="view.isObjectiveRequired && view.dataPointConfigurations[constants.dataPointProperty.objectives.id]">
+                                <label>{{view.objectiveLabel}}</label>
                                 <ui-select multiple
                                            name="objectives"
                                            close-on-select="true"
@@ -235,9 +227,6 @@
                                         <div ng-bind-html="objective.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="form.programForm.objectives.$dirty && !view.isSelectedObjectivesValid">
-                                    <span class="error">Please select at least one {{view.objectiveLabel}}.</span>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Points Of Contact<span class="asterisk"> *</span></label>

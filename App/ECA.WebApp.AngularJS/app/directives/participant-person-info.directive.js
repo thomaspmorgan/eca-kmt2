@@ -21,11 +21,11 @@
             },
             templateUrl: 'app/directives/participant-person-info.directive.html'
         };
+
         return directive;
 
         function link(scope, element, attrs) {
         };
-
     }
 
 })();

@@ -3,8 +3,8 @@ using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
-using ECA.Data;
 using ECA.Core.Service;
+using ECA.Business.Validation;
 
 namespace ECA.Business.Service.Persons
 {
@@ -57,7 +57,21 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participantPersonSevis</returns>
         Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId);
 
-        /// Sevis Comm Status
+        /// <summary>
+        /// Get populated create participant sevis object
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <returns>Create exchange visitor object</returns>
+        SEVISBatchCreateUpdateEV GetCreateExchangeVisitor(int participantId);
+
+        /// <summary>
+        /// Get populated update participant sevis object
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <returns>Update exchange visitor object</returns>
+        SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(int participantId);
+        
+        /// **** Sevis Comm Status ****
 
         /// <summary>
         /// Returns the participantPersonSevises in the system.
@@ -87,7 +101,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participantPersonSevisCommStatuses</returns>
         Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
-
+        /// <summary>
+        /// Returns a participantPersonSevisCommStatus
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participantPersonSevisCommStatuses</returns>
         IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds);
 
         /// <summary>
@@ -110,7 +128,12 @@ namespace ECA.Business.Service.Persons
         /// <returns>List of participant ids that were updated</returns>
         Task<int[]> SendToSevis(int[] participantIds);
 
-
-        void UpdateParticipantPersonSevisCommStatus(int participantId, int count);
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="errorCount">Count of validation errors</param>
+        /// <param name="isValid">Validation status</param>
+        void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid);
     }
 }

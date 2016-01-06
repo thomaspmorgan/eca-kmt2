@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using ECA.Business.Validation;
+﻿using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
     public interface IPersonSevisServiceValidator
     {
-        SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(int participantId);
-        List<ValidationResult> ValidateSevis(int participantId);
-        Task<List<ValidationResult>> ValidateSevisAsync(int participantId);
+        FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId);
+        Task<FluentValidation.Results.ValidationResult> ValidateSevisCreateEVAsync(int participantId);
+        FluentValidation.Results.ValidationResult ValidateSevisUpdateEV(int participantId);
+        Task<FluentValidation.Results.ValidationResult> ValidateSevisUpdateEVAsync(int participantId);
     }
 }

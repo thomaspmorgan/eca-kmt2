@@ -39,6 +39,9 @@
                     <input type="checkbox" ng-model="dataConfiguration.isRequired" ng-disabled="dataConfiguration.isInherited" ng-change="dataConfigurationChanged(dataConfiguration)"/> {{dataConfiguration.propertyName}}
                 </label>
             </div>
+            <div class="col-md-4" ng-show="(dataConfigurations | filter: {categoryId: constants.dataPointCategory.program.id}).length === 0">
+                <p class="small">There are no data points for this section.</p>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-11">

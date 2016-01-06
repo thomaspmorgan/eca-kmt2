@@ -74,7 +74,7 @@
                 <div class="col-md-8"><a ui-sref="programs.overview({programId: program.parentProgramId})">{{program.parentProgramName}}</a>
                 </div>
             </div>
-            <div class="row" ng-show="program.categories">
+            <div class="row" ng-show="program.categories.length > 0 && view.dataPointConfigurations[constants.dataPointProperty.categories.id]">
                 <div class="col-md-4 title-label">{{view.categoryLabel}}</div>
                 <div class="col-md-8 grouped-list">
                     <ul>
@@ -88,7 +88,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row" ng-show="program.objectives">
+            <div class="row" ng-show="program.objectives.length > 0 && view.dataPointConfigurations[constants.dataPointProperty.objectives.id]">
                 <div class="col-md-4 title-label">{{view.objectiveLabel}}</div>
                 <div class="col-md-8 grouped-list">
                     <ul>

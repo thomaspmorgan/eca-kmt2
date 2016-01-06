@@ -10,6 +10,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         public Biographical()
         {
             FullName = new FullName();
+            ResidentialAddress = new ResidentialAddress();
         }
 
         /// <summary>
@@ -56,5 +57,10 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// Email address
         /// </summary>
         public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Residential address for Au Pair or secondary school student
+        /// </summary>
+        public ResidentialAddress ResidentialAddress { get; set; }
     }
 }

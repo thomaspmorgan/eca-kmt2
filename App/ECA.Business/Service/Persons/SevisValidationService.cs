@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FluentValidation.Results;
 
 namespace ECA.Business.Service.Persons
 {
@@ -14,25 +13,49 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Test validation on a sevis object.
+        /// Test validation on a create sevis object.
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns>List of errors</returns>
-        public async Task<List<ValidationResult>> PreSevisValidationAsync(int participantId)
-        {            
-            var results = await validator.ValidateSevisAsync(participantId);
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>Sevis object validation results</returns>
+        public ValidationResult PreCreateSevisValidation(int participantId)
+        {
+            var results = validator.ValidateSevisCreateEV(participantId);
 
             return results;
         }
 
         /// <summary>
-        /// Test validation on a sevis object.
+        /// Test validation on a create sevis object.
         /// </summary>
-        /// <param name="validationEntity"></param>
-        /// <returns></returns>
-        public List<ValidationResult> PreSevisValidation(int participantId)
-        {            
-            var results = validator.ValidateSevis(participantId);
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>Sevis object validation results</returns>
+        public async Task<ValidationResult> PreCreateSevisValidationAsync(int participantId)
+        {
+            var results = await validator.ValidateSevisCreateEVAsync(participantId);
+
+            return results;
+        }
+
+        /// <summary>
+        /// Test validation on a update sevis object.
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>Sevis object validation results</returns>
+        public ValidationResult PreUpdateSevisValidation(int participantId)
+        {
+            var results = validator.ValidateSevisUpdateEV(participantId);
+
+            return results;
+        }
+
+        /// <summary>
+        /// Test validation on a update sevis object.
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>Sevis object validation results</returns>
+        public async Task<ValidationResult> PreUpdateSevisValidationAsync(int participantId)
+        {
+            var results = await validator.ValidateSevisUpdateEVAsync(participantId);
 
             return results;
         }

@@ -12,6 +12,10 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using NLog;
 using ECA.Core.Exceptions;
+using ECA.Business.Validation;
+using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
 
 namespace ECA.Business.Service.Persons
 {
@@ -116,6 +120,459 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevis;
         }
+
+        /// <summary>
+        /// Get populated create participant sevis object
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns></returns>
+        public SEVISBatchCreateUpdateEV GetCreateExchangeVisitor(int participantId)
+        {
+            //Get student details
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var personalPII = PersonQueries.CreateGetPiiByIdQuery(this.Context, (int)participant.PersonId).FirstOrDefault();
+            var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
+            var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+            var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
+            var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
+
+            var ExchVisitor = new ExchangeVisitor();
+
+            ExchVisitor.requestID = "1";
+            ExchVisitor.userID = "1";
+            ExchVisitor.PositionCode = "123";
+            ExchVisitor.PrgStartDate = new DateTime(2005, 4, 18);
+            ExchVisitor.PrgEndDate = new DateTime(2009, 4, 18);
+            ExchVisitor.CategoryCode = "23";
+            ExchVisitor.OccupationCategoryCode = "";
+
+            // biographical
+            ExchVisitor.Biographical = new Biographical
+            {
+                FullName = new FullName
+                {
+                    FirsName = personalPII.FirstName,
+                    LastName = personalPII.LastName,
+                    Suffix = personalPII.NameSuffix,
+                    PreferredName = personalPII.Alias
+                },
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : new DateTime(1974, 4, 15),
+                Gender = personalPII.GenderId.ToString(),
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "Arlington",
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "US",
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "US",
+                PermanentResidenceCountryCode = "US",
+                BirthCountryReason = "",
+                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : ""
+            };
+            // subject field
+            ExchVisitor.SubjectField = new SubjectField
+            {
+                SubjectFieldCode = "12 1234",
+                ForeignDegreeLevel = "Bachelors",
+                ForeignFieldOfStudy = "Business",
+                Remarks = "testing"
+            };
+            // addresses
+            if (physicalAddress != null)
+            {
+                ExchVisitor.USAddress = new USAddress
+                {
+                    Address1 = physicalAddress.Street1,
+                    Address2 = physicalAddress.Street2,
+                    City = physicalAddress.City.LocationName,
+                    State = physicalAddress.Division.LocationName,
+                    PostalCode = physicalAddress.PostalCode
+                };
+                ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
+                {
+                    ResidentialType = "",
+                    HostFamily = new HostFamily
+                    {
+                        PContact = new PContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        SContact = new SContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        Phone = ""
+                    },
+                    BoardingSchool = new BoardingSchool
+                    {
+                        Name = "",
+                        Phone = ""
+                    },
+                    LCCoordinator = new LCCoordinator
+                    {
+                        FirsName = "",
+                        LastName = ""
+                    }
+                };
+            }
+            else
+            {
+                ExchVisitor.USAddress = null;
+                ExchVisitor.Biographical.ResidentialAddress = null;
+            }
+            if (mailingAddress != null)
+            {
+                ExchVisitor.MailAddress = new USAddress
+                {
+                    Address1 = mailingAddress.Street1,
+                    Address2 = mailingAddress.Street2,
+                    City = mailingAddress.City.LocationName,
+                    State = mailingAddress.Division.LocationName,
+                    PostalCode = mailingAddress.PostalCode
+                };
+            }
+            else
+            {
+                ExchVisitor.MailAddress = null;
+            }
+            // financial
+            ExchVisitor.FinancialInfo = new FinancialInfo
+            {
+                ReceivedUSGovtFunds = false,
+                ProgramSponsorFunds = "1200",
+                OtherFunds = new OtherFunds
+                {
+                    International = new International
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "org 1",
+                        OtherName1 = "on 1",
+                        Org2 = "org 2",
+                        OtherName2 = "on 2"
+                    },
+                    USGovt = new USGovt
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "govorg 1",
+                        OtherName1 = "govon 1",
+                        Org2 = "govorg 2",
+                        OtherName2 = "govon 2"
+                    },
+                    Other = new Other
+                    {
+                        amount = "30",
+                        name = "other nm"
+                    }
+                }
+            };
+            // TODO: complete when dependent feature is available
+            ExchVisitor.CreateDependent = null;
+            //ExchVisitor.CreateDependent = new CreateDependent
+            //{
+            //    Dependent = new AddDependent
+            //    {
+            //        BirthDate = new DateTime(1988, 4, 18),
+            //        Gender = "1",
+            //        BirthCountryCode = "01",
+            //        CitizenshipCountryCode = "01",
+            //        FullName = new FullName
+            //        {
+            //            FirsName = "Some",
+            //            LastName = "Dependent"
+            //        }
+            //    }
+            //};
+            // site of activity
+            ExchVisitor.AddSiteOfActivity = new AddSiteOfActivity
+            {
+                SiteOfActivitySOA = new SiteOfActivitySOA
+                {
+                    printForm = false,
+                    Address1 = "123 Some St",
+                    City = "Arlington",
+                    State = "VA",
+                    PostalCode = "22206",
+                    SiteName = "Office 1",
+                    PrimarySite = true,
+                    Remarks = "Test site"
+                },
+                SiteOfActivityExempt = new SiteOfActivityExempt
+                {
+                    Remarks = "test site exempt"
+                }
+            };
+            // T/IPP
+            ExchVisitor.AddTIPP = new AddTIPP
+            {
+                print7002 = false,
+                ParticipantInfo = new ParticipantInfo
+                {
+                    EmailAddress = "test@domain.com",
+                    FieldOfStudy = "Business",
+                    TypeOfDegree = "Bachelors",
+                    DateAwardedOrExpected = new DateTime(2009, 5, 12)
+                }
+            };
+
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+
+            var createVisitor = new CreateExchVisitor
+            {
+                ExchangeVisitor = ExchVisitor
+            };
+
+            var createEVBatch = new SEVISBatchCreateUpdateEV
+            {
+                userID = "1",
+                BatchHeader = batchHeader,
+                UpdateEV = null,
+                CreateEV = createVisitor
+            };
+
+            return createEVBatch;
+        }
+
+        /// <summary>
+        /// Get populated update participant sevis object
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns></returns>
+        public SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(int participantId)
+        {
+            //Get student details
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var personalPII = PersonQueries.CreateGetPiiByIdQuery(this.Context, (int)participant.PersonId).FirstOrDefault();
+            var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
+            var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+            var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
+            var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
+
+            var ExchVisitor = new ExchangeVisitorUpdate();
+            // biographical
+            ExchVisitor.Biographical = new BiographicalUpdate
+            {
+                printForm = false,
+                FullName = new FullName
+                {
+                    FirsName = personalPII.FirstName,
+                    LastName = personalPII.LastName,
+                    Suffix = personalPII.NameSuffix,
+                    PreferredName = personalPII.Alias
+                },
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                Gender = personalPII.GenderId.ToString(),
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                BirthCountryReason = "",
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+                PhoneNumber = "",
+                PositionCode = "",
+                Remarks = "Test remark"
+            };
+            if (mailingAddress != null)
+            {
+                ExchVisitor.Biographical.MailAddress = new USAddress
+                {
+                    Address1 = mailingAddress.Street1,
+                    Address2 = mailingAddress.Street2,
+                    City = mailingAddress.City.LocationName,
+                    State = mailingAddress.Division.LocationName,
+                    PostalCode = mailingAddress.PostalCode,
+                    Explanation = "",
+                    ExplanationCode = ""
+                };
+            }
+            else
+            {
+                ExchVisitor.Biographical.MailAddress = null;
+            }
+            if (physicalAddress != null)
+            {
+                ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "";
+                ExchVisitor.Biographical.USAddress = new USAddress
+                {
+                    Address1 = physicalAddress.Street1,
+                    Address2 = physicalAddress.Street2,
+                    City = physicalAddress.City.LocationName,
+                    State = physicalAddress.Division.LocationName,
+                    PostalCode = physicalAddress.PostalCode,
+                    Explanation = "",
+                    ExplanationCode = ""
+                };
+                ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
+                {
+                    ResidentialType = "",
+                    BoardingSchool = new BoardingSchool
+                    {
+                        Name = "",
+                        Phone = ""
+                    },
+                    HostFamily = new HostFamily
+                    {
+                        PContact = new PContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        SContact = new SContact
+                        {
+                            FirsName = "",
+                            LastName = ""
+                        },
+                        Phone = ""
+                    },
+                    LCCoordinator = new LCCoordinator
+                    {
+                        FirsName = "",
+                        LastName = ""
+                    }
+                };
+            }
+            else
+            {
+                ExchVisitor.Biographical.USAddress = null;
+                ExchVisitor.Biographical.ResidentialAddress = null;
+            }
+            // financial
+            ExchVisitor.FinancialInfo = new FinancialInfoUpdate
+            {
+                printForm = false,
+                ReceivedUSGovtFunds = false,
+                ProgramSponsorFunds = "1200",
+                OtherFunds = new OtherFunds
+                {
+                    International = new International
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "org 1",
+                        OtherName1 = "on 1",
+                        Org2 = "org 2",
+                        OtherName2 = "on 2"
+                    },
+                    USGovt = new USGovt
+                    {
+                        Amount1 = "10",
+                        Amount2 = "20",
+                        Org1 = "govorg 1",
+                        OtherName1 = "govon 1",
+                        Org2 = "govorg 2",
+                        OtherName2 = "govon 2"
+                    },
+                    Other = new Other
+                    {
+                        amount = "30",
+                        name = "other nm"
+                    }
+                }
+            };
+            // program and subject
+            ExchVisitor.Program = new Validation.Model.Program
+            {
+                EditSubject = new SubjectFieldUpdate
+                {
+                    printForm = false,
+                    SubjectFieldCode = "SF code",
+                    SubjectFieldRemarks = "SF rmks",
+                    ForeignDegreeLevel = "FD lvl",
+                    ForeignFieldOfStudy = "F FS",
+                    Remarks = "Rmks"
+                }
+            };
+            // site of activity
+            ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
+            {
+                AddSOA = new SiteOfActivitySOA
+                {
+                    printForm = false,
+                    Address1 = "123 Some St",
+                    PostalCode = "12345",
+                    SiteName = "site 1",
+                    PrimarySite = true
+                }
+            };
+            // Reprint
+            ExchVisitor.Reprint = new ReprintFormUpdate
+            {
+                printForm = false,
+                dependentSevisID = "1",
+                Reason = "Reprint reason",
+                Remarks = "Remarks",
+                OtherRemarks = "Other remarks"
+            };
+            // Reprint 7002
+            ExchVisitor.Reprint7002 = new Reprint7002
+            {
+                print7002 = false,
+                SiteId = "1"
+            };
+            ExchVisitor.requestID = "1";
+            ExchVisitor.sevisID = "1";
+            ExchVisitor.Status = new StatusUpdate
+            {
+            };
+            ExchVisitor.statusCode = "A";
+            ExchVisitor.TIPP = new TippUpdate
+            {
+            };
+            ExchVisitor.UserDefinedA = "UD A";
+            ExchVisitor.UserDefinedB = "UD B";
+            ExchVisitor.Validate = new ValidateParticipant
+            {
+
+            };
+            ExchVisitor.userID = participant.PersonId.ToString();
+
+            // TODO: complete when dependent feature is available
+            ExchVisitor.Dependent = null;
+            //ExchVisitor.Dependent = new UpdatedDependent
+            //{
+            //    Edit = new EditDependent
+            //    {
+            //        dependentSevisID = "1",
+            //        printForm = false,
+            //        BirthDate = new DateTime(1988, 4, 18),
+            //        Gender = "1",
+            //        BirthCountryCode = "01",
+            //        CitizenshipCountryCode = "01",
+            //        FullName = new FullName
+            //        {
+            //            FirsName = "Some",
+            //            LastName = "Dependent"
+            //        }
+            //    }
+            //};
+
+            var batchHeader = new BatchHeader
+            {
+                BatchID = "1",
+                OrgID = "1"
+            };
+            var updateVisitor = new UpdateExchVisitor
+            {
+                ExchangeVisitor = ExchVisitor
+            };
+            var updateVisitorBatch = new SEVISBatchCreateUpdateEV
+            {
+                userID = "1",
+                BatchHeader = batchHeader,
+                UpdateEV = updateVisitor,
+                CreateEV = null
+            };
+
+            return updateVisitorBatch;
+        }
+        
+
         #endregion
 
         #region ParticipantPersonSevisStatus
@@ -269,13 +726,14 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
-        
+
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
-        /// <param name="participantId"></param>
-        /// <param name="count"></param>
-        public void UpdateParticipantPersonSevisCommStatus(int participantId, int count)
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="errorCount">Count of validation errors</param>
+        /// <param name="isValid">Validation status</param>
+        public void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid)
         {
             var newStatus = new ParticipantPersonSevisCommStatus
             {
@@ -283,11 +741,11 @@ namespace ECA.Business.Service.Persons
                 AddedOn = DateTimeOffset.Now
             };
 
-            if (count > 0)
+            if (errorCount > 0)
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
             }
-            else
+            else if (isValid)
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
             }

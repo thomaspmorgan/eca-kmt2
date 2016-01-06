@@ -13,7 +13,6 @@ namespace ECA.Business.Validation.Model.Shared
         {
             USAddress = new USAddress();
             MailAddress = new USAddress();
-            ResidentialAddress = new ResidentialAddress();
         }
 
         /// <summary>
@@ -45,10 +44,5 @@ namespace ECA.Business.Validation.Model.Shared
         /// Remarks
         /// </summary>
         public string Remarks { get; set; }
-
-        /// <summary>
-        /// Residential address for Au Pair or secondary school student
-        /// </summary>
-        public ResidentialAddress ResidentialAddress { get; set; }        
     }
 }
