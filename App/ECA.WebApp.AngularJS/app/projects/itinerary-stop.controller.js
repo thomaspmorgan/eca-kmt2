@@ -61,6 +61,7 @@ angular.module('staticApp')
 
       $scope.view.onCollapseItineraryStopClick = function (itineraryStop) {
           $scope.view.isItineraryStopExpanded = false;
+          scrollToItineraryStop(itineraryStop);
       }
 
       $scope.view.onExpandParticipantsClick = function (itineraryStop) {

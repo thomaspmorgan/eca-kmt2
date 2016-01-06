@@ -346,7 +346,9 @@
 
 
     .itinerary-container {
-        border-bottom: 1px solid $lightgray;
+        border-bottom: 1px solid $mediumgray;
+        border-left: 1px solid $mediumgray;
+        border-right: 1px solid $mediumgray;
     }
 
     .itinerary-stop-header {
@@ -359,10 +361,12 @@
     }
 
     .itinerary-stop-container {
-        border-bottom: 1px solid $lightgray;
+        border-bottom: 1px solid $mediumgray;
+        border-left: 1px solid $mediumgray;
+        border-right: 1px solid $mediumgray;
     }
 
-    .itinerary-label {
-        text-transform: uppercase;
+    .itinerary-stop-bottom-bar {
+        background-color: $lightgray;
     }
 }

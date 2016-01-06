@@ -33,8 +33,9 @@ namespace ECA.Business.Queries.Itineraries
 
                         let groupParticipants = groups.SelectMany(x => x.Participants)
                         let itineraryStopPartipants = itinerary.Stops.SelectMany(x => x.Participants)
+                        let distinctParticipant = groupParticipants.Union(itineraryStopPartipants).Distinct()
 
-                        let participantsCount = groupParticipants.Count() + itineraryStopPartipants.Count()
+                        let participantsCount = distinctParticipant.Count()
 
                         select new ItineraryDTO
                         {

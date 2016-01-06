@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="row itinerary-container" ng-show="!view.isLoadingRequiredData && !view.isSaving">
+        <div class="row itinerary-container" ng-show="!view.isLoadingRequiredData && !view.isSaving" style="padding-bottom: 20px;">
             <div class="col-md-11">
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-3">
@@ -154,10 +154,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="padding-left:30px;padding-right:30px;">
-            <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded" ">
-                <ng-include src="'app/projects/itinerary-stop.html'" />
+            <div class="col-md-12">
+                <hr ng-show="view.isItineraryExpanded"/>
+                <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded">
+                    <div style="padding-top:20px;">
+                        <ng-include src="'app/projects/itinerary-stop.html'" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>

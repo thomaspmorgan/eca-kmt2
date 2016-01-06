@@ -22,7 +22,7 @@ angular.module('staticApp')
       StateService,
       NotificationService,
       ConstantsService) {
-      
+
       $scope.view = {};
       $scope.view.itinerary = $scope.$parent.itinerary;
       $scope.view.project = null;
@@ -40,7 +40,7 @@ angular.module('staticApp')
       $scope.view.itineraryStops = [];
 
       var itineraryCopy = angular.copy($scope.view.itinerary);
-      
+
       $scope.view.onEditClick = function (itinerary) {
           $log.info('edit');
           $scope.view.isInEditMode = true;
@@ -104,7 +104,7 @@ angular.module('staticApp')
       $scope.view.onSaveClick = function (itinerary) {
           $scope.view.isInEditMode = false;
           $scope.view.isSaving = true;
-          
+
           return ProjectService.updateItinerary(itinerary, $scope.view.project.id)
           .then(function (response) {
               $scope.view.isSaving = false;
@@ -229,7 +229,7 @@ angular.module('staticApp')
           filter = filter
               .skip(0)
               .take($scope.view.searchLimit);
-              
+
           if (search) {
               filter = filter.like('name', search);
           }
@@ -241,7 +241,7 @@ angular.module('staticApp')
           }
           return filter.toParams();
       }
-      
+
       function loadLocations(params) {
           return LocationService.get(params)
           .then(function (response) {

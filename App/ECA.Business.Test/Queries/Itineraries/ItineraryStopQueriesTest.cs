@@ -134,6 +134,100 @@ namespace ECA.Business.Test.Queries.Itineraries
         }
 
         [TestMethod]
+        public void TestCreateGetItineraryStopsQueryTest_CheckDistinctParticipants()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+            };
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var location = new Location
+            {
+                LocationId = 1,
+                LocationName = "city",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "person 1"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            var itineraryGroup = new ItineraryGroup
+            {
+                Name = "group1",
+            };
+            itineraryGroup.Participants.Add(participant1);
+            var itinerary = new Itinerary
+            {
+                ItineraryId = 1,
+                Name = "itinerary name",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-100.0),
+                EndDate = DateTimeOffset.UtcNow.AddDays(100.0),
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            itinerary.ItineraryGroups.Add(itineraryGroup);
+            itineraryGroup.Itinerary = itinerary;
+            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+            var stop = new ItineraryStop
+            {
+                DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
+                DateLeave = DateTimeOffset.UtcNow.AddDays(10.0),
+                Destination = location,
+                DestinationId = location.LocationId,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+                Name = "stop"
+            };
+            stop.History.RevisedOn = DateTimeOffset.UtcNow;
+            stop.Groups.Add(itineraryGroup);
+            stop.Participants.Add(participant1);
+
+            context.ItineraryStops.Add(stop);
+            context.Locations.Add(location);
+            context.LocationTypes.Add(cityLocationType);
+            var results = ItineraryStopQueries.CreateGetItineraryStopsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var firstResult = results.First();
+            Assert.AreEqual(1, firstResult.ParticipantsCount);
+
+            //check group participants
+            Assert.AreEqual(1, firstResult.Groups.Count());
+            var firstGroup = firstResult.Groups.First();
+            Assert.AreEqual(itineraryGroup.ItineraryGroupId, firstGroup.ItineraryGroupId);
+            Assert.AreEqual(itineraryGroup.Name, firstGroup.Name);
+            Assert.AreEqual(1, firstGroup.Participants.Count());
+
+            var groupParticipant = firstGroup.Participants.First();
+            Assert.AreEqual(participant1.ParticipantId, groupParticipant.ParticipantId);
+            Assert.AreEqual(person1.PersonId, groupParticipant.PersonId);
+            Assert.AreEqual(person1.FullName, groupParticipant.FullName);
+            Assert.AreEqual(-1, groupParticipant.ItineraryInformationId);
+            Assert.IsNull(groupParticipant.TravelingFrom);
+
+            //check participants
+            Assert.AreEqual(1, firstResult.Participants.Count());
+            var firstParticipant = firstResult.Participants.First();
+            Assert.AreEqual(participant1.ParticipantId, firstParticipant.ParticipantId);
+            Assert.AreEqual(person1.PersonId, firstParticipant.PersonId);
+            Assert.AreEqual(person1.FullName, firstParticipant.FullName);
+            Assert.AreEqual(-1, firstParticipant.ItineraryInformationId);
+            Assert.IsNull(firstParticipant.TravelingFrom);
+        }
+
+        [TestMethod]
         public void TestCreateGetItineraryStopsByItineraryIdQuery()
         {
             var project = new Project

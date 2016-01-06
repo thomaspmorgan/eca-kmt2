@@ -29,7 +29,9 @@ namespace ECA.Business.Queries.Itineraries
             var query = from itineraryStop in context.ItineraryStops
 
                         let groupParticipants = itineraryStop.Groups.SelectMany(x => x.Participants)
-                        let participantsCount = itineraryStop.Participants.Count() + groupParticipants.Count()
+                        let directParticipants = itineraryStop.Participants
+                        let distinctParticipants = groupParticipants.Union(directParticipants).Distinct()
+                        let participantsCount = distinctParticipants.Count()
 
                         let hasDestination = itineraryStop.DestinationId.HasValue
                         let destination = hasDestination ? locationQuery.Where(x => x.Id == itineraryStop.DestinationId.Value).FirstOrDefault() : null
