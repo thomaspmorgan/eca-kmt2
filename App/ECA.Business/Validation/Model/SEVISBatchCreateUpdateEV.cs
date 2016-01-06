@@ -15,6 +15,7 @@ namespace ECA.Business.Validation
         {
             BatchHeader = new BatchHeader();
             CreateEV = new CreateExchVisitor();
+            UpdateEV = new UpdateExchVisitor();
         }
 
         /// <summary>

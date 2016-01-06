@@ -1,4 +1,4 @@
-﻿using ECA.Business.Validation.Model.CreateEV;
+﻿using ECA.Business.Validation.Model.Shared;
 using FluentValidation;
 
 namespace ECA.Business.Validation.Model
@@ -7,7 +7,7 @@ namespace ECA.Business.Validation.Model
     {
         public UpdateExchVisitorValidator()
         {
-            //RuleFor(visitor => visitor.ExchangeVisitor).NotNull().WithMessage("Visitor information is required").SetValidator(new ExchangeVisitorValidator());
+            RuleFor(visitor => visitor.ExchangeVisitor).SetValidator(new ExchangeVisitorUpdateValidator()).When(update => update.ExchangeVisitor != null);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ECA.Business.Validation.Model
     {
         public CreateExchVisitorValidator()
         {
-            RuleFor(visitor => visitor.visitor).NotNull().WithMessage("Visitor information is required").SetValidator(new ExchangeVisitorValidator());
+            RuleFor(visitor => visitor.ExchangeVisitor).SetValidator(new ExchangeVisitorValidator()).When(update => update.ExchangeVisitor != null);
         }
     }
 }

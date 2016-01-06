@@ -21,7 +21,7 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(student => student.Address2).Length(0, ADDRESS_MAX_LENGTH).WithMessage("Site of Activity: Address Line 2 can be up to " + ADDRESS_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.City).Length(0, CITY_MAX_LENGTH).WithMessage("Site of Activity: City can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.State).Length(STATE_CODE_LENGTH).WithMessage("Site of Activity: State Code must be " + STATE_CODE_LENGTH.ToString() + " characters");
-            RuleFor(student => student.PostalCode).Length(POSTAL_CODE_LENGTH).WithMessage("Site of Activity: Postal Code must be " + POSTAL_CODE_LENGTH.ToString() + " digits").Matches(@" ^\d{5}$").WithMessage("Site of Activity: Postal Code must be numeric");
+            RuleFor(student => student.PostalCode).Length(POSTAL_CODE_LENGTH).WithMessage("Site of Activity: Postal Code must be " + POSTAL_CODE_LENGTH.ToString() + " digits");
             RuleFor(student => student.ExplanationCode).Length(EXPLANATION_CODE_LENGTH).WithMessage("Site of Activity: Explanation Code must be " + EXPLANATION_CODE_LENGTH.ToString() + " characters");
             RuleFor(student => student.Explanation).Length(EXPLANATION_MIN_LENGTH, EXPLANATION_MAX_LENGTH).WithMessage("Site of Activity: Explanation must be between " + EXPLANATION_MIN_LENGTH.ToString() + " and " + EXPLANATION_MAX_LENGTH.ToString() + " characters");
             RuleFor(student => student.SiteName).NotNull().WithMessage("Site of Activity: Site Name is required").Length(1, SITE_MAX_LENGTH).WithMessage("T/IPP Site: Site Name can be up to " + SITE_MAX_LENGTH.ToString() + " characters");

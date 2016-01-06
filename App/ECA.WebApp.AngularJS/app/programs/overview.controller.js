@@ -13,7 +13,9 @@ angular.module('staticApp')
       $stateParams,
       $state,
       $log,
-      orderByFilter
+      $filter,
+      orderByFilter,
+      ConstantsService
       ) {
 
       $scope.view = {};
@@ -23,6 +25,8 @@ angular.module('staticApp')
       $scope.view.sortedObjectives = [];
       $scope.view.categoryLabel = '';
       $scope.view.objectiveLabel = '';
+
+      $scope.view.dataPointConfigurations = {};
 
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
@@ -50,4 +54,12 @@ angular.module('staticApp')
           $scope.view.isLoadingOfficeSettings = false;
       });
 
+      $scope.data.loadDataPointConfigurationsPromise.promise
+      .then(function (dataConfigurations) {
+          console.log(dataConfigurations);
+        var array = $filter('filter')(dataConfigurations, { categoryId: ConstantsService.dataPointCategory.program.id });
+        for (var i = 0; i < array.length; i++) {
+            $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
+        }
+      });
   });
