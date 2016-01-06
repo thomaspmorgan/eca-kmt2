@@ -19,7 +19,8 @@ angular.module('staticApp')
         AuthService,
         StateService,
         NotificationService,
-        ProgramService) {
+        ProgramService,
+        DataPointConfigurationService) {
 
       $scope.tabs = {
           overview: {
@@ -64,6 +65,7 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadProgramPromise = $q.defer();
       $scope.data.loadOfficeSettingsPromise = $q.defer();
+      $scope.data.loadDataPointConfigurationsPromise = $q.defer();
       $scope.view = {};
       $scope.view.isLoadingProgram = false;
       $scope.view.permalink = '';
@@ -166,7 +168,18 @@ angular.module('staticApp')
           });
       }
 
-      $q.all([loadPermissions()])
+      function loadDataPointConfigurations() {
+          var params = { programId: programId };
+          return DataPointConfigurationService.getDataPointConfigurations(params)
+           .then(function (response) {
+               var data = response.data;
+               $scope.data.loadDataPointConfigurationsPromise.resolve(data);
+           }, function () {
+               NotificationService.showErrorMessage('Unable to load data point configurations for id = ' + programId + ".");
+           });
+      }
+
+      $q.all([loadPermissions(), loadDataPointConfigurations()])
       .then(function (results) {
           return loadProgramById(programId)
               .then(function () {

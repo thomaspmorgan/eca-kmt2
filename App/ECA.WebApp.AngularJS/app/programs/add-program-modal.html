@@ -190,7 +190,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group" ng-show="view.isCategoryRequired">
+                            <div class="form-group" ng-show="view.isCategoryRequired && view.dataPointConfigurations[constants.dataPointProperty.categories.id]">
                                 <label>{{view.categoryLabel}}</label>
                                 <ui-select multiple
                                            name="categories"
@@ -209,7 +209,7 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <div class="form-group" ng-show="view.isObjectiveRequired">
+                            <div class="form-group" ng-show="view.isObjectiveRequired && view.dataPointConfigurations[constants.dataPointProperty.objectives.id]">
                                 <label>{{view.objectiveLabel}}</label>
                                 <ui-select multiple
                                            name="objectives"

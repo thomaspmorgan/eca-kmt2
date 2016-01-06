@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
+        $filter,
         $modalInstance,
         MessageBox,
         office,
@@ -23,7 +24,8 @@ angular.module('staticApp')
         LookupService,
         OfficeService,
         ConstantsService,
-        NotificationService) {
+        NotificationService,
+        DataPointConfigurationService) {
 
       var officeId = office.id;
       $scope.view = {};
@@ -80,6 +82,8 @@ angular.module('staticApp')
       $scope.view.isSelectedGoalsValid = false;
       $scope.view.isSelectedContactsValid = false;
       $scope.view.isSelectedObjectivesValid = false;
+
+      $scope.view.dataPointConfigurations = {};
 
       var maxLimit = 300;
 
@@ -414,6 +418,19 @@ angular.module('staticApp')
           });
       }
 
+      function loadDataPointConfigurations() {
+          var params = { officeId: officeId };
+          DataPointConfigurationService.getDataPointConfigurations(params)
+               .then(function (response) {
+                   var array = $filter('filter')(response.data, { categoryId: ConstantsService.dataPointCategory.program.id });
+                   for (var i = 0; i < array.length; i++) {
+                       $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
+                   }
+               }, function () {
+                   NotificationService.showErrorMessage('Unable to load data point configurations for office with id = ' + parameters.foreignResourceId + ".");
+               });
+      }
+
       $scope.view.isLoadingRequiredData = true;
       $q.all([loadThemes(),
           loadGoals(),
@@ -421,7 +438,8 @@ angular.module('staticApp')
           loadOfficeSettings(officeId),
           loadRegions(),
           loadContacts(),
-          loadObjectives(officeId)])
+          loadObjectives(officeId),
+          loadDataPointConfigurations()])
           .then(function () {
               $log.info('Loaded required data.');
               $scope.view.isLoadingRequiredData = false;
