@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[ItineraryStop] (
     [ItineraryStopId]        INT                IDENTITY (1, 1) NOT NULL,
     [ItineraryStatusId]      INT                NOT NULL,
-    [DateArrive]             DATETIMEOFFSET (7) NOT NULL,
-    [DateLeave]              DATETIMEOFFSET (7) NOT NULL,
+    [DateArrive]             DATETIMEOFFSET (7) NULL,
+    [DateLeave]              DATETIMEOFFSET (7) NULL,
     [ItineraryId]            INT                NOT NULL,
     [History_CreatedBy]      INT                NOT NULL,
     [History_CreatedOn]      DATETIMEOFFSET (7) NOT NULL,
