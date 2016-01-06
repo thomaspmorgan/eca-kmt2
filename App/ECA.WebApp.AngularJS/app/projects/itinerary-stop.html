@@ -67,10 +67,10 @@
         <div class="list2 itinerary-stop-container">
             <div class="row row2">
                 <div class="col-md-4">
-                    <div class="col-md-2">
-                        <i class="material-icons md-dark md-24">flight_land</i>
+                    <div class="pull-left" style="margin-right: 10px;">
+                        <i class="material-icons md-dark md-18">flight_land</i>
                     </div>
-                    <div class="col-md-10 title-label">
+                    <div class="title-label">
                         Travel Stop Destination
                     </div>
                 </div>
@@ -89,8 +89,11 @@
                 </div>
                 <div ng-repeat="group in view.itineraryStop.groups">
                     <div class="row row2">
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <h5>{{group.name}}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            &nbsp;
                         </div>
                         <div class="col-md-2" style="margin-top:12px;">
                             <div class="right">
@@ -112,39 +115,53 @@
                     </div>
                     <div class="row row2 hover" ng-repeat="participant in group.participants" ng-show="group.isExpanded">
                         <div class="col-md-4">
-                            <h5><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
+                            <h5 style="margin-left: 20px;"><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
                         </div>
                         <div class="col-md-4">
                             <!--{{view.itineraryStop.destination.name}}{{view.itineraryStop.destination.division ? ', ' + view.itineraryStop.destination.division : ''}}{{view.itineraryStop.destination.country ? ' ' + view.itineraryStop.destination.country : ''}}-->
                             Travel from here...
                         </div>
                         <div class="col-md-4 text-right">
-                            <i class="material-icons md-dark md-24">flight</i>
+                            <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
                             <a>Itinerary information</a>
                         </div>
                     </div>
                 </div>
                 <div class="row row2" ng-show="view.itineraryStop.participants.length > 0">
-                    <div class="col-md-10">
+                    <div class="col-md-4">
                         <h5>Participants</h5>
+                    </div>
+                    <div class="col-md-6">
+                        &nbsp;
                     </div>
                     <div class="col-md-2" style="margin-top:12px;">
                         <div class="right">
-                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandParticipantsClick()" ng-show="!view.isParticipantsExpanded">expand_more</i>
-                            <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseParticipantsClick()" ng-show="view.isParticipantsExpanded">expand_less</i>
+                            <div class="col-md-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandParticipantsClick()" ng-show="!view.isParticipantsExpanded">expand_more</i>
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseParticipantsClick()" ng-show="view.isParticipantsExpanded">expand_less</i>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row row2 hover" ng-repeat="participant in view.itineraryStop.participants" ng-show="view.isParticipantsExpanded">
                     <div class="col-md-4">
-                        <h5><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
+                        <h5 style="margin-left: 20px;"><a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a></h5>
                     </div>
                     <div class="col-md-4">
                         <!--{{view.itineraryStop.destination.name}}{{view.itineraryStop.destination.division ? ', ' + view.itineraryStop.destination.division : ''}}{{view.itineraryStop.destination.country ? ' ' + view.itineraryStop.destination.country : ''}}-->
                         Travel from here...
                     </div>
                     <div class="col-md-4 text-right">
-                        <i class="material-icons md-dark md-24">flight</i>
+                        <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
                         <a>Itinerary information</a>
                     </div>
                 </div>

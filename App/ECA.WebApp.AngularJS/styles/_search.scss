@@ -51,6 +51,10 @@
     transform: rotateY(180deg);
 }
 
+.material-icons.rotate-quarter-turn-clockwise {
+    transform: rotate(90deg);
+}
+
 .material-icons.md-18.contextual {
     top: 4px;
 }
