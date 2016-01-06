@@ -1,32 +1,32 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">New Traveling Period</h3>
+    <h3 class="modal-title">New City Stop</h3>
 </div>
 <div class="modal-body">
-    <div class="spinner" ng-show="view.isSavingItinerary">
+    <div class="spinner" ng-show="view.isSavingItineraryStop">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <div ng-show="!view.isSavingItinerary">
-        <h3 style="margin-bottom:20px;">Traveling Period Information</h3>
+    <div ng-show="!view.isSavingItineraryStop">
+        <h3 style="margin-bottom:20px;">City Stop Information</h3>
         <div id="modal">
-            <form name="form.itineraryForm" ng-show="!view.isSavingItinerary">
+            <form name="form.itineraryStopForm" ng-show="!view.isSavingItineraryStop">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>
-                                Name This Traveling Period<span class="asterisk"> *</span>
+                                Name This City Stop<span class="asterisk"> *</span>
                             </label>
                             <input name="name"
                                    maxlength="{{view.maxNameLength}}"
-                                   ng-model="view.itinerary.name"
+                                   ng-model="view.itineraryStop.name"
                                    type="text"
                                    class="form-control"
-                                   placeholder="Enter the name of the travel period..."
+                                   placeholder="Enter the name of the city stop..."
                                    required>
                         </div>
-                        <div ng-show="form.itineraryForm.name.$dirty">
-                            <div class="error" ng-show="form.itineraryForm.name.$error.required">Please enter a name of travel period.</div>
+                        <div ng-show="form.itineraryStopForm.name.$dirty">
+                            <div class="error" ng-show="form.itineraryStopForm.name.$error.required">Please enter a name of city stop.</div>
                         </div>
                     </div>
                 </div>
@@ -35,39 +35,40 @@
                         <div class="form-group">
                             <label>Date of Arrival<span class="asterisk"> *</span></label>
                             <p class="input-group">
-                                <input name="startDate"
+                                <input name="arrivalDate"
                                        type="text"
                                        class="form-control"
                                        datepicker-popup="dd-MMMM-yyyy"
                                        show-weeks="false"
-                                       ng-model="view.itinerary.startDate"
-                                       is-open="view.isStartDateOpen"
+                                       ng-model="view.itineraryStop.arrivalDate"
+                                       is-open="view.isArrivalDateOpen"
                                        close-text="Close"
                                        placeholder="Enter date of arrival..."
-                                       max-date="view.itinerary.endDate"
+                                       min-date="view.itinerary.startDate"
+                                       max-date="view.itineraryStop.departureDate < view.itinerary.endDate ? view.itineraryStop.departureDate : view.itinerary.endDate"
                                        ng-required="true" />
                                 <span class="input-group-btn" style="width:0;">
-                                    <button type="button" class="btn btn-default" ng-click="view.openStartDate($event)"><i class="material-icons md-18">event</i></button>
+                                    <button type="button" class="btn btn-default" ng-click="view.openArrivalDate($event)"><i class="material-icons md-18">event</i></button>
                                 </span>
                             </p>
-                            <div ng-show="form.itineraryForm.startDate.$dirty">
-                                <div class="error" ng-show="form.itineraryForm.startDate.$error.required">Please select a date of arrival.</div>
+                            <div ng-show="form.itineraryStopForm.startDate.$dirty">
+                                <div class="error" ng-show="form.itineraryStopForm.startDate.$error.required">Please select a date of arrival.</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Arrival Destination (City)<span class="asterisk"> *</span></label>
-                            <ui-select ng-model="view.itinerary.arrivalLocation"
+                            <label>Destination of this City Stop<span class="asterisk"> *</span></label>
+                            <ui-select ng-model="view.itineraryStop.destinationLocation"
                                        id="source"
                                        name="source"
-                                       on-select="view.onArrivalLocationSelect($item, $model)"
+                                       on-select="view.onDestinationLocationSelect($item, $model)"
                                        search-enabled="true"
                                        reset-search-input="false"
                                        theme="select2"
                                        ng-required="true">
-                                <ui-select-match placeholder="Select an arrival location...">
+                                <ui-select-match placeholder="Select a destination location...">
                                     {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="location in view.arrivalLocations" refresh="view.getArrivalLocations($select.search)">
+                                <ui-select-choices repeat="location in view.destinationLocations" refresh="view.getDestinationLocations($select.search)">
                                     <div ng-bind-html="location.name | highlight: $select.search"></div>
                                     <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
                                     <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
@@ -76,7 +77,7 @@
                         </div>
                         <div class="right text-right">
                             <p class="mute">Can't find the location you're looking for?</p>
-                            <button class="btn btn-primary" ng-click="view.onAddNewArrivalLocationClick()">Add New Location</button>
+                            <button class="btn btn-primary" ng-click="view.onAddNewDestinationLocationClick()">Add New Location</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -87,45 +88,23 @@
                                        type="text"
                                        class="form-control"
                                        datepicker-popup="dd-MMMM-yyyy"
-                                       min-date="view.itinerary.startDate"
+                                       min-date="view.itineraryStop.arrivalDate"
+                                       max-date="view.itinerary.endDate"
                                        show-weeks="false"
-                                       ng-model="view.itinerary.endDate"
-                                       is-open="view.isEndDateOpen"
+                                       ng-model="view.itineraryStop.departureDate"
+                                       is-open="view.isDepartureDateOpen"
                                        close-text="Close"
                                        placeholder="Enter date of departure..."
                                        ng-required="true" />
                                 <span class="input-group-btn" style="width:0;">
-                                    <button type="button" class="btn btn-default" ng-click="view.openEndDate($event)"><i class="material-icons md-18">event</i></button>
+                                    <button type="button" class="btn btn-default" ng-click="view.openDepartureDate($event)"><i class="material-icons md-18">event</i></button>
                                 </span>
                             </p>
-                            <div ng-show="form.itineraryForm.endDate.$dirty">
-                                <div class="error" ng-show="form.itineraryForm.endDate.$error.required">Please select a date of departure.</div>
+                            <div ng-show="form.itineraryStopForm.endDate.$dirty">
+                                <div class="error" ng-show="form.itineraryStopForm.endDate.$error.required">Please select a date of departure.</div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Departure Destination (City, Division, Country or Region)<span class="asterisk"> *</span></label>
-                            <ui-select ng-model="view.itinerary.departureLocation"
-                                       id="source"
-                                       name="source"
-                                       on-select="view.onDepartureLocationSelect($item, $model)"
-                                       search-enabled="true"
-                                       reset-search-input="false"
-                                       theme="select2"
-                                       ng-required="true">
-                                <ui-select-match placeholder="Select a departure location...">
-                                    {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="location in view.departureLocations" refresh="view.getDepartureLocations($select.search)">
-                                    <div ng-bind-html="location.name | highlight: $select.search"></div>
-                                    <div style="margin-left:10px;" class="small" ng-show="location.division">{{location.division}}</div>
-                                    <div style="margin-left:10px;" class="small" ng-show="location.country">{{location.country}}</div>
-                                </ui-select-choices>
-                            </ui-select>
-                        </div>
-                        <div class="right text-right">
-                            <p class="mute">Can't find the location you're looking for?</p>
-                            <button class="btn btn-primary" ng-click="view.onAddNewDepartureDestinationLocationClick()">Add New Location</button>
-                        </div>
+                        
                     </div>
                 </div>
             </form>
@@ -136,7 +115,7 @@
     <div ng-show="!view.showConfirmCancel">
         <button class="btn btn-success"
                 ng-click="view.onSaveClick()"
-                ng-disabled="form.itineraryForm.$invalid || view.isSavingItinerary">
+                ng-disabled="form.itineraryStopForm.$invalid || view.isSavingItineraryStop">
             Save
         </button>
         <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>

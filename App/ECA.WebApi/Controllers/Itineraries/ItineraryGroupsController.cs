@@ -95,7 +95,7 @@ namespace ECA.WebApi.Controllers.Itineraries
             {
                 var currentUser = this.userProvider.GetCurrentUser();
                 var businessUser = this.userProvider.GetBusinessUser(currentUser);
-                var itineraryGroup = await this.itineraryGroupService.CreateAsync(model.ToAddedEcaItinerary(businessUser, projectId, itineraryId));
+                var itineraryGroup = await this.itineraryGroupService.CreateAsync(model.ToAddedEcaItineraryGroup(businessUser, projectId, itineraryId));
                 await this.itineraryGroupService.SaveChangesAsync();
                 var dto = await this.itineraryGroupService.GetItineraryGroupByIdAsync(projectId, itineraryGroup.ItineraryGroupId);
                 return Ok(dto);

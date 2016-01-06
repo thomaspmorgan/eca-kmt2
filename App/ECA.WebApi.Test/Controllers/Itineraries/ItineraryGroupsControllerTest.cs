@@ -30,6 +30,7 @@ namespace ECA.WebApi.Test.Controllers.Itineraries
 
             controller = new ItineraryGroupsController(service.Object, userProvider.Object);
         }
+
         #region Get
         [TestMethod]
         public async Task TestGetItinerariesByProjectIdAsync()

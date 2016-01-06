@@ -5,12 +5,12 @@
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <div class="row" style="margin-bottom:10px;" ng-show="!view.isLoading && !view.isLoadingProject">
+    <div class="row" style="margin-bottom:10px;" ng-show="!view.isLoadingRequiredData && !view.isLoadingProject">
         <div class="pull-right">
             <button class="btn btn-primary" ng-click="view.onNewItineraryClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
         </div>
     </div>
-    <div ng-repeat="itinerary in view.itineraries" ng-show="!view.isLoading && !view.isLoadingItineraries">
+    <div ng-repeat="itinerary in view.itineraries" ng-show="!view.isLoadingRequiredData && !view.isLoadingItineraries">
         <div>
             <ng-include src="'app/projects/itinerary.html'" />
         </div>

@@ -10,6 +10,8 @@
                 <a href="" ng-click="onDocInfoTitleClick(docInfo)" ng-bind-html="docInfo.name"></a>
             </h5>
             <span class="resultoffice" ng-bind-html="docInfo.officeSymbol"></span>
+            <span class="resultoffice" ng-show="docInfo.status"> - </span>
+            <span class="resultoffice" ng-bind-html="docInfo.status"></span>
             <p style="margin-top: 20px;" ng-bind-html="docInfo.description"></p>
         </div>
     </div>
