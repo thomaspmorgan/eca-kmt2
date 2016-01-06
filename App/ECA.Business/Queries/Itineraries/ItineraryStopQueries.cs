@@ -38,7 +38,7 @@ namespace ECA.Business.Queries.Itineraries
                         {
                             ArrivalDate = itineraryStop.DateArrive,
                             DepartureDate = itineraryStop.DateLeave,
-                            Destination = destination,
+                            DestinationLocation = destination,
                             Groups = itineraryStop.Groups.Select(x => new ItineraryStopGroupDTO
                             {
                                 ItineraryGroupId = x.ItineraryGroupId,

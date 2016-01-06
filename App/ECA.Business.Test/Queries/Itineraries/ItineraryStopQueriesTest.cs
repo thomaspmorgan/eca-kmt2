@@ -105,8 +105,8 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(2, firstResult.ParticipantsCount);
             Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
 
-            Assert.IsNotNull(firstResult.Destination);
-            var destination = firstResult.Destination;
+            Assert.IsNotNull(firstResult.DestinationLocation);
+            var destination = firstResult.DestinationLocation;
             Assert.AreEqual(location.LocationId, destination.Id);
 
             //check group participants

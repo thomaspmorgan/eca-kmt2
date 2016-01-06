@@ -1,10 +1,10 @@
-﻿<div ng-controller="ItineraryCtrl" class="itinerary" style="margin-bottom:100px;">
+﻿<div ng-controller="ItineraryCtrl" class="itinerary" style="margin-bottom:100px;" id="{{view.getDivId(view.itinerary)}}">
     <div ng-show="!view.isInEditMode">
         <div>
             <div class="itinerary-header">
                 <div class="row">
                     <div class="col-md-10">
-                        <h3 style="margin-top:22px; margin-left:20px;">{{view.itinerary.name}}</h3>
+                        <h3 style="margin-top:22px; margin-left:20px;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">{{view.itinerary.name}}</h3>
                     </div>
                     <div class="col-md-2">
                         <div class="right" style="margin-top:22px;">
@@ -155,9 +155,12 @@
                 </div>
             </div>
         </div>
-        <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded">
-            <ng-include src="'app/projects/itinerary-stop.html'"/>
+        <div style="padding-left:30px;padding-right:30px;">
+            <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded" ">
+                <ng-include src="'app/projects/itinerary-stop.html'" />
+            </div>
         </div>
+        
     </div>
     <div ng-if="view.isInEditMode">
         <form name="form.editItineraryForm">
@@ -180,7 +183,7 @@
             </div>
             <div class="row itinerary-container">
                 <div class="col-md-12">
-                    <div class="row" style="margin-top:15px;">                        
+                    <div class="row" style="margin-top:15px;">
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div>

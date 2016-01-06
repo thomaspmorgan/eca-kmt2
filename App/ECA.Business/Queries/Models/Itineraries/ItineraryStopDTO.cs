@@ -54,7 +54,7 @@ namespace ECA.Business.Queries.Models.Itineraries
         /// <summary>
         /// Gets or sets the destination of the itinerary stop.
         /// </summary>
-        public LocationDTO Destination { get; set; }
+        public LocationDTO DestinationLocation { get; set; }
 
         /// <summary>
         /// Gets or sets the last revised date.

@@ -72,7 +72,6 @@ angular.module('staticApp')
           $scope.view.isDepartureDateOpen = true;
       }
 
-
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');
       $scope.view.getDestinationLocations = function ($search) {
           var params = getSearchParams(departureFilter, $search, [

@@ -77,5 +77,8 @@ angular.module('staticApp')
           addItineraryStop: function (itineraryStop, projectId, itineraryId) {
               return DragonBreath.create(itineraryStop, 'projects/' + projectId + '/itinerary/' + itineraryId + '/stops');
           },
+          updateItineraryStop: function (itineraryStop, projectId, itineraryId) {
+              return DragonBreath.save(itineraryStop, 'projects/' + projectId + '/itinerary/' + itineraryId + '/stops');
+          }
       };
   });

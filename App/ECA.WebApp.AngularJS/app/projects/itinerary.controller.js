@@ -15,6 +15,7 @@ angular.module('staticApp')
       $log,
       $q,
       $modal,
+      smoothScroll,
       FilterService,
       ProjectService,
       LocationService,
@@ -55,6 +56,7 @@ angular.module('staticApp')
 
       $scope.view.onItineraryExpandClick = function (itinerary) {
           $scope.view.isItineraryExpanded = true;
+          scrollToItinerary(itinerary);
           return loadItineraryStops(itinerary);
       }
 
@@ -80,7 +82,7 @@ angular.module('staticApp')
           });
           addItineraryStopModal.result.then(function (addedItineraryStop) {
               $log.info('Finished adding itinerary stop.');
-              loadItineraryStops();
+              loadItineraryStops(itinerary);
 
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
@@ -169,6 +171,10 @@ angular.module('staticApp')
           });
       }
 
+      $scope.view.getDivId = function (itinerary) {
+          return 'itinerary' + itinerary.id;
+      }
+
       function loadItineraryStops(itinerary) {
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
@@ -191,6 +197,28 @@ angular.module('staticApp')
               $log.error(message);
               NotificationService.showErrorMessage(message);
           });
+      }
+
+      function scrollToItinerary(itinerary) {
+          var toolbarDivs = document.getElementsByClassName('toolbar');
+          var additionalOffset = 0;
+          if (toolbarDivs.length > 0) {
+              angular.forEach(toolbarDivs, function (toolbarDiv, index) {
+                  var angularElement = angular.element(toolbarDiv)[0];
+                  additionalOffset += angularElement.offsetHeight;
+              });
+          }
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 70 + additionalOffset,
+              callbackBefore: function (element) {
+              },
+              callbackAfter: function (element) { }
+          }
+          var id = $scope.view.getDivId(itinerary)
+          var e = document.getElementById(id);
+          smoothScroll(e, options);
       }
 
       function getSearchParams(filter, search, locationTypesById) {
@@ -243,5 +271,4 @@ angular.module('staticApp')
           }
       }
       initializeItinerary($scope.view.itinerary);
-      $scope.view.onItineraryExpandClick($scope.$parent.itinerary);
   });
