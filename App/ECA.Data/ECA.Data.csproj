@@ -145,7 +145,7 @@
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
     <Compile Include="Configuration\ItineraryGroupConfiguration.cs" />
-    <Compile Include="Configuration\ItineraryStop.cs" />
+    <Compile Include="Configuration\ItineraryStopConfiguration.cs" />
     <Compile Include="Configuration\LocationConfiguration.cs" />
     <Compile Include="Configuration\OrganizationConfiguration.cs" />
     <Compile Include="Configuration\ParticipantConfiguration.cs" />

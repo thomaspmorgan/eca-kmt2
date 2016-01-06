@@ -68,11 +68,10 @@ namespace ECA.Business.Queries.Itineraries
                             ItineraryGroupName = itineraryGroup.Name,
                             ItineraryId = itineraryGroup.ItineraryId,
                             ItineraryName = itinerary.Name,
-                            People = participants.Where(x => x.PersonId.HasValue).Select(x => new ItineraryGroupPersonDTO
+                            People = participants.Where(x => x.PersonId.HasValue).Select(x => new ItineraryParticipantDTO
                             {
                                 FullName = x.Person.FullName,
                                 ParticipantId = x.ParticipantId,
-                                ParticipantTypeId = x.ParticipantTypeId,
                                 PersonId = x.PersonId.Value,
                             }),
                             ProjectId = itinerary.ProjectId

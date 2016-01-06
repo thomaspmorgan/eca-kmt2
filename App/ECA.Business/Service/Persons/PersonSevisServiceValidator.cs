@@ -32,8 +32,8 @@ namespace ECA.Business.Service.Persons
             var results = validator.Validate(createEV);
 
             return results;
-        }
-        
+            }
+
         /// <summary>
         /// Do validation for sevis exchange visitor create
         /// </summary>
@@ -50,7 +50,7 @@ namespace ECA.Business.Service.Persons
 
             return results;
         }
-        
+
         /// <summary>
         /// Do validation for sevis exchange visitor update
         /// </summary>
@@ -62,9 +62,9 @@ namespace ECA.Business.Service.Persons
 
             var validator = new SEVISBatchCreateUpdateEVValidator();
             var results = validator.Validate(updateEV);
-            
+
             return results;
-        }
+            }
 
         /// <summary>
         /// Do validation for sevis exchange visitor update
@@ -72,7 +72,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
         public async Task<FluentValidation.Results.ValidationResult> ValidateSevisUpdateEVAsync(int participantId)
-        {
+            {
             var updateEV = participantService.GetUpdateExchangeVisitor(participantId);
 
             var validator = new SEVISBatchCreateUpdateEVValidator();
@@ -91,7 +91,7 @@ namespace ECA.Business.Service.Persons
 
             return results;
         }
-        
+
         private void GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
             {
             //XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());

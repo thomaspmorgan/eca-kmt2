@@ -14,6 +14,8 @@ angular.module('staticApp')
       $stateParams,
       $log,
       $q,
+      $modal,
+      smoothScroll,
       FilterService,
       ProjectService,
       LocationService,
@@ -34,9 +36,11 @@ angular.module('staticApp')
       $scope.view.isEndDateDatePickerOpen = false;
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSaving = false;
+      $scope.view.isItineraryExpanded = false;
+      $scope.view.itineraryStops = [];
 
       var itineraryCopy = angular.copy($scope.view.itinerary);
-
+      
       $scope.view.onEditClick = function (itinerary) {
           $log.info('edit');
           $scope.view.isInEditMode = true;
@@ -49,6 +53,41 @@ angular.module('staticApp')
       $scope.view.onDeleteClick = function (itinerary) {
           $log.info('delete');
       }
+
+      $scope.view.onItineraryExpandClick = function (itinerary) {
+          $scope.view.isItineraryExpanded = true;
+          scrollToItinerary(itinerary);
+          return loadItineraryStops(itinerary);
+      }
+
+      $scope.view.onItineraryCollapseClick = function (itinerary) {
+          $scope.view.isItineraryExpanded = false;
+      }
+
+      $scope.view.onAddItineraryStopClick = function (itinerary) {
+          var addItineraryStopModal = $modal.open({
+              animation: true,
+              templateUrl: 'app/projects/add-itinerary-stop-modal.html',
+              controller: 'AddItineraryStopModalCtrl',
+              size: 'lg',
+              backdrop: 'static',
+              resolve: {
+                  project: function () {
+                      return $scope.view.project;
+                  },
+                  itinerary: function () {
+                      return itinerary;
+                  }
+              }
+          });
+          addItineraryStopModal.result.then(function (addedItineraryStop) {
+              $log.info('Finished adding itinerary stop.');
+              loadItineraryStops(itinerary);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      };
 
       $scope.view.isLoadingRequiredData = true;
       $scope.$parent.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
@@ -130,6 +169,56 @@ angular.module('staticApp')
               $scope.view.departureLocationsCount = data.total;
               return data.results;
           });
+      }
+
+      $scope.view.getDivId = function (itinerary) {
+          return 'itinerary' + itinerary.id;
+      }
+
+      function loadItineraryStops(itinerary) {
+          return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
+          .then(function (response) {
+              angular.forEach(response.data, function (stop, index) {
+                  var arrivalDate = new Date(stop.arrivalDate);
+                  if (!isNaN(arrivalDate.getTime())) {
+                      stop.arrivalDate = arrivalDate;
+                  }
+
+                  var departureDate = new Date(stop.departureDate);
+                  if (!isNaN(departureDate.getTime())) {
+                      stop.departureDate = departureDate;
+                  }
+              });
+              $scope.view.itineraryStops = response.data;
+              return response.data;
+          })
+          .catch(function (response) {
+              var message = "Unable to load city stops.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+
+      function scrollToItinerary(itinerary) {
+          var toolbarDivs = document.getElementsByClassName('toolbar');
+          var additionalOffset = 0;
+          if (toolbarDivs.length > 0) {
+              angular.forEach(toolbarDivs, function (toolbarDiv, index) {
+                  var angularElement = angular.element(toolbarDiv)[0];
+                  additionalOffset += angularElement.offsetHeight;
+              });
+          }
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 70 + additionalOffset,
+              callbackBefore: function (element) {
+              },
+              callbackAfter: function (element) { }
+          }
+          var id = $scope.view.getDivId(itinerary)
+          var e = document.getElementById(id);
+          smoothScroll(e, options);
       }
 
       function getSearchParams(filter, search, locationTypesById) {

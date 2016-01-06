@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{4BF0BEB5-7572-4B2E-9930-6B589A0BA7A9}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Load CE Projects"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{47D7A82B-A34F-4A61-AD2E-D76C63273E84}">
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{C160A908-42D4-492F-8D0D-491BD1C629FC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA4TCczq7UO9agB2gYzBTwpGxjjyTcarms92oq+MXBt6wAAAAAOgAAAAAIAACAAAAAhbOWKIHt7jDqUDOBVkYvqpjmTE0ckyAUNHybTrElrhiAAAAB4XZJA7G6R2Ztcpx7y5w3QEmgqBTnA3Szfi+edIRnNwUAAAABbh9p+E+0vw/V6blcXaGq8DhFk0ybicmS1q6DFN0HBiZu2OL6tzy3Z2ulTRegUpx3ZU9FU76byOr5mTkHI4Tuk</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABKixnq25z6F7JzRF+MEM5ItF2wbU73wwxcDU7wNAr6NwAAAAAOgAAAAAIAACAAAAAXk7WsJqYbEbSoApf928c5R2Z8QTEQi7pPKaAR6cdiBCAAAADiPULndk4k3EFmBRBEW95/BQiDHk4e2FLJNoTwv9Tdq0AAAADAxLaGJimkpqtp/FX7DiE4+cHkUyQ/VQSGmcK6CbNyf7b1cPqaw0+u+cZ8va+2ZqC77XZRpt6Vfbo7HAywlii1</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +42,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAiTk6UhZVUEz3gCgaYeDq3ZEIA75ZAhuD5i1BXZHQYrgAAAAAOgAAAAAIAACAAAABnPEihHj2R8ZbfzOwCd/YnLuH9IZ/upPCtJZSt0I1f5CAAAADtMeMW669l1Ffsnl7yfwzoc8NYsm6ufQQ1WHNjr2hVl0AAAAAYZNqE0I4Fc9W2zDtdiFNUh61Oa3FbL0bnELYNU6xfA/DgYVR93OYIoNTVbKMfEunT1aEktFhW6qEZpvRQggo0</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACnzWSDrFZL8MuLH7F9CifomUrU1hVMxRfD6FIo5vHjmgAAAAAOgAAAAAIAACAAAACFpDf7pYq4MZcpBEgtd5RXpQcTfbIm21zz1meXdHrxkCAAAAA2Cf2Ejpn3lsIiC6wEmzIt0+XmMI7WeryiQwkj6yBUIkAAAAC3giInnEuttPVqvaOSN1rmjhCBu2HiXmzKMy5xhwh/+APXVjm6zCIM5e0B1egGgkQ9JmKgsTvgObeOsn10gkk3</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -57,7 +57,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADIALshmi2GwznUcLSZCEIIrmL845X+nBjHyJdpDVIuygAAAAAOgAAAAAIAACAAAABOZmrxT+KERh57wU4QPbmoPRfodMl6fHT8RfAexK/x0CAAAAArADIC7OsZEVOi6Ahy9SSwWBkD4Cz6AWEYQwjoDkWzDkAAAAD44gJbsnNqeBdZV1ViwPdg5+W6/0IokJXS93+rvpKxljHTBZQ2ij8UvcTAAq2wq6+3GLqRKekg+3ioicJFNXMI</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB//0EEoNgH8f283EKWEljT5nRQd/kOF2ckLfJhwmGDtAAAAAAOgAAAAAIAACAAAABDYeWMZveVia5lou/9bcyNf+8GAbPmRpiBHGvgLWBUciAAAACOdXD030BIHeOPmaWBp+FRIKwNHSN39WYFdEkVf/nUXEAAAACJzEPyWJM9cCFRHOb2Ty7zRevjxskZI3RI0FpZMXanNTdaFPNkNUhjW0+hpOCGL99+MCWnhzumA+dhDmxk74cv</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -322,8 +322,8 @@
               <connections>
                 <connection
                   refId="Package\Load CE Projects\CE_Project.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerID="{5D8F5C50-636D-463C-A91F-EE92820556FD}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.CE]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1000,7 +1000,7 @@ where [refTable].[Name] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_WSTR" length="3000" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -1018,8 +1018,8 @@ where [refTable].[Name] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load CE Projects\Lookup Project-ProgramId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1159,6 +1159,14 @@ where [refTable].[Name] = ?</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="192,42"
+          Id="Package\Load CE Projects\Lookup Project StatusId"
+          TopLeft="319.5,152.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load CE Projects\Add Required Columns"
+          TopLeft="488.5,230.5" />
+        <NodeLayout
           Size="130,42"
           Id="Package\Load CE Projects\CE_Project"
           TopLeft="5.5,5.5" />
@@ -1167,13 +1175,9 @@ where [refTable].[Name] = ?</property>
           Id="Package\Load CE Projects\Lookup Project-ProgramId"
           TopLeft="102.5,75.5" />
         <NodeLayout
-          Size="186,42"
-          Id="Package\Load CE Projects\Add Required Columns"
-          TopLeft="488.5,230.5" />
-        <NodeLayout
-          Size="192,42"
-          Id="Package\Load CE Projects\Lookup Project StatusId"
-          TopLeft="319.5,152.5" />
+          Size="158,42"
+          Id="Package\Load CE Projects\ECA_Dev Project"
+          TopLeft="694.5,304.5" />
         <EdgeLayout
           Id="Package\Load CE Projects.Paths[OLE DB Source Output]"
           TopLeft="70.5,47.5">
@@ -1280,10 +1284,6 @@ where [refTable].[Name] = ?</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="158,42"
-          Id="Package\Load CE Projects\ECA_Dev Project"
-          TopLeft="694.5,304.5" />
         <EdgeLayout
           Id="Package\Load CE Projects.Paths[Derived Column Output]"
           TopLeft="581.5,272.5">
@@ -1363,7 +1363,7 @@ where [refTable].[Name] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1373,7 +1373,7 @@ where [refTable].[Name] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -39,12 +39,6 @@ namespace ECA.Data
         public virtual ICollection<MoneyFlow> RecipientAccommodationExpenses { get; set; }
 
         /// <summary>
-        /// The list of stops for this accomodation
-        /// </summary>
-        // relations
-        public virtual ICollection<ItineraryStop> ItineraryStops { get; set; }
-
-        /// <summary>
         /// History info
         /// </summary>
         public History History { get; set; }

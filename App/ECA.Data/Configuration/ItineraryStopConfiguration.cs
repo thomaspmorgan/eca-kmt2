@@ -25,6 +25,15 @@ namespace ECA.Data.Configuration
                     p.MapRightKey("ParticipantId");
                     p.ToTable("ItineraryStopParticipant");
                 });
+
+            HasMany<ItineraryGroup>(p => p.Groups)
+                .WithMany(t => t.Stops)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ItineraryStopId");
+                    p.MapRightKey("ItineraryGroupId");
+                    p.ToTable("ItineraryStopItineraryGroup");
+                });
         }
     }
 }
