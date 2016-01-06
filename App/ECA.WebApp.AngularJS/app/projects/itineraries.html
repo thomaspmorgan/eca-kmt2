@@ -6,11 +6,27 @@
         <div class="bounce3"></div>
     </div>
     <div class="row" style="margin-bottom:10px;" ng-show="!view.isLoadingRequiredData && !view.isLoadingProject">
-        <div class="pull-right">
+        <div class="col-md-8">
+            <div>
+                <input id="searchBar"
+                       name="searchBar"
+                       ng-change="view.onSearchChange()"
+                       ng-model="view.travelPeriodFilter"
+                       placeholder="Filter Travel Periods by Name..."
+                       class="search-contextual"
+                       maxlength="100" />
+            </div>
+            <div>
+                <p class="mute">
+                    Showing {{(view.itineraries | filter : view.travelPeriodFilter).length}} of {{view.itineraries.length}} travel period(s).
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4 text-right">
             <button class="btn btn-primary" ng-click="view.onNewItineraryClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
         </div>
     </div>
-    <div ng-repeat="itinerary in view.itineraries" ng-show="!view.isLoadingRequiredData && !view.isLoadingItineraries">
+    <div ng-repeat="itinerary in view.itineraries | filter : view.travelPeriodFilter" ng-show="!view.isLoadingRequiredData && !view.isLoadingItineraries">
         <div>
             <ng-include src="'app/projects/itinerary.html'" />
         </div>
