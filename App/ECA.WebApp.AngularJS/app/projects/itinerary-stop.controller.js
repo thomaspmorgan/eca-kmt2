@@ -30,7 +30,8 @@ angular.module('staticApp')
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
       $scope.view.isSavingItineraryStop = false;
-      $scope.view.searchLimit = 30;      
+      $scope.view.searchLimit = 30;
+      $scope.view.maxNameLength = 100;
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop($scope.view.itineraryStop);

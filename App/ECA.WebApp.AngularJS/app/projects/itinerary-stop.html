@@ -175,9 +175,7 @@
 
         </div>
     </div>
-
-
-    <div ng-show="view.isInEditMode">
+    <div ng-if="view.isInEditMode">
         <div ng-show="view.isSavingItineraryStop">
             <div class="row" style="margin-top:15px;">
                 <div class="spinner">
@@ -194,7 +192,7 @@
                         <div class="col-md-8" style="margin-top:19px;">
                             <input class="form-control"
                                    name="name"
-                                   maxlength="100"
+                                   maxlength="{{view.maxNameLength}}"
                                    required
                                    ng-model="view.itineraryStop.name" />
                         </div>
