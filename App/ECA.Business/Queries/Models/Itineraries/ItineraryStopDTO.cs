@@ -44,12 +44,12 @@ namespace ECA.Business.Queries.Models.Itineraries
         /// <summary>
         /// Gets or sets the arrival date of the itinerary stop.
         /// </summary>
-        public DateTimeOffset ArrivalDate { get; set; }
+        public DateTimeOffset? ArrivalDate { get; set; }
 
         /// <summary>
         /// Gets or sets the departure date of the itinerary stop.
         /// </summary>
-        public DateTimeOffset DepartureDate { get; set; }
+        public DateTimeOffset? DepartureDate { get; set; }
 
         /// <summary>
         /// Gets or sets the destination of the itinerary stop.

@@ -67,12 +67,12 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the arrival date.
         /// </summary>
-        public DateTimeOffset DateArrive { get; set; }
+        public DateTimeOffset? DateArrive { get; set; }
 
         /// <summary>
         /// Gets or sets the departure date.
         /// </summary>
-        public DateTimeOffset DateLeave { get; set; }
+        public DateTimeOffset? DateLeave { get; set; }
 
         /// <summary>
         /// Gets or sets the source money flows.
