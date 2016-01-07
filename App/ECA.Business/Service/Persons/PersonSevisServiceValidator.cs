@@ -20,7 +20,7 @@ namespace ECA.Business.Service.Persons
         /// Do validation for sevis exchange visitor create
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>Sevis object validation results</returns>
+        /// <returns>Sevis object validation results</returns>        
         public FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId, User user)
         {
             var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
@@ -42,7 +42,7 @@ namespace ECA.Business.Service.Persons
 
             var validator = new CreateExchVisitorValidator();
             var results = await validator.ValidateAsync(createEV);
-            
+
             return results;
         }
         
@@ -86,14 +86,14 @@ namespace ECA.Business.Service.Persons
         ////FileStream file = File.Create(path);
         //FileInfo file = new FileInfo(path);
         //if (file.Exists)
-        //{
+            //{
         //    file.Delete();
-        //}
+            //}
         //XmlWriter xfile = XmlWriter.Create(path);
         //writer.Serialize(xfile, validationEntity);
         //xfile.Close();
 
         #endregion
-
+        
     }
 }

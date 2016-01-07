@@ -251,7 +251,7 @@ namespace ECA.Business.Service.Persons
                 //        LastName = ""
                 //    }
                 //};
-            }
+                    }
             else
             {
                 ExchVisitor.USAddress = null;
@@ -580,7 +580,7 @@ namespace ECA.Business.Service.Persons
 
             return updateVisitor;
         }
-
+        
         /// <summary>
         /// Retrieve XML format of SEVIS batch object
         /// </summary>
@@ -604,7 +604,7 @@ namespace ECA.Business.Service.Persons
                 }
             }
         }
-        
+
         #endregion
 
         #region ParticipantPersonSevisStatus
@@ -757,7 +757,7 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
-        
+
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>

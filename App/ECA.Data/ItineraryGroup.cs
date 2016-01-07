@@ -14,6 +14,11 @@ namespace ECA.Data
     public class ItineraryGroup : IHistorical
     {
         /// <summary>
+        /// The max length of an itinerary group name.
+        /// </summary>
+        public const int NAME_MAX_LENGTH = 255;
+
+        /// <summary>
         /// Creates a new default instance.
         /// </summary>
         public ItineraryGroup()
@@ -21,12 +26,7 @@ namespace ECA.Data
             this.History = new History();
             this.Participants = new HashSet<Participant>();
         }
-
-        /// <summary>
-        /// The max length of an itinerary group name.
-        /// </summary>
-        public const int NAME_MAX_LENGTH = 255;
-
+        
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
@@ -60,5 +60,10 @@ namespace ECA.Data
         /// Gets or sets the participants.
         /// </summary>
         public virtual ICollection<Participant> Participants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the itinerary stops.
+        /// </summary>
+        public virtual ICollection<ItineraryStop> Stops { get; set; }
     }
 }

@@ -243,7 +243,7 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row" ng-show="view.isCategoryRequired">
+                <div class="row" ng-show="view.isCategoryRequired && view.dataPointConfigurations[constants.dataPointProperty.categories.id]">
                     <div class="col-md-3 title-label">{{view.categoryLabel}}</div>
                     <div class="col-md-9">
                         <ui-select multiple close-on-select="true"
@@ -261,7 +261,7 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row" ng-show="view.isObjectiveRequired">
+                <div class="row" ng-show="view.isObjectiveRequired && view.dataPointConfigurations[constants.dataPointProperty.objectives.id]">
                     <div class="col-md-3 title-label">{{view.objectiveLabel}}</div>
                     <div class="col-md-9">
                         <ui-select multiple
