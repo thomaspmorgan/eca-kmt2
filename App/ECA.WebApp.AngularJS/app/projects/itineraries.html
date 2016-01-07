@@ -18,7 +18,7 @@
             </div>
             <div>
                 <p class="mute">
-                    Showing {{(view.itineraries | filter : view.travelPeriodFilter).length}} of {{view.itineraries.length}} travel period(s).
+                    Showing {{(view.itineraries | filter : {name: view.travelPeriodFilter}).length}} of {{view.itineraries.length}} travel period(s).
                 </p>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <button class="btn btn-primary" ng-click="view.onNewItineraryClick()" ng-show="permissions.editProject" ng-disabled="view.isLoading">New Traveling Period</button>
         </div>
     </div>
-    <div ng-repeat="itinerary in view.itineraries | filter : view.travelPeriodFilter" ng-show="!view.isLoadingRequiredData && !view.isLoadingItineraries">
+    <div ng-repeat="itinerary in view.itineraries | filter :  {name: view.travelPeriodFilter}" ng-show="!view.isLoadingRequiredData && !view.isLoadingItineraries">
         <div>
             <ng-include src="'app/projects/itinerary.html'" />
         </div>
