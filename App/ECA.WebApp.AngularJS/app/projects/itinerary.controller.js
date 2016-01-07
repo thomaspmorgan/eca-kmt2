@@ -35,6 +35,7 @@ angular.module('staticApp')
       $scope.view.isStartDateDatePickerOpen = false;
       $scope.view.isEndDateDatePickerOpen = false;
       $scope.view.isLoadingRequiredData = false;
+      $scope.view.isLoadingItineraryStops = false;
       $scope.view.isSaving = false;
       $scope.view.isItineraryExpanded = false;
       $scope.view.itineraryStops = [];
@@ -114,11 +115,25 @@ angular.module('staticApp')
               itineraryCopy = angular.copy(updateditinerary);
               $scope.view.itinerary = updateditinerary;
           })
-          .catch(function (response) {
+          .catch(function (error) {
               $scope.view.isSaving = false;
-              var message = "Unable to save updated itinerary.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
+              if (error.status === 400) {
+                  if (error.data.message && error.data.modelState) {
+                      for (var key in error.data.modelState) {
+                          NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                      }
+                  }
+                  else if (error.data.Message && error.data.ValidationErrors) {
+                      for (var key in error.data.ValidationErrors) {
+                          NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                      }
+                  }
+              }
+              else {
+                  var message = "Unable to save updated itinerary.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              }
           });
       }
 
@@ -176,6 +191,7 @@ angular.module('staticApp')
       }
 
       function loadItineraryStops(itinerary) {
+          $scope.view.isLoadingItineraryStops = true;
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
               angular.forEach(response.data, function (stop, index) {
@@ -183,16 +199,17 @@ angular.module('staticApp')
                   if (!isNaN(arrivalDate.getTime())) {
                       stop.arrivalDate = arrivalDate;
                   }
-
                   var departureDate = new Date(stop.departureDate);
                   if (!isNaN(departureDate.getTime())) {
                       stop.departureDate = departureDate;
                   }
               });
               $scope.view.itineraryStops = response.data;
+              $scope.view.isLoadingItineraryStops = false;
               return response.data;
           })
           .catch(function (response) {
+              $scope.view.isLoadingItineraryStops = false;
               var message = "Unable to load city stops.";
               $log.error(message);
               NotificationService.showErrorMessage(message);

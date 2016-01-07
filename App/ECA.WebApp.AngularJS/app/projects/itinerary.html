@@ -156,6 +156,11 @@
             </div>
             <div class="col-md-12">
                 <hr ng-show="view.isItineraryExpanded"/>
+                <div class="spinner" ng-show="view.isLoadingItineraryStops">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
                 <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded">
                     <div style="padding-top:20px;">
                         <ng-include src="'app/projects/itinerary-stop.html'" />
