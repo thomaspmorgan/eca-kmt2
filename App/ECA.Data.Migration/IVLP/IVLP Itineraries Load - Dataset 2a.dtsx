@@ -5,14 +5,14 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{047C6475-3492-4673-9667-8087D30C61C0}"
+  DTS:DTSID="{63ACE128-5C64-455D-985B-C314CEC666FD}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
-  DTS:ObjectName="IVLP Itineraries Load - Dataset 2"
+  DTS:ObjectName="IVLP Itineraries Load - Dataset 2a"
   DTS:PackageType="5"
-  DTS:VersionBuild="246"
-  DTS:VersionGUID="{CC513D3D-01CA-4430-980D-C0C9B61F1475}">
+  DTS:VersionBuild="248"
+  DTS:VersionGUID="{CD5625F8-448C-493F-BF40-95F7FFAA3201}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -4395,7 +4395,7 @@ where [refTable].[ITINERARY_ID] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Delete Existing IVLP-ECA Itinerary XRef Data"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -14767,49 +14767,49 @@ where [refTable].[LocationName] = ? and [refTable].[LocationTypeId] = ?</propert
               startId="Package\Load IVLP Itinerary Table (Completed)\Replace NULL Descriptions and Add Required Fields.Outputs[Derived Column Output]" />
             <path
               refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output8]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup End City State.Inputs[Lookup Input]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup End LocationId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Start City State.Outputs[Lookup Match Output]" />
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Start LocationId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output7]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup City Type ID.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Country Type ID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output6]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup United States CountryId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup City Type ID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output5]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Data Conversion 2.Inputs[Data Conversion Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Itinerary StatusId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output3]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Replace NULL Descriptions and Add Required Fields.Inputs[Derived Column Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup IVLP Project_Number to add as Name.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output2]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Itinerary.Inputs[OLE DB Destination Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup End LocationId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output1]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup Start LocationId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup United States CountryId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output]"
               endId="Package\Load IVLP Itinerary Table (Completed)\Data Conversion 3.Inputs[Data Conversion Input]"
               name="Lookup Match Output"
               startId="Package\Load IVLP Itinerary Table (Completed)\Lookup End City State.Outputs[Lookup Match Output]" />
             <path
-              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output4]"
-              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup End LocationId.Inputs[Lookup Input]"
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output6]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup Start LocationId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Start LocationId.Outputs[Lookup Match Output]" />
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup United States CountryId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output5]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Itinerary.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup End LocationId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output3]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Data Conversion 2.Inputs[Data Conversion Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Itinerary StatusId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output2]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup United States CountryId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup City Type ID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output1]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup City Type ID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Country Type ID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Lookup End City State.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup Start City State.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output4]"
+              endId="Package\Load IVLP Itinerary Table (Completed)\Replace NULL Descriptions and Add Required Fields.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Itinerary Table (Completed)\Lookup IVLP Project_Number to add as Name.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load IVLP Itinerary Table (Completed).Paths[Merge Join Output]"
               endId="Package\Load IVLP Itinerary Table (Completed)\Set Primary Itinerary String.Inputs[Derived Column Input]"
@@ -23414,12 +23414,12 @@ where UPPER([refTable].[Theme]) = UPPER(?)</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Populate Itinerary Stop Staging Table (Completed)"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{FF1415A8-7007-4D37-8D35-38ED28116B2F}"
-          SQLTask:SqlStatementSource="/* If table exists then delete contents */&#xA;IF (EXISTS (SELECT * &#xA;                 FROM INFORMATION_SCHEMA.TABLES &#xA;                 WHERE TABLE_SCHEMA = 'dbo' &#xA;                 AND  TABLE_NAME = 'IVLP_Itinerary_Stop_Staging'))&#xA;BEGIN&#xA;  /* Delete the current contents */&#xA;  DROP TABLE dbo.IVLP_Itinerary_Stop_Staging &#xA;END&#xA;&#xA;&#xA;/* Revised 12-31-2015 */&#xA;SELECT &#xA;&#x9;ISNULL(destination.ITINERARY_ID,origin.ITINERARY_ID) itinerary_ItineraryId&#xA;&#x9;,origin.start_date  Itinerary_StartDate&#xA;&#x9;,ISNULL(destination.start_date,origin.end_date)  Itinerary_EndDate&#xA;&#x9;,origin.[CITY] Itinerary_OriginCity&#xA;&#x9;,origin.[STATE_CD] Itinerary_OriginState&#xA;&#x9;,destination.[CITY] Itinerary_DestinationCity&#xA;,&#x9;destination.[STATE_CD] Itinerary_DestinationState&#xA;&#x9;,origin.itinerary_id  Origin_itinerary_id&#xA;&#x9;,origin.[ITINERARY_STOP_ID]  Origin_Itinerary_Stop_Id&#xA;&#x9;,origin.[START_DATE]  Origin_Start_Date&#xA;&#x9;,origin.[END_DATE] Origin_End_Date &#xA;&#x9;,origin.[CITY]  Origin_City&#xA;&#x9;,origin.[STATE_CD]  Origin_State_Cd&#xA;&#x9;,origin.[LOCAL_SPONSOR_ORG_ID]  Origin_Local_Sponsor_Org_Id&#xA;&#x9;,origin.[LOCAL_SPONSOR_PERSON_ID]  Origin_Local_Sponsor_Person_Id&#xA;&#x9;,destination.itinerary_id  Destination_Itinerary_Id&#xA;&#x9;,destination.[ITINERARY_STOP_ID]  Destination_Itinerary_Stop_Id&#xA;&#x9;,destination.[START_DATE] Destination_Start_Date&#xA;&#x9;,destination.[END_DATE] Destination_End_Date&#xA;&#x9;,destination.[CITY]  Destination_City&#xA;&#x9;,destination.[STATE_CD] Destination_State_Cd&#xA;&#x9;,destination.[LOCAL_SPONSOR_ORG_ID]  Destination_Local_Sponsor_Org_Id&#xA;&#x9;,destination.[LOCAL_SPONSOR_PERSON_ID]  Destination_Local_Sponsor_Person_Id&#xA;INTO &#x9;dbo.IVLP_Itinerary_Stop_Staging&#xA;FROM &#x9;[KM_IVLP].[dbo].[IVLP_ITINERARY_STOP] destination&#xA;FULL OUTER JOIN [KM_IVLP].[dbo].[IVLP_ITINERARY_STOP] origin &#xA;ON&#x9; (origin.itinerary_id = destination.itinerary_id AND origin.end_date = destination.start_date)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="/* If table exists then delete contents */&#xA;IF (EXISTS (SELECT * &#xA;                 FROM INFORMATION_SCHEMA.TABLES &#xA;                 WHERE TABLE_SCHEMA = 'dbo' &#xA;                 AND  TABLE_NAME = 'IVLP_Itinerary_Stop_Staging'))&#xA;BEGIN&#xA;  /* Delete the current contents */&#xA;  DROP TABLE dbo.IVLP_Itinerary_Stop_Staging &#xA;END&#xA;&#xA;&#xA;/* Revised 12-31-2015 */&#xA;SELECT &#xA;&#x9;ISNULL(destination.ITINERARY_ID,origin.ITINERARY_ID) itinerary_ItineraryId&#xA;&#x9;,origin.start_date  Itinerary_StartDate&#xA;&#x9;,ISNULL(destination.start_date,origin.end_date)  Itinerary_EndDate&#xA;&#x9;,origin.[CITY] Itinerary_OriginCity&#xA;&#x9;,origin.[STATE_CD] Itinerary_OriginState&#xA;&#x9;,destination.[CITY] Itinerary_DestinationCity&#xA;,&#x9;destination.[STATE_CD] Itinerary_DestinationState&#xA;&#x9;,origin.itinerary_id  Origin_itinerary_id&#xA;&#x9;,origin.[ITINERARY_STOP_ID]  Origin_Itinerary_Stop_Id&#xA;&#x9;,origin.[START_DATE]  Origin_Start_Date&#xA;&#x9;,origin.[END_DATE] Origin_End_Date &#xA;&#x9;,origin.[CITY]  Origin_City&#xA;&#x9;,origin.[STATE_CD]  Origin_State_Cd&#xA;&#x9;,origin.[LOCAL_SPONSOR_ORG_ID]  Origin_Local_Sponsor_Org_Id&#xA;&#x9;,origin.[LOCAL_SPONSOR_PERSON_ID]  Origin_Local_Sponsor_Person_Id&#xA;&#x9;,destination.itinerary_id  Destination_Itinerary_Id&#xA;&#x9;,destination.[ITINERARY_STOP_ID]  Destination_Itinerary_Stop_Id&#xA;&#x9;,destination.[START_DATE] Destination_Start_Date&#xA;&#x9;,destination.[END_DATE] Destination_End_Date&#xA;&#x9;,destination.[CITY]  Destination_City&#xA;&#x9;,destination.[STATE_CD] Destination_State_Cd&#xA;&#x9;,destination.[LOCAL_SPONSOR_ORG_ID]  Destination_Local_Sponsor_Org_Id&#xA;&#x9;,destination.[LOCAL_SPONSOR_PERSON_ID]  Destination_Local_Sponsor_Person_Id&#xA;INTO &#x9;dbo.IVLP_Itinerary_Stop_Staging&#xA;FROM &#x9;[KM_IVLP].[dbo].[IVLP_ITINERARY_STOP] origin&#xA;LEFT OUTER JOIN [KM_IVLP].[dbo].[IVLP_ITINERARY_STOP] destination &#xA;ON&#x9; (origin.itinerary_id = destination.itinerary_id AND origin.end_date = destination.start_date AND origin.ITINERARY_STOP_ID &lt;&gt; destination.ITINERARY_STOP_ID)&#xA;--where origin.ITINERARY_ID = '049ABF6E8A3243068A7A1277813DCB16' or destination.ITINERARY_ID = '049ABF6E8A3243068A7A1277813DCB16'&#xA;order by itinerary_ItineraryId,Itinerary_StartDate&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -29392,7 +29392,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output8]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output]"
           TopLeft="830,493.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29416,7 +29416,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output7]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output1]"
           TopLeft="1123.25,449">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29440,7 +29440,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output6]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output2]"
           TopLeft="1120.5,344">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29464,7 +29464,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output5]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output3]"
           TopLeft="824.5,326">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29488,7 +29488,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output4]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output8]"
           TopLeft="1118.75,153.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29512,7 +29512,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output3]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output4]"
           TopLeft="820.166666666667,94.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29536,7 +29536,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output2]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output5]"
           TopLeft="1211,94">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29560,7 +29560,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output1]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output6]"
           TopLeft="1119.75,264">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -29584,7 +29584,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output]"
+          Id="Package\Load IVLP Itinerary Table (Completed).Paths[Lookup Match Output7]"
           TopLeft="924,555.75">
           <EdgeLayout.Curve>
             <mssgle:Curve
