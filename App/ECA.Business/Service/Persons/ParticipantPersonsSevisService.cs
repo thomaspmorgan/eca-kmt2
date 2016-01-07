@@ -1,21 +1,24 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
+using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
+using ECA.Business.Validation.Model.Shared;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Data.Entity;
+using System.Diagnostics.Contracts;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using NLog;
-using ECA.Core.Exceptions;
-using ECA.Business.Validation;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
@@ -121,32 +124,66 @@ namespace ECA.Business.Service.Persons
             return participantPersonSevis;
         }
 
+        #endregion
+
+        #region SEVIS validation
+        
         /// <summary>
-        /// Get populated create participant sevis object
+        /// Retrieve a SEVIS batch to create/update exchange visitors
+        /// </summary>
+        /// <param name="createEVs"></param>
+        /// <param name="updateEVs"></param>
+        /// <param name="program"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public SEVISBatchCreateUpdateEV GetSevisBatchCreateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user)
+        {
+            // create batch header
+            var batchHeader = new BatchHeader
+            {
+                BatchID = DateTime.Today.ToString(),
+                OrgID = program.ProgramId.ToString()
+            };
+            var createEVBatch = new SEVISBatchCreateUpdateEV
+            {
+                userID = user.Id.ToString(),
+                BatchHeader = batchHeader,
+                UpdateEV = updateEVs,
+                CreateEV = createEVs
+            };
+
+            return createEVBatch;
+        }
+
+        /// <summary>
+        /// Get populated CREATE participant sevis object
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns></returns>
-        public SEVISBatchCreateUpdateEV GetCreateExchangeVisitor(int participantId)
+        public CreateExchVisitor GetCreateExchangeVisitor(int participantId, User user)
         {
             //Get student details
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(this.Context, (int)participant.PersonId).FirstOrDefault();
+            var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
             var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
             var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
+            var project = Context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
+            var program = Context.Programs.Where(x => x.Projects.Contains(project)).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitor();
 
-            ExchVisitor.requestID = "1";
-            ExchVisitor.userID = "1";
-            ExchVisitor.PositionCode = "123";
-            ExchVisitor.PrgStartDate = new DateTime(2005, 4, 18);
-            ExchVisitor.PrgEndDate = new DateTime(2009, 4, 18);
-            ExchVisitor.CategoryCode = "23";
-            ExchVisitor.OccupationCategoryCode = "";
+            ExchVisitor.requestID = participantId.ToString();
+            ExchVisitor.userID = user.Id.ToString();
+            ExchVisitor.PositionCode = participantExchangeVisitor.PositionCode;
+            ExchVisitor.PrgStartDate = program.StartDate.DateTime;
+            ExchVisitor.PrgEndDate = program.EndDate.Value.DateTime;
+            ExchVisitor.CategoryCode = participantExchangeVisitor.ProgramCategoryCode.FirstOrDefault().ToString();
+            ExchVisitor.OccupationCategoryCode = "99"; // unknown
 
             // biographical
             ExchVisitor.Biographical = new Biographical
@@ -158,22 +195,22 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : new DateTime(1974, 4, 15),
+                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
                 Gender = personalPII.GenderId.ToString(),
-                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "Arlington",
-                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "US",
-                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "US",
-                PermanentResidenceCountryCode = "US",
+                BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
+                BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
+                CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "",
                 BirthCountryReason = "",
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : ""
             };
             // subject field
             ExchVisitor.SubjectField = new SubjectField
             {
-                SubjectFieldCode = "12 1234",
-                ForeignDegreeLevel = "Bachelors",
-                ForeignFieldOfStudy = "Business",
-                Remarks = "testing"
+                SubjectFieldCode = "",
+                ForeignDegreeLevel = "",
+                ForeignFieldOfStudy = participantPerson.FieldOfStudy,
+                Remarks = ""
             };
             // addresses
             if (physicalAddress != null)
@@ -186,34 +223,34 @@ namespace ECA.Business.Service.Persons
                     State = physicalAddress.Division.LocationName,
                     PostalCode = physicalAddress.PostalCode
                 };
-                ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
-                {
-                    ResidentialType = "",
-                    HostFamily = new HostFamily
-                    {
-                        PContact = new PContact
-                        {
-                            FirsName = "",
-                            LastName = ""
-                        },
-                        SContact = new SContact
-                        {
-                            FirsName = "",
-                            LastName = ""
-                        },
-                        Phone = ""
-                    },
-                    BoardingSchool = new BoardingSchool
-                    {
-                        Name = "",
-                        Phone = ""
-                    },
-                    LCCoordinator = new LCCoordinator
-                    {
-                        FirsName = "",
-                        LastName = ""
-                    }
-                };
+                //ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
+                //{
+                //    ResidentialType = physicalAddress.LocationType.LocationTypeName,
+                //    HostFamily = new HostFamily
+                //    {
+                //        PContact = new PContact
+                //        {
+                //            FirsName = "",
+                //            LastName = ""
+                //        },
+                //        SContact = new SContact
+                //        {
+                //            FirsName = "",
+                //            LastName = ""
+                //        },
+                //        Phone = ""
+                //    },
+                //    BoardingSchool = new BoardingSchool
+                //    {
+                //        Name = "",
+                //        Phone = ""
+                //    },
+                //    LCCoordinator = new LCCoordinator
+                //    {
+                //        FirsName = "",
+                //        LastName = ""
+                //    }
+                //};
             }
             else
             {
@@ -236,35 +273,39 @@ namespace ECA.Business.Service.Persons
                 ExchVisitor.MailAddress = null;
             }
             // financial
+            var usfunds = participantExchangeVisitor.FundingGovtAgency1 + participantExchangeVisitor.FundingGovtAgency2;
             ExchVisitor.FinancialInfo = new FinancialInfo
             {
-                ReceivedUSGovtFunds = false,
-                ProgramSponsorFunds = "1200",
+                ReceivedUSGovtFunds = usfunds > 0,
+                ProgramSponsorFunds = participantExchangeVisitor.FundingSponsor.ToString(),
                 OtherFunds = new OtherFunds
                 {
                     International = new International
                     {
-                        Amount1 = "10",
-                        Amount2 = "20",
-                        Org1 = "org 1",
-                        OtherName1 = "on 1",
-                        Org2 = "org 2",
-                        OtherName2 = "on 2"
+                        Amount1 = participantExchangeVisitor.FundingIntlOrg1.ToString(),
+                        Amount2 = participantExchangeVisitor.FundingIntlOrg2.ToString(),
+                        Org1 = participantExchangeVisitor.IntlOrg1Id.ToString(),
+                        OtherName1 = participantExchangeVisitor.IntlOrg1Name,
+                        Org2 = participantExchangeVisitor.IntlOrg2Id.ToString(),
+                        OtherName2 = participantExchangeVisitor.IntlOrg2Name
                     },
+                    EVGovt = participantExchangeVisitor.FundingVisGovt.ToString(),
+                    BinationalCommission = participantExchangeVisitor.FundingVisBNC.ToString(),
                     USGovt = new USGovt
                     {
-                        Amount1 = "10",
-                        Amount2 = "20",
-                        Org1 = "govorg 1",
-                        OtherName1 = "govon 1",
-                        Org2 = "govorg 2",
-                        OtherName2 = "govon 2"
+                        Amount1 = participantExchangeVisitor.FundingGovtAgency1.ToString(),
+                        Org1 = participantExchangeVisitor.GovtAgency1Name,
+                        OtherName1 = participantExchangeVisitor.GovtAgency1OtherName,
+                        Amount2 = participantExchangeVisitor.FundingGovtAgency2.ToString(),
+                        Org2 = participantExchangeVisitor.GovtAgency2Name,
+                        OtherName2 = participantExchangeVisitor.GovtAgency2OtherName
                     },
                     Other = new Other
                     {
-                        amount = "30",
-                        name = "other nm"
-                    }
+                        amount = participantExchangeVisitor.FundingOther.ToString(),
+                        name = participantExchangeVisitor.OtherName
+                    },
+                    Personal = participantExchangeVisitor.FundingPersonal.ToString()
                 }
             };
             // TODO: complete when dependent feature is available
@@ -284,66 +325,47 @@ namespace ECA.Business.Service.Persons
             //        }
             //    }
             //};
+
+            // T/IPP
+            ExchVisitor.AddTIPP = new AddTIPP
+            {
+                print7002 = false
+            };
             // site of activity
             ExchVisitor.AddSiteOfActivity = new AddSiteOfActivity
             {
                 SiteOfActivitySOA = new SiteOfActivitySOA
                 {
                     printForm = false,
-                    Address1 = "123 Some St",
-                    City = "Arlington",
-                    State = "VA",
-                    PostalCode = "22206",
-                    SiteName = "Office 1",
+                    Address1 = "2201 C St NW",
+                    City = "Washington",
+                    State = "DC",
+                    PostalCode = "20520",
+                    SiteName = "US Department of State",
                     PrimarySite = true,
-                    Remarks = "Test site"
+                    Remarks = ""
                 },
                 SiteOfActivityExempt = new SiteOfActivityExempt
                 {
-                    Remarks = "test site exempt"
-                }
-            };
-            // T/IPP
-            ExchVisitor.AddTIPP = new AddTIPP
-            {
-                print7002 = false,
-                ParticipantInfo = new ParticipantInfo
-                {
-                    EmailAddress = "test@domain.com",
-                    FieldOfStudy = "Business",
-                    TypeOfDegree = "Bachelors",
-                    DateAwardedOrExpected = new DateTime(2009, 5, 12)
+                    Remarks = ""
                 }
             };
 
-            var batchHeader = new BatchHeader
-            {
-                BatchID = "1",
-                OrgID = "1"
-            };
-
+            // attach exchange visitor record
             var createVisitor = new CreateExchVisitor
             {
                 ExchangeVisitor = ExchVisitor
             };
 
-            var createEVBatch = new SEVISBatchCreateUpdateEV
-            {
-                userID = "1",
-                BatchHeader = batchHeader,
-                UpdateEV = null,
-                CreateEV = createVisitor
-            };
-
-            return createEVBatch;
+            return createVisitor;
         }
 
         /// <summary>
-        /// Get populated update participant sevis object
+        /// Get populated UPDATE participant sevis object
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns></returns>
-        public SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(int participantId)
+        public UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user)
         {
             //Get student details
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
@@ -356,6 +378,12 @@ namespace ECA.Business.Service.Persons
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitorUpdate();
+
+            ExchVisitor.requestID = participantId.ToString();
+            ExchVisitor.userID = user.Id.ToString();
+            ExchVisitor.sevisID = participant.SevisId;
+            ExchVisitor.statusCode = participant.StatusId.ToString();
+
             // biographical
             ExchVisitor.Biographical = new BiographicalUpdate
             {
@@ -515,22 +543,15 @@ namespace ECA.Business.Service.Persons
                 print7002 = false,
                 SiteId = "1"
             };
-            ExchVisitor.requestID = "1";
-            ExchVisitor.sevisID = "1";
             ExchVisitor.Status = new StatusUpdate
             {
             };
-            ExchVisitor.statusCode = "A";
             ExchVisitor.TIPP = new TippUpdate
             {
             };
-            ExchVisitor.UserDefinedA = "UD A";
-            ExchVisitor.UserDefinedB = "UD B";
             ExchVisitor.Validate = new ValidateParticipant
             {
-
             };
-            ExchVisitor.userID = participant.PersonId.ToString();
 
             // TODO: complete when dependent feature is available
             ExchVisitor.Dependent = null;
@@ -552,31 +573,41 @@ namespace ECA.Business.Service.Persons
             //    }
             //};
 
-            var batchHeader = new BatchHeader
-            {
-                BatchID = "1",
-                OrgID = "1"
-            };
             var updateVisitor = new UpdateExchVisitor
             {
                 ExchangeVisitor = ExchVisitor
             };
-            var updateVisitorBatch = new SEVISBatchCreateUpdateEV
-            {
-                userID = "1",
-                BatchHeader = batchHeader,
-                UpdateEV = updateVisitor,
-                CreateEV = null
-            };
 
-            return updateVisitorBatch;
+            return updateVisitor;
+        }
+
+        /// <summary>
+        /// Retrieve XML format of SEVIS batch object
+        /// </summary>
+        /// <param name="validationEntity">Participant object to be validated</param>
+        /// <returns>Participant object in XML format</returns>
+        public string GetParticipantSevisXml(SEVISBatchCreateUpdateEV validationEntity)
+        {
+            XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
+            var settings = new XmlWriterSettings
+            {
+                NewLineHandling = NewLineHandling.Entitize,
+                Encoding = System.Text.Encoding.UTF8,
+                DoNotEscapeUriAttributes = true
+            };
+            using (var stream = new StringWriter())
+            {
+                using (var writer = XmlWriter.Create(stream, settings))
+                {
+                    serializer.Serialize(writer, validationEntity);
+                    return stream.ToString();
+                }
+            }
         }
         
-
         #endregion
 
         #region ParticipantPersonSevisStatus
-
 
         /// Sevis Comm Status
 
@@ -629,9 +660,9 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// 
+        /// Returns a participantPersonSevisCommStatus asyncronously
         /// </summary>
-        /// <param name="participantIds"></param>
+        /// <param name="participantIds">The participant ids to lookup</param>
         /// <returns></returns>
         public IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds)
         {
@@ -640,8 +671,12 @@ namespace ECA.Business.Service.Persons
             return results;
         }
 
+        #endregion
+
+        #region update
+
         /// <summary>
-        /// Sets sevis communication status for participant ids
+        /// Sets sevis communication status for participant ids to queued
         /// </summary>
         /// <param name="participantIds">The participant ids to update communcation status</param>
         /// <returns>List of participant ids that were updated</returns>
@@ -669,10 +704,6 @@ namespace ECA.Business.Service.Persons
 
             return participantsUpdated.ToArray();
         }
-
-        #endregion
-
-        #region update
 
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.
@@ -726,13 +757,13 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
-
+        
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
         /// <param name="participantId">Participant ID</param>
-        /// <param name="errorCount">Count of validation errors</param>
-        /// <param name="isValid">Validation status</param>
+        /// <param name="errorCount">Validation error count</param>
+        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
         public void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid)
         {
             var newStatus = new ParticipantPersonSevisCommStatus
@@ -741,7 +772,7 @@ namespace ECA.Business.Service.Persons
                 AddedOn = DateTimeOffset.Now
             };
 
-            if (errorCount > 0)
+            if (errorCount > 0 || !isValid)
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
             }

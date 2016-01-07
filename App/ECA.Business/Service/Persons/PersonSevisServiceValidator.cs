@@ -1,11 +1,8 @@
-﻿using ECA.Business.Validation;
+﻿using ECA.Business.Validation.Model;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
@@ -23,12 +20,12 @@ namespace ECA.Business.Service.Persons
         /// Do validation for sevis exchange visitor create
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>Sevis object validation results</returns>        
-        public FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId)
+        /// <returns>Sevis object validation results</returns>
+        public FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId, User user)
         {
-            var createEV = participantService.GetCreateExchangeVisitor(participantId);
+            var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
 
-            var validator = new SEVISBatchCreateUpdateEVValidator();
+            var validator = new CreateExchVisitorValidator();
             var results = validator.Validate(createEV);
 
             return results;
@@ -39,15 +36,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public async Task<FluentValidation.Results.ValidationResult> ValidateSevisCreateEVAsync(int participantId)
+        public async Task<FluentValidation.Results.ValidationResult> ValidateSevisCreateEVAsync(int participantId, User user)
         {
-            var createEV = participantService.GetCreateExchangeVisitor(participantId);
+            var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
 
-            var validator = new SEVISBatchCreateUpdateEVValidator();
+            var validator = new CreateExchVisitorValidator();
             var results = await validator.ValidateAsync(createEV);
-
-            //GetStudentUpdateXml(createEV);
-
+            
             return results;
         }
         
@@ -56,11 +51,11 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>        
-        public FluentValidation.Results.ValidationResult ValidateSevisUpdateEV(int participantId)
+        public FluentValidation.Results.ValidationResult ValidateSevisUpdateEV(int participantId, User user)
         {
-            var updateEV = participantService.GetUpdateExchangeVisitor(participantId);
+            var updateEV = participantService.GetUpdateExchangeVisitor(participantId, user);
 
-            var validator = new SEVISBatchCreateUpdateEVValidator();
+            var validator = new UpdateExchVisitorValidator();
             var results = validator.Validate(updateEV);
             
             return results;
@@ -71,63 +66,34 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public async Task<FluentValidation.Results.ValidationResult> ValidateSevisUpdateEVAsync(int participantId)
+        public async Task<FluentValidation.Results.ValidationResult> ValidateSevisUpdateEVAsync(int participantId, User user)
         {
-            var updateEV = participantService.GetUpdateExchangeVisitor(participantId);
+            var updateEV = participantService.GetUpdateExchangeVisitor(participantId, user);
 
-            var validator = new SEVISBatchCreateUpdateEVValidator();
+            var validator = new UpdateExchVisitorValidator();
             var results = await validator.ValidateAsync(updateEV);
             
-            //var final = new List<ValidationResult>();
-            //foreach (var error in results.Errors)
-            //{
-            //    final.Add(new ValidationResult(error.ErrorMessage));
-            //}
-            // update the participant sevis status
-            //participantService.UpdateParticipantPersonSevisCommStatus(participantId, final.Count, results.IsValid);
-
-            // temporary to test xml serialization
-            //GetStudentUpdateXml(updateVisitor);
-
             return results;
         }
         
-        private void GetStudentUpdateXml(SEVISBatchCreateUpdateEV validationEntity)
-            {
-            //XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
-            //var settings = new XmlWriterSettings
-            //{
-            //    NewLineHandling = NewLineHandling.Entitize,
-            //    Encoding = System.Text.Encoding.UTF8,
-            //    DoNotEscapeUriAttributes = true
-            //};
-            //using (var stream = new StringWriter())
-            //using (var writer = XmlWriter.Create(stream, settings))
-            //{
-            //    serializer.Serialize(writer, validationEntity);
-            //    return stream.ToString();
-            //}
 
-            // write file
-            XmlSerializer writer = new XmlSerializer(validationEntity.GetType());
-            var path = @"C:\temp\SevisBatch.xml";
-            //Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SevisBatch.xml";
-            //FileStream file = File.Create(path);
-            FileInfo file = new FileInfo(path);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-            XmlWriter xfile = XmlWriter.Create(path);
-            writer.Serialize(xfile, validationEntity);
-            xfile.Close();
-        }
+        #region Temp
         
-        // TODO: for sending XML content to Sevis service
-        //var xsdPath = System.AppDomain.CurrentDomain.BaseDirectory;
-        //DataSet MyDataSet = new DataSet();
-        //MyDataSet.ReadXmlSchema(@"schema.xsd");
-        //string entityXml = SerializeToXmlString(validationEntity);
-        //MyDataSet.ReadXml(entityXml);
+        //// write to a local file
+        //XmlSerializer writer = new XmlSerializer(validationEntity.GetType());
+        //var path = @"C:\temp\SevisBatch.xml";
+        ////Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SevisBatch.xml";
+        ////FileStream file = File.Create(path);
+        //FileInfo file = new FileInfo(path);
+        //if (file.Exists)
+        //{
+        //    file.Delete();
+        //}
+        //XmlWriter xfile = XmlWriter.Create(path);
+        //writer.Serialize(xfile, validationEntity);
+        //xfile.Close();
+
+        #endregion
+
     }
 }
