@@ -726,7 +726,7 @@ namespace ECA.Business.Service.Persons
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
         }
-
+        
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>

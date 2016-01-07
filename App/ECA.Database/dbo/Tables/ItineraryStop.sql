@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[ItineraryStop] (
     [ItineraryStopId]        INT                IDENTITY (1, 1) NOT NULL,
     [ItineraryStatusId]      INT                NOT NULL,
+	[Name]					 NVARCHAR(100)      NOT NULL DEFAULT '', 
     [DateArrive]             DATETIMEOFFSET (7) NULL,
     [DateLeave]              DATETIMEOFFSET (7) NULL,
     [ItineraryId]            INT                NOT NULL,
@@ -10,7 +11,7 @@
     [History_RevisedOn]      DATETIMEOFFSET (7) NOT NULL,
     [Destination_LocationId] INT                NULL,
     [Origin_LocationId]      INT                NULL,
-    [IVLP_ItineraryStopId] NVARCHAR(32) NULL, 
+    [IVLP_ItineraryStopId]   NVARCHAR(32)       NULL,
     CONSTRAINT [PK_dbo.ItineraryStop] PRIMARY KEY CLUSTERED ([ItineraryStopId] ASC),
     CONSTRAINT [FK_dbo.ItineraryStop_dbo.Itinerary_ItineraryId] FOREIGN KEY ([ItineraryId]) REFERENCES [dbo].[Itinerary] ([ItineraryId]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.ItineraryStop_dbo.Location_Destination_LocationId] FOREIGN KEY ([Destination_LocationId]) REFERENCES [dbo].[Location] ([LocationId]),

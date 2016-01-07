@@ -187,6 +187,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IVisitorTypeService, VisitorTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDataPointConfigurationService, DataPointConfigurationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IItineraryGroupService, ItineraryGroupService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IItineraryStopService, ItineraryStopService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -225,6 +226,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 IBusinessValidator<AddedEcaItineraryGroupValidationEntity, object>,
                 EcaItineraryGroupValidator>();
+            container.RegisterType<
+                IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>,
+                ItineraryStopServiceValidator>();
         }
 
         /// <summary>

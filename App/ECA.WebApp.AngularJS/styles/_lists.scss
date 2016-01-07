@@ -326,22 +326,47 @@
 }
 
 
-.travel-period {
-    .travel-period-header {
+.itinerary {
+    .itinerary-header {
         div {
             height: 75px;
-        }              
+        }
+
         input[type="text"] {
             vertical-align: middle;
             margin-left: 20px;
         }
-        
+
         background-color: $blue;
         color: white;
         margin-top: 15px;
-        
+        width: 100%;
+
     }
-    .travel-period-container {
-        border-bottom: 1px solid $lightgray;
+
+
+    .itinerary-container {
+        border-bottom: 1px solid $mediumgray;
+        border-left: 1px solid $mediumgray;
+        border-right: 1px solid $mediumgray;
+    }
+
+    .itinerary-stop-header {
+        background-color: $blue;
+        color: white;
+        margin-top: 15px;
+        padding-right: 30px;
+        padding-left: 30px;
+        padding-top: 10px;
+    }
+
+    .itinerary-stop-container {
+        border-bottom: 1px solid $mediumgray;
+        border-left: 1px solid $mediumgray;
+        border-right: 1px solid $mediumgray;
+    }
+
+    .itinerary-stop-bottom-bar {
+        background-color: $lightgray;
     }
 }

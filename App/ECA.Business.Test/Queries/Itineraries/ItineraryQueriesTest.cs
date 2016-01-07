@@ -38,6 +38,10 @@ namespace ECA.Business.Test.Queries.Itineraries
             {
                 ParticipantId = 2
             };
+            var participant3 = new Participant
+            {
+                ParticipantId = 3
+            };
 
             var cityLocationType = new LocationType
             {
@@ -94,10 +98,17 @@ namespace ECA.Business.Test.Queries.Itineraries
                 Itinerary = itinerary,
                 ItineraryId = itinerary.ItineraryId
             };
+            var stop = new ItineraryStop
+            {
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+            };
+            stop.Participants.Add(participant3);
             group1.Participants.Add(participant1);
             group2.Participants.Add(participant2);
             itinerary.ItineraryGroups.Add(group1);
             itinerary.ItineraryGroups.Add(group2);
+            itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
             context.LocationTypes.Add(countryLocationType);
@@ -107,8 +118,10 @@ namespace ECA.Business.Test.Queries.Itineraries
             context.Itineraries.Add(itinerary);
             context.ItineraryGroups.Add(group1);
             context.ItineraryGroups.Add(group2);
+            context.ItineraryStops.Add(stop);
             context.Participants.Add(participant1);
             context.Participants.Add(participant2);
+            context.Participants.Add(participant3);
 
             var results = ItineraryQueries.CreateGetItinerariesQuery(context);
             Assert.AreEqual(1, results.Count());
@@ -122,7 +135,103 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(itinerary.ItineraryId, firstResult.Id);
             Assert.AreEqual(itinerary.Name, firstResult.Name);
             Assert.AreEqual(itinerary.StartDate, firstResult.StartDate);
-            Assert.AreEqual(2, firstResult.ParticipantsCount);
+            Assert.AreEqual(3, firstResult.ParticipantsCount);
+            Assert.AreEqual(2, firstResult.GroupsCount);
+        }
+
+        [TestMethod]
+        public void TestCreateGetItinerariesQuery_CheckDistinctParticipants()
+        {
+
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+
+            };
+
+            var cityLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var countryLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var arrival = new Location
+            {
+                LocationId = 1,
+                LocationName = "city 1",
+                LocationType = cityLocationType,
+                LocationTypeId = cityLocationType.LocationTypeId
+            };
+            var departureDestination = new Location
+            {
+                LocationId = 2,
+                LocationName = "country 1",
+                LocationType = countryLocationType,
+                LocationTypeId = countryLocationType.LocationTypeId
+            };
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                Arrival = arrival,
+                ArrivalLocationId = arrival.LocationId,
+                Departure = departureDestination,
+                DepartureLocationId = departureDestination.LocationId,
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            var group1 = new ItineraryGroup
+            {
+                ItineraryGroupId = 1,
+                Name = "1",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            var group2 = new ItineraryGroup
+            {
+                ItineraryGroupId = 2,
+                Name = "2",
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            var stop = new ItineraryStop
+            {
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId,
+            };
+            stop.Participants.Add(participant1);
+            group1.Participants.Add(participant1);
+            group2.Participants.Add(participant1);
+            itinerary.ItineraryGroups.Add(group1);
+            itinerary.ItineraryGroups.Add(group2);
+            itinerary.Stops.Add(stop);
+            itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
+            context.LocationTypes.Add(cityLocationType);
+            context.LocationTypes.Add(countryLocationType);
+            context.Locations.Add(arrival);
+            context.Locations.Add(departureDestination);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+            context.ItineraryGroups.Add(group1);
+            context.ItineraryGroups.Add(group2);
+            context.ItineraryStops.Add(stop);
+            context.Participants.Add(participant1);
+
+            var results = ItineraryQueries.CreateGetItinerariesQuery(context);
+            Assert.AreEqual(1, results.Count());
+
+            var firstResult = results.First();
+            Assert.AreEqual(1, firstResult.ParticipantsCount);
             Assert.AreEqual(2, firstResult.GroupsCount);
         }
 

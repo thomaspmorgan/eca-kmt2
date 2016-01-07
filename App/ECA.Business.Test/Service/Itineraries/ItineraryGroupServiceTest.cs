@@ -393,7 +393,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(person1.PersonId, firstPerson.PersonId);
                 Assert.AreEqual(person1.FullName, firstPerson.FullName);
                 Assert.AreEqual(participant.ParticipantId, firstPerson.ParticipantId);
-                Assert.AreEqual(participantType.ParticipantTypeId, firstPerson.ParticipantTypeId);
             };
 
             var serviceResults = service.GetItineraryGroupPersonsByItineraryId(project.ProjectId, itinerary.ItineraryId);
@@ -614,7 +613,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(person1.PersonId, firstPerson.PersonId);
                 Assert.AreEqual(person1.FullName, firstPerson.FullName);
                 Assert.AreEqual(participant.ParticipantId, firstPerson.ParticipantId);
-                Assert.AreEqual(participantType.ParticipantTypeId, firstPerson.ParticipantTypeId);
             };
 
             var serviceResults = service.GetItineraryGroupById(project.ProjectId, group.ItineraryGroupId);

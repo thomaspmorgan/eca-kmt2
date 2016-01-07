@@ -533,6 +533,7 @@
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
     <Compile Include="Controllers\Itineraries\ItinerariesController.cs" />
     <Compile Include="Controllers\Itineraries\ItineraryGroupsController.cs" />
+    <Compile Include="Controllers\Itineraries\ItineraryStopsController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
@@ -551,6 +552,8 @@
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
+    <Compile Include="Models\Itineraries\UpdatedEcaItineraryStopBindingModel.cs" />
+    <Compile Include="Models\Itineraries\AddedEcaItineraryStopBindingModel.cs" />
     <Compile Include="Models\Itineraries\AddedItineraryBindingModel.cs" />
     <Compile Include="Models\Itineraries\AddedItineraryGroupBindingModel.cs" />
     <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
