@@ -173,16 +173,16 @@ namespace ECA.Business.Service.Persons
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var project = Context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
-            var program = Context.Programs.Where(x => x.Projects.Contains(project)).FirstOrDefault();
+            var program = Context.Programs.Where(x => x.ProgramId == project.ProgramId).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitor();
 
             ExchVisitor.requestID = participantId.ToString();
             ExchVisitor.userID = user.Id.ToString();
             ExchVisitor.PositionCode = participantExchangeVisitor.PositionCode;
-            ExchVisitor.PrgStartDate = program.StartDate.DateTime;
-            ExchVisitor.PrgEndDate = program.EndDate.Value.DateTime;
-            ExchVisitor.CategoryCode = participantExchangeVisitor.ProgramCategoryCode.FirstOrDefault().ToString();
+            ExchVisitor.PrgStartDate = program.StartDate.DateTime > DateTime.MinValue ? program.StartDate.DateTime : DateTime.MinValue;
+            ExchVisitor.PrgEndDate = program.EndDate.HasValue ? program.EndDate.Value.DateTime : DateTime.MinValue;
+            ExchVisitor.CategoryCode = participantExchangeVisitor.ProgramCategoryCode;
             ExchVisitor.OccupationCategoryCode = "99"; // unknown
 
             // biographical
@@ -195,12 +195,11 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                BirthDate = personalPII.DateOfBirth > DateTime.MinValue ? personalPII.DateOfBirth.Value.Date : DateTime.MinValue,
                 Gender = personalPII.GenderId.ToString(),
                 BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
                 CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
-                PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "",
                 BirthCountryReason = "",
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : ""
             };
@@ -215,6 +214,7 @@ namespace ECA.Business.Service.Persons
             // addresses
             if (physicalAddress != null)
             {
+                ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "";
                 ExchVisitor.USAddress = new USAddress
                 {
                     Address1 = physicalAddress.Street1,
@@ -378,7 +378,7 @@ namespace ECA.Business.Service.Persons
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var project = Context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
-            var program = Context.Programs.Where(x => x.Projects.Contains(project)).FirstOrDefault();
+            var program = Context.Programs.Where(x => x.ProgramId == project.ProgramId).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitorUpdate();
 
@@ -398,7 +398,7 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                BirthDate = personalPII.DateOfBirth > DateTime.MinValue ? personalPII.DateOfBirth.Value.Date : DateTime.MinValue,
                 Gender = personalPII.GenderId.ToString(),
                 BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
@@ -556,7 +556,7 @@ namespace ECA.Business.Service.Persons
                         EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                         FieldOfStudy = participantPerson.FieldOfStudy,
                         TypeOfDegree = "",
-                        DateAwardedOrExpected = program.EndDate.Value.Date
+                        DateAwardedOrExpected = program.EndDate.Value.Date > DateTime.MinValue ? program.EndDate.Value.Date : DateTime.MinValue
                     },
                     TippSite = new TippSiteUpdate
                     {

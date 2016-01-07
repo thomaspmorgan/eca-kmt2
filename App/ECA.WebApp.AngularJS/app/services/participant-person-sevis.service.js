@@ -16,7 +16,8 @@
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
-            validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis
+            validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis,
+            updateParticipantSevisCommStatus: updateParticipantSevisCommStatus
         };
 
         return service;

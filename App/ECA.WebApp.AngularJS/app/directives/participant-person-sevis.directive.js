@@ -38,6 +38,15 @@
                     $scope.edit.isEndDatePickerOpen = true
                 }
 
+                // pre-sevis validation
+                $scope.validateSevisInfo = function (sevisId) {
+                    if (sevisId) {
+                        validateUpdateSevisInfo();
+                    } else {
+                        validateCreateSevisInfo();
+                    }
+                };
+                
                 // pre-sevis create validation
                 $scope.validateCreateSevisInfo = function () {
                     $scope.edit.isValidationLoading = true;
