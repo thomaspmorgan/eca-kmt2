@@ -5,6 +5,8 @@ using ECA.Core.DynamicLinq;
 using System.Linq;
 using ECA.Core.Service;
 using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
+using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
@@ -58,19 +60,30 @@ namespace ECA.Business.Service.Persons
         Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId);
 
         /// <summary>
-        /// Get populated create participant sevis object
+        /// Retrieve a SEVIS batch to create/update exchange visitors
+        /// </summary>
+        /// <param name="createEVs"></param>
+        /// <param name="updateEVs"></param>
+        /// <param name="program"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        SEVISBatchCreateUpdateEV GetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user);
+
+        /// <summary>
+        /// Get populated create participant sevis object for validation
         /// </summary>
         /// <param name="participantId"></param>
         /// <returns>Create exchange visitor object</returns>
-        SEVISBatchCreateUpdateEV GetCreateExchangeVisitor(int participantId);
+        CreateExchVisitor GetCreateExchangeVisitor(int participantId, User user);
 
         /// <summary>
-        /// Get populated update participant sevis object
+        /// Get populated update participant sevis object for validation
         /// </summary>
         /// <param name="participantId"></param>
         /// <returns>Update exchange visitor object</returns>
-        SEVISBatchCreateUpdateEV GetUpdateExchangeVisitor(int participantId);
+        UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user);
         
+
         /// **** Sevis Comm Status ****
 
         /// <summary>
@@ -129,11 +142,18 @@ namespace ECA.Business.Service.Persons
         Task<int[]> SendToSevis(int[] participantIds);
 
         /// <summary>
+        /// Retrieve XML format of SEVIS batch object
+        /// </summary>
+        /// <param name="validationEntity">Participant object to be validated</param>
+        /// <returns>Participant object in XML format</returns>
+        string GetParticipantSevisXml(SEVISBatchCreateUpdateEV validationEntity);
+
+        /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
         /// <param name="participantId">Participant ID</param>
-        /// <param name="errorCount">Count of validation errors</param>
-        /// <param name="isValid">Validation status</param>
+        /// <param name="errorCount">Validation error count</param>
+        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
         void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Validation.Model;
 using FluentValidation.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace ECA.Business.Validation
 {
@@ -14,8 +15,8 @@ namespace ECA.Business.Validation
         public SEVISBatchCreateUpdateEV()
         {
             BatchHeader = new BatchHeader();
-            CreateEV = new CreateExchVisitor();
-            UpdateEV = new UpdateExchVisitor();
+            CreateEV = new List<CreateExchVisitor>();
+            UpdateEV = new List<UpdateExchVisitor>();
         }
 
         /// <summary>
@@ -29,13 +30,13 @@ namespace ECA.Business.Validation
         public BatchHeader BatchHeader { get; set; }
 
         /// <summary>
-        /// Create an exchange visitor record
+        /// Create an exchange visitor record (250 max)
         /// </summary>
-        public CreateExchVisitor CreateEV { get; set; }
+        public List<CreateExchVisitor> CreateEV { get; set; }
 
         /// <summary>
-        /// Update an exchange visitor record
+        /// Update an exchange visitor record (250 max)
         /// </summary>
-        public UpdateExchVisitor UpdateEV { get; set; }
+        public List<UpdateExchVisitor> UpdateEV { get; set; }
     }
 }

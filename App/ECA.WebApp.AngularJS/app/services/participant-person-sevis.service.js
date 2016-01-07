@@ -16,7 +16,8 @@
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
-            validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis
+            validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis,
+            updateParticipantSevisCommStatus: updateParticipantSevisCommStatus
         };
 
         return service;
@@ -71,7 +72,10 @@
         };
 
         // update participant sevis status
-
+        function updateParticipantSevisCommStatus(id, params) {
+            var path = 'ParticipantPersonsSevis/UpdateSevisCommStatus/' + id;
+            return DragonBreath.get(params, path);
+        };
 
     }
 })();

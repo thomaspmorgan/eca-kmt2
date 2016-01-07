@@ -5,12 +5,9 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public SupervisorsUpdate()
         {
-            TippPhase = new TippPhaseUpdate();
-            UpdateParticipantInfo = new ParticipantInfoUpdate();
+            TippPhase = new TippSupervisorPhaseUpdate();
         }
 
-        public TippPhaseUpdate TippPhase { get; set; }
-
-        public ParticipantInfoUpdate UpdateParticipantInfo { get; set; }
+        public TippSupervisorPhaseUpdate TippPhase { get; set; }
     }
 }

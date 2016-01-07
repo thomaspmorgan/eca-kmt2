@@ -38,6 +38,15 @@
                     $scope.edit.isEndDatePickerOpen = true
                 }
 
+                // pre-sevis validation
+                $scope.validateSevisInfo = function (sevisId) {
+                    if (sevisId) {
+                        validateUpdateSevisInfo();
+                    } else {
+                        validateCreateSevisInfo();
+                    }
+                };
+                
                 // pre-sevis create validation
                 $scope.validateCreateSevisInfo = function () {
                     $scope.edit.isValidationLoading = true;
@@ -49,6 +58,12 @@
                             valErrors.push(response.data.errors[i].errorMessage);
                         }
                         $scope.validationResults = valErrors;
+                        // update participant sevis status
+                        var params = {
+                            errors: response.data.errors.length,
+                            isvalid: response.data.isValid
+                        };
+                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -63,10 +78,16 @@
                     .then(function (response) {
                         $log.info('Validated participant update SEVIS info');
                         var valErrors = [];
-                        for (var i = 0; i < response.data.length; i++) {
-                            valErrors.push(response.data[i].errorMessage);
+                        for (var i = 0; i < response.data.errors.length; i++) {
+                            valErrors.push(response.data.errors[i].errorMessage);
                         }
                         $scope.validationResults = valErrors;
+                        // update participant sevis status
+                        var params = {
+                            errors: response.data.errors.length,
+                            isvalid: response.data.isValid
+                        };
+                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
-
+﻿
 namespace ECA.Business.Queries.Models.Persons
 {
     /// <summary>
@@ -42,6 +36,11 @@ namespace ECA.Business.Queries.Models.Persons
         public int? PositionId { get; set; }
 
         /// <summary>
+        /// Gets or sets the participantPersons's Position Code
+        /// </summary>
+        public string PositionCode { get; set; }
+
+        /// <summary>
         /// Gets or sets the participantPersons's Position
         /// </summary>
         public string Position { get; set; }
@@ -50,6 +49,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participantPerson's ProgramCategory Id
         /// </summary>
         public int? ProgramCategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participantPerson's ProgramCategory Code
+        /// </summary>
+        public string ProgramCategoryCode { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPerson's ProgramCategory
