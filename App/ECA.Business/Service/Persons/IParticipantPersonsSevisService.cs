@@ -60,15 +60,37 @@ namespace ECA.Business.Service.Persons
         Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId);
 
         /// <summary>
+        /// Retrieve SEVIS batch XML
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        string GetSevisBatchCreateUpdateXML(int programId, User user);
+
+        /// <summary>
         /// Retrieve a SEVIS batch to create/update exchange visitors
         /// </summary>
         /// <param name="createEVs"></param>
         /// <param name="updateEVs"></param>
-        /// <param name="program"></param>
+        /// <param name="programId"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        SEVISBatchCreateUpdateEV GetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user);
+        SEVISBatchCreateUpdateEV CreateGetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, int programId, User user);
 
+        /// <summary>
+        /// Retrieve participants with no sevis that are ready to submit
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Sevis exchange visitor create objects (250 max)</returns>
+        List<CreateExchVisitor> GetSevisCreateEVs(User user);
+
+        /// <summary>
+        /// Retrieve participants with sevis information that are ready to submit
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Sevis exchange visitor update objects (250 max)</returns>
+        List<UpdateExchVisitor> GetSevisUpdateEVs(User user);
+        
         /// <summary>
         /// Get populated create participant sevis object for validation
         /// </summary>
@@ -82,9 +104,15 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId"></param>
         /// <returns>Update exchange visitor object</returns>
         UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user);
-        
 
-        /// **** Sevis Comm Status ****
+        /// <summary>
+        /// Retrieve XML format of SEVIS batch object
+        /// </summary>
+        /// <param name="validationEntity">Participant object to be validated</param>
+        /// <returns>Participant object in XML format</returns>
+        string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity);
+
+        /// Sevis Comm Status
 
         /// <summary>
         /// Returns the participantPersonSevises in the system.
@@ -140,14 +168,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantIds">The participant ids to update communcation status</param>
         /// <returns>List of participant ids that were updated</returns>
         Task<int[]> SendToSevis(int[] participantIds);
-
-        /// <summary>
-        /// Retrieve XML format of SEVIS batch object
-        /// </summary>
-        /// <param name="validationEntity">Participant object to be validated</param>
-        /// <returns>Participant object in XML format</returns>
-        string GetParticipantSevisXml(SEVISBatchCreateUpdateEV validationEntity);
-
+        
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
