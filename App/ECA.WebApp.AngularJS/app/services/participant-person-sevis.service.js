@@ -71,7 +71,10 @@
         };
 
         // update participant sevis status
-
+        function updateParticipantSevisCommStatus(id, params) {
+            var path = 'ParticipantPersonsSevis/UpdateSevisCommStatus/' + id;
+            return DragonBreath.get(params, path);
+        };
 
     }
 })();
