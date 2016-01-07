@@ -7,7 +7,7 @@ Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "IVLP", "IVLP\IVLP.dtproj", 
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "ECA-Sample Data", "ECA-Sample Data\ECA-Sample Data.dtproj", "{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}"
 EndProject
-Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "CE - Cultural Exchange", "CE - Cultural Exchange\CE - Cultural Exchange.dtproj", "{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}"
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "CE - Citizen Exchange", "CE - Cultural Exchange\CE - Citizen Exchange.dtproj", "{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}"
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SEVIS", "SEVIS\SEVIS.dtproj", "{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}"
 EndProject
