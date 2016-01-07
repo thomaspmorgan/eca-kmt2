@@ -15,7 +15,7 @@
       <SSIS:Project SSIS:ProtectionLevel="EncryptSensitiveWithUserKey" xmlns:SSIS="www.microsoft.com/SqlServer/SSIS">
         <SSIS:Properties>
           <SSIS:Property SSIS:Name="ID">{eff64ae6-5eab-4f23-9107-c2c0e93593a6}</SSIS:Property>
-          <SSIS:Property SSIS:Name="Name">CE - Cultural Exchange</SSIS:Property>
+          <SSIS:Property SSIS:Name="Name">CE - Citizen Exchange</SSIS:Property>
           <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
           <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
           <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAAD+OL/5hdu9YQpUB38L6snDtmXfZLNC7Eh2dRSfm2sOagAAAAAOgAAAAAIAACAAAACblADWR1nK59JlN3fJ+vEkZafpneufuC6XXO4ZEz99cZAAAAAtGle76+BzRYOUynlL9gp0GYSasvHGCDpd6S166Nnguj1WBkWnvHMEowbrtxZxEkAQawECsrwadyoWiKMIl0eyyVLiooI/CDiP7ATLBaeh+9x7hBOolndAy8ODPyUZgue7Hyw0AEc61gjRnysJwcAXJP656ThY/vBpugAd9SVLLry4OjBBRjnnFdxtKWdvTU5AAAAAwEICcoxAa1j29gZ7AAHkkways90Wy61TqnLVtSuu47m14PmlAP/NKiZoObVgLYzw3D5U0rIGAUE/MqRB8XYljg==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACZeHYlBUQ8yo56qi+5hZf8Ny5YL0d08gtUicuHtBikqAAAAAAOgAAAAAIAACAAAAABr7m74MrxjioDShh5diZdzu+T9YLHJRs9dXvNMn4XfpAAAAAkAXMUXkZv9ZD0mZaAZbVHnvvGuqUeW8jKYURT6+JKlXFvZgW/JR6w9Hn8K84pppTXmQJMH8+dRV1CZ6GZGUUnhzVfvsuGznSns2+eeyJ6i1zaLNbtTXGZdHNHAg5t5zSFUoANnGR/YkRCXdOegrP5fQlhdyKcAXrQTFk77LKqH+dImEPqlwENcvhy1VubXUdAAAAAaLAHN0hc2+02R+OoQd22B/dwXshUXwHQiRtlubFv1uNV+keKAXiEDOD32oCRb8yvajB3HGtPHduqzgcKRZ8+Sg==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -6308,10 +6308,10 @@
                 <SSIS:Property SSIS:Name="Name">Load CE Components as Itineraries</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">8</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">31</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{07268A05-D536-4998-B28E-5C99672FCA16}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{15E94641-9549-4910-8EEE-806E3537FB47}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>

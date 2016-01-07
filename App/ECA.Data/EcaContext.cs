@@ -192,7 +192,7 @@ namespace ECA.Data
         /// Gets or sets money flows.
         /// </summary>
         public DbSet<MoneyFlow> MoneyFlows { get; set; }
-
+        
         /// <summary>
         /// Gets or sets OfficeSettings for an office
         /// </summary>

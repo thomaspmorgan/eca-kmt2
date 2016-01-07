@@ -17,9 +17,9 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public ValidationResult PreCreateSevisValidation(int participantId)
+        public ValidationResult PreCreateSevisValidation(int participantId, User user)
         {
-            var results = validator.ValidateSevisCreateEV(participantId);
+            var results = validator.ValidateSevisCreateEV(participantId, user);
 
             return results;
         }
@@ -29,9 +29,9 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public async Task<ValidationResult> PreCreateSevisValidationAsync(int participantId)
+        public async Task<ValidationResult> PreCreateSevisValidationAsync(int participantId, User user)
         {
-            var results = await validator.ValidateSevisCreateEVAsync(participantId);
+            var results = await validator.ValidateSevisCreateEVAsync(participantId, user);
 
             return results;
         }
@@ -41,9 +41,9 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public ValidationResult PreUpdateSevisValidation(int participantId)
+        public ValidationResult PreUpdateSevisValidation(int participantId, User user)
         {
-            var results = validator.ValidateSevisUpdateEV(participantId);
+            var results = validator.ValidateSevisUpdateEV(participantId, user);
 
             return results;
         }
@@ -53,9 +53,9 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public async Task<ValidationResult> PreUpdateSevisValidationAsync(int participantId)
+        public async Task<ValidationResult> PreUpdateSevisValidationAsync(int participantId, User user)
         {
-            var results = await validator.ValidateSevisUpdateEVAsync(participantId);
+            var results = await validator.ValidateSevisUpdateEVAsync(participantId, user);
 
             return results;
         }
