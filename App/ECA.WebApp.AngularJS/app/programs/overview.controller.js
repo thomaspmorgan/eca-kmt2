@@ -56,7 +56,6 @@ angular.module('staticApp')
 
       $scope.data.loadDataPointConfigurationsPromise.promise
       .then(function (dataConfigurations) {
-          console.log(dataConfigurations);
         var array = $filter('filter')(dataConfigurations, { categoryId: ConstantsService.dataPointCategory.program.id });
         for (var i = 0; i < array.length; i++) {
             $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
