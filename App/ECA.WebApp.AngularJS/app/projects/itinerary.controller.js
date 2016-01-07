@@ -38,9 +38,34 @@ angular.module('staticApp')
       $scope.view.isLoadingItineraryStops = false;
       $scope.view.isSaving = false;
       $scope.view.isItineraryExpanded = false;
+      $scope.view.calendarKey = 'cal';
+      $scope.view.listKey = 'list';
+      $scope.view.viewType = $scope.view.listKey;
+      $scope.view.selectedCalendarItineraryStop = null;
       $scope.view.itineraryStops = [];
+      $scope.view.eventSources = [];
+
+
+      $scope.view.calendarConfig = {
+          calendar: {
+              //height: 300,
+              editable: false,
+              header: {
+                  left: 'month basicWeek basicDay agendaWeek agendaDay',
+                  center: 'title',
+                  right: 'today prev,next'
+              },
+              eventClick: function (calEvent, jsEvent, view) {
+                  onCalendarItemClick(calEvent, jsEvent, view);
+              }
+              //eventResize: $scope.alertOnResize,
+              //eventRender: $scope.eventRender
+          }
+      }
+
 
       var itineraryCopy = angular.copy($scope.view.itinerary);
+
 
       $scope.view.onEditClick = function (itinerary) {
           $log.info('edit');
@@ -206,6 +231,7 @@ angular.module('staticApp')
               });
               $scope.view.itineraryStops = response.data;
               $scope.view.isLoadingItineraryStops = false;
+              addAllItineraryStopsAsEvents($scope.view.itineraryStops);
               return response.data;
           })
           .catch(function (response) {
@@ -267,6 +293,44 @@ angular.module('staticApp')
           .catch(function (response) {
               $log.error('Unable to load locations.')
           })
+      }
+
+      function addAllItineraryStopsAsEvents(itineraryStops) {
+          clearEvents();
+          var itineraryStopEvents = []
+          angular.forEach(itineraryStops, function (stop, index) {
+              itineraryStopEvents.push(getEvent(stop));
+          });
+          $scope.view.eventSources.push(itineraryStopEvents);
+      }
+
+      function clearEvents() {
+          $scope.view.eventSources = [];
+      }
+
+      function getEvent(itineraryStop) {
+          return {
+              title: itineraryStop.name,
+              start: itineraryStop.arrivalDate,
+              end: itineraryStop.departureDate,
+              allDay: true,
+              itineraryStopId: itineraryStop.itineraryStopId//,
+              //textColor: 'lightgray'
+              //color: '#000000'
+
+          };
+      }
+
+      function onCalendarItemClick(calEvent, jsEvent, view) {
+          var itineraryStop = null;
+
+          for (var i = 0; i < $scope.view.itineraryStops.length; i++) {
+              var stop = $scope.view.itineraryStops[i];
+              if (stop.itineraryStopId === calEvent.itineraryStopId) {
+                  itineraryStop = stop;
+              }
+          }
+          $scope.view.selectedCalendarItineraryStop = itineraryStop;
       }
 
       function initializeItinerary(itinerary) {
