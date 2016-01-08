@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAADKsLErN5ae+VrAllNEbk8E4EnyWIpgAgwuME7a5jmP+QAAAAAOgAAAAAIAACAAAAAgD+ET2+Ede2sM1SEyg+9gwYThjWkQAnRHHoycYh2iBpAAAAA36E8DKNOfxbQMrXmfSBc4MaIJ9IGeCWamEjE2n0cFHQxDciFmM1g0vIgIVoc54oV0GcamyfWKhrt6O4of0BCTS+tZmfZGNtpqzjsmIlWoYADzgrgdMQ6y1QAPqNydXQeAT4TByxcTdUbcP89vdxhc97KS3QjWOlxa3zZ7IMLxDED6/H8EcYDZw5PiA48hjApAAAAArETCETtvEyDEsXCCtabBeO6qMUklQgpxYC/TBE1PeGexaH5E44MYa3y/mAbL5z+TtsAq6ZkAZzhVkIPhh/6LSg==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAAB490/pJlTvYjnHqC9LdMfL3P9tm60I3JxeFxdnFbnnvQAAAAAOgAAAAAIAACAAAABFJo4wx1B04p9FwKU1iQTjEjOYpiHGCquTxOZhRgYtrZAAAADkChH8glf8JQhTIB+YeMPm6UKIrH8Ty7DquhEcNtLbeOkjYJ4E0JfWCySf8fJS6ie7I2K0xEf9XreYokG5FvaeQbZXJoU7S4SkWPbJ7LvZ8/1FymQZGDk+FTnfj//whsFpReKsmVRT8270/FN2NUGe403SyOwY+SlLYqQuhQhjAZiy7zfLcYsAxEaseammIzhAAAAA0cM+BR+EQ0mu9IvAhy40d/upYDctPJWHXP8LzNKAZk0pL7MvdutENr5dikTqkwco1vntiYNmsfyoPDLAXB9Vxg==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -54,8 +54,8 @@
           <SSIS:Package SSIS:Name="IVLP Participant Load - Oracle Dataset 2.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="IVLP Person Language Proficiency Load - Oracle Dataset 2.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="Migrate IVLP_PERSON_COMMENT.dtsx" SSIS:EntryPoint="1" />
-          <SSIS:Package SSIS:Name="IVLP Itineraries Load - Dataset 2.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="MergeJoin test.dtsx" SSIS:EntryPoint="1" />
+          <SSIS:Package SSIS:Name="IVLP Itinerary and ItineraryStop Load - Dataset 2.dtsx" SSIS:EntryPoint="1" />
         </SSIS:Packages>
         <SSIS:ConnectionManagers>
           <SSIS:ConnectionManager SSIS:Name="BE00003308.IVLP_Source_DB.conmgr" />
@@ -8651,23 +8651,6 @@
                 </SSIS:Parameter>
               </SSIS:Parameters>
             </SSIS:PackageMetaData>
-            <SSIS:PackageMetaData SSIS:Name="IVLP Itineraries Load - Dataset 2.dtsx">
-              <SSIS:Properties>
-                <SSIS:Property SSIS:Name="ID">{047C6475-3492-4673-9667-8087D30C61C0}</SSIS:Property>
-                <SSIS:Property SSIS:Name="Name">IVLP Itineraries Load - Dataset 2</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">224</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionComments">
-                </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{99BB3EF5-52B3-49C4-A90A-7A49CF86FF9A}</SSIS:Property>
-                <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
-                <SSIS:Property SSIS:Name="Description">
-                </SSIS:Property>
-                <SSIS:Property SSIS:Name="ProtectionLevel">1</SSIS:Property>
-              </SSIS:Properties>
-              <SSIS:Parameters />
-            </SSIS:PackageMetaData>
             <SSIS:PackageMetaData SSIS:Name="MergeJoin test.dtsx">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">{C40B3C6D-9549-4E69-B396-530D656F019F}</SSIS:Property>
@@ -8678,6 +8661,23 @@
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionGUID">{BE138CF3-8F2D-430F-9008-AC4B19C2D17C}</SSIS:Property>
+                <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                <SSIS:Property SSIS:Name="Description">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="ProtectionLevel">1</SSIS:Property>
+              </SSIS:Properties>
+              <SSIS:Parameters />
+            </SSIS:PackageMetaData>
+            <SSIS:PackageMetaData SSIS:Name="IVLP Itinerary and ItineraryStop Load - Dataset 2.dtsx">
+              <SSIS:Properties>
+                <SSIS:Property SSIS:Name="ID">{6AD1F7EE-1CBC-4EF6-A96B-3E08D7F1A51A}</SSIS:Property>
+                <SSIS:Property SSIS:Name="Name">IVLP Itinerary and ItineraryStop Load - Dataset 2</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">250</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionComments">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{BFC97734-06D4-4909-ABA0-3ECAC62DCC72}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>

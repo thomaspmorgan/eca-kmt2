@@ -67,7 +67,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="program"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        SEVISBatchCreateUpdateEV GetSevisBatchCreateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user);
+        SEVISBatchCreateUpdateEV GetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user);
 
         /// <summary>
         /// Get populated create participant sevis object for validation

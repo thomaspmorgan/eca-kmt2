@@ -1,10 +1,9 @@
-﻿using ECA.Business.Validation.Model.CreateEV;
-using FluentValidation.Attributes;
+﻿using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.Shared
 {
     /// <summary>
-    /// 
+    /// T/IPP site with phases
     /// </summary>
     [Validator(typeof(AddTIPPUpdateValidator))]
     public class AddTIPPUpdate
@@ -12,13 +11,13 @@ namespace ECA.Business.Validation.Model.Shared
         public AddTIPPUpdate()
         {
             ParticipantInfo = new ParticipantInfoUpdate();
-            TippSite = new TippSite();
+            TippSite = new TippSiteUpdate();
         }
 
         public bool print7002 { get; set; }
 
         public ParticipantInfoUpdate ParticipantInfo { get; set; }
 
-        public TippSite TippSite { get; set; }
+        public TippSiteUpdate TippSite { get; set; }
     }
 }

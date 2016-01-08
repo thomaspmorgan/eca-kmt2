@@ -136,7 +136,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="program"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public SEVISBatchCreateUpdateEV GetSevisBatchCreateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user)
+        public SEVISBatchCreateUpdateEV GetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, Data.Program program, User user)
         {
             // create batch header
             var batchHeader = new BatchHeader
@@ -173,16 +173,16 @@ namespace ECA.Business.Service.Persons
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var project = Context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
-            var program = Context.Programs.Where(x => x.Projects.Contains(project)).FirstOrDefault();
+            var program = Context.Programs.Where(x => x.ProgramId == project.ProgramId).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitor();
 
             ExchVisitor.requestID = participantId.ToString();
             ExchVisitor.userID = user.Id.ToString();
             ExchVisitor.PositionCode = participantExchangeVisitor.PositionCode;
-            ExchVisitor.PrgStartDate = program.StartDate.DateTime;
-            ExchVisitor.PrgEndDate = program.EndDate.Value.DateTime;
-            ExchVisitor.CategoryCode = participantExchangeVisitor.ProgramCategoryCode.FirstOrDefault().ToString();
+            ExchVisitor.PrgStartDate = program.StartDate.DateTime > DateTime.MinValue ? program.StartDate.DateTime : DateTime.MinValue;
+            ExchVisitor.PrgEndDate = program.EndDate.HasValue ? program.EndDate.Value.DateTime : DateTime.MinValue;
+            ExchVisitor.CategoryCode = participantExchangeVisitor.ProgramCategoryCode;
             ExchVisitor.OccupationCategoryCode = "99"; // unknown
 
             // biographical
@@ -195,12 +195,11 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                BirthDate = personalPII.DateOfBirth > DateTime.MinValue ? personalPII.DateOfBirth.Value.Date : DateTime.MinValue,
                 Gender = personalPII.GenderId.ToString(),
                 BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
                 CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
-                PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "",
                 BirthCountryReason = "",
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : ""
             };
@@ -215,6 +214,7 @@ namespace ECA.Business.Service.Persons
             // addresses
             if (physicalAddress != null)
             {
+                ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "";
                 ExchVisitor.USAddress = new USAddress
                 {
                     Address1 = physicalAddress.Street1,
@@ -371,11 +371,14 @@ namespace ECA.Business.Service.Persons
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(this.Context, (int)participant.PersonId).FirstOrDefault();
+            var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
             var mailingAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
             var physicalAddress = Context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = Context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
+            var project = Context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
+            var program = Context.Programs.Where(x => x.ProgramId == project.ProgramId).FirstOrDefault();
 
             var ExchVisitor = new ExchangeVisitorUpdate();
 
@@ -395,16 +398,16 @@ namespace ECA.Business.Service.Persons
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
                 },
-                BirthDate = personalPII.DateOfBirth != null ? personalPII.DateOfBirth.Value.Date : (DateTime?)null,
+                BirthDate = personalPII.DateOfBirth > DateTime.MinValue ? personalPII.DateOfBirth.Value.Date : DateTime.MinValue,
                 Gender = personalPII.GenderId.ToString(),
                 BirthCity = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.City : "",
                 BirthCountryCode = personalPII.PlaceOfBirth != null ? personalPII.PlaceOfBirth.CountryIso2 : "",
-                BirthCountryReason = "",
                 CitizenshipCountryCode = citizenship != null ? citizenship.LocationIso2 : "",
+                BirthCountryReason = "",
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
                 PhoneNumber = "",
-                PositionCode = "",
-                Remarks = "Test remark"
+                PositionCode = participantExchangeVisitor.PositionCode,
+                Remarks = ""
             };
             if (mailingAddress != null)
             {
@@ -436,72 +439,76 @@ namespace ECA.Business.Service.Persons
                     Explanation = "",
                     ExplanationCode = ""
                 };
-                ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
-                {
-                    ResidentialType = "",
-                    BoardingSchool = new BoardingSchool
-                    {
-                        Name = "",
-                        Phone = ""
-                    },
-                    HostFamily = new HostFamily
-                    {
-                        PContact = new PContact
-                        {
-                            FirsName = "",
-                            LastName = ""
-                        },
-                        SContact = new SContact
-                        {
-                            FirsName = "",
-                            LastName = ""
-                        },
-                        Phone = ""
-                    },
-                    LCCoordinator = new LCCoordinator
-                    {
-                        FirsName = "",
-                        LastName = ""
+                //ExchVisitor.Biographical.ResidentialAddress = new ResidentialAddress
+                //{
+                //    ResidentialType = "",
+                //    BoardingSchool = new BoardingSchool
+                //    {
+                //        Name = "",
+                //        Phone = ""
+                //    },
+                //    HostFamily = new HostFamily
+                //    {
+                //        PContact = new PContact
+                //        {
+                //            FirsName = "",
+                //            LastName = ""
+                //        },
+                //        SContact = new SContact
+                //        {
+                //            FirsName = "",
+                //            LastName = ""
+                //        },
+                //        Phone = ""
+                //    },
+                //    LCCoordinator = new LCCoordinator
+                //    {
+                //        FirsName = "",
+                //        LastName = ""
+                //    }
+                //};
                     }
-                };
-            }
             else
             {
                 ExchVisitor.Biographical.USAddress = null;
                 ExchVisitor.Biographical.ResidentialAddress = null;
             }
             // financial
+            var usfunds = participantExchangeVisitor.FundingGovtAgency1 + participantExchangeVisitor.FundingGovtAgency2;
             ExchVisitor.FinancialInfo = new FinancialInfoUpdate
             {
                 printForm = false,
-                ReceivedUSGovtFunds = false,
-                ProgramSponsorFunds = "1200",
+                ReceivedUSGovtFunds = usfunds > 0,
+                ProgramSponsorFunds = participantExchangeVisitor.FundingSponsor.ToString(),
                 OtherFunds = new OtherFunds
                 {
                     International = new International
                     {
-                        Amount1 = "10",
-                        Amount2 = "20",
-                        Org1 = "org 1",
-                        OtherName1 = "on 1",
-                        Org2 = "org 2",
-                        OtherName2 = "on 2"
+                        Amount1 = participantExchangeVisitor.FundingIntlOrg1.ToString(),
+                        Amount2 = participantExchangeVisitor.FundingIntlOrg2.ToString(),
+                        Org1 = participantExchangeVisitor.IntlOrg1Id.ToString(),
+                        OtherName1 = participantExchangeVisitor.IntlOrg1Name,
+                        Org2 = participantExchangeVisitor.IntlOrg2Id.ToString(),
+                        OtherName2 = participantExchangeVisitor.IntlOrg2Name
                     },
+                    EVGovt = participantExchangeVisitor.FundingVisGovt.ToString(),
+                    BinationalCommission = participantExchangeVisitor.FundingVisBNC.ToString(),
                     USGovt = new USGovt
                     {
-                        Amount1 = "10",
-                        Amount2 = "20",
-                        Org1 = "govorg 1",
-                        OtherName1 = "govon 1",
-                        Org2 = "govorg 2",
-                        OtherName2 = "govon 2"
+                        Amount1 = participantExchangeVisitor.FundingGovtAgency1.ToString(),
+                        Org1 = participantExchangeVisitor.GovtAgency1Name,
+                        OtherName1 = participantExchangeVisitor.GovtAgency1OtherName,
+                        Amount2 = participantExchangeVisitor.FundingGovtAgency2.ToString(),
+                        Org2 = participantExchangeVisitor.GovtAgency2Name,
+                        OtherName2 = participantExchangeVisitor.GovtAgency2OtherName
                     },
                     Other = new Other
                     {
-                        amount = "30",
-                        name = "other nm"
+                        amount = participantExchangeVisitor.FundingOther.ToString(),
+                        name = participantExchangeVisitor.OtherName
+                    },
+                    Personal = participantExchangeVisitor.FundingPersonal.ToString()
                     }
-                }
             };
             // program and subject
             ExchVisitor.Program = new Validation.Model.Program
@@ -509,12 +516,20 @@ namespace ECA.Business.Service.Persons
                 EditSubject = new SubjectFieldUpdate
                 {
                     printForm = false,
-                    SubjectFieldCode = "SF code",
-                    SubjectFieldRemarks = "SF rmks",
-                    ForeignDegreeLevel = "FD lvl",
-                    ForeignFieldOfStudy = "F FS",
-                    Remarks = "Rmks"
+                    SubjectFieldCode = "",
+                    SubjectFieldRemarks = "",
+                    ForeignDegreeLevel = "",
+                    ForeignFieldOfStudy = participantPerson.FieldOfStudy,
+                    Remarks = ""
                 }
+            };
+            // Reprint
+            ExchVisitor.Reprint = new ReprintFormUpdate
+            {
+                printForm = false,
+                Reason = "05",
+                OtherRemarks = "",
+                Remarks = ""
             };
             // site of activity
             ExchVisitor.SiteOfActivity = new SiteOfActivityUpdate
@@ -522,35 +537,208 @@ namespace ECA.Business.Service.Persons
                 AddSOA = new SiteOfActivitySOA
                 {
                     printForm = false,
-                    Address1 = "123 Some St",
-                    PostalCode = "12345",
-                    SiteName = "site 1",
+                    Address1 = "2201 C St NW",
+                    City = "Washington",
+                    State = "DC",
+                    PostalCode = "20520",
+                    SiteName = "US Department of State",                    
                     PrimarySite = true
                 }
             };
-            // Reprint
-            ExchVisitor.Reprint = new ReprintFormUpdate
+            // TIPP
+            ExchVisitor.TIPP = new TippUpdate
             {
-                printForm = false,
-                dependentSevisID = "1",
-                Reason = "Reprint reason",
-                Remarks = "Remarks",
-                OtherRemarks = "Other remarks"
+                AddTIPP = new AddTIPPUpdate
+            {
+                print7002 = false,
+                    ParticipantInfo = new ParticipantInfoUpdate
+                    {
+                        EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+                        FieldOfStudy = participantPerson.FieldOfStudy,
+                        TypeOfDegree = "",
+                        DateAwardedOrExpected = program.EndDate.Value.Date > DateTime.MinValue ? program.EndDate.Value.Date : DateTime.MinValue
+                    },
+                    TippSite = new TippSiteUpdate
+                    {
+                        Address1 = "2201 C St NW",
+                        PostalCode = "20520",
+                        SiteName = "US Department of State",
+                        PrimarySite = true,
+                        EmployerID = "123456789",
+                        FullTimeEmployees = "1",
+                        AnnualRevenue = "0",
+                        WebsiteURL = "",
+                        WorkersCompInd = false,
+                        WorkersCompForEvInd = false,
+                        EvHoursPerWeek = "20",
+                        StipendInd = false,
+                        SupervisorLastName = "",
+                        SupervisorFirstName = "",
+                        SupervisorTitle = "",
+                        SupervisorPhone = "",
+                        SupervisorEmail = "",
+                        TippPhase = new TippPhase
+                        {
+                            PhaseName = "",
+                            StartDate = new DateTime(1998, 2, 10),
+                            EndDate = new DateTime(2002, 4, 20),
+                            TrainingField = "",
+                            SuperLastName = "",
+                            SuperFirstName = "",
+                            SuperTitle = "",
+                            SuperEmail = "",
+                            SuperPhone = "",
+                            EvRole = "",
+                            GoalsAndObjectives = "",
+                            SupervisorAndQualifications = "",
+                            CulturalActivities = "",
+                            SkillsLearned = "",
+                            TeachingMethod = "",
+                            HowCompetencyMeasured = ""
+                        }
+                    }                    
+                },
+                AddSite = new TippSite
+                {
+                    Address1 = "2201 C St NW",
+                    PostalCode = "20520",
+                    SiteName = "US Department of State",
+                    PrimarySite = true,
+                    EmployerID = "123456789",
+                    FullTimeEmployees = "1",
+                    AnnualRevenue = "0",
+                    WebsiteURL = "",
+                    WorkersCompInd = false,
+                    WorkersCompForEvInd = false,
+                    EvHoursPerWeek = "20",
+                    StipendInd = false,
+                    SupervisorLastName = "",
+                    SupervisorFirstName = "",
+                    SupervisorTitle = "",
+                    SupervisorPhone = "",
+                    SupervisorEmail = "",
+                    TippPhase = new TippPhase
+                    {
+                        PhaseName = "",
+                        StartDate = new DateTime(1998, 2, 10),
+                        EndDate = new DateTime(2002, 4, 20),
+                        TrainingField = "",
+                        SuperLastName = "",
+                        SuperFirstName = "",
+                        SuperTitle = "",
+                        SuperEmail = "",
+                        SuperPhone = "",
+                        EvRole = "",
+                        GoalsAndObjectives = "",
+                        SupervisorAndQualifications = "",
+                        CulturalActivities = "",
+                        SkillsLearned = "",
+                        TeachingMethod = "",
+                        HowCompetencyMeasured = ""
+                    }
+                },
+                EditSite = new EditTippSite
+                {
+                    Supervisors = new SupervisorsUpdate
+                    {
+                        TippPhase = new TippSupervisorPhaseUpdate
+                        {
+                            PhaseId = "123",
+                            SignatureDate = DateTime.Today
+                        }
+                    }
+                },
+                DeleteSite = new DeleteTippSite
+                {
+                SiteId = "1"
+                },
+                AddPhase = new AddPhase
+                {
+                    SiteId = "1",
+                    PhaseName = "",
+                    StartDate = new DateTime(1998, 2, 10),
+                    EndDate = new DateTime(2002, 4, 20),
+                    TrainingField = "",
+                    SuperLastName = "",
+                    SuperFirstName = "",
+                    SuperTitle = "",
+                    SuperEmail = "",
+                    SuperPhone = "",
+                    EvRole = "",
+                    GoalsAndObjectives = "",
+                    SupervisorAndQualifications = "",
+                    CulturalActivities = "",
+                    SkillsLearned = "",
+                    TeachingMethod = "",
+                    HowCompetencyMeasured = ""
+                },
+                EditPhase = new EditPhase
+                {
+                    PhaseId = "123",
+                    PhaseName = "",
+                    StartDate = new DateTime(1998, 2, 10),
+                    EndDate = new DateTime(2002, 4, 20),
+                    TrainingField = "",
+                    SuperLastName = "",
+                    SuperFirstName = "",
+                    SuperTitle = "",
+                    SuperEmail = "",
+                    SuperPhone = "",
+                    EvRole = "",
+                    GoalsAndObjectives = "",
+                    SupervisorAndQualifications = "",
+                    CulturalActivities = "",
+                    SkillsLearned = "",
+                    TeachingMethod = "",
+                    HowCompetencyMeasured = ""
+                },
+                DeletePhase = new DeletePhase
+                {
+                    PhaseId = "123"
+                },
+                UpdateSignatureDates = new UpdateSignatureDates
+                {
+                    TippSite = new TippSiteUpdate
+                    {
+                        SiteId = "1",
+                        ProgramOfficial = new ProgramOfficial
+                        {
+                            UserName = "",
+                            SignatureDate = DateTime.Today
+                        },
+                        EvSignatureDate = DateTime.Today,
+                        Supervisors = new TippSupervisorsUpdate
+                        {
+                            TippPhase = new TippSupervisorPhaseUpdate
+            {
+                                PhaseId = "123",
+                                SignatureDate = DateTime.Today
+                            }                            
+                        }
+                    },
+                    UpdateParticipantInfo = new ParticipantInfoUpdate
+            {
+                        EmailAddress = "",
+                        FieldOfStudy = "",
+                        TypeOfDegree = "",
+                        DateAwardedOrExpected = new DateTime(2002, 4, 20)
+                    }
+                }
             };
+            // Status
+            //ExchVisitor.Status = new StatusUpdate
+            //{
+            //};
+
+            // Validate
+            //ExchVisitor.Validate = new ValidateParticipant
+            //{
+            //};
+
             // Reprint 7002
             ExchVisitor.Reprint7002 = new Reprint7002
             {
-                print7002 = false,
-                SiteId = "1"
-            };
-            ExchVisitor.Status = new StatusUpdate
-            {
-            };
-            ExchVisitor.TIPP = new TippUpdate
-            {
-            };
-            ExchVisitor.Validate = new ValidateParticipant
-            {
+                print7002 = false
             };
 
             // TODO: complete when dependent feature is available

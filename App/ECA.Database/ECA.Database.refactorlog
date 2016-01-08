@@ -1036,4 +1036,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SEVISCountryCodeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="f74a1d89-feb3-4be0-b094-86c5ecb9b376" ChangeDateTime="01/07/2016 17:53:38">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStop].[IVLP_ItineraryStopId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStop]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IVLP_Destination_ItineraryStopId" />
+  </Operation>
 </Operations>
