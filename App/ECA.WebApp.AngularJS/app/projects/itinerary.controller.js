@@ -73,8 +73,22 @@ angular.module('staticApp')
               },
               eventRender: function (event, element, view) {
                   var itineraryStop = getItineraryStop(event);
-                  element.attr({'tooltip': event.title,
-                      'tooltip-append-to-body': true});
+                  var text = '';
+                  if (itineraryStop !== null) {
+                      if (itineraryStop.name) {
+                          text += itineraryStop.name;
+                      }
+                      if (itineraryStop.destinationLocation && itineraryStop.destinationLocation.name) {
+                          text += ':  ' + itineraryStop.destinationLocation.name;
+                      }
+                  }
+                  else {
+                      text = event.title;
+                  }
+                  element.attr({
+                      'tooltip': text,
+                      'tooltip-append-to-body': true
+                  });
                   $compile(element)($scope);
               }
           }
@@ -381,7 +395,7 @@ angular.module('staticApp')
       //    var copy = angular.copy(itineraryStop);
       //    itineraryStop.arrivalDate = calendarEvent.start.toDate();
       //    itineraryStop.departureDate = calendarEvent.end.toDate();
-          
+
       //    //itineraryStop.arrivalDate = calendarEvent.start.hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
       //    //itineraryStop.arrivalDate = calendarEvent.start.add(delta).toDate();
       //    //if (calendarEvent.end === null) {
@@ -418,8 +432,8 @@ angular.module('staticApp')
       //    //hue: 'blue',
       //    luminosity: 'dark'
       //});
-      
-      var colors = ["#d35304", "#8e9900", "#689e0c", "#640096", "#dd067d", "#ea007d", "#028287", "#024c60", "#0da514", "#e216af", "#9e0910", "#0b6293", "#51a508", "#1c9e0e", "#dbb702", "#078435", "#8c0c21", "#460f9e", "#319e03", "#064260", "#bc0b6f", "#0da591", "#0f0666", "#2c930d", "#054175", "#c405a1", "#9e0803", "#02426b", "#6e9601", "#576d00", "#099620", "#0c7287", "#89a309", "#e05d06", "#98a004", "#027f5c", "#0e8c5d", "#2a7a00", "#071f8c", "#e50d80", "#017756", "#cc6a14", "#007a78", "#056482", "#007267", "#af0e08", "#076677", "#9b1d07", "#350d84", "#87011e", "#0b5570", "#e56814", "#8c0c35", "#69960f", "#646d02", "#4a820a", "#af001d", "#ad1608", "#068934", "#023e70", "#efbc02", "#ce0ca1", "#e008ae", "#ef09ef",];
+
+      var colors = ["#d35304", "#8e9900", "#689e0c", "#640096", "#dd067d", "#ea007d", "#028287", "#024c60", "#0da514", "#e216af", "#9e0910", "#0b6293", "#51a508", "#1c9e0e", "#dbb702", "#078435", "#8c0c21", "#460f9e", "#319e03", "#064260", "#bc0b6f", "#0da591", "#0f0666", "#2c930d", "#054175", "#c405a1", "#9e0803", "#02426b", "#6e9601", "#576d00", "#099620", "#0c7287", "#89a309", "#e05d06", "#98a004", "#027f5c", "#0e8c5d", "#2a7a00", "#071f8c", "#e50d80", "#017756", "#cc6a14", "#007a78", "#056482", "#007267", "#af0e08", "#076677", "#9b1d07", "#350d84", "#87011e", "#0b5570", "#e56814", "#8c0c35", "#69960f", "#646d02", "#4a820a", "#af001d", "#ad1608", "#068934", "#023e70", "#efbc02", "#ce0ca1", "#e008ae", "#ef09ef", ];
       function setItineraryStopColor(itineraryStop) {
           itineraryStop.color = colors[colorIndex++ % colors.length];
       }
