@@ -19,13 +19,15 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="itineraryToUpdate">The itinerary that will be updated.</param>
         /// <param name="arrivalLocation">The itinerary arrival location.</param>
         /// <param name="departureLocation">The itinerary destination location.</param>
-        public UpdatedEcaItineraryValidationEntity(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation)
+        /// <param name="itineraryStop">The itinerary stops of the itinerary that is updated.</param>
+        public UpdatedEcaItineraryValidationEntity(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation, IEnumerable<ItineraryStop> itineraryStop)
             : base(
                   arrivalLocation: arrivalLocation, 
                   departureLocation: departureLocation)
         {
             this.ItineraryToUpdate = itineraryToUpdate;
             this.UpdatedItinerary = updatedItinerary;
+            this.ItineraryStops = itineraryStop;
         }
 
         /// <summary>
@@ -37,5 +39,10 @@ namespace ECA.Business.Service.Itineraries
         /// Gets the itinerary that will be updated.
         /// </summary>
         public Itinerary ItineraryToUpdate { get; private set; }
+
+        /// <summary>
+        /// Gets the itinerary stops of the itinerary.
+        /// </summary>
+        public IEnumerable<ItineraryStop> ItineraryStops { get; private set; }
     }
 }
