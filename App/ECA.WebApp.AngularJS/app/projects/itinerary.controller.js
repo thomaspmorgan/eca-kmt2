@@ -155,6 +155,7 @@ angular.module('staticApp')
               $log.info('Finished adding itinerary stop.');
               loadItineraryStops(itinerary)
               addEvent(addedItineraryStop);
+              NotificationService.showSuccessMessage("Successfully added the city stop.");
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });

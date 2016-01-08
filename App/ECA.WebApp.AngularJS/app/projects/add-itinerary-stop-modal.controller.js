@@ -97,7 +97,7 @@ angular.module('staticApp')
           var setDestinationLocationCallback = function (addedLocation) {
               $scope.view.onDestinationLocationSelect(addedLocation[0], addedLocation[0]);
           };
-          addNewLocation(setArrivalLocationCallback);
+          addNewLocation(setDestinationLocationCallback);
       }
 
       function addNewLocation(callback) {
