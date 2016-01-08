@@ -198,7 +198,7 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="itinerary">The updated itinerary.</param>
         public void Update(UpdatedEcaItinerary itinerary)
         {
-            var itineraryToUpdate = Context.Itineraries.Find(itinerary.Id);
+            var itineraryToUpdate = CreateGetItineraryByIdQuery(itinerary.Id).FirstOrDefault();
             throwIfModelDoesNotExist(itinerary.Id, itineraryToUpdate, typeof(Itinerary));
 
             var arrivalLocation = Context.Locations.Find(itinerary.ArrivalLocationId);
@@ -222,7 +222,7 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="itinerary">The updated itinerary.</param>
         public async Task UpdateAsync(UpdatedEcaItinerary itinerary)
         {
-            var itineraryToUpdate = await Context.Itineraries.FindAsync(itinerary.Id);
+            var itineraryToUpdate = await CreateGetItineraryByIdQuery(itinerary.Id).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(itinerary.Id, itineraryToUpdate, typeof(Itinerary));
 
             var arrivalLocation = await Context.Locations.FindAsync(itinerary.ArrivalLocationId);
@@ -240,13 +240,19 @@ namespace ECA.Business.Service.Itineraries
                 departureLocation: departureLocation);
         }
 
+        private IQueryable<Itinerary> CreateGetItineraryByIdQuery(int itineraryId)
+        {
+            return Context.Itineraries.Include(x => x.Stops).Where(x => x.ItineraryId == itineraryId);
+        }
+
         private void DoUpdate(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation)
         {
             validator.ValidateUpdate(GetUpdatedEcaItineraryValidationEntity(
                 updatedItinerary: updatedItinerary,
                 itineraryToUpdate: itineraryToUpdate,
                 arrivalLocation: arrivalLocation,
-                departureLocation: departureLocation));
+                departureLocation: departureLocation,
+                stops: itineraryToUpdate.Stops));
             updatedItinerary.Audit.SetHistory(itineraryToUpdate);
             itineraryToUpdate.ArrivalLocationId = arrivalLocation.LocationId;
             itineraryToUpdate.DepartureLocationId = departureLocation.LocationId;
@@ -255,17 +261,19 @@ namespace ECA.Business.Service.Itineraries
             itineraryToUpdate.StartDate = updatedItinerary.StartDate;
         }
 
-        private UpdatedEcaItineraryValidationEntity GetUpdatedEcaItineraryValidationEntity(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation)
+        private UpdatedEcaItineraryValidationEntity GetUpdatedEcaItineraryValidationEntity(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation, IEnumerable<ItineraryStop> stops)
         {
             Contract.Requires(updatedItinerary != null, "The updated itinerary must not be null.");
             Contract.Requires(itineraryToUpdate != null, "The itinerary to update must not be null.");
             Contract.Requires(arrivalLocation != null, "The arrival location must not be null.");
+            Contract.Requires(stops != null, "The itinerary stops must not be null.");
             Contract.Requires(departureLocation != null, "The departure destination location must not be null.");
             return new UpdatedEcaItineraryValidationEntity(
                 updatedItinerary: updatedItinerary,
                 itineraryToUpdate: itineraryToUpdate,
                 arrivalLocation: arrivalLocation,
-                departureLocation: departureLocation
+                departureLocation: departureLocation,
+                itineraryStop: stops
                 );
         }
 
