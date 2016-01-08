@@ -171,6 +171,7 @@
                     </span>
                     <span class="left programTypeRadio">
                         <input type="radio"
+                               ng-change="view.onCalendarKeySelect()"
                                ng-model="view.viewType"
                                value="{{view.calendarKey}}">
                         Calendar View
@@ -179,8 +180,6 @@
                 <hr ng-show="view.isItineraryExpanded" />
                 <div ng-if="view.isItineraryExpanded && view.viewType === view.calendarKey" style="padding-top:40px;">
                     <div class="row">
-
-
                         <div class="col-md-6">
                             <div ui-calendar="view.calendarConfig.calendar" ng-model="view.eventSources"></div>
                         </div>
@@ -190,8 +189,12 @@
                             </div>
                             <div class="list2" ng-show="view.selectedCalendarItineraryStop">
                                 <div class="row row3">
-                                    <!--<div class="col-md-4 title-label">Name</div>-->
                                     <div class="col-md-12">
+                                        <div class="pull-left" style="padding:7px;">
+                                            <div style="height:15px;width:15px;" ng-style="{backgroundColor: view.selectedCalendarItineraryStop.color}">
+
+                                            </div>
+                                        </div>
                                         <h5>
                                             {{view.selectedCalendarItineraryStop.name}}
                                         </h5>
