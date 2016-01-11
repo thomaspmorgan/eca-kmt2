@@ -6,8 +6,8 @@ namespace ECA.Business.Validation.Model
     {
         public ProgramValidator()
         {
-            RuleFor(student => student.Extension).SetValidator(new ProgramExtensionValidator()).When(student => student.Extension != null);
-            RuleFor(student => student.Shorten).SetValidator(new ShortenProgramValidator()).When(student => student.Shorten != null);
+            RuleFor(program => program.Extension).SetValidator(new ProgramExtensionValidator()).When(program => program.Extension != null);
+            RuleFor(program => program.Shorten).SetValidator(new ShortenProgramValidator()).When(program => program.Shorten != null);
         }
     }
 }

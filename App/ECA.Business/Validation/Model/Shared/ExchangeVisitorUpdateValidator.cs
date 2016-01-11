@@ -11,16 +11,15 @@ namespace ECA.Business.Validation.Model.Shared
 
         public ExchangeVisitorUpdateValidator()
         {
-            RuleFor(visitor => visitor.sevisID).NotNull().WithMessage("Student: Sevis ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: Sevis ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.requestID).NotNull().WithMessage("Student: Request ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: Request ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.userID).NotNull().WithMessage("Student: User ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Student: User ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.UserDefinedA).Length(0, USERDEFINEDA_MAX_LENGTH).WithMessage("Student: User Defined A can be up to " + USERDEFINEDA_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.UserDefinedB).Length(0, USERDEFINEDB_MAX_LENGTH).WithMessage("Student: User Defined B can be up to " + USERDEFINEDB_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.Biographical).NotNull().WithMessage("Visitor: Biographical Information is required").SetValidator(new BiographicalValidator()).When(visitor => visitor.requestID != null);
-            RuleFor(visitor => visitor.FinancialInfo).NotNull().WithMessage("Student: Financial Information is required").SetValidator(new FinancialInfoValidator()).When(visitor => visitor.requestID != null);
+            RuleFor(visitor => visitor.sevisID).NotNull().WithMessage("Exch. Visitor: Sevis ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Exch. Visitor: Sevis ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.requestID).NotNull().WithMessage("Exch. Visitor: Request ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Exch. Visitor: Request ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.userID).NotNull().WithMessage("Exch. Visitor: User ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Exch. Visitor: User ID can be up to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.UserDefinedA).Length(0, USERDEFINEDA_MAX_LENGTH).WithMessage("Exch. Visitor: User Defined A can be up to " + USERDEFINEDA_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.UserDefinedB).Length(0, USERDEFINEDB_MAX_LENGTH).WithMessage("Exch. Visitor: User Defined B can be up to " + USERDEFINEDB_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.Biographical).NotNull().WithMessage("Exch. Visitor: Biographical Information is required").SetValidator(new BiographicalValidator()).When(visitor => visitor.requestID != null);
+            RuleFor(visitor => visitor.FinancialInfo).NotNull().WithMessage("Exch. Visitor: Financial Information is required").SetValidator(new FinancialInfoValidator()).When(visitor => visitor.requestID != null);
             RuleFor(visitor => visitor.Program).SetValidator(new ProgramValidator()).When(visitor => visitor.Program != null);
-            RuleFor(visitor => visitor.Reprint).NotNull().WithMessage("Student: Foreign Address is required");
-            RuleFor(visitor => visitor.SiteOfActivity).SetValidator(new SiteOfActivityUpdateValidator()).When(visitor => visitor.SiteOfActivity != null);
+            RuleFor(visitor => visitor.Reprint).NotNull().WithMessage("Exch. Visitor: Foreign Address is required");
         }
     }
 }

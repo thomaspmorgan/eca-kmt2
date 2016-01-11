@@ -6,9 +6,9 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public AddTIPPUpdateValidator()
         {
-            RuleFor(student => student.print7002).NotNull().WithMessage("T/IPP information: Print request indicator is required");
-            RuleFor(student => student.ParticipantInfo).SetValidator(new ParticipantInfoUpdateValidator()).When(student => student.ParticipantInfo != null);
-            RuleFor(student => student.TippSite).SetValidator(new TippSiteValidator()).When(student => student.TippSite != null);
+            RuleFor(tipp => tipp.print7002).NotNull().WithMessage("T/IPP information: Print request indicator is required");
+            RuleFor(tipp => tipp.ParticipantInfo).SetValidator(new ParticipantInfoUpdateValidator()).When(tipp => tipp.ParticipantInfo != null);
+            RuleFor(tipp => tipp.TippSite).SetValidator(new TippSiteValidator()).When(tipp => tipp.TippSite != null);
         }
     }
 }

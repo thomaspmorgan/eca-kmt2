@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentValidation.Attributes;
+using ECA.Business.Validation.Model.Shared;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {

@@ -8,7 +8,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public SiteOfActivityExemptValidator()
         {
-            RuleFor(student => student.Remarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Site of Activity: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.Remarks).Length(0, REMARKS_MAX_LENGTH).WithMessage("Site of Activity: Remarks can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

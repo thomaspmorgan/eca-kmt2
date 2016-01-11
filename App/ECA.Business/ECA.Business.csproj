@@ -521,7 +521,7 @@
     <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddUpdatedDependent.cs" />
     <Compile Include="Validation\Model\Shared\AmendProgram.cs" />
-    <Compile Include="Validation\Model\Shared\AmendProgramUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\AmendProgramValidator.cs" />
     <Compile Include="Validation\Model\Shared\Biographical.cs" />
     <Compile Include="Validation\Model\Shared\BiographicalUpdate.cs" />
     <Compile Include="Validation\Model\Shared\BiographicalUpdateValidator.cs" />
@@ -533,7 +533,9 @@
     <Compile Include="Validation\Model\Shared\DeletePhase.cs" />
     <Compile Include="Validation\Model\Shared\DeletePhaseValidator.cs" />
     <Compile Include="Validation\Model\Shared\DeleteSiteOfActivity.cs" />
+    <Compile Include="Validation\Model\Shared\DeleteSiteOfActivityValidator.cs" />
     <Compile Include="Validation\Model\Shared\DeleteTippSite.cs" />
+    <Compile Include="Validation\Model\Shared\DeleteTippSiteValidator.cs" />
     <Compile Include="Validation\Model\Shared\EditPhase.cs" />
     <Compile Include="Validation\Model\Shared\EditSiteOfActivity.cs" />
     <Compile Include="Validation\Model\Shared\EditTippSite.cs" />
@@ -561,6 +563,7 @@
     <Compile Include="Validation\Model\Shared\LCCoordinator.cs" />
     <Compile Include="Validation\Model\Shared\LCCoordinatorValidator.cs" />
     <Compile Include="Validation\Model\Shared\MatriculateProgram.cs" />
+    <Compile Include="Validation\Model\Shared\MatriculateProgramValidator.cs" />
     <Compile Include="Validation\Model\Shared\NoShowStatus.cs" />
     <Compile Include="Validation\Model\Shared\Other.cs" />
     <Compile Include="Validation\Model\Shared\OtherFunds.cs" />
@@ -584,6 +587,7 @@
     <Compile Include="Validation\Model\Shared\ShortenProgramUpdate.cs" />
     <Compile Include="Validation\Model\Shared\SignatureDatesUpdate.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityAddOnTravel.cs" />
+    <Compile Include="Validation\Model\Shared\SiteOfActivityAddOnTravelValidator.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityExempt.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityExemptUpdate.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityExemptUpdateValidator.cs" />
@@ -593,17 +597,19 @@
     <Compile Include="Validation\Model\Shared\SiteOfActivitySOA.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivitySOAValidator.cs" />
     <Compile Include="Validation\Model\Shared\SiteOfActivityUpdate.cs" />
-    <Compile Include="Validation\Model\Shared\SiteOfActivityUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\StatusUpdate.cs" />
     <Compile Include="Validation\Model\Shared\SubjectField.cs" />
     <Compile Include="Validation\Model\Shared\SubjectFieldUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\SubjectFieldUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\SubjectFieldValidator.cs" />
     <Compile Include="Validation\Model\Shared\SupervisorsUpdate.cs" />
     <Compile Include="Validation\Model\Shared\TerminateVisitor.cs" />
+    <Compile Include="Validation\Model\Shared\TerminateVisitorValidator.cs" />
     <Compile Include="Validation\Model\Shared\TippExemptProgram.cs" />
     <Compile Include="Validation\Model\Shared\TippPhase.cs" />
     <Compile Include="Validation\Model\Shared\TippPhaseDates.cs" />
     <Compile Include="Validation\Model\Shared\TippPhaseDatesUpdate.cs" />
+    <Compile Include="Validation\Model\Shared\TippPhaseTippPhaseUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\TippPhaseUpdate.cs" />
     <Compile Include="Validation\Model\Shared\TippPhaseValidator.cs" />
     <Compile Include="Validation\Model\Shared\TippSite.cs" />
