@@ -48,7 +48,7 @@
                 };
                 
                 // pre-sevis create validation
-                $scope.validateCreateSevisInfo = function () {
+                function validateCreateSevisInfo() {
                     $scope.edit.isValidationLoading = true;
                     return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis($scope.participantid)
                     .then(function (response) {
@@ -72,7 +72,7 @@
                 };
 
                 // pre-sevis update validation
-                $scope.validateUpdateSevisInfo = function () {
+                function validateUpdateSevisInfo() {
                     $scope.edit.isValidationLoading = true;
                     return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis($scope.participantid)
                     .then(function (response) {
