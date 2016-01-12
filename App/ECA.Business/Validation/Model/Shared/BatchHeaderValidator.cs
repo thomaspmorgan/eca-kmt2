@@ -9,8 +9,8 @@ namespace ECA.Business.Validation.Model.Shared
         
         public BatchHeaderValidator()
         {
-            RuleFor(header => header.BatchID).NotNull().WithMessage("Batch header: Batch ID is required").Length(1, ID_MAX_LENGTH).WithMessage("Batch header: Batch ID is can be up to " + ID_MAX_LENGTH.ToString() + " characters");
-            RuleFor(header => header.OrgID).NotNull().WithMessage("Batch header: Org ID is required").Length(1, ORGID_MAX_LENGTH).WithMessage("Batch header: Org ID can be up to " + ORGID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(header => header.BatchID).Length(1, ID_MAX_LENGTH).WithMessage("Batch header: Batch ID is required and can be up to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(header => header.OrgID).Length(1, ORGID_MAX_LENGTH).WithMessage("Batch header: Org ID is required and can be up to " + ORGID_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

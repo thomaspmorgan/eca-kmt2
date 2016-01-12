@@ -8,7 +8,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         public ReprintFormUpdateValidator()
         {
-            RuleFor(visitor => visitor.dependentSevisID).NotNull().WithMessage("Reprint: Dependent Sevis ID is required").Length(1, SEVIS_MAX_LENGTH).WithMessage("Reprint: Dependent Sevis ID can be up to " + SEVIS_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.dependentSevisID).Length(1, SEVIS_MAX_LENGTH).WithMessage("Reprint: Dependent Sevis ID is required and can be up to " + SEVIS_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

@@ -11,9 +11,9 @@ namespace ECA.Business.Validation.Model
         
         public ParticipantInfoValidator()
         {
-            RuleFor(visitor => visitor.EmailAddress).NotNull().WithMessage("Participant Info: Email is required").Length(1, EMAIL_MAX_LENGTH).WithMessage("Participant Info: Email can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Participant Info: Email is invalid");
-            RuleFor(visitor => visitor.FieldOfStudy).NotNull().WithMessage("Participant Info: Field of Study is required").Length(1, FOS_MAX_LENGTH).WithMessage("Participant Info: Field of Study can be up to " + FOS_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.TypeOfDegree).NotNull().WithMessage("Participant Info: Type of Degree is required").Length(1, DEGREE_MAX_LENGTH).WithMessage("Participant Info: Type of Degree can be up to " + DEGREE_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.EmailAddress).Length(1, EMAIL_MAX_LENGTH).WithMessage("Participant Info: Email is required and can be up to " + EMAIL_MAX_LENGTH.ToString() + " characters").EmailAddress().WithMessage("Participant Info: Email is invalid");
+            RuleFor(visitor => visitor.FieldOfStudy).Length(1, FOS_MAX_LENGTH).WithMessage("Participant Info: Field of Study is required and can be up to " + FOS_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.TypeOfDegree).Length(1, DEGREE_MAX_LENGTH).WithMessage("Participant Info: Type of Degree is required and can be up to " + DEGREE_MAX_LENGTH.ToString() + " characters");
             RuleFor(visitor => visitor.DateAwardedOrExpected).NotNull().WithMessage("Participant Info: Date awarded or expected is required");
         }
     }

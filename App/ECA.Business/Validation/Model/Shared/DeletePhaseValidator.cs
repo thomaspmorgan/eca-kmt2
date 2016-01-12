@@ -8,7 +8,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         public DeletePhaseValidator()
         {
-            RuleFor(phase => phase.PhaseId).NotNull().WithMessage("T/IPP: Phase ID is required").Length(1, ID_MAX_LENGTH).WithMessage("T/IPP: Phase ID can be from 1 to " + ID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(phase => phase.PhaseId).Length(1, ID_MAX_LENGTH).WithMessage("T/IPP: Phase ID is required and can be from 1 to " + ID_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

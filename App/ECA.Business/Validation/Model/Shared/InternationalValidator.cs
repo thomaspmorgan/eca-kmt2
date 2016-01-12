@@ -9,8 +9,8 @@ namespace ECA.Business.Validation.Model.Shared
 
         public InternationalValidator()
         {
-            RuleFor(student => student.Org1).NotNull().WithMessage("Exch. Visitor Intl Funds: International Organization 1 is required").Length(1, ORG_LENGTH).WithMessage("Exch. Visitor Intl Funds: International Organization code must be " + ORG_LENGTH.ToString() + " characters");
-            RuleFor(student => student.Amount1).NotNull().WithMessage("Exch. Visitor Intl Funds: International Organization 1 Amount is required").Length(1, AMOUNT_MAX_LENGTH).WithMessage("Exch. Visitor Intl Funds: International Organization Amount can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Org1).Length(1, ORG_LENGTH).WithMessage("Exch. Visitor Intl Funds: International Org Code is required and must be " + ORG_LENGTH.ToString() + " characters");
+            RuleFor(student => student.Amount1).Length(1, AMOUNT_MAX_LENGTH).WithMessage("Exch. Visitor Intl Funds: International Org Amount is required and can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters");
         }
     }
 }
