@@ -469,7 +469,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var results = validator.Validate(createEV);
             Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Exchange Visitor: Biographical Information is required"));
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Exch. Visitor: Biographical Information is required"));
         }
 
         /// <summary>
