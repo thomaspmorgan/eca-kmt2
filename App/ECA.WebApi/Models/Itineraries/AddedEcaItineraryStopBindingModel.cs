@@ -33,6 +33,11 @@ namespace ECA.WebApi.Models.Itineraries
         public int DestinationLocationId { get; set; }
 
         /// <summary>
+        /// Gets or sets the timezone id.
+        /// </summary>
+        public string TimezoneId { get; set; }
+
+        /// <summary>
         /// Returns a business layer added itinerary stop model.
         /// </summary>
         /// <param name="creator">The user creating the itinerary stop.</param>
@@ -48,7 +53,8 @@ namespace ECA.WebApi.Models.Itineraries
                 name: this.Name,
                 arrivalDate: this.ArrivalDate,
                 departureDate: this.DepartureDate,
-                destinationLocationId: this.DestinationLocationId
+                destinationLocationId: this.DestinationLocationId,
+                timezoneId: this.TimezoneId
                 );
         }
     }

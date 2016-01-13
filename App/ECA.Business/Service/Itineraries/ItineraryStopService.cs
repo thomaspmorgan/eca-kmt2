@@ -159,6 +159,7 @@ namespace ECA.Business.Service.Itineraries
             itineraryStop.ItineraryId = addedStop.ItineraryId;
             itineraryStop.ItineraryStatusId = ItineraryStatus.InProgress.Id;
             itineraryStop.Name = addedStop.Name;
+            itineraryStop.TimezoneId = addedStop.TimezoneId;
             addedStop.Audit.SetHistory(itineraryStop);
 
             Context.ItineraryStops.Add(itineraryStop);
@@ -220,6 +221,7 @@ namespace ECA.Business.Service.Itineraries
             itineraryStop.DateLeave = updatedStop.DepartureDate;
             itineraryStop.DestinationId = updatedStop.DestinationLocationId;
             itineraryStop.Name = updatedStop.Name;
+            itineraryStop.TimezoneId = updatedStop.TimezoneId;
 
             Contract.Assert(updatedStop.Audit.GetType() == typeof(Update), "The audit type must be an update.  The itinerary create date should not change.");
             updatedStop.Audit.SetHistory(itineraryStop);
@@ -232,7 +234,8 @@ namespace ECA.Business.Service.Itineraries
                 itineraryEndDate: itinerary.EndDate,
                 itineraryStartDate: itinerary.StartDate,
                 itineraryStopArrivalDate: ecaitineraryStop.ArrivalDate,
-                itineraryStopDepartureDate: ecaitineraryStop.DepartureDate
+                itineraryStopDepartureDate: ecaitineraryStop.DepartureDate,
+                timezoneId: ecaitineraryStop.TimezoneId
                 );
         }
         #endregion

@@ -47,6 +47,9 @@ angular.module('staticApp')
       $scope.view.eventSources = [[]];
       $scope.view.travelStopParticipants = [];
       $scope.view.selectedTravelStopParticipant = null;
+      $scope.view.isArrivalDateOpen = false;
+      $scope.view.currentTimezone = moment.tz.guess();
+      $scope.view.timezomeNames = moment.tz.names();
 
       //http://angular-ui.github.io/ui-calendar/
       //http://fullcalendar.io/
@@ -55,22 +58,14 @@ angular.module('staticApp')
           calendar: {
               editable: false,
               header: {
-                  right: 'month basicWeek basicDay',// agendaWeek agendaDay',
+                  right: 'month agendaWeek agendaDay',// basicWeek basicDay',
                   center: 'title',
                   left: 'today prevYear,prev,next,nextYear'
               },
               defaultDate: $scope.view.itinerary.startDate,
               eventLimit: false,
-              eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  updateItineraryStop(itineraryStop, event, delta);
-              },
               eventClick: function (calEvent, jsEvent, view) {
                   onCalendarItemClick(calEvent, jsEvent, view);
-              },
-              eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  updateItineraryStop(itineraryStop, event, delta);
               },
               eventRender: function (event, element, view) {
                   var itineraryStop = getItineraryStop(event);
@@ -95,8 +90,15 @@ angular.module('staticApp')
           }
       }
 
+      var momentDateTimeFormat = "MMMM D, YYYY h:mm a";
       var colorIndex = 0;
       var itineraryCopy = angular.copy($scope.view.itinerary);
+
+      $scope.view.openArrivalDate = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isArrivalDateOpen = true;
+      }
 
       $scope.view.onSelectTravelStopParticipant = function ($item, $model) {
           clearEvents();
@@ -140,7 +142,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/projects/add-itinerary-stop-modal.html',
               controller: 'AddItineraryStopModalCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               backdrop: 'static',
               resolve: {
                   project: function () {
@@ -270,14 +272,8 @@ angular.module('staticApp')
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
               angular.forEach(response.data, function (stop, index) {
-                  var arrivalDate = new Date(stop.arrivalDate);
-                  if (!isNaN(arrivalDate.getTime())) {
-                      stop.arrivalDate = arrivalDate;
-                  }
-                  var departureDate = new Date(stop.departureDate);
-                  if (!isNaN(departureDate.getTime())) {
-                      stop.departureDate = departureDate;
-                  }
+                  stop.timezone = moment.tz.zone(stop.timezoneId);
+                  setLocalArrivalAndDestinationDates(stop);
                   setItineraryStopColor(stop);
               });
               $scope.view.travelStopParticipants = getAllParticipants(response.data);
@@ -291,6 +287,19 @@ angular.module('staticApp')
               $log.error(message);
               NotificationService.showErrorMessage(message);
           });
+      }
+
+      function setLocalArrivalAndDestinationDates(stop) {
+          var arrivalDate = new Date(stop.arrivalDate);
+          if (!isNaN(arrivalDate.getTime())) {
+              stop.destinationArrivalDate = moment(arrivalDate).tz(stop.timezoneId).format(momentDateTimeFormat);
+              stop.localArrivalDate = moment(arrivalDate).local().format(momentDateTimeFormat);
+          }
+          var departureDate = new Date(stop.departureDate);
+          if (!isNaN(departureDate.getTime())) {
+              stop.destinationDepartureDate = moment(departureDate).tz(stop.timezoneId).format(momentDateTimeFormat);
+              stop.localDepartureDate = moment(departureDate).local().format(momentDateTimeFormat);
+          }
       }
 
       function getAllParticipants(itineraryStops) {
@@ -395,15 +404,15 @@ angular.module('staticApp')
       }
 
       function getEvent(itineraryStop) {
+          var start = moment(itineraryStop.arrivalDate);
+          var end = moment(itineraryStop.departureDate);
           return {
               title: itineraryStop.name,
-              start: itineraryStop.arrivalDate,
-              end: moment(itineraryStop.departureDate).add(1, 'days'),
-              allDay: true,
+              start: start,
+              end: end,
+              allDay: false,
               itineraryStopId: itineraryStop.itineraryStopId,
-              //textColor: 'lightgray'
-              color: itineraryStop.color,
-              //nextDayThreshold: '00:00:00' //has no effect on allday events
+              color: itineraryStop.color
           };
       }
 
@@ -458,49 +467,6 @@ angular.module('staticApp')
           });
           return itineraryStops;
       }
-
-      //function updateItineraryStop(itineraryStop, calendarEvent, delta) {          
-      //    var copy = angular.copy(itineraryStop);
-      //    itineraryStop.arrivalDate = calendarEvent.start.toDate();
-      //    itineraryStop.departureDate = calendarEvent.end.toDate();
-
-      //    //itineraryStop.arrivalDate = calendarEvent.start.hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
-      //    //itineraryStop.arrivalDate = calendarEvent.start.add(delta).toDate();
-      //    //if (calendarEvent.end === null) {
-      //    //    itineraryStop.departureDate = itineraryStop.arrivalDate;
-      //    //}
-      //    //else {
-      //    //    itineraryStop.departureDate = calendarEvent.end.add(delta).toDate();
-      //    //}
-      //    return ProjectService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
-      //    .then(function (response) {
-      //        //initializeItineraryStop(response.data);
-      //        //$scope.view.itineraryStop = response.data;
-      //        //copyItineraryStop($scope.view.itineraryStop);
-
-      //        //$scope.view.isSavingItineraryStop = false;
-      //        //$scope.view.isInEditMode = false;
-      //        NotificationService.showSuccessMessage("Successfully updated city stop.");
-      //        return response.data;
-      //    })
-      //    .catch(function (response) {
-      //        $scope.view.isSavingItineraryStop = false;
-      //        var message = 'Unable to save itinerary stop.';
-      //        NotificationService.showErrorMessage(message);
-      //        $log.error(message);
-      //        itineraryCopy = copy;
-      //        addAllItineraryStopsAsEvents($scope.view.itineraryStops);
-      //    });
-      //}
-
-      //<script src="bower_components/randomColor/randomColor.js"></script>
-      //"randomColor": "0.4.2"
-      //var colors = randomColor({
-      //    count: 64,
-      //    //hue: 'blue',
-      //    luminosity: 'dark'
-      //});
-
       var colors = ["#d35304", "#8e9900", "#689e0c", "#640096", "#dd067d", "#028287", "#ea007d", "#024c60", "#0da514", "#e216af", "#9e0910", "#0b6293", "#51a508", "#1c9e0e", "#dbb702", "#078435", "#8c0c21", "#460f9e", "#319e03", "#064260", "#bc0b6f", "#0da591", "#0f0666", "#2c930d", "#054175", "#c405a1", "#9e0803", "#02426b", "#6e9601", "#576d00", "#099620", "#0c7287", "#89a309", "#e05d06", "#98a004", "#027f5c", "#0e8c5d", "#2a7a00", "#071f8c", "#e50d80", "#017756", "#cc6a14", "#007a78", "#056482", "#007267", "#af0e08", "#076677", "#9b1d07", "#350d84", "#87011e", "#0b5570", "#e56814", "#8c0c35", "#69960f", "#646d02", "#4a820a", "#af001d", "#ad1608", "#068934", "#023e70", "#efbc02", "#ce0ca1", "#e008ae", "#ef09ef", ];
       function setItineraryStopColor(itineraryStop) {
           itineraryStop.color = colors[colorIndex++ % colors.length];
@@ -525,4 +491,5 @@ angular.module('staticApp')
           }
       }
       initializeItinerary($scope.view.itinerary);
+      
   });

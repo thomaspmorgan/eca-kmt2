@@ -207,7 +207,7 @@
                                     <p>Select a calendar event to show city stop details.</p>
                                 </div>
                             </div>
-                            <div class="list2" ng-show="view.selectedCalendarItineraryStop">
+                            <div class="list2" ng-show="view.selectedCalendarItineraryStop && !view.selectedCalendarItineraryStop.showEditMode">
                                 <div class="row row3">
                                     <div class="col-md-12">
                                         <div class="pull-left" style="padding:7px;">
@@ -227,7 +227,16 @@
                                         </div>
                                         Date of Arrival
                                     </div>
-                                    <div class="col-md-8">{{view.selectedCalendarItineraryStop.arrivalDate | date:"MMMM dd, yyyy"}}</div>
+                                    <div class="col-md-8">
+                                        <div>
+                                            {{view.selectedCalendarItineraryStop.destinationArrivalDate}}
+                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                        </div>
+                                        <div class="mute">
+                                            {{view.selectedCalendarItineraryStop.localArrivalDate}}
+                                            <span>{{view.currentTimezone}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row row3">
                                     <div class="col-md-4 title-label">
@@ -236,7 +245,17 @@
                                         </div>
                                         Date of Departure
                                     </div>
-                                    <div class="col-md-8">{{view.selectedCalendarItineraryStop.departureDate | date:"MMMM dd, yyyy"}}</div>
+                                    <div class="col-md-8">
+                                        <div>
+
+                                            {{view.selectedCalendarItineraryStop.destinationDepartureDate}}
+                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                        </div>
+                                        <div class="mute">
+                                            {{view.selectedCalendarItineraryStop.localDepartureDate}}
+                                            <span>  {{view.currentTimezone}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row row3">
                                     <div class="col-md-4 title-label">
@@ -245,7 +264,9 @@
                                         </div>
                                         Travel Stop Destination
                                     </div>
-                                    <div class="col-md-8">{{view.selectedCalendarItineraryStop.destinationLocation.name}}{{view.selectedCalendarItineraryStop.destinationLocation.division ? ', ' + view.selectedCalendarItineraryStop.destinationLocation.division : ''}}{{view.selectedCalendarItineraryStop.destinationLocation.country ? ' ' + view.selectedCalendarItineraryStop.destinationLocation.country : ''}}</div>
+                                    <div class="col-md-8">
+                                        {{view.selectedCalendarItineraryStop.destinationLocation.name}}{{view.selectedCalendarItineraryStop.destinationLocation.division ? ', ' + view.selectedCalendarItineraryStop.destinationLocation.division : ''}}{{view.selectedCalendarItineraryStop.destinationLocation.country ? ' ' + view.selectedCalendarItineraryStop.destinationLocation.country : ''}}
+                                    </div>
                                 </div>
                                 <div class="row row3">
                                     <div class="col-md-4 title-label">

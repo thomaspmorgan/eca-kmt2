@@ -79,7 +79,6 @@ angular.module('staticApp')
                   }
               });
               return deferred.promise;
-
           },
 
           getCountryLocationParams: function (transformedLocation) {
