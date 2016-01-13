@@ -82,6 +82,27 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Returns the organizations hierarchy
+        /// </summary>
+        /// <param name="queryModel">The query operator to apply</param>
+        /// <returns>The organizations in hierarchy</returns>
+        [ResponseType(typeof(PagedQueryResults<OrganizationHierarchyDTO>))]
+        [Route("Organizations/Hierarchy")]
+        public async Task<IHttpActionResult> GetOrganizationsHierarchyAsync([FromUri]PagingQueryBindingModel<OrganizationHierarchyDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await organizationService.GetOrganizationsHierarchyAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        /// <summary>
         /// Returns the organization with the given id.
         /// </summary>
         /// <param name="id">The id of the organization.</param>

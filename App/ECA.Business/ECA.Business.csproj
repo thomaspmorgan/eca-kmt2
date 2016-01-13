@@ -185,6 +185,7 @@
     <Compile Include="Queries\Admin\SnapshotQueries.cs" />
     <Compile Include="Queries\Itineraries\ItineraryGroupQueries.cs" />
     <Compile Include="Queries\Itineraries\ItineraryStopQueries.cs" />
+    <Compile Include="Queries\Models\Admin\OrganizationHierarchyDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryGroupDTO.cs" />
     <Compile Include="Queries\Itineraries\ItineraryQueries.cs" />

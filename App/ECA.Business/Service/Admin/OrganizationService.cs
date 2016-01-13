@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using ECA.Core.Exceptions;
 using ECA.Business.Validation;
 using ECA.Business.Service.Lookup;
+using System.Data.Entity.Infrastructure;
 
 namespace ECA.Business.Service.Admin
 {
@@ -23,6 +24,8 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class OrganizationService : EcaService, IOrganizationService
     {
+        public const string GET_ORGANIZATIONS_SPROC_NAME = "GetOrganizations";
+
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, Organization> throwIfOrganizationByIdNull;
         private readonly Action<int, OrganizationType> throwIfOrganizationTypeByIdNull;
@@ -67,6 +70,31 @@ namespace ECA.Business.Service.Admin
             var organizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved organizations with query operator [{0}].", queryOperator);
             return organizations;
+        }
+
+        /// <summary>
+        /// Returns organization hierarchy
+        /// </summary>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>The organizations hierarchy</returns>
+        public async Task<PagedQueryResults<OrganizationHierarchyDTO>> GetOrganizationsHierarchyAsync(QueryableOperator<OrganizationHierarchyDTO> queryOperator)
+        {
+            var results = await CreateGetOrganizationsSqlQuery().ToArrayAsync();
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            this.logger.Trace("Retrieved offices with query operator [{0}].", queryOperator);
+            return pagedResults;
+        }
+
+        private DbRawSqlQuery<OrganizationHierarchyDTO> CreateGetOrganizationsSqlQuery()
+        {
+            return this.Context.Database.SqlQuery<OrganizationHierarchyDTO>(GET_ORGANIZATIONS_SPROC_NAME);
+        }
+
+        private PagedQueryResults<T> GetPagedQueryResults<T>(IEnumerable<T> enumerable, QueryableOperator<T> queryOperator) where T : class
+        {
+            var queryable = enumerable.AsQueryable<T>();
+            queryable = queryable.Apply(queryOperator);
+            return queryable.ToPagedQueryResults<T>(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
@@ -276,7 +304,6 @@ namespace ECA.Business.Service.Admin
         {
             return new OrganizationValidationEntity(name: organization.Name, organizationTypeId: organization.OrganizationTypeId);
         }
-
         #endregion
     }
 }
