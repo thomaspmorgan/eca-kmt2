@@ -79,14 +79,6 @@ angular.module('staticApp')
           $scope.view.isDepartureDateOpen = true;
       }
 
-      $scope.view.onArrivalTimeChanged = function (itineraryStop) {
-          
-      }
-
-      $scope.view.onDepartureTimeChanged = function (itineraryStop) {
-
-      }
-
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');
       $scope.view.getDestinationLocations = function ($search) {
           var params = getSearchParams(departureFilter, $search, [
@@ -173,7 +165,6 @@ angular.module('staticApp')
 
       function saveItineraryStop() {
           $scope.view.isSavingItineraryStop = true;
-
           $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalTime);
           $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureTime);
 

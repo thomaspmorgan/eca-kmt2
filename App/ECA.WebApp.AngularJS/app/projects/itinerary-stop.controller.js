@@ -248,11 +248,11 @@ angular.module('staticApp')
       }
 
       function initialize(itineraryStop) {
-          $scope.view.arrivalDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).startOf('day').toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationArrivalDate).hours(0).minutes(0).toDate();
-          $scope.view.arrivalTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationArrivalDate);
+          $scope.view.arrivalDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).startOf('day').toDate();
+          $scope.view.arrivalTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).toDate();
 
-          $scope.view.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).startOf('day').toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationDepartureDate).hours(0).minutes(0).toDate();
-          $scope.view.departureTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationDepartureDate);
+          $scope.view.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).startOf('day').toDate();
+          $scope.view.departureTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();
 
           angular.forEach(itineraryStop.groups, function (group, index) {
               group.isExpanded = false;
@@ -260,12 +260,10 @@ angular.module('staticApp')
       }
 
       function getArrivalDate() {
-          //return getDateWithTimezone($scope.view.arrivalDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timezoneId);
           return DateTimeService.getDateAndTimeInTimezoneAsMoment($scope.view.arrivalDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timeezoneId);
       }
 
       function getDepartureDate() {
-          //return getDateWithTimezone($scope.view.departureDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timezoneId);
           return DateTimeService.getDateAndTimeInTimezoneAsMoment($scope.view.departureDate, $scope.view.departureTime, $scope.view.itineraryStop.timeezoneId);
       }
 

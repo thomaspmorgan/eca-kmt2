@@ -109,10 +109,10 @@ angular.module('staticApp')
           },
 
           initializeItineraryStopModel: function (itineraryStop, itineraryStopColorIndex) {
-
               var cIndex = itineraryStopColorIndex || colorIndex++;
               itineraryStop.colorIndex = cIndex;
               itineraryStop.color = colors[cIndex % colors.length];
+
               if (itineraryStop.timezoneId) {
                   itineraryStop.timezone = moment.tz.zone(itineraryStop.timezoneId);
               }

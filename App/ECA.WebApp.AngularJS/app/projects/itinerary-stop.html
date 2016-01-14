@@ -216,7 +216,7 @@
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">location_on</i>
                                     <h5 class="title-label">Destination of this City Stop<span class="asterisk"> *</span></h5>
                                 </div>
-                                <div>
+                                <div style="padding-top:9px;">
                                     <ui-select ng-model="view.itineraryStop.destinationLocation"
                                                id="source"
                                                name="source"
@@ -243,7 +243,7 @@
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
                                     <h5 class="title-label">Date of Arrival</h5>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="padding-top:9px;">
                                     <p class="input-group">
                                         <input name="arrivalDate"
                                                type="text"
@@ -287,12 +287,12 @@
                             <div class="col-md-12">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">timelapse</i>
-                                    <h5 class="title-label">Timezone of this City Stop</h5>
+                                    <h5 class="title-label">
+                                        Timezone of this City Stop
+                                        <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">(My timezone:  {{view.currentTimezone}})</a>
+                                    </h5>
                                 </div>
-                                <div class="mute">
-                                    Current timezone:  <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">{{view.currentTimezone}}</a>
-                                </div>
-                                <div>
+                                <div  style="padding-top:8px;">
                                     <ui-select ng-model="view.itineraryStop.timezoneId"
                                                id="timezone"
                                                name="timezone"
@@ -319,7 +319,7 @@
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
                                     <h5 class="title-label">Date of Departure</h5>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="padding-top:8px;"> 
                                     <p class="input-group">
                                         <input name="endDate"
                                                type="text"

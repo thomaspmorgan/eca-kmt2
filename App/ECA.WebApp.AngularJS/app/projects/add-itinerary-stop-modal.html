@@ -70,7 +70,6 @@
                                 </label>
                                 <div class="timepicker" style="margin-top:-20px;">
                                     <timepicker ng-model="view.itineraryStop.arrivalTime"
-                                                ng-change="view.onArrivalTimeChanged(itineraryStop)"
                                                 hour-step="1"
                                                 minute-step="1"
                                                 show-meridian="true">
@@ -114,11 +113,9 @@
                             <label>
                                 <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">access_time</i>
                                 Time of Departure<span class="asterisk"> *</span>
-
                             </label>
                             <div class="timepicker" style="margin-top:-20px;">
                                 <timepicker ng-model="view.itineraryStop.departureTime"
-                                            ng-change="view.onDepartureTimeChanged(itineraryStop)"
                                             hour-step="1"
                                             minute-step="1"
                                             show-meridian="true">
@@ -133,7 +130,7 @@
                             <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">location_on</i>
                             Destination of this City Stop<span class="asterisk"> *</span>
                         </label>
-                        <div style="padding-top:20px;">
+                        <div>
                             <ui-select ng-model="view.itineraryStop.destinationLocation"
                                        id="source"
                                        name="source"
@@ -161,10 +158,8 @@
                         <label>
                             <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">timelapse</i>
                             Destination Timezone<span class="asterisk"> *</span>
+                            <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">(My timezone:  {{view.currentTimezone}})</a>
                         </label>
-                        <div class="mute">
-                            Current timezone:  <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">{{view.currentTimezone}}</a>
-                        </div>
                         <div>
                             <ui-select ng-model="view.itineraryStop.timezoneId"
                                        id="timezone"
