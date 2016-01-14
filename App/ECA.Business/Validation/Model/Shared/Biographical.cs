@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -36,6 +37,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Country of birth
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string BirthCountryCode { get; set; }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Email address
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string EmailAddress { get; set; }
 
         /// <summary>

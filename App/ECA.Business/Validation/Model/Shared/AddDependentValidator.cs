@@ -13,6 +13,7 @@ namespace ECA.Business.Validation.Model
 
         public AddDependentValidator()
         {
+            RuleFor(dependent => dependent.printForm).NotNull().WithMessage("Dependent: Print form option is required");
             RuleFor(dependent => dependent.FullName).NotNull().WithMessage("Dependent: Full Name is required");
             RuleFor(dependent => dependent.FullName.LastName).NotNull().WithMessage("Dependent: Last Name is required");
             RuleFor(dependent => dependent.BirthDate).NotNull().WithMessage("Dependent: Date of birth is required");

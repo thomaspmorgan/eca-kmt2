@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentValidation.Attributes;
 using ECA.Business.Validation.Model.Shared;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -22,30 +23,35 @@ namespace ECA.Business.Validation.Model.CreateEV
             AddTIPP = new AddTIPP();
             ResidentialAddress = new ResidentialAddress();
         }
-        
+
         /// <summary>
         /// Request identifier
         /// </summary>
+        [XmlAttribute(AttributeName = "requestID")]
         public string requestID { get; set; }
 
         /// <summary>
         /// SEVIS user id
         /// </summary>
+        [XmlAttribute(AttributeName = "userID")]
         public string userID { get; set; }
 
         /// <summary>
         /// Print request indicator
         /// </summary>
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
 
         /// <summary>
         /// User defined field A
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string UserDefinedA { get; set; }
 
         /// <summary>
         /// User defined field B
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string UserDefinedB { get; set; }
 
         /// <summary>
@@ -76,6 +82,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Occupational category code
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string OccupationCategoryCode { get; set; }
 
         /// <summary>

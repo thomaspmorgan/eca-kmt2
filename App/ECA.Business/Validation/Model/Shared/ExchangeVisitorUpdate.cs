@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Validation.Model.CreateEV;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -19,35 +20,41 @@ namespace ECA.Business.Validation.Model.Shared
             Validate = new ValidateParticipant();
             Reprint7002 = new Reprint7002();
         }
-        
+
         /// <summary>
         /// Sevis batch ID
         /// </summary>
+        [XmlAttribute(AttributeName = "sevisID")]
         public string sevisID { get; set; }
 
         /// <summary>
         /// Request identifier
         /// </summary>
+        [XmlAttribute(AttributeName = "requestID")]
         public string requestID { get; set; }
 
         /// <summary>
         /// SEVIS user id
         /// </summary>
+        [XmlAttribute(AttributeName = "userID")]
         public string userID { get; set; }
 
         /// <summary>
         /// Status code of student
         /// </summary>
+        [XmlAttribute(AttributeName = "statusCode")]
         public string statusCode { get; set; }
 
         /// <summary>
         /// User defined field A
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string UserDefinedA { get; set; }
 
         /// <summary>
         /// User defined field B
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string UserDefinedB { get; set; }
 
         /// <summary>

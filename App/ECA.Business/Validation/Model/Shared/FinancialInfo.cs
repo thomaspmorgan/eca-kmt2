@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model
 {
@@ -22,6 +23,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Program sponsor funds
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string ProgramSponsorFunds { get; set; }
 
         /// <summary>

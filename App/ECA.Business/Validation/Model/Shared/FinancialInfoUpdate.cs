@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -14,6 +15,7 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Print request indicator
         /// </summary>
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
     }
 }

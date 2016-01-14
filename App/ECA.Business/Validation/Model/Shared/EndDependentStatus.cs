@@ -1,4 +1,5 @@
-﻿
+﻿using System.Xml.Serialization;
+
 namespace ECA.Business.Validation.Model
 {
     /// <summary>
@@ -13,6 +14,7 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Dependent sevis id
         /// </summary>
+        [XmlAttribute(AttributeName = "dependentSevisID")]
         public string dependentSevisID { get; set; }
 
         /// <summary>
@@ -23,11 +25,13 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Explanation for selecting "Other" as the reason
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string OtherRemarks { get; set; }
 
         /// <summary>
         /// Remarks for end status
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string Remarks { get; set; }
     }
 }

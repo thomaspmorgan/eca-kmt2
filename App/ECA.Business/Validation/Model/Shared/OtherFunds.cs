@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -24,15 +25,17 @@ namespace ECA.Business.Validation.Model.Shared
         /// International organization funding
         /// </summary>
         public International International { get; set; }
-        
+
         /// <summary>
         /// Funding from exchange visitor government
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string EVGovt { get; set; }
 
         /// <summary>
         /// Funding from binational commission
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string BinationalCommission { get; set; }
 
         /// <summary>
@@ -43,6 +46,7 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Personal funds
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string Personal { get; set; }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model
 {
     [Validator(typeof(ShortenProgramValidator))]
     public class ShortenProgram
     {
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
         
         public DateTime NewPrgEndDate { get; set; }

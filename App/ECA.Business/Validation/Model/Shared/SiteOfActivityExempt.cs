@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -9,6 +10,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         public SiteOfActivityExempt()
         { }
 
+        [XmlElement(IsNullable = true)]
         public string Remarks { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿using System.Xml.Serialization;
+
 namespace ECA.Business.Validation.Model.CreateEV
 {
     /// <summary>
@@ -9,6 +10,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         public Reprint7002()
         { }
 
+        [XmlAttribute(AttributeName = "print7002")]
         public bool print7002 { get; set; }
 
         public string SiteId { get; set; }

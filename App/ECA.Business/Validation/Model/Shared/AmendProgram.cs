@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -11,12 +12,14 @@ namespace ECA.Business.Validation.Model.Shared
             TippPhaseDates = new TippPhaseDates();
         }
 
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
 
         public DateTime PrgStartDate { get; set; }
 
         public DateTime PrgEndDate { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string Remarks { get; set; }
 
         /// <summary>

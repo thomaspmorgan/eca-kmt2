@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -14,9 +15,11 @@ namespace ECA.Business.Validation.Model.CreateEV
         public PContact PContact { get; set; }
 
         public SContact SContact { get; set; }
-        
+
+        [XmlElement(IsNullable = true)]
         public string Phone { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string PhoneExt { get; set; }
     }
 }

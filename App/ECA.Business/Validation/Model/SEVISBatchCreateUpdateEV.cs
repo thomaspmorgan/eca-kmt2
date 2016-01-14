@@ -3,6 +3,7 @@ using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation
 {
@@ -23,6 +24,7 @@ namespace ECA.Business.Validation
         /// <summary>
         /// Sevis batch record
         /// </summary>
+        [XmlAttribute(AttributeName = "userID")]
         public string userID { get; set; }
 
         /// <summary>

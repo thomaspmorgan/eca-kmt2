@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -14,8 +15,10 @@ namespace ECA.Business.Validation.Model.Shared
 
         public string InfractionType { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public DateTime NewEndDate { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string Remarks { get; set; }
 
         /// <summary>

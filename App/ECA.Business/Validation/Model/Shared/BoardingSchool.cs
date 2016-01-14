@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -8,10 +9,13 @@ namespace ECA.Business.Validation.Model.CreateEV
         public BoardingSchool()
         { }
 
+        [XmlElement(IsNullable = true)]
         public string Name { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string Phone { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string PhoneExt { get; set; }
     }
 }

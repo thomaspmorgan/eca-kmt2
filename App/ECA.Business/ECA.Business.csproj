@@ -520,6 +520,7 @@
     <Compile Include="Validation\Model\Shared\AddTIPPUpdateValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddTippValidator.cs" />
     <Compile Include="Validation\Model\Shared\AddUpdatedDependent.cs" />
+    <Compile Include="Validation\Model\Shared\AddUpdateDependentValidator.cs" />
     <Compile Include="Validation\Model\Shared\AmendProgram.cs" />
     <Compile Include="Validation\Model\Shared\AmendProgramValidator.cs" />
     <Compile Include="Validation\Model\Shared\Biographical.cs" />

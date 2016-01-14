@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model
 {
@@ -15,11 +16,13 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// Dependent Sevis ID
         /// </summary>
+        [XmlAttribute(AttributeName = "dependentSevisID")]
         public string dependentSevisID { get; set; }
 
         /// <summary>
         /// Print request indicator
         /// </summary>
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
 
         /// <summary>

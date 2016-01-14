@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model
 {
@@ -22,11 +23,13 @@ namespace ECA.Business.Validation.Model
         /// <summary>
         /// User defined field A
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string UserDefinedA { get; set; }
 
         /// <summary>
         /// User defined field B
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string UserDefinedB { get; set; }
 
         /// <summary>

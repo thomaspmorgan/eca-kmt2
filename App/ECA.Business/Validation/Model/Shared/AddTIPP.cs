@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Attributes;
-using System;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -19,6 +19,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// print ds-7002 indicator
         /// </summary>
+        [XmlAttribute(AttributeName = "print7002")]
         public bool print7002 { get; set; }
 
         /// <summary>

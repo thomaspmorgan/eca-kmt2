@@ -1,15 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model
 {
+    [Validator(typeof(AddUpdateDependentValidator))]
     public class AddUpdatedDependent
     {
         public AddUpdatedDependent()
         {
             FullName = new FullName();
         }
+
+        [XmlAttribute(AttributeName = "printForm")]
+        public bool printForm { get; set; }
 
         public FullName FullName { get; set; }
 
@@ -27,6 +32,7 @@ namespace ECA.Business.Validation.Model
 
         public string BirthCountryReason { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string EmailAddress { get; set; }
 
         public string Relationship { get; set; }

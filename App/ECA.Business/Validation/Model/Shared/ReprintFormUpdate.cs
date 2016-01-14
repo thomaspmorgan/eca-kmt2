@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -11,6 +12,7 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Dependent Sevis ID
         /// </summary>
+        [XmlAttribute(AttributeName = "dependentSevisID")]
         public string dependentSevisID { get; set; }
     }
 }

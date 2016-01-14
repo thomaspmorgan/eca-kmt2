@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -14,6 +15,7 @@ namespace ECA.Business.Validation.Model.Shared
             TippSite = new TippSiteUpdate();
         }
 
+        [XmlAttribute(AttributeName = "print7002")]
         public bool print7002 { get; set; }
 
         public ParticipantInfoUpdate ParticipantInfo { get; set; }

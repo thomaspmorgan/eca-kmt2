@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -24,6 +25,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         public string SuperFirstName { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string SuperMiddleInitial { get; set; }
 
         public string SuperTitle { get; set; }
@@ -32,8 +34,10 @@ namespace ECA.Business.Validation.Model.Shared
 
         public string SuperPhone { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string SuperPhoneExt { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public DateTime SuperSignatureDate { get; set; }
 
         public string EvRole { get; set; }
@@ -50,6 +54,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         public string HowCompetencyMeasured { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string AdditionalRemarks { get; set; }
     }
 }

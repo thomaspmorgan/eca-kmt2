@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -19,11 +20,13 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Foreign degree level (required if intern)
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string ForeignDegreeLevel { get; set; }
 
         /// <summary>
         /// Foreign field of study
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string ForeignFieldOfStudy { get; set; }
 
         public string Remarks { get; set; }

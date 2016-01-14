@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -16,6 +17,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public string FieldOfStudy { get; set; }
 
+        [XmlElement(IsNullable = true)]
         public string YearsOfExperience { get; set; }
 
         public string TypeOfDegree { get; set; }

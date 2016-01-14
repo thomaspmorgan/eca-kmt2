@@ -1,4 +1,5 @@
-﻿
+﻿using System.Xml.Serialization;
+
 namespace ECA.Business.Validation.Model
 {
     public class DeleteDependent
@@ -6,6 +7,7 @@ namespace ECA.Business.Validation.Model
         public DeleteDependent()
         { }
 
+        [XmlAttribute(AttributeName = "dependentSevisID")]
         public string dependentSevisID { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model
 {
@@ -9,6 +10,7 @@ namespace ECA.Business.Validation.Model
         public MatriculateProgram()
         { }
 
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
 
         public DateTime NewPrgEndDate { get; set; }

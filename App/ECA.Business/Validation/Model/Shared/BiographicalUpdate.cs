@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Validation.Model.CreateEV;
 using FluentValidation.Attributes;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -18,11 +19,13 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Print request indicator
         /// </summary>
+        [XmlAttribute(AttributeName = "printForm")]
         public bool printForm { get; set; }
 
         /// <summary>
         /// Current phone number
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
@@ -43,6 +46,7 @@ namespace ECA.Business.Validation.Model.Shared
         /// <summary>
         /// Remarks
         /// </summary>
+        [XmlElement(IsNullable = true)]
         public string Remarks { get; set; }
     }
 }
