@@ -254,10 +254,6 @@ angular.module('staticApp')
           $scope.view.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).startOf('day').toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationDepartureDate).hours(0).minutes(0).toDate();
           $scope.view.departureTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationDepartureDate);
 
-
-          //if (itineraryStop.destinationLocation) {
-          //    itineraryStop.destinationLocationId = itineraryStop.destinationLocation.id;
-          //}
           angular.forEach(itineraryStop.groups, function (group, index) {
               group.isExpanded = false;
           });
@@ -272,41 +268,6 @@ angular.module('staticApp')
           //return getDateWithTimezone($scope.view.departureDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timezoneId);
           return DateTimeService.getDateAndTimeInTimezoneAsMoment($scope.view.departureDate, $scope.view.departureTime, $scope.view.itineraryStop.timeezoneId);
       }
-
-      //function getDateWithTimezone(date, time, timezoneId) {
-      //    var dateMoment = moment(date).startOf('day');
-      //    var timeMoment = moment(time);
-      //    dateMoment = dateMoment
-      //        .hours(timeMoment.hours())
-      //        .minutes(timeMoment.minutes())
-      //        .seconds(timeMoment.second())
-      //        .milliseconds(timeMoment.milliseconds())
-      //        .tz(timezoneId);
-          
-      //    console.log(dateMoment.format());
-      //    //format the date moment string and then set arrivalDate and departureDates on the itinerarystop like in the add modal
-      //    return dateMoment;
-      //}
-
-      //function addConvertDateToTimezoneMethod(itineraryStop) {
-      //    itineraryStop.setDateAndTimeWithTimezone = function (datePropertyName, timePropertyName) {
-
-      //        var timeMoment = moment(itineraryStop[timePropertyName]);
-      //        var dateMoment = moment(itineraryStop[datePropertyName]).tz(itineraryStop.timezoneId);
-      //        dateMoment.minutes(timeMoment.minute());
-      //        dateMoment.hours(timeMoment.hours());
-      //        dateMoment.seconds(0);
-      //        dateMoment.milliseconds(0);
-      //        itineraryStop[datePropertyName] = dateMoment.format();
-      //    }
-      //}
-
-      //function toDate(itineraryStop, datePropertyName) {
-      //    var date = new Date(itineraryStop[datePropertyName]);
-      //    if (!isNaN(date.getTime())) {
-      //        itineraryStop[datePropertyName] = date;
-      //    }
-      //}
 
       var itineraryStopCopy = null;
       function copyItineraryStop(itineraryStop) {

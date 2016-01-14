@@ -109,12 +109,17 @@ angular.module('staticApp')
           },
 
           initializeItineraryStopModel: function (itineraryStop, itineraryStopColorIndex) {
-              console.assert(itineraryStop.timezoneId, 'The timezone must be known.');
 
               var cIndex = itineraryStopColorIndex || colorIndex++;
               itineraryStop.colorIndex = cIndex;
               itineraryStop.color = colors[cIndex % colors.length];
-              itineraryStop.timezone = moment.tz.zone(itineraryStop.timezoneId);
+              if (itineraryStop.timezoneId) {
+                  itineraryStop.timezone = moment.tz.zone(itineraryStop.timezoneId);
+              }
+              else {
+                  itineraryStop.timezone = null;
+              }
+              
 
               if (itineraryStop.destinationLocation) {
                   itineraryStop.destinationLocationId = itineraryStop.destinationLocation.id;
