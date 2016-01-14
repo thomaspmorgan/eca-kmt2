@@ -34,7 +34,10 @@
                     <div class="col-md-6">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Date of Arrival<span class="asterisk"> *</span></label>
+                                <label>
+                                    <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">event</i>
+                                    Date of Arrival<span class="asterisk"> *</span>
+                                </label>
                                 <div>
                                     <p class="input-group" style="padding-top:8px;">
                                         <input name="arrivalDate"
@@ -61,7 +64,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Time of Arrival<span class="asterisk"> *</span></label>
+                                <label>
+                                    <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">access_time</i>
+                                    Time of Arrival<span class="asterisk"> *</span>
+                                </label>
                                 <div class="timepicker" style="margin-top:-20px;">
                                     <timepicker ng-model="view.itineraryStop.arrivalTime"
                                                 ng-change="view.onArrivalTimeChanged(itineraryStop)"
@@ -76,7 +82,10 @@
                     <div class="col-md-6">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Date of Departure<span class="asterisk"> *</span></label>
+                                <label>
+                                    <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">event</i>
+                                    Date of Departure<span class="asterisk"> *</span>
+                                </label>
                                 <div>
                                     <p class="input-group" style="padding-top:8px;">
                                         <input name="departureDate"
@@ -102,7 +111,11 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Time of Departure<span class="asterisk"> *</span></label>
+                            <label>
+                                <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">access_time</i>
+                                Time of Departure<span class="asterisk"> *</span>
+
+                            </label>
                             <div class="timepicker" style="margin-top:-20px;">
                                 <timepicker ng-model="view.itineraryStop.departureTime"
                                             ng-change="view.onDepartureTimeChanged(itineraryStop)"
@@ -116,7 +129,10 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label>Destination of this City Stop<span class="asterisk"> *</span></label>
+                        <label>
+                            <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">location_on</i>
+                            Destination of this City Stop<span class="asterisk"> *</span>
+                        </label>
                         <div style="padding-top:20px;">
                             <ui-select ng-model="view.itineraryStop.destinationLocation"
                                        id="source"
@@ -142,7 +158,10 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Destination Timezone<span class="asterisk"> *</span></label>
+                        <label>
+                            <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">timelapse</i>
+                            Destination Timezone<span class="asterisk"> *</span>
+                        </label>
                         <div class="mute">
                             Current timezone:  <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">{{view.currentTimezone}}</a>
                         </div>
@@ -157,7 +176,7 @@
                                 <ui-select-match placeholder="Select the timezone of the destination location...">
                                     {{view.itineraryStop.timezoneId}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="tz in view.timezomeNames | filter: $select.search">
+                                <ui-select-choices repeat="tz in view.timezoneNames | filter: $select.search">
                                     <div ng-bind-html="tz | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>

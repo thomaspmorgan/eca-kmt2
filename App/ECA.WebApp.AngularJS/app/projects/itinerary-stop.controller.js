@@ -17,6 +17,7 @@ angular.module('staticApp')
         NotificationService,
         ConstantsService,
         LocationService,
+        DateTimeService,
         ProjectService,
         FilterService,
         LookupService) {
@@ -32,6 +33,19 @@ angular.module('staticApp')
       $scope.view.isSavingItineraryStop = false;
       $scope.view.searchLimit = 30;
       $scope.view.maxNameLength = 100;
+      $scope.view.currentTimezone = moment.tz.guess();
+      $scope.view.timezoneNames = moment.tz.names();
+
+      $scope.view.arrivalDate = null;
+      $scope.view.arrivalTime = null;
+
+      $scope.view.departureDate = null;
+      $scope.view.departureTime = null;
+
+
+      $scope.view.onClickCurrentTimezone = function (timezone) {
+          $scope.view.itineraryStop.timezoneId = timezone;
+      }
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop($scope.view.itineraryStop);
@@ -109,6 +123,22 @@ angular.module('staticApp')
           return 'itineraryStop' + itineraryStop.itineraryStopId;
       }
 
+      $scope.view.onArrivalDateChange = function (itineraryStop) {
+          onArrivalDateTimeChange(itineraryStop);
+      }
+
+      $scope.view.onArrivalTimeChange = function (itineraryStop) {
+          onArrivalDateTimeChange(itineraryStop);
+      }
+
+      $scope.view.onDepartureDateChange = function (itineraryStop) {
+          onDepartureDateTimeChange(itineraryStop);
+      }
+
+      $scope.view.onDepartureTimeChange = function (itineraryStop) {
+          onDepartureDateTimeChange(itineraryStop);
+      }
+
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');
       $scope.view.getDestinationLocations = function ($search) {
           var params = getSearchParams(departureFilter, $search, [
@@ -128,6 +158,15 @@ angular.module('staticApp')
       $scope.view.onDestinationSelect = function ($item, $model) {
           $scope.view.itineraryStop.destinationLocation = $model;
           $scope.view.itineraryStop.destinationLocationId = $model.id;
+          $scope.view.itineraryStop.timezoneId = null;
+      }
+
+      function onArrivalDateTimeChange(itineraryStop) {
+          itineraryStop.setArrivalDate(getArrivalDate());
+      }
+
+      function onDepartureDateTimeChange(itineraryStop) {
+          itineraryStop.setDepartureDate(getDepartureDate());
       }
 
       function scrollToItineraryStop(itineraryStop) {
@@ -164,9 +203,13 @@ angular.module('staticApp')
 
       function saveItineraryStop(itineraryStop) {
           $scope.view.isSavingItineraryStop = true;
+          
+          itineraryStop.setArrivalDateFromDateAndTime($scope.view.arrivalDate, $scope.view.arrivalTime);
+          itineraryStop.setDepartureDateFromDateAndTime($scope.view.departureDate, $scope.view.departureTime);
+          
           return ProjectService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
-          .then(function (response) {              
-              initializeItineraryStop(response.data);
+          .then(function (response) {
+              initialize(response.data);
               $scope.view.itineraryStop = response.data;
               copyItineraryStop($scope.view.itineraryStop);
 
@@ -204,31 +247,73 @@ angular.module('staticApp')
           return filter.toParams();
       }
 
-      function initializeItineraryStop(itineraryStop) {
-          toDate(itineraryStop, 'arrivalDate');
-          toDate(itineraryStop, 'departureDate');
-          toDate(itineraryStop, 'lastRevisedOn');
-          if (itineraryStop.destinationLocation) {
-              itineraryStop.destinationLocationId = itineraryStop.destinationLocation.id;
-          }
+      function initialize(itineraryStop) {
+          $scope.view.arrivalDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).startOf('day').toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationArrivalDate).hours(0).minutes(0).toDate();
+          $scope.view.arrivalTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationArrivalDate);
+
+          $scope.view.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).startOf('day').toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationDepartureDate).hours(0).minutes(0).toDate();
+          $scope.view.departureTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();//$scope.view.itineraryStop.getDateAsDisplayDate($scope.view.itineraryStop.destinationDepartureDate);
+
+
+          //if (itineraryStop.destinationLocation) {
+          //    itineraryStop.destinationLocationId = itineraryStop.destinationLocation.id;
+          //}
           angular.forEach(itineraryStop.groups, function (group, index) {
               group.isExpanded = false;
           });
       }
 
-      function toDate(itineraryStop, datePropertyName) {
-          var date = new Date(itineraryStop[datePropertyName]);
-          if (!isNaN(date.getTime())) {
-              itineraryStop[datePropertyName] = date;
-          }
+      function getArrivalDate() {
+          //return getDateWithTimezone($scope.view.arrivalDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timezoneId);
+          return DateTimeService.getDateAndTimeInTimezoneAsMoment($scope.view.arrivalDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timeezoneId);
       }
+
+      function getDepartureDate() {
+          //return getDateWithTimezone($scope.view.departureDate, $scope.view.arrivalTime, $scope.view.itineraryStop.timezoneId);
+          return DateTimeService.getDateAndTimeInTimezoneAsMoment($scope.view.departureDate, $scope.view.departureTime, $scope.view.itineraryStop.timeezoneId);
+      }
+
+      //function getDateWithTimezone(date, time, timezoneId) {
+      //    var dateMoment = moment(date).startOf('day');
+      //    var timeMoment = moment(time);
+      //    dateMoment = dateMoment
+      //        .hours(timeMoment.hours())
+      //        .minutes(timeMoment.minutes())
+      //        .seconds(timeMoment.second())
+      //        .milliseconds(timeMoment.milliseconds())
+      //        .tz(timezoneId);
+          
+      //    console.log(dateMoment.format());
+      //    //format the date moment string and then set arrivalDate and departureDates on the itinerarystop like in the add modal
+      //    return dateMoment;
+      //}
+
+      //function addConvertDateToTimezoneMethod(itineraryStop) {
+      //    itineraryStop.setDateAndTimeWithTimezone = function (datePropertyName, timePropertyName) {
+
+      //        var timeMoment = moment(itineraryStop[timePropertyName]);
+      //        var dateMoment = moment(itineraryStop[datePropertyName]).tz(itineraryStop.timezoneId);
+      //        dateMoment.minutes(timeMoment.minute());
+      //        dateMoment.hours(timeMoment.hours());
+      //        dateMoment.seconds(0);
+      //        dateMoment.milliseconds(0);
+      //        itineraryStop[datePropertyName] = dateMoment.format();
+      //    }
+      //}
+
+      //function toDate(itineraryStop, datePropertyName) {
+      //    var date = new Date(itineraryStop[datePropertyName]);
+      //    if (!isNaN(date.getTime())) {
+      //        itineraryStop[datePropertyName] = date;
+      //    }
+      //}
 
       var itineraryStopCopy = null;
       function copyItineraryStop(itineraryStop) {
           itineraryStopCopy = angular.copy(itineraryStop);
           return itineraryStopCopy;
       }
-
-      initializeItineraryStop($scope.view.itineraryStop);
+      
+      initialize($scope.view.itineraryStop);
       copyItineraryStop($scope.view.itineraryStop);
   });

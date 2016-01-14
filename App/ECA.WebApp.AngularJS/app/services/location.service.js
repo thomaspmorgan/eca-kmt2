@@ -118,7 +118,6 @@ angular.module('staticApp')
                 .toParams();
           },
 
-
           transformGeocodedLocation: function (result) {
               console.assert(result, 'The result must defined.');
               var transformedLocation = {};

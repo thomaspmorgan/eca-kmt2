@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-2 text-right">
-                            <i class="material-icons md-dark md-24">flight_land</i>
+                            <i class="material-icons md-dark md-24">location_on</i>
                         </div>
                         <div class="col-md-10">
                             <div>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-2 text-right">
-                            <i class="material-icons md-dark md-24">flight_takeoff</i>
+                            <i class="material-icons md-dark md-24">location_on</i>
                         </div>
                         <div class="col-md-10">
                             <div>
@@ -229,11 +229,11 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-                                            {{view.selectedCalendarItineraryStop.destinationArrivalDate}}
+                                            {{view.selectedCalendarItineraryStop.destinationArrivalMomentAsString}}
                                             <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
                                         <div class="mute">
-                                            {{view.selectedCalendarItineraryStop.localArrivalDate}}
+                                            {{view.selectedCalendarItineraryStop.localArrivalMomentAsString}}
                                             <span>{{view.currentTimezone}}</span>
                                         </div>
                                     </div>
@@ -248,11 +248,11 @@
                                     <div class="col-md-8">
                                         <div>
 
-                                            {{view.selectedCalendarItineraryStop.destinationDepartureDate}}
+                                            {{view.selectedCalendarItineraryStop.destinationDepartureMomentAsString}}
                                             <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
                                         <div class="mute">
-                                            {{view.selectedCalendarItineraryStop.localDepartureDate}}
+                                            {{view.selectedCalendarItineraryStop.localDepartureMomentAsString}}
                                             <span>  {{view.currentTimezone}}</span>
                                         </div>
                                     </div>
@@ -260,7 +260,7 @@
                                 <div class="row row3">
                                     <div class="col-md-4 title-label">
                                         <div class="pull-left" style="margin-right: 10px;">
-                                            <i class="material-icons md-dark md-18">flight_land</i>
+                                            <i class="material-icons md-dark md-18">location_on</i>
                                         </div>
                                         Travel Stop Destination
                                     </div>
@@ -347,7 +347,7 @@
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div>
-                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">flight_land</i>
+                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">location_on</i>
                                     <h5 class="title-label">Groups Arrive To (City)</h5>
                                 </div>
                                 <div>
