@@ -262,7 +262,7 @@
                                         <div class="pull-left" style="margin-right: 10px;">
                                             <i class="material-icons md-dark md-18">location_on</i>
                                         </div>
-                                        Travel Stop Destination
+                                        City Stop Destination
                                     </div>
                                     <div class="col-md-8">
                                         {{view.selectedCalendarItineraryStop.destinationLocation.name}}{{view.selectedCalendarItineraryStop.destinationLocation.division ? ', ' + view.selectedCalendarItineraryStop.destinationLocation.division : ''}}{{view.selectedCalendarItineraryStop.destinationLocation.country ? ' ' + view.selectedCalendarItineraryStop.destinationLocation.country : ''}}
@@ -282,7 +282,13 @@
                                                 <ul>
                                                     <li ng-repeat="participant in group.participants">
                                                         <div style="margin-left:10px;">
-                                                            <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                            <div class="col-md-6">
+                                                                <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                            </div>
+                                                            <div class="col-md-6 text-right">
+                                                                <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
+                                                                <a>Itinerary</a>
+                                                            </div>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -301,7 +307,13 @@
                                         <ul>
                                             <li ng-repeat="participant in view.selectedCalendarItineraryStop.participants">
                                                 <div>
-                                                    <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                    <div class="col-md-6">
+                                                        <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
+                                                        <a>Itinerary</a>
+                                                    </div>
                                                 </div>
                                             </li>
                                         </ul>

@@ -196,7 +196,5 @@ angular.module('staticApp')
                   };
               }
           }
-
-
       };
   });
