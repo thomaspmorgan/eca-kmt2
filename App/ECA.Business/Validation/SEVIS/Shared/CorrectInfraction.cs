@@ -14,8 +14,7 @@ namespace ECA.Business.Validation.Model.Shared
         }
 
         public string InfractionType { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime NewEndDate { get; set; }
 
         [XmlElement(IsNullable = true)]

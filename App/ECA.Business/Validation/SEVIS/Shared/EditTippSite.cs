@@ -86,11 +86,9 @@ namespace ECA.Business.Validation.Model.Shared
 
         [XmlElement(IsNullable = true)]
         public string OfficialUserName { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime OfficialSignatureDate { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime EvSignatureDate { get; set; }
 
         public SupervisorsUpdate Supervisors { get; set; }

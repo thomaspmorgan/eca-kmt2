@@ -36,8 +36,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         [XmlElement(IsNullable = true)]
         public string NewSiteName { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public bool PrimarySite { get; set; }
 
         [XmlElement(IsNullable = true)]

@@ -36,8 +36,7 @@ namespace ECA.Business.Validation.Model.Shared
 
         [XmlElement(IsNullable = true)]
         public string SuperPhoneExt { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime SuperSignatureDate { get; set; }
 
         public string EvRole { get; set; }

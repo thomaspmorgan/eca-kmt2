@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -9,8 +8,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         { }
 
         public string UserName { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime SignatureDate { get; set; }
     }
 }

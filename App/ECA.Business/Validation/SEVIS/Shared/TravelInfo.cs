@@ -16,8 +16,7 @@ namespace ECA.Business.Validation.Model
 
         [XmlElement(IsNullable = true)]
         public string PassportIssuingCntry { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime PassportExpDate { get; set; }
 
         [XmlElement(IsNullable = true)]
@@ -25,17 +24,14 @@ namespace ECA.Business.Validation.Model
 
         [XmlElement(IsNullable = true)]
         public string VisaIssuingCntry { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime VisaIssueDate { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime VisaExpDate { get; set; }
 
         [XmlElement(IsNullable = true)]
         public string PortOfEntry { get; set; }
-
-        [XmlElement(IsNullable = true)]
+        
         public DateTime DateOfEntry { get; set; }        
     }
 }
