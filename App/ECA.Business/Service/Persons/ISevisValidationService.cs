@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
@@ -12,7 +11,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        VerifyResult PreCreateSevisValidation(int participantId, User user);
+        FluentValidation.Results.ValidationResult PreCreateSevisValidation(int participantId, User user);
 
         /// <summary>
         /// Test validation on a create sevis object.
@@ -39,7 +38,7 @@ namespace ECA.Business.Service.Persons
     [ContractClassFor(typeof(ISevisValidationService))]
     public abstract class SevisValidationContract : ISevisValidationService
     {
-        public VerifyResult PreCreateSevisValidation(int participantId, User user)
+        public FluentValidation.Results.ValidationResult PreCreateSevisValidation(int participantId, User user)
         {
             Contract.Requires(participantId > 0, "The participant ID must not be null.");
             return null;

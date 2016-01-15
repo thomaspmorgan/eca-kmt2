@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using FluentValidation.Results;
-using ECA.Business.Validation;
-using System.Linq;
 
 namespace ECA.Business.Service.Persons
 {
@@ -19,7 +17,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        public VerifyResult PreCreateSevisValidation(int participantId, User user)
+        public ValidationResult PreCreateSevisValidation(int participantId, User user)
         {
             var results = validator.ValidateSevisCreateEV(participantId, user);
             

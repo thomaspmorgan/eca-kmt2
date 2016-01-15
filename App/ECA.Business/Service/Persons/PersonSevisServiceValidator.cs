@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
+﻿using ECA.Business.Validation.Model;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -22,15 +21,14 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>        
-        public VerifyResult ValidateSevisCreateEV(int participantId, User user)
+        public FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId, User user)
         {
-            CreateExchVisitor createEV = participantService.GetCreateExchangeVisitor(participantId, user);
+            var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
 
             var validator = new CreateExchVisitorValidator();
-            //var results = validator.Validate(createEV);
-            var verifier = new VerifyValidator<CreateExchVisitor>();
+            var results = validator.Validate(createEV);
             
-            return verifier.VerifyParticipant(createEV);
+            return results;
         }
         
         /// <summary>
@@ -44,6 +42,12 @@ namespace ECA.Business.Service.Persons
 
             var validator = new CreateExchVisitorValidator();
             var results = await validator.ValidateAsync(createEV);
+
+            foreach (var error in results.Errors)
+            {
+                //Use a call to WithState to associate any piece of information with a ValidationFailure
+                var test = error.CustomState;
+            }
 
             return results;
         }
