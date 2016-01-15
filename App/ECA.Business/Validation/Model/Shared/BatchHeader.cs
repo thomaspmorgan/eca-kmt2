@@ -1,9 +1,11 @@
-﻿
-namespace ECA.Business.Validation.Model
+﻿using FluentValidation.Attributes;
+
+namespace ECA.Business.Validation.Model.Shared
 {
     /// <summary>
     /// Header identifying SEVIS batch
     /// </summary>
+    [Validator(typeof(BatchHeaderValidator))]
     public class BatchHeader
     {
         /// <summary>

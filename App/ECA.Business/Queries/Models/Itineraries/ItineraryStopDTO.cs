@@ -22,6 +22,11 @@ namespace ECA.Business.Queries.Models.Itineraries
         }
 
         /// <summary>
+        /// Gets or sets the timezone id.
+        /// </summary>
+        public string TimezoneId { get; set; }
+
+        /// <summary>
         /// Gets or sets the itinerary id.
         /// </summary>
         public int ItineraryId { get; set; }

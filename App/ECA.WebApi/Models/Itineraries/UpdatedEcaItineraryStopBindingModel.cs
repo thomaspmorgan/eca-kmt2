@@ -32,7 +32,8 @@ namespace ECA.WebApi.Models.Itineraries
                 name: this.Name,
                 arrivalDate: this.ArrivalDate,
                 departureDate: this.DepartureDate,
-                destinationLocationId: this.DestinationLocationId
+                destinationLocationId: this.DestinationLocationId,
+                timezoneId: this.TimezoneId
                 );
         }
     }

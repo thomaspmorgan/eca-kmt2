@@ -24,7 +24,8 @@ namespace ECA.Business.Service.Itineraries
             string name,
             DateTimeOffset arrivalDate,
             DateTimeOffset departureDate,
-            int destinationLocationId
+            int destinationLocationId,
+            string timezoneId
             )
         {
             this.Name = name;
@@ -32,6 +33,7 @@ namespace ECA.Business.Service.Itineraries
             this.DepartureDate = departureDate;
             this.DestinationLocationId = destinationLocationId;
             this.ProjectId = projectId;
+            this.TimezoneId = timezoneId;
         }        
 
         /// <summary>
@@ -58,6 +60,11 @@ namespace ECA.Business.Service.Itineraries
         /// Gets the project id.
         /// </summary>
         public int ProjectId { get; private set; }
+
+        /// <summary>
+        /// Gets the timezone id.
+        /// </summary>
+        public string TimezoneId { get; private set; }
 
     }
 }

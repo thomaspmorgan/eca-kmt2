@@ -47,6 +47,11 @@ namespace ECA.Data
         public virtual ItineraryStatus ItineraryStatus { get; set; }
 
         /// <summary>
+        /// Gets or sets the timezone id.
+        /// </summary>
+        public string TimezoneId { get; set; }
+
+        /// <summary>
         /// Gets or sets the itinerary status id.
         /// </summary>
         [Required]

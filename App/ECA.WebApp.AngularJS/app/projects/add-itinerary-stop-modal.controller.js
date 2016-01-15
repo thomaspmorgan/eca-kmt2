@@ -23,6 +23,7 @@ angular.module('staticApp')
         MessageBox,
         ProjectService,
         FilterService,
+        DateTimeService,
         LookupService) {
 
       $scope.view = {};
@@ -36,8 +37,14 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
+      $scope.view.currentTimezone = moment.tz.guess();
+      $scope.view.timezoneNames = moment.tz.names();
 
-      $scope.view.itineraryStop = {itineraryId: itinerary.id, projectId: project.id};
+      $scope.view.itineraryStop = {
+          itineraryId: itinerary.id,
+          projectId: project.id
+      };
+      ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop();
@@ -75,10 +82,7 @@ angular.module('staticApp')
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');
       $scope.view.getDestinationLocations = function ($search) {
           var params = getSearchParams(departureFilter, $search, [
-              ConstantsService.locationType.city.id,
-              ConstantsService.locationType.division.id,
-              ConstantsService.locationType.country.id,
-              ConstantsService.locationType.region.id
+              ConstantsService.locationType.city.id
           ]);
           return loadLocations(params)
           .then(function (data) {
@@ -97,7 +101,11 @@ angular.module('staticApp')
           var setDestinationLocationCallback = function (addedLocation) {
               $scope.view.onDestinationLocationSelect(addedLocation[0], addedLocation[0]);
           };
-          addNewLocation(setArrivalLocationCallback);
+          addNewLocation(setDestinationLocationCallback);
+      }
+
+      $scope.view.onClickCurrentTimezone = function (timezone) {
+          $scope.view.itineraryStop.timezoneId = timezone;
       }
 
       function addNewLocation(callback) {
@@ -157,6 +165,9 @@ angular.module('staticApp')
 
       function saveItineraryStop() {
           $scope.view.isSavingItineraryStop = true;
+          $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalTime);
+          $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureTime);
+
           return ProjectService.addItineraryStop($scope.view.itineraryStop, project.id, itinerary.id)
           .then(function (response) {
               $scope.view.isSavingItineraryStop = false;

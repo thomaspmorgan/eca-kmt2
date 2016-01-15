@@ -379,6 +379,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestCreate_CheckProperties()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var itineraryCreatorId = 100;
@@ -422,7 +423,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId);
+                destinationLocationId: locationId,
+                timezoneId: timezoneId);
 
             Action<ItineraryStop> tester = (serviceResult) =>
             {
@@ -435,6 +437,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(addedItineraryStop.DestinationLocationId, stop.DestinationId);
                 Assert.AreEqual(addedItineraryStop.ItineraryId, itineraryId);
                 Assert.AreEqual(addedItineraryStop.Name, stop.Name);
+                Assert.AreEqual(timezoneId, stop.TimezoneId);
                 Assert.AreEqual(ItineraryStatus.InProgress.Id, stop.ItineraryStatusId);
 
                 DateTimeOffset.Now.Should().BeCloseTo(stop.History.CreatedOn, 20000);
@@ -456,6 +459,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(itinerary.EndDate, entity.ItineraryEndDate);
                 Assert.AreEqual(addedItineraryStop.ArrivalDate, entity.ItineraryStopArrivalDate);
                 Assert.AreEqual(addedItineraryStop.DepartureDate, entity.ItineraryStopDepartureDate);
+                Assert.AreEqual(addedItineraryStop.TimezoneId, entity.TimezoneId);
             };
 
             validator.Setup(x => x.ValidateCreate(It.IsAny<EcaItineraryStopValidationEntity>())).Callback(validationEntityTester);
@@ -474,6 +478,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestCreate_ItineraryDoesNotExist()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var itineraryCreatorId = 100;
@@ -515,7 +520,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId);
+                destinationLocationId: locationId,
+                timezoneId: timezoneId);
             context.Revert();
             var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Itinerary).Name, addedItineraryStop.ItineraryId);
             Action a = () => service.Create(addedItineraryStop);
@@ -528,6 +534,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestCreate_LocationDoesNotExist()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var itineraryCreatorId = 100;
@@ -569,7 +576,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId + 1);
+                destinationLocationId: locationId + 1,
+                timezoneId: timezoneId);
             context.Revert();
             var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Location).Name, addedItineraryStop.DestinationLocationId);
             Action a = () => service.Create(addedItineraryStop);
@@ -582,6 +590,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestCreate_ItineraryDoesNotBelongToProject()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var itineraryCreatorId = 100;
@@ -623,7 +632,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId);
+                destinationLocationId: locationId,
+                timezoneId: timezoneId);
             context.Revert();
             var message = String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
                         creatorId,
@@ -641,6 +651,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestUpdate_CheckProperties()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var updatorId = 10;
@@ -700,13 +711,15 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId);
+                destinationLocationId: locationId,
+                timezoneId: timezoneId);
             Action beforeTester = () =>
             {
                 Assert.IsNull(itineraryStop.Name);
                 Assert.IsNull(itineraryStop.DestinationId);
                 Assert.AreNotEqual(updatedItineraryStop.ArrivalDate, itineraryStop.DateArrive);
                 Assert.AreNotEqual(updatedItineraryStop.DepartureDate, itineraryStop.DateLeave);
+                Assert.IsNull(itineraryStop.TimezoneId);
             };
             Action tester = () =>
             {
@@ -717,6 +730,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(updatedItineraryStop.DepartureDate, stop.DateLeave);
                 Assert.AreEqual(updatedItineraryStop.DestinationLocationId, stop.DestinationId);
                 Assert.AreEqual(updatedItineraryStop.Name, stop.Name);
+                Assert.AreEqual(timezoneId, stop.TimezoneId);
 
                 Assert.AreEqual(yesterday, stop.History.CreatedOn);
                 DateTimeOffset.Now.Should().BeCloseTo(stop.History.RevisedOn, 20000);
@@ -737,6 +751,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(itinerary.EndDate, entity.ItineraryEndDate);
                 Assert.AreEqual(updatedItineraryStop.ArrivalDate, entity.ItineraryStopArrivalDate);
                 Assert.AreEqual(updatedItineraryStop.DepartureDate, entity.ItineraryStopDepartureDate);
+                Assert.AreEqual(timezoneId, entity.TimezoneId);
             };
 
             validator.Setup(x => x.ValidateUpdate(It.IsAny<EcaItineraryStopValidationEntity>())).Callback(validationEntityTester);
@@ -757,6 +772,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestUpdate_ItineraryStopDoesNotExist()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var updatorId = 10;
@@ -816,7 +832,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId);
+                destinationLocationId: locationId,
+                timezoneId: timezoneId);
             context.Revert();
             var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(ItineraryStop).Name, updatedItineraryStop.ItineraryStopId);
             Action a = () => service.Update(updatedItineraryStop);
@@ -829,6 +846,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestUpdate_DestinationDoesNotExist()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var updatorId = 10;
@@ -888,7 +906,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId + 1);
+                destinationLocationId: locationId + 1,
+                timezoneId: timezoneId);
             context.Revert();
             var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Location).Name, updatedItineraryStop.DestinationLocationId);
             Action a = () => service.Update(updatedItineraryStop);
@@ -901,6 +920,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public async Task TestUpdate_ItineraryStopDoesNotBelongToProject()
         {
+            var timezoneId = "timezone";
             var projectId = 1;
             var creatorId = 2;
             var updatorId = 10;
@@ -960,7 +980,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 name: "Name",
                 arrivalDate: DateTimeOffset.UtcNow,
                 departureDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                destinationLocationId: locationId);
+                destinationLocationId: locationId,
+                timezoneId: timezoneId);
             context.Revert();
             var message = String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
                         updatorId,

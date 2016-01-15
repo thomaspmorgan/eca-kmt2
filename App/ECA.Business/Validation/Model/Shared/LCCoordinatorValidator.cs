@@ -9,8 +9,8 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public LCCoordinatorValidator()
         {
-            RuleFor(student => student.FirsName).Length(0, FIRST_NAME_MAX_LENGTH).WithMessage("Local Community Coordinator: First Name can be up to " + FIRST_NAME_MAX_LENGTH.ToString() + " characters");
-            RuleFor(student => student.LastName).Length(0, LAST_NAME_MAX_LENGTH).WithMessage("Local Community Coordinator: Last Name can be up to " + LAST_NAME_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.FirsName).Length(0, FIRST_NAME_MAX_LENGTH).WithMessage("Exch. Visitor LC Coordinator: First Name can be up to " + FIRST_NAME_MAX_LENGTH.ToString() + " characters");
+            RuleFor(student => student.LastName).Length(0, LAST_NAME_MAX_LENGTH).WithMessage("Exch. Visitor LC Coordinator: Last Name can be up to " + LAST_NAME_MAX_LENGTH.ToString() + " characters");
         }
     }
 }

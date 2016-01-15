@@ -19,13 +19,15 @@ namespace ECA.Business.Service.Itineraries
             DateTimeOffset itineraryStartDate,
             DateTimeOffset itineraryEndDate,
             DateTimeOffset itineraryStopArrivalDate,
-            DateTimeOffset itineraryStopDepartureDate
+            DateTimeOffset itineraryStopDepartureDate,
+            string timezoneId
             )
         {
             this.ItineraryEndDate = itineraryEndDate;
             this.ItineraryStartDate = itineraryStartDate;
             this.ItineraryStopArrivalDate = itineraryStopArrivalDate;
             this.ItineraryStopDepartureDate = itineraryStopDepartureDate;
+            this.TimezoneId = timezoneId;
         }
 
         /// <summary>
@@ -47,5 +49,10 @@ namespace ECA.Business.Service.Itineraries
         /// Gets or sets the itinerary stop end date.
         /// </summary>
         public DateTimeOffset ItineraryStopDepartureDate { get; private set; }
+
+        /// <summary>
+        /// Gets the timezone id.
+        /// </summary>
+        public string TimezoneId { get; private set; }
     }
 }

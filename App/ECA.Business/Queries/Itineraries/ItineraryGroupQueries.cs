@@ -60,7 +60,6 @@ namespace ECA.Business.Queries.Itineraries
             var query = from itineraryGroup in context.ItineraryGroups
                         let itinerary = itineraryGroup.Itinerary
                         let participants = itineraryGroup.Participants
-                        
 
                         select new ItineraryGroupParticipantsDTO
                         {

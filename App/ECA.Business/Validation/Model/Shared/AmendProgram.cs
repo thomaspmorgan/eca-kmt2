@@ -1,7 +1,9 @@
 ﻿using System;
+using FluentValidation.Attributes;
 
-namespace ECA.Business.Validation.Model
+namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(AmendProgramValidator))]
     public class AmendProgram
     {
         public AmendProgram()
@@ -17,6 +19,9 @@ namespace ECA.Business.Validation.Model
 
         public string Remarks { get; set; }
 
+        /// <summary>
+        /// T/IPP phase dates for exch visitor
+        /// </summary>
         public TippPhaseDates TippPhaseDates { get; set; }
     }
 }

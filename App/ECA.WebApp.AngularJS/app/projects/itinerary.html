@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-2 text-right">
-                            <i class="material-icons md-dark md-24">flight_land</i>
+                            <i class="material-icons md-dark md-24">location_on</i>
                         </div>
                         <div class="col-md-10">
                             <div>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-2 text-right">
-                            <i class="material-icons md-dark md-24">flight_takeoff</i>
+                            <i class="material-icons md-dark md-24">location_on</i>
                         </div>
                         <div class="col-md-10">
                             <div>
@@ -155,8 +155,166 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <hr ng-show="view.isItineraryExpanded"/>
-                <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded">
+                <hr ng-show="view.isItineraryExpanded" />
+                <div class="spinner" ng-show="view.isLoadingItineraryStops">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div class="col-md-12" ng-show="view.isItineraryExpanded">
+                    <span class="left programTypeRadio">
+                        Show city stops in
+                        <input type="radio"
+                               ng-model="view.viewType"
+                               value="{{view.listKey}}">
+                        List View
+                    </span>
+                    <span class="left programTypeRadio">
+                        <input type="radio"
+                               ng-change="view.onCalendarKeySelect()"
+                               ng-model="view.viewType"
+                               value="{{view.calendarKey}}">
+                        Calendar View
+                    </span>
+                </div>
+                <div ng-if="view.isItineraryExpanded && view.viewType === view.calendarKey" style="margin-top:80px;">
+                    <div class="row row3" style="margin-top:40px;">
+                        <div class="col-md-6">
+                            <div class="row row3">
+                                <div class="col-md-4 title-label">
+                                    Filter City Stops by a Partipant
+                                </div>
+                                <div class="col-md-8">
+                                    <ui-select theme="select2"
+                                               ng-model="view.selectedTravelStopParticipant"
+                                               on-select="view.onSelectTravelStopParticipant($item, $model)">
+                                        <ui-select-match placeholder="Select a participant to filter city stops on..." allow-clear="true">
+                                            <div>{{view.selectedTravelStopParticipant.fullName}}</div>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="participant as participant in view.travelStopParticipants | orderBy: 'fullName' | propsFilter: {fullName: $select.search} ">
+                                            <div>{{participant.fullName}}</div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="row row3" style="margin-top:40px;">
+                                <div ui-calendar="view.calendarConfig.calendar" ng-model="view.eventSources"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="list2" ng-show="!view.selectedCalendarItineraryStop">
+                                <div class="row row3">
+                                    <p>Select a calendar event to show city stop details.</p>
+                                </div>
+                            </div>
+                            <div class="list2" ng-show="view.selectedCalendarItineraryStop && !view.selectedCalendarItineraryStop.showEditMode">
+                                <div class="row row3">
+                                    <div class="col-md-12">
+                                        <div class="pull-left" style="padding:7px;">
+                                            <div style="height:15px;width:15px;" ng-style="{backgroundColor: view.selectedCalendarItineraryStop.color}">
+
+                                            </div>
+                                        </div>
+                                        <h5>
+                                            {{view.selectedCalendarItineraryStop.name}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row row3">
+                                    <div class="col-md-4 title-label">
+                                        <div class="pull-left" style="margin-right: 10px;">
+                                            <i class="material-icons md-dark md-18">event</i>
+                                        </div>
+                                        Date of Arrival
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div>
+                                            {{view.selectedCalendarItineraryStop.destinationArrivalMomentAsString}}
+                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                        </div>
+                                        <div class="mute">
+                                            {{view.selectedCalendarItineraryStop.localArrivalMomentAsString}}
+                                            <span>{{view.currentTimezone}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row3">
+                                    <div class="col-md-4 title-label">
+                                        <div class="pull-left" style="margin-right: 10px;">
+                                            <i class="material-icons md-dark md-18">event</i>
+                                        </div>
+                                        Date of Departure
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div>
+
+                                            {{view.selectedCalendarItineraryStop.destinationDepartureMomentAsString}}
+                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                        </div>
+                                        <div class="mute">
+                                            {{view.selectedCalendarItineraryStop.localDepartureMomentAsString}}
+                                            <span>  {{view.currentTimezone}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row3">
+                                    <div class="col-md-4 title-label">
+                                        <div class="pull-left" style="margin-right: 10px;">
+                                            <i class="material-icons md-dark md-18">location_on</i>
+                                        </div>
+                                        Travel Stop Destination
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{view.selectedCalendarItineraryStop.destinationLocation.name}}{{view.selectedCalendarItineraryStop.destinationLocation.division ? ', ' + view.selectedCalendarItineraryStop.destinationLocation.division : ''}}{{view.selectedCalendarItineraryStop.destinationLocation.country ? ' ' + view.selectedCalendarItineraryStop.destinationLocation.country : ''}}
+                                    </div>
+                                </div>
+                                <div class="row row3">
+                                    <div class="col-md-4 title-label">
+                                        <div class="pull-left" style="margin-right: 10px;">
+                                            <i class="material-icons md-dark md-18">groups</i>
+                                        </div>
+                                        Groups
+                                    </div>
+                                    <div class="col-md-8">
+                                        <ul>
+                                            <li ng-repeat="group in view.selectedCalendarItineraryStop.groups">
+                                                <strong>{{group.name}}</strong>
+                                                <ul>
+                                                    <li ng-repeat="participant in group.participants">
+                                                        <div style="margin-left:10px;">
+                                                            <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row row3">
+                                    <div class="col-md-4 title-label">
+                                        <div class="pull-left" style="margin-right: 10px;">
+                                            <i class="material-icons md-dark md-18">person</i>
+                                        </div>
+                                        Participants
+                                    </div>
+                                    <div class="col-md-8">
+                                        <ul>
+                                            <li ng-repeat="participant in view.selectedCalendarItineraryStop.participants">
+                                                <div>
+                                                    <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-repeat="itineraryStop in view.itineraryStops" ng-show="view.isItineraryExpanded && view.viewType === view.listKey">
+                    <div ng-if="$first" style="margin-top:5px;">
+                        &nbsp;
+                    </div>
                     <div style="padding-top:20px;">
                         <ng-include src="'app/projects/itinerary-stop.html'" />
                     </div>
@@ -189,7 +347,7 @@
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div>
-                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">flight_land</i>
+                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">location_on</i>
                                     <h5 class="title-label">Groups Arrive To (City)</h5>
                                 </div>
                                 <div>

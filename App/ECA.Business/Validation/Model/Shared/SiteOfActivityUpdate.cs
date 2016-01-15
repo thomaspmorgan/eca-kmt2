@@ -1,13 +1,11 @@
 ﻿using ECA.Business.Validation.Model.CreateEV;
 using System.Xml.Serialization;
-using FluentValidation.Attributes;
 
 namespace ECA.Business.Validation.Model.Shared
 {
     /// <summary>
     /// Site of activity events
     /// </summary>
-    [Validator(typeof(SiteOfActivityUpdateValidator))]
     public class SiteOfActivityUpdate
     {
         public SiteOfActivityUpdate()
