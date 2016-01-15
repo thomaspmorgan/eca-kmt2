@@ -1036,4 +1036,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SEVISCountryCodeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="a681facc-3004-4503-908e-a98194f7d3c5" ChangeDateTime="01/15/2016 14:46:57">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStop].[IVLP_ItineraryStopId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStop]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DataSource_ItineraryStopId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5be5516e-ae63-47e5-ae67-476ee4e43dd6" ChangeDateTime="01/15/2016 15:04:56">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStop].[DataSource_ItineraryStopId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStop]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IVLP_ItineraryStopId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="928d41b2-8e38-40dc-a27b-702cb1b2fb86" ChangeDateTime="01/15/2016 15:05:16">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStop].[DataSourceCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStop]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CE_ComponentId" />
+  </Operation>
 </Operations>

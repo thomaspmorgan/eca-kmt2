@@ -21,6 +21,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateCreate_ItineraryStopArrivalDateIsBeforeItineraryStartDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -34,7 +35,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -51,6 +53,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateCreate_ItineraryStopArrivalDateIsAfterItineraryEndDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -64,7 +67,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -81,6 +85,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateCreate_ItineraryStopDepartureDateIsBeforeItineraryStartDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -94,7 +99,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -111,6 +117,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateCreate_ItineraryStopDepartureDateIsAfterItineraryEndDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -124,7 +131,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -144,6 +152,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateUpdate_ItineraryStopArrivalDateIsBeforeItineraryStartDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -157,7 +166,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -174,6 +184,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateUpdate_ItineraryStopArrivalDateIsAfterItineraryEndDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -187,7 +198,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -204,6 +216,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateUpdate_ItineraryStopDepartureDateIsBeforeItineraryStartDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -217,7 +230,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };
@@ -234,6 +248,7 @@ namespace ECA.Business.Test.Service.Itineraries
         [TestMethod]
         public void TestDoValidateUpdate_ItineraryStopDepartureDateIsAfterItineraryEndDate()
         {
+            var timezoneId = "timezone";
             var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
             var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
             var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
@@ -247,7 +262,8 @@ namespace ECA.Business.Test.Service.Itineraries
                     itineraryStartDate: itineraryStartDate,
                     itineraryEndDate: itineraryEndDate,
                     itineraryStopArrivalDate: stopArrivalDate,
-                    itineraryStopDepartureDate: stopDepartureDate
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
                     );
                 return model;
             };

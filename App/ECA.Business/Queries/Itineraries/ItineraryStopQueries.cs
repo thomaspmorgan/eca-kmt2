@@ -69,7 +69,8 @@ namespace ECA.Business.Queries.Itineraries
                             LastRevisedOn = itineraryStop.History.RevisedOn,
                             Name = itineraryStop.Name,
                             ParticipantsCount = participantsCount,
-                            ProjectId = itineraryStop.Itinerary.ProjectId
+                            ProjectId = itineraryStop.Itinerary.ProjectId,
+                            TimezoneId = itineraryStop.TimezoneId
                         };
             return query;
         }

@@ -83,7 +83,8 @@ namespace ECA.Business.Test.Queries.Itineraries
                 DestinationId = location.LocationId,
                 Itinerary = itinerary,
                 ItineraryId = itinerary.ItineraryId,
-                Name = "stop"
+                Name = "stop",
+                TimezoneId = "timezone"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
             stop.Groups.Add(itineraryGroup);
@@ -96,6 +97,7 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(1, results.Count);
 
             var firstResult = results.First();
+            Assert.AreEqual(stop.TimezoneId, firstResult.TimezoneId);
             Assert.AreEqual(stop.DateArrive, firstResult.ArrivalDate);
             Assert.AreEqual(stop.DateLeave, firstResult.DepartureDate);
             Assert.AreEqual(itinerary.ItineraryId, firstResult.ItineraryId);
@@ -104,6 +106,7 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(stop.Name, firstResult.Name);
             Assert.AreEqual(2, firstResult.ParticipantsCount);
             Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+
 
             Assert.IsNotNull(firstResult.DestinationLocation);
             var destination = firstResult.DestinationLocation;
