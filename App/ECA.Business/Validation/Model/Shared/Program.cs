@@ -16,14 +16,29 @@ namespace ECA.Business.Validation.Model
             Shorten = new ShortenProgramUpdate();
         }
 
+        /// <summary>
+        /// Amend a program
+        /// </summary>
         public AmendProgram Amend { get; set; }
 
+        /// <summary>
+        /// Edit subject or field of study
+        /// </summary>
         public SubjectFieldUpdate EditSubject { get; set; }
-                
+        
+        /// <summary>
+        /// Extension within maximum duration of stay
+        /// </summary>
         public ProgramExtension Extension { get; set; }
 
+        /// <summary>
+        /// Matriculation of exchange visitor
+        /// </summary>
         public MatriculateProgram Matriculate { get; set; }
 
+        /// <summary>
+        /// Shorten a program before its end date
+        /// </summary>
         public ShortenProgramUpdate Shorten { get; set; }
     }
 }

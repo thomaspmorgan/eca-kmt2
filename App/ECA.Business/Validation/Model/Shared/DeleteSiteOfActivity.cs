@@ -1,13 +1,14 @@
-﻿
-namespace ECA.Business.Validation.Model.CreateEV
+﻿using FluentValidation.Attributes;
+using System.ComponentModel.DataAnnotations;
+
+namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(DeleteSiteOfActivityValidator))]
     public class DeleteSiteOfActivity
     {
         public DeleteSiteOfActivity()
         { }
-
-        public string SiteName { get; set; }
-
+        
         public string SiteId { get; set; }
     }
 }

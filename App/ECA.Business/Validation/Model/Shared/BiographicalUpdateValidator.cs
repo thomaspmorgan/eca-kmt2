@@ -10,9 +10,9 @@ namespace ECA.Business.Validation.Model.Shared
 
         public BiographicalUpdateValidator()
         {
-            RuleFor(student => student.PhoneNumber).Length(0, PHONE_MAX_LENGTH).WithMessage("Student Print form option is required");
-            RuleFor(student => student.PositionCode).Length(0, PHONE_MAX_LENGTH).WithMessage("Student Print form option is required");
-            RuleFor(student => student.Remarks).Length(0, PHONE_MAX_LENGTH).WithMessage("Student Print form option is required");
+            RuleFor(bio => bio.PhoneNumber).Length(0, PHONE_MAX_LENGTH).WithMessage("EV Biographical Info: Print form option is required");
+            RuleFor(bio => bio.PositionCode).Length(0, PHONE_MAX_LENGTH).WithMessage("EV Biographical Info: Print form option is required");
+            RuleFor(bio => bio.Remarks).Length(0, PHONE_MAX_LENGTH).WithMessage("EV Biographical Info: Print form option is required");
         }
     }
 }

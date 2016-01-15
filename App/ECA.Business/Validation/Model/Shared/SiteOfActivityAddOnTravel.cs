@@ -1,6 +1,8 @@
-﻿
+﻿using FluentValidation.Attributes;
+
 namespace ECA.Business.Validation.Model.Shared
 {
+    [Validator(typeof(SiteOfActivityAddOnTravelValidator))]
     public class SiteOfActivityAddOnTravel
     {
         public SiteOfActivityAddOnTravel()

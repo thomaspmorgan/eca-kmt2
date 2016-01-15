@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Attributes;
 
-namespace ECA.Business.Validation.Model.CreateEV
+namespace ECA.Business.Validation.Model.Shared
 {
     /// <summary>
     /// Subject or field of study
