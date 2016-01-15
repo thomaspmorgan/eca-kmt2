@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using ECA.Business.Validation;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
@@ -9,7 +10,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>
-        FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId, User user);
+        VerifyResult ValidateSevisCreateEV(int participantId, User user);
 
         /// <summary>
         /// Do validation for sevis exchange visitor create

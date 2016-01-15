@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace ECA.Business.Validation.Model
+namespace ECA.Business.Validation.Model.Shared
 {
     public class ShortenProgramValidator : AbstractValidator<ShortenProgram>
     {

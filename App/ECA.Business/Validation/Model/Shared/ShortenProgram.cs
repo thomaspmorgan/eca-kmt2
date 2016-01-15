@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using FluentValidation.Attributes;
 using System.Xml.Serialization;
 
-namespace ECA.Business.Validation.Model
+namespace ECA.Business.Validation.Model.Shared
 {
     [Validator(typeof(ShortenProgramValidator))]
     public class ShortenProgram

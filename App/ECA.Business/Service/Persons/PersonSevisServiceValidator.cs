@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model;
+﻿using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -9,7 +10,7 @@ namespace ECA.Business.Service.Persons
     public class PersonSevisServiceValidator : DbContextService<EcaContext>, IPersonSevisServiceValidator
     {
         private IParticipantPersonsSevisService participantService;
-
+        
         public PersonSevisServiceValidator(EcaContext context, IParticipantPersonsSevisService participantService) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -21,14 +22,15 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>Sevis object validation results</returns>        
-        public FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId, User user)
+        public VerifyResult ValidateSevisCreateEV(int participantId, User user)
         {
-            var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
+            CreateExchVisitor createEV = participantService.GetCreateExchangeVisitor(participantId, user);
 
             var validator = new CreateExchVisitorValidator();
-            var results = validator.Validate(createEV);
-
-            return results;
+            //var results = validator.Validate(createEV);
+            var verifier = new VerifyValidator<CreateExchVisitor>();
+            
+            return verifier.VerifyParticipant(createEV);
         }
         
         /// <summary>

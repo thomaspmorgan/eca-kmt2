@@ -642,7 +642,6 @@
     <Compile Include="Service\Update.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
-    <Compile Include="Validation\ISevisValidator.cs" />
     <Compile Include="Validation\Model\Shared\Program.cs" />
     <Compile Include="Validation\Model\Shared\ProgramExtension.cs" />
     <Compile Include="Validation\Model\Shared\ReprintForm.cs" />
@@ -655,9 +654,9 @@
     <Compile Include="Validation\Model\Shared\UpdatedDependent.cs" />
     <Compile Include="Validation\Model\Shared\EditDependent.cs" />
     <Compile Include="Validation\Model\Shared\UpdatedDependentValidator.cs" />
-    <Compile Include="Validation\SevisValidationResult.cs" />
     <Compile Include="Validation\Model\Shared\USAddress.cs" />
-    <Compile Include="Validation\ShortenProgram.cs" />
+    <Compile Include="Validation\Model\Shared\ShortenProgram.cs" />
+    <Compile Include="Validation\VerifyResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
