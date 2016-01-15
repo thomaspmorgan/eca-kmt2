@@ -212,7 +212,6 @@
                                     <div class="col-md-12">
                                         <div class="pull-left" style="padding:7px;">
                                             <div style="height:15px;width:15px;" ng-style="{backgroundColor: view.selectedCalendarItineraryStop.color}">
-
                                             </div>
                                         </div>
                                         <h5>
@@ -247,7 +246,6 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-
                                             {{view.selectedCalendarItineraryStop.destinationDepartureMomentAsString}}
                                             <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
@@ -281,14 +279,12 @@
                                                 <strong>{{group.name}}</strong>
                                                 <ul>
                                                     <li ng-repeat="participant in group.participants">
-                                                        <div style="margin-left:10px;">
-                                                            <div class="col-md-6">
-                                                                <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
-                                                            </div>
-                                                            <div class="col-md-6 text-right">
-                                                                <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
-                                                                <a>Itinerary</a>
-                                                            </div>
+                                                        <div class="col-md-6">
+                                                            <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
+                                                            <a>Itinerary</a>
                                                         </div>
                                                     </li>
                                                 </ul>
