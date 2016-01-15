@@ -165,7 +165,6 @@ angular.module('staticApp')
 
       function saveItineraryStop() {
           $scope.view.isSavingItineraryStop = true;
-          debugger;
           $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalTime);
           $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureTime);
 
