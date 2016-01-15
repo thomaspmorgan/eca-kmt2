@@ -58,6 +58,7 @@
 	otherConstants["removeNewEducationEventName"] = "removeNewEducation";
 	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
 	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
+	otherConstants["itineraryStopExpandedEventName"] = "itineraryStopExpanded";
 
 	otherConstants["ascending"] = SortDirection.Ascending.Value;
 	otherConstants["descending"] = SortDirection.Descending.Value;

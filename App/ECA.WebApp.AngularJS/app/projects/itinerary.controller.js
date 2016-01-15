@@ -49,6 +49,7 @@ angular.module('staticApp')
       $scope.view.travelStopParticipants = [];
       $scope.view.selectedTravelStopParticipant = null;
       $scope.view.isArrivalDateOpen = false;
+      $scope.view.areAllItineraryStopsExpanded = false;
       $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
 
@@ -136,6 +137,21 @@ angular.module('staticApp')
 
       $scope.view.onItineraryCollapseClick = function (itinerary) {
           $scope.view.isItineraryExpanded = false;
+      }
+
+      $scope.view.onExpandAllClick = function (itinerary) {
+          return $scope.view.onItineraryExpandClick(itinerary)
+          .then(function (itineraryStops) {
+              angular.forEach(itineraryStops, function (stop, index) {
+                  stop.isExpanded = true;
+              });
+              $scope.view.areAllItineraryStopsExpanded = true;
+          });
+      }
+
+      $scope.view.onCollapseAllClick = function (itinerary) {
+          $scope.view.isItineraryExpanded = false;
+          $scope.view.areAllItineraryStopsExpanded = false;
       }
 
       $scope.view.onAddItineraryStopClick = function (itinerary) {
@@ -268,10 +284,24 @@ angular.module('staticApp')
           return 'itinerary' + itinerary.id;
       }
 
+      $scope.$on(ConstantsService.itineraryStopExpandedEventName, function (event, itineraryStop) {
+          var allExpanded = true;
+          angular.forEach($scope.view.itineraryStops, function (stop, index) {
+              if (!stop.isExpanded) {
+                  allExpanded = false;
+              }
+          });
+          $scope.view.areAllItineraryStopsExpanded = allExpanded;
+      });
+
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
+              angular.forEach(response.data, function (stop, index) {
+                  stop.isExpanded = false;
+              });
+              
               $scope.view.travelStopParticipants = getAllParticipants(response.data);
               $scope.view.itineraryStops = response.data;
               $scope.view.isLoadingItineraryStops = false;

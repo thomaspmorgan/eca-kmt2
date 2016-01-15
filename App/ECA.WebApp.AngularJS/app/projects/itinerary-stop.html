@@ -57,14 +57,14 @@
                         <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteClick(view.itineraryStop)" ng-show="!view.isLoadingRequiredData">delete</i>
                     </div>
                     <div class="col-md-3">
-                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryStopClick(view.itineraryStop)" ng-show="!view.isItineraryStopExpanded">expand_more</i>
-                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryStopClick(view.itineraryStop)" ng-show="view.isItineraryStopExpanded">expand_less</i>
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onExpandItineraryStopClick(view.itineraryStop)" ng-show="!view.itineraryStop.isExpanded">expand_more</i>
+                        <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCollapseItineraryStopClick(view.itineraryStop)" ng-show="view.itineraryStop.isExpanded">expand_less</i>
                     </div>
                 </div>
             </div>
         </div>
         <div class="list2 itinerary-stop-container">
-            <div ng-show="view.isItineraryStopExpanded">
+            <div ng-show="view.itineraryStop.isExpanded">
                 <div class="row row2">
                     <h3>{{view.itineraryStop.name}}</h3>
                 </div>
@@ -83,7 +83,7 @@
                     {{view.itineraryStop.destinationLocation.name}}{{view.itineraryStop.destinationLocation.division ? ', ' + view.itineraryStop.destinationLocation.division : ''}}{{view.itineraryStop.destinationLocation.country ? ' ' + view.itineraryStop.destinationLocation.country : ''}}
                 </div>
             </div>
-            <div ng-show="view.isItineraryStopExpanded">
+            <div ng-show="view.itineraryStop.isExpanded">
                 <div class="row row2">
                     <div class="col-md-4 title-label">
                         Groups &amp; Participants
@@ -163,7 +163,7 @@
                     </div>
                     <div class="col-md-4">
                         <!--{{view.itineraryStop.travelFrom.name}}{{view.itineraryStop.travelFrom.division ? ', ' + view.itineraryStop.travelFrom.division : ''}}{{view.itineraryStop.travelFrom.country ? ' ' + view.itineraryStop.travelFrom.country : ''}}-->
-                        &nbsp;;
+                        &nbsp;
                     </div>
                     <div class="col-md-4 text-right">
                         <i class="material-icons md-dark md-18 rotate-quarter-turn-clockwise">flight</i>
@@ -171,10 +171,10 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center itinerary-stop-bottom-bar" style="margin-top:5px;cursor:pointer;" ng-click="view.onExpandItineraryStopClick(view.itineraryStop)" ng-show="!view.isItineraryStopExpanded">
+            <div class="text-center itinerary-stop-bottom-bar" style="margin-top:5px;cursor:pointer;" ng-click="view.onExpandItineraryStopClick(view.itineraryStop)" ng-show="!view.itineraryStop.isExpanded">
                 <i class="material-icons md-dark md-18">expand_more</i>
             </div>
-            <div class="text-center itinerary-stop-bottom-bar" style="margin-top:5px;cursor:pointer;" ng-click="view.onCollapseItineraryStopClick(view.itineraryStop)" ng-show="view.isItineraryStopExpanded">
+            <div class="text-center itinerary-stop-bottom-bar" style="margin-top:5px;cursor:pointer;" ng-click="view.onCollapseItineraryStopClick(view.itineraryStop)" ng-show="view.itineraryStop.isExpanded">
                 <i class="material-icons md-dark md-18">expand_less</i>
             </div>
         </div>

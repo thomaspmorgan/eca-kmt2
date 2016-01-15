@@ -26,7 +26,6 @@ angular.module('staticApp')
       $scope.view.isInEditMode = false;
       $scope.view.itineraryStop = $scope.itineraryStop;
       $scope.view.itinerary = $scope.itinerary;
-      $scope.view.isItineraryStopExpanded = false;
       $scope.view.isParticipantsExpanded = false;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
@@ -71,12 +70,14 @@ angular.module('staticApp')
       }
 
       $scope.view.onExpandItineraryStopClick = function (itineraryStop) {
-          $scope.view.isItineraryStopExpanded = true;
+          itineraryStop.isExpanded = true;
+          $scope.$emit(ConstantsService.itineraryStopExpandedEventName, itineraryStop);
           scrollToItineraryStop(itineraryStop);
       }
 
       $scope.view.onCollapseItineraryStopClick = function (itineraryStop) {
-          $scope.view.isItineraryStopExpanded = false;
+          itineraryStop.isExpanded = false;
+          $scope.$emit(ConstantsService.itineraryStopExpandedEventName, itineraryStop);
           scrollToItineraryStop(itineraryStop);
       }
 
