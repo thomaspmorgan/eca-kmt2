@@ -16,6 +16,7 @@ using ECA.Core.Exceptions;
 using ECA.Business.Validation;
 using ECA.Business.Service.Lookup;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 
 namespace ECA.Business.Service.Admin
 {
@@ -24,7 +25,6 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class OrganizationService : EcaService, IOrganizationService
     {
-        public const string GET_ORGANIZATIONS_SPROC_NAME = "GetOrganizations";
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, Organization> throwIfOrganizationByIdNull;
@@ -73,21 +73,22 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
-        /// Returns organization hierarchy
+        /// Returns organization hierarchy by role id
         /// </summary>
+        /// <param name="organizationRoleId">The organization role id</param>
         /// <param name="queryOperator">The query operator to apply</param>
         /// <returns>The organizations hierarchy</returns>
-        public async Task<PagedQueryResults<OrganizationHierarchyDTO>> GetOrganizationsHierarchyAsync(QueryableOperator<OrganizationHierarchyDTO> queryOperator)
+        public async Task<PagedQueryResults<OrganizationHierarchyDTO>> GetOrganizationsHierarchyByRoleIdAsync(int organizationRoleId, QueryableOperator<OrganizationHierarchyDTO> queryOperator)
         {
-            var results = await CreateGetOrganizationsSqlQuery().ToArrayAsync();
+            var results = await CreateGetOrganizationsByRoleIdSqlQuery(organizationRoleId).ToArrayAsync();
             var pagedResults = GetPagedQueryResults(results, queryOperator);
             this.logger.Trace("Retrieved offices with query operator [{0}].", queryOperator);
             return pagedResults;
         }
 
-        private DbRawSqlQuery<OrganizationHierarchyDTO> CreateGetOrganizationsSqlQuery()
+        private DbRawSqlQuery<OrganizationHierarchyDTO> CreateGetOrganizationsByRoleIdSqlQuery(int organizationRoleId)
         {
-            return this.Context.Database.SqlQuery<OrganizationHierarchyDTO>(GET_ORGANIZATIONS_SPROC_NAME);
+            return this.Context.Database.SqlQuery<OrganizationHierarchyDTO>("GetOrganizationsByRoleId @OrganizationRoleId", organizationRoleId);
         }
 
         private PagedQueryResults<T> GetPagedQueryResults<T>(IEnumerable<T> enumerable, QueryableOperator<T> queryOperator) where T : class

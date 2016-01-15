@@ -82,17 +82,18 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Returns the organizations hierarchy
+        /// Gets organization hierarchy by role id
         /// </summary>
-        /// <param name="queryModel">The query operator to apply</param>
-        /// <returns>The organizations in hierarchy</returns>
+        /// <param name="organizationRoleId">The organization role id to lookup</param>
+        /// <param name="queryModel">The query model to apply</param>
+        /// <returns>The organization hierarchy by role id</returns>
         [ResponseType(typeof(PagedQueryResults<OrganizationHierarchyDTO>))]
-        [Route("Organizations/Hierarchy")]
-        public async Task<IHttpActionResult> GetOrganizationsHierarchyAsync([FromUri]PagingQueryBindingModel<OrganizationHierarchyDTO> queryModel)
+        [Route("Organizations/HierarchyByRoleId")]
+        public async Task<IHttpActionResult> GetOrganizationsHierarchyByRoleIdAsync(int organizationRoleId, [FromUri]PagingQueryBindingModel<OrganizationHierarchyDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await organizationService.GetOrganizationsHierarchyAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await organizationService.GetOrganizationsHierarchyByRoleIdAsync(organizationRoleId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

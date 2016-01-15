@@ -42,9 +42,9 @@ namespace ECA.Business.Queries.Models.Admin
         public string Path { get; set; }
 
         /// <summary>
-        /// Gets or sets the office level.
+        /// Gets or sets the organization level.
         /// </summary>
-        public int OfficeLevel { get; set; }
+        public int OrganizationLevel { get; set; }
 
         /// <summary>
         /// Gets or sets whether this instance has children.
