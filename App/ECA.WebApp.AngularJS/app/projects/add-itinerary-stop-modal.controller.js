@@ -165,6 +165,7 @@ angular.module('staticApp')
 
       function saveItineraryStop() {
           $scope.view.isSavingItineraryStop = true;
+          debugger;
           $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalTime);
           $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureTime);
 
@@ -175,9 +176,23 @@ angular.module('staticApp')
           })
           .catch(function (response) {
               $scope.view.isSavingItineraryStop = false;
-              var message = 'Unable to save itinerary stop.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
+              if (response.status === 400) {
+                  if (response.data.message && response.data.modelState) {
+                      for (var key in response.data.modelState) {
+                          NotificationService.showErrorMessage(response.data.modelState[key][0]);
+                      }
+                  }
+                  else if (response.data.Message && response.data.ValidationErrors) {
+                      for (var key in response.data.ValidationErrors) {
+                          NotificationService.showErrorMessage(response.data.ValidationErrors[key]);
+                      }
+                  }
+              }
+              else {
+                  var message = 'Unable to save itinerary stop.';
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              }
           });
       }
   });
