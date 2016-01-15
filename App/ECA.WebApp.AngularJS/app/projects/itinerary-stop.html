@@ -241,7 +241,7 @@
                             <div class="col-md-6">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
-                                    <h5 class="title-label">Date of Arrival</h5>
+                                    <h5 class="title-label">Date and Time of Arrival</h5>
                                 </div>
                                 <div class="form-group" style="padding-top:9px;">
                                     <p class="input-group">
@@ -265,12 +265,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div>
-                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">access_time</i>
-                                    <h5 class="title-label">Time of Arrival</h5>
-                                </div>
                                 <div class="form-group">
-                                    <div class="timepicker" style="margin-top:-20px;">
+                                    <div class="timepicker" style="margin-top:8px;">
                                         <timepicker ng-model="view.arrivalTime"
                                                     ng-change="view.onArrivalTimeChange(view.itineraryStop)"
                                                     hour-step="1"
@@ -317,7 +313,7 @@
                             <div class="col-md-6">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
-                                    <h5 class="title-label">Date of Departure</h5>
+                                    <h5 class="title-label">Date and Time of Departure</h5>
                                 </div>
                                 <div class="form-group" style="padding-top:8px;"> 
                                     <p class="input-group">
@@ -341,12 +337,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div>
-                                    <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">access_time</i>
-                                    <h5 class="title-label">Time of Departure</h5>
-                                </div>
                                 <div class="form-group">
-                                    <div class="timepicker" style="margin-top:-20px;">
+                                    <div class="timepicker" style="margin-top:8px;">
                                         <timepicker ng-model="view.departureTime"
                                                     ng-change="view.onDepartureTimeChange(view.itineraryStop)"
                                                     hour-step="1"
