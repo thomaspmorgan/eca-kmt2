@@ -84,30 +84,14 @@ namespace ECA.Business.Test.Queries.Itineraries
                 Project = project,
                 StartDate = DateTimeOffset.Now.AddDays(-10.0),
             };
-            var group1 = new ItineraryGroup
-            {
-                ItineraryGroupId = 1,
-                Name = "1",
-                Itinerary = itinerary,
-                ItineraryId = itinerary.ItineraryId
-            };
-            var group2 = new ItineraryGroup
-            {
-                ItineraryGroupId = 2,
-                Name = "2",
-                Itinerary = itinerary,
-                ItineraryId = itinerary.ItineraryId
-            };
             var stop = new ItineraryStop
             {
                 Itinerary = itinerary,
                 ItineraryId = itinerary.ItineraryId,
             };
+            stop.Participants.Add(participant1);
+            stop.Participants.Add(participant2);
             stop.Participants.Add(participant3);
-            group1.Participants.Add(participant1);
-            group2.Participants.Add(participant2);
-            itinerary.ItineraryGroups.Add(group1);
-            itinerary.ItineraryGroups.Add(group2);
             itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
@@ -116,8 +100,6 @@ namespace ECA.Business.Test.Queries.Itineraries
             context.Locations.Add(departureDestination);
             context.Projects.Add(project);
             context.Itineraries.Add(itinerary);
-            context.ItineraryGroups.Add(group1);
-            context.ItineraryGroups.Add(group2);
             context.ItineraryStops.Add(stop);
             context.Participants.Add(participant1);
             context.Participants.Add(participant2);
@@ -136,7 +118,6 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(itinerary.Name, firstResult.Name);
             Assert.AreEqual(itinerary.StartDate, firstResult.StartDate);
             Assert.AreEqual(3, firstResult.ParticipantsCount);
-            Assert.AreEqual(2, firstResult.GroupsCount);
         }
 
         [TestMethod]
@@ -148,7 +129,6 @@ namespace ECA.Business.Test.Queries.Itineraries
                 ParticipantId = 1,
 
             };
-
             var cityLocationType = new LocationType
             {
                 LocationTypeId = LocationType.City.Id,
@@ -190,30 +170,14 @@ namespace ECA.Business.Test.Queries.Itineraries
                 Project = project,
                 StartDate = DateTimeOffset.Now.AddDays(-10.0),
             };
-            var group1 = new ItineraryGroup
-            {
-                ItineraryGroupId = 1,
-                Name = "1",
-                Itinerary = itinerary,
-                ItineraryId = itinerary.ItineraryId
-            };
-            var group2 = new ItineraryGroup
-            {
-                ItineraryGroupId = 2,
-                Name = "2",
-                Itinerary = itinerary,
-                ItineraryId = itinerary.ItineraryId
-            };
             var stop = new ItineraryStop
             {
                 Itinerary = itinerary,
                 ItineraryId = itinerary.ItineraryId,
             };
             stop.Participants.Add(participant1);
-            group1.Participants.Add(participant1);
-            group2.Participants.Add(participant1);
-            itinerary.ItineraryGroups.Add(group1);
-            itinerary.ItineraryGroups.Add(group2);
+            stop.Participants.Add(participant1);
+            stop.Participants.Add(participant1);
             itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
@@ -222,8 +186,6 @@ namespace ECA.Business.Test.Queries.Itineraries
             context.Locations.Add(departureDestination);
             context.Projects.Add(project);
             context.Itineraries.Add(itinerary);
-            context.ItineraryGroups.Add(group1);
-            context.ItineraryGroups.Add(group2);
             context.ItineraryStops.Add(stop);
             context.Participants.Add(participant1);
 
@@ -232,7 +194,6 @@ namespace ECA.Business.Test.Queries.Itineraries
 
             var firstResult = results.First();
             Assert.AreEqual(1, firstResult.ParticipantsCount);
-            Assert.AreEqual(2, firstResult.GroupsCount);
         }
 
         [TestMethod]

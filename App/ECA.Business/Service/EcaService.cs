@@ -30,7 +30,7 @@ namespace ECA.Business.Service
             Contract.Requires(context != null, "The context must not be null.");
         }
 
-        #region Contact Extistence Validation
+        #region Contact Existence Validation
 
         private IQueryable<Contact> CreateGetContactsByIdsQuery(IEnumerable<int> contactIds)
         {

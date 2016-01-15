@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Itineraries;
 using ECA.Business.Service;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Itineraries
 {
@@ -18,8 +20,9 @@ namespace ECA.Business.Test.Service.Itineraries
             var departureLocationId = 4;
             var name = "name";
             var projectId = 10;
+            var participantIds = new List<int> { 1, 1 };
 
-            var model = new AddedEcaItinerary(new User(userId), startDate, endDate, name, projectId, arrivalLocationId, departureLocationId);
+            var model = new AddedEcaItinerary(new User(userId), startDate, endDate, name, projectId, arrivalLocationId, departureLocationId, participantIds);
             Assert.AreEqual(projectId, model.ProjectId);
             Assert.IsInstanceOfType(model.Audit, typeof(Create));
             Assert.AreEqual(userId, model.Audit.User.Id);
@@ -29,6 +32,7 @@ namespace ECA.Business.Test.Service.Itineraries
             Assert.AreEqual(arrivalLocationId, model.ArrivalLocationId);
             Assert.AreEqual(departureLocationId, model.DepartureLocationId);
             Assert.AreEqual(projectId, model.ProjectId);
+            CollectionAssert.AreEqual(participantIds.Distinct().ToList(), model.ParticipantIds.ToList());
         }
     }
 }

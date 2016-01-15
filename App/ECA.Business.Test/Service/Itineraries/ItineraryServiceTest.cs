@@ -61,6 +61,17 @@ namespace ECA.Business.Test.Service.Itineraries
             {
                 ProjectId = 1
             };
+            var person = new Person
+            {
+                PersonId = 1,
+                FullName = "full name"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
             var itinerary = new Itinerary
             {
                 Arrival = arrival,
@@ -74,6 +85,14 @@ namespace ECA.Business.Test.Service.Itineraries
                 Project = project,
                 StartDate = DateTimeOffset.Now.AddDays(-10.0),
             };
+            var stop = new ItineraryStop
+            {
+                ItineraryStopId = 1,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+            itinerary.Stops.Add(stop);
+            stop.Participants.Add(participant);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
             context.LocationTypes.Add(countryLocationType);
@@ -94,8 +113,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(itinerary.ItineraryId, result.Id);
                 Assert.AreEqual(itinerary.Name, result.Name);
                 Assert.AreEqual(itinerary.StartDate, result.StartDate);
-                Assert.AreEqual(0, result.ParticipantsCount);
-                Assert.AreEqual(0, result.GroupsCount);
+                Assert.AreEqual(1, result.ParticipantsCount);
             };
 
             var serviceResults = service.GetItineraryById(project.ProjectId, itinerary.ItineraryId);
@@ -261,6 +279,17 @@ namespace ECA.Business.Test.Service.Itineraries
             {
                 ProjectId = 1
             };
+            var person = new Person
+            {
+                PersonId = 1,
+                FullName = "full name"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
             var itinerary = new Itinerary
             {
                 Arrival = arrival,
@@ -274,6 +303,15 @@ namespace ECA.Business.Test.Service.Itineraries
                 Project = project,
                 StartDate = DateTimeOffset.Now.AddDays(-10.0),
             };
+            var stop = new ItineraryStop
+            {
+                ItineraryStopId = 1,
+                Itinerary = itinerary,
+                ItineraryId = itinerary.ItineraryId
+            };
+
+            stop.Participants.Add(participant);
+            itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
             context.LocationTypes.Add(countryLocationType);
@@ -295,8 +333,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(itinerary.ItineraryId, firstResult.Id);
                 Assert.AreEqual(itinerary.Name, firstResult.Name);
                 Assert.AreEqual(itinerary.StartDate, firstResult.StartDate);
-                Assert.AreEqual(0, firstResult.ParticipantsCount);
-                Assert.AreEqual(0, firstResult.GroupsCount);
+                Assert.AreEqual(1, firstResult.ParticipantsCount);
             };
 
             var serviceResults = service.GetItinerariesByProjectId(project.ProjectId);
@@ -343,7 +380,7 @@ namespace ECA.Business.Test.Service.Itineraries
             {
                 Assert.AreEqual(1, context.Itineraries.Count());
                 var addedItinerary = context.Itineraries.First();
-                
+
                 Assert.AreEqual(creatorId, addedItinerary.History.CreatedBy);
                 Assert.AreEqual(creatorId, addedItinerary.History.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedItinerary.History.RevisedOn, 20000);
@@ -619,7 +656,7 @@ namespace ECA.Business.Test.Service.Itineraries
         public async Task TestUpdate_ItineraryDoesNotExist()
         {
             var itineraryId = 1;
-            var projectId = 5;        
+            var projectId = 5;
             Location arrivalLocation = new Location
             {
                 LocationId = 1
@@ -640,7 +677,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 projectId: projectId,
                 startDate: DateTimeOffset.Now.AddDays(-1.0)
                 );
-            
+
             var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(Itinerary).Name, itineraryId);
             Func<Task> f = () =>
             {
@@ -725,5 +762,90 @@ namespace ECA.Business.Test.Service.Itineraries
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
         #endregion
+
+        [TestMethod]
+        public void TestSetParticipants_IsDetached()
+        {
+            var contextMock = new Mock<TestEcaContext>();
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Participant>(It.IsAny<Participant>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Participant { ParticipantId = 1 };
+
+            var itinerary = new Itinerary();
+            itinerary.Participants.Add(original);
+
+            var newParticipant = new Participant { ParticipantId = 2 };
+            var newParticipantIds = new List<int> { newParticipant.ParticipantId };
+
+            var testService = new ItineraryService(contextMock.Object, validator.Object);
+            testService.SetParticipants(newParticipantIds, itinerary);
+            Assert.AreEqual(1, itinerary.Participants.Count);
+            Assert.AreEqual(newParticipant.ParticipantId, itinerary.Participants.First().ParticipantId);
+        }
+
+        [TestMethod]
+        public void TestSetParticipants_IsAdded()
+        {
+            var contextMock = new Mock<TestEcaContext>();
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Participant>(It.IsAny<Participant>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Participant { ParticipantId = 1 };
+
+            var itinerary = new Itinerary();
+            itinerary.Participants.Add(original);
+
+            var newParticipant = new Participant { ParticipantId = 2 };
+            var newParticipantIds = new List<int> { newParticipant.ParticipantId };
+            var testService = new ItineraryService(contextMock.Object, validator.Object);
+            testService.SetParticipants(newParticipantIds, itinerary);
+            Assert.AreEqual(1, itinerary.Participants.Count);
+            Assert.AreEqual(newParticipant.ParticipantId, itinerary.Participants.First().ParticipantId);
+        }
+
+        [TestMethod]
+        public void TestSetParticipants_Local()
+        {
+            var contextMock = new Mock<TestEcaContext>();
+            var original = new Participant { ParticipantId = 1 };
+
+            var stop = new Itinerary();
+            stop.Participants.Add(original);
+
+            var newParticipant = new Participant { ParticipantId = 2 };
+            var newParticipantIds = new List<int> { newParticipant.ParticipantId };
+            Action<Func<Participant, bool>> callbackTester = (f) =>
+            {
+                var testParticipants = new List<Participant> { newParticipant };
+
+                Assert.IsTrue(Object.ReferenceEquals(newParticipant, testParticipants.Where(f).First()));
+                testParticipants.Clear();
+                testParticipants.Add(new Participant
+                {
+                    ParticipantId = newParticipant.ParticipantId - 1
+                });
+                Assert.AreEqual(0, testParticipants.Where(f).Count());
+            };
+
+            contextMock.Setup(x => x.GetLocalEntity<Participant>(It.IsAny<Func<Participant, bool>>())).Callback(callbackTester)
+            .Returns(newParticipant);
+            var testService = new ItineraryService(contextMock.Object, validator.Object);
+            testService.SetParticipants(newParticipantIds, stop);
+            Assert.AreEqual(1, stop.Participants.Count);
+            Assert.AreEqual(newParticipant.ParticipantId, stop.Participants.First().ParticipantId);
+        }
     }
 }

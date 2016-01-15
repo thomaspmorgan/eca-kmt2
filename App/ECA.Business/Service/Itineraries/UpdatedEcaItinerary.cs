@@ -22,6 +22,7 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="name">The name of the itinerary.</param>
         /// <param name="arrivalLocationId">The location id of the itineraries arrival location.</param>
         /// <param name="departureLocationId">The location id of the itineraries departure location.</param>
+        /// <param name="participantIds">The participants by id that are participating in this project itinerary.</param>
         public UpdatedEcaItinerary(
             int id,
             User updator,
@@ -30,14 +31,16 @@ namespace ECA.Business.Service.Itineraries
             string name,
             int projectId,
             int arrivalLocationId,
-            int departureLocationId)
+            int departureLocationId,
+            IEnumerable<int> participantIds)
             : base(
                 startDate: startDate,
                 endDate: endDate,
                 arrivalLocationId: arrivalLocationId,
                 projectId: projectId,
                 departureLocationId: departureLocationId,
-                name: name)
+                name: name,
+                participantIds: participantIds)
         {
             this.Id = id;
             this.Audit = new Update(updator);

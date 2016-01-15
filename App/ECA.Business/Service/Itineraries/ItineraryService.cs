@@ -122,7 +122,10 @@ namespace ECA.Business.Service.Itineraries
             throwIfModelDoesNotExist(itinerary.ArrivalLocationId, arrivalLocation, typeof(Location));
 
             var departureLocation = Context.Locations.Find(itinerary.DepartureLocationId);
-            throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));            
+            throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
+
+            var participantIds = CreateGetParticipantsByIdsQuery(itinerary.ParticipantIds, itinerary.ProjectId).Select(x => x.ParticipantId).ToList();
+            var participantsByIdThatDoNotExist = GetIdsOfParticipantsThatDoNotExist(itinerary.ParticipantIds, participantIds);
 
             return DoCreate(
                 addedItinerary: itinerary, 
@@ -147,6 +150,9 @@ namespace ECA.Business.Service.Itineraries
             var departureLocation = await Context.Locations.FindAsync(itinerary.DepartureLocationId);
             throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
 
+            var participantIds = await CreateGetParticipantsByIdsQuery(itinerary.ParticipantIds, itinerary.ProjectId).Select(x => x.ParticipantId).ToListAsync();
+            var participantsByIdThatDoNotExist = GetIdsOfParticipantsThatDoNotExist(itinerary.ParticipantIds, participantIds);
+
             return DoCreate(
                 addedItinerary: itinerary,
                 project: project,
@@ -168,7 +174,7 @@ namespace ECA.Business.Service.Itineraries
                 );
         }
 
-        private Itinerary DoCreate(AddedEcaItinerary addedItinerary, Project project, Location arrivalLocation, Location departureLocation)
+        private Itinerary DoCreate(AddedEcaItinerary addedItinerary, Project project, Location arrivalLocation, Location departureLocation, IEnumerable<int> participantsByIdThatDoNotExist)
         {
             validator.ValidateCreate(GetAddedEcaItineraryValidationEntity(
                 addedItinerary: addedItinerary,
@@ -278,5 +284,60 @@ namespace ECA.Business.Service.Itineraries
         }
 
         #endregion
+
+        private IEnumerable<int> GetIdsOfParticipantsThatDoNotExist(IEnumerable<int> participantIds, IEnumerable<int> contextParticipantIds)
+        {
+            return contextParticipantIds.Except(participantIds);
+        }
+
+        /// <summary>
+        /// Creates a query to get participants from a collection of ids and the project.
+        /// </summary>
+        /// <param name="participantIds">The ids of the participants.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The participants.</returns>
+        private IQueryable<Participant> CreateGetParticipantsByIdsQuery(IEnumerable<int> participantIds, int projectId)
+        {
+            return Context.Participants.Where(x => participantIds.Distinct().Contains(x.ParticipantId) && x.ProjectId == projectId);
+        }
+
+        /// <summary>
+        /// Updates the participants on the given Itinerary to the participants with the given ids.  Ensure the participants
+        /// are already loaded via the context before calling this method.
+        /// </summary>
+        /// <param name="participantIds">The participants by id.</param>
+        /// <param name="itinerary">The itinerary to update.</param>
+        public void SetParticipants(List<int> participantIds, Itinerary itinerary)
+        {
+            Contract.Requires(participantIds != null, "The participant ids must not be null.");
+            Contract.Requires(itinerary != null, "The itinerary group must not be null.");
+            //this will be empty on create, update will have to load participants
+            var participantsToRemove = itinerary.Participants.Where(x => !participantIds.Contains(x.ParticipantId)).ToList();
+            var participantsToAdd = new List<Participant>();
+            participantIds.Where(x => !itinerary.Participants.Select(o => o.ParticipantId).ToList().Contains(x)).ToList()
+                .Select(x => new Participant { ParticipantId = x }).ToList()
+                .ForEach(x => participantsToAdd.Add(x));
+
+            participantsToAdd.ForEach(x =>
+            {
+                var localEntity = Context.GetLocalEntity<Participant>(y => y.ParticipantId == x.ParticipantId);
+                if (localEntity == null)
+                {
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Participants.Attach(x);
+                    }
+                    itinerary.Participants.Add(x);
+                }
+                else
+                {
+                    itinerary.Participants.Add(localEntity);
+                }
+            });
+            participantsToRemove.ForEach(x =>
+            {
+                itinerary.Participants.Remove(x);
+            });
+        }
     }
 }

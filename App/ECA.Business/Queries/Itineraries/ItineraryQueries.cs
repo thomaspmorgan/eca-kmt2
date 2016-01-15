@@ -28,21 +28,14 @@ namespace ECA.Business.Queries.Itineraries
                         let hasDeparture = itinerary.DepartureLocationId.HasValue
                         let departure = locationsQuery.Where(x => x.Id == itinerary.DepartureLocationId).FirstOrDefault()
 
-                        let groups = itinerary.ItineraryGroups
-                        let groupsCount = groups.Count()
-
-                        let groupParticipants = groups.SelectMany(x => x.Participants)
-                        let itineraryStopPartipants = itinerary.Stops.SelectMany(x => x.Participants)
-                        let distinctParticipants = groupParticipants.Union(itineraryStopPartipants).Distinct()
-
-                        let participantsCount = distinctParticipants.Count()
+                        let itineraryStopPartipants = itinerary.Stops.SelectMany(x => x.Participants).Distinct()
+                        let participantsCount = itineraryStopPartipants.Count()
 
                         select new ItineraryDTO
                         {
                             ArrivalLocation = hasArrival ? arrival : null,
                             DepartureLocation = hasDeparture ? departure : null,
                             EndDate = itinerary.EndDate,
-                            GroupsCount = groupsCount,
                             Id = itinerary.ItineraryId,
                             LastRevisedOn = itinerary.History.RevisedOn,
                             Name = itinerary.Name,

@@ -60,22 +60,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
+            
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -85,9 +70,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -99,8 +81,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -146,22 +127,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -171,9 +136,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+            
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -185,8 +148,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -232,22 +195,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -257,9 +204,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -271,8 +215,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -318,22 +261,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -343,9 +270,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -357,8 +281,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);

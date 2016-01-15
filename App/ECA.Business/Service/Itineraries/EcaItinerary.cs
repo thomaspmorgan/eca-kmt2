@@ -20,13 +20,15 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="projectId">The id of the project.</param>
         /// <param name="arrivalLocationId">The location id of the itineraries arrival location.</param>
         /// <param name="departureLocationId">The location id of the itineraries departure location.</param>
+        /// <param name="participantIds">The participants by id that are participating in this itinerary.</param>
         public EcaItinerary(
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             string name,
             int projectId,
             int arrivalLocationId,
-            int departureLocationId)
+            int departureLocationId,
+            IEnumerable<int> participantIds)
         {
             this.StartDate = startDate;
             this.EndDate = endDate;
@@ -34,6 +36,14 @@ namespace ECA.Business.Service.Itineraries
             this.ArrivalLocationId = arrivalLocationId;
             this.DepartureLocationId = departureLocationId;
             this.ProjectId = projectId;
+            if (participantIds == null)
+            {
+                this.ParticipantIds = new List<int>();
+            }
+            else
+            {
+                this.ParticipantIds = participantIds.Distinct();
+            }
         }
 
         /// <summary>
@@ -65,5 +75,10 @@ namespace ECA.Business.Service.Itineraries
         /// Gets the location id of the departure location.
         /// </summary>
         public int DepartureLocationId { get; private set; }
+
+        /// <summary>
+        /// Gets the participants by id that are in this itinerary.
+        /// </summary>
+        public IEnumerable<int> ParticipantIds { get; private set; }
     }
 }

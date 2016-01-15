@@ -25,8 +25,8 @@ namespace ECA.Data
         public Itinerary()
         {
             this.History = new History();
-            this.ItineraryGroups = new HashSet<ItineraryGroup>();
             this.Stops = new HashSet<ItineraryStop>();
+            this.Participants = new HashSet<Participant>();
         }
 
         /// <summary>
@@ -108,8 +108,8 @@ namespace ECA.Data
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the itinerary groups.
+        /// Gets or sets all participants that are on this itinerary.
         /// </summary>
-        public virtual ICollection<ItineraryGroup> ItineraryGroups { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
     }
 }
