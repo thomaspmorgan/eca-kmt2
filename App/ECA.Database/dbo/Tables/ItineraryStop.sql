@@ -13,6 +13,7 @@
     [Destination_LocationId] INT                NULL,
     [Origin_LocationId]      INT                NULL,
     [IVLP_ItineraryStopId]   NVARCHAR(32)       NULL,
+    [CE_ComponentId] NVARCHAR(32) NULL , 
     CONSTRAINT [PK_dbo.ItineraryStop] PRIMARY KEY CLUSTERED ([ItineraryStopId] ASC),
     CONSTRAINT [FK_dbo.ItineraryStop_dbo.Itinerary_ItineraryId] FOREIGN KEY ([ItineraryId]) REFERENCES [dbo].[Itinerary] ([ItineraryId]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.ItineraryStop_dbo.Location_Destination_LocationId] FOREIGN KEY ([Destination_LocationId]) REFERENCES [dbo].[Location] ([LocationId]),
