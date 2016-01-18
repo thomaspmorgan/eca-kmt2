@@ -31,5 +31,6 @@ angular
     'angular-appinsights',
     'angular.filter',
     'ui.utils.masks',
+    'ui.calendar',
     'templates'
   ]);

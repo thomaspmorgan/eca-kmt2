@@ -52,6 +52,7 @@ angular.module('staticApp')
           });
           addItineraryModal.result.then(function (addedItinerary) {
               $log.info('Finished adding itinerary.');
+              NotificationService.showSuccessMessage("Successfully added a new travel period.");
               loadItineraries(projectId);
 
           }, function () {

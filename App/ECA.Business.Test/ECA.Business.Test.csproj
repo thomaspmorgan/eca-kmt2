@@ -220,6 +220,7 @@
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
     <Compile Include="Queries\Itineraries\ItineraryQueriesTest.cs" />
     <Compile Include="Queries\Itineraries\ItineraryGroupQueriesTest.cs" />
+    <Compile Include="Queries\Itineraries\ItineraryStopQueriesTest.cs" />
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
@@ -262,6 +263,8 @@
     <Compile Include="Service\Fundings\EditedMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeServiceTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
+    <Compile Include="Service\Itineraries\UpdatedEcaItineraryStopTest.cs" />
+    <Compile Include="Service\Itineraries\AddedEcaItineraryStopTest.cs" />
     <Compile Include="Service\Itineraries\ItineraryServiceTest.cs" />
     <Compile Include="Service\Itineraries\AddedEcaitineraryTest.cs" />
     <Compile Include="Service\Itineraries\EcaItineraryTest.cs" />
@@ -270,6 +273,10 @@
     <Compile Include="Service\Itineraries\EcaItineraryGroupTest.cs" />
     <Compile Include="Service\Itineraries\AddedEcaItineraryGroupTest.cs" />
     <Compile Include="Service\Itineraries\EcaItineraryGroupValidatorTest.cs" />
+    <Compile Include="Service\Itineraries\ItineraryStopServiceTest.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryStopValidationEntityTest.cs" />
+    <Compile Include="Service\Itineraries\ItineraryStopValidatorTest.cs" />
+    <Compile Include="Service\Itineraries\EcaItineraryStopTest.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />

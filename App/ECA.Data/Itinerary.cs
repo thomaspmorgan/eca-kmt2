@@ -26,6 +26,7 @@ namespace ECA.Data
         {
             this.History = new History();
             this.ItineraryGroups = new HashSet<ItineraryGroup>();
+            this.Stops = new HashSet<ItineraryStop>();
         }
 
         /// <summary>

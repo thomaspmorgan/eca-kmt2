@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        $timeout,
         MessageBox,
         StateService,
         OrganizationService,
@@ -50,8 +51,8 @@ angular.module('staticApp')
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
       $scope.view.tabInfo = false;
+      $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
-      $scope.view.tabExchangeVistor = false;
       $scope.view.sevisCommStatuses = null;
 
       $scope.sevisInfo = {};
@@ -68,6 +69,36 @@ angular.module('staticApp')
       $scope.permissions.editProject = false;
       var projectId = $stateParams.projectId;
 
+      // SEVIS validation: expand participant and set active tab where error is located.
+      $scope.$on('$viewContentLoaded', function () {
+
+          var participantid = parseInt($stateParams.pid);
+          var tabnbr = $stateParams.tab;
+
+          if (!isNaN(participantid))
+          {
+              $timeout(function () {
+                  $scope.toggleParticipantInfo(participantid);
+              }, 500);
+
+              $timeout(function () {
+                  if (tabnbr.length) {
+                      switch (tabnbr) {
+                          case "info":                          
+                              $scope.onInfoTabSelected(participantid);
+                              break;
+                          case "sevis":
+                              $scope.onSevisTabSelected(participantid);
+                              break;
+                          case "ev":
+                              $scope.onExchangeVisitorTabSelected(participantid);
+                              break;
+                      }
+                  }
+              }, 1000);
+          }
+      });
+      
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({
               title: 'Confirm',
@@ -370,6 +401,8 @@ angular.module('staticApp')
 
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
+          $scope.view.tabSevis = false;
+          $scope.view.tabExchangeVisitor = false;
       }
 
       function saveSevisInfoById(participantId) {
@@ -408,11 +441,15 @@ angular.module('staticApp')
       
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
+          $scope.view.tabInfo = false;
+          $scope.view.tabExchangeVisitor = false;
           loadSevisInfo(participantId);
       };
 
       $scope.onExchangeVisitorTabSelected = function (participantId) {
           $scope.view.tabExchangeVisitor = true;
+          $scope.view.tabSevis = false;
+          $scope.view.tabInfo = false;
           loadExchangeVisitorInfo(participantId)
       }
 
@@ -421,8 +458,8 @@ angular.module('staticApp')
           $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
           $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
           if ($scope.participantInfo[participantId].show) {
-                  $scope.view.tabInfo = true;
-              }
+                $scope.view.tabInfo = true;
+          }
       };
 
       $scope.openAddNewParticipant = function () {

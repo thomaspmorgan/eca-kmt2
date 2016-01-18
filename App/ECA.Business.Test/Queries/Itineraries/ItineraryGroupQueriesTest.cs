@@ -261,7 +261,6 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(person1.PersonId, firstPerson.PersonId);
             Assert.AreEqual(person1.FullName, firstPerson.FullName);
             Assert.AreEqual(participant.ParticipantId, firstPerson.ParticipantId);
-            Assert.AreEqual(participantType.ParticipantTypeId, firstPerson.ParticipantTypeId);
         }
 
         [TestMethod]
@@ -352,13 +351,11 @@ namespace ECA.Business.Test.Queries.Itineraries
             Assert.AreEqual(person1.PersonId, firstPerson.PersonId);
             Assert.AreEqual(person1.FullName, firstPerson.FullName);
             Assert.AreEqual(participant1.ParticipantId, firstPerson.ParticipantId);
-            Assert.AreEqual(participantType.ParticipantTypeId, firstPerson.ParticipantTypeId);
 
             var lastPerson = firstResult.People.Last();
             Assert.AreEqual(person2.PersonId, lastPerson.PersonId);
             Assert.AreEqual(person2.FullName, lastPerson.FullName);
             Assert.AreEqual(participant2.ParticipantId, lastPerson.ParticipantId);
-            Assert.AreEqual(participantType.ParticipantTypeId, lastPerson.ParticipantTypeId);
         }
 
         [TestMethod]

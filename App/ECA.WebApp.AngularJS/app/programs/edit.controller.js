@@ -14,6 +14,7 @@ angular.module('staticApp')
         $state,
         $log,
         $q,
+        $filter,
         MessageBox,
         LocationService,
         FilterService,
@@ -65,6 +66,8 @@ angular.module('staticApp')
       $scope.view.selectedObjectives = [];
       $scope.view.selectedPointsOfContact = [];
       $scope.view.originalProgram = null;
+
+      $scope.view.dataPointConfigurations = {};
 
       var programsWithSameNameFilter = FilterService.add('programedit_programswithsamename');
       $scope.view.validateUniqueProgramName = function ($value) {
@@ -141,44 +144,6 @@ angular.module('staticApp')
       }
 
       $scope.view.validateMinimumThemes = function ($value) {
-          if (!$value) {
-              return false;
-          }
-          else {
-              return $value.length > 0;
-          }
-      }
-
-      $scope.view.validateMinimumCategories = function ($value) {
-          if (!$scope.view.isCategoryRequired) {
-              return true;
-          }
-          if (!$value) {
-              return false;
-          }
-          if ($value.length < $scope.view.minimumRequiredFoci) {
-              return false;
-          }
-          return true;
-      }
-
-      $scope.view.validateMaximumCategories = function ($value) {
-          if (!$scope.view.isCategoryRequired) {
-              return true;
-          }
-          if (!$value) {
-              return true;
-          }
-          if ($value.length > $scope.view.maximumRequiredFoci) {
-              return false;
-          }
-          return true;
-      }
-
-      $scope.view.validateMinimumObjectives = function ($value) {
-          if (!$scope.view.isObjectivesRequired) {
-              return true;
-          }
           if (!$value) {
               return false;
           }
@@ -608,6 +573,11 @@ angular.module('staticApp')
           $scope.view.isLoadingProgram = false;
       });
 
-
-
+      $scope.data.loadDataPointConfigurationsPromise.promise
+      .then(function (dataConfigurations) {
+          var array = $filter('filter')(dataConfigurations, { categoryId: ConstantsService.dataPointCategory.program.id });
+          for (var i = 0; i < array.length; i++) {
+              $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
+          }
+      });
   });

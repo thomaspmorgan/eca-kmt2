@@ -3,8 +3,10 @@ using ECA.Core.Query;
 using System.Threading.Tasks;
 using ECA.Core.DynamicLinq;
 using System.Linq;
-using ECA.Data;
 using ECA.Core.Service;
+using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
+using System.Collections.Generic;
 
 namespace ECA.Business.Service.Persons
 {
@@ -57,6 +59,59 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participantPersonSevis</returns>
         Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId);
 
+        /// <summary>
+        /// Retrieve SEVIS batch XML
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        string GetSevisBatchCreateUpdateXML(int programId, User user);
+
+        /// <summary>
+        /// Retrieve a SEVIS batch to create/update exchange visitors
+        /// </summary>
+        /// <param name="createEVs"></param>
+        /// <param name="updateEVs"></param>
+        /// <param name="programId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        SEVISBatchCreateUpdateEV CreateGetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, int programId, User user);
+
+        /// <summary>
+        /// Retrieve participants with no sevis that are ready to submit
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Sevis exchange visitor create objects (250 max)</returns>
+        List<CreateExchVisitor> GetSevisCreateEVs(User user);
+
+        /// <summary>
+        /// Retrieve participants with sevis information that are ready to submit
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Sevis exchange visitor update objects (250 max)</returns>
+        List<UpdateExchVisitor> GetSevisUpdateEVs(User user);
+        
+        /// <summary>
+        /// Get populated create participant sevis object for validation
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <returns>Create exchange visitor object</returns>
+        CreateExchVisitor GetCreateExchangeVisitor(int participantId, User user);
+
+        /// <summary>
+        /// Get populated update participant sevis object for validation
+        /// </summary>
+        /// <param name="participantId"></param>
+        /// <returns>Update exchange visitor object</returns>
+        UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user);
+
+        /// <summary>
+        /// Retrieve XML format of SEVIS batch object
+        /// </summary>
+        /// <param name="validationEntity">Participant object to be validated</param>
+        /// <returns>Participant object in XML format</returns>
+        string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity);
+
         /// Sevis Comm Status
 
         /// <summary>
@@ -87,7 +142,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participantPersonSevisCommStatuses</returns>
         Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
 
-
+        /// <summary>
+        /// Returns a participantPersonSevisCommStatus
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participantPersonSevisCommStatuses</returns>
         IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds);
 
         /// <summary>
@@ -109,8 +168,13 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantIds">The participant ids to update communcation status</param>
         /// <returns>List of participant ids that were updated</returns>
         Task<int[]> SendToSevis(int[] participantIds);
-
-
-        void UpdateParticipantPersonSevisCommStatus(int participantId, int count);
+        
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="errorCount">Validation error count</param>
+        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
+        void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid);
     }
 }

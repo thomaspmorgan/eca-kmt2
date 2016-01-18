@@ -192,8 +192,12 @@
     <Content Include="app\filters\boolYesNo.filter.js" />
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\projects\add-itinerary-stop-modal.controller.js" />
+    <Content Include="app\projects\add-itinerary-stop-modal.html" />
     <Content Include="app\projects\add-itinerary-modal.controller.js" />
     <Content Include="app\projects\add-itinerary-modal.html" />
+    <Content Include="app\projects\itinerary-stop.controller.js" />
+    <Content Include="app\projects\itinerary-stop.html" />
     <Content Include="app\projects\itinerary.html" />
     <Content Include="app\offices\offices.routes.js" />
     <Content Include="app\organizations\organizations.routes.js" />
@@ -220,6 +224,7 @@
     </Content>
     <Content Include="app\services\data-point-configuration.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
+    <Content Include="app\services\datetime.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />

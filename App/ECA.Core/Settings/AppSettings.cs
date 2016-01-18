@@ -61,6 +61,30 @@ namespace ECA.Core.Settings
         public const string SEARCH_INDEX_QUEUE_NAME_KEY = SEARCH_PREFIX + "IndexQueueName";
         #endregion
 
+        #region Sevis Constants
+
+        /// <summary>
+        /// The sevis configuration prefix.
+        /// </summary>
+        public const string SEVIS_PREFIX = "sevis.";
+
+        /// <summary>
+        /// The azure sevis api key.
+        /// </summary>
+        public const string SEVIS_API_KEY = SEVIS_PREFIX + "ApiKey";
+
+        /// <summary>
+        /// The azure sevis post service name key (post to SEVIS).
+        /// </summary>
+        public const string SEVIS_POST_SERVICE_NAME_KEY = SEVIS_PREFIX + "PostServiceName";
+
+        /// <summary>
+        /// The azure sevis get service name key (get results from SEVIS).
+        /// </summary>
+        public const string SEVIS_GET_SERVICE_NAME_KEY = SEVIS_PREFIX + "GetServiceName";
+        
+        #endregion
+
         #region Database Constants
         /// <summary>
         /// The db configuration prefix.
@@ -143,7 +167,9 @@ namespace ECA.Core.Settings
             }
             return connectionString;
         }
+
         #region App Settings
+
         /// <summary>
         /// Gets the name of the azure queue that will hold messages detailing updated entities that should be indexed for searching.
         /// </summary>
@@ -170,6 +196,21 @@ namespace ECA.Core.Settings
         public string SearchIndexName { get { return GetAppSetting(SEARCH_INDEX_NAME_KEY); } }
 
         /// <summary>
+        /// Gets the azure SEVIS api key.
+        /// </summary>
+        public string SevisApiKey { get { return GetAppSetting(SEVIS_API_KEY); } }
+
+        /// <summary>
+        /// Gets the azure SEVIS POST service name.
+        /// </summary>
+        public string SevisPostServiceName { get { return GetAppSetting(SEVIS_POST_SERVICE_NAME_KEY); } }
+
+        /// <summary>
+        /// Gets the azure SEVIS GET service name.
+        /// </summary>
+        public string SevisGetServiceName { get { return GetAppSetting(SEVIS_GET_SERVICE_NAME_KEY); } }
+        
+        /// <summary>
         /// Gets the active directory client id.
         /// </summary>
         public string AdClientId { get { return GetAppSetting(AD_CLIENT_ID); } }
@@ -178,6 +219,7 @@ namespace ECA.Core.Settings
         /// Gets the active directory tenant id.
         /// </summary>
         public string AdTenantId { get { return GetAppSetting(AD_TENANT_ID); } }
+
         #endregion
 
         #region Connection Strings

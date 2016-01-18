@@ -33,7 +33,7 @@ namespace ECA.WebApi.Models.Itineraries
         /// <param name="projectId">The project by id.</param>
         /// <param name="itineraryId">The itinerary by id that is having a new group added.</param>
         /// <returns>The business layer model instance.</returns>
-        public AddedEcaItineraryGroup ToAddedEcaItinerary(User creator, int projectId, int itineraryId)
+        public AddedEcaItineraryGroup ToAddedEcaItineraryGroup(User creator, int projectId, int itineraryId)
         {
             return new AddedEcaItineraryGroup(creator, projectId, itineraryId, this.Name, this.ParticipantIds);
         }

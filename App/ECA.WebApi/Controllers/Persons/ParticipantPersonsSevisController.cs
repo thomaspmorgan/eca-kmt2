@@ -127,12 +127,12 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-        
+
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participant's SEVIS comm statuses.
         /// </summary>
+        /// <param name="participantId">The id of the participant.</param>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <param name="participantId">The id of the project to get participants for.</param>
         /// <returns>The list of participantPerson Sevis Comm Statuses.</returns>
         [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisCommStatusDTO>))]
         [Route("ParticipantPersonsSevis/{participantId:int}/SevisCommStatuses")]
@@ -170,15 +170,43 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Manually validate a participant sevis record.
+        /// Retrieves participant sevis CREATE record validation results.
         /// </summary>
-        /// <param name="participantId"></param>
-        /// <returns>validation result</returns>
-        [Route("ParticipantPersonsSevis/ValidateSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetValidateSevisAsync(int participantId)
+        /// <param name="participantId">Participant ID</param>
+        /// <returns>Validation results</returns>
+        [Route("ParticipantPersonsSevis/ValidateCreateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateCreateSevisAsync(int participantId)
         {
-            var status = await validationService.PreSevisValidationAsync(participantId);
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var status = await validationService.PreCreateSevisValidationAsync(participantId, businessUser);
             return Ok(status);
+        }
+
+        /// <summary>
+        /// Retrieves participant sevis UPDATE record validation results.
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <returns>Validation results</returns>
+        [Route("ParticipantPersonsSevis/ValidateUpdateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateUpdateSevisAsync(int participantId)
+        {
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var status = await validationService.PreUpdateSevisValidationAsync(participantId, businessUser);
+            return Ok(status);
+        }
+
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="errors">Validation error count</param>
+        /// <param name="isvalid">Indicates if SEVIS object passed validation</param>
+        [Route("ParticipantPersonsSevis/UpdateSevisCommStatus/{participantId:int}/{errors:int}/{isvalid:bool}")]
+        public void UpdateParticipantSevisCommStatus(int participantId, int errors, bool isvalid)
+        {
+            participantService.UpdateParticipantPersonSevisCommStatus(participantId, errors, isvalid);
         }
 
     }

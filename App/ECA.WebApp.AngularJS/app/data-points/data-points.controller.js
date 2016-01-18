@@ -68,19 +68,60 @@ angular.module('staticApp')
           DataPointConfigurationService.getDataPointConfigurations(params)
             .then(function (response) {
                 $scope.dataConfigurations = response.data;
+                loadOfficeSettings();
             }, function () {
                 NotificationService.showErrorMessage('Unable to load data point configurations for id = ' + parameters.foreignResourceId + ".");
             });
       }
 
       function reloadCurrentState(dataConfiguration) {
-          if ($state.current.name === "offices.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.office.id) {
+          if (($state.current.name === "offices.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.office.id) ||
+              ($state.current.name === "programs.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.program.id) || 
+              ($state.current.name === "programs.edit" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.program.id)) {
               $state.go($state.current, { }, { reload: true });
           }
       }
 
       function setResourceTypeId() {
           $scope.resourceTypeId = parameters.resourceType.id;
+      }
+      
+      function loadOfficeSettings() {
+          if (parameters.resourceType.id === ConstantsService.resourceType.office.id) {
+              OfficeService.getSettings(parameters.foreignResourceId)
+             .then(function (response) {
+                 updateWithOfficeSettings(response.data);
+             });
+          } else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
+              ProgramService.get(parameters.foreignResourceId)
+             .then(function (response) {
+                 OfficeService.getSettings(response.ownerOrganizationId)
+                 .then(function (response) {
+                     updateWithOfficeSettings(response.data);
+                 });
+             });
+          }
+      }
+
+      function updateWithOfficeSettings(officeSettings) {
+          for (var i = 0; i < $scope.dataConfigurations.length; i++) {
+              if ($scope.dataConfigurations[i].propertyId === ConstantsService.dataPointProperty.categories.id) {
+                  if (officeSettings.isCategoryRequired) {
+                      $scope.dataConfigurations[i].propertyName = officeSettings.categoryLabel + ' / ' + officeSettings.focusLabel;
+                  } else {
+                      $scope.dataConfigurations.splice(i, 1);
+                      i--;
+                  }
+              }
+              if ($scope.dataConfigurations[i].propertyId === ConstantsService.dataPointProperty.objectives.id) {
+                  if (officeSettings.isObjectiveRequired) {
+                      $scope.dataConfigurations[i].propertyName = officeSettings.objectiveLabel + ' / ' + officeSettings.justificationLabel;
+                  } else {
+                      $scope.dataConfigurations.splice(i, 1);
+                      i--;
+                  }
+              }
+          }
       }
 
       $q.all(setResourceTypeId(), getResourceName(), getDataPointConfigurations());

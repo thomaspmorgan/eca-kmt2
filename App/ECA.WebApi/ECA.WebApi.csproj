@@ -153,6 +153,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation.WebApi, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.WebApi.5.6.2.0\lib\Net45\FluentValidation.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Hyak.Common.1.0.3\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
@@ -525,6 +533,7 @@
     <Compile Include="Controllers\Admin\SnapshotController.cs" />
     <Compile Include="Controllers\Itineraries\ItinerariesController.cs" />
     <Compile Include="Controllers\Itineraries\ItineraryGroupsController.cs" />
+    <Compile Include="Controllers\Itineraries\ItineraryStopsController.cs" />
     <Compile Include="Controllers\Persons\EduEmpController.cs" />
     <Compile Include="Controllers\Persons\EvaluationNoteController.cs" />
     <Compile Include="Controllers\Persons\LanguageProficiencyController.cs" />
@@ -543,6 +552,8 @@
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
+    <Compile Include="Models\Itineraries\UpdatedEcaItineraryStopBindingModel.cs" />
+    <Compile Include="Models\Itineraries\AddedEcaItineraryStopBindingModel.cs" />
     <Compile Include="Models\Itineraries\AddedItineraryBindingModel.cs" />
     <Compile Include="Models\Itineraries\AddedItineraryGroupBindingModel.cs" />
     <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
