@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.SEVIS;
 using FluentValidation;
 
 namespace ECA.Business.Validation.Model.CreateEV
@@ -17,7 +18,7 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.FullName).NotNull().WithMessage("EV Biographical Info: Full Name is required").SetValidator(new FullNameValidator()).When(visitor => visitor.FullName != null);
             RuleFor(visitor => visitor.BirthDate).NotNull().WithMessage("EV Biographical Info: Date of Birth is required");
             RuleFor(visitor => visitor.Gender).NotNull().WithMessage("EV Biographical Info: Gender is required").Length(GENDER_CODE_LENGTH).WithMessage("EV Biographical Info: Gender must be " + GENDER_CODE_LENGTH.ToString() + " character");
-            RuleFor(visitor => visitor.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("EV Biographical Info: City of Birth is required and can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("EV Biographical Info: City of Birth is required and can be up to " + CITY_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), Section = ElementCategorySection.Pii.ToString() });
             RuleFor(visitor => visitor.BirthCountryCode).Length(COUNTRY_CODE_LENGTH).WithMessage("EV Biographical Info: Country of Birth is required and must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
             RuleFor(visitor => visitor.CitizenshipCountryCode).Length(COUNTRY_CODE_LENGTH).WithMessage("EV Biographical Info: Country of Citizenship is required and must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");
             RuleFor(visitor => visitor.PermanentResidenceCountryCode).Length(COUNTRY_CODE_LENGTH).WithMessage("EV Biographical Info: Permanent Residence Country is required and must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");

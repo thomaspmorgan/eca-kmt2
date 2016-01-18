@@ -72,7 +72,7 @@ angular.module('staticApp')
       // SEVIS validation: expand participant and set active tab where error is located.
       $scope.$on('$viewContentLoaded', function () {
 
-          var participantid = parseInt($stateParams.pid);
+          var participantid = parseInt($stateParams.section);
           var tabnbr = $stateParams.tab;
 
           if (!isNaN(participantid))
@@ -82,7 +82,7 @@ angular.module('staticApp')
               }, 500);
 
               $timeout(function () {
-                  if (tabnbr.length) {
+                  if (tabnbr) {
                       switch (tabnbr) {
                           case "info":                          
                               $scope.onInfoTabSelected(participantid);

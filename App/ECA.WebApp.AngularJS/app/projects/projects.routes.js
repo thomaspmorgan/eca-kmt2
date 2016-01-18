@@ -22,7 +22,7 @@ angular.module('staticApp')
         requireADLogin: true
     })
     .state('projects.participants', {
-        url: '/participant?pid&tab',
+        url: '/participant?section&tab',
         templateUrl: 'app/projects/participant.html',
         controller: 'ProjectParticipantCtrl',
         requireADLogin: true
