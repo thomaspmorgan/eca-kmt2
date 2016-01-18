@@ -1036,4 +1036,53 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SEVISCountryCodeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1d0dbad9-1aac-4cd1-85a2-6e2dddc1b55e" ChangeDateTime="01/06/2016 14:57:20">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BatchId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b0c5f7ba-905f-4581-bd3b-84affe94523c" ChangeDateTime="01/06/2016 15:01:48">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[RetreiveDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetrieveDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="84102131-5ab1-4099-8c82-f96fc743062a" ChangeDateTime="01/06/2016 15:11:02">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[ErrorCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UploadErrorCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4f0e65ed-4c55-47af-bdb4-0487c7b7f0c8" ChangeDateTime="01/06/2016 15:23:44">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[UploadErrorCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UploadCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f6f00df9-fd61-44d1-af20-db5b6fd4a05a" ChangeDateTime="01/06/2016 15:24:03">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[UploadCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UploadDispositionCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="54cb4fcf-d123-4f92-9ca8-978657916280" ChangeDateTime="01/06/2016 15:24:10">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[ProcessErrorCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProcessDispositionCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4960bb47-14c5-42d1-aac8-06688971e8f7" ChangeDateTime="01/06/2016 15:24:25">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[DownloadErrorCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DownloadDispositionCode" />
+  </Operation>
 </Operations>
