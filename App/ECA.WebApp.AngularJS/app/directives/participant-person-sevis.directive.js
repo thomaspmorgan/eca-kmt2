@@ -99,7 +99,7 @@
                     var path = "";
                     if (val)
                     {
-                        path = $location.path() + "?section=" + val.section + "?tab=" + val.tab;
+                        path = $location.path('/' + val.category) + "?section=" + val.section + "?tab=" + val.tab;
                     }                    
                     return path;
                 };

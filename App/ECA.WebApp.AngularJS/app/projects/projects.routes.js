@@ -21,12 +21,6 @@ angular.module('staticApp')
         controller: 'ProjectEditCtrl',
         requireADLogin: true
     })
-    .state('projects.participants', {
-        url: '/participant?section&tab',
-        templateUrl: 'app/projects/participant.html',
-        controller: 'ProjectParticipantCtrl',
-        requireADLogin: true
-    })
     .state('projects.artifacts', {
         url: '/artifact',
         templateUrl: 'app/projects/artifact.html',
