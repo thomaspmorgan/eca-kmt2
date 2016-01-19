@@ -252,6 +252,9 @@
     <Compile Include="Service\Itineraries\EcaItineraryValidationEntity.cs" />
     <Compile Include="Service\Itineraries\IItineraryService.cs" />
     <Compile Include="Service\Itineraries\IItineraryStopService.cs" />
+    <Compile Include="Service\Itineraries\ItineraryParticipants.cs" />
+    <Compile Include="Service\Itineraries\ItineraryParticipantsValidationEntity.cs" />
+    <Compile Include="Service\Itineraries\ItineraryParticipantsValidator.cs" />
     <Compile Include="Service\Itineraries\ItineraryService.cs" />
     <Compile Include="Service\Itineraries\EcaItinerary.cs" />
     <Compile Include="Service\Itineraries\ItineraryServiceValidator.cs" />

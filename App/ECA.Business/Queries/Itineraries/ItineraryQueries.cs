@@ -28,8 +28,8 @@ namespace ECA.Business.Queries.Itineraries
                         let hasDeparture = itinerary.DepartureLocationId.HasValue
                         let departure = locationsQuery.Where(x => x.Id == itinerary.DepartureLocationId).FirstOrDefault()
 
-                        let itineraryStopPartipants = itinerary.Stops.SelectMany(x => x.Participants).Distinct()
-                        let participantsCount = itineraryStopPartipants.Count()
+                        let participants = itinerary.Participants
+                        let participantsCount = participants.Count()
 
                         select new ItineraryDTO
                         {

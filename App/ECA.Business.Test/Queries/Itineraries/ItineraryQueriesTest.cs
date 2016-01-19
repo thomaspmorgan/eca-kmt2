@@ -92,6 +92,9 @@ namespace ECA.Business.Test.Queries.Itineraries
             stop.Participants.Add(participant1);
             stop.Participants.Add(participant2);
             stop.Participants.Add(participant3);
+            itinerary.Participants.Add(participant1);
+            itinerary.Participants.Add(participant2);
+            itinerary.Participants.Add(participant3);
             itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
@@ -178,6 +181,9 @@ namespace ECA.Business.Test.Queries.Itineraries
             stop.Participants.Add(participant1);
             stop.Participants.Add(participant1);
             stop.Participants.Add(participant1);
+            itinerary.Participants.Add(participant1);
+            itinerary.Participants.Add(participant1);
+            itinerary.Participants.Add(participant1);
             itinerary.Stops.Add(stop);
             itinerary.History.RevisedOn = DateTimeOffset.Now.AddDays(-2.0);
             context.LocationTypes.Add(cityLocationType);
