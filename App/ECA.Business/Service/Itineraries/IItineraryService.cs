@@ -4,6 +4,7 @@ using ECA.Data;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System;
 
 namespace ECA.Business.Service.Itineraries
 {
@@ -68,6 +69,19 @@ namespace ECA.Business.Service.Itineraries
         /// </summary>
         /// <param name="itinerary">The updated itinerary.</param>
         Task UpdateAsync(UpdatedEcaItinerary itinerary);
+
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        void SetParticipants(ItineraryParticipants itineraryParticipants);
+
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        /// <returns>The task.</returns>
+        Task SetParticipantsAsync(ItineraryParticipants itineraryParticipants);
     }
 
     /// <summary>
@@ -156,6 +170,26 @@ namespace ECA.Business.Service.Itineraries
         public Task<int> SaveChangesAsync()
         {
             return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itineraryParticipants"></param>
+        public void SetParticipants(ItineraryParticipants itineraryParticipants)
+        {
+            Contract.Requires(itineraryParticipants != null, "The itinerary participants must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itineraryParticipants"></param>
+        /// <returns></returns>
+        public Task SetParticipantsAsync(ItineraryParticipants itineraryParticipants)
+        {
+            Contract.Requires(itineraryParticipants != null, "The itinerary participants must not be null.");
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>

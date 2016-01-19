@@ -300,6 +300,10 @@ namespace ECA.Business.Service.Itineraries
 
         #region Set Participants
 
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
         public void SetParticipants(ItineraryParticipants itineraryParticipants)
         {
             var itineraryToUpdate = Context.Itineraries.Find(itineraryParticipants.ItineraryId);
@@ -322,6 +326,11 @@ namespace ECA.Business.Service.Itineraries
                 );
         }
 
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        /// <returns>The task.</returns>
         public async Task SetParticipantsAsync(ItineraryParticipants itineraryParticipants)
         {
             var itineraryToUpdate = await Context.Itineraries.FindAsync(itineraryParticipants.ItineraryId);
