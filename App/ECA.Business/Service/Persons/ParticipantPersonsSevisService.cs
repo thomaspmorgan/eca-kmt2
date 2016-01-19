@@ -838,7 +838,33 @@ namespace ECA.Business.Service.Persons
 
             return updateVisitor;
         }
-        
+
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="errorCount">Validation error count</param>
+        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
+        public void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid)
+        {
+            var newStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participantId,
+                AddedOn = DateTimeOffset.Now
+            };
+
+            if (errorCount > 0 || !isValid)
+            {
+                newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
+            }
+            else if (isValid)
+            {
+                newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
+            }
+
+            Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+        }
+
         /// <summary>
         /// Serialize SEVIS batch object to XML
         /// </summary>
@@ -1014,32 +1040,6 @@ namespace ECA.Business.Service.Persons
         private IQueryable<ParticipantPerson> CreateGetParticipantPersonsByIdQuery(int participantId)
         {
             return Context.ParticipantPersons.Where(x => x.ParticipantId == participantId);
-        }
-
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="errorCount">Validation error count</param>
-        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        public void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid)
-        {
-            var newStatus = new ParticipantPersonSevisCommStatus
-            {
-                ParticipantId = participantId,
-                AddedOn = DateTimeOffset.Now
-            };
-
-            if (errorCount > 0 || !isValid)
-            {
-                newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
-            }
-            else if (isValid)
-            {
-                newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
-            }
-
-            Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
         }
 
         #endregion

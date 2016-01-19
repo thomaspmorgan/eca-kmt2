@@ -476,7 +476,7 @@ namespace ECA.Business.Test.Service.Persons
         /// Validate that exchange visitor biographical info is missing three fields
         /// </summary>
         [TestMethod]
-        public void TestCreateSevisValidator_MissingBiographicalRequiredFields()
+        public void TestCreateSevisValidator_BiographicalRequired_BirthDate_NULL()
         {
             var validator = new CreateExchVisitorValidator();
 
@@ -542,7 +542,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var results = validator.Validate(createEV);
             Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Count == 3);
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "EV Biographical Info: Date of Birth is required"));
         }
 
         /// <summary>

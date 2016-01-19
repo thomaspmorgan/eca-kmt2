@@ -20,7 +20,7 @@ namespace ECA.Business.Service.Persons
         public ValidationResult PreCreateSevisValidation(int participantId, User user)
         {
             var results = validator.ValidateSevisCreateEV(participantId, user);
-
+            
             return results;
         }
 

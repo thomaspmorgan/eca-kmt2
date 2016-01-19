@@ -304,6 +304,11 @@ namespace ECA.Data
         public DbSet<Publication> Publications { get; set; }
 
         /// <summary>
+        /// Gets or sets the SEVIS batch processing records
+        /// </summary>
+        public DbSet<SevisBatchProcessing> SevisBatchProcessings { get; set; }
+
+        /// <summary>
         /// Gets or sets social medias.
         /// </summary>
         public DbSet<SocialMedia> SocialMedias { get; set; }

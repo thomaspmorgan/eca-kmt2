@@ -266,6 +266,10 @@
     <Build Include="dbo\Tables\ParticipantExchangeVisitor.sql" />
     <Build Include="dbo\Tables\VisitorType.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.VisitorType.staticdata.sql" />
+
+    
+    <Build Include="dbo\Tables\SevisBatchProcessing.sql" />
+
     <Build Include="dbo\Tables\ItineraryStopParticipant.sql" />
     <Build Include="dbo\Tables\ItineraryParticipant.sql" />
   </ItemGroup>
