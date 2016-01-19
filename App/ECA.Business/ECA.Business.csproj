@@ -209,6 +209,7 @@
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
+    <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
     <Compile Include="Search\OfficeDocumentSaveAction.cs" />
@@ -508,6 +510,9 @@
     <Compile Include="Service\Projects\TravelService.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
+    <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
+    <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
+    <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
