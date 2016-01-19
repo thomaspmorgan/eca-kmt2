@@ -26,7 +26,6 @@ angular.module('staticApp')
       $scope.view.isInEditMode = false;
       $scope.view.itineraryStop = $scope.itineraryStop;
       $scope.view.itinerary = $scope.itinerary;
-      $scope.view.isItineraryStopExpanded = false;
       $scope.view.isParticipantsExpanded = false;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
@@ -53,6 +52,8 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           $scope.view.itineraryStop = angular.copy(itineraryStopCopy);
+          ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
+          setViewArrivalAndDepartureDates($scope.view.itineraryStop);
           $scope.view.isInEditMode = false;
       }
 
@@ -69,12 +70,14 @@ angular.module('staticApp')
       }
 
       $scope.view.onExpandItineraryStopClick = function (itineraryStop) {
-          $scope.view.isItineraryStopExpanded = true;
+          itineraryStop.isExpanded = true;
+          $scope.$emit(ConstantsService.itineraryStopExpandedEventName, itineraryStop);
           scrollToItineraryStop(itineraryStop);
       }
 
       $scope.view.onCollapseItineraryStopClick = function (itineraryStop) {
-          $scope.view.isItineraryStopExpanded = false;
+          itineraryStop.isExpanded = false;
+          $scope.$emit(ConstantsService.itineraryStopExpandedEventName, itineraryStop);
           scrollToItineraryStop(itineraryStop);
       }
 
@@ -220,9 +223,23 @@ angular.module('staticApp')
           })
           .catch(function (response) {
               $scope.view.isSavingItineraryStop = false;
-              var message = 'Unable to save itinerary stop.';
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
+              if (response.status === 400) {
+                  if (response.data.message && response.data.modelState) {
+                      for (var key in response.data.modelState) {
+                          NotificationService.showErrorMessage(response.data.modelState[key][0]);
+                      }
+                  }
+                  else if (response.data.Message && response.data.ValidationErrors) {
+                      for (var key in response.data.ValidationErrors) {
+                          NotificationService.showErrorMessage(response.data.ValidationErrors[key]);
+                      }
+                  }
+              }
+              else {
+                  var message = 'Unable to save itinerary stop.';
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              }
           });
       }
 
@@ -248,15 +265,18 @@ angular.module('staticApp')
       }
 
       function initialize(itineraryStop) {
+          setViewArrivalAndDepartureDates(itineraryStop);
+          angular.forEach(itineraryStop.groups, function (group, index) {
+              group.isExpanded = false;
+          });
+      }
+
+      function setViewArrivalAndDepartureDates(itineraryStop) {
           $scope.view.arrivalDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).startOf('day').toDate();
           $scope.view.arrivalTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).toDate();
 
           $scope.view.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).startOf('day').toDate();
           $scope.view.departureTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();
-
-          angular.forEach(itineraryStop.groups, function (group, index) {
-              group.isExpanded = false;
-          });
       }
 
       function getArrivalDate() {

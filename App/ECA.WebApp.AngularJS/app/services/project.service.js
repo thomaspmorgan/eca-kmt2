@@ -162,26 +162,25 @@ angular.module('staticApp')
 
               itineraryStop.setArrivalDate = function (m) {
                   console.assert(m, 'm must be defined.');
+                  this.arrivalDate = m.format();
 
                   this.destinationArrivalMoment = m;
                   this.destinationArrivalMomentAsString = m.format(DateTimeService.momentDisplayFormat);
 
                   this.localArrivalMoment = m.local();
                   this.localArrivalMomentAsString = this.localArrivalMoment.format(DateTimeService.momentDisplayFormat);
-
-                  this.arrivalDate = m.format();
               }
 
               itineraryStop.setDepartureDate = function (m) {
                   console.assert(m, 'm must be defined.');
+
+                  this.departureDate = m.format();
 
                   this.destinationDepartureMoment = m;
                   this.destinationDepartureMomentAsString = m.format(DateTimeService.momentDisplayFormat);
 
                   this.localDepartureMoment = m.local();
                   this.localDepartureMomentAsString = this.localDepartureMoment.format(DateTimeService.momentDisplayFormat);
-
-                  this.departureDate = m.format();
               }
 
               itineraryStop.getEvent = function () {
@@ -197,7 +196,5 @@ angular.module('staticApp')
                   };
               }
           }
-
-
       };
   });

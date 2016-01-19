@@ -1,4 +1,21 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -72,7 +89,12 @@
 		},
 		participantType: {
 			organizationalParticipant: {id: 1, value: "Organizational Participant"},
+			foreignGovernment: {id: 2, value: "Foreign Government"},
+			uSEducationalInstitution: {id: 3, value: "U.S. Educational Institution"},
+			publicInternationalOrganizationPio: {id: 4, value: "Public International Organization (PIO)"},
+			uSNonProfitOrganization501C3: {id: 5, value: "U.S. Non-Profit Organization (501(c)(3))"},
 			individual: {id: 6, value: "Individual"},
+			foreignNgoPvo: {id: 7, value: "Foreign NGO/PVO"},
 			otherOrganization: {id: 8, value: "Other Organization"},
 			other: {id: 9, value: "Other"},
 			foreignNonTravelingParticipant: {id: 10, value: "Foreign Non Traveling Participant"},
@@ -153,6 +175,7 @@
 		inComparisonType: 'in',
 		isNotNullComparisonType: 'notnull',
 		isNullComparisonType: 'null',
+		itineraryStopExpandedEventName: 'itineraryStopExpanded',
 		kmtApplicationResourceId: '1',
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
@@ -183,4 +206,5 @@
 		searchDelimiter: ' '
 	};
 });
+
 

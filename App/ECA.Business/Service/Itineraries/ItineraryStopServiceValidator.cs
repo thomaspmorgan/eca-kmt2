@@ -15,12 +15,12 @@ namespace ECA.Business.Service.Itineraries
         /// <summary>
         /// The itinerary stop departure date error message when the departure date does not fall within the itinerary stop dates.
         /// </summary>
-        public const string ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES = "The itinerary stop departure date does not fall within the itinerary dates.";
+        public const string ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES = "The city stop departure date does not fall within the travel period dates.";
 
         /// <summary>
         /// The itinerary stop arrival date error message when the arrival date does not fall within the itinerary stop dates.
         /// </summary>
-        public const string ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES = "The itinerary stop arrival date does not fall within the itinerary dates.";
+        public const string ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES = "The city stop arrival date does not fall within the travel period dates.";
 
         /// <summary>
         /// 

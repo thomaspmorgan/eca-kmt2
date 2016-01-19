@@ -9,7 +9,7 @@ namespace ECA.Business.Service.Persons
     public class PersonSevisServiceValidator : DbContextService<EcaContext>, IPersonSevisServiceValidator
     {
         private IParticipantPersonsSevisService participantService;
-
+        
         public PersonSevisServiceValidator(EcaContext context, IParticipantPersonsSevisService participantService) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -27,7 +27,7 @@ namespace ECA.Business.Service.Persons
 
             var validator = new CreateExchVisitorValidator();
             var results = validator.Validate(createEV);
-
+            
             return results;
         }
         
@@ -42,6 +42,12 @@ namespace ECA.Business.Service.Persons
 
             var validator = new CreateExchVisitorValidator();
             var results = await validator.ValidateAsync(createEV);
+
+            foreach (var error in results.Errors)
+            {
+                //Use a call to WithState to associate any piece of information with a ValidationFailure
+                var test = error.CustomState;
+            }
 
             return results;
         }
