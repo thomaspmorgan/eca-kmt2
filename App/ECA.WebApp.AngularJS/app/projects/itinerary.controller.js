@@ -313,6 +313,7 @@ angular.module('staticApp')
           manageParticipantsModal.result.then(function (travelPeriodParticipants) {
               $log.info('Finished managing itinerary participants.');
               itinerary.participantsCount = travelPeriodParticipants.length;
+              loadItineraryStops(itinerary);
 
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
