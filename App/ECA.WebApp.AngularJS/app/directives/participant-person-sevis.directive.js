@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService', '$state'];
     
-    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService) {
+    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService, $state) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -55,7 +55,7 @@
                         $log.info('Validated participant create SEVIS info');
                         var valErrors = [];
                         for (var i = 0; i < response.data.errors.length; i++) {
-                            valErrors.push(response.data.errors[i].errorMessage);
+                            valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
                         $scope.validationResults = valErrors;
                         // update participant sevis status
@@ -79,7 +79,7 @@
                         $log.info('Validated participant update SEVIS info');
                         var valErrors = [];
                         for (var i = 0; i < response.data.errors.length; i++) {
-                            valErrors.push(response.data.errors[i].errorMessage);
+                            valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
                         $scope.validationResults = valErrors;
                         // update participant sevis status
@@ -93,6 +93,15 @@
                         NotificationService.showErrorMessage(error.data);
                         $scope.edit.isValidationLoading = false;
                     });
+                };
+
+                $scope.goToErrorSection = function (customState) {
+                    
+                    if (customState)
+                    {
+                        $state.go('people.personalinformation', { section: customState.section, personId: $scope.participantid }, { reload: true });
+                    }
+
                 };
             }
         };

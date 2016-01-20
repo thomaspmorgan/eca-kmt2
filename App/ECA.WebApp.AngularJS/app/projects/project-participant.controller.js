@@ -69,36 +69,6 @@ angular.module('staticApp')
       $scope.permissions.editProject = false;
       var projectId = $stateParams.projectId;
 
-      // SEVIS validation: expand participant and set active tab where error is located.
-      $scope.$on('$viewContentLoaded', function () {
-
-          var participantid = parseInt($stateParams.pid);
-          var tabnbr = $stateParams.tab;
-
-          if (!isNaN(participantid))
-          {
-              $timeout(function () {
-                  $scope.toggleParticipantInfo(participantid);
-              }, 500);
-
-              $timeout(function () {
-                  if (tabnbr.length) {
-                      switch (tabnbr) {
-                          case "info":                          
-                              $scope.onInfoTabSelected(participantid);
-                              break;
-                          case "sevis":
-                              $scope.onSevisTabSelected(participantid);
-                              break;
-                          case "ev":
-                              $scope.onExchangeVisitorTabSelected(participantid);
-                              break;
-                      }
-                  }
-              }, 1000);
-          }
-      });
-      
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({
               title: 'Confirm',

@@ -21,12 +21,6 @@ angular.module('staticApp')
         controller: 'ProjectEditCtrl',
         requireADLogin: true
     })
-    .state('projects.participants', {
-        url: '/participant?pid&tab',
-        templateUrl: 'app/projects/participant.html',
-        controller: 'ProjectParticipantCtrl',
-        requireADLogin: true
-    })
     .state('projects.artifacts', {
         url: '/artifact',
         templateUrl: 'app/projects/artifact.html',
@@ -50,6 +44,12 @@ angular.module('staticApp')
     .state('projects.partners', {
         url: '/partners',
         templateUrl: 'app/projects/partners.html',
+        requireADLogin: true
+    })
+    .state('projects.participants', {
+        url: '/participant',
+        templateUrl: 'app/projects/participant.html',
+        controller: 'ProjectParticipantCtrl',
         requireADLogin: true
     })
     .state('projects.moneyflows', {

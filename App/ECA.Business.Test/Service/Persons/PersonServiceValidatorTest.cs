@@ -541,7 +541,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var results = validator.Validate(createEV);
-            Assert.IsFalse(results.IsValid);
+            Assert.IsFalse(results.IsValid);            
             Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "EV Biographical Info: Date of Birth is required"));
         }
 
