@@ -5,10 +5,10 @@
   DTS:CreationName="OLEDB">
   <DTS:ObjectData>
     <DTS:ConnectionManager
-      DTS:ConnectionString="Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_DEV;Provider=SQLNCLI11.1;Auto Translate=False;">
+      DTS:ConnectionString="Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_PROD;Provider=SQLNCLI11.1;Auto Translate=False;">
       <DTS:Password
         DTS:Name="Password"
-        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAiu1rjUojN0GhQftPzPvxBgAAAAACAAAAAAAQZgAAAAEAACAAAABCCDoWt1z/w18Bgp2WKWs0mJDRdCpuvQh4lUwfxHFXkgAAAAAOgAAAAAIAACAAAABhYHa8TVi6OD6EI9EOzVJzfw31w/OGq/8d0t2XYwIQ1IAAAABwDWZdlD0wD3fkzLkcXSjVzzFlyS6TuvuWR5yhs5ptleQTLKJkAhC+cbjXf2AyZVu0ffftd97j8o8Je6v5CBXKPB27IblTJ3C8OsK4mSZ01kLASSMhpQutUkF3Yx8JD1fuuUgSfIpBEISYopsEzizBosL5gdmUkqapk25PIgQuG0AAAACE+5LwE1ZD56XlJ8MQgutU0oYWtlUTzQLEUYM+a3RQBu9Qx9931Hb4Ey6oEWSo4GPzFSmffBG5VD0A3KlphRsa</DTS:Password>
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACjXM4uu44fmEkGEkpKSMoFGuPGEtSBcc2cDXCanwG2hgAAAAAOgAAAAAIAACAAAAAz+M4rduP1ZHXyaoldy3hR/6q4YKUnmJM7tSd6LU2GmoAAAAAfr8yvUYY/CzsXKXivdN/oIjW021cHzitaTXZilqdBoln8gb02hrbl53w3AmOYqiRogsSbeuuPzDMU0lNQFT/zGQlgcPUsm6ddaeeLQeq4/kfN5jzxxcD8e38mG3ySHmCsuIwOZs/BSeI3t7u6Uw+ekfnOgYwX6ZjnL7eaAtOmf0AAAADWKEv9OQQm8R2xJgaRiUqSmlKfjUhGw5fSr5eREG/SKXaLg0eijSN/kmXHhcSy42GkoKroqeZxltd9DyH8jomc</DTS:Password>
     </DTS:ConnectionManager>
   </DTS:ObjectData>
 </DTS:ConnectionManager>
