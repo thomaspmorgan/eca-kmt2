@@ -82,6 +82,22 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
         /// <returns>The task.</returns>
         Task SetParticipantsAsync(ItineraryParticipants itineraryParticipants);
+
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="projectId">The project id of the itinerary.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The participants.</returns>
+        List<ItineraryParticipantDTO> GetItineraryParticipants(int projectId, int itineraryId);
+
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="projectId">The project id of the itinerary.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The participants.</returns>
+        Task<List<ItineraryParticipantDTO>> GetItineraryParticipantsAsync(int projectId, int itineraryId);
     }
 
     /// <summary>
@@ -152,6 +168,28 @@ namespace ECA.Business.Service.Itineraries
         public Task<ItineraryDTO> GetItineraryByIdAsync(int projectId, int id)
         {
             return Task.FromResult<ItineraryDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="itineraryId"></param>
+        /// <returns></returns>
+        public List<ItineraryParticipantDTO> GetItineraryParticipants(int projectId, int itineraryId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="itineraryId"></param>
+        /// <returns></returns>
+        public Task<List<ItineraryParticipantDTO>> GetItineraryParticipantsAsync(int projectId, int itineraryId)
+        {
+            return Task.FromResult<List<ItineraryParticipantDTO>>(null);
         }
 
         /// <summary>

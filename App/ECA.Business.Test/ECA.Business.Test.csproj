@@ -262,6 +262,7 @@
     <Compile Include="Service\Fundings\EditedMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowSourceRecipientTypeServiceTest.cs" />
     <Compile Include="Service\Fundings\UpdatedMoneyFlowTest.cs" />
+    <Compile Include="Service\Itineraries\ItineraryStopParticipantsTest.cs" />
     <Compile Include="Service\Itineraries\ItineraryParticipantsTest.cs" />
     <Compile Include="Service\Itineraries\ItineraryParticipantsValidatorTest.cs" />
     <Compile Include="Service\Itineraries\ItineraryParticipantsValidationEntityTest.cs" />

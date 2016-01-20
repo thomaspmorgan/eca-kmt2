@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Itineraries
 {
+    /// <summary>
+    /// An ItineraryParticipants business entity is used to set participants on an itinerary.
+    /// </summary>
     public class ItineraryParticipants : IAuditable
     {
+        /// <summary>
+        /// Creates a new business entity instance.
+        /// </summary>
+        /// <param name="updator">The user performing the itinerary update.</param>
+        /// <param name="projectId">The project by id the itinerary belongs to.</param>
+        /// <param name="itineraryId">The id of the itinerary.</param>
+        /// <param name="participantIds">The ids of the participants.</param>
         public ItineraryParticipants(User updator, int projectId, int itineraryId, IEnumerable<int> participantIds)
         {
             this.ProjectId = projectId;

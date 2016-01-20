@@ -118,6 +118,30 @@ namespace ECA.Business.Service.Itineraries
             return itinerary;
         }
 
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="projectId">The project id of the itinerary.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The participants.</returns>
+        public List<ItineraryParticipantDTO> GetItineraryParticipants(int projectId, int itineraryId)
+        {
+            var participants = ItineraryQueries.CreateGetItineraryParticipantsQuery(this.Context, itineraryId, projectId).ToList();
+            return participants;
+        }
+
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="projectId">The project id of the itinerary.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The participants.</returns>
+        public async Task<List<ItineraryParticipantDTO>> GetItineraryParticipantsAsync(int projectId, int itineraryId)
+        {
+            var participants = await ItineraryQueries.CreateGetItineraryParticipantsQuery(this.Context, itineraryId, projectId).ToListAsync();
+            return participants;
+        }
+
         private IQueryable<ItineraryDTO> CreateGetItineraryByIdAndProjectId(int projectId, int id)
         {
             var query = ItineraryQueries.CreateGetItinerariesQuery(this.Context).Where(x => x.ProjectId == projectId && x.Id == id);
@@ -362,7 +386,7 @@ namespace ECA.Business.Service.Itineraries
                 nonPersonParticipantsByParticipantIds: nonPersonParticipantsById
                 ));
             itineraryParticipants.Audit.SetHistory(itinerary);
-            SetParticipants(itineraryParticipants.ParticipantIds, itinerary);
+            SetParticipants(itineraryParticipants.ParticipantIds.ToList(), itinerary, x => x.Participants);
         }
 
         private IQueryable<Participant> CreateGetItineraryStopParticipantsByItineraryIdQuery(int itineraryId)
@@ -395,45 +419,6 @@ namespace ECA.Business.Service.Itineraries
         private IQueryable<Participant> CreateGetParticipantsByParticipantIdsAndProjectIdQuery(IEnumerable<int> participantIds, int projectId)
         {
             return Context.Participants.Where(x => participantIds.Distinct().Contains(x.ParticipantId) && x.ProjectId == projectId);
-        }
-
-        /// <summary>
-        /// Updates the participants on the given Itinerary to the participants with the given ids.  Ensure the participants
-        /// are already loaded via the context before calling this method.
-        /// </summary>
-        /// <param name="participantIds">The participants by id.</param>
-        /// <param name="itinerary">The itinerary to update.</param>
-        public void SetParticipants(IEnumerable<int> participantIds, Itinerary itinerary)
-        {
-            Contract.Requires(participantIds != null, "The participant ids must not be null.");
-            Contract.Requires(itinerary != null, "The itinerary group must not be null.");
-            //this will be empty on create, update will have to load participants
-            var participantsToRemove = itinerary.Participants.Where(x => !participantIds.Contains(x.ParticipantId)).ToList();
-            var participantsToAdd = new List<Participant>();
-            participantIds.Where(x => !itinerary.Participants.Select(o => o.ParticipantId).ToList().Contains(x)).ToList()
-                .Select(x => new Participant { ParticipantId = x }).ToList()
-                .ForEach(x => participantsToAdd.Add(x));
-
-            participantsToAdd.ForEach(x =>
-            {
-                var localEntity = Context.GetLocalEntity<Participant>(y => y.ParticipantId == x.ParticipantId);
-                if (localEntity == null)
-                {
-                    if (Context.GetEntityState(x) == EntityState.Detached)
-                    {
-                        Context.Participants.Attach(x);
-                    }
-                    itinerary.Participants.Add(x);
-                }
-                else
-                {
-                    itinerary.Participants.Add(localEntity);
-                }
-            });
-            participantsToRemove.ForEach(x =>
-            {
-                itinerary.Participants.Remove(x);
-            });
         }
     }
 }

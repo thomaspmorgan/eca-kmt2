@@ -449,6 +449,77 @@ namespace ECA.Business.Test.Service
 
         #endregion
 
+        [TestMethod]
+        public void TestSetParticipants_IsDetached()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Participant>(It.IsAny<Participant>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Participant { ParticipantId = 1 };
+
+            var project = new Project();
+            project.Participants.Add(original);
+
+            var newParticipant = new Participant { ParticipantId = 2 };
+            var newParticipantIds = new List<int> { newParticipant.ParticipantId };
+            service.SetParticipants<Project>(newParticipantIds, project, x => x.Participants);
+            Assert.AreEqual(1, project.Participants.Count);
+            Assert.AreEqual(newParticipant.ParticipantId, project.Participants.First().ParticipantId);
+
+        }
+
+        [TestMethod]
+        public void TestSetParticipants_IsAdded()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Location>(It.IsAny<Location>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Participant { ParticipantId = 1 };
+
+            var project = new Project();
+            project.Participants.Add(original);
+
+            var newParticipant = new Participant { ParticipantId = 2 };
+            var newParticipantIds = new List<int> { newParticipant.ParticipantId };
+            service.SetParticipants<Project>(newParticipantIds, project, x => x.Participants);
+            Assert.AreEqual(1, project.Participants.Count);
+            Assert.AreEqual(newParticipant.ParticipantId, project.Participants.First().ParticipantId);
+
+        }
+
+        [TestMethod]
+        public void TestSetParticipants_IsLocal()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+
+            contextMock.Setup(x => x.GetEntityState<Participant>(It.IsAny<Participant>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Participant { ParticipantId = 1 };
+
+            var project = new Project();
+            project.Participants.Add(original);
+
+            var newParticipant = new Participant { ParticipantId = 2 };
+            var newParticipantIds = new List<int> { newParticipant.ParticipantId };
+            contextMock.Setup(x => x.GetLocalEntity<Participant>(It.IsAny<Func<Participant, bool>>())).Returns(newParticipant);
+            service.SetParticipants<Project>(newParticipantIds, project, x => x.Participants);
+            Assert.AreEqual(1, project.Participants.Count);
+            Assert.AreEqual(newParticipant.ParticipantId, project.Participants.First().ParticipantId);
+        }
 
         [TestMethod]
         public void TestSetLocations_IsDetached()
@@ -469,7 +540,7 @@ namespace ECA.Business.Test.Service
 
             var newLocation = new Location { LocationId = 2 };
             var newLocationIds = new List<int> { newLocation.LocationId };
-            service.SetLocations<Project>(newLocationIds, x => x.Locations, project);
+            service.SetLocations<Project>(newLocationIds, project, x => x.Locations);
             Assert.AreEqual(1, project.Locations.Count);
             Assert.AreEqual(newLocation.LocationId, project.Locations.First().LocationId);
 
@@ -494,7 +565,7 @@ namespace ECA.Business.Test.Service
 
             var newLocation = new Location { LocationId = 2 };
             var newLocationIds = new List<int> { newLocation.LocationId };
-            service.SetLocations<Project>(newLocationIds, x => x.Locations, project);
+            service.SetLocations<Project>(newLocationIds, project, x => x.Locations);
             Assert.AreEqual(1, project.Locations.Count);
             Assert.AreEqual(newLocation.LocationId, project.Locations.First().LocationId);
 
@@ -517,7 +588,7 @@ namespace ECA.Business.Test.Service
             var newLocation = new Location { LocationId = 2 };
             var newLocationIds = new List<int> { newLocation.LocationId };
             contextMock.Setup(x => x.GetLocalEntity<Location>(It.IsAny<Func<Location, bool>>())).Returns(newLocation);
-            service.SetLocations<Project>(newLocationIds, x => x.Locations, project);
+            service.SetLocations<Project>(newLocationIds, project, x => x.Locations);
             Assert.AreEqual(1, project.Locations.Count);
             Assert.AreEqual(newLocation.LocationId, project.Locations.First().LocationId);
         }

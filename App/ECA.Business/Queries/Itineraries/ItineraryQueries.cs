@@ -47,6 +47,29 @@ namespace ECA.Business.Queries.Itineraries
         }
 
         /// <summary>
+        /// Returns a query to get participants that are on an itinerary.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <param name="projectId">The project id.  Used for security purposes.</param>
+        /// <returns>The query to get ItineraryParticipantDTOs from the context.</returns>
+        public static IQueryable<ItineraryParticipantDTO> CreateGetItineraryParticipantsQuery(EcaContext context, int itineraryId, int projectId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = context.Itineraries
+                .Where(x => x.ItineraryId == itineraryId && x.ProjectId == projectId)
+                .SelectMany(x => x.Participants)
+                .Where(x => x.PersonId.HasValue)
+                .Select(x => new ItineraryParticipantDTO
+            {
+                FullName = x.Person.FullName,
+                ParticipantId = x.ParticipantId,
+                PersonId = x.PersonId.Value
+            });
+            return query;
+        }
+
+        /// <summary>
         /// Returns a query to get ItineraryDTOs from the given context and project with the given id.
         /// </summary>
         /// <param name="context">The context to query.</param>

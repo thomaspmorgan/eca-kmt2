@@ -275,6 +275,130 @@ namespace ECA.Business.Test.Queries.Itineraries
             var results = ItineraryQueries.CreateGetItinerariesByProjectIdQuery(context, project.ProjectId + 1);
             Assert.AreEqual(0, results.Count());
         }
+
+        [TestMethod]
+        public void TestCreateGetItineraryParticipants_CheckProperties()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "full name"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            itinerary.Participants.Add(participant1);
+
+            context.Participants.Add(participant1);
+            context.People.Add(person1);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+
+            var results = ItineraryQueries.CreateGetItineraryParticipantsQuery(context, itinerary.ItineraryId, project.ProjectId);
+            Assert.AreEqual(1, results.Count());
+            var firstResult = results.First();
+            Assert.AreEqual(person1.FullName, firstResult.FullName);
+            Assert.AreEqual(participant1.ParticipantId, firstResult.ParticipantId);
+            Assert.AreEqual(person1.PersonId, firstResult.PersonId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetItineraryParticipants_ItineraryDoesNotBelongToProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "full name"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            itinerary.Participants.Add(participant1);
+
+            context.Participants.Add(participant1);
+            context.People.Add(person1);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+
+            var results = ItineraryQueries.CreateGetItineraryParticipantsQuery(context, itinerary.ItineraryId, project.ProjectId);
+            Assert.AreEqual(1, results.Count());
+
+            results = ItineraryQueries.CreateGetItineraryParticipantsQuery(context, itinerary.ItineraryId, project.ProjectId + 1);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetItineraryParticipants_ItineraryDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var itinerary = new Itinerary
+            {
+                EndDate = DateTimeOffset.Now.AddDays(1.0),
+                ItineraryId = 1,
+                Name = "name",
+                ProjectId = project.ProjectId,
+                Project = project,
+                StartDate = DateTimeOffset.Now.AddDays(-10.0),
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                FullName = "full name"
+            };
+            var participant1 = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person1.PersonId,
+                Person = person1
+            };
+            itinerary.Participants.Add(participant1);
+
+            context.Participants.Add(participant1);
+            context.People.Add(person1);
+            context.Projects.Add(project);
+            context.Itineraries.Add(itinerary);
+
+            var results = ItineraryQueries.CreateGetItineraryParticipantsQuery(context, itinerary.ItineraryId, project.ProjectId);
+            Assert.AreEqual(1, results.Count());
+
+            results = ItineraryQueries.CreateGetItineraryParticipantsQuery(context, itinerary.ItineraryId + 1, project.ProjectId);
+            Assert.AreEqual(0, results.Count());
+        }
     }
 }
 
