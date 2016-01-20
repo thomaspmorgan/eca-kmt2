@@ -46,6 +46,12 @@ angular.module('staticApp')
         templateUrl: 'app/projects/partners.html',
         requireADLogin: true
     })
+    .state('projects.participants', {
+        url: '/participant',
+        templateUrl: 'app/projects/participant.html',
+        controller: 'ProjectParticipantCtrl',
+        requireADLogin: true
+    })
     .state('projects.moneyflows', {
         url: '/moneyflows',
         templateUrl: 'app/projects/moneyflows.html',

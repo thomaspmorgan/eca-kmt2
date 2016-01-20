@@ -73,7 +73,7 @@
 
         // update participant sevis status
         function updateParticipantSevisCommStatus(id, params) {
-            var path = 'ParticipantPersonsSevis/UpdateSevisCommStatus/' + id;
+            var path = 'ParticipantPersonsSevis/' + id + '/UpdateSevisCommStatus';
             return DragonBreath.get(params, path);
         };
 
