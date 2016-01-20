@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $modalInstance,
+        $timeout,
         project,
         itinerary,
         containsFilter,
@@ -33,41 +34,46 @@ angular.module('staticApp')
       $scope.view.isLoadingTravelPeriodParticipants = false;
       $scope.view.showConfirmCancel = false;
       $scope.view.travelPeriodParticipants = [];
+      $scope.view.travelPeriodParticipantsCopy = [];
       $scope.view.travelStopParticipants = [];
       $scope.view.itineraryStops = [];
+      $scope.view.selectedItineraryStop = null;
       $scope.view.isLoadingItineraryStops = false;
-
-      $scope.view.onSaveClick = function () {
-          
-      }
-
-      $scope.view.onCancelClick = function () {
-          if ($scope.form.itineraryForm.$dirty) {
-              $scope.view.showConfirmCancel = true;
-          }
-          else {
-              $modalInstance.dismiss('cancel');
-          }
-      }
-
-      $scope.view.onYesCancelChangesClick = function () {
-          $modalInstance.dismiss('cancel');
-      }
-
-      $scope.view.onNoDoNotCancelChangesClick = function () {
-          $scope.view.showConfirmCancel = false;
-      }
 
       $scope.view.onSelectItineraryParticipant = function($item, $model){
           return saveItineraryParticipants(project, itinerary, $scope.view.travelPeriodParticipants);
       }
 
       $scope.view.onRemoveItineraryParticipant = function ($item, $model) {
-          return saveItineraryParticipants(project, itinerary, $scope.view.travelPeriodParticipants).then(loadParticipants(project.id, null));
+          return saveItineraryParticipants(project, itinerary, $scope.view.travelPeriodParticipants)
+              .then(loadParticipants(project.id, null));
+      }
+
+      $scope.view.onSelectItineraryStopParticipant = function ($item, $model) {
+          return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants);
+      }
+
+      $scope.view.onRemoveItineraryStopParticipant = function ($item, $model) {
+          return $scope.view.onSelectItineraryStopParticipant($item, $model);
       }
 
       $scope.view.getFilteredParticipants = function(search){
           return loadParticipants(project.id, search);
+      }
+
+      $scope.view.onCloseClick = function () {
+          $modalInstance.close($scope.view.travelPeriodParticipants);
+      }
+
+      $scope.view.onSelectItineraryStop = function ($item, $model) {
+          if ($item) {
+              copyTravelPeriodParticipants($item.participants);
+          }
+      }
+
+      function setIsItineraryStopParticipant(participant) {
+          var travelStopParticipantIds = getParticipantIds($scope.view.travelStopParticipants);
+          participant.isItineraryStopParticipant = containsFilter(travelStopParticipantIds, participant.participantId);
       }
 
       function getParticipantIds(participants) {
@@ -80,6 +86,7 @@ angular.module('staticApp')
           }
           return ProjectService.updateItineraryParticipants(project.id, itinerary.id, model)
           .then(function (response) {
+              copyTravelPeriodParticipants([]);
               var message = "Successfully set travel period participants.";
               NotificationService.showSuccessMessage(message);
           })
@@ -89,6 +96,28 @@ angular.module('staticApp')
               NotificationService.showErrorMessage(message);
           })
       }
+
+      function saveItineraryStopParticipants(project, itinerary, itineraryStop, participants) {
+          var model = {
+              participantIds: getParticipantIds(participants)
+          }
+          
+          return ProjectService.updateItineraryStopParticipants(project.id, itinerary.id, itineraryStop.itineraryStopId, model)
+          .then(function (response) {
+              $scope.view.travelStopParticipants = getAllParticipants($scope.view.itineraryStops);              
+              copyTravelPeriodParticipants(participants);
+              setIsItineraryStopOnAllTravelPeriodParticipants();
+              var message = "Successfully set city stop participants.";
+              NotificationService.showSuccessMessage(message);
+              
+          })
+          .catch(function (response) {
+              var message = "Unable to set city stop participants.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          })
+      }
+
 
       var personParticipantsFilter = FilterService.add('manageparticipantscontroller_personparticipants');
       function loadParticipants(projectId, search) {
@@ -121,24 +150,24 @@ angular.module('staticApp')
           })
       }
 
+      function setIsItineraryStopOnAllTravelPeriodParticipants() {
+          angular.forEach($scope.view.travelPeriodParticipants, function (p, index) {
+              setIsItineraryStopParticipant(p);
+          });
+      }
+
       function loadTravelPeriodParticipants(project, itinerary){
           $scope.view.isLoadingTravelPeriodParticipants = true;
           return ProjectService.getItineraryParticipants(project.id, itinerary.id)
           .then(function (response) {
               $scope.view.isLoadingTravelPeriodParticipants = false;
               $scope.view.travelPeriodParticipants = response.data;
-              setIsItineraryStopParticipant($scope.view.travelPeriodParticipants, $scope.view.travelStopParticipants);
+              copyTravelPeriodParticipants([]);
+              setIsItineraryStopOnAllTravelPeriodParticipants();
               return $scope.view.travelPeriodParticipants;
           })
           .catch(function(response){
               $scope.view.isLoadingTravelPeriodParticipants = false;
-          });
-      }
-
-      function setIsItineraryStopParticipant(participants, travelStopParticipants) {
-          var travelStopParticipantIds = getParticipantIds(travelStopParticipants);
-          angular.forEach(participants, function (p, index) {
-              p.isItineraryStopParticipant = containsFilter(travelStopParticipantIds, p.participantId);
           });
       }
 
@@ -182,6 +211,22 @@ angular.module('staticApp')
           return participants;
       }
 
+      function copyTravelPeriodParticipants(excludedParticipants) {
+          $scope.view.travelPeriodParticipantsCopy = [];
+          excludedParticipants = excludedParticipants || [];
+          
+          var excludedParticipantIds = getParticipantIds(excludedParticipants);
+          angular.forEach($scope.view.travelPeriodParticipants, function (p, index) {
+              if (!containsFilter(excludedParticipantIds, p.participantId)) {
+                  $scope.view.travelPeriodParticipantsCopy.push({
+                      fullName: p.fullName,
+                      participantId: p.participantId,
+                      personId: p.personId
+                  });
+              }
+              
+          });
+      }
 
       loadItineraryStops(itinerary)
       .then(function () {

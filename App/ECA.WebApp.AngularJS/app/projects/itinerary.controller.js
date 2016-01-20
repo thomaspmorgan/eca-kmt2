@@ -310,8 +310,9 @@ angular.module('staticApp')
                   }
               }
           });
-          manageParticipantsModal.result.then(function () {
+          manageParticipantsModal.result.then(function (travelPeriodParticipants) {
               $log.info('Finished managing itinerary participants.');
+              itinerary.participantsCount = travelPeriodParticipants.length;
 
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());

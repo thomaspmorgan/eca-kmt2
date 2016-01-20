@@ -117,7 +117,7 @@ namespace ECA.WebApi.Controllers.Itineraries
         /// <param name="model">The model.</param>
         /// <returns></returns>
         [ResponseType(typeof(OkResult))]
-        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Stops/{itineraryStopId:int}/Participants")]
+        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Stop/{itineraryStopId:int}/Participants")]
         [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<IHttpActionResult> PostSetItineraryParticipantsAsync(int itineraryId, int projectId, int itineraryStopId, [FromBody]ItineraryStopParticipantsBindingModel model)
         {

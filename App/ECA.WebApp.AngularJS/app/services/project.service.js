@@ -113,6 +113,9 @@ angular.module('staticApp')
                   return response;
               });
           },
+          updateItineraryStopParticipants: function (projectId, itineraryId, itineraryStopId, participantIds) {
+              return DragonBreath.create(participantIds, 'projects/' + projectId + '/itinerary/' + itineraryId + '/stop/' + itineraryStopId + '/participants');
+          },
 
           initializeItineraryStopModel: function (itineraryStop, itineraryStopColorIndex) {
               var cIndex = itineraryStopColorIndex || colorIndex++;
