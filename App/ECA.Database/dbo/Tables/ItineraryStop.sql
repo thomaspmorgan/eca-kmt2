@@ -5,7 +5,7 @@
     [DateArrive]             DATETIMEOFFSET (7) NULL,
     [DateLeave]              DATETIMEOFFSET (7) NULL,
     [ItineraryId]            INT                NOT NULL,
-	[TimezoneId]			 VARCHAR(50)		NULL,
+	[TimezoneId]			 NVARCHAR(50)		NULL,
     [History_CreatedBy]      INT                NOT NULL,
     [History_CreatedOn]      DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy]      INT                NOT NULL,
