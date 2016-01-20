@@ -286,7 +286,7 @@ namespace ECA.Business.Service.Itineraries
         }
 
         /// <summary>
-        /// Sets the participants on the itinerary top.
+        /// Sets the participants on the itinerary stop.
         /// </summary>
         /// <param name="itineraryStopParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
         /// <returns>The task.</returns>
@@ -327,6 +327,5 @@ namespace ECA.Business.Service.Itineraries
 
        
         #endregion
-
     }
 }

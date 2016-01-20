@@ -17,7 +17,8 @@ namespace ECA.Business.Service.Itineraries
         /// <param name="notAllowedParticipantsByParticipantId">The id of the participants that are not allowed on the itinerary stop.</param>
         public ItineraryStopParticipantsValidationEntity(IEnumerable<int> notAllowedParticipantsByParticipantId)
         {
-            this.NotAllowedParticipantsByParticipantId = notAllowedParticipantsByParticipantId;
+            this.NotAllowedParticipantsByParticipantId = notAllowedParticipantsByParticipantId ?? new List<int>();
+            this.NotAllowedParticipantsByParticipantId = this.NotAllowedParticipantsByParticipantId.Distinct();
         }
 
         /// <summary>

@@ -225,6 +225,15 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>,
                 ItineraryStopServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<ItineraryParticipantsValidationEntity, ItineraryParticipantsValidationEntity>,
+                ItineraryParticipantsValidator>();
+            container.RegisterType<
+                IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>,
+                ItineraryStopServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<ItineraryStopParticipantsValidationEntity, ItineraryStopParticipantsValidationEntity>,
+                ItineraryParticipantsStopValidator>();
         }
 
         /// <summary>

@@ -14,8 +14,8 @@ namespace ECA.Data.Configuration
             HasMany(i => i.Participants).WithMany(p => p.Itineraries)
             .Map(p =>
             {
-                p.MapLeftKey("ParticipantId");
-                p.MapRightKey("ItineraryId");
+                p.MapLeftKey("ItineraryId");
+                p.MapRightKey("ParticipantId");
                 p.ToTable("ItineraryParticipant");
             });
         }
