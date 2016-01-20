@@ -66,6 +66,12 @@ angular.module('staticApp')
           getItineraries: function (projectId) {
               return DragonBreath.get({}, 'projects/' + projectId + '/itineraries');
           },
+          getItineraryParticipants: function(projectId, itineraryId){
+              return DragonBreath.get({}, 'projects/' + projectId + '/itinerary/' + itineraryId + '/participants');
+          },
+          updateItineraryParticipants: function(projectId, itineraryId, participantIds){
+              return DragonBreath.create(participantIds, 'projects/' + projectId + '/itinerary/' + itineraryId + '/participants');
+          },
           addItinerary: function (itinerary, projectId) {
               return DragonBreath.create(itinerary, 'projects/' + projectId + '/itinerary');
           },

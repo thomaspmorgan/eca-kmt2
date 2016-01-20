@@ -1,0 +1,74 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Manage Participants</h3>
+</div>
+<div class="modal-body">
+    <div class="spinner" ng-show="view.isSavingItinerary">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div ng-show="!view.isSavingItinerary">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="margin-bottom:20px;">Travel Period Participants</h3>
+            </div>
+            
+            <div class="col-md-12">
+                <p class="mute">Showing {{view.filteredParticipants.length}} of {{view.filteredParticipantsCount}} participants.</p>
+                <p>Locked participants must first be removed from all city stops.</p>
+                <ui-select ng-model="view.travelPeriodParticipants"
+                           id="source"
+                           multiple
+                           name="source"
+                           on-select="view.onSelectItineraryParticipant($item, $model)"
+                           on-remove="view.onRemoveItineraryParticipant($item, $model)"
+                           search-enabled="true"
+                           reset-search-input="true"
+                           theme="select2"
+                           ng-required="false">
+                    <ui-select-match placeholder="Select travel period participants..." ui-lock-choice="$item.isItineraryStopParticipant">
+                        <div>
+                            {{$item.fullName}}
+                        </div>
+                    </ui-select-match>
+                    <ui-select-choices repeat="participant in view.filteredParticipants | orderBy: 'fullName'"
+                                       refresh="view.getFilteredParticipants($select.search)">
+                        <div ng-bind-html="participant.fullName | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+        <hr/>
+        <div class="row" style="margin-top:20px;">
+            <div class="col-md-12">
+                <h3 style="margin-bottom:20px;">City Stop Participants</h3>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="modal-footer">
+    <div ng-show="!view.showConfirmCancel">
+        <button class="btn btn-success"
+                ng-click="view.onSaveClick()"
+                ng-disabled="form.itineraryForm.$invalid || view.isSavingItinerary">
+            Save
+        </button>
+        <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+    <div ng-show="view.showConfirmCancel">
+        <div class="col-md-6">
+            <p class="text-left">There are unsaved changes to this new travel period.  Are you sure you wish to cancel?</p>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="view.onYesCancelChangesClick()">Yes, Cancel Changes</button>
+            <button class="btn btn-cancel" ng-click="view.onNoDoNotCancelChangesClick()">No</button>
+        </div>
+    </div>
+</div>

@@ -65,7 +65,7 @@ namespace ECA.Business.Queries.Itineraries
                 FullName = x.Person.FullName,
                 ParticipantId = x.ParticipantId,
                 PersonId = x.PersonId.Value
-            });
+            }).OrderBy(x => x.FullName);
             return query;
         }
 

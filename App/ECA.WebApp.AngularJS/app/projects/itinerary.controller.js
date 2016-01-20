@@ -294,6 +294,30 @@ angular.module('staticApp')
           $scope.view.areAllItineraryStopsExpanded = allExpanded;
       });
 
+      $scope.view.onManageParticipantsClick = function (itinerary) {
+          var manageParticipantsModal = $modal.open({
+              animation: true,
+              templateUrl: 'app/projects/manage-itinerary-participants-modal.html',
+              controller: 'ManageItineraryParticipantsModalCtrl',
+              windowClass: 'full-screen-modal',
+              backdrop: 'static',
+              resolve: {
+                  project: function () {
+                      return $scope.view.project;
+                  },
+                  itinerary: function () {
+                      return itinerary;
+                  }
+              }
+          });
+          manageParticipantsModal.result.then(function () {
+              $log.info('Finished managing itinerary participants.');
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
@@ -328,13 +352,6 @@ angular.module('staticApp')
           };
 
           angular.forEach(itineraryStops, function (stop, stopIndex) {
-              angular.forEach(stop.groups, function (group, groupIndex) {
-                  angular.forEach(group.participants, function (groupParticipant, groupParticipantIndex) {
-                      if (!isTravelStopParticipantAdded(groupParticipant)) {
-                          participants.push(groupParticipant)
-                      }
-                  });
-              })
               angular.forEach(stop.participants, function (stopParticipant, stopParticipantIndex) {
                   if (!isTravelStopParticipantAdded(stopParticipant)) {
                       participants.push(stopParticipant)
