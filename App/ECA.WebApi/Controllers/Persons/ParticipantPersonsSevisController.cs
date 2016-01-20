@@ -203,10 +203,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="participantId">Participant ID</param>
         /// <param name="errors">Validation error count</param>
         /// <param name="isvalid">Indicates if SEVIS object passed validation</param>
-        [Route("ParticipantPersonsSevis/UpdateSevisCommStatus/{participantId:int}/{errors:int}/{isvalid:bool}")]
-        public void UpdateParticipantSevisCommStatus(int participantId, int errors, bool isvalid)
+        [HttpGet]
+        [Route("ParticipantPersonsSevis/{participantId:int}/UpdateSevisCommStatus")]
+        public IHttpActionResult UpdateParticipantSevisCommStatus(int participantId, int errors, bool isvalid)
         {
             participantService.UpdateParticipantPersonSevisCommStatus(participantId, errors, isvalid);
+            return Ok();
         }
 
     }

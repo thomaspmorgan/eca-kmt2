@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load CE Components as Itineraries"
   DTS:PackageType="5"
-  DTS:VersionBuild="31"
-  DTS:VersionGUID="{15E94641-9549-4910-8EEE-806E3537FB47}">
+  DTS:VersionBuild="35"
+  DTS:VersionGUID="{7E20415F-E7D3-4EDF-AC37-E54700B1BAA2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -2889,6 +2889,133 @@ where UPPER([refTable].[Name]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
+              refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input].Columns[COMPONENT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMPONENT"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\CE_Component.Outputs[OLE DB Source Output].Columns[COMPONENT]" />
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input].Columns[START_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="START_DATE"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\CE_Component.Outputs[OLE DB Source Output].Columns[START_DATE]" />
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input].Columns[END_DATE]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="END_DATE"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\CE_Component.Outputs[OLE DB Source Output].Columns[END_DATE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentName]"
+                      name="ComponentName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load CE Components as Itinerary Stops (Completed)\CE_Component.Outputs[OLE DB Source Output].Columns[COMPONENT]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentStartDate]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentStartDate]"
+                      name="ComponentStartDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load CE Components as Itinerary Stops (Completed)\CE_Component.Outputs[OLE DB Source Output].Columns[START_DATE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentEndDate]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentEndDate]"
+                      name="ComponentEndDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load CE Components as Itinerary Stops (Completed)\CE_Component.Outputs[OLE DB Source Output].Columns[END_DATE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Load CE Components as Itinerary Stops (Completed)\Derived Column"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
@@ -3236,6 +3363,21 @@ where [refTable].[CE_ComponentId] = ?</property>
                           name="CopyFromReferenceColumn">Departure_LocationId</property>
                       </properties>
                     </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[CE_ComponentId]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="32"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[CE_ComponentId]"
+                      name="CE_ComponentId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">CE_ComponentId</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -3380,20 +3522,6 @@ where [refTable].[CE_ComponentId] = ?</property>
                       externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryId]"
                       lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[KMT_ItineraryId]" />
                     <inputColumn
-                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[KMT_StartDate]"
-                      cachedDataType="dbTimeStampOffset"
-                      cachedName="KMT_StartDate"
-                      cachedScale="7"
-                      externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[DateArrive]"
-                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[KMT_StartDate]" />
-                    <inputColumn
-                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[KMT_EndDate]"
-                      cachedDataType="dbTimeStampOffset"
-                      cachedName="KMT_EndDate"
-                      cachedScale="7"
-                      externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[DateLeave]"
-                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[KMT_EndDate]" />
-                    <inputColumn
                       refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[KMT_Departure_LocationId]"
                       cachedDataType="i4"
                       cachedName="KMT_Departure_LocationId"
@@ -3405,6 +3533,32 @@ where [refTable].[CE_ComponentId] = ?</property>
                       cachedName="KMT_Arrival_LocationId"
                       externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[Origin_LocationId]"
                       lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[KMT_Arrival_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[CE_ComponentId]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="CE_ComponentId"
+                      externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[CE_ComponentId]"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary.Outputs[Lookup Match Output].Columns[CE_ComponentId]" />
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[ComponentEndDate]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="ComponentEndDate"
+                      externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[DateLeave]"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentEndDate]" />
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[ComponentStartDate]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="ComponentStartDate"
+                      externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[DateArrive]"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentStartDate]" />
+                    <inputColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].Columns[ComponentName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ComponentName"
+                      externalMetadataColumnId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output].Columns[ComponentName]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3461,6 +3615,22 @@ where [refTable].[CE_ComponentId] = ?</property>
                       dataType="wstr"
                       length="32"
                       name="IVLP_ItineraryStopId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="100"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[TimezoneId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TimezoneId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input].ExternalColumns[CE_ComponentId]"
+                      dataType="wstr"
+                      length="32"
+                      name="CE_ComponentId" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3492,8 +3662,13 @@ where [refTable].[CE_ComponentId] = ?</property>
           </components>
           <paths>
             <path
-              refId="Package\Load CE Components as Itinerary Stops (Completed).Paths[Derived Column Output]"
+              refId="Package\Load CE Components as Itinerary Stops (Completed).Paths[Data Conversion Output]"
               endId="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load CE Components as Itinerary Stops (Completed).Paths[Derived Column Output]"
+              endId="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion.Inputs[Data Conversion Input]"
               name="Derived Column Output"
               startId="Package\Load CE Components as Itinerary Stops (Completed)\Derived Column.Outputs[Derived Column Output]" />
             <path
@@ -4125,23 +4300,27 @@ where [refTable].[CE_ComponentId] = ?</property>
     design-time-name="Package\Load CE Components as Itinerary Stops (Completed)">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="169,42"
           Id="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop"
-          TopLeft="63.5,422.5" />
+          TopLeft="73.5,518.5" />
         <NodeLayout
           Size="157,42"
           Id="Package\Load CE Components as Itinerary Stops (Completed)\Lookup Itinerary"
           TopLeft="72.5,174.5" />
         <NodeLayout
-          Size="151,42"
-          Id="Package\Load CE Components as Itinerary Stops (Completed)\CE_Component"
-          TopLeft="75.5,59.5" />
-        <NodeLayout
           Size="154,42"
           Id="Package\Load CE Components as Itinerary Stops (Completed)\Derived Column"
           TopLeft="72,313" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load CE Components as Itinerary Stops (Completed)\Data Conversion"
+          TopLeft="77.5,417.5" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Load CE Components as Itinerary Stops (Completed)\CE_Component"
+          TopLeft="75.5,59.5" />
         <EdgeLayout
           Id="Package\Load CE Components as Itinerary Stops (Completed).Paths[OLE DB Source Output]"
           TopLeft="151,101.5">
@@ -4190,18 +4369,40 @@ where [refTable].[CE_ComponentId] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load CE Components as Itinerary Stops (Completed).Paths[Derived Column Output]"
-          TopLeft="148.5,355">
+          TopLeft="152.25,355">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,67.5"
+              EndConnector="0,62.5"
               Start="0,0"
-              End="0,60">
+              End="0,55">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,60" />
+                    End="0,55" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CE Components as Itinerary Stops (Completed).Paths[Data Conversion Output]"
+          TopLeft="156.75,459.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

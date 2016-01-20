@@ -16,7 +16,9 @@
             <div class="col-md-8">
                 <fieldset style="border:1px solid red; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
-                        <li ng-repeat="error in validationResults track by $index">{{error}}</li>
+                        <li ng-repeat="error in validationResults track by $index">
+                            <a ng-href="" ng-click="goToErrorSection(error.path)">{{error.msg}}</a>
+                        </li>
                     </ul>
                 </fieldset>
             </div>

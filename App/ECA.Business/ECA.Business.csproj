@@ -512,6 +512,7 @@
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPath.cs" />
     <Compile Include="Validation\SEVIS\SEVISBatchCreateUpdateEVValidator.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddPhase.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddSiteOfActivity.cs" />
