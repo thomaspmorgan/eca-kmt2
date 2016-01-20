@@ -26,11 +26,12 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAABX/xPXlU5+fXFrzAVoqb17yCWERI2UC9Zk3YeF1wgJvAAAAAAOgAAAAAIAACAAAABak7JxpbkN71jbiwHrblhsFvgkSQNJe5Wn53G0I8JamZAAAADUjsq60onuKITCYiPxpIUmWJzKUa410w7bALyxs0FG+F9l4NEtm+W+8wzwbD4eEbnG3iBcaeJ0kVcRZAlLi9oMIYOea3GcXikEvZcwlPJ8FYZrn4FL1fGDTFNx70pUO1/u+ZnsVJov4sFn9wR9PkoiLeAQ1rn8ZqyWXEhigQD7Tp9do+RCx/Ap/o9CgR59h0pAAAAAxYgLRYWyCzgDWXQEV37PxSEMd6ayqa9JGkGQMtpocS5csUn9EGnhIbSFTlvAvBfXryfrft+ujfFJf82cIUoKFA==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACE/iUBfPKoGcobf85A84yk4CQFL25a8WIzZSQGUSUzsgAAAAAOgAAAAAIAACAAAAD+P8/LpCoqwSdRAhvEO8N88rXHtcVM5buIBEZMozcG5pAAAADEfRXB4RnFngVLyCA6yNZqS+lUVdcTosfWa03VYO+jYDvpolv5fk+h7j37S/CSwLQXWQUuhUc4SpkrAAhdFxP3WNyn6xPVEJeNfVsAEaW93LKlOGkSlwcBQudmsuQcxZTuu0krk2TRnC+vuHOxcqVpvNDB6bnIWB6nNNwAAVgidLEMQ/aa8KegxZVlF2R+kVJAAAAAhpzMTEWqtrc9tPqppHq8eNN0GLogLx+niAQGjdZAnec3YbkSf4Q+xdIClUu7MAAl6xe1nvZjD63jcPCJddhcRg==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
           <SSIS:Package SSIS:Name="Import Fulbright Dataset2 to Fulbright DB.dtsx" SSIS:EntryPoint="1" />
+          <SSIS:Package SSIS:Name="Create Participant Exchange Visitor Data.dtsx" SSIS:EntryPoint="1" />
         </SSIS:Packages>
         <SSIS:ConnectionManagers>
           <SSIS:ConnectionManager SSIS:Name="ECA_KMT_DB.conmgr" />
@@ -344,6 +345,23 @@
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionGUID">{F5531BF7-62AA-43D8-B6CF-C97473DF9A44}</SSIS:Property>
+                <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                <SSIS:Property SSIS:Name="Description">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="ProtectionLevel">1</SSIS:Property>
+              </SSIS:Properties>
+              <SSIS:Parameters />
+            </SSIS:PackageMetaData>
+            <SSIS:PackageMetaData SSIS:Name="Create Participant Exchange Visitor Data.dtsx">
+              <SSIS:Properties>
+                <SSIS:Property SSIS:Name="ID">{DF03E5B4-B8D7-49BE-8767-A12A4E606834}</SSIS:Property>
+                <SSIS:Property SSIS:Name="Name">Create Participant Exchange Visitor Data</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">5</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionComments">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{74B6B131-FD8E-442D-90AB-8C5E7EFBE8E3}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
