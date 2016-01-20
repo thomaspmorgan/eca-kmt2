@@ -68,26 +68,6 @@ angular.module('staticApp')
               eventLimit: false,
               eventClick: function (calEvent, jsEvent, view) {
                   onCalendarItemClick(calEvent, jsEvent, view);
-              },
-              eventRender: function (event, element, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  var text = '';
-                  if (itineraryStop !== null) {
-                      if (itineraryStop.name) {
-                          text += itineraryStop.name;
-                      }
-                      if (itineraryStop.destinationLocation && itineraryStop.destinationLocation.name) {
-                          text += ':  ' + itineraryStop.destinationLocation.name;
-                      }
-                  }
-                  else {
-                      text = event.title;
-                  }
-                  element.attr({
-                      'tooltip': text,
-                      'tooltip-append-to-body': true
-                  });
-                  $compile(element)($scope);
               }
           }
       }
@@ -446,6 +426,7 @@ angular.module('staticApp')
               }
           }
           $scope.view.selectedCalendarItineraryStop = itineraryStop;
+          $scope.view.calendarConfig.calendar.defaultDate = calEvent.start;
       }
 
       function getItineraryStop(calendarEvent) {
