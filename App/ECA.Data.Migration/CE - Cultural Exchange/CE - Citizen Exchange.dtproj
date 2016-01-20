@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAADkgPBJZdDWfxD/1NeJVZd2/e/fFG5hwAMUFcJTVY0mLgAAAAAOgAAAAAIAACAAAAD3teFkEE8cB9ooguW3u1U4BBfq5lyaVDLv1VRaVyTmzJAAAABGkowtwj5+D5JHqKqcfWu/JuekH9BnGpxwfi/O+kpcH39IK5BmKZ4e7SzXmJ7rXPcWxnsSjPwATSzApu8B2fUVpmqOjLouNajpk4/XgxKimGRXHaKZi3Cqht7JXMM+JPPxDbITuWVvlz8UDguFyKHDZy8XnvrkbZ/e+DINCuCcJwRfF0/AePhOQJzwRaiVnZxAAAAALLA5k94kPD/0UgD9ZYKjk0fgPytOYHFtGk9Usli01XAwmY2s06h4EgfAsA1gw4m/ZJO1+s9u6HW5Q60fPABTdg==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAAArTSUG0OApXyQWk0qqCQBaZI1XMC0Bko8nvPbSYJCm2QAAAAAOgAAAAAIAACAAAAAWQOmqq6P6NzcqzQ4U4iGvjeQcjQb2YPn381YjAM/8S5AAAABEWo/RGgOGaxVqjuGYaPyOZA4h2Dfk6hT4jmu+RQlbZxfOk7uJg1mPpCmlcJeQjLtpNfBKy2VnjJmyXeqxq1l9adlb4GzpnCdSxRaMQFVJ08sONng/FU0QOlLNv/+FaBpUHxIRQ9awYPslHID8mujEeZBcLgT5zWg5oX3jdmTQrmRuZf6WstUZM9SBRgtqDGRAAAAAblY/0r8dyqza2AkGxxIhnPdzoGDSEdP0VoICDmstWCxS2bSOpAxv+L+VZRWcF+3PIONtx+hIA2QN08liqQ39DA==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -73,7 +73,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_DEV;Provider=SQLNCLI11.1;Auto Translate=False;</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -88,7 +88,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">ECA_Local</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">ECA_KMT_DEV</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -132,7 +132,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">BE00003308</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">eca.database.windows.net</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -147,6 +147,7 @@
                 <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                 <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="Value">eca</SSIS:Property>
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
@@ -6308,10 +6309,10 @@
                 <SSIS:Property SSIS:Name="Name">Load CE Components as Itineraries</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">31</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">35</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{15E94641-9549-4910-8EEE-806E3537FB47}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{7E20415F-E7D3-4EDF-AC37-E54700B1BAA2}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
