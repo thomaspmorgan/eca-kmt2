@@ -15,7 +15,9 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        $location,
         $timeout,
+        $anchorScroll,
         MessageBox,
         StateService,
         OrganizationService,
@@ -68,6 +70,44 @@ angular.module('staticApp')
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
       var projectId = $stateParams.projectId;
+
+      // SEVIS validation: expand participant and set active tab where error is located.
+      $scope.$on('$viewContentLoaded', function () {
+
+          var participantid = $stateParams.participantId;
+          var tab = $stateParams.tab;
+
+          if (participantid) {
+              $timeout(function () {
+                  $scope.toggleParticipantInfo(participantid);
+              }, 500);
+
+              $timeout(function () {
+                  if (tab) {
+                      switch (tab) {
+                          case "personalinfo":
+                              $scope.onInfoTabSelected(participantid);
+                              break;
+                          case "sevis":
+                              $scope.onSevisTabSelected(participantid);
+                              break;
+                          case "ev":
+                              $scope.onExchangeVisitorTabSelected(participantid);
+                              break;
+                      }
+                  }
+              }, 800);
+              
+              $timeout(function () {
+                  $location.hash(participantid);
+                  $anchorScroll();
+              }, 1100);
+
+              $timeout(function () {
+                  window.scrollTo(window.pageXOffset, window.pageYOffset - 150);
+              }, 1400);
+          }
+      });
 
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({
