@@ -231,7 +231,8 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">Participant ID</param>
         /// <param name="errorCount">Validation error count</param>
         /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        public void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid)
+        /// <param name="result">Validation result object</param>
+        public void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result)
         {
             var newStatus = new ParticipantPersonSevisCommStatus
             {
@@ -239,7 +240,7 @@ namespace ECA.Business.Service.Persons
                 AddedOn = DateTimeOffset.Now
             };
 
-            if (errorCount > 0 || !isValid)
+            if (result.Errors.Count > 0 || !result.IsValid)
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
             }
@@ -247,8 +248,9 @@ namespace ECA.Business.Service.Persons
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
             }
-
+            
             Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
+            Context.SaveChanges();
         }
 
         /// <summary>

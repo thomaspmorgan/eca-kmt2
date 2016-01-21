@@ -59,11 +59,7 @@
                         }
                         $scope.validationResults = valErrors;
                         // update participant sevis status
-                        var params = {
-                            errors: response.data.errors.length,
-                            isvalid: response.data.isValid
-                        };
-                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
+                        ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -83,11 +79,7 @@
                         }
                         $scope.validationResults = valErrors;
                         // update participant sevis status
-                        var params = {
-                            errors: response.data.errors.length,
-                            isvalid: response.data.isValid
-                        };
-                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
+                        ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
