@@ -88,7 +88,7 @@ namespace ECA.Business.Service.Admin
 
         private DbRawSqlQuery<OrganizationHierarchyDTO> CreateGetOrganizationsByRoleIdSqlQuery(int organizationRoleId)
         {
-            return this.Context.Database.SqlQuery<OrganizationHierarchyDTO>("GetOrganizationsByRoleId @OrganizationRoleId", organizationRoleId);
+            return this.Context.Database.SqlQuery<OrganizationHierarchyDTO>("GetOrganizationsByRoleId @organizationRoleId", new SqlParameter("organizationRoleId", organizationRoleId));
         }
 
         private PagedQueryResults<T> GetPagedQueryResults<T>(IEnumerable<T> enumerable, QueryableOperator<T> queryOperator) where T : class
