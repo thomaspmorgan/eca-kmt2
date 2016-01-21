@@ -1,5 +1,5 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Manage Participants</h3>
+    <h3 class="modal-title">{{view.title}}</h3>
 </div>
 <div class="modal-body">
     <div class="spinner" ng-show="view.isSavingItinerary">
@@ -34,9 +34,11 @@
                         <div style="padding-top:10px;padding-bottom: 10px;">
                             <div ng-bind-html="participant.fullName | highlight: $select.search"></div>
                         </div>
-
                     </ui-select-choices>
                 </ui-select>
+            </div>
+            <div style="margin-top:8px;" class="col-md-12 text-right">
+                <button class="btn btn-primary" ng-click="view.onSortTravelPeriodParticipants()">Sort</button>
             </div>
         </div>
         <hr />
@@ -45,53 +47,64 @@
                 <h3 style="margin-bottom:20px;">City Stop Participants</h3>
             </div>
             <div class="col-md-6">
-                <label>
-                    <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">location_on</i>
-                    City Stop
-                </label>
-                <ui-select ng-model="view.selectedItineraryStop"
-                           on-select="view.onSelectItineraryStop($item, $model)"
-                           search-enabled="false"
-                           theme="select2"
-                           ng-required="false">
-                    <ui-select-match placeholder="Select a city stop...">
-                        <div>
-                            {{$select.selected.name}}
-                        </div>
-                    </ui-select-match>
-                    <ui-select-choices repeat="stop in view.itineraryStops | orderBy: 'name'">
-                        <div style="padding-top:10px;padding-bottom: 10px;">
-                            <div>{{stop.name}}</div>
-                            <div style="margin-left:20px;margin-top:5px;font-size:small;">{{stop.destinationLocation.name}}{{stop.destinationLocation.division ? ', ' + stop.destinationLocation.division : ''}}{{stop.destinationLocation.country ? ' ' + stop.destinationLocation.country : ''}}</div>
-                            <div style="margin-left:20px;font-size:small;">{{stop.participants.length}} <ng-pluralize count="stop.participants.length" when="{'1':'Participant','other':'Participants'}"></ng-pluralize></div>
-                        </div>
-                    </ui-select-choices>
-                </ui-select>
+                <div>
+                    <label>
+                        <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">location_on</i>
+                        City Stop
+                    </label>
+                    <ui-select ng-model="view.selectedItineraryStop"
+                               on-select="view.onSelectItineraryStop($item, $model)"
+                               search-enabled="false"
+                               theme="select2"
+                               ng-required="false">
+                        <ui-select-match placeholder="Select a city stop...">
+                            <div>
+                                {{$select.selected.name}}
+                            </div>
+                        </ui-select-match>
+                        <ui-select-choices repeat="stop in view.itineraryStops | orderBy: 'name'">
+                            <div style="padding-top:10px;padding-bottom: 10px;">
+                                <div>{{stop.name}}</div>
+                                <div style="margin-left:20px;margin-top:5px;font-size:small;">{{stop.destinationLocation.name}}{{stop.destinationLocation.division ? ', ' + stop.destinationLocation.division : ''}}{{stop.destinationLocation.country ? ' ' + stop.destinationLocation.country : ''}}</div>
+                                <div style="margin-left:20px;font-size:small;">{{stop.participants.length}} <ng-pluralize count="stop.participants.length" when="{'1':'Participant','other':'Participants'}"></ng-pluralize></div>
+                            </div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>                
             </div>
             <div class="col-md-6">
                 <label>
                     <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">person</i>
                     Participants
                 </label>
-                <ui-select ng-model="view.selectedItineraryStop.participants"
-                           multiple
-                           search-enabled="false"
-                           on-select="view.onSelectItineraryStopParticipant($item, $model)"
-                           on-remove="view.onRemoveItineraryStopParticipant($item, $model)"
-                           theme="select2"
-                           ng-disabled="view.selectedItineraryStop === null"
-                           ng-required="false">
-                    <ui-select-match placeholder="Select city stop participants...">
-                        <div>
-                            {{$item.fullName}}
-                        </div>
-                    </ui-select-match>
-                    <ui-select-choices repeat="participant in view.travelPeriodParticipantsCopy | orderBy: 'fullName' track by participant.participantId">
-                        <div style="padding-top:10px;padding-bottom: 10px;">
-                            <div>{{participant.fullName}}</div>
-                        </div>
-                    </ui-select-choices>
-                </ui-select>
+                <div>
+                    <div>
+                        <ui-select ng-model="view.selectedItineraryStop.participants"
+                                   multiple
+                                   search-enabled="false"
+                                   on-select="view.onSelectItineraryStopParticipant($item, $model)"
+                                   on-remove="view.onRemoveItineraryStopParticipant($item, $model)"
+                                   theme="select2"
+                                   ng-disabled="view.selectedItineraryStop === null"
+                                   ng-required="false">
+                            <ui-select-match placeholder="Select city stop participants..." allow-clear="true">
+                                <div>
+                                    {{$item.fullName}}
+                                </div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="participant in view.travelPeriodParticipantsCopy | orderBy: 'fullName' track by participant.participantId">
+                                <div style="padding-top:10px;padding-bottom: 10px;">
+                                    <div>{{participant.fullName}}</div>
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="margin-top:8px;" class="text-right">
+                        <button class="btn btn-primary" ng-disabled="view.selectedItineraryStop === null" ng-click="view.onSortItineraryStopParticipants()">Sort</button>
+                        <button class="btn btn-primary" ng-disabled="view.selectedItineraryStop === null" ng-click="view.onAddAllItineraryParticipants()">Add All</button>
+                        <button class="btn btn-primary" ng-disabled="view.selectedItineraryStop === null" ng-click="view.onClearItineraryStopParticipantsClick()">Clear</button>
+                    </div>
+                </div>
             </div>
         </div>
 

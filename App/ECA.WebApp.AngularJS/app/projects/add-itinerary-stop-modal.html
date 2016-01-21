@@ -31,88 +31,84 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>
-                                    <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">event</i>
-                                    Date and Time of Arrival<span class="asterisk"> *</span>
-                                </label>
-                                <div>
-                                    <p class="input-group" style="padding-top:8px;">
-                                        <input name="arrivalDate"
-                                               type="text"
-                                               class="form-control"
-                                               datepicker-popup="dd-MMMM-yyyy"
-                                               show-weeks="false"
-                                               ng-model="view.itineraryStop.arrivalDate"
-                                               is-open="view.isArrivalDateOpen"
-                                               close-text="Close"
-                                               placeholder="Enter date of arrival..."
-                                               min-date="view.itinerary.startDate"
-                                               max-date="view.itineraryStop.departureDate < view.itinerary.endDate ? view.itineraryStop.departureDate : view.itinerary.endDate"
-                                               ng-required="true" />
-                                        <span class="input-group-btn" style="width:0;">
-                                            <button type="button" class="btn btn-default" ng-click="view.openArrivalDate($event)"><i class="material-icons md-18">event</i></button>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div ng-show="form.itineraryStopForm.startDate.$dirty">
-                                    <div class="error" ng-show="form.itineraryStopForm.startDate.$error.required">Please select a date of arrival.</div>
-                                </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">event</i>
+                                Date and Time of Arrival<span class="asterisk"> *</span>
+                            </label>
+                            <div>
+                                <p class="input-group" style="padding-top:8px;">
+                                    <input name="arrivalDate"
+                                           type="text"
+                                           class="form-control"
+                                           datepicker-popup="dd-MMMM-yyyy"
+                                           show-weeks="false"
+                                           ng-model="view.itineraryStop.arrivalDate"
+                                           is-open="view.isArrivalDateOpen"
+                                           close-text="Close"
+                                           placeholder="Enter date of arrival..."
+                                           min-date="view.itinerary.startDate"
+                                           max-date="view.itineraryStop.departureDate < view.itinerary.endDate ? view.itineraryStop.departureDate : view.itinerary.endDate"
+                                           ng-required="true" />
+                                    <span class="input-group-btn" style="width:0;">
+                                        <button type="button" class="btn btn-default" ng-click="view.openArrivalDate($event)"><i class="material-icons md-18">event</i></button>
+                                    </span>
+                                </p>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div class="timepicker" style="margin-top:8px;">
-                                    <timepicker ng-model="view.itineraryStop.arrivalTime"
-                                                hour-step="1"
-                                                minute-step="1"
-                                                show-meridian="true">
-                                    </timepicker>
-                                </div>
+                            <div ng-show="form.itineraryStopForm.startDate.$dirty">
+                                <div class="error" ng-show="form.itineraryStopForm.startDate.$error.required">Please select a date of arrival.</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>
-                                    <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">event</i>
-                                    Date and Time of Departure<span class="asterisk"> *</span>
-                                </label>
-                                <div>
-                                    <p class="input-group" style="padding-top:8px;">
-                                        <input name="departureDate"
-                                               type="text"
-                                               class="form-control"
-                                               datepicker-popup="dd-MMMM-yyyy"
-                                               min-date="view.itineraryStop.arrivalDate"
-                                               max-date="view.itinerary.endDate"
-                                               show-weeks="false"
-                                               ng-model="view.itineraryStop.departureDate"
-                                               is-open="view.isDepartureDateOpen"
-                                               close-text="Close"
-                                               placeholder="Enter date of departure..."
-                                               ng-required="true" />
-                                        <span class="input-group-btn" style="width:0;">
-                                            <button type="button" class="btn btn-default" ng-click="view.openDepartureDate($event)"><i class="material-icons md-18">event</i></button>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div ng-show="form.itineraryStopForm.endDate.$dirty">
-                                    <div class="error" ng-show="form.itineraryStopForm.endDate.$error.required">Please select a date of departure.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="timepicker" style="margin-top:8px;">
-                                <timepicker ng-model="view.itineraryStop.departureTime"
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="timepicker" style="margin-top:4px;">
+                                <timepicker ng-model="view.itineraryStop.arrivalTime"
                                             hour-step="1"
                                             minute-step="1"
                                             show-meridian="true">
                                 </timepicker>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">event</i>
+                                Date and Time of Departure<span class="asterisk"> *</span>
+                            </label>
+                            <div>
+                                <p class="input-group" style="padding-top:8px;">
+                                    <input name="departureDate"
+                                           type="text"
+                                           class="form-control"
+                                           datepicker-popup="dd-MMMM-yyyy"
+                                           min-date="view.itineraryStop.arrivalDate"
+                                           max-date="view.itinerary.endDate"
+                                           show-weeks="false"
+                                           ng-model="view.itineraryStop.departureDate"
+                                           is-open="view.isDepartureDateOpen"
+                                           close-text="Close"
+                                           placeholder="Enter date of departure..."
+                                           ng-required="true" />
+                                    <span class="input-group-btn" style="width:0;">
+                                        <button type="button" class="btn btn-default" ng-click="view.openDepartureDate($event)"><i class="material-icons md-18">event</i></button>
+                                    </span>
+                                </p>
+                            </div>
+                            <div ng-show="form.itineraryStopForm.endDate.$dirty">
+                                <div class="error" ng-show="form.itineraryStopForm.endDate.$error.required">Please select a date of departure.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="timepicker" style="margin-top:4px;">
+                            <timepicker ng-model="view.itineraryStop.departureTime"
+                                        hour-step="1"
+                                        minute-step="1"
+                                        show-meridian="true">
+                            </timepicker>
                         </div>
                     </div>
                 </div>

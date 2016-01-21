@@ -19,6 +19,7 @@ angular.module('staticApp')
         project,
         itinerary,
         containsFilter,
+        orderByFilter,
         NotificationService,
         ConstantsService,
         LocationService,
@@ -27,6 +28,7 @@ angular.module('staticApp')
         FilterService) {
 
       $scope.view = {};
+      $scope.view.title = 'Manage ' + itinerary.name + ' Participants';
       $scope.view.limit = 30;
       $scope.view.filteredParticipants = [];
       $scope.view.filteredParticipantsCount = 0;
@@ -39,6 +41,34 @@ angular.module('staticApp')
       $scope.view.itineraryStops = [];
       $scope.view.selectedItineraryStop = null;
       $scope.view.isLoadingItineraryStops = false;
+
+      $scope.view.onSortTravelPeriodParticipants = function () {
+          $scope.view.travelPeriodParticipants = orderByFilter($scope.view.travelPeriodParticipants, 'fullName');
+      }
+
+      $scope.view.onSortItineraryStopParticipants = function () {
+          $scope.view.selectedItineraryStop.participants = orderByFilter($scope.view.selectedItineraryStop.participants, 'fullName');
+      }
+
+
+      $scope.view.onAddAllItineraryParticipants = function () {
+          var addedParticipants = false;
+          var alreadyAddedParticipantIds = getParticipantIds($scope.view.selectedItineraryStop.participants);
+          angular.forEach($scope.view.travelPeriodParticipants, function (p, index) {
+              if (!containsFilter(alreadyAddedParticipantIds, p.participantId)) {
+                  addedParticipants = true;
+                  $scope.view.selectedItineraryStop.participants.push(p);
+              }
+          });
+          if (addedParticipants) {
+              return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants);
+          }
+      }
+
+      $scope.view.onClearItineraryStopParticipantsClick = function () {
+          $scope.view.selectedItineraryStop.participants = [];
+          return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants);
+      }
 
       $scope.view.onSelectItineraryParticipant = function($item, $model){
           return saveItineraryParticipants(project, itinerary, $scope.view.travelPeriodParticipants);
@@ -70,6 +100,7 @@ angular.module('staticApp')
               copyTravelPeriodParticipants($item.participants);
           }
       }
+
 
       function setIsItineraryStopParticipant(participant) {
           var travelStopParticipantIds = getParticipantIds($scope.view.travelStopParticipants);
@@ -123,7 +154,7 @@ angular.module('staticApp')
       function loadParticipants(projectId, search) {
           $scope.view.isLoadingFilteredParticipants = true;
           personParticipantsFilter.reset();
-          personParticipantsFilter = personParticipantsFilter.isNotNull('personId').take($scope.view.limit);
+          personParticipantsFilter = personParticipantsFilter.isTrue('isPersonParticipantType').take($scope.view.limit);
           if (search) {
               personParticipantsFilter = personParticipantsFilter.like('name', search);
           }
