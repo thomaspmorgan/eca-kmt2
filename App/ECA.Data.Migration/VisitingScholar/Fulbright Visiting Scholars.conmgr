@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0"?>
 <DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
-  DTS:ObjectName="Fulbright"
+  DTS:ObjectName="Fulbright Visiting Scholars"
   DTS:DTSID="{50C37265-F7E5-4DEC-A6C5-313DEF8D30E0}"
   DTS:CreationName="OLEDB">
   <DTS:ObjectData>
