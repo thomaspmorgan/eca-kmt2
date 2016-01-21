@@ -205,6 +205,8 @@
     <Content Include="app\programs\programs.routes.js" />
     <Content Include="app\projects\itineraries.contoller.js" />
     <Content Include="app\projects\itinerary.controller.js" />
+    <Content Include="app\projects\manage-itinerary-participants-modal.controller.js" />
+    <Content Include="app\projects\manage-itinerary-participants-modal.html" />
     <Content Include="app\projects\project-location-marker.controller.js" />
     <Content Include="app\projects\project-location-marker.html" />
     <Content Include="app\projects\projects.routes.js" />
@@ -224,6 +226,7 @@
     </Content>
     <Content Include="app\services\data-point-configuration.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
+    <Content Include="app\services\datetime.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />

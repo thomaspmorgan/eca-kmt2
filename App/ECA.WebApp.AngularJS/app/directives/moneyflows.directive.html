@@ -1,6 +1,6 @@
 ﻿<div ng-controller="MoneyFlowsCtrl">
     <tabset>
-        <tab heading="Funding Items" class="tab">
+        <tab heading="Funding Items" class="tab" active="isFundingItems">
             <div style="margin-top:20px;">
                 <div class="col-md-8">
                     <p class="mute" ng-show="view.total > 0">Showing {{view.start}} - {{view.end}} of {{view.total}} funding items.</p>
@@ -325,7 +325,7 @@
                 <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="view.limit" st-displayed-pages="10" ng-show="!view.isLoadingMoneyFlows"></div>
             </div>
         </tab>
-        <tab class="tab">
+        <tab class="tab" active="isSummary">
             <tab-heading>
                 Summary<i class="material-icons material-icons-spin" ng-show="view.isLoadingFiscalYearSummaries">autorenew</i>
             </tab-heading>

@@ -23,7 +23,6 @@ namespace ECA.Data
         {
             this.History = new History();
             this.Participants = new HashSet<Participant>();
-            this.Groups = new HashSet<ItineraryGroup>();
             this.SourceItineraryStopMoneyFlows = new HashSet<MoneyFlow>();
             this.RecipientItineraryStopMoneyFlows = new HashSet<MoneyFlow>();
         }
@@ -45,6 +44,11 @@ namespace ECA.Data
         /// Gets or sets the itinerary status.
         /// </summary>
         public virtual ItineraryStatus ItineraryStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timezone id.
+        /// </summary>
+        public string TimezoneId { get; set; }
 
         /// <summary>
         /// Gets or sets the itinerary status id.
@@ -103,11 +107,6 @@ namespace ECA.Data
         /// Gets or sets the participants on the travel stop.
         /// </summary>
         public virtual ICollection<Participant> Participants { get; set; }
-
-        /// <summary>
-        /// Gets or sets the groups.
-        /// </summary>
-        public virtual ICollection<ItineraryGroup> Groups { get; set; }
 
         //public virtual ICollection<Transportation> Transportations { get; set; }
         //public virtual ICollection<Accommodation> Accommodations { get; set; }

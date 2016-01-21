@@ -18,20 +18,27 @@ namespace ECA.Business.Service.Itineraries
     /// </summary>
     public class ItineraryService : EcaService, IItineraryService
     {
-        private readonly IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity> validator;
+        private readonly IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity> ecaItineraryValidator;
+        private readonly IBusinessValidator<ItineraryParticipantsValidationEntity, ItineraryParticipantsValidationEntity> itineraryParticipantsValidator;
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private readonly Action<int, Itinerary, int> throwSecurityViolationIfDifferentProject;
+        private readonly Action<int, IEnumerable<int>, int, int> throwSecurityViolationIfParticipantsNotOnProject;
         /// <summary>
         /// Creates a new service instance with the given context and save actions.
         /// </summary>
         /// <param name="context">The context to perform crud operations against.</param>
         /// <param name="saveActions">The context save actions.</param>
-        public ItineraryService(EcaContext context, IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity> validator, List<ISaveAction> saveActions = null)
+        public ItineraryService(EcaContext context,
+            IBusinessValidator<AddedEcaItineraryValidationEntity, UpdatedEcaItineraryValidationEntity> ecaItineraryValidator,
+            IBusinessValidator<ItineraryParticipantsValidationEntity, ItineraryParticipantsValidationEntity> itineraryParticipantsValidator,
+            List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(validator != null, "The validator must not be null.");
-            this.validator = validator;
+            Contract.Requires(ecaItineraryValidator != null, "The eca itienrary validator must not be null.");
+            Contract.Requires(itineraryParticipantsValidator != null, "The itienrary participants validator must not be null.");
+            this.ecaItineraryValidator = ecaItineraryValidator;
+            this.itineraryParticipantsValidator = itineraryParticipantsValidator;
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -47,6 +54,18 @@ namespace ECA.Business.Service.Itineraries
                         String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
                         userId,
                         projectId));
+                }
+            };
+            throwSecurityViolationIfParticipantsNotOnProject = (userId, participantIds, itineraryId, projectId) =>
+            {
+                if(participantIds.Count() > 0)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to add participants to the itinerary with id [{1}] that do not exist on the project with id [{2}].",
+                        userId,
+                        itineraryId,
+                        projectId
+                        ));
                 }
             };
         }
@@ -99,6 +118,30 @@ namespace ECA.Business.Service.Itineraries
             return itinerary;
         }
 
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="projectId">The project id of the itinerary.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The participants.</returns>
+        public List<ItineraryParticipantDTO> GetItineraryParticipants(int projectId, int itineraryId)
+        {
+            var participants = ItineraryQueries.CreateGetItineraryParticipantsQuery(this.Context, itineraryId, projectId).ToList();
+            return participants;
+        }
+
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="projectId">The project id of the itinerary.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <returns>The participants.</returns>
+        public async Task<List<ItineraryParticipantDTO>> GetItineraryParticipantsAsync(int projectId, int itineraryId)
+        {
+            var participants = await ItineraryQueries.CreateGetItineraryParticipantsQuery(this.Context, itineraryId, projectId).ToListAsync();
+            return participants;
+        }
+
         private IQueryable<ItineraryDTO> CreateGetItineraryByIdAndProjectId(int projectId, int id)
         {
             var query = ItineraryQueries.CreateGetItinerariesQuery(this.Context).Where(x => x.ProjectId == projectId && x.Id == id);
@@ -122,12 +165,12 @@ namespace ECA.Business.Service.Itineraries
             throwIfModelDoesNotExist(itinerary.ArrivalLocationId, arrivalLocation, typeof(Location));
 
             var departureLocation = Context.Locations.Find(itinerary.DepartureLocationId);
-            throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));            
+            throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
 
             return DoCreate(
-                addedItinerary: itinerary, 
-                project: project, 
-                arrivalLocation: arrivalLocation, 
+                addedItinerary: itinerary,
+                project: project,
+                arrivalLocation: arrivalLocation,
                 departureLocation: departureLocation);
         }
 
@@ -170,7 +213,7 @@ namespace ECA.Business.Service.Itineraries
 
         private Itinerary DoCreate(AddedEcaItinerary addedItinerary, Project project, Location arrivalLocation, Location departureLocation)
         {
-            validator.ValidateCreate(GetAddedEcaItineraryValidationEntity(
+            ecaItineraryValidator.ValidateCreate(GetAddedEcaItineraryValidationEntity(
                 addedItinerary: addedItinerary,
                 project: project,
                 arrivalLocation: arrivalLocation,
@@ -208,7 +251,7 @@ namespace ECA.Business.Service.Itineraries
             throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
 
             throwSecurityViolationIfDifferentProject(itinerary.Audit.User.Id, itineraryToUpdate, itinerary.ProjectId);
-
+            
             DoUpdate(
                 updatedItinerary: itinerary,
                 itineraryToUpdate: itineraryToUpdate,
@@ -232,7 +275,7 @@ namespace ECA.Business.Service.Itineraries
             throwIfModelDoesNotExist(itinerary.DepartureLocationId, departureLocation, typeof(Location));
 
             throwSecurityViolationIfDifferentProject(itinerary.Audit.User.Id, itineraryToUpdate, itinerary.ProjectId);
-
+            
             DoUpdate(
                 updatedItinerary: itinerary,
                 itineraryToUpdate: itineraryToUpdate,
@@ -247,7 +290,7 @@ namespace ECA.Business.Service.Itineraries
 
         private void DoUpdate(UpdatedEcaItinerary updatedItinerary, Itinerary itineraryToUpdate, Location arrivalLocation, Location departureLocation)
         {
-            validator.ValidateUpdate(GetUpdatedEcaItineraryValidationEntity(
+            ecaItineraryValidator.ValidateUpdate(GetUpdatedEcaItineraryValidationEntity(
                 updatedItinerary: updatedItinerary,
                 itineraryToUpdate: itineraryToUpdate,
                 arrivalLocation: arrivalLocation,
@@ -278,5 +321,104 @@ namespace ECA.Business.Service.Itineraries
         }
 
         #endregion
+
+        #region Set Participants
+
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        public void SetParticipants(ItineraryParticipants itineraryParticipants)
+        {
+            var itineraryToUpdate = Context.Itineraries.Find(itineraryParticipants.ItineraryId);
+            throwIfModelDoesNotExist(itineraryParticipants.ItineraryId, itineraryToUpdate, typeof(Itinerary));
+            throwSecurityViolationIfDifferentProject(itineraryParticipants.Audit.User.Id, itineraryToUpdate, itineraryParticipants.ProjectId);
+            
+            var projectParticipantIds = CreateGetParticipantsByParticipantIdsAndProjectIdQuery(itineraryParticipants.ParticipantIds, itineraryParticipants.ProjectId).Select(x => x.ParticipantId).ToList();
+            var participantsByIdThatDoNotExist = GetIdsOfParticipantsThatDoNotExist(itineraryParticipants.ParticipantIds, projectParticipantIds);
+            throwSecurityViolationIfParticipantsNotOnProject(itineraryParticipants.Audit.User.Id, participantsByIdThatDoNotExist, itineraryParticipants.ItineraryId, itineraryToUpdate.ProjectId);
+
+            var itineraryStopParticipantsById = CreateGetItineraryStopParticipantsByItineraryIdQuery(itineraryParticipants.ItineraryId).Select(x => x.ParticipantId).ToList();
+
+            var nonPersonParticipantsById = CreateGetParticipantsThatAreNotPeopleQuery(itineraryParticipants.ParticipantIds).Select(x => x.ParticipantId).ToList();
+
+            DoSetParticipants(
+                itinerary: itineraryToUpdate,
+                itineraryParticipants: itineraryParticipants,
+                itineraryStopParticipantsById: itineraryStopParticipantsById,
+                nonPersonParticipantsById: nonPersonParticipantsById
+                );
+        }
+
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        /// <returns>The task.</returns>
+        public async Task SetParticipantsAsync(ItineraryParticipants itineraryParticipants)
+        {
+            var itineraryToUpdate = await Context.Itineraries.FindAsync(itineraryParticipants.ItineraryId);
+            throwIfModelDoesNotExist(itineraryParticipants.ItineraryId, itineraryToUpdate, typeof(Itinerary));
+            throwSecurityViolationIfDifferentProject(itineraryParticipants.Audit.User.Id, itineraryToUpdate, itineraryParticipants.ProjectId);
+
+            var projectParticipantIds = await CreateGetParticipantsByParticipantIdsAndProjectIdQuery(itineraryParticipants.ParticipantIds, itineraryParticipants.ProjectId).Select(x => x.ParticipantId).ToListAsync();
+            var participantsByIdThatDoNotExist = GetIdsOfParticipantsThatDoNotExist(itineraryParticipants.ParticipantIds, projectParticipantIds);
+            throwSecurityViolationIfParticipantsNotOnProject(itineraryParticipants.Audit.User.Id, participantsByIdThatDoNotExist, itineraryParticipants.ItineraryId, itineraryToUpdate.ProjectId);
+
+            var itineraryStopParticipantsById = await CreateGetItineraryStopParticipantsByItineraryIdQuery(itineraryParticipants.ItineraryId).Select(x => x.ParticipantId).ToListAsync();
+
+            var nonPersonParticipantsById = CreateGetParticipantsThatAreNotPeopleQuery(itineraryParticipants.ParticipantIds).Select(x => x.ParticipantId).ToList();
+
+            DoSetParticipants(
+                itinerary: itineraryToUpdate,
+                itineraryParticipants: itineraryParticipants,
+                itineraryStopParticipantsById: itineraryStopParticipantsById,
+                nonPersonParticipantsById: nonPersonParticipantsById
+                );
+        }
+
+        private void DoSetParticipants(Itinerary itinerary, ItineraryParticipants itineraryParticipants, IEnumerable<int> itineraryStopParticipantsById, IEnumerable<int> nonPersonParticipantsById)
+        {
+            var orphanedItineraryStopParticipantsById = itineraryStopParticipantsById.Except(itineraryParticipants.ParticipantIds).ToList();
+
+            itineraryParticipantsValidator.ValidateUpdate(new ItineraryParticipantsValidationEntity(
+                orphanedParticipantsByParticipantId: orphanedItineraryStopParticipantsById,
+                nonPersonParticipantsByParticipantIds: nonPersonParticipantsById
+                ));
+            itineraryParticipants.Audit.SetHistory(itinerary);
+            SetParticipants(itineraryParticipants.ParticipantIds.ToList(), itinerary, x => x.Participants);
+        }
+
+        private IQueryable<Participant> CreateGetItineraryStopParticipantsByItineraryIdQuery(int itineraryId)
+        {
+            return this.Context.Itineraries
+                .Where(x => x.ItineraryId == itineraryId)
+                .SelectMany(x => x.Stops)
+                .SelectMany(x => x.Participants)
+                .Distinct();
+        }
+
+        #endregion
+
+        private IEnumerable<Participant> CreateGetParticipantsThatAreNotPeopleQuery(IEnumerable<int> participantIds)
+        {
+            return Context.Participants.Where(x => participantIds.Distinct().Contains(x.ParticipantId) && !x.ParticipantType.IsPerson);
+        }
+
+        private IEnumerable<int> GetIdsOfParticipantsThatDoNotExist(IEnumerable<int> participantIds, IEnumerable<int> contextParticipantIds)
+        {
+            return participantIds.Except(contextParticipantIds);
+        }
+
+        /// <summary>
+        /// Creates a query to get participants from a collection of ids and the project.
+        /// </summary>
+        /// <param name="participantIds">The ids of the participants.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The participants.</returns>
+        private IQueryable<Participant> CreateGetParticipantsByParticipantIdsAndProjectIdQuery(IEnumerable<int> participantIds, int projectId)
+        {
+            return Context.Participants.Where(x => participantIds.Distinct().Contains(x.ParticipantId) && x.ProjectId == projectId);
+        }
     }
 }

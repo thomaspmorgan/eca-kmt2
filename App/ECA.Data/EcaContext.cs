@@ -91,11 +91,6 @@ namespace ECA.Data
         public DbSet<Course> Courses { get; set; }
 
         /// <summary>
-        /// Gets or sets the itinerary groups.
-        /// </summary>
-        public DbSet<ItineraryGroup> ItineraryGroups { get; set; }
-
-        /// <summary>
         /// Gets or sets the email addresses.
         /// </summary>
         public DbSet<EmailAddress> EmailAddresses { get; set; }
@@ -307,6 +302,11 @@ namespace ECA.Data
         /// Gets or sets publications.
         /// </summary>
         public DbSet<Publication> Publications { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SEVIS batch processing records
+        /// </summary>
+        public DbSet<SevisBatchProcessing> SevisBatchProcessings { get; set; }
 
         /// <summary>
         /// Gets or sets social medias.

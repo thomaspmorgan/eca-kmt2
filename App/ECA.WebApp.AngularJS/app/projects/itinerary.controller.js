@@ -22,6 +22,7 @@ angular.module('staticApp')
       LocationService,
       StateService,
       NotificationService,
+      DateTimeService,
       ConstantsService) {
 
       $scope.view = {};
@@ -47,6 +48,10 @@ angular.module('staticApp')
       $scope.view.eventSources = [[]];
       $scope.view.travelStopParticipants = [];
       $scope.view.selectedTravelStopParticipant = null;
+      $scope.view.isArrivalDateOpen = false;
+      $scope.view.areAllItineraryStopsExpanded = false;
+      $scope.view.currentTimezone = moment.tz.guess();
+      $scope.view.timezoneNames = moment.tz.names();
 
       //http://angular-ui.github.io/ui-calendar/
       //http://fullcalendar.io/
@@ -55,48 +60,27 @@ angular.module('staticApp')
           calendar: {
               editable: false,
               header: {
-                  right: 'month basicWeek basicDay',// agendaWeek agendaDay',
+                  right: 'month agendaWeek agendaDay',// basicWeek basicDay',
                   center: 'title',
                   left: 'today prevYear,prev,next,nextYear'
               },
               defaultDate: $scope.view.itinerary.startDate,
               eventLimit: false,
-              eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  updateItineraryStop(itineraryStop, event, delta);
-              },
               eventClick: function (calEvent, jsEvent, view) {
                   onCalendarItemClick(calEvent, jsEvent, view);
-              },
-              eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  updateItineraryStop(itineraryStop, event, delta);
-              },
-              eventRender: function (event, element, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  var text = '';
-                  if (itineraryStop !== null) {
-                      if (itineraryStop.name) {
-                          text += itineraryStop.name;
-                      }
-                      if (itineraryStop.destinationLocation && itineraryStop.destinationLocation.name) {
-                          text += ':  ' + itineraryStop.destinationLocation.name;
-                      }
-                  }
-                  else {
-                      text = event.title;
-                  }
-                  element.attr({
-                      'tooltip': text,
-                      'tooltip-append-to-body': true
-                  });
-                  $compile(element)($scope);
               }
           }
       }
 
+
       var colorIndex = 0;
       var itineraryCopy = angular.copy($scope.view.itinerary);
+
+      $scope.view.openArrivalDate = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.view.isArrivalDateOpen = true;
+      }
 
       $scope.view.onSelectTravelStopParticipant = function ($item, $model) {
           clearEvents();
@@ -135,12 +119,27 @@ angular.module('staticApp')
           $scope.view.isItineraryExpanded = false;
       }
 
+      $scope.view.onExpandAllClick = function (itinerary) {
+          return $scope.view.onItineraryExpandClick(itinerary)
+          .then(function (itineraryStops) {
+              angular.forEach(itineraryStops, function (stop, index) {
+                  stop.isExpanded = true;
+              });
+              $scope.view.areAllItineraryStopsExpanded = true;
+          });
+      }
+
+      $scope.view.onCollapseAllClick = function (itinerary) {
+          $scope.view.isItineraryExpanded = false;
+          $scope.view.areAllItineraryStopsExpanded = false;
+      }
+
       $scope.view.onAddItineraryStopClick = function (itinerary) {
           var addItineraryStopModal = $modal.open({
               animation: true,
               templateUrl: 'app/projects/add-itinerary-stop-modal.html',
               controller: 'AddItineraryStopModalCtrl',
-              size: 'lg',
+              windowClass: 'full-screen-modal',
               backdrop: 'static',
               resolve: {
                   project: function () {
@@ -265,21 +264,50 @@ angular.module('staticApp')
           return 'itinerary' + itinerary.id;
       }
 
+      $scope.$on(ConstantsService.itineraryStopExpandedEventName, function (event, itineraryStop) {
+          var allExpanded = true;
+          angular.forEach($scope.view.itineraryStops, function (stop, index) {
+              if (!stop.isExpanded) {
+                  allExpanded = false;
+              }
+          });
+          $scope.view.areAllItineraryStopsExpanded = allExpanded;
+      });
+
+      $scope.view.onManageParticipantsClick = function (itinerary) {
+          var manageParticipantsModal = $modal.open({
+              animation: true,
+              templateUrl: 'app/projects/manage-itinerary-participants-modal.html',
+              controller: 'ManageItineraryParticipantsModalCtrl',
+              windowClass: 'full-screen-modal',
+              backdrop: 'static',
+              resolve: {
+                  project: function () {
+                      return $scope.view.project;
+                  },
+                  itinerary: function () {
+                      return itinerary;
+                  }
+              }
+          });
+          manageParticipantsModal.result.then(function (travelPeriodParticipants) {
+              $log.info('Finished managing itinerary participants.');
+              itinerary.participantsCount = travelPeriodParticipants.length;
+              loadItineraryStops(itinerary);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
               angular.forEach(response.data, function (stop, index) {
-                  var arrivalDate = new Date(stop.arrivalDate);
-                  if (!isNaN(arrivalDate.getTime())) {
-                      stop.arrivalDate = arrivalDate;
-                  }
-                  var departureDate = new Date(stop.departureDate);
-                  if (!isNaN(departureDate.getTime())) {
-                      stop.departureDate = departureDate;
-                  }
-                  setItineraryStopColor(stop);
+                  stop.isExpanded = false;
               });
+              
               $scope.view.travelStopParticipants = getAllParticipants(response.data);
               $scope.view.itineraryStops = response.data;
               $scope.view.isLoadingItineraryStops = false;
@@ -306,13 +334,6 @@ angular.module('staticApp')
           };
 
           angular.forEach(itineraryStops, function (stop, stopIndex) {
-              angular.forEach(stop.groups, function (group, groupIndex) {
-                  angular.forEach(group.participants, function (groupParticipant, groupParticipantIndex) {
-                      if (!isTravelStopParticipantAdded(groupParticipant)) {
-                          participants.push(groupParticipant)
-                      }
-                  });
-              })
               angular.forEach(stop.participants, function (stopParticipant, stopParticipantIndex) {
                   if (!isTravelStopParticipantAdded(stopParticipant)) {
                       participants.push(stopParticipant)
@@ -385,26 +406,13 @@ angular.module('staticApp')
       }
 
       function addEvent(itineraryStop) {
-          $scope.view.eventSources[0].push(getEvent(itineraryStop));
+          $scope.view.eventSources[0].push(itineraryStop.getEvent());
       }
 
       function clearEvents() {
           for (var i = $scope.view.eventSources[0].length - 1; i >= 0; i--) {
               $scope.view.eventSources[0].splice(i, 1);
           }
-      }
-
-      function getEvent(itineraryStop) {
-          return {
-              title: itineraryStop.name,
-              start: itineraryStop.arrivalDate,
-              end: moment(itineraryStop.departureDate).add(1, 'days'),
-              allDay: true,
-              itineraryStopId: itineraryStop.itineraryStopId,
-              //textColor: 'lightgray'
-              color: itineraryStop.color,
-              //nextDayThreshold: '00:00:00' //has no effect on allday events
-          };
       }
 
       function onCalendarItemClick(calEvent, jsEvent, view) {
@@ -414,9 +422,11 @@ angular.module('staticApp')
               var stop = $scope.view.itineraryStops[i];
               if (stop.itineraryStopId === calEvent.itineraryStopId) {
                   itineraryStop = stop;
+                  break;
               }
           }
           $scope.view.selectedCalendarItineraryStop = itineraryStop;
+          $scope.view.calendarConfig.calendar.defaultDate = calEvent.start;
       }
 
       function getItineraryStop(calendarEvent) {
@@ -459,53 +469,6 @@ angular.module('staticApp')
           return itineraryStops;
       }
 
-      //function updateItineraryStop(itineraryStop, calendarEvent, delta) {          
-      //    var copy = angular.copy(itineraryStop);
-      //    itineraryStop.arrivalDate = calendarEvent.start.toDate();
-      //    itineraryStop.departureDate = calendarEvent.end.toDate();
-
-      //    //itineraryStop.arrivalDate = calendarEvent.start.hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
-      //    //itineraryStop.arrivalDate = calendarEvent.start.add(delta).toDate();
-      //    //if (calendarEvent.end === null) {
-      //    //    itineraryStop.departureDate = itineraryStop.arrivalDate;
-      //    //}
-      //    //else {
-      //    //    itineraryStop.departureDate = calendarEvent.end.add(delta).toDate();
-      //    //}
-      //    return ProjectService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
-      //    .then(function (response) {
-      //        //initializeItineraryStop(response.data);
-      //        //$scope.view.itineraryStop = response.data;
-      //        //copyItineraryStop($scope.view.itineraryStop);
-
-      //        //$scope.view.isSavingItineraryStop = false;
-      //        //$scope.view.isInEditMode = false;
-      //        NotificationService.showSuccessMessage("Successfully updated city stop.");
-      //        return response.data;
-      //    })
-      //    .catch(function (response) {
-      //        $scope.view.isSavingItineraryStop = false;
-      //        var message = 'Unable to save itinerary stop.';
-      //        NotificationService.showErrorMessage(message);
-      //        $log.error(message);
-      //        itineraryCopy = copy;
-      //        addAllItineraryStopsAsEvents($scope.view.itineraryStops);
-      //    });
-      //}
-
-      //<script src="bower_components/randomColor/randomColor.js"></script>
-      //"randomColor": "0.4.2"
-      //var colors = randomColor({
-      //    count: 64,
-      //    //hue: 'blue',
-      //    luminosity: 'dark'
-      //});
-
-      var colors = ["#d35304", "#8e9900", "#689e0c", "#640096", "#dd067d", "#028287", "#ea007d", "#024c60", "#0da514", "#e216af", "#9e0910", "#0b6293", "#51a508", "#1c9e0e", "#dbb702", "#078435", "#8c0c21", "#460f9e", "#319e03", "#064260", "#bc0b6f", "#0da591", "#0f0666", "#2c930d", "#054175", "#c405a1", "#9e0803", "#02426b", "#6e9601", "#576d00", "#099620", "#0c7287", "#89a309", "#e05d06", "#98a004", "#027f5c", "#0e8c5d", "#2a7a00", "#071f8c", "#e50d80", "#017756", "#cc6a14", "#007a78", "#056482", "#007267", "#af0e08", "#076677", "#9b1d07", "#350d84", "#87011e", "#0b5570", "#e56814", "#8c0c35", "#69960f", "#646d02", "#4a820a", "#af001d", "#ad1608", "#068934", "#023e70", "#efbc02", "#ce0ca1", "#e008ae", "#ef09ef", ];
-      function setItineraryStopColor(itineraryStop) {
-          itineraryStop.color = colors[colorIndex++ % colors.length];
-      }
-
       function initializeItinerary(itinerary) {
           toDate(itinerary, 'startDate');
           toDate(itinerary, 'endDate');
@@ -525,4 +488,5 @@ angular.module('staticApp')
           }
       }
       initializeItinerary($scope.view.itinerary);
+
   });

@@ -85,7 +85,7 @@
                             <input type="checkbox" ng-show="selectedAction" ng-model="selectedParticipants[participant.participantId]" ng-change="selectedParticipant(participant, selectedParticipants[participant.participantId])"/>
                         </td>
                         <td>
-                            <h5 class="list-title"><a href="{{participant.href}}">{{participant.name}}</a></h5>
+                            <h5 class="list-title" id="{{participant.participantId}}"><a href="{{participant.href}}">{{participant.name}}</a></h5>
                         </td>
                         <td>{{participant.participantType}}</td>
                         <td>{{participant.participantStatus}}</td>
@@ -126,13 +126,13 @@
                     <tr id="participantInfo" class="details" ng-if="participant.personId && participantInfo[participant.participantId].show">
                         <td colspan="7">
                             <tabset>
-                                <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" deselect="view.tabInfo=false">
+                                <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
                                     <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
                                 </tab>
-                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" deselect="view.tabSevis=false" ng-if="showSevisTab(participant.participantTypeId)">
+                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false" ng-if="showSevisTab(participant.participantTypeId)">
                                     <participant-person-sevis participantid="{{participant.participantId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
                                 </tab>
-                                <tab heading="Exchange Visitor Data" class="tab" select="onExchangeVisitorTabSelected(participant.participantId)" deselect="view.tabExchangeVisitor=false" ng-if="visitorTypeExchangeVisitor(participant.participantTypeId)">
+                                <tab heading="Exchange Visitor Data" class="tab" select="onExchangeVisitorTabSelected(participant.participantId)" active="view.tabExchangeVisitor" deselect="view.tabExchangeVisitor=false" ng-if="visitorTypeExchangeVisitor(participant.participantTypeId)">
                                     <participant-exchange-visitor participantid="{{participant.participantId}}" active="view.tabExchangeVisitor" exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]" update="saveExchangeVisitorInfo(participantId)" />
                                 </tab>
                             </tabset>

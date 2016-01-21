@@ -79,7 +79,6 @@ angular.module('staticApp')
                   }
               });
               return deferred.promise;
-
           },
 
           getCountryLocationParams: function (transformedLocation) {
@@ -118,7 +117,6 @@ angular.module('staticApp')
                 .sortBy('name')
                 .toParams();
           },
-
 
           transformGeocodedLocation: function (result) {
               console.assert(result, 'The result must defined.');

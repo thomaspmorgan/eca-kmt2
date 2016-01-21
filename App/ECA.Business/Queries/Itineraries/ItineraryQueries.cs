@@ -28,21 +28,14 @@ namespace ECA.Business.Queries.Itineraries
                         let hasDeparture = itinerary.DepartureLocationId.HasValue
                         let departure = locationsQuery.Where(x => x.Id == itinerary.DepartureLocationId).FirstOrDefault()
 
-                        let groups = itinerary.ItineraryGroups
-                        let groupsCount = groups.Count()
-
-                        let groupParticipants = groups.SelectMany(x => x.Participants)
-                        let itineraryStopPartipants = itinerary.Stops.SelectMany(x => x.Participants)
-                        let distinctParticipant = groupParticipants.Union(itineraryStopPartipants).Distinct()
-
-                        let participantsCount = distinctParticipant.Count()
+                        let participants = itinerary.Participants
+                        let participantsCount = participants.Count()
 
                         select new ItineraryDTO
                         {
                             ArrivalLocation = hasArrival ? arrival : null,
                             DepartureLocation = hasDeparture ? departure : null,
                             EndDate = itinerary.EndDate,
-                            GroupsCount = groupsCount,
                             Id = itinerary.ItineraryId,
                             LastRevisedOn = itinerary.History.RevisedOn,
                             Name = itinerary.Name,
@@ -50,6 +43,29 @@ namespace ECA.Business.Queries.Itineraries
                             ProjectId = itinerary.ProjectId,
                             StartDate = itinerary.StartDate
                         };
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to get participants that are on an itinerary.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="itineraryId">The itinerary id.</param>
+        /// <param name="projectId">The project id.  Used for security purposes.</param>
+        /// <returns>The query to get ItineraryParticipantDTOs from the context.</returns>
+        public static IQueryable<ItineraryParticipantDTO> CreateGetItineraryParticipantsQuery(EcaContext context, int itineraryId, int projectId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = context.Itineraries
+                .Where(x => x.ItineraryId == itineraryId && x.ProjectId == projectId)
+                .SelectMany(x => x.Participants)
+                .Where(x => x.PersonId.HasValue)
+                .Select(x => new ItineraryParticipantDTO
+            {
+                FullName = x.Person.FullName,
+                ParticipantId = x.ParticipantId,
+                PersonId = x.PersonId.Value
+            }).OrderBy(x => x.FullName);
             return query;
         }
 

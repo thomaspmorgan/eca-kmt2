@@ -28,13 +28,15 @@ namespace ECA.Business.Service.Itineraries
             string name,
             DateTimeOffset arrivalDate,
             DateTimeOffset departureDate,
-            int destinationLocationId
+            int destinationLocationId,
+            string timezoneId
             ) : base(
                 projectId: projectId,
                 name: name,
                 arrivalDate: arrivalDate,
                 departureDate: departureDate,
-                destinationLocationId: destinationLocationId
+                destinationLocationId: destinationLocationId,
+                timezoneId: timezoneId
                 )
         {
             this.Audit = new Create(creator);

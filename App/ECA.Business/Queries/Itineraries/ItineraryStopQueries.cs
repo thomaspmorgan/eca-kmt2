@@ -28,10 +28,8 @@ namespace ECA.Business.Queries.Itineraries
 
             var query = from itineraryStop in context.ItineraryStops
 
-                        let groupParticipants = itineraryStop.Groups.SelectMany(x => x.Participants)
-                        let directParticipants = itineraryStop.Participants
-                        let distinctParticipants = groupParticipants.Union(directParticipants).Distinct()
-                        let participantsCount = distinctParticipants.Count()
+                        let participants = itineraryStop.Participants
+                        let participantsCount = participants.Count()
 
                         let hasDestination = itineraryStop.DestinationId.HasValue
                         let destination = hasDestination ? locationQuery.Where(x => x.Id == itineraryStop.DestinationId.Value).FirstOrDefault() : null
@@ -41,20 +39,6 @@ namespace ECA.Business.Queries.Itineraries
                             ArrivalDate = itineraryStop.DateArrive,
                             DepartureDate = itineraryStop.DateLeave,
                             DestinationLocation = destination,
-                            Groups = itineraryStop.Groups.Select(x => new ItineraryStopGroupDTO
-                            {
-                                ItineraryGroupId = x.ItineraryGroupId,
-                                Name = x.Name,
-                                Participants = x.Participants.Where(p => p.PersonId.HasValue).Select(p => new ItineraryStopParticipantDTO
-                                {
-                                    FullName = p.Person.FullName,
-                                    ItineraryInformationId = -1,
-                                    ItineraryStopId = itineraryStop.ItineraryStopId,
-                                    ParticipantId = p.ParticipantId,
-                                    PersonId = p.Person.PersonId,
-                                    //TravelingFrom = null
-                                }).OrderBy(p => p.FullName)
-                            }).OrderBy(g => g.Name),
                             Participants = itineraryStop.Participants.Where(p => p.PersonId.HasValue).Select(p => new ItineraryStopParticipantDTO
                             {
                                 FullName = p.Person.FullName,
@@ -69,7 +53,8 @@ namespace ECA.Business.Queries.Itineraries
                             LastRevisedOn = itineraryStop.History.RevisedOn,
                             Name = itineraryStop.Name,
                             ParticipantsCount = participantsCount,
-                            ProjectId = itineraryStop.Itinerary.ProjectId
+                            ProjectId = itineraryStop.Itinerary.ProjectId,
+                            TimezoneId = itineraryStop.TimezoneId
                         };
             return query;
         }

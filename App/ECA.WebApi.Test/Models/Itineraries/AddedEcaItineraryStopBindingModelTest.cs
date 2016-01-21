@@ -19,6 +19,7 @@ namespace ECA.WebApi.Test.Models.Itineraries
             model.DepartureDate = DateTimeOffset.Now.AddDays(10.0);
             model.DestinationLocationId = 1;
             model.Name = "name";
+            model.TimezoneId = "timezone";
 
             var instance = model.ToAddedEcaItineraryStop(user, itineraryId, projectId);
             Assert.AreEqual(itineraryId, instance.ItineraryId);
@@ -27,6 +28,7 @@ namespace ECA.WebApi.Test.Models.Itineraries
             Assert.AreEqual(model.DepartureDate, instance.DepartureDate);
             Assert.AreEqual(model.DestinationLocationId, instance.DestinationLocationId);
             Assert.AreEqual(model.Name, instance.Name);
+            Assert.AreEqual(model.TimezoneId, instance.TimezoneId);
         }
     }
 }

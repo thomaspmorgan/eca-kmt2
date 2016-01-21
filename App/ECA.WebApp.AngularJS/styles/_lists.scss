@@ -38,12 +38,12 @@
     }
 
     td:first-child {
-        padding: 40px 10px 40px 10px;
+        padding: 12px 10px 12px 10px;
     }
 
     .row {
         border-top: 1px solid $bordergray;
-        padding: 40px 60px 40px 40px;
+        padding:  20px 40px 20px 20px;
         width: 100%;
 
         a {
@@ -85,7 +85,7 @@
     }
 
     .list-title {
-        font-weight: 300;
+        font-weight: 400;
     }
 
     .description {
@@ -150,7 +150,7 @@
         background: #efefef;
         height: 60px;
         line-height: 43px;
-        padding: 40px 80px 80px 40px;
+        padding: 20px 40px 40px 20px;
         width: 100%;
     }
 }
@@ -186,7 +186,7 @@
 }
 
 .title-label {
-    color: #a0a9ab;
+    color: $darkgray;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: .5px;

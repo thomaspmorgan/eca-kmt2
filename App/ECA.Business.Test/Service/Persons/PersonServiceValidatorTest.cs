@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ECA.Business.Test.Service.Persons
@@ -470,14 +469,14 @@ namespace ECA.Business.Test.Service.Persons
 
             var results = validator.Validate(createEV);
             Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Exchange Visitor: Biographical Information is required"));
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "Exch. Visitor: Biographical Information is required"));
         }
 
         /// <summary>
         /// Validate that exchange visitor biographical info is missing three fields
         /// </summary>
         [TestMethod]
-        public void TestCreateSevisValidator_MissingBiographicalRequiredFields()
+        public void TestCreateSevisValidator_BiographicalRequired_BirthDate_NULL()
         {
             var validator = new CreateExchVisitorValidator();
 
@@ -542,8 +541,8 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var results = validator.Validate(createEV);
-            Assert.IsFalse(results.IsValid);
-            Assert.IsTrue(results.Errors.Count == 3);
+            Assert.IsFalse(results.IsValid);            
+            Assert.IsTrue(results.Errors.Any(o => o.ErrorMessage == "EV Biographical Info: Date of Birth is required"));
         }
 
         /// <summary>
