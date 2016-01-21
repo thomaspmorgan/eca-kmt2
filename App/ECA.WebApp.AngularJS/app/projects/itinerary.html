@@ -40,14 +40,14 @@
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-3">
                         <div class="col-md-4 text-right">
-                            <i class="material-icons md-dark md-24">group</i>
+                            <i class="material-icons md-dark md-24">person</i>
                         </div>
                         <div class="col-md-8">
                             <div>
-                                <h5 class="title-label text-right">Groups</h5>
+                                <h5 class="title-label text-right">Participants</h5>
                             </div>
                             <div>
-                                <p class="text-right">{{view.itinerary.groupsCount}}</p>
+                                <p class="text-right">{{view.itinerary.participantsCount}}</p>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-10">
                             <div>
-                                <h5 class="title-label text-right">Groups Arrive To</h5>
+                                <h5 class="title-label text-right">Participants Arrive To</h5>
                             </div>
                             <div>
                                 <div class="text-right">
@@ -88,17 +88,7 @@
                 </div>
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-3">
-                        <div class="col-md-4 text-right">
-                            <i class="material-icons md-dark md-24">person</i>
-                        </div>
-                        <div class="col-md-8">
-                            <div>
-                                <h5 class="title-label text-right">Participants</h5>
-                            </div>
-                            <div>
-                                <p class="text-right">{{view.itinerary.participantsCount}}</p>
-                            </div>
-                        </div>
+                        &nbsp;
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-2 text-right">
@@ -106,7 +96,7 @@
                         </div>
                         <div class="col-md-10">
                             <div>
-                                <h5 class="title-label text-right">Groups Depart To</h5>
+                                <h5 class="title-label text-right">Participants Depart To</h5>
                             </div>
                             <div>
                                 <div>
@@ -134,7 +124,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 text-center">
-                        <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData">Manage Groups</button>
+                        <button class="btn btn-primary" ng-show="!view.isLoadingRequiredData" ng-click="view.onManageParticipantsClick(view.itinerary)">Manage Participants</button>
                     </div>
                 </div>
             </div>
@@ -269,33 +259,7 @@
                                     <div class="col-md-8">
                                         {{view.selectedCalendarItineraryStop.destinationLocation.name}}{{view.selectedCalendarItineraryStop.destinationLocation.division ? ', ' + view.selectedCalendarItineraryStop.destinationLocation.division : ''}}{{view.selectedCalendarItineraryStop.destinationLocation.country ? ' ' + view.selectedCalendarItineraryStop.destinationLocation.country : ''}}
                                     </div>
-                                </div>
-                                <div class="row row3">
-                                    <div class="col-md-4 title-label">
-                                        <div class="pull-left" style="margin-right: 10px;">
-                                            <i class="material-icons md-dark md-18">groups</i>
-                                        </div>
-                                        Groups
-                                    </div>
-                                    <div class="col-md-8">
-                                        <ul>
-                                            <li ng-repeat="group in view.selectedCalendarItineraryStop.groups">
-                                                <strong>{{group.name}}</strong>
-                                                <ul>
-                                                    <li ng-repeat="participant in group.participants">
-                                                        <div class="col-md-6">
-                                                            <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
-                                                        </div>
-                                                        <div class="col-md-6 text-right">
-                                                            <i class="material-icons md-dark md-12 rotate-quarter-turn-clockwise">flight</i>
-                                                            <a>Itinerary</a>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                </div>                               
                                 <div class="row row3">
                                     <div class="col-md-4 title-label">
                                         <div class="pull-left" style="margin-right: 10px;">
@@ -360,7 +324,7 @@
                             <div class="col-md-12">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">location_on</i>
-                                    <h5 class="title-label">Groups Arrive To (City)</h5>
+                                    <h5 class="title-label">Participants Arrive To (City)</h5>
                                 </div>
                                 <div>
                                     <ui-select ng-model="view.itinerary.arrivalLocation"
@@ -415,7 +379,7 @@
                             <div class="col-md-12">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">flight_takeoff</i>
-                                    <h5 class="title-label">Groups Depart To (Region, Country, Division, or City)</h5>
+                                    <h5 class="title-label">Participants Depart To (Region, Country, Division, or City)</h5>
                                 </div>
                                 <div>
                                     <div>

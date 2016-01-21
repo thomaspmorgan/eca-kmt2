@@ -436,21 +436,6 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Itinerary>(this.SingleOrDefault(x => x.ItineraryId.Equals(keyValues.First())));
 		}
 	}
-	public class ItineraryGroupTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ItineraryGroup>
-	{
-		public override ECA.Data.ItineraryGroup Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///ItineraryGroupId
-			return this.SingleOrDefault(x => x.ItineraryGroupId.Equals(keyValues.First()));
-		}
-		public override Task<ECA.Data.ItineraryGroup> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///ItineraryGroupId
-			return Task.FromResult<ECA.Data.ItineraryGroup>(this.SingleOrDefault(x => x.ItineraryGroupId.Equals(keyValues.First())));
-		}
-	}
 	public class ItineraryStopTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ItineraryStop>
 	{
 		public override ECA.Data.ItineraryStop Find(params object[] keyValues)
@@ -1238,7 +1223,6 @@ namespace ECA.Business.Test
 			this.InterestSpecializations = new InterestSpecializationTestDbSet();
 			this.InternationalOrganizations = new InternationalOrganizationTestDbSet();
 			this.Itineraries = new ItineraryTestDbSet();
-			this.ItineraryGroups = new ItineraryGroupTestDbSet();
 			this.ItineraryStops = new ItineraryStopTestDbSet();
 			this.Justifications = new JustificationTestDbSet();
 			this.Languages = new LanguageTestDbSet();

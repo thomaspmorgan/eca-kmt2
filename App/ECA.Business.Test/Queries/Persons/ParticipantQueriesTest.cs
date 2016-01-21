@@ -402,7 +402,8 @@ namespace ECA.Business.Test.Queries.Persons
             var participantType = new ParticipantType
             {
                 ParticipantTypeId = ParticipantType.Individual.Id,
-                Name = "name"
+                Name = "name",
+                IsPerson = true
             };
 
             var participant = new Participant
@@ -436,6 +437,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(status.Status, result.ParticipantStatus);
             Assert.AreEqual(status.ParticipantStatusId, result.StatusId);
             Assert.AreEqual(history.RevisedOn, result.RevisedOn);
+            Assert.AreEqual(participantType.IsPerson, result.IsPersonParticipantType);
         }
 
         [TestMethod]

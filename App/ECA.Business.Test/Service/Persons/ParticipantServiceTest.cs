@@ -39,6 +39,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Name = ParticipantType.ForeignNonTravelingParticipant.Value,
                 ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id,
+                IsPerson = true
             };
             var organization1 = new Organization
             {
@@ -297,6 +298,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Name = ParticipantType.Individual.Value,
                 ParticipantTypeId = ParticipantType.Individual.Id,
+                IsPerson = true
             };
             var gender = new Gender
             {
@@ -375,6 +377,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(revisedDate, participantResult.RevisedOn);
                 Assert.AreEqual(status.ParticipantStatusId, participantResult.StatusId);
                 Assert.AreEqual(status.Status, participantResult.ParticipantStatus);
+                Assert.AreEqual(participantType.IsPerson, participantResult.IsPersonParticipantType);
             };
 
             var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
@@ -482,6 +485,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Name = ParticipantType.ForeignNonTravelingParticipant.Value,
                 ParticipantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id,
+                IsPerson = false
             };
             var organization = new Organization
             {
@@ -545,6 +549,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(revisedDate, participantResult.RevisedOn);
                 Assert.AreEqual(status.ParticipantStatusId, participantResult.StatusId);
                 Assert.AreEqual(status.Status, participantResult.ParticipantStatus);
+                Assert.AreEqual(participantType.IsPerson, participantResult.IsPersonParticipantType);
             };
 
             var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
@@ -976,7 +981,8 @@ namespace ECA.Business.Test.Service.Persons
             var participantType = new ParticipantType
             {
                 ParticipantTypeId = ParticipantType.Individual.Id,
-                Name = "name"
+                Name = "name",
+                IsPerson = true
             };
             var project = new Project
             {
@@ -1027,6 +1033,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(status.Status, result.ParticipantStatus);
                 Assert.AreEqual(status.ParticipantStatusId, result.StatusId);
                 Assert.AreEqual(participant.StatusDate, result.StatusDate);
+                Assert.AreEqual(participantType.IsPerson, result.IsPersonParticipantType);
             };
 
             var serviceResult = service.GetParticipantById(participant.ParticipantId);

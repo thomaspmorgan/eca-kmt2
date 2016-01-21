@@ -68,26 +68,6 @@ angular.module('staticApp')
               eventLimit: false,
               eventClick: function (calEvent, jsEvent, view) {
                   onCalendarItemClick(calEvent, jsEvent, view);
-              },
-              eventRender: function (event, element, view) {
-                  var itineraryStop = getItineraryStop(event);
-                  var text = '';
-                  if (itineraryStop !== null) {
-                      if (itineraryStop.name) {
-                          text += itineraryStop.name;
-                      }
-                      if (itineraryStop.destinationLocation && itineraryStop.destinationLocation.name) {
-                          text += ':  ' + itineraryStop.destinationLocation.name;
-                      }
-                  }
-                  else {
-                      text = event.title;
-                  }
-                  element.attr({
-                      'tooltip': text,
-                      'tooltip-append-to-body': true
-                  });
-                  $compile(element)($scope);
               }
           }
       }
@@ -294,6 +274,32 @@ angular.module('staticApp')
           $scope.view.areAllItineraryStopsExpanded = allExpanded;
       });
 
+      $scope.view.onManageParticipantsClick = function (itinerary) {
+          var manageParticipantsModal = $modal.open({
+              animation: true,
+              templateUrl: 'app/projects/manage-itinerary-participants-modal.html',
+              controller: 'ManageItineraryParticipantsModalCtrl',
+              windowClass: 'full-screen-modal',
+              backdrop: 'static',
+              resolve: {
+                  project: function () {
+                      return $scope.view.project;
+                  },
+                  itinerary: function () {
+                      return itinerary;
+                  }
+              }
+          });
+          manageParticipantsModal.result.then(function (travelPeriodParticipants) {
+              $log.info('Finished managing itinerary participants.');
+              itinerary.participantsCount = travelPeriodParticipants.length;
+              loadItineraryStops(itinerary);
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
           return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
@@ -328,13 +334,6 @@ angular.module('staticApp')
           };
 
           angular.forEach(itineraryStops, function (stop, stopIndex) {
-              angular.forEach(stop.groups, function (group, groupIndex) {
-                  angular.forEach(group.participants, function (groupParticipant, groupParticipantIndex) {
-                      if (!isTravelStopParticipantAdded(groupParticipant)) {
-                          participants.push(groupParticipant)
-                      }
-                  });
-              })
               angular.forEach(stop.participants, function (stopParticipant, stopParticipantIndex) {
                   if (!isTravelStopParticipantAdded(stopParticipant)) {
                       participants.push(stopParticipant)
@@ -427,6 +426,7 @@ angular.module('staticApp')
               }
           }
           $scope.view.selectedCalendarItineraryStop = itineraryStop;
+          $scope.view.calendarConfig.calendar.defaultDate = calEvent.start;
       }
 
       function getItineraryStop(calendarEvent) {

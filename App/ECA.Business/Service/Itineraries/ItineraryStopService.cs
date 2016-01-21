@@ -19,22 +19,30 @@ namespace ECA.Business.Service.Itineraries
     /// </summary>
     public class ItineraryStopService : EcaService, IItineraryStopService
     {
-        private readonly IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity> validator;
+        private readonly IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity> itineraryStopValidator;
+        private readonly IBusinessValidator<ItineraryStopParticipantsValidationEntity, ItineraryStopParticipantsValidationEntity> itineraryStopParticipantsValidator;
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private readonly Action<int, Itinerary, int> throwSecurityViolationIfDifferentProject;
+        private readonly Action<int, ItineraryStopParticipants, Itinerary> throwSecurityViolationIfDifferentItinerary;
 
         /// <summary>
         /// Creates a new service instance with the given context and save actions.
         /// </summary>
         /// <param name="context">The context to perform crud operations against.</param>
         /// <param name="saveActions">The context save actions.</param>
-        /// <param name="validator">The business validator.</param>
-        public ItineraryStopService(EcaContext context, IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity> validator, List<ISaveAction> saveActions = null)
+        /// <param name="itineraryStopValidator">The business validator.</param>
+        public ItineraryStopService(
+            EcaContext context, 
+            IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity> itineraryStopValidator,
+            IBusinessValidator<ItineraryStopParticipantsValidationEntity, ItineraryStopParticipantsValidationEntity> itineraryStopParticipantsValidator,
+            List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(validator != null, "The validator must not be null.");
-            this.validator = validator;
+            Contract.Requires(itineraryStopValidator != null, "The itinerary stop validator must not be null.");
+            Contract.Requires(itineraryStopParticipantsValidator != null, "The itinerary stop participant validator must not be null.");
+            this.itineraryStopValidator = itineraryStopValidator;
+            this.itineraryStopParticipantsValidator = itineraryStopParticipantsValidator;
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -50,6 +58,18 @@ namespace ECA.Business.Service.Itineraries
                         String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
                         userId,
                         projectId));
+                }
+            };
+            throwSecurityViolationIfDifferentItinerary = (userId, itineraryStopParticipants, itinerary) =>
+            {
+                if (itinerary != null && itinerary.ItineraryId != itineraryStopParticipants.ItineraryId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to edit an itinerary stop on a project with id [{1}] and itinerary with id [{2}] but should have been denied access.",
+                        userId,
+                        itineraryStopParticipants.ProjectId,
+                        itineraryStopParticipants.ItineraryId
+                        ));
                 }
             };
         }
@@ -147,7 +167,7 @@ namespace ECA.Business.Service.Itineraries
         private ItineraryStop DoCreate(Itinerary itinerary, AddedEcaItineraryStop addedStop)
         {
             var validationEntity = GetEcaItineraryStopValidationEntity(itinerary: itinerary, ecaitineraryStop: addedStop);
-            validator.ValidateCreate(validationEntity);
+            itineraryStopValidator.ValidateCreate(validationEntity);
 
             var update = new Update(addedStop.Audit.User);
             update.SetHistory(itinerary);
@@ -169,12 +189,6 @@ namespace ECA.Business.Service.Itineraries
         #endregion
 
         #region Update
-        private IQueryable<ItineraryStop> CreateGetItineraryStopByIdQuery(int itineraryStopId)
-        {
-            return Context.ItineraryStops
-                .Include(x => x.Itinerary)
-                .Where(x => x.ItineraryStopId == itineraryStopId);
-        }
 
         /// <summary>
         /// Updates the system's itinerary stop with the given updated stop.
@@ -215,7 +229,7 @@ namespace ECA.Business.Service.Itineraries
         private void DoUpdate(Itinerary itinerary, UpdatedEcaItineraryStop updatedStop, ItineraryStop itineraryStop)
         {
             var validationEntity = GetEcaItineraryStopValidationEntity(itinerary: itinerary, ecaitineraryStop: updatedStop);
-            validator.ValidateUpdate(validationEntity);
+            itineraryStopValidator.ValidateUpdate(validationEntity);
 
             itineraryStop.DateArrive = updatedStop.ArrivalDate;
             itineraryStop.DateLeave = updatedStop.DepartureDate;
@@ -238,6 +252,80 @@ namespace ECA.Business.Service.Itineraries
                 timezoneId: ecaitineraryStop.TimezoneId
                 );
         }
+        #endregion
+
+        private IQueryable<ItineraryStop> CreateGetItineraryStopByIdQuery(int itineraryStopId)
+        {
+            //need to include itinerary for update and itinerary.participants for setparticipants methods
+            return Context.ItineraryStops
+                .Include(x => x.Itinerary)
+                .Include(x => x.Itinerary.Participants)
+                .Where(x => x.ItineraryStopId == itineraryStopId);
+        }
+
+        #region Set Participants
+
+        /// <summary>
+        /// Sets the participants on the itinerary stop.
+        /// </summary>
+        /// <param name="itineraryStopParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        public void SetParticipants(ItineraryStopParticipants itineraryStopParticipants)
+        {
+            var itineraryStop = CreateGetItineraryStopByIdQuery(itineraryStopParticipants.ItineraryStopId).FirstOrDefault();
+            throwIfModelDoesNotExist(itineraryStopParticipants.ItineraryStopId, itineraryStop, typeof(ItineraryStop));
+
+            var itinerary = itineraryStop.Itinerary;
+            throwSecurityViolationIfDifferentItinerary(itineraryStopParticipants.Audit.User.Id, itineraryStopParticipants, itinerary);
+            throwSecurityViolationIfDifferentProject(itineraryStopParticipants.Audit.User.Id, itinerary, itineraryStopParticipants.ProjectId);
+            var itineraryParticipants = itinerary.Participants;
+            DoSetParticipants(
+                itinerary: itinerary, 
+                itineraryStop: itineraryStop, 
+                itineraryParticipants: itineraryParticipants, 
+                itineraryStopParticipants: itineraryStopParticipants);
+        }
+
+        /// <summary>
+        /// Sets the participants on the itinerary stop.
+        /// </summary>
+        /// <param name="itineraryStopParticipants">The business entity containing the participants by id that should be set on the itinerary.</param>
+        /// <returns>The task.</returns>
+        public async Task SetParticipantsAsync(ItineraryStopParticipants itineraryStopParticipants)
+        {
+            var itineraryStop = await CreateGetItineraryStopByIdQuery(itineraryStopParticipants.ItineraryStopId).FirstOrDefaultAsync();
+            throwIfModelDoesNotExist(itineraryStopParticipants.ItineraryStopId, itineraryStop, typeof(ItineraryStop));
+
+            var itinerary = itineraryStop.Itinerary;
+            throwSecurityViolationIfDifferentItinerary(itineraryStopParticipants.Audit.User.Id, itineraryStopParticipants, itinerary);
+            throwSecurityViolationIfDifferentProject(itineraryStopParticipants.Audit.User.Id, itinerary, itineraryStopParticipants.ProjectId);
+            var itineraryParticipants = itinerary.Participants;
+            DoSetParticipants(
+                itinerary: itinerary,
+                itineraryStop: itineraryStop,
+                itineraryParticipants: itineraryParticipants,
+                itineraryStopParticipants: itineraryStopParticipants);
+        }
+        
+
+        private void DoSetParticipants(
+            Itinerary itinerary, 
+            ItineraryStop itineraryStop,
+            IEnumerable<Participant> itineraryParticipants, 
+            ItineraryStopParticipants itineraryStopParticipants)
+        {
+
+            var notAllowedParticipantsById = itineraryStopParticipants.ParticipantIds.Except(itineraryParticipants.Select(x => x.ParticipantId).Distinct());
+
+            var validationEntity = new ItineraryStopParticipantsValidationEntity(notAllowedParticipantsById);
+            itineraryStopParticipantsValidator.ValidateUpdate(validationEntity);
+
+            Contract.Assert(itineraryStopParticipants.Audit.GetType() == typeof(Update), "The audit type must be an update.  The itinerary create date should not change.");
+            itineraryStopParticipants.Audit.SetHistory(itineraryStop);
+            itineraryStopParticipants.Audit.SetHistory(itinerary);
+            SetParticipants(itineraryStopParticipants.ParticipantIds.ToList(), itineraryStop, x => x.Participants);
+        }
+
+       
         #endregion
     }
 }
