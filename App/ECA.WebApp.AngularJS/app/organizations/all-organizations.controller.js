@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService, smoothScroll) {
 
       $scope.organizations = [];
       $scope.start = 0;
@@ -108,6 +108,7 @@ angular.module('staticApp')
               var parentOrganizationIndex = $scope.organizations.indexOf(organization);
               angular.forEach(childOrganizations, function (childOrganization, childOrganizationIndex) {
                   $scope.organizations.splice(parentOrganizationIndex + 1 + childOrganizationIndex, 0, childOrganization);
+                  childOrganization.parent = organization;
               });
               organization.children = childOrganizations;
           });
@@ -133,6 +134,25 @@ angular.module('staticApp')
       $scope.organizationRoleChanged = function () {
           var tableState = $scope.getOrganizationsTableState();
           $scope.getOrganizationsHierarchy(tableState);
+      }
+
+      $scope.scrollToParent = function (organization) {
+          if(organization.parent) {
+              scrollToOrganization(organization.parent);
+          }
+      }
+
+      function scrollToOrganization(organization) {
+          var id = "organization-" + organization.organizationId;
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 70,
+              callbackBefore: function (element) { },
+              callbackAfter: function (element) { }
+          }
+          var element = document.getElementById(id)
+          smoothScroll(element, options);
       }
 
       var params = { start: 0, limit: 300 };
