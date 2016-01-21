@@ -28,6 +28,7 @@ angular.module('staticApp')
         FilterService) {
 
       $scope.view = {};
+      $scope.view.itinerary = itinerary;
       $scope.view.title = 'Manage ' + itinerary.name + ' Participants';
       $scope.view.limit = 30;
       $scope.view.filteredParticipants = [];
@@ -49,7 +50,6 @@ angular.module('staticApp')
       $scope.view.onSortItineraryStopParticipants = function () {
           $scope.view.selectedItineraryStop.participants = orderByFilter($scope.view.selectedItineraryStop.participants, 'fullName');
       }
-
 
       $scope.view.onAddAllItineraryParticipants = function () {
           var addedParticipants = false;
@@ -100,7 +100,6 @@ angular.module('staticApp')
               copyTravelPeriodParticipants($item.participants);
           }
       }
-
 
       function setIsItineraryStopParticipant(participant) {
           var travelStopParticipantIds = getParticipantIds($scope.view.travelStopParticipants);
