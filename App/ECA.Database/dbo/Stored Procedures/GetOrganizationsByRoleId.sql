@@ -13,7 +13,9 @@ WITH Organization_CTE AS
 		CAST (ROW_NUMBER() OVER (PARTITION BY ParentOrg.ParentOrganization_OrganizationId ORDER BY ParentOrg.Name) AS varchar(max)) AS Path,
 		CASE WHEN EXISTS (SELECT 1 FROM Organization WHERE ParentOrganization_OrganizationId = ParentOrg.OrganizationId) THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END AS HasChildren,
 		0 as OrganizationLevel,
-		ROW_NUMBER() OVER (PARTITION BY ParentOrg.ParentOrganization_OrganizationId ORDER BY ParentOrg.Name) / power(10.0, 0) as SortOrder
+		ROW_NUMBER() OVER (PARTITION BY ParentOrg.ParentOrganization_OrganizationId ORDER BY ParentOrg.Name) / power(10.0, 0) as SortOrder,
+		ParentOrg.Status,
+		ParentOrg.Description
  FROM Organization AS ParentOrg
  JOIN OrganizationType AS OrgType
  ON ParentOrg.OrganizationTypeId = OrgType.OrganizationTypeId
@@ -29,7 +31,9 @@ WITH Organization_CTE AS
 		[Path] +'-'+ CAST (ROW_NUMBER() OVER (PARTITION BY ChildOrg.ParentOrganization_OrganizationId ORDER BY ChildOrg.Name) AS varchar(max)),
 		CASE WHEN EXISTS (SELECT 1 FROM Organization WHERE ParentOrganization_OrganizationId = ChildOrg.OrganizationId) THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END AS HasChildren,
 		OrgCTE.OrganizationLevel + 1,
-		SortOrder + ROW_NUMBER() OVER (PARTITION BY ChildOrg.ParentOrganization_OrganizationId ORDER BY ChildOrg.Name) / power(10.0, OrganizationLevel) 
+		SortOrder + ROW_NUMBER() OVER (PARTITION BY ChildOrg.ParentOrganization_OrganizationId ORDER BY ChildOrg.Name) / power(10.0, OrganizationLevel),
+		ChildOrg.Status,
+		ChildOrg.Description
  FROM Organization as ChildOrg
  JOIN OrganizationType as OrgType
  ON ChildOrg.OrganizationTypeId = OrgType.OrganizationTypeId

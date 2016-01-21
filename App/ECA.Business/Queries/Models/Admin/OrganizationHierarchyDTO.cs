@@ -50,5 +50,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets whether this instance has children.
         /// </summary>
         public bool HasChildren { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status
+        /// </summary>
+        public string Status { get; set; }
     }
 }
