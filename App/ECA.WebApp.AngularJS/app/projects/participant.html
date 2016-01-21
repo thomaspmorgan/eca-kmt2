@@ -85,7 +85,7 @@
                             <input type="checkbox" ng-show="selectedAction" ng-model="selectedParticipants[participant.participantId]" ng-change="selectedParticipant(participant, selectedParticipants[participant.participantId])"/>
                         </td>
                         <td>
-                            <h5 class="list-title"><a href="{{participant.href}}">{{participant.name}}</a></h5>
+                            <h5 class="list-title" id="{{participant.participantId}}"><a href="{{participant.href}}">{{participant.name}}</a></h5>
                         </td>
                         <td>{{participant.participantType}}</td>
                         <td>{{participant.participantStatus}}</td>
@@ -111,7 +111,7 @@
                             </div>
                         </td>
                         <td>
-                            <a ng-click="toggleParticipantInfo(participant.participantId)" id="{{participant.participantId}}">
+                            <a ng-click="toggleParticipantInfo(participant.participantId)">
                                 <i class="material-icons md-dark md-36 pull-right"
                                    ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">
                                     expand_less

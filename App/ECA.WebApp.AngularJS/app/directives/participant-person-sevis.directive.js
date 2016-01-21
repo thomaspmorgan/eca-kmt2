@@ -99,7 +99,7 @@
                     
                     if (customState)
                     {
-                        $state.go('people.personalinformation', { section: customState.section, personId: $scope.participantid }, { reload: true });
+                        $state.go(customState.category + '.' + customState.categorySub, { 'section': customState.section, 'tab': customState.tab, 'personId': $scope.participantid, 'participantId': $scope.participantid }, { reload: true });
                     }
 
                 };
