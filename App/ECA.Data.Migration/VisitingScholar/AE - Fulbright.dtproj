@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACE/iUBfPKoGcobf85A84yk4CQFL25a8WIzZSQGUSUzsgAAAAAOgAAAAAIAACAAAAD+P8/LpCoqwSdRAhvEO8N88rXHtcVM5buIBEZMozcG5pAAAADEfRXB4RnFngVLyCA6yNZqS+lUVdcTosfWa03VYO+jYDvpolv5fk+h7j37S/CSwLQXWQUuhUc4SpkrAAhdFxP3WNyn6xPVEJeNfVsAEaW93LKlOGkSlwcBQudmsuQcxZTuu0krk2TRnC+vuHOxcqVpvNDB6bnIWB6nNNwAAVgidLEMQ/aa8KegxZVlF2R+kVJAAAAAhpzMTEWqtrc9tPqppHq8eNN0GLogLx+niAQGjdZAnec3YbkSf4Q+xdIClUu7MAAl6xe1nvZjD63jcPCJddhcRg==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACRHyiE19vv7cYHPCw+2ySUmP8C7ciwyUi9PL13OVQDIgAAAAAOgAAAAAIAACAAAACehlaqznWovmPTSPWsqy/kMO49MBAa6VPHLbWri7FS8JAAAABweinrnCyHvut+8/RLRNXr8XnNiJKSavVWt/MX9QKUoPzcRgvRlu27ggPSFUcy05kFhT+K+Zxn2E/cWKykTJ2oCJ5z801+4zG/RenNv+Tp3nhdvpeb75GjNLilyjgMRJiKkXiJMo5ZryovSWgg5YnZqpzu7V1sveMWmEAXyrqWHmW5zkVWauabLyifcxftAnNAAAAAYaDVMCtW16I/FhX1Xxpw21lNZen7tpG/WpDSgCnsKc/Vk9n2UyGVXb/C2zpD06SFJ28s7RKwvIet+GODoE4R9A==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -35,8 +35,8 @@
         </SSIS:Packages>
         <SSIS:ConnectionManagers>
           <SSIS:ConnectionManager SSIS:Name="ECA_KMT_DB.conmgr" />
-          <SSIS:ConnectionManager SSIS:Name="Fulbright.conmgr" />
-          <SSIS:ConnectionManager SSIS:Name="Fulbright Excel Dataset 2.conmgr" />
+          <SSIS:ConnectionManager SSIS:Name="Fulbright Visiting Scholars.conmgr" />
+          <SSIS:ConnectionManager SSIS:Name="Fulbright Visiting and US Scholars.conmgr" />
         </SSIS:ConnectionManagers>
         <SSIS:DeploymentInfo>
           <SSIS:ProjectConnectionParameters>
@@ -128,7 +128,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright.ConnectionString">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting Scholars.ConnectionString">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -143,7 +143,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright.InitialCatalog">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting Scholars.InitialCatalog">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -158,7 +158,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright.Password">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting Scholars.Password">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -172,7 +172,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright.RetainSameConnection">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting Scholars.RetainSameConnection">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -187,7 +187,7 @@
                 <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright.ServerName">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting Scholars.ServerName">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -202,7 +202,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright.UserName">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting Scholars.UserName">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -216,7 +216,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.ConnectionString">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.ConnectionString">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -231,7 +231,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.ExcelFilePath">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.ExcelFilePath">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -246,7 +246,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.FirstRowHasColumnName">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.FirstRowHasColumnName">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -261,7 +261,7 @@
                 <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.InitialCatalog">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.InitialCatalog">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -275,7 +275,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.Password">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.Password">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -289,7 +289,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.RetainSameConnection">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.RetainSameConnection">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -304,7 +304,7 @@
                 <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.ServerName">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.ServerName">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -319,7 +319,7 @@
                 <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
               </SSIS:Properties>
             </SSIS:Parameter>
-            <SSIS:Parameter SSIS:Name="CM.Fulbright Excel Dataset 2.UserName">
+            <SSIS:Parameter SSIS:Name="CM.Fulbright Visiting and US Scholars.UserName">
               <SSIS:Properties>
                 <SSIS:Property SSIS:Name="ID">
                 </SSIS:Property>
@@ -358,10 +358,10 @@
                 <SSIS:Property SSIS:Name="Name">Create Participant Exchange Visitor Data</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">5</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{74B6B131-FD8E-442D-90AB-8C5E7EFBE8E3}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{B7397194-9835-4FC4-8557-C257DBBE4B9B}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
