@@ -17,7 +17,8 @@ $darkgray: #415358;
 $bordergray: #e5eae9;
 
 $required: #f66a1f;
-$primarytext: #415358;
+//$primarytext: #415358;
+$primarytext: #20292b;
 
 // buttons
 $green: #55b267;
@@ -50,7 +51,7 @@ $navBarZIndex: 1001;
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
     src: local('Material Icons'), local('MaterialIcons-Regular'), url(fonts/MaterialIcons-Regular.woff2) format('woff2'), url(fonts/MaterialIcons-Regular.woff) format('woff'), url(fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
@@ -218,7 +219,7 @@ body {
     color: $primarytext;
     font-family: 'Raleway', sans-serif;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 500;
 }
 
 a:hover,
@@ -237,14 +238,16 @@ h5 {
 h1 {
     color: #fff;
     font-size: 4.57em;
-    font-weight: 200;
+    font-weight: 400;
+    //font-weight: 200;
     line-height: 75px;
 }
 
 
 h2 {
     font-size: 3.43em;
-    font-weight: 300;
+    font-weight: 400;
+    //font-weight: 300;
     line-height: 56px;
 }
 
@@ -256,7 +259,8 @@ h4 {
 
 h5 {
     font-size: 1.29em; //18px
-    font-weight: 200;
+    font-weight: 400;
+    //font-weight: 200;
     line-height: 28px;
 }
 
@@ -285,8 +289,8 @@ img {
 }
 
 .mute {
-    font-weight: 300;
-    opacity: .5;
+    font-weight: 400;
+    opacity: .75;
 }
 
 .strong {
@@ -339,7 +343,7 @@ img {
 }
 
 .light {
-    font-weight: 100;
+    font-weight: 200;
 }
 
 .tags {
@@ -902,7 +906,7 @@ div.tip:hover span {
     border-right: solid 3px #efefef;
     border-bottom: solid 3px #efefef;
     font-weight: 500;
-    color: #a0a9ab;
+    color: $darkgray;
 }
 
 .bookmark-name {
