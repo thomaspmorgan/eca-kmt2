@@ -1,6 +1,9 @@
 ﻿
 namespace ECA.Business.Validation.SEVIS
 {
+    /// <summary>
+    /// Routing path
+    /// </summary>
     public class ErrorPath
     {
         public string Category { get; set; }
@@ -9,6 +12,9 @@ namespace ECA.Business.Validation.SEVIS
         public string Tab { get; set; }
     }
 
+    /// <summary>
+    /// Routing category
+    /// </summary>
     public sealed class ElementCategory
     {
         private readonly string name;
@@ -29,6 +35,9 @@ namespace ECA.Business.Validation.SEVIS
         }
     }
 
+    /// <summary>
+    /// Routing sub category
+    /// </summary>
     public sealed class ElementCategorySub
     {
         private readonly string name;
@@ -36,6 +45,7 @@ namespace ECA.Business.Validation.SEVIS
 
         public static readonly ElementCategorySub PersonalInfo = new ElementCategorySub(1, "personalinformation");
         public static readonly ElementCategorySub Participant = new ElementCategorySub(2, "participants");
+        public static readonly ElementCategorySub MoneyFlows = new ElementCategorySub(3, "moneyflows");
 
         private ElementCategorySub(int value, string name)
         {
@@ -49,6 +59,9 @@ namespace ECA.Business.Validation.SEVIS
         }
     }
 
+    /// <summary>
+    /// Page section id of bookmark
+    /// </summary>
     public sealed class ElementCategorySection
     {
         private readonly string name;
@@ -58,7 +71,7 @@ namespace ECA.Business.Validation.SEVIS
         public static readonly ElementCategorySection PII = new ElementCategorySection(2, "pii");
         public static readonly ElementCategorySection Contact = new ElementCategorySection(3, "contact");
         public static readonly ElementCategorySection EducationEmployment = new ElementCategorySection(4, "eduemp");
-        
+
         private ElementCategorySection(int value, string name)
         {
             this.name = name;
@@ -71,6 +84,9 @@ namespace ECA.Business.Validation.SEVIS
         }
     }
     
+    /// <summary>
+    /// Optional tab id to navigate to a tab inside a section
+    /// </summary>
     public sealed class ElementCategorySectionTab
     {
         private readonly string name;

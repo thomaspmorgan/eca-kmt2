@@ -102,10 +102,6 @@ angular.module('staticApp')
                   $location.hash(participantid);
                   $anchorScroll();
               }, 1100);
-
-              $timeout(function () {
-                  window.scrollTo(window.pageXOffset, window.pageYOffset - 150);
-              }, 1400);
           }
       });
 
