@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model;
+﻿using ECA.Business.Queries.Persons;
+using ECA.Business.Validation.Model;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -23,7 +24,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis object validation results</returns>        
         public FluentValidation.Results.ValidationResult ValidateSevisCreateEV(int participantId, User user)
         {
-            var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
+            var createEV = ParticipantPersonsSevisQueries.GetCreateExchangeVisitor(participantId, user, this.Context);
 
             var validator = new CreateExchVisitorValidator();
             var results = validator.Validate(createEV);
@@ -38,7 +39,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis object validation results</returns>
         public async Task<FluentValidation.Results.ValidationResult> ValidateSevisCreateEVAsync(int participantId, User user)
         {
-            var createEV = participantService.GetCreateExchangeVisitor(participantId, user);
+            var createEV = ParticipantPersonsSevisQueries.GetCreateExchangeVisitor(participantId, user, this.Context);
 
             var validator = new CreateExchVisitorValidator();
             var results = await validator.ValidateAsync(createEV);
@@ -59,7 +60,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis object validation results</returns>        
         public FluentValidation.Results.ValidationResult ValidateSevisUpdateEV(int participantId, User user)
         {
-            var updateEV = participantService.GetUpdateExchangeVisitor(participantId, user);
+            var updateEV = ParticipantPersonsSevisQueries.GetUpdateExchangeVisitor(participantId, user, this.Context);
 
             var validator = new UpdateExchVisitorValidator();
             var results = validator.Validate(updateEV);
@@ -74,7 +75,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis object validation results</returns>
         public async Task<FluentValidation.Results.ValidationResult> ValidateSevisUpdateEVAsync(int participantId, User user)
         {
-            var updateEV = participantService.GetUpdateExchangeVisitor(participantId, user);
+            var updateEV = ParticipantPersonsSevisQueries.GetUpdateExchangeVisitor(participantId, user, this.Context);
 
             var validator = new UpdateExchVisitorValidator();
             var results = await validator.ValidateAsync(updateEV);
