@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Itineraries;
 using ECA.Business.Service;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECA.Business.Test.Service.Itineraries
 {
@@ -19,7 +21,7 @@ namespace ECA.Business.Test.Service.Itineraries
             var departureLocationId = 4;
             var name = "name";
             var projectId = 5;
-
+            
             var model = new UpdatedEcaItinerary(id, new User(userId), startDate, endDate, name, projectId, arrivalLocationId, departureLocationId);
             Assert.AreEqual(id, model.Id);
             Assert.IsInstanceOfType(model.Audit, typeof(Update));

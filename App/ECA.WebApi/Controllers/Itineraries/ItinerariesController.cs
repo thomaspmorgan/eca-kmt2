@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Itineraries
 {
@@ -106,5 +107,48 @@ namespace ECA.WebApi.Controllers.Itineraries
         }
         #endregion
 
+        #region Participants
+        /// <summary>
+        /// Sets the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryId">The id of the itinerary.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        [ResponseType(typeof(OkResult))]
+        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Participants")]
+        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> PostSetItineraryParticipantsAsync(int itineraryId, int projectId, [FromBody]ItineraryParticipantsBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = this.userProvider.GetCurrentUser();
+                var businessUser = this.userProvider.GetBusinessUser(user);
+                await this.itineraryService.SetParticipantsAsync(model.ToItineraryParticipants(businessUser, projectId, itineraryId));
+                await this.itineraryService.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the participants on the itinerary.
+        /// </summary>
+        /// <param name="itineraryId">The id of the itinerary.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The participants.</returns>
+        [ResponseType(typeof(List<ItineraryParticipantDTO>))]
+        [Route("Projects/{projectId:int}/Itinerary/{itineraryId:int}/Participants")]
+        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> GetItineraryParticipantsAsync(int itineraryId, int projectId)
+        {
+            var dtos = await this.itineraryService.GetItineraryParticipantsAsync(projectId, itineraryId);
+            return Ok(dtos);
+        }
+
+        #endregion
     }
 }

@@ -33,11 +33,6 @@ namespace ECA.Business.Queries.Models.Itineraries
         public int ParticipantsCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of groups in the itinerary.
-        /// </summary>
-        public int GroupsCount { get; set; }
-
-        /// <summary>
         /// Gets or sets the arrival location.
         /// </summary>
         public LocationDTO ArrivalLocation { get; set; }

@@ -458,7 +458,7 @@ namespace ECA.Business.Service.Projects
             SetGoals(updatedProject.GoalIds.ToList(), projectToUpdate);
             SetCategories(updatedProject.CategoryIds.ToList(), projectToUpdate);
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
-            SetLocations<Project>(updatedProject.LocationIds.ToList(), x => x.Locations, projectToUpdate);
+            SetLocations<Project>(updatedProject.LocationIds.ToList(), projectToUpdate, x => x.Locations);
             SetRegions(updatedProject.RegionIds.ToList(), projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
@@ -660,6 +660,6 @@ namespace ECA.Business.Service.Projects
         private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int officeId)
         {
             return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTByOfficeIdOQuery(this.Context, officeId).Select(x => x.Id);
-        }        
+        }
     }
 }

@@ -33,6 +33,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string ParticipantType { get; set; }
 
         /// <summary>
+        /// Gets or sets the is person participant type flag.
+        /// </summary>
+        public bool IsPersonParticipantType { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the participant.
         /// </summary>
         public string Name { get; set; }

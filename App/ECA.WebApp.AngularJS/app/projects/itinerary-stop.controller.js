@@ -26,7 +26,6 @@ angular.module('staticApp')
       $scope.view.isInEditMode = false;
       $scope.view.itineraryStop = $scope.itineraryStop;
       $scope.view.itinerary = $scope.itinerary;
-      $scope.view.isParticipantsExpanded = false;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
       $scope.view.isSavingItineraryStop = false;
@@ -79,34 +78,6 @@ angular.module('staticApp')
           itineraryStop.isExpanded = false;
           $scope.$emit(ConstantsService.itineraryStopExpandedEventName, itineraryStop);
           scrollToItineraryStop(itineraryStop);
-      }
-
-      $scope.view.onExpandParticipantsClick = function (itineraryStop) {
-          $scope.view.isParticipantsExpanded = true;
-      }
-
-      $scope.view.onCollapseParticipantsClick = function (itineraryStop) {
-          $scope.view.isParticipantsExpanded = false;
-      }
-
-      $scope.view.onExpandGroupClick = function (group) {
-          group.isExpanded = true;
-      }
-
-      $scope.view.onCollapseGroupClick = function (group) {
-          group.isExpanded = false;
-      }
-
-      $scope.view.onEditGroupClick = function (group) {
-          $log.info('edit group click');
-      }
-
-      $scope.view.onCommentGroupClick = function (group) {
-          $log.info('comment group');
-      }
-
-      $scope.view.onDeleteGroupClick = function (group) {
-          $log.info('delete group');
       }
 
       $scope.view.onEditClick = function (itineraryStop) {
@@ -266,9 +237,6 @@ angular.module('staticApp')
 
       function initialize(itineraryStop) {
           setViewArrivalAndDepartureDates(itineraryStop);
-          angular.forEach(itineraryStop.groups, function (group, index) {
-              group.isExpanded = false;
-          });
       }
 
       function setViewArrivalAndDepartureDates(itineraryStop) {

@@ -30,7 +30,7 @@ namespace ECA.Business.Service
             Contract.Requires(context != null, "The context must not be null.");
         }
 
-        #region Contact Extistence Validation
+        #region Contact Existence Validation
 
         private IQueryable<Contact> CreateGetContactsByIdsQuery(IEnumerable<int> contactIds)
         {
@@ -393,7 +393,7 @@ namespace ECA.Business.Service
                 {
                     contactable.Contacts.Add(localEntity);
                 }
-                
+
             });
             contactsToRemove.ForEach(x =>
             {
@@ -555,15 +555,59 @@ namespace ECA.Business.Service
         }
 
         /// <summary>
-        /// Sets locations on the given instance with the given locaiton ids.
+        /// Sets participants on the given instance with the given participant ids.
+        /// </summary>
+        /// <typeparam name="T">The class type with an ICollection of locations property.</typeparam>
+        /// <param name="participantIds">The locations by id.</param>
+        /// <param name="participantPropertySelector">The lambda to select a property typed to a collection of participants.</param>
+        /// <param name="instance">The instance that contains a collection of locations to be set.</param>
+        public void SetParticipants<T>(List<int> participantIds, T instance, Expression<Func<T, ICollection<Participant>>> participantPropertySelector)
+        {
+            Contract.Requires(participantIds != null, "The participant ids must not be null.");
+            Contract.Requires(participantPropertySelector != null, "The expression must not be null.");
+            Contract.Requires(instance != null, "The instance must not be null.");
+
+            var participants = GetPropertyValue<T, ICollection<Participant>>(instance, participantPropertySelector);
+
+            var participantsToRemove = participants.Where(x => !participantIds.Contains(x.ParticipantId)).ToList();
+            var participantsToAdd = new List<Participant>();
+            participantIds.Where(x => !participants.Select(o => o.ParticipantId).ToList().Contains(x)).ToList()
+                .Select(x => new Participant { ParticipantId = x }).ToList()
+                .ForEach(x => participantsToAdd.Add(x));
+
+            participantsToAdd.ForEach(x =>
+            {
+                var localEntity = Context.GetLocalEntity<Participant>(y => y.ParticipantId == x.ParticipantId);
+                if (localEntity == null)
+                {
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Participants.Attach(x);
+                    }
+                    participants.Add(x);
+                }
+                else
+                {
+                    participants.Add(localEntity);
+                }
+            });
+            participantsToRemove.ForEach(x =>
+            {
+                participants.Remove(x);
+            });
+            SetPropertyValue<T, ICollection<Participant>>(instance, participantPropertySelector, participants);
+        }
+
+        /// <summary>
+        /// Sets locations on the given instance with the given location ids.
         /// </summary>
         /// <typeparam name="T">The class type with an ICollection of locations property.</typeparam>
         /// <param name="locationIds">The locations by id.</param>
         /// <param name="locationPropertySelector">The lambda to select a property typed to a collection of locations.</param>
         /// <param name="instance">The instance that contains a collection of locations to be set.</param>
-        public void SetLocations<T>(List<int> locationIds, Expression<Func<T, ICollection<Location>>> locationPropertySelector, T instance)
+        public void SetLocations<T>(List<int> locationIds, T instance, Expression<Func<T, ICollection<Location>>> locationPropertySelector)
         {
-            Contract.Requires(locationIds != null, "The objective ids must not be null.");
+            Contract.Requires(locationIds != null, "The location ids must not be null.");
             Contract.Requires(locationPropertySelector != null, "The expression must not be null.");
             Contract.Requires(instance != null, "The instance must not be null.");
 
@@ -663,7 +707,7 @@ namespace ECA.Business.Service
             logger.Trace("Retrieved location by id {0}.", locationId);
             return location;
         }
-        
+
         /// <summary>
         /// Gets a location by id
         /// </summary>
@@ -698,10 +742,10 @@ namespace ECA.Business.Service
         protected IQueryable<Location> CreateGetNewInactiveEntityLocationsQuery(IQueryable<Location> entityLocations, IEnumerable<int> allLocationIds)
         {
             var newInactiveLocationsQuery = from location in Context.Locations
-                                    where allLocationIds.Contains(location.LocationId)
-                                    && !location.IsActive
-                                    && !entityLocations.Select(x => x.LocationId).Contains(location.LocationId)
-                                    select location;
+                                            where allLocationIds.Contains(location.LocationId)
+                                            && !location.IsActive
+                                            && !entityLocations.Select(x => x.LocationId).Contains(location.LocationId)
+                                            select location;
             return newInactiveLocationsQuery;
         }
 
@@ -714,7 +758,7 @@ namespace ECA.Business.Service
         protected IQueryable<Location> GetNewInactiveProjectLocations(int projectId, IEnumerable<int> allLocationIds)
         {
             return CreateGetNewInactiveEntityLocationsQuery(
-                Context.Projects.Where(x => x.ProjectId == projectId).SelectMany(x => x.Locations), 
+                Context.Projects.Where(x => x.ProjectId == projectId).SelectMany(x => x.Locations),
                 allLocationIds);
         }
 

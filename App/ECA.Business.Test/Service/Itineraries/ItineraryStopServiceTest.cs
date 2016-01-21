@@ -19,14 +19,16 @@ namespace ECA.Business.Test.Service.Itineraries
     {
         private TestEcaContext context;
         private ItineraryStopService service;
-        private Mock<IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>> validator;
+        private Mock<IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>> itineraryStopServiceValidator;
+        private Mock<IBusinessValidator<ItineraryStopParticipantsValidationEntity, ItineraryStopParticipantsValidationEntity>> itineraryStopParticipantsValidator;
 
         [TestInitialize]
         public void TestInit()
         {
-            validator = new Mock<IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>>();
+            itineraryStopServiceValidator = new Mock<IBusinessValidator<EcaItineraryStopValidationEntity, EcaItineraryStopValidationEntity>>();
+            itineraryStopParticipantsValidator = new Mock<IBusinessValidator<ItineraryStopParticipantsValidationEntity, ItineraryStopParticipantsValidationEntity>>();
             context = new TestEcaContext();
-            service = new ItineraryStopService(context, validator.Object);
+            service = new ItineraryStopService(context, itineraryStopServiceValidator.Object, itineraryStopParticipantsValidator.Object);
         }
 
         #region Get
@@ -60,22 +62,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
+
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -85,9 +72,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -99,8 +83,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -146,22 +129,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -171,9 +138,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
+
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -185,8 +150,8 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -232,22 +197,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -257,9 +206,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -271,8 +217,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -318,22 +263,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 PersonId = person1.PersonId,
                 Person = person1
             };
-            var person2 = new Person
-            {
-                PersonId = 2,
-                FullName = "person 2"
-            };
-            var participant2 = new Participant
-            {
-                ParticipantId = 2,
-                PersonId = person2.PersonId,
-                Person = person2
-            };
-            var itineraryGroup = new ItineraryGroup
-            {
-                Name = "group1",
-            };
-            itineraryGroup.Participants.Add(participant1);
             var itinerary = new Itinerary
             {
                 ItineraryId = 1,
@@ -343,9 +272,6 @@ namespace ECA.Business.Test.Service.Itineraries
                 ProjectId = project.ProjectId,
                 Project = project
             };
-            itinerary.ItineraryGroups.Add(itineraryGroup);
-            itineraryGroup.Itinerary = itinerary;
-            itineraryGroup.ItineraryId = itinerary.ItineraryId;
             var stop = new ItineraryStop
             {
                 DateArrive = DateTimeOffset.UtcNow.AddDays(-10.0),
@@ -357,8 +283,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Name = "stop"
             };
             stop.History.RevisedOn = DateTimeOffset.UtcNow;
-            stop.Groups.Add(itineraryGroup);
-            stop.Participants.Add(participant2);
+            stop.Participants.Add(participant1);
 
             context.ItineraryStops.Add(stop);
             context.Locations.Add(location);
@@ -462,7 +387,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(addedItineraryStop.TimezoneId, entity.TimezoneId);
             };
 
-            validator.Setup(x => x.ValidateCreate(It.IsAny<EcaItineraryStopValidationEntity>())).Callback(validationEntityTester);
+            itineraryStopServiceValidator.Setup(x => x.ValidateCreate(It.IsAny<EcaItineraryStopValidationEntity>())).Callback(validationEntityTester);
 
             context.Revert();
             var result = service.Create(addedItineraryStop);
@@ -472,7 +397,7 @@ namespace ECA.Business.Test.Service.Itineraries
             result = await service.CreateAsync(addedItineraryStop);
             tester(result);
 
-            validator.Verify(x => x.ValidateCreate(It.IsAny<EcaItineraryStopValidationEntity>()), Times.Exactly(2));
+            itineraryStopServiceValidator.Verify(x => x.ValidateCreate(It.IsAny<EcaItineraryStopValidationEntity>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -754,7 +679,7 @@ namespace ECA.Business.Test.Service.Itineraries
                 Assert.AreEqual(timezoneId, entity.TimezoneId);
             };
 
-            validator.Setup(x => x.ValidateUpdate(It.IsAny<EcaItineraryStopValidationEntity>())).Callback(validationEntityTester);
+            itineraryStopServiceValidator.Setup(x => x.ValidateUpdate(It.IsAny<EcaItineraryStopValidationEntity>())).Callback(validationEntityTester);
 
             context.Revert();
             beforeTester();
@@ -766,7 +691,7 @@ namespace ECA.Business.Test.Service.Itineraries
             await service.UpdateAsync(updatedItineraryStop);
             tester();
 
-            validator.Verify(x => x.ValidateUpdate(It.IsAny<EcaItineraryStopValidationEntity>()), Times.Exactly(2));
+            itineraryStopServiceValidator.Verify(x => x.ValidateUpdate(It.IsAny<EcaItineraryStopValidationEntity>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -992,6 +917,363 @@ namespace ECA.Business.Test.Service.Itineraries
             a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
             f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }
+        #endregion
+
+        #region Set Participants
+        [TestMethod]
+        public async Task TestSetParticipants()
+        {
+            var projectId = 1;
+            var itineraryId = 2;
+            var participant1Id = 3;
+            var participant2Id = 4;
+            var userId = 5;
+            var itineraryStopId = 6;
+            var updator = new User(userId);
+            ParticipantType participantType = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            Project project = null;
+            Itinerary itinerary = null;
+            ItineraryStop stop = null;
+            Participant participant1 = null;
+            Participant participant2 = null;
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId,
+                };
+                itinerary = new Itinerary
+                {
+                    ItineraryId = itineraryId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                stop = new ItineraryStop
+                {
+                    ItineraryStopId = itineraryStopId,
+                    Itinerary = itinerary,
+                    ItineraryId = itinerary.ItineraryId
+                };
+                participant1 = new Participant
+                {
+                    ParticipantId = participant1Id,
+                    ParticipantType = participantType,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                participant2 = new Participant
+                {
+                    ParticipantId = participant2Id,
+                    ParticipantType = participantType,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                itinerary.Participants.Add(participant1);
+                itinerary.Participants.Add(participant2);
+                context.ItineraryStops.Add(stop);
+                context.ParticipantTypes.Add(participantType);
+                context.Projects.Add(project);
+                context.Itineraries.Add(itinerary);
+                context.Participants.Add(participant1);
+                context.Participants.Add(participant2);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, stop.Participants.Count());
+            };
+            Action<ItineraryStopParticipantsValidationEntity> validatorTester = (entity) =>
+            {
+                Assert.AreEqual(0, entity.NotAllowedParticipantsByParticipantId.Count());
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(2, stop.Participants.Count());
+                var itineraryStopParticipantIds = stop.Participants.Select(x => x.ParticipantId).ToList();
+                Assert.IsTrue(itineraryStopParticipantIds.Contains(participant1Id));
+                Assert.IsTrue(itineraryStopParticipantIds.Contains(participant2Id));
+            };
+            itineraryStopParticipantsValidator.Setup(x => x.ValidateUpdate(It.IsAny<ItineraryStopParticipantsValidationEntity>())).Callback(validatorTester);
+
+            var model = new ItineraryStopParticipants(updator, projectId, itineraryId, itineraryStopId, new List<int> { participant1Id, participant2Id });
+            context.Revert();
+            beforeTester();
+            service.SetParticipants(model);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.SetParticipantsAsync(model);
+            afterTester();
+            itineraryStopParticipantsValidator.Verify(x => x.ValidateCreate(It.IsAny<ItineraryStopParticipantsValidationEntity>()), Times.Never());
+            itineraryStopParticipantsValidator.Verify(x => x.ValidateUpdate(It.IsAny<ItineraryStopParticipantsValidationEntity>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public async Task TestSetParticipants_ParticipantIsNotOnItinerary()
+        {
+            var projectId = 1;
+            var itineraryId = 2;
+            var participant1Id = 3;
+            var userId = 5;
+            var itineraryStopId = 6;
+            var updator = new User(userId);
+            ParticipantType participantType = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            Project project = null;
+            Itinerary itinerary = null;
+            ItineraryStop stop = null;
+            Participant participant1 = null;
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId,
+                };
+                itinerary = new Itinerary
+                {
+                    ItineraryId = itineraryId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                stop = new ItineraryStop
+                {
+                    ItineraryStopId = itineraryStopId,
+                    Itinerary = itinerary,
+                    ItineraryId = itinerary.ItineraryId
+                };
+                participant1 = new Participant
+                {
+                    ParticipantId = participant1Id,
+                    ParticipantType = participantType,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                context.ItineraryStops.Add(stop);
+                context.ParticipantTypes.Add(participantType);
+                context.Projects.Add(project);
+                context.Itineraries.Add(itinerary);
+                context.Participants.Add(participant1);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, itinerary.Participants.Count());
+                Assert.AreEqual(0, stop.Participants.Count());
+            };
+            Action<ItineraryStopParticipantsValidationEntity> validatorTester = (entity) =>
+            {
+                Assert.AreEqual(1, entity.NotAllowedParticipantsByParticipantId.Count());
+            };
+            itineraryStopParticipantsValidator.Setup(x => x.ValidateUpdate(It.IsAny<ItineraryStopParticipantsValidationEntity>())).Callback(validatorTester);
+
+            var model = new ItineraryStopParticipants(updator, projectId, itineraryId, itineraryStopId, new List<int> { participant1Id });
+            context.Revert();
+            beforeTester();
+            service.SetParticipants(model);
+
+            context.Revert();
+            beforeTester();
+            await service.SetParticipantsAsync(model);
+        }
+
+        [TestMethod]
+        public async Task TestSetParticipants_ItineraryStopDoesNotExist()
+        {
+            var projectId = 1;
+            var itineraryId = 2;
+            var participant1Id = 3;
+            var participant2Id = 4;
+            var userId = 5;
+            var itineraryStopId = 6;
+            var updator = new User(userId);
+            ParticipantType participantType = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            Project project = null;
+            Itinerary itinerary = null;
+            ItineraryStop stop = null;
+            Participant participant1 = null;
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId,
+                };
+                itinerary = new Itinerary
+                {
+                    ItineraryId = itineraryId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                stop = new ItineraryStop
+                {
+                    ItineraryStopId = itineraryStopId,
+                    Itinerary = itinerary,
+                    ItineraryId = itinerary.ItineraryId
+                };
+                participant1 = new Participant
+                {
+                    ParticipantId = participant1Id,
+                    ParticipantType = participantType,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                context.ItineraryStops.Add(stop);
+                context.ParticipantTypes.Add(participantType);
+                context.Projects.Add(project);
+                context.Itineraries.Add(itinerary);
+                context.Participants.Add(participant1);
+            });
+            context.Revert();
+            var model = new ItineraryStopParticipants(updator, projectId, itineraryId, itineraryStopId + 1, new List<int> { participant1Id, participant2Id });
+            var message = String.Format("The [{0}] with id [{1}] does not exist.", typeof(ItineraryStop).Name, model.ItineraryStopId);
+            Action a = () => service.SetParticipants(model);
+            Func<Task> f = () => service.SetParticipantsAsync(model);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestSetParticipants_ItineraryStopDoesBelongToProject()
+        {
+            var projectId = 1;
+            var itineraryId = 2;
+            var participant1Id = 3;
+            var participant2Id = 4;
+            var userId = 5;
+            var itineraryStopId = 6;
+            var updator = new User(userId);
+            ParticipantType participantType = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            Project project = null;
+            Itinerary itinerary = null;
+            ItineraryStop stop = null;
+            Participant participant1 = null;
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId,
+                };
+                itinerary = new Itinerary
+                {
+                    ItineraryId = itineraryId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                stop = new ItineraryStop
+                {
+                    ItineraryStopId = itineraryStopId,
+                    Itinerary = itinerary,
+                    ItineraryId = itinerary.ItineraryId
+                };
+                participant1 = new Participant
+                {
+                    ParticipantId = participant1Id,
+                    ParticipantType = participantType,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                context.ItineraryStops.Add(stop);
+                context.ParticipantTypes.Add(participantType);
+                context.Projects.Add(project);
+                context.Itineraries.Add(itinerary);
+                context.Participants.Add(participant1);
+            });
+            context.Revert();
+            var model = new ItineraryStopParticipants(updator, projectId + 1, itineraryId, itineraryStopId, new List<int> { participant1Id, participant2Id });
+            var message = String.Format("The user with id [{0}] attempted to edit an itinerary on a project with id [{1}] but should have been denied access.",
+                        userId,
+                        model.ProjectId);
+            Action a = () => service.SetParticipants(model);
+            Func<Task> f = () => service.SetParticipantsAsync(model);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestSetParticipants_ItineraryStopDoesNotBelongToItinerary()
+        {
+            var projectId = 1;
+            var itineraryId = 2;
+            var participant1Id = 3;
+            var participant2Id = 4;
+            var userId = 5;
+            var itineraryStopId = 6;
+            var updator = new User(userId);
+            ParticipantType participantType = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            Project project = null;
+            Itinerary itinerary = null;
+            ItineraryStop stop = null;
+            Participant participant1 = null;
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId,
+                };
+                itinerary = new Itinerary
+                {
+                    ItineraryId = itineraryId,
+                    ProjectId = project.ProjectId,
+                    Project = project
+                };
+                stop = new ItineraryStop
+                {
+                    ItineraryStopId = itineraryStopId,
+                    Itinerary = itinerary,
+                    ItineraryId = itinerary.ItineraryId
+                };
+                participant1 = new Participant
+                {
+                    ParticipantId = participant1Id,
+                    ParticipantType = participantType,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                context.ItineraryStops.Add(stop);
+                context.ParticipantTypes.Add(participantType);
+                context.Projects.Add(project);
+                context.Itineraries.Add(itinerary);
+                context.Participants.Add(participant1);
+            });
+            context.Revert();
+            var model = new ItineraryStopParticipants(updator, projectId, itineraryId + 1, itineraryStopId, new List<int> { participant1Id, participant2Id });
+            var message = String.Format("The user with id [{0}] attempted to edit an itinerary stop on a project with id [{1}] and itinerary with id [{2}] but should have been denied access.",
+                        userId,
+                        model.ProjectId,
+                        model.ItineraryId);
+            Action a = () => service.SetParticipants(model);
+            Func<Task> f = () => service.SetParticipantsAsync(model);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }        
         #endregion
     }
 }
