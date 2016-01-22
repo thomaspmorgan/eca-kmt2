@@ -271,6 +271,7 @@
     <Build Include="dbo\Tables\SevisBatchProcessing.sql" />
 
     <Build Include="dbo\Tables\ItineraryStopParticipant.sql" />
+    <Build Include="dbo\Stored Procedures\GetOrganizationsByRoleId.sql" />
     <Build Include="dbo\Tables\ItineraryParticipant.sql" />
   </ItemGroup>
   <ItemGroup>
