@@ -45,7 +45,8 @@ namespace ECA.Business.Queries.Persons
                                  Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId,
                                  SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
                              }).OrderBy(s => s.AddedOn),
-                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn)
+                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn),
+                             SevisValidationResult = p.SevisValidationResult
                          });
             return query;
         }

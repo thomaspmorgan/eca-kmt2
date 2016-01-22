@@ -2,7 +2,6 @@
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
@@ -418,6 +417,7 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
+            participantPerson.SevisValidationResult = updatedParticipantPersonSevis.SevisValidationResult;
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)

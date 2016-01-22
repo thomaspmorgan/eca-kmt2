@@ -62,8 +62,8 @@
                         // log participant sevis validation attempt
                         ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
                         // update participant sevis validation results
-                        loadSevisInfo($scope.participantid);
-                        saveSevisInfoById($scope.participantid, response.data);
+                        loadSevisInfo($scope.participantid, response.data);
+                        saveSevisInfoById($scope.participantid);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -85,8 +85,8 @@
                         // log participant sevis validation attempt
                         ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
                         // update participant sevis validation results
-                        loadSevisInfo($scope.participantid);
-                        saveSevisInfoById($scope.participantid, response.data);
+                        loadSevisInfo($scope.participantid, response.data);
+                        saveSevisInfoById($scope.participantid);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -95,10 +95,12 @@
                 };
 
                 // get participant record
-                function loadSevisInfo(participantId) {
+                function loadSevisInfo(participantId, results) {
                     return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
                     .then(function (data) {
-                        $scope.sevisInfo = data.data;
+                        var sevisInfo = data.data;
+                        sevisInfo.sevisValidationResult = JSON.stringify(results);
+                        $scope.sevisInfo = sevisInfo;
                     }, function (error) {
                         if (error.status === 404) {
                             $scope.sevisInfo = {};
@@ -110,9 +112,8 @@
                 };
 
                 // update participant sevis results
-                function saveSevisInfoById(participantId, results) {
+                function saveSevisInfoById(participantId) {
                     var sevisInfo = $scope.sevisInfo;
-                    sevisInfo.sevisResults = results;
                     return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
                     .then(function (data) {
                         NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
