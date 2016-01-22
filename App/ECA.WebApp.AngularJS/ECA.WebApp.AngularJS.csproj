@@ -205,6 +205,8 @@
     <Content Include="app\programs\programs.routes.js" />
     <Content Include="app\projects\itineraries.contoller.js" />
     <Content Include="app\projects\itinerary.controller.js" />
+    <Content Include="app\projects\manage-itinerary-participants-modal.controller.js" />
+    <Content Include="app\projects\manage-itinerary-participants-modal.html" />
     <Content Include="app\projects\project-location-marker.controller.js" />
     <Content Include="app\projects\project-location-marker.html" />
     <Content Include="app\projects\projects.routes.js" />

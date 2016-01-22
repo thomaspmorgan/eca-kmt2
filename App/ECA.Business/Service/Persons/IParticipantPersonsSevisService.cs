@@ -92,20 +92,6 @@ namespace ECA.Business.Service.Persons
         List<UpdateExchVisitor> GetSevisUpdateEVs(User user);
         
         /// <summary>
-        /// Get populated create participant sevis object for validation
-        /// </summary>
-        /// <param name="participantId"></param>
-        /// <returns>Create exchange visitor object</returns>
-        CreateExchVisitor GetCreateExchangeVisitor(int participantId, User user);
-
-        /// <summary>
-        /// Get populated update participant sevis object for validation
-        /// </summary>
-        /// <param name="participantId"></param>
-        /// <returns>Update exchange visitor object</returns>
-        UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user);
-
-        /// <summary>
         /// Retrieve XML format of SEVIS batch object
         /// </summary>
         /// <param name="validationEntity">Participant object to be validated</param>

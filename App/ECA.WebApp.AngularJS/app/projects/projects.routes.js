@@ -47,7 +47,12 @@ angular.module('staticApp')
         requireADLogin: true
     })
     .state('projects.participants', {
-        url: '/participant',
+        url: '/participant?section&tab&participantId',
+        params: {
+            section: null,
+            tab: null,
+            participantId: null
+        },
         templateUrl: 'app/projects/participant.html',
         controller: 'ProjectParticipantCtrl',
         requireADLogin: true

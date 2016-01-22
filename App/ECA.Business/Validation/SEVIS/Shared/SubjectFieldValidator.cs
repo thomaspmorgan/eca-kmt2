@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ECA.Business.Validation.SEVIS;
+using FluentValidation;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -10,10 +11,10 @@ namespace ECA.Business.Validation.Model.Shared
 
         public SubjectFieldValidator()
         {
-            RuleFor(visitor => visitor.SubjectFieldCode).Length(1, FIELD_CODE_MAX_LENGTH).WithMessage("Subject Field: Subject or field of study is required and can be up to " + FIELD_CODE_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.ForeignDegreeLevel).Length(0, FOREIGN_FIELD_MAX_LENGTH).WithMessage("Subject Field: Foreign Degree Level can be up to " + FOREIGN_FIELD_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.ForeignFieldOfStudy).Length(0, FOREIGN_FIELD_MAX_LENGTH).WithMessage("Subject Field: Foreign Field of Study can be up to " + FOREIGN_FIELD_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.Remarks).Length(1, REMARKS_MAX_LENGTH).WithMessage("Subject Field: Remarks are required and can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.SubjectFieldCode).Length(1, FIELD_CODE_MAX_LENGTH).WithMessage("Subject Field: Subject or field of study is required and can be up to " + FIELD_CODE_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.ExchVisitor.ToString() });
+            RuleFor(visitor => visitor.ForeignDegreeLevel).Length(0, FOREIGN_FIELD_MAX_LENGTH).WithMessage("Subject Field: Foreign Degree Level can be up to " + FOREIGN_FIELD_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.ExchVisitor.ToString() });
+            RuleFor(visitor => visitor.ForeignFieldOfStudy).Length(0, FOREIGN_FIELD_MAX_LENGTH).WithMessage("Subject Field: Foreign Field of Study can be up to " + FOREIGN_FIELD_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.ExchVisitor.ToString() });
+            RuleFor(visitor => visitor.Remarks).Length(1, REMARKS_MAX_LENGTH).WithMessage("Subject Field: Remarks are required and can be up to " + REMARKS_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.ExchVisitor.ToString() });
         }
     }
 }

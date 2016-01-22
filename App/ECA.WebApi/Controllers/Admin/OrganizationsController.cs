@@ -82,6 +82,28 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Gets organization hierarchy by role id
+        /// </summary>
+        /// <param name="organizationRoleId">The organization role id to lookup</param>
+        /// <param name="queryModel">The query model to apply</param>
+        /// <returns>The organization hierarchy by role id</returns>
+        [ResponseType(typeof(PagedQueryResults<OrganizationHierarchyDTO>))]
+        [Route("Organizations/HierarchyByRoleId")]
+        public async Task<IHttpActionResult> GetOrganizationsHierarchyByRoleIdAsync(int organizationRoleId, [FromUri]PagingQueryBindingModel<OrganizationHierarchyDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await organizationService.GetOrganizationsHierarchyByRoleIdAsync(organizationRoleId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        /// <summary>
         /// Returns the organization with the given id.
         /// </summary>
         /// <param name="id">The id of the organization.</param>

@@ -16,7 +16,7 @@ angular.module('staticApp')
         requireADLogin: true
     })
     .state('people.personalinformation', {
-        url: '/personalinformation/:section',
+        url: '/personalinformation/:section/:tab',
         templateUrl: 'app/people/personal-information.html',
         controller: 'PersonInformationCtrl',
         requireADLogin: true
@@ -32,7 +32,7 @@ angular.module('staticApp')
         requireADLogin: true
     })
     .state('people.moneyflows', {
-        url: '/moneyflows',
+        url: '/moneyflows/:section/:tab',
         templateUrl: 'app/people/moneyflows.html',
         requireADLogin: true
     })

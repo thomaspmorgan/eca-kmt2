@@ -17,7 +17,6 @@ namespace ECA.Business.Queries.Models.Itineraries
         /// </summary>
         public ItineraryStopDTO()
         {
-            this.Groups = new List<ItineraryStopGroupDTO>();
             this.Participants = new List<ItineraryStopParticipantDTO>();
         }
 
@@ -70,11 +69,6 @@ namespace ECA.Business.Queries.Models.Itineraries
         /// Gets or sets the count of participants in the itinerary stop.
         /// </summary>
         public int ParticipantsCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the group.
-        /// </summary>
-        public IEnumerable<ItineraryStopGroupDTO> Groups { get; set; }
 
         /// <summary>
         /// Gets or sets the participants.

@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Itineraries;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Itineraries
 {
@@ -16,7 +18,7 @@ namespace ECA.Business.Test.Service.Itineraries
             var arrivalLocationId = 3;
             var departureLocationId = 4;
             var projectId = 5;
-
+            
             var model = new EcaItinerary(startDate, endDate, name, projectId, arrivalLocationId, departureLocationId);
             Assert.AreEqual(startDate, model.StartDate);
             Assert.AreEqual(endDate, model.EndDate);
