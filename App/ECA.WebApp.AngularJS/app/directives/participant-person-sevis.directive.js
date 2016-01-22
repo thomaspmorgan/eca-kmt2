@@ -25,6 +25,7 @@
 
                 var limit = 300;
                 $scope.edit = [];
+                $scope.sevisInfo = {};
 
                 $scope.edit.openStartDatePicker = function ($event) {
                     $event.preventDefault();
@@ -58,8 +59,11 @@
                             valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
                         $scope.validationResults = valErrors;
-                        // update participant sevis status
+                        // log participant sevis validation attempt
                         ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
+                        // update participant sevis validation results
+                        loadSevisInfo($scope.participantid);
+                        saveSevisInfoById($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -78,8 +82,11 @@
                             valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
                         $scope.validationResults = valErrors;
-                        // update participant sevis status
+                        // log participant sevis validation attempt
                         ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
+                        // update participant sevis validation results
+                        loadSevisInfo($scope.participantid);
+                        saveSevisInfoById($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -87,6 +94,36 @@
                     });
                 };
 
+                // get participant record
+                function loadSevisInfo(participantId) {
+                    return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+                    .then(function (data) {
+                        $scope.sevisInfo = data.data;
+                    }, function (error) {
+                        if (error.status === 404) {
+                            $scope.sevisInfo = {};
+                        } else {
+                            $log.error('Unable to load participant SEVIS info for ' + participantId + '.');
+                            NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+                        }
+                    });
+                };
+
+                // update participant sevis results
+                function saveSevisInfoById(participantId, results) {
+                    var sevisInfo = $scope.sevisInfo;
+                    sevisInfo.sevisResults = results;
+                    return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
+                    .then(function (data) {
+                        NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
+                        $scope.sevisInfo = data.data;
+                    }, function (error) {
+                        $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
+                        NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
+                    });
+                };
+
+                // Navigate to a section where the validation error can be resolved
                 $scope.goToErrorSection = function (customState) {
                     
                     if (customState)

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -102,9 +98,13 @@ namespace ECA.Business.Queries.Models.Persons
         public IEnumerable<ParticipantPersonSevisCommStatusDTO> SevisCommStatuses { get; set; }
 
         /// <summary>
-        /// the most recent date of a batch status record being written for this participant
+        /// The most recent date of a batch status record being written for this participant
         /// </summary>
         public DateTimeOffset? LastBatchDate { get; set; }
 
+        /// <summary>
+        /// The most recent participant Sevis valiation result
+        /// </summary>
+        public string SevisValidationResult { get; set; }
     }
 }
