@@ -49,15 +49,18 @@ angular.module('staticApp')
       var itineraryStopGroupKey = 'City Stop';
 
       $scope.view.onClearItineraryParticipantsClick = function () {
+          var canClearParticipants = false;
           for (var i = $scope.view.itineraryParticipants.length - 1; i >= 0; i--) {
               var participant = $scope.view.itineraryParticipants[i];
               if (!participant.isItineraryStopParticipant) {
                   $scope.view.itineraryParticipants.splice(i, 1);
+                  canClearParticipants = true;
               }
           }
-
-          return saveItineraryParticipants(project, itinerary, $scope.view.itineraryParticipants)
-            .then(loadParticipants(project.id, $scope.view.projectFilterFilter));
+          if (canClearParticipants) {
+              return saveItineraryParticipants(project, itinerary, $scope.view.itineraryParticipants)
+                .then(loadParticipants(project.id, $scope.view.projectFilterFilter));
+          }
       }
 
       $scope.view.onClearItineraryStopParticipantsClick = function () {
@@ -75,7 +78,7 @@ angular.module('staticApp')
               if (p.isSelected) {
                   allParticipants.push(p);
               }
-              
+
           });
           angular.forEach($scope.view.itineraryParticipants, function (p, index) {
               allParticipants.push(p);
@@ -142,7 +145,7 @@ angular.module('staticApp')
                       $scope.view.selectedItineraryStop.participants.push(selectedParticipant);
                   });
                   $scope.view.selectedItineraryStop.participants = orderByFilter($scope.view.selectedItineraryStop.participants, 'fullName');
-                  
+
               });
           }
       }
