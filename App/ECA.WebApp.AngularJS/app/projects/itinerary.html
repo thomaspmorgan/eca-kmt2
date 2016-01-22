@@ -259,7 +259,7 @@
                                     <div class="col-md-8">
                                         {{view.selectedCalendarItineraryStop.destinationLocation.name}}{{view.selectedCalendarItineraryStop.destinationLocation.division ? ', ' + view.selectedCalendarItineraryStop.destinationLocation.division : ''}}{{view.selectedCalendarItineraryStop.destinationLocation.country ? ' ' + view.selectedCalendarItineraryStop.destinationLocation.country : ''}}
                                     </div>
-                                </div>                               
+                                </div>
                                 <div class="row row3">
                                     <div class="col-md-4 title-label">
                                         <div class="pull-left" style="margin-right: 10px;">
@@ -271,10 +271,10 @@
                                         <ul>
                                             <li ng-repeat="participant in view.selectedCalendarItineraryStop.participants">
                                                 <div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-7" style="white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">
                                                         <a ui-sref="people.personalinformation({personId: participant.personId})">{{participant.fullName}}</a>
                                                     </div>
-                                                    <div class="col-md-6 text-right">
+                                                    <div class="col-md-5 text-right">
                                                         <i class="material-icons md-dark md-12 rotate-quarter-turn-clockwise">flight</i>
                                                         <a>Itinerary</a>
                                                     </div>
@@ -292,7 +292,7 @@
                         &nbsp;
                     </div>
                     <div style="padding-top:20px;">
-                        <ng-include src="'app/projects/itinerary-stop.html'"/>
+                        <ng-include src="'app/projects/itinerary-stop.html'" />
                     </div>
                 </div>
             </div>

@@ -29,6 +29,10 @@ angular.module('staticApp')
 
       $scope.view = {};
       $scope.view.itinerary = itinerary;
+      $scope.view.itineraryTabKey = 'itineraryTab';
+      $scope.view.itineraryStopTabKey = 'itineraryStopTab';
+      $scope.view.currentTab = $scope.view.itineraryTabKey;
+
       $scope.view.title = 'Manage ' + itinerary.name + ' Participants';
       $scope.view.limit = 30;
       $scope.view.filteredParticipants = [];
@@ -47,6 +51,10 @@ angular.module('staticApp')
 
       var itineraryGroupKey = 'Travel Period';
       var itineraryStopGroupKey = 'City Stop';
+
+      $scope.view.toggleTab = function (key) {
+          $scope.view.currentTab = key;
+      }
 
       $scope.view.onClearItineraryParticipantsClick = function () {
           var canClearParticipants = false;
@@ -138,12 +146,15 @@ angular.module('staticApp')
               }
           });
           if (selectedParticipants.length > 0) {
+              angular.forEach($scope.view.selectedItineraryStop.participants, function (p, index) {
+                  selectedParticipants.push(p);
+              });
               return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, selectedParticipants)
               .then(function () {
                   angular.forEach(selectedParticipants, function (selectedParticipant, selectedParticipantIndex) {
                       removeParticipant(selectedParticipant, $scope.view.sourceParticipants);
-                      $scope.view.selectedItineraryStop.participants.push(selectedParticipant);
                   });
+                  $scope.view.selectedItineraryStop.participants = selectedParticipants;
                   $scope.view.selectedItineraryStop.participants = orderByFilter($scope.view.selectedItineraryStop.participants, 'fullName');
 
               });
@@ -279,9 +290,10 @@ angular.module('staticApp')
           $scope.view.isLoadingItineraryParticipants = true;
           return ProjectService.getItineraryParticipants(project.id, itinerary.id)
           .then(function (response) {
+              var itinerarySourceId = -1;
               $scope.view.isLoadingItineraryParticipants = false;
               $scope.view.itineraryParticipants = response.data;
-              addParticipantSource(itineraryGroupKey, itinerary.name, $scope.view.itineraryParticipants);
+              addParticipantSource(itineraryGroupKey, itinerary.name, $scope.view.itineraryParticipants, itinerarySourceId);
               setIsItineraryStopOnAllItineraryParticipants();
               return $scope.view.itineraryParticipants;
           })
@@ -298,7 +310,7 @@ angular.module('staticApp')
               $scope.view.itineraryStopParticipants = getAllParticipants(response.data);
               $scope.view.itineraryStops = response.data;
               angular.forEach($scope.view.itineraryStops, function (stop, index) {
-                  addParticipantSource(itineraryStopGroupKey, stop.name, stop.participants);
+                  addParticipantSource(itineraryStopGroupKey, stop.name, stop.participants, stop.itineraryStopId);
               });
               $scope.view.isLoadingItineraryStops = false;
               return $scope.view.itineraryStops;
@@ -311,8 +323,15 @@ angular.module('staticApp')
           });
       }
 
-      function addParticipantSource(group, name, participants) {
+      function addParticipantSource(group, name, participants, id) {
+          var sourceIds = $scope.view.itineraryStopParticipantSources.map(function (x) { return x.id; });
+          var index = sourceIds.indexOf(id);
+          if (index >= 0) {
+              $scope.view.itineraryStopParticipantSources.splice(index, 1);
+          }
+
           $scope.view.itineraryStopParticipantSources.push({
+              id: id,
               name: name,
               participants: participants,
               group: group
