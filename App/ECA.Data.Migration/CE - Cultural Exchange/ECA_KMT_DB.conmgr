@@ -5,10 +5,6 @@
   DTS:CreationName="OLEDB">
   <DTS:ObjectData>
     <DTS:ConnectionManager
-      DTS:ConnectionString="Data Source=eca.database.windows.net;User ID=eca;Initial Catalog=ECA_KMT_DEV;Provider=SQLNCLI11.1;Auto Translate=False;">
-      <DTS:Password
-        DTS:Name="Password"
-        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACaFPk4xSIpN0J4uaf/TM9owwFaFCyBv/uWdAN02V+AkgAAAAAOgAAAAAIAACAAAADdtXQ5pT4Fq62FWN71GvHK1F/R3kirzpUm1/L64aMeAIAAAAD3ye2h5aYo/QVwvSmE0NgVzZnKCcvtCYcweDjynCyXIssVW1TlZpfRtq7slWHqpywIma8pUllsrwizROcV9UyzNTuU3Wzh1brqNa4GC9Y9bqy+XqY9+rlhVFN09gssl5wo/STnBVBLV2p/nwMOnuIoRCda64lDiGvvXCsxIs5aHkAAAADikhcUs1kmkRla3W7vFgPa3qpJy3uJg22ZRcLG24cK3y3fqH+mCuUhFXGJmld/snNzz9LNTqphSfM/gdzYLvuL</DTS:Password>
-    </DTS:ConnectionManager>
+      DTS:ConnectionString="Data Source=BE00003308;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
   </DTS:ObjectData>
 </DTS:ConnectionManager>
