@@ -57,7 +57,7 @@
                         for (var i = 0; i < response.data.errors.length; i++) {
                             valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
-                        $scope.validationResults = valErrors;
+                        $scope.sevisInfo.sevisValidationResult = valErrors;
                         // log participant sevis validation attempt
                         ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
                         // update participant sevis validation results
@@ -79,7 +79,7 @@
                         for (var i = 0; i < response.data.errors.length; i++) {
                             valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
-                        $scope.validationResults = valErrors;
+                        $scope.sevisInfo.sevisValidationResult = valErrors;
                         // log participant sevis validation attempt
                         ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
                         // update participant sevis validation results
