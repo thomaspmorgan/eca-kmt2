@@ -42,7 +42,11 @@ angular.module('staticApp')
 
       $scope.view.itineraryStop = {
           itineraryId: itinerary.id,
-          projectId: project.id
+          projectId: project.id,
+          arrivalTime: new Date(),
+          departureTime: new Date(),
+          arrivalDate: itinerary.startDate,
+          departureDate: itinerary.startDate
       };
       ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
 

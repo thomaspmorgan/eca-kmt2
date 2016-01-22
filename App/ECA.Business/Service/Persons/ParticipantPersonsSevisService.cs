@@ -247,7 +247,7 @@ namespace ECA.Business.Service.Persons
             {
                 newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
             }
-            
+
             Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
             Context.SaveChanges();
         }
