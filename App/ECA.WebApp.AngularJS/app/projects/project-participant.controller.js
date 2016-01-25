@@ -377,7 +377,11 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
           .then(function (data) {
               $scope.sevisInfo[participantId] = data.data;
+              $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
               $scope.sevisInfo[participantId].show = true;
+
+              var errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length;
+
           }, function (error) {
               if (error.status === 404) {
                   $scope.sevisInfo[participantId] = {};

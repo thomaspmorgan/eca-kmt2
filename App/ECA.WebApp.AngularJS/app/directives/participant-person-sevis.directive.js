@@ -57,13 +57,11 @@
                         for (var i = 0; i < response.data.errors.length; i++) {
                             valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
-                        $scope.validationResults = valErrors;
-                        // update participant sevis status
-                        var params = {
-                            errors: response.data.errors.length,
-                            isvalid: response.data.isValid
-                        };
-                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
+                        $scope.sevisInfo.sevisValidationResult = valErrors;
+                        // log participant sevis validation attempt
+                        ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
+                        // update participant sevis validation results
+                        updateSevisInfo($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -81,13 +79,11 @@
                         for (var i = 0; i < response.data.errors.length; i++) {
                             valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
                         }
-                        $scope.validationResults = valErrors;
-                        // update participant sevis status
-                        var params = {
-                            errors: response.data.errors.length,
-                            isvalid: response.data.isValid
-                        };
-                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
+                        $scope.sevisInfo.sevisValidationResult = valErrors;
+                        // log participant sevis validation attempt
+                        ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
+                        // update participant sevis validation results
+                        updateSevisInfo($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
                     }, function (error) {
                         NotificationService.showErrorMessage(error.data);
@@ -95,13 +91,36 @@
                     });
                 };
 
-                $scope.goToErrorSection = function (customState) {
-                    
+                // get participant record and attach validation results
+                function updateSevisInfo(participantId, validationResults) {
+                    return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+                    .then(function (data) {
+                        var sevisInfo = data.data;
+                        sevisInfo.sevisValidationResult = JSON.stringify(validationResults);
+                        saveSevisInfo(participantId, sevisInfo);
+                    }, function (error) {
+                        $log.error('Unable to load participant SEVIS info for ' + participantId + '.');
+                        NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+                    });
+                };
+
+                // update participant sevis results
+                function saveSevisInfo(participantId, updatedSevisInfo) {
+                    return ParticipantPersonsSevisService.updateParticipantPersonsSevis(updatedSevisInfo)
+                    .then(function (data) {
+                        NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
+                    }, function (error) {
+                        $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
+                        NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
+                    });
+                };
+
+                // Navigate to a section where the validation error can be resolved
+                $scope.goToErrorSection = function (customState) {                    
                     if (customState)
                     {
                         $state.go(customState.category + '.' + customState.categorySub, { 'section': customState.section, 'tab': customState.tab, 'personId': $scope.participantid, 'participantId': $scope.participantid }, { reload: true });
                     }
-
                 };
             }
         };
