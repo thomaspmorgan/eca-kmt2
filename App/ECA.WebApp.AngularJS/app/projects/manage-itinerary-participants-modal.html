@@ -91,17 +91,37 @@
                                             <i style="cursor:pointer;"
                                                ng-show="!participant.isItineraryStopParticipant"
                                                ng-click="view.isAddingParticipantsToTheItinerary || view.onRemoveItineraryParticipantClick(participant)"
-                                               class="material-icons md-12">clear</i>
+                                               class="material-icons md-dark md-12">clear</i>
                                         </div>
-                                        <div class="col-md-11">
+                                        <div class="col-md-10">
                                             {{participant.fullName}}
                                             <i class="material-icons md-dark md-12" ng-class="{'fade-out': !participant.showSuccess}" style="color:green;" ng-show="participant.showSuccess">check</i>
+                                        </div>
+                                        <div class="col-md-1 text-right" ng-show="participant.isItineraryStopParticipant">
+                                            <div ng-show="!participant.isItineraryStopsExpanded">
+                                                <i style="cursor:pointer;" class="material-icons md-dark md-12" ng-click="view.onToggleItineraryParticipantItineraryStops(participant)">expand_more</i>
+                                            </div>
+                                            <div ng-show="participant.isItineraryStopsExpanded">
+                                                <i style="cursor:pointer;" class="material-icons md-dark md-12" ng-click="view.onToggleItineraryParticipantItineraryStops(participant)">expand_less</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="participant.isItineraryStopsExpanded" style="padding:5px;">
+                                        <hr />
+                                        <div class="row" style="padding-left:20px;">
+                                            <div class="col-md-4 title-label">
+                                                City Stops
+                                            </div>
+                                            <div class="col-md-8">
+                                                <ul ng-repeat="stop in view.getItineraryStopsByParticipant(participant) | orderBy:name">
+                                                    {{stop.name}}
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
                 <div style="padding-top:5px;">

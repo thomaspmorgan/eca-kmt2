@@ -226,6 +226,22 @@ angular.module('staticApp')
           $modalInstance.close($scope.view.itineraryParticipants);
       }
 
+      $scope.view.onToggleItineraryParticipantItineraryStops = function (participant) {
+          participant.isItineraryStopsExpanded = !participant.isItineraryStopsExpanded;
+      }
+
+      $scope.view.getItineraryStopsByParticipant = function (participant) {
+          var participantStops = [];
+          var stops = $scope.view.itineraryStops;
+          angular.forEach(stops, function (s, index) {
+              var participantIds = getParticipantIds(s.participants);
+              if (containsFilter(participantIds, participant.participantId)) {
+                  participantStops.push(s);
+              }
+          });
+          return participantStops;
+      }
+
       function setSourceParticipants(participantSource, itineraryStop) {
           $scope.view.sourceParticipants = [];
           if (participantSource) {
