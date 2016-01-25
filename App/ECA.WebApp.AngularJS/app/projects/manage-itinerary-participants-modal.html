@@ -131,7 +131,7 @@
                             {{$select.selected.name}}
                         </div>
                     </ui-select-match>
-                    <ui-select-choices repeat="source in view.itineraryStopParticipantSources" group-by="'group'">
+                    <ui-select-choices repeat="source in view.itineraryStopParticipantSources" group-by="'group'" ui-disable-choice="view.selectedItineraryStop && source.id === view.selectedItineraryStop.itineraryStopId">
                         <div style="padding-top:10px;padding-bottom: 10px;">
                             <div>{{source.name}}</div>
                             <div style="margin-left:20px;font-size:small;">{{source.participants.length}} <ng-pluralize count="source.participants.length" when="{'1':'Participant','other':'Participants'}"></ng-pluralize></div>
@@ -206,7 +206,7 @@
                             {{$select.selected.name}}
                         </div>
                     </ui-select-match>
-                    <ui-select-choices repeat="stop in view.itineraryStops">
+                    <ui-select-choices repeat="stop in view.itineraryStops" ui-disable-choice="view.selectedItineraryStopParticipantSource && view.selectedItineraryStopParticipantSource.id === stop.itineraryStopId">
                         <div style="padding-top:10px;padding-bottom: 10px;">
                             <div>{{stop.name}}</div>
                             <div style="margin-left:20px;font-size:small;">{{stop.participants.length}} <ng-pluralize count="stop.participants.length" when="{'1':'Participant','other':'Participants'}"></ng-pluralize></div>
@@ -221,7 +221,7 @@
                             <div class="row row2">
                                 <div class="col-md-1">
                                     <i style="cursor:pointer;"
-                                       ng-click="view.onRemoveItinerarStopParticipant(participant)"
+                                       ng-click="view.onRemoveItineraryStopParticipant(participant)"
                                        class="material-icons md-12">clear</i>
                                 </div>
                                 <div class="col-md-11">
