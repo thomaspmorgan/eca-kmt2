@@ -18,7 +18,7 @@ SET NOCOUNT ON
 -- and cause failed deployment if there are any rows referencing
 -- a record which has been deleted.
 DECLARE @DeleteMissingRecords BIT
-SET @DeleteMissingRecords = 0
+SET @DeleteMissingRecords = 1
 
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
@@ -36,18 +36,16 @@ DECLARE @tblTempTable TABLE (
 -- will not be deleted from databases in which the value already exists.
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('1', '1', '1')
 INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('2', '1', '2')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('6', '2', '4')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('7', '2', '5')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('8', '3', '1')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('9', '3', '2')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('10', '3', '3')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('11', '3', '4')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('12', '3', '5')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('13', '3', '6')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('14', '4', '7')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('15', '4', '8')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('16', '4', '9')
-INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('17', '4', '10')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('3', '2', '4')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('4', '2', '5')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('5', '3', '1')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('6', '3', '2')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('7', '3', '3')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('8', '3', '6')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('9', '4', '7')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('10', '4', '8')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('11', '4', '9')
+INSERT INTO @tblTempTable ([DataPointCategoryPropertyId], [DataPointCategoryId], [DataPointPropertyId]) VALUES ('12', '4', '10')
 
 
 -- 3: Insert any new items into the table from the table variable

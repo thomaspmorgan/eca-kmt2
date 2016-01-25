@@ -19,7 +19,7 @@ SET NOCOUNT ON
 -- and cause failed deployment if there are any rows referencing
 -- a record which has been deleted.
 DECLARE @DeleteMissingRecords BIT
-SET @DeleteMissingRecords = 0
+SET @DeleteMissingRecords = 1
 
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
