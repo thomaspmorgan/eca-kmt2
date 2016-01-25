@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('DataPointsCtrl', function ($scope,$state, $q, $modalInstance, parameters, ConstantsService, OfficeService, ProgramService, DataPointConfigurationService, NotificationService) {
+  .controller('DataPointsCtrl', function ($scope,$state, $q, $modalInstance, parameters, ConstantsService, OfficeService, ProgramService, ProjectService, DataPointConfigurationService, NotificationService) {
 
       $scope.expandOfficeSection = true;
       $scope.expandProgramSection = true;
@@ -50,7 +50,15 @@ angular.module('staticApp')
                 .then(function (response) {
                     $scope.resourceName = response.name;
                 }, function () {
-                    NotificationService.showErrorMessage('Unable to load office with id = ' + parameters.foreignResourceId + ".");
+                    NotificationService.showErrorMessage('Unable to load program with id = ' + parameters.foreignResourceId + ".");
+                });
+          }
+          else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
+              ProjectService.getById(parameters.foreignResourceId)
+                .then(function (response) {
+                    $scope.resourceName = response.data.name;
+                }, function () {
+                    NotificationService.showErrorMessage('Unable to load project with id = ' + parameters.foreignResourceId + ".");
                 });
           }
       }
@@ -64,6 +72,9 @@ angular.module('staticApp')
           }
           else if (parameters.resourceType.id === ConstantsService.resourceType.program.id) {
               params.programId = parameters.foreignResourceId;
+          }
+          else if (parameters.resourceType.id === ConstantsService.resourceType.project.id) {
+              params.projectId = parameters.foreignResourceId;
           }
           DataPointConfigurationService.getDataPointConfigurations(params)
             .then(function (response) {
