@@ -137,13 +137,40 @@ angular.module('staticApp')
 
       $scope.view.onRemoveItineraryStopParticipant = function (participant) {
           if (participant) {
-              removeParticipant(participant, $scope.view.selectedItineraryStop.participants);
-              participant.isSelected = false;
-              return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants)
-              .then(function () {
-                  setSourceParticipants($scope.view.selectedItineraryStopParticipantSource, $scope.view.selectedItineraryStop);
-              });
+              var participants = null;
+              if (angular.isArray(participant)) {
+                  participants = participant;
+              }
+              else {
+                  participants = [participant];
+              }
+              if (participants.length == 0) {
+                  return;
+              }
+              else {
+                  angular.forEach(participants, function (p, index) {
+                      removeParticipant(p, $scope.view.selectedItineraryStop.participants);
+                      p.isSelected = false;
+                      console.log('removing participant ' + p.fullName);
+                  });
+
+                  return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants)
+                  .then(function () {
+                      setSourceParticipants($scope.view.selectedItineraryStopParticipantSource, $scope.view.selectedItineraryStop);
+                  });
+              }
           }
+      }
+
+      $scope.view.onClearItineraryStopParticipantsClick = function () {
+          var participantsCopy = [];
+          angular.forEach($scope.view.selectedItineraryStop.participants, function (p, index) {
+              participantsCopy.push({
+                  participantId: p.participantId
+              });
+          });
+
+          $scope.view.onRemoveItineraryStopParticipant(participantsCopy);
       }
 
       $scope.view.onSelectSourceParticipantRow = function (participant) {

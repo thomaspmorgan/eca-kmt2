@@ -225,7 +225,7 @@
             </div>
             <div class="itinerary-participant-select-box" style="margin-top:10px;">
                 <div>
-                    <div class="spinner" style="position:absolute;left:0;right:0;top:125px;bottom:0;" ng-show="view.isSavingItineraryStopParticipants">
+                    <div class="spinner" style="position:absolute;left:0;right:0;top:175px;bottom:0;" ng-show="view.isSavingItineraryStopParticipants">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
                         <div class="bounce3"></div>
@@ -255,6 +255,11 @@
                 </div>
                 <div class="text-right title-label mute" ng-show="view.selectedItineraryStop === null">
                     <p>0 participants</p>
+                </div>
+                <div style="padding-top:5px;">
+                    <div class="title-label text-right">
+                        <button class="btn btn-primary" ng-disabled="view.selectedItineraryStop === null" ng-click="view.onClearItineraryStopParticipantsClick()">Clear</button>
+                    </div>
                 </div>
             </div>
         </div>
