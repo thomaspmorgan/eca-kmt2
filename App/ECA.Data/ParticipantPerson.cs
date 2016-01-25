@@ -75,9 +75,7 @@ namespace ECA.Data
         /// The end date of the visit
         /// </summary>
         public DateTimeOffset? EndDate { get; set; }
-
         
-
         /// <summary>
         /// navigation property for HostInstitution
         /// </summary>
@@ -126,7 +124,12 @@ namespace ECA.Data
         public Participant Participant { get; set; }
 
         /// <summary>
-        /// 
+        /// The latest SEVIS participant verification results
+        /// </summary>
+        public string SevisValidationResult { get; set; }
+
+        /// <summary>
+        /// Collection of SEVIS communication statuses
         /// </summary>
         public ICollection<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }
 

@@ -78,7 +78,10 @@ namespace ECA.Business.Queries.Itineraries
         public static IQueryable<ItineraryDTO> CreateGetItinerariesByProjectIdQuery(EcaContext context, int projectId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return CreateGetItinerariesQuery(context).Where(x => x.ProjectId == projectId).OrderByDescending(x => x.EndDate);
+            return CreateGetItinerariesQuery(context).Where(x => x.ProjectId == projectId)
+                .OrderBy(x => x.StartDate)
+                .ThenBy(x => x.EndDate)
+                .ThenBy(x => x.Name);
         }
     }
 }

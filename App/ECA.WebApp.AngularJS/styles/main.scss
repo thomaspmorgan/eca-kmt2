@@ -963,12 +963,20 @@ input::-ms-clear {
     table {
         tr {
             border-bottom: 0px;
+
             td {
                 a {
                     height: 10px;
                 }
-                padding-top:5px;
+
+                padding-top: 5px;
             }
         }
     }
+}
+
+.fade-out {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1s, opacity 1s linear;
 }
