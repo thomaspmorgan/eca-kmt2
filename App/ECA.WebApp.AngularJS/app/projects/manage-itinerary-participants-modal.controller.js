@@ -39,6 +39,8 @@ angular.module('staticApp')
       $scope.view.filteredParticipantsCount = 0;
       $scope.view.isLoadingFilteredParticipants = false;
       $scope.view.isLoadingItineraryParticipants = false;
+      $scope.view.isAddingParticipantsToTheItinerary = false;
+      $scope.view.isSavingItineraryStopParticipants = false;
       $scope.view.itineraryParticipants = [];
       $scope.view.itineraryStopParticipants = [];
       $scope.view.itineraryStops = [];
@@ -82,12 +84,14 @@ angular.module('staticApp')
       }
 
       $scope.view.onAddSelectedProjectParticipantsToItinerary = function () {
+          $scope.view.isAddingParticipantsToTheItinerary = true;
           var allParticipants = [];
+          var addedParticipants = [];
           angular.forEach($scope.view.filteredParticipants, function (p, index) {
               if (p.isSelected) {
                   allParticipants.push(p);
+                  addedParticipants.push(p);
               }
-
           });
           angular.forEach($scope.view.itineraryParticipants, function (p, index) {
               allParticipants.push(p);
@@ -95,8 +99,15 @@ angular.module('staticApp')
           return saveItineraryParticipants(project, itinerary, allParticipants)
               .then(function () {
                   return loadItineraryParticipants(project, itinerary).then(function () {
-                      return loadParticipants(project.id, $scope.view.participantFilter);
+                      return loadParticipants(project.id, $scope.view.participantFilter)
+                      .then(function () {
+                          $scope.view.isAddingParticipantsToTheItinerary = false;
+                          showParticipantChangeSuccessful(addedParticipants, $scope.view.itineraryParticipants);
+                      });
                   });
+              })
+              .catch(function () {
+                  $scope.view.isAddingParticipantsToTheItinerary = false;
               });
       }
 
@@ -141,9 +152,11 @@ angular.module('staticApp')
 
       $scope.view.onAddSelectedParticipantsToItineraryStop = function () {
           var selectedParticipants = [];
+          var addedParticipants = [];
           angular.forEach($scope.view.sourceParticipants, function (p, index) {
               if (p.isSelected) {
                   selectedParticipants.push(p);
+                  addedParticipants.push(p);
               }
           });
           if (selectedParticipants.length > 0) {
@@ -158,13 +171,20 @@ angular.module('staticApp')
                   $scope.view.selectedItineraryStop.participants = selectedParticipants;
                   $scope.view.selectedItineraryStop.participants = orderByFilter($scope.view.selectedItineraryStop.participants, 'fullName');
                   updateParticipantSourceByItineraryStop($scope.view.selectedItineraryStop.itineraryStopId, selectedParticipants);
-
+                  showParticipantChangeSuccessful(addedParticipants, $scope.view.selectedItineraryStop.participants);
               });
           }
       }
 
       $scope.view.onSelectItineraryStopParticipantSource = function ($item, $model) {
           if ($item) {
+              angular.forEach($scope.view.itineraryStopParticipantSources, function (source, index) {
+                  if ($item.id !== source.id) {
+                      angular.forEach(source.participants, function (p, participantIndex) {
+                          p.isSelected = false;
+                      });
+                  }
+              });
               setSourceParticipants($item, $scope.view.selectedItineraryStop);
           }
       }
@@ -231,20 +251,46 @@ angular.module('staticApp')
           });
       }
 
+      function showParticipantChangeSuccessful(participant, viewParticipants) {
+          if (!participant) {
+              return;
+          }
+
+          var participants = null;
+          if (angular.isArray) {
+              participants = participant;
+          }
+          else {
+              participants = [participant];
+          }
+          angular.forEach(participants, function (participant, index) {
+              angular.forEach(viewParticipants, function (viewParticipant, viewParticipantIndex) {
+                  if (viewParticipant.participantId === participant.participantId) {
+                      viewParticipant.showSuccess = true;
+                      $timeout(function () {
+                          viewParticipant.showSuccess = false;
+                      }, 3000);
+                  }
+              });
+          })
+      }
+
       function saveItineraryStopParticipants(project, itinerary, itineraryStop, participants) {
           var model = {
               participantIds: getParticipantIds(participants)
           }
-
+          $scope.view.isSavingItineraryStopParticipants = true;
           return ProjectService.updateItineraryStopParticipants(project.id, itinerary.id, itineraryStop.itineraryStopId, model)
           .then(function (response) {
+              itineraryStop.participants = participants;
               $scope.view.itineraryStopParticipants = getAllParticipants($scope.view.itineraryStops);
               setIsItineraryStopOnAllItineraryParticipants();
               var message = "Successfully set city stop participants.";
               NotificationService.showSuccessMessage(message);
-
+              $scope.view.isSavingItineraryStopParticipants = false;
           })
           .catch(function (response) {
+              $scope.view.isSavingItineraryStopParticipants = false;
               var message = "Unable to set city stop participants.";
               $log.error(message);
               NotificationService.showErrorMessage(message);

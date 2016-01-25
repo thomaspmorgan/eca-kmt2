@@ -78,26 +78,35 @@
                 </div>
                 <div class="itinerary-participant-select-box">
                     <div>
-                        <ul>
-                            <li ng-repeat="participant in view.itineraryParticipants" class="hover" style="padding:5px;">
-                                <div class="row row2">
-                                    <div class="col-md-1">
-                                        <i style="cursor:pointer;"
-                                           ng-show="!participant.isItineraryStopParticipant"
-                                           ng-click="view.onRemoveItineraryParticipantClick(participant)"
-                                           class="material-icons md-12">clear</i>
+                        <div class="spinner" style="position:absolute;left:0;right:0;top:125px;bottom:0;" ng-show="view.isAddingParticipantsToTheItinerary">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                        <div ng-style="view.isAddingParticipantsToTheItinerary ? {'opacity': .1} : {}">
+                            <ul>
+                                <li ng-repeat="participant in view.itineraryParticipants" class="hover" style="padding:5px">
+                                    <div class="row row2">
+                                        <div class="col-md-1">
+                                            <i style="cursor:pointer;"
+                                               ng-show="!participant.isItineraryStopParticipant"
+                                               ng-click="view.isAddingParticipantsToTheItinerary || view.onRemoveItineraryParticipantClick(participant)"
+                                               class="material-icons md-12">clear</i>
+                                        </div>
+                                        <div class="col-md-11">
+                                            {{participant.fullName}}
+                                            <i class="material-icons md-dark md-12" ng-class="{'fade-out': !participant.showSuccess}" style="color:green;" ng-show="participant.showSuccess">check</i>
+                                        </div>
                                     </div>
-                                    <div class="col-md-11">
-                                        {{participant.fullName}}
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
                 <div style="padding-top:5px;">
                     <div class="text-right title-label mute">
-                        <p>{{view.itineraryParticipants.length}} participants</p>
+                        <p>{{view.itineraryParticipants.length}} participants ({{(view.itineraryParticipants.length - view.itineraryStopParticipants.length)}} unassigned)</p>
                     </div>
                 </div>
                 <div style="padding-top:5px;">
@@ -216,20 +225,28 @@
             </div>
             <div class="itinerary-participant-select-box" style="margin-top:10px;">
                 <div>
-                    <ul>
-                        <li ng-repeat="participant in view.selectedItineraryStop.participants" class="hover" style="padding:5px;">
-                            <div class="row row2">
-                                <div class="col-md-1">
-                                    <i style="cursor:pointer;"
-                                       ng-click="view.onRemoveItineraryStopParticipant(participant)"
-                                       class="material-icons md-12">clear</i>
+                    <div class="spinner" style="position:absolute;left:0;right:0;top:125px;bottom:0;" ng-show="view.isSavingItineraryStopParticipants">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                    <div ng-style="view.isSavingItineraryStopParticipants ? {'opacity': .1} : {}">
+                        <ul>
+                            <li ng-repeat="participant in view.selectedItineraryStop.participants" class="hover" style="padding:5px;">
+                                <div class="row row2">
+                                    <div class="col-md-1">
+                                        <i style="cursor:pointer;"
+                                           ng-click="view.isAddingSelectedParticipantsToItineraryStop || view.onRemoveItineraryStopParticipant(participant)"
+                                           class="material-icons md-12">clear</i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        {{participant.fullName}}
+                                        <i class="material-icons md-dark md-12" ng-class="{'fade-out': !participant.showSuccess}" style="color:green;" ng-show="participant.showSuccess">check</i>
+                                    </div>
                                 </div>
-                                <div class="col-md-11">
-                                    {{participant.fullName}}
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div style="padding-top:5px;">
