@@ -162,7 +162,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="officeId">The office id</param>
         /// <param name="programId">The program id</param>
         /// <returns>The data point configurations</returns>
-        public async Task<List<DataPointConfigurationDTO>> GetDataPointConfigurationsAsync(int? officeId, int? programId)
+        public async Task<List<DataPointConfigurationDTO>> GetDataPointConfigurationsAsync(int? officeId, int? programId, int? projectId)
         {
             var dataPointConfigurations = new List<DataPointConfigurationDTO>();
 
@@ -173,6 +173,10 @@ namespace ECA.Business.Service.Admin
             else if (programId.HasValue)
             {
                 dataPointConfigurations = await GetProgramDataPointConfigurationsAsync(programId.Value);
+            }
+            else if (projectId.HasValue)
+            {
+                dataPointConfigurations = await GetProjectDataPointConfigurationsAsync(projectId.Value);
             }
 
             return dataPointConfigurations;
@@ -254,6 +258,53 @@ namespace ECA.Business.Service.Admin
 
             var childDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
                 .Where(x => x.ProgramId == programId).ToList();
+            foreach (var config in childDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                if (temp.DataPointConfigurationId == null)
+                {
+                    temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                    temp.IsRequired = true;
+                }
+            }
+
+            return dataPointConfigurations;
+        }
+
+        private async Task<List<DataPointConfigurationDTO>> GetProjectDataPointConfigurationsAsync(int projectId)
+        {
+            var dataPointConfigurations = await Context.DataPointCategoryProperties.Select(x => new DataPointConfigurationDTO
+            {
+                CategoryPropertyId = x.DataPointCategoryPropertyId,
+                ProjectId = projectId,
+                CategoryId = x.DataPointCategoryId,
+                CategoryName = x.DataPointCategory.DataPointCategoryName,
+                PropertyId = x.DataPointPropertyId,
+                PropertyName = x.DataPointProperty.DataPointPropertyName,
+                IsRequired = false,
+                IsInherited = false
+            }).ToListAsync();
+
+            var project = Context.Projects.Where(x => x.ProjectId == projectId).FirstOrDefault();
+
+            var parentOfficeIds = await GetParentOfficeIds(project.ParentProgram.OwnerId);
+            parentOfficeIds.Add(project.ParentProgram.OwnerId);
+
+            var parentProgramIds = await GetParentProgramIds(project.ParentProgram.ProgramId);
+            parentProgramIds.Add(project.ParentProgram.ProgramId);
+
+            var parentDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
+                .Where(x => parentOfficeIds.Contains(x.OfficeId.Value) || parentProgramIds.Contains(x.ProgramId.Value)).ToList();
+            foreach (var config in parentDataPointConfigurations)
+            {
+                var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
+                temp.DataPointConfigurationId = config.DataPointConfigurationId;
+                temp.IsRequired = true;
+                temp.IsInherited = true;
+            }
+
+            var childDataPointConfigurations = DataPointConfigurationQueries.CreateGetDataPointConfigurations(this.Context)
+                .Where(x => x.ProjectId == projectId).ToList();
             foreach (var config in childDataPointConfigurations)
             {
                 var temp = dataPointConfigurations.Where(x => x.CategoryPropertyId == config.CategoryPropertyId).FirstOrDefault();
