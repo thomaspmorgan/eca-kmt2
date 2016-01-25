@@ -63,8 +63,11 @@
                         // update participant sevis validation results
                         updateSevisInfo($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
+                    })
+                    .catch(function () {
+                        var message = "Unable to validate participant create SEVIS info.";
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
                         $scope.edit.isValidationLoading = false;
                     });
                 };
@@ -85,8 +88,11 @@
                         // update participant sevis validation results
                         updateSevisInfo($scope.participantid, response.data);
                         $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
+                    })
+                    .catch(function () {
+                        var message = "Unable to validate participant create SEVIS info.";
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
                         $scope.edit.isValidationLoading = false;
                     });
                 };
@@ -98,9 +104,10 @@
                         var sevisInfo = data.data;
                         sevisInfo.sevisValidationResult = JSON.stringify(validationResults);
                         saveSevisInfo(participantId, sevisInfo);
-                    }, function (error) {
-                        $log.error('Unable to load participant SEVIS info for ' + participantId + '.');
-                        NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
+                    })
+                    .catch(function () {
+                        $log.error('Unable to load participant SEVIS info.');
+                        NotificationService.showErrorMessage('Unable to load participant SEVIS info.');
                     });
                 };
 
@@ -109,9 +116,10 @@
                     return ParticipantPersonsSevisService.updateParticipantPersonsSevis(updatedSevisInfo)
                     .then(function (data) {
                         NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
-                    }, function (error) {
-                        $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
-                        NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
+                    })
+                    .catch(function () {
+                        $log.error('Unable to save participant SEVIS info for participant');
+                        NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant');
                     });
                 };
 

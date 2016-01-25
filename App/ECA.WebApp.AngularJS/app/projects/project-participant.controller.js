@@ -99,8 +99,14 @@ angular.module('staticApp')
               }, 800);
               
               $timeout(function () {
-                  $location.hash(participantid);
-                  $anchorScroll();
+                  var options = {
+                      duration: 500,
+                      easing: 'easeIn',
+                      offset: 150,
+                      callbackBefore: function (element) { },
+                      callbackAfter: function (element) { }
+                  }
+                  smoothScroll(section, options);
               }, 1100);
           }
       });

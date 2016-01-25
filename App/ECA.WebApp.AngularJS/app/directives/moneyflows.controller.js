@@ -76,7 +76,7 @@ angular.module('staticApp')
                             break;
                     }
                 }
-            }, 500);
+            });
       });
 
       $scope.view.filterFiscalYearSummaries = function (fiscalYearSummary) {
