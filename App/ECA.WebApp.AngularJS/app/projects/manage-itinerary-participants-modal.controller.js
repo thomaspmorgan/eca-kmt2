@@ -151,7 +151,6 @@ angular.module('staticApp')
                   angular.forEach(participants, function (p, index) {
                       removeParticipant(p, $scope.view.selectedItineraryStop.participants);
                       p.isSelected = false;
-                      console.log('removing participant ' + p.fullName);
                   });
 
                   return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants)
