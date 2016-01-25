@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $compile,
+        $filter,
         orderByFilter,
         ProjectService,
         ConstantsService,
@@ -25,6 +26,8 @@ angular.module('staticApp')
       $scope.view.isLoadingOfficeSettings = false;
       $scope.view.isMapIdle = false;
       $scope.view.canShowLocationMarkers = false;
+      $scope.view.dataPointConfigurations = {};
+
       $scope.categoryLabel = "...";
       $scope.objectiveLabel = "...";
       $scope.sortedCategories = [];
@@ -49,6 +52,14 @@ angular.module('staticApp')
             $scope.objectiveLabel = objectiveLabel + ' / ' + justificationLabel;
             $scope.view.isLoadingOfficeSetting = false;
         });
+
+      $scope.data.loadDataPointConfigurationsPromise.promise
+      .then(function (dataConfigurations) {
+          var array = $filter('filter')(dataConfigurations, { categoryId: ConstantsService.dataPointCategory.project.id });
+          for (var i = 0; i < array.length; i++) {
+              $scope.view.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
+          }
+      });
 
 
       $scope.view.isLoading = true;

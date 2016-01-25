@@ -88,7 +88,9 @@ angular.module('staticApp')
       function reloadCurrentState(dataConfiguration) {
           if (($state.current.name === "offices.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.office.id) ||
               ($state.current.name === "programs.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.program.id) || 
-              ($state.current.name === "programs.edit" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.program.id)) {
+              ($state.current.name === "programs.edit" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.program.id) ||
+              ($state.current.name === "projects.overview" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.project.id) ||
+              ($state.current.name === "projects.edit" && dataConfiguration.categoryId === ConstantsService.dataPointCategory.project.id)) {
               $state.go($state.current, { }, { reload: true });
           }
       }
