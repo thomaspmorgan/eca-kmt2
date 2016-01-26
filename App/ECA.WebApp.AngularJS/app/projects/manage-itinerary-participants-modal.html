@@ -46,7 +46,7 @@
                 </div>
                 <div style="padding-top:5px;">
                     <div class="col-md-4 text-left mute title-label">
-                        <span>{{(view.filteredParticipants | filter: {isSelected: true}).length}} selected</span>
+                        <span>{{(view.filteredParticipants | filter: {'isSelected': true}).length}} selected</span>
                     </div>
                     <div class="col-md-8 text-right mute title-label">
                         <span>Showing {{view.filteredParticipants.length}} of {{view.filteredParticipantsCount}} participants</span>
@@ -106,10 +106,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-show="participant.isItineraryStopsExpanded" style="padding:5px;">
+                                    <div ng-show="participant.isItineraryStopsExpanded" style="padding:5px;" class="row row2">
                                         <hr />
-                                        <div class="row" style="padding-left:20px;">
-                                            <div class="col-md-4 title-label">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                &nbsp;
+                                            </div>
+                                            <div class="col-md-3 title-label">
                                                 City Stops
                                             </div>
                                             <div class="col-md-8">

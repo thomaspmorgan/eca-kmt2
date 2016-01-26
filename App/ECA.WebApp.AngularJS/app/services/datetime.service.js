@@ -11,7 +11,6 @@ angular.module('staticApp')
   .factory('DateTimeService', function (DragonBreath, $q, $log, ConstantsService, FilterService) {
 
       var service = {
-          momentDisplayFormat: "MMMM D, YYYY h:mm a",
 
           getDateAsLocalDisplayMoment: function(d){
               var m = moment(d);

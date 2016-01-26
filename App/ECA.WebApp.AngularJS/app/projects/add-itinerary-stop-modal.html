@@ -64,8 +64,9 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="timepicker" style="margin-top:4px;">
-                                <timepicker ng-model="view.itineraryStop.arrivalTime"
+                                <timepicker ng-model="view.itineraryStop.arrivalDate"
                                             hour-step="1"
+                                            max="view.itineraryStop.departureDate"
                                             minute-step="1"
                                             show-meridian="true">
                                 </timepicker>
@@ -104,7 +105,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="timepicker" style="margin-top:4px;">
-                            <timepicker ng-model="view.itineraryStop.departureTime"
+                            <timepicker ng-model="view.itineraryStop.departureDate"
+                                        min="view.itineraryStop.arrivalDate"
                                         hour-step="1"
                                         minute-step="1"
                                         show-meridian="true">

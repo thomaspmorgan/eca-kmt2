@@ -14,7 +14,10 @@
                             Arrival
                         </div>
                         <div>
-                            {{view.itineraryStop.destinationArrivalMomentAsString}}
+                            {{view.itineraryStop.destinationArrivalDateAsString}}
+                        </div>
+                        <div>
+                            {{view.itineraryStop.destinationArrivalTimeAsString}}
                         </div>
                     </div>
                 </div>
@@ -27,7 +30,10 @@
                             Departure
                         </div>
                         <div>
-                            {{view.itineraryStop.destinationDepartureMomentAsString}}
+                            {{view.itineraryStop.destinationDepartureDateAsString}}
+                        </div>
+                        <div>
+                            {{view.itineraryStop.destinationDepartureTimeAsString}}
                         </div>
                     </div>
                 </div>
@@ -186,10 +192,10 @@
                             </div>                            
                         </div>
                         <div class="col-md-6">
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
-                                    <h5 class="title-label">Date and Time of Arrival</h5>
+                                    <h5 class="title-label">Date and Time of Arrival<span class="asterisk"> *</span></h5>
                                 </div>
                                 <div class="form-group" style="padding-top:9px;">
                                     <p class="input-group">
@@ -198,9 +204,8 @@
                                                class="form-control"
                                                datepicker-popup="dd-MMMM-yyyy"
                                                show-weeks="false"
-                                               ng-model="view.arrivalDate"
+                                               ng-model="view.itineraryStop.arrivalDate"
                                                is-open="view.isArrivalDateOpen"
-                                               ng-change="view.onArrivalDateChange(view.itineraryStop)"
                                                close-text="Close"
                                                min-date="view.itinerary.startDate"
                                                max-date="view.itineraryStop.departureDate < view.itinerary.endDate ? view.itineraryStop.departureDate : view.itinerary.endDate"
@@ -212,11 +217,11 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <div class="timepicker" style="margin-top:8px;">
-                                        <timepicker ng-model="view.arrivalTime"
-                                                    ng-change="view.onArrivalTimeChange(view.itineraryStop)"
+                                        <timepicker ng-model="view.itineraryStop.arrivalDate"
+                                                    max="view.itineraryStop.departureDate"
                                                     hour-step="1"
                                                     minute-step="1"
                                                     show-meridian="true">
@@ -232,7 +237,7 @@
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">timelapse</i>
                                     <h5 class="title-label">
-                                        Timezone of this City Stop
+                                        Timezone of this City Stop<span class="asterisk"> *</span>
                                         <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">(My timezone:  {{view.currentTimezone}})</a>
                                     </h5>
                                 </div>
@@ -258,10 +263,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <div>
                                     <i style="margin-right:8px;" class="material-icons md-dark md-24 pull-left">event</i>
-                                    <h5 class="title-label">Date and Time of Departure</h5>
+                                    <h5 class="title-label">Date and Time of Departure<span class="asterisk"> *</span></h5>
                                 </div>
                                 <div class="form-group" style="padding-top:8px;"> 
                                     <p class="input-group">
@@ -270,8 +275,7 @@
                                                class="form-control"
                                                datepicker-popup="dd-MMMM-yyyy"
                                                show-weeks="false"
-                                               ng-model="view.departureDate"
-                                               ng-change="view.onDepartureDateChange(view.itineraryStop)"
+                                               ng-model="view.itineraryStop.departureDate"
                                                is-open="view.isDepartureDateOpen"
                                                close-text="Close"
                                                placeholder="Enter end date..."
@@ -284,11 +288,11 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <div class="timepicker" style="margin-top:8px;">
-                                        <timepicker ng-model="view.departureTime"
-                                                    ng-change="view.onDepartureTimeChange(view.itineraryStop)"
+                                        <timepicker ng-model="view.itineraryStop.departureDate"
+                                                    min="view.itineraryStop.arrivalDate"
                                                     hour-step="1"
                                                     minute-step="1"
                                                     show-meridian="true">

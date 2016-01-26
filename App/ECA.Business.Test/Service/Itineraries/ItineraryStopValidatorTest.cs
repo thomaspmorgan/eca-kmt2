@@ -19,6 +19,38 @@ namespace ECA.Business.Test.Service.Itineraries
 
         #region Create
         [TestMethod]
+        public void TestDoValidateCreate_ItineraryStopArrivalDateIsAfterDepartureDate()
+        {
+            var timezoneId = "timezone";
+            var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
+            var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
+            var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
+            var stopDepartureDate = DateTimeOffset.UtcNow.AddDays(10.0);
+
+            EcaItineraryStopValidationEntity model = null;
+            Func<EcaItineraryStopValidationEntity> createEntity = () =>
+            {
+
+                model = new EcaItineraryStopValidationEntity(
+                    itineraryStartDate: itineraryStartDate,
+                    itineraryEndDate: itineraryEndDate,
+                    itineraryStopArrivalDate: stopArrivalDate,
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
+                    );
+                return model;
+            };
+            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
+            stopArrivalDate = stopDepartureDate.AddDays(1.0);
+
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateCreate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_ARRIVAL_DATE_IS_AFTER_DEPARTURE_DATE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.ArrivalDate), validationErrors.First().Property);
+        }
+
+        [TestMethod]
         public void TestDoValidateCreate_ItineraryStopArrivalDateIsBeforeItineraryStartDate()
         {
             var timezoneId = "timezone";
@@ -74,12 +106,16 @@ namespace ECA.Business.Test.Service.Itineraries
             };
             Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
             stopArrivalDate = itineraryEndDate.AddDays(1.0);
+            stopDepartureDate = stopArrivalDate;
 
             var entity = createEntity();
             var validationErrors = validator.DoValidateCreate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(2, validationErrors.Count);
             Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.First().ErrorMessage);
             Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.ArrivalDate), validationErrors.First().Property);
+
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.Last().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.DepartureDate), validationErrors.Last().Property);
         }
 
         [TestMethod]
@@ -106,12 +142,16 @@ namespace ECA.Business.Test.Service.Itineraries
             };
             Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
             stopDepartureDate = itineraryStartDate.AddDays(-1.0);
+            stopArrivalDate = stopDepartureDate;
 
             var entity = createEntity();
             var validationErrors = validator.DoValidateCreate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.DepartureDate), validationErrors.First().Property);
+            Assert.AreEqual(2, validationErrors.Count);
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.ArrivalDate), validationErrors.First().Property);
+
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.Last().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.DepartureDate), validationErrors.Last().Property);
         }
 
         [TestMethod]
@@ -150,6 +190,38 @@ namespace ECA.Business.Test.Service.Itineraries
 
         #region Update
         [TestMethod]
+        public void TestDoValidateUpdate_ItineraryStopArrivalDateIsAfterDepartureDate()
+        {
+            var timezoneId = "timezone";
+            var itineraryStartDate = DateTimeOffset.UtcNow.AddDays(-100.0);
+            var itineraryEndDate = DateTimeOffset.UtcNow.AddDays(100.0);
+            var stopArrivalDate = DateTimeOffset.UtcNow.AddDays(-10.0);
+            var stopDepartureDate = DateTimeOffset.UtcNow.AddDays(10.0);
+
+            EcaItineraryStopValidationEntity model = null;
+            Func<EcaItineraryStopValidationEntity> createEntity = () =>
+            {
+
+                model = new EcaItineraryStopValidationEntity(
+                    itineraryStartDate: itineraryStartDate,
+                    itineraryEndDate: itineraryEndDate,
+                    itineraryStopArrivalDate: stopArrivalDate,
+                    itineraryStopDepartureDate: stopDepartureDate,
+                    timezoneId: timezoneId
+                    );
+                return model;
+            };
+            Assert.AreEqual(0, validator.DoValidateUpdate(createEntity()).Count());
+            stopArrivalDate = stopDepartureDate.AddDays(1.0);
+
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_ARRIVAL_DATE_IS_AFTER_DEPARTURE_DATE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.ArrivalDate), validationErrors.First().Property);
+        }
+
+        [TestMethod]
         public void TestDoValidateUpdate_ItineraryStopArrivalDateIsBeforeItineraryStartDate()
         {
             var timezoneId = "timezone";
@@ -171,7 +243,7 @@ namespace ECA.Business.Test.Service.Itineraries
                     );
                 return model;
             };
-            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
+            Assert.AreEqual(0, validator.DoValidateUpdate(createEntity()).Count());
             stopArrivalDate = itineraryStartDate.AddDays(-1.0);
 
             var entity = createEntity();
@@ -203,14 +275,18 @@ namespace ECA.Business.Test.Service.Itineraries
                     );
                 return model;
             };
-            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
+            Assert.AreEqual(0, validator.DoValidateUpdate(createEntity()).Count());
             stopArrivalDate = itineraryEndDate.AddDays(1.0);
+            stopDepartureDate = stopArrivalDate;
 
             var entity = createEntity();
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(2, validationErrors.Count);
             Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.First().ErrorMessage);
             Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.ArrivalDate), validationErrors.First().Property);
+
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.Last().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.DepartureDate), validationErrors.Last().Property);
         }
 
         [TestMethod]
@@ -235,14 +311,18 @@ namespace ECA.Business.Test.Service.Itineraries
                     );
                 return model;
             };
-            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
+            Assert.AreEqual(0, validator.DoValidateUpdate(createEntity()).Count());
             stopDepartureDate = itineraryStartDate.AddDays(-1.0);
+            stopArrivalDate = stopDepartureDate;
 
             var entity = createEntity();
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
-            Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.First().ErrorMessage);
-            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.DepartureDate), validationErrors.First().Property);
+            Assert.AreEqual(2, validationErrors.Count);
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.ArrivalDate), validationErrors.First().Property);
+
+            Assert.AreEqual(ItineraryStopServiceValidator.ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES, validationErrors.Last().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<EcaItineraryStop>(x => x.DepartureDate), validationErrors.Last().Property);
         }
 
         [TestMethod]
@@ -267,7 +347,7 @@ namespace ECA.Business.Test.Service.Itineraries
                     );
                 return model;
             };
-            Assert.AreEqual(0, validator.DoValidateCreate(createEntity()).Count());
+            Assert.AreEqual(0, validator.DoValidateUpdate(createEntity()).Count());
             stopDepartureDate = itineraryEndDate.AddDays(1.0);
 
             var entity = createEntity();

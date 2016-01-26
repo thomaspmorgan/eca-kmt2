@@ -118,6 +118,9 @@ angular.module('staticApp')
           },
 
           initializeItineraryStopModel: function (itineraryStop, itineraryStopColorIndex) {
+              var dateFormat = "MMM D, YYYY";
+              var timeFormat = "h:mm a";
+
               var cIndex = itineraryStopColorIndex || colorIndex++;
               itineraryStop.colorIndex = cIndex;
               itineraryStop.color = colors[cIndex % colors.length];
@@ -174,22 +177,25 @@ angular.module('staticApp')
                   this.arrivalDate = m.format();
 
                   this.destinationArrivalMoment = m;
-                  this.destinationArrivalMomentAsString = m.format(DateTimeService.momentDisplayFormat);
+                  this.destinationArrivalDateAsString = m.format(dateFormat);
+                  this.destinationArrivalTimeAsString = m.format(timeFormat);
 
                   this.localArrivalMoment = m.local();
-                  this.localArrivalMomentAsString = this.localArrivalMoment.format(DateTimeService.momentDisplayFormat);
+                  this.localArrivalDateAsString = this.localArrivalMoment.format(dateFormat);
+                  this.localArrivalTimeAsString = this.localArrivalMoment.format(timeFormat);
               }
 
               itineraryStop.setDepartureDate = function (m) {
                   console.assert(m, 'm must be defined.');
-
                   this.departureDate = m.format();
 
                   this.destinationDepartureMoment = m;
-                  this.destinationDepartureMomentAsString = m.format(DateTimeService.momentDisplayFormat);
+                  this.destinationDepartureDateAsString = m.format(dateFormat);
+                  this.destinationDepartureTimeAsString = m.format(timeFormat);
 
                   this.localDepartureMoment = m.local();
-                  this.localDepartureMomentAsString = this.localDepartureMoment.format(DateTimeService.momentDisplayFormat);
+                  this.localDepartureDateAsString = this.localDepartureMoment.format(dateFormat);
+                  this.localDepartureTimeAsString = this.localDepartureMoment.format(timeFormat);
               }
 
               itineraryStop.getEvent = function () {
