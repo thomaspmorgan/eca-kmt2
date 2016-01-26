@@ -22,7 +22,7 @@
                 </label>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="resourceTypeId === constants.resourceType.office.id || resourceTypeId === constants.resourceType.program.id">
             <div class="col-md-11">
                 <h4>Program</h4>
             </div>
@@ -33,7 +33,7 @@
                 </a>
             </div>
         </div>
-        <div class="row" ng-show="expandProgramSection">
+        <div class="row" ng-show="expandProgramSection && (resourceTypeId === constants.resourceType.office.id || resourceTypeId === constants.resourceType.program.id)">
             <div class="col-md-4" ng-repeat="dataConfiguration in dataConfigurations | filter: {categoryId: constants.dataPointCategory.program.id}">
                 <label class="checkbox-inline">
                     <input type="checkbox" ng-model="dataConfiguration.isRequired" ng-disabled="dataConfiguration.isInherited" ng-change="dataConfigurationChanged(dataConfiguration)"/> {{dataConfiguration.propertyName}}

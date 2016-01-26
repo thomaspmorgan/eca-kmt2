@@ -17,7 +17,8 @@
             sendToSevis: sendToSevis,
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
             validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis,
-            updateParticipantSevisCommStatus: updateParticipantSevisCommStatus
+            createParticipantSevisCommStatus: createParticipantSevisCommStatus,
+            updateParticipantSevisValidationResults: updateParticipantSevisValidationResults
         };
 
         return service;
@@ -71,10 +72,16 @@
             return DragonBreath.get(path, id);
         };
 
-        // update participant sevis status
-        function updateParticipantSevisCommStatus(id, params) {
-            var path = 'ParticipantPersonsSevis/' + id + '/UpdateSevisCommStatus';
-            return DragonBreath.get(params, path);
+        // create participant sevis status
+        function createParticipantSevisCommStatus(id, params) {
+            var path = 'ParticipantPersonsSevis/' + id + '/CreateSevisCommStatus';
+            return DragonBreath.create(params, path);
+        };
+
+        // update participant sevis validation results
+        function updateParticipantSevisValidationResults(id, params) {
+            var path = 'ParticipantPersonsSevis/' + id + '/UpdateSevisValidationResults';
+            return DragonBreath.create(params, path);
         };
 
     }

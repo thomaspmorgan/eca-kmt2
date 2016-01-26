@@ -292,7 +292,7 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestGetDataPointConfigurationsAsync_NullParameters()
         {
-            var result = await service.GetDataPointConfigurationsAsync(null, null);
+            var result = await service.GetDataPointConfigurationsAsync(null, null, null);
             Assert.AreEqual(0, result.Count);
         }
 
@@ -355,7 +355,7 @@ namespace ECA.Business.Test.Service.Admin
 
                 context.DataPointConfigurations.Add(dataPointConfig);
 
-                var serviceResult = await service.GetDataPointConfigurationsAsync(dataPointConfig.OfficeId.Value, null);
+                var serviceResult = await service.GetDataPointConfigurationsAsync(dataPointConfig.OfficeId.Value, null, null);
                 var result = serviceResult.FirstOrDefault();
                 Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
                 Assert.AreEqual(dataPointConfig.OfficeId, result.OfficeId);
@@ -396,7 +396,7 @@ namespace ECA.Business.Test.Service.Admin
                     return list.ToArray();
                 });
 
-                var serviceResult = await service.GetDataPointConfigurationsAsync(1, null);
+                var serviceResult = await service.GetDataPointConfigurationsAsync(1, null, null);
                 Assert.AreEqual(0, serviceResult.Count);
             }
         }
@@ -487,7 +487,7 @@ namespace ECA.Business.Test.Service.Admin
 
                 context.DataPointConfigurations.Add(dataPointConfig);
 
-                var serviceResult = await service.GetDataPointConfigurationsAsync(dto2.OrganizationId, null);
+                var serviceResult = await service.GetDataPointConfigurationsAsync(dto2.OrganizationId, null, null);
                 var result = serviceResult.FirstOrDefault();
                 Assert.AreEqual(dataPointConfig.DataPointConfigurationId, result.DataPointConfigurationId);
                 Assert.AreEqual(dto2.OrganizationId, result.OfficeId);

@@ -19,15 +19,20 @@ angular.module('staticApp')
           },
 
           getDateAndTimeInTimezoneAsMoment: function (date, time, timezoneId) {
+              var originalMoment = moment(date);
+
               var dateMoment = moment(date);
               dateMoment.tz(timezoneId);
-              dateMoment = dateMoment.startOf('day');
+              dateMoment.year(originalMoment.year());
+              dateMoment.month(originalMoment.month());
+              dateMoment.date(originalMoment.date());
 
               var timeMoment = moment(time);              
               dateMoment.hours(timeMoment.hours());
               dateMoment.minutes(timeMoment.minutes());
               dateMoment.seconds(timeMoment.seconds());
               dateMoment.milliseconds(0);
+              
               return dateMoment;
           }
       };

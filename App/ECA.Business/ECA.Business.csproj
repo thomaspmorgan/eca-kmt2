@@ -184,6 +184,7 @@
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
     <Compile Include="Queries\Admin\SnapshotQueries.cs" />
     <Compile Include="Queries\Itineraries\ItineraryStopQueries.cs" />
+    <Compile Include="Queries\Models\Admin\OrganizationHierarchyDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryDTO.cs" />
     <Compile Include="Queries\Itineraries\ItineraryQueries.cs" />
     <Compile Include="Queries\Models\Admin\DataPointConfigurationDTO.cs" />

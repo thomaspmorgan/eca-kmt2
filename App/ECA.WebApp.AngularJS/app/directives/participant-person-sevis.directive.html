@@ -7,7 +7,7 @@
                 <div class="bounce3"></div>
             </div>
         </div>
-        <div ng-show="validationResults.length > 0">
+        <div ng-show="sevisinfo.sevisValidationResult.errors.length > 0">
             <div class="col-md-4">
                 <p class="title-label" style="color:red; display:inline-flex; vertical-align:middle">
                     <i class="icon material-icons md-24">warning</i> verification failed
@@ -16,14 +16,14 @@
             <div class="col-md-8">
                 <fieldset style="border:1px solid red; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
-                        <li ng-repeat="error in validationResults track by $index">
-                            <a ng-href="" ng-click="goToErrorSection(error.path)">{{error.msg}}</a>
+                        <li ng-repeat="error in sevisinfo.sevisValidationResult.errors track by $index">
+                            <a ng-href="" ng-click="goToErrorSection(error.customState)">{{error.errorMessage}}</a>
                         </li>
                     </ul>
                 </fieldset>
             </div>
         </div>
-        <div ng-show="validationResults.length == 0">
+        <div ng-show="sevisinfo.sevisValidationResult.errors.length == 0 && sevisinfo.sevisValidationResult.isValid == true">
             <div class="col-md-3 col-md-offset-9">
                 <p class="title-label" style="color:green; display:inline-flex; vertical-align:bottom">
                     <i class="material-icons md-dark md-24 pull-right" style="color: green">check</i> Validation passed

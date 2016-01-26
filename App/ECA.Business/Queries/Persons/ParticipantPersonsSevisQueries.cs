@@ -45,12 +45,12 @@ namespace ECA.Business.Queries.Persons
                                  Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId,
                                  SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
                              }).OrderBy(s => s.AddedOn),
-                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn)
+                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn),
+                             SevisValidationResult = p.SevisValidationResult
                          });
             return query;
         }
-
-
+        
         /// <summary>
         /// Get populated CREATE participant sevis object
         /// </summary>
@@ -61,6 +61,7 @@ namespace ECA.Business.Queries.Persons
         public static CreateExchVisitor GetCreateExchangeVisitor(int participantId, User user, EcaContext context)
         {
             //Get student details
+            Contract.Requires(context != null, "The context must not be null.");
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
             var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
@@ -268,6 +269,7 @@ namespace ECA.Business.Queries.Persons
         public static UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user, EcaContext context)
         {
             //Get student details
+            Contract.Requires(context != null, "The context must not be null.");
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
             var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
@@ -668,6 +670,8 @@ namespace ECA.Business.Queries.Persons
 
             return updateVisitor;
         }
+
+
 
         /// <summary>
         /// Creates a query to return all participantPersonSevises in the context.

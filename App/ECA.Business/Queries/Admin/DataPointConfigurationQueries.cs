@@ -21,6 +21,7 @@ namespace ECA.Business.Queries.Admin
                                                DataPointConfigurationId = c.DataPointConfigurationId,
                                                OfficeId = c.OfficeId,
                                                ProgramId = c.ProgramId,
+                                               ProjectId = c.ProjectId,
                                                CategoryPropertyId = cp.DataPointCategoryPropertyId,
                                                CategoryId = cp.DataPointCategoryId,
                                                CategoryName = cp.DataPointCategory.DataPointCategoryName,
