@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc service
- * @name staticApp.participantPerson
+ * @name staticApp.participantPersons
  * @description
- * # participantPerson
+ * # participantPersons
  * Factory in the staticApp.
  */
 angular.module('staticApp')

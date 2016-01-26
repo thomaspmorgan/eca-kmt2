@@ -8,7 +8,7 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('PersonService', function ($q, DragonBreath) {
+  .factory('PersonService', function ($q, DragonBreath, SevisResultService) {
 
       return {
           getEvaluationNotesById: function (id) {
@@ -68,6 +68,13 @@ angular.module('staticApp')
           },
           create: function (person) {
               return DragonBreath.create(person, 'people');
+          },
+          validateSevisInfo: function (sevisId, id) {
+              if (sevisId) {
+                  SevisResultService.validateUpdateSevisInfo(id);
+              } else {
+                  SevisResultService.validateCreateSevisInfo(id);
+              }
           }
       };
   });

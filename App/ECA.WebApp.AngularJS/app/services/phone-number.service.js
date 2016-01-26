@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name staticApp.PhoneNumberService
+ * @name staticApp.phoneNumber
  * @description
  * # PhoneNumberService
  * Factory for handling phone numbers.

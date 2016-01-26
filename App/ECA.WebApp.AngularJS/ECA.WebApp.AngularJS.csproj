@@ -227,6 +227,7 @@
     <Content Include="app\services\data-point-configuration.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
     <Content Include="app\services\datetime.service.js" />
+    <Content Include="app\services\sevis-result.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
