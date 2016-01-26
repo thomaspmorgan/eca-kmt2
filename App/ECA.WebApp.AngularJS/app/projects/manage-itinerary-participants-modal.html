@@ -78,26 +78,55 @@
                 </div>
                 <div class="itinerary-participant-select-box">
                     <div>
-                        <ul>
-                            <li ng-repeat="participant in view.itineraryParticipants" class="hover" style="padding:5px;">
-                                <div class="row row2">
-                                    <div class="col-md-1">
-                                        <i style="cursor:pointer;"
-                                           ng-show="!participant.isItineraryStopParticipant"
-                                           ng-click="view.onRemoveItineraryParticipantClick(participant)"
-                                           class="material-icons md-12">clear</i>
+                        <div class="spinner" style="position:absolute;left:0;right:0;top:125px;bottom:0;" ng-show="view.isAddingParticipantsToTheItinerary">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                        <div ng-style="view.isAddingParticipantsToTheItinerary ? {'opacity': .1} : {}">
+                            <ul>
+                                <li ng-repeat="participant in view.itineraryParticipants" class="hover" style="padding:5px">
+                                    <div class="row row2">
+                                        <div class="col-md-1">
+                                            <i style="cursor:pointer;"
+                                               ng-show="!participant.isItineraryStopParticipant"
+                                               ng-click="view.isAddingParticipantsToTheItinerary || view.onRemoveItineraryParticipantClick(participant)"
+                                               class="material-icons md-dark md-12">clear</i>
+                                        </div>
+                                        <div class="col-md-10">
+                                            {{participant.fullName}}
+                                            <i class="material-icons md-dark md-12" ng-class="{'fade-out': !participant.showSuccess}" style="color:green;" ng-show="participant.showSuccess">check</i>
+                                        </div>
+                                        <div class="col-md-1 text-right" ng-show="participant.isItineraryStopParticipant">
+                                            <div ng-show="!participant.isItineraryStopsExpanded">
+                                                <i style="cursor:pointer;" class="material-icons md-dark md-12" ng-click="view.onToggleItineraryParticipantItineraryStops(participant)">expand_more</i>
+                                            </div>
+                                            <div ng-show="participant.isItineraryStopsExpanded">
+                                                <i style="cursor:pointer;" class="material-icons md-dark md-12" ng-click="view.onToggleItineraryParticipantItineraryStops(participant)">expand_less</i>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-11">
-                                        {{participant.fullName}}
+                                    <div ng-show="participant.isItineraryStopsExpanded" style="padding:5px;">
+                                        <hr />
+                                        <div class="row" style="padding-left:20px;">
+                                            <div class="col-md-4 title-label">
+                                                City Stops
+                                            </div>
+                                            <div class="col-md-8">
+                                                <ul ng-repeat="stop in view.getItineraryStopsByParticipant(participant) | orderBy:name">
+                                                    {{stop.name}}
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div style="padding-top:5px;">
                     <div class="text-right title-label mute">
-                        <p>{{view.itineraryParticipants.length}} participants</p>
+                        <p>{{view.itineraryParticipants.length}} participants ({{(view.itineraryParticipants.length - view.itineraryStopParticipants.length)}} unassigned)</p>
                     </div>
                 </div>
                 <div style="padding-top:5px;">
@@ -131,7 +160,7 @@
                             {{$select.selected.name}}
                         </div>
                     </ui-select-match>
-                    <ui-select-choices repeat="source in view.itineraryStopParticipantSources" group-by="'group'">
+                    <ui-select-choices repeat="source in view.itineraryStopParticipantSources" group-by="'group'" ui-disable-choice="view.selectedItineraryStop && source.id === view.selectedItineraryStop.itineraryStopId">
                         <div style="padding-top:10px;padding-bottom: 10px;">
                             <div>{{source.name}}</div>
                             <div style="margin-left:20px;font-size:small;">{{source.participants.length}} <ng-pluralize count="source.participants.length" when="{'1':'Participant','other':'Participants'}"></ng-pluralize></div>
@@ -206,7 +235,7 @@
                             {{$select.selected.name}}
                         </div>
                     </ui-select-match>
-                    <ui-select-choices repeat="stop in view.itineraryStops">
+                    <ui-select-choices repeat="stop in view.itineraryStops" ui-disable-choice="view.selectedItineraryStopParticipantSource && view.selectedItineraryStopParticipantSource.id === stop.itineraryStopId">
                         <div style="padding-top:10px;padding-bottom: 10px;">
                             <div>{{stop.name}}</div>
                             <div style="margin-left:20px;font-size:small;">{{stop.participants.length}} <ng-pluralize count="stop.participants.length" when="{'1':'Participant','other':'Participants'}"></ng-pluralize></div>
@@ -216,20 +245,28 @@
             </div>
             <div class="itinerary-participant-select-box" style="margin-top:10px;">
                 <div>
-                    <ul>
-                        <li ng-repeat="participant in view.selectedItineraryStop.participants" class="hover" style="padding:5px;">
-                            <div class="row row2">
-                                <div class="col-md-1">
-                                    <i style="cursor:pointer;"
-                                       ng-click="view.onRemoveItinerarStopParticipant(participant)"
-                                       class="material-icons md-12">clear</i>
+                    <div class="spinner" style="position:absolute;left:0;right:0;top:175px;bottom:0;" ng-show="view.isSavingItineraryStopParticipants">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                    <div ng-style="view.isSavingItineraryStopParticipants ? {'opacity': .1} : {}">
+                        <ul>
+                            <li ng-repeat="participant in view.selectedItineraryStop.participants" class="hover" style="padding:5px;">
+                                <div class="row row2">
+                                    <div class="col-md-1">
+                                        <i style="cursor:pointer;"
+                                           ng-click="view.isAddingSelectedParticipantsToItineraryStop || view.onRemoveItineraryStopParticipant(participant)"
+                                           class="material-icons md-12">clear</i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        {{participant.fullName}}
+                                        <i class="material-icons md-dark md-12" ng-class="{'fade-out': !participant.showSuccess}" style="color:green;" ng-show="participant.showSuccess">check</i>
+                                    </div>
                                 </div>
-                                <div class="col-md-11">
-                                    {{participant.fullName}}
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div style="padding-top:5px;">
@@ -239,10 +276,14 @@
                 <div class="text-right title-label mute" ng-show="view.selectedItineraryStop === null">
                     <p>0 participants</p>
                 </div>
+                <div style="padding-top:5px;">
+                    <div class="title-label text-right">
+                        <button class="btn btn-primary" ng-disabled="view.selectedItineraryStop === null" ng-click="view.onClearItineraryStopParticipantsClick()">Clear</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 <div class="modal-footer">
     <button class="btn btn-cancel" ng-click="view.onCloseClick()">Close</button>

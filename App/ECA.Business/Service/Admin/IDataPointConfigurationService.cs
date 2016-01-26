@@ -34,6 +34,6 @@ namespace ECA.Business.Service.Admin
         /// <param name="officeId">The office id</param>
         /// <param name="programId">The program id</param>
         /// <returns>List of data point configurations</returns>
-        Task<List<DataPointConfigurationDTO>> GetDataPointConfigurationsAsync(int? officeId, int? programId);
+        Task<List<DataPointConfigurationDTO>> GetDataPointConfigurationsAsync(int? officeId, int? programId, int? projectId);
     }
 }
