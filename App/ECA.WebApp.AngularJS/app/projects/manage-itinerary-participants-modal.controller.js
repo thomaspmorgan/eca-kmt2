@@ -32,6 +32,8 @@ angular.module('staticApp')
       $scope.view.itineraryTabKey = 'itineraryTab';
       $scope.view.itineraryStopTabKey = 'itineraryStopTab';
       $scope.view.currentTab = $scope.view.itineraryTabKey;
+      $scope.view.showSelectedProjectParticipantsCount = true;
+      $scope.view.showSelectedSourceParticipantsCount = true;
 
       $scope.view.title = 'Manage ' + itinerary.name + ' Participants';
       $scope.view.limit = 30;
@@ -81,6 +83,10 @@ angular.module('staticApp')
 
       $scope.view.onSelectAvailableItineraryParticipantRow = function (participant) {
           participant.isSelected = !participant.isSelected;
+          $scope.view.showSelectedProjectParticipantsCount = false;
+          $timeout(function () {
+              $scope.view.showSelectedProjectParticipantsCount = true;
+          }, 1);
       }
 
       $scope.view.onAddSelectedProjectParticipantsToItinerary = function () {
@@ -174,6 +180,10 @@ angular.module('staticApp')
 
       $scope.view.onSelectSourceParticipantRow = function (participant) {
           participant.isSelected = !participant.isSelected;
+          $scope.view.showSelectedSourceParticipantsCount = false;
+          $timeout(function () {
+              $scope.view.showSelectedSourceParticipantsCount = true;
+          }, 1);
       }
 
       $scope.view.onAddSelectedParticipantsToItineraryStop = function () {
