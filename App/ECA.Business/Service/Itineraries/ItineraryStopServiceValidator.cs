@@ -23,6 +23,11 @@ namespace ECA.Business.Service.Itineraries
         public const string ITINERARY_STOP_ARRIVAL_DATE_IS_NOT_WITHIN_ITINERARY_DATES = "The city stop arrival date does not fall within the travel period dates.";
 
         /// <summary>
+        /// The itinerary stop departure date is before the arrival date error message.
+        /// </summary>
+        public const string ITINERARY_STOP_ARRIVAL_DATE_IS_AFTER_DEPARTURE_DATE = "The city stop arrival date must be before the departure date.";
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="validationEntity"></param>
@@ -56,6 +61,10 @@ namespace ECA.Business.Service.Itineraries
             if (!(validationEntity.ItineraryStopDepartureDate >= validationEntity.ItineraryStartDate && validationEntity.ItineraryStopDepartureDate <= validationEntity.ItineraryEndDate))
             {
                 yield return new BusinessValidationResult<EcaItineraryStop>(x => x.DepartureDate, ITINERARY_STOP_DEPARTURE_DATE_IS_NOT_WITHIN_ITINERARY_DATES);
+            }
+            if(validationEntity.ItineraryStopDepartureDate < validationEntity.ItineraryStopArrivalDate)
+            {
+                yield return new BusinessValidationResult<EcaItineraryStop>(x => x.ArrivalDate, ITINERARY_STOP_ARRIVAL_DATE_IS_AFTER_DEPARTURE_DATE);
             }
         }
     }

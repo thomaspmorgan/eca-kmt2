@@ -39,14 +39,12 @@ angular.module('staticApp')
       $scope.view.isDepartureDateOpen = false;
       $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
-
+     
       $scope.view.itineraryStop = {
           itineraryId: itinerary.id,
           projectId: project.id,
-          arrivalTime: new Date(),
-          departureTime: new Date(),
           arrivalDate: itinerary.startDate,
-          departureDate: itinerary.startDate
+          departureDate: itinerary.endDate
       };
       ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
 
@@ -169,8 +167,8 @@ angular.module('staticApp')
 
       function saveItineraryStop() {
           $scope.view.isSavingItineraryStop = true;
-          $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalTime);
-          $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureTime);
+          $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalDate);
+          $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureDate);
 
           return ProjectService.addItineraryStop($scope.view.itineraryStop, project.id, itinerary.id)
           .then(function (response) {

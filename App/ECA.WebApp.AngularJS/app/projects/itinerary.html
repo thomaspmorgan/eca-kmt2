@@ -222,12 +222,14 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-                                            {{view.selectedCalendarItineraryStop.destinationArrivalMomentAsString}}
-                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                            <span>{{view.selectedCalendarItineraryStop.destinationArrivalDateAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.destinationArrivalTimeAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
                                         <div class="mute">
-                                            {{view.selectedCalendarItineraryStop.localArrivalMomentAsString}}
-                                            <span>{{view.currentTimezone}}</span>
+                                            {{view.selectedCalendarItineraryStop.localArrivalDateAsString}}
+                                            <span> {{view.selectedCalendarItineraryStop.localArrivalTimeAsString}}</span>
+                                            <span> {{view.currentTimezone}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -240,12 +242,14 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-                                            {{view.selectedCalendarItineraryStop.destinationDepartureMomentAsString}}
-                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                            <span>{{view.selectedCalendarItineraryStop.destinationDepartureDateAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.destinationDepartureTimeAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
                                         <div class="mute">
-                                            {{view.selectedCalendarItineraryStop.localDepartureMomentAsString}}
-                                            <span>  {{view.currentTimezone}}</span>
+                                            {{view.selectedCalendarItineraryStop.localDepartureDateAsString}}
+                                            <span> {{view.selectedCalendarItineraryStop.localDepartureTimeAsString}}</span>
+                                            <span> {{view.currentTimezone}}</span>
                                         </div>
                                     </div>
                                 </div>

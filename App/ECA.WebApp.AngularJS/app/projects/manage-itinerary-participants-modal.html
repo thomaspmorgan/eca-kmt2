@@ -46,7 +46,7 @@
                 </div>
                 <div style="padding-top:5px;">
                     <div class="col-md-4 text-left mute title-label">
-                        <span>{{(view.filteredParticipants | filter: {isSelected: true}).length}} selected</span>
+                        <span>{{(view.filteredParticipants | filter: {'isSelected': true}).length}} selected</span>
                     </div>
                     <div class="col-md-8 text-right mute title-label">
                         <span>Showing {{view.filteredParticipants.length}} of {{view.filteredParticipantsCount}} participants</span>
