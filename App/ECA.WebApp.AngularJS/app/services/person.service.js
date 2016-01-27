@@ -8,7 +8,7 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('PersonService', function ($q, DragonBreath, SevisResultService) {
+  .factory('PersonService', function ($q, DragonBreath) {
 
       return {
           getEvaluationNotesById: function (id) {
@@ -53,6 +53,9 @@ angular.module('staticApp')
           },
           getPeople: function (params) {
               return DragonBreath.get(params, 'people');
+          },          
+          getParticipantByPersonId: function(personid) {
+              return DragonBreath.get('Person/Participant/' + personid);
           },
           updatePii: function (pii, id) {
               return DragonBreath.save(pii, 'people/pii');
@@ -68,13 +71,6 @@ angular.module('staticApp')
           },
           create: function (person) {
               return DragonBreath.create(person, 'people');
-          },
-          validateSevisInfo: function (sevisId, id) {
-              if (sevisId) {
-                  SevisResultService.validateUpdateSevisInfo(id);
-              } else {
-                  SevisResultService.validateCreateSevisInfo(id);
-              }
           }
       };
   });

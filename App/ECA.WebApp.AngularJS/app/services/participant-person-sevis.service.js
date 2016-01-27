@@ -18,7 +18,6 @@
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
             validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis,
             createParticipantSevisCommStatus: createParticipantSevisCommStatus,
-            updateParticipantSevisValidationResults: updateParticipantSevisValidationResults
         };
 
         return service;
@@ -58,7 +57,7 @@
 
         function sendToSevis(participantIds) {
             return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
-        }
+        };
         
         // validate a sevis create object
         function validateParticipantPersonsCreateSevis(id) {

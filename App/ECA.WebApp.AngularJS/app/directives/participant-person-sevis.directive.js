@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService', '$state'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'SevisResultService', '$state'];
     
-    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService, $state) {
+    function participantPersonSevis($log, LookupService, FilterService, NotificationService, SevisResultService, $state) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -37,7 +37,16 @@
                     $event.stopPropagation();
                     $scope.edit.isEndDatePickerOpen = true
                 }
-                                
+                
+                // pre-sevis validation
+                $scope.validateSevisInfo = function (sevisId) {
+                    if (sevisId) {
+                        SevisResultService.validateUpdateSevisInfo($scope.participantid);
+                    } else {
+                        SevisResultService.validateCreateSevisInfo($scope.participantid);
+                    }
+                }
+
                 // Navigate to a section where the validation error can be resolved
                 $scope.goToErrorSection = function (customState) {                    
                     if (customState)

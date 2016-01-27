@@ -175,5 +175,38 @@ namespace ECA.Business.Queries.Persons
                         };
             return query;
         }
+
+        /// <summary>
+        /// Returns the participant by person id 
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns></returns>
+        public static IQueryable<ParticipantDTO> CreateGetParticipantDTOByPersonIdQuery(EcaContext context, int personId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from participant in context.Participants
+                        let person = participant.Person
+                        let currentParticipant = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault()
+                        let participantType = participant.ParticipantType
+                        where participant.PersonId == personId
+                        select new ParticipantDTO
+                        {
+                            Name = person.FullName,
+                            OrganizationId = default(int?),
+                            ParticipantId = currentParticipant.ParticipantId,
+                            ParticipantType = participantType.Name,
+                            ParticipantTypeId = participantType.ParticipantTypeId,
+                            IsPersonParticipantType = participantType.IsPerson,
+                            PersonId = person.PersonId,
+                            SevisId = currentParticipant.ParticipantPerson.SevisId,
+                            ProjectId = currentParticipant.ProjectId,
+                            ParticipantStatus = currentParticipant.Status.Status,
+                            StatusId = currentParticipant.ParticipantStatusId,
+                            StatusDate = currentParticipant.StatusDate,
+                            RevisedOn = currentParticipant.History.RevisedOn
+                        };
+            return query;
+        }
     }
 }

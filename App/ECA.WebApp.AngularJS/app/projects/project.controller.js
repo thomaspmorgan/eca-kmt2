@@ -54,9 +54,7 @@ angular.module('staticApp')
       function disableProjectStatusButton() {
           $scope.isProjectStatusButtonEnabled = false;
       }
-
       
-
       ProjectService.getById($stateParams.projectId)
         .then(function (data) {
             $scope.project = data.data;
