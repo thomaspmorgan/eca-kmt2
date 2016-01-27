@@ -18,6 +18,7 @@ using ECA.Core.Exceptions;
 using ECA.Business.Validation;
 using System.Linq.Expressions;
 using System.Reflection;
+using GeoTimeZone;
 
 namespace ECA.Business.Service.Admin
 {
@@ -610,6 +611,52 @@ namespace ECA.Business.Service.Admin
 
         #endregion
 
+        #region Timezone
+        /// <summary>
+        /// Returns timezone results for the location with the given latitude and longitude.
+        /// </summary>
+        /// <param name="latitude">The latitude.</param>
+        /// <param name="longitude">The longitude.</param>
+        /// <returns>The timezone details.</returns>
+        public TimeZoneResult GetIANATimezone(double latitude, double longitude)
+        {
+            return TimeZoneLookup.GetTimeZone(latitude, longitude);
+        }
+
+        /// <summary>
+        /// Returns timezone results for the location with the given location id.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The timezone results, or null if not found.</returns>
+        public TimeZoneResult GetIANATimezone(int locationId)
+        {
+            var location = Context.Locations.Find(locationId);
+            return DoGetIANATimezoneId(location);
+        }
+
+        /// <summary>
+        /// Returns timezone results for the location with the given location id.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The timezone results, or null if not found.</returns>
+        public async Task<TimeZoneResult> GetIANATimezoneAsync(int locationId)
+        {
+            var location = await Context.Locations.FindAsync(locationId);
+            return DoGetIANATimezoneId(location);
+        }
+
+        private TimeZoneResult DoGetIANATimezoneId(Location location)
+        {
+            if(location != null && location.Latitude.HasValue && location.Longitude.HasValue)
+            {
+                return TimeZoneLookup.GetTimeZone(location.Latitude.Value, location.Longitude.Value);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        #endregion
 
         private LocationValidationEntity GetLocationValidationEntity(EcaLocation location, Location region, Location country, Location division, Location city)
         {
