@@ -17,6 +17,7 @@ angular.module('staticApp')
         $modalInstance,
         project,
         itinerary,
+        filterFilter,
         NotificationService,
         ConstantsService,
         LocationService,
@@ -37,6 +38,7 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
+      $scope.view.isLoadingItineraryStops = false;
       $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
      
@@ -79,6 +81,43 @@ angular.module('staticApp')
           $event.preventDefault();
           $event.stopPropagation();
           $scope.view.isDepartureDateOpen = true;
+      }
+
+      $scope.view.isItineraryStopNameUnique = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.trim().length > 0) {
+              $scope.view.isLoadingItineraryStops = true;
+              ProjectService.getItineraryStops($scope.view.itineraryStop.projectId, $scope.view.itineraryStop.itineraryId)
+              .then(function (response) {
+                  $scope.view.isLoadingItineraryStops = false;
+                  angular.forEach(response.data, function (stop, index) {
+                      stop.name = stop.name.toLowerCase().trim();
+                  });
+                  var itineraryStopIds = response.data.map(function (i) {
+                      return i.itineraryStopId;
+                  });
+                  var index = itineraryStopIds.indexOf($scope.view.itineraryStop.itineraryStopId);
+                  response.data.splice(index, 1);
+                  var likeStops = filterFilter(response.data, { name: $value.trim().toLowerCase() }, true);
+                  if (likeStops.length == 0) {
+                      dfd.resolve();
+                  }
+                  else {
+                      dfd.reject();
+                  }
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingItineraryStops = false;
+                  var message = "Unable to load city stops.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+                  dfd.reject();
+              });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
       }
 
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');

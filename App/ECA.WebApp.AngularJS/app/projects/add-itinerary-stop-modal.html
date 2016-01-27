@@ -13,13 +13,18 @@
             <form name="form.itineraryStopForm" ng-show="!view.isSavingItineraryStop">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': form.itineraryStopForm.name.$error.unique, 'has-feedback': form.itineraryStopForm.name.$error.unique}">
                             <label>
                                 Name This City Stop<span class="asterisk"> *</span>
+                                <i style="margin-left:30px;"
+                                   class="material-icons md-18 material-icons-spin contextual-busy"
+                                   ng-show="view.isLoadingItineraryStops">autorenew</i>
                             </label>
                             <input name="name"
                                    maxlength="{{view.maxNameLength}}"
                                    ng-model="view.itineraryStop.name"
+                                   ui-validate-async="{unique: 'view.isItineraryStopNameUnique($value)'}"
+                                   ng-model-options="{debounce: 500}"
                                    type="text"
                                    class="form-control"
                                    placeholder="Enter the name of the city stop..."
@@ -28,9 +33,12 @@
                         <div ng-show="form.itineraryStopForm.name.$dirty">
                             <div class="error" ng-show="form.itineraryStopForm.name.$error.required">Please enter a name of city stop.</div>
                         </div>
+                        <div ng-show="form.itineraryStopForm.name.$error.unique" class="error">
+                            A city stop with this name already exists.
+                        </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:10px;">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>

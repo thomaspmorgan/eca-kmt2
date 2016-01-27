@@ -16,6 +16,7 @@ angular.module('staticApp')
         $modal,
         $modalInstance,
         project,
+        filterFilter,
         NotificationService,
         ConstantsService,
         LocationService,
@@ -36,6 +37,7 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.isStartDateOpen = false;
       $scope.view.isEndDateOpen = false;
+      $scope.view.isLoadingItineraries = false;
 
       $scope.view.itinerary = {};
 
@@ -70,6 +72,39 @@ angular.module('staticApp')
           $event.preventDefault();
           $event.stopPropagation();
           $scope.view.isEndDateOpen = true;
+      }
+
+      $scope.view.isItineraryNameUnique = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.trim().length > 0) {
+              $scope.view.isLoadingItineraries = true;
+              ProjectService.getItineraries(project.id)
+              .then(function (response) {
+                  $scope.view.isLoadingItineraries = false;
+                  angular.forEach(response.data, function (itinerary, index) {
+                      itinerary.name = itinerary.name.toLowerCase().trim();
+                  });
+                  var likeItineraries = filterFilter(response.data, { name: $value.trim().toLowerCase() }, true);
+                  
+                  if (likeItineraries.length == 0) {
+                      dfd.resolve();
+                  }
+                  else {
+                      dfd.reject();
+                  }
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingItineraries = false;
+                  var message = "Unable to load travel periods.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+                  dfd.reject();
+              });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
       }
 
 

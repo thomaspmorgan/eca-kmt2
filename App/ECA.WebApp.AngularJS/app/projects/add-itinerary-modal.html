@@ -13,14 +13,19 @@
             <form name="form.itineraryForm" ng-show="!view.isSavingItinerary">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': form.itineraryForm.name.$error.unique, 'has-feedback': form.itineraryForm.name.$error.unique}">
                             <label>
                                 Name This Traveling Period<span class="asterisk"> *</span>
+                                <i style="margin-left:30px;"
+                                   class="material-icons md-18 material-icons-spin contextual-busy"
+                                   ng-show="view.isLoadingItineraries">autorenew</i>
                             </label>
                             <input name="name"
                                    maxlength="{{view.maxNameLength}}"
                                    ng-model="view.itinerary.name"
                                    type="text"
+                                   ui-validate-async="{unique: 'view.isItineraryNameUnique($value)'}"
+                                   ng-model-options="{debounce: 500}"
                                    class="form-control"
                                    placeholder="Enter the name of the travel period..."
                                    required>
@@ -28,9 +33,12 @@
                         <div ng-show="form.itineraryForm.name.$dirty">
                             <div class="error" ng-show="form.itineraryForm.name.$error.required">Please enter a name of travel period.</div>
                         </div>
+                        <div ng-show="form.itineraryForm.name.$error.unique" class="error">
+                            A travel period with this name already exists.
+                        </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:10px;">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Date of Arrival<span class="asterisk"> *</span></label>
