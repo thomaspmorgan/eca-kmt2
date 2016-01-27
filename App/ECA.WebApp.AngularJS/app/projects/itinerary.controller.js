@@ -17,6 +17,7 @@ angular.module('staticApp')
       $modal,
       $compile,
       smoothScroll,
+      filterFilter,
       FilterService,
       ProjectService,
       LocationService,
@@ -50,6 +51,7 @@ angular.module('staticApp')
       $scope.view.selectedTravelStopParticipant = null;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.areAllItineraryStopsExpanded = false;
+      $scope.view.isLoadingItineraries = false;
       $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
 
@@ -71,7 +73,6 @@ angular.module('staticApp')
               }
           }
       }
-
 
       var colorIndex = 0;
       var itineraryCopy = angular.copy($scope.view.itinerary);
@@ -234,6 +235,43 @@ angular.module('staticApp')
 
       $scope.view.onCalendarKeySelect = function () {
           addAllItineraryStopsAsEvents($scope.view.itineraryStops);
+      }
+
+      $scope.view.isItineraryNameUnique = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.trim().length > 0) {
+              $scope.view.isLoadingItineraries = true;
+              ProjectService.getItineraries($scope.view.itinerary.projectId)
+              .then(function (response) {
+                  $scope.view.isLoadingItineraries = false;
+                  angular.forEach(response.data, function (itinerary, index) {
+                      itinerary.name = itinerary.name.toLowerCase().trim();
+                  });
+                  var itineraryIds = response.data.map(function (i) {
+                      return i.itineraryId;
+                  });
+                  var index = itineraryIds.indexOf($scope.view.itinerary.itineraryId);
+                  response.data.splice(index, 1);
+                  var likeItineraries = filterFilter(response.data, { name: $value.trim().toLowerCase() }, true);
+                  if (likeItineraries.length == 0) {
+                      dfd.resolve();
+                  }
+                  else {
+                      dfd.reject();
+                  }
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingItineraries = false;
+                  var message = "Unable to load travel periods.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+                  dfd.reject();
+              });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
       }
 
       var arrivalFilter = FilterService.add('itinerary_arrivallocations');

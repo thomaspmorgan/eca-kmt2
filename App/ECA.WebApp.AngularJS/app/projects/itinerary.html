@@ -28,7 +28,7 @@
                     <div class="col-md-4">
                         <h3 style="margin-top:28px; margin-left:20px;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">{{view.itinerary.name}}</h3>
                     </div>
-                    
+
                     <div class="col-md-2" style="margin-top:16px;">
                         <div class="col-md-3">
                             <i class="material-icons md-24">event</i>
@@ -40,9 +40,9 @@
                             <div>
                                 <p class="text-right">{{view.itinerary.startDate | date:'MMM dd, yyyy'}}</p>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
-                    <div class="col-md-2"  style="margin-top:16px;">
+                    <div class="col-md-2" style="margin-top:16px;">
                         <div class="col-md-3">
                             <i class="material-icons md-24">event</i>
                         </div>
@@ -66,7 +66,7 @@
                             <div>
                                 <p class="text-right">{{view.itinerary.participantsCount}}</p>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <div class="right" style="margin-top:28px;">
@@ -369,14 +369,26 @@
             <div>
                 <div class="itinerary-header" style="height: 90px;">
                     <div class="row">
-                        <div class="col-md-8" style="margin-top:27px;">
-                            <input class="form-control"
-                                   name="name"
-                                   maxlength="100"
-                                   required
-                                   ng-model="view.itinerary.name" />
+                        <div class="col-md-9" style="margin-top:27px;">
+                            <div class="col-md-11">
+                                <input class="form-control"
+                                       ng-class="{'has-error': form.editItineraryForm.name.$error.isNameUnique, 'has-feedback': form.editItineraryForm.name.$error.isNameUnique}"
+                                       name="name"
+                                       maxlength="100"
+                                       ui-validate-async="{unique: 'view.isItineraryNameUnique($value)'}"
+                                       ng-model-options="{debounce: 500}"
+                                       required
+                                       ng-model="view.itinerary.name" />
+                                <div ng-show="form.editItineraryForm.name.$error.unique" style="color:white;">
+                                    A travel period with this name already exists.
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <i class="material-icons md-18 material-icons-spin contextual-busy pull-right"
+                                   ng-show="view.isLoadingItineraries">autorenew</i>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-right" style="margin-top:27px;">
+                        <div class="col-md-3 text-right" style="margin-top:27px;">
                             <button class="btn btn-success" ng-disabled="form.editItineraryForm.$invalid" ng-click="view.onSaveClick(view.itinerary)">Save</button>
                             <button class="btn btn-default" ng-click="view.onCancelClick(view.itinerary)">Cancel</button>
                         </div>

@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace ECA.Data
 {
     /// <summary>
     /// Itineraries describe the travel participants take during a project.
     /// </summary>
-    public class Itinerary : IHistorical
+    public class Itinerary : IHistorical, IValidatableObject
     {
         /// <summary>
         /// The max length of the description.
@@ -111,5 +112,32 @@ namespace ECA.Data
         /// Gets or sets all participants that are on this itinerary.
         /// </summary>
         public virtual ICollection<Participant> Participants { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            Contract.Assert(validationContext != null, "The validation context must not be null.");
+            Contract.Assert(validationContext.Items.ContainsKey(EcaContext.VALIDATABLE_CONTEXT_KEY), "The validation context must have a context to query.");
+            var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
+            Contract.Assert(context != null, "The context must not be null.");
+
+            var existingItinerariesByName = context.Itineraries
+                .Where(x =>
+                x.Name.ToLower().Trim() == this.Name.ToLower().Trim()
+                && x.ProjectId == this.ProjectId
+                && x.ItineraryId != this.ItineraryId)
+                .FirstOrDefault();
+            if (existingItinerariesByName != null)
+            {
+                yield return new ValidationResult(
+                    String.Format("The itinerary with the name [{0}] already exists.",
+                        this.Name),
+                    new List<string> { "Name" });
+            }
+        }
     }
 }
