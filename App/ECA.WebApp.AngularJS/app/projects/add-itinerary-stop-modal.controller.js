@@ -39,9 +39,10 @@ angular.module('staticApp')
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
       $scope.view.isLoadingItineraryStops = false;
+      $scope.view.isLoadingTimezone = false;
       $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
-     
+
       $scope.view.itineraryStop = {
           itineraryId: itinerary.id,
           projectId: project.id,
@@ -136,6 +137,19 @@ angular.module('staticApp')
       $scope.view.onDestinationLocationSelect = function ($item, $model) {
           $scope.view.itineraryStop.destinationLocation = $model;
           $scope.view.itineraryStop.destinationLocationId = $model.id;
+          $scope.view.itineraryStop.timezoneId = null;
+
+          $scope.view.isLoadingTimezone = true;
+          return LocationService.getLocationByTimezone($model)
+          .then(function (timezoneId) {
+              $scope.view.isLoadingTimezone = false;
+              if (timezoneId) {
+                  $scope.view.itineraryStop.timezoneId = timezoneId;
+              }
+          })
+          .catch(function() {
+              $scope.view.isLoadingTimezone = false;
+          });
       }
 
       $scope.view.onAddNewDestinationLocationClick = function () {

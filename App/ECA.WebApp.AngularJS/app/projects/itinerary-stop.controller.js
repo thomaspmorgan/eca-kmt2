@@ -29,6 +29,7 @@ angular.module('staticApp')
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
       $scope.view.isSavingItineraryStop = false;
+      $scope.view.isLoadingTimezone = false;
       $scope.view.searchLimit = 30;
       $scope.view.maxNameLength = 100;
       $scope.view.currentTimezone = moment.tz.guess();
@@ -148,6 +149,17 @@ angular.module('staticApp')
           $scope.view.itineraryStop.destinationLocation = $model;
           $scope.view.itineraryStop.destinationLocationId = $model.id;
           $scope.view.itineraryStop.timezoneId = null;
+          $scope.view.isLoadingTimezone = true;
+          return LocationService.getLocationByTimezone($model)
+          .then(function (timezoneId) {
+              $scope.view.isLoadingTimezone = false;
+              if (timezoneId) {
+                  $scope.view.itineraryStop.timezoneId = timezoneId;
+              }
+          })
+          .catch(function () {
+              $scope.view.isLoadingTimezone = false;
+          });
       }
 
       function scrollToItineraryStop(itineraryStop) {
