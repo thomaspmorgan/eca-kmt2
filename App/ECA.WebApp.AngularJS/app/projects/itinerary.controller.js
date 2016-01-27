@@ -130,7 +130,10 @@ angular.module('staticApp')
       }
 
       $scope.view.onCollapseAllClick = function (itinerary) {
-          $scope.view.isItineraryExpanded = false;
+          $scope.view.isItineraryExpanded = true;
+          angular.forEach($scope.view.itineraryStops, function (stop, index) {
+              stop.isExpanded = false;
+          });
           $scope.view.areAllItineraryStopsExpanded = false;
       }
 
