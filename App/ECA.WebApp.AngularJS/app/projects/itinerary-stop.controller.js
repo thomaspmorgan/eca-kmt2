@@ -32,13 +32,8 @@ angular.module('staticApp')
       $scope.view.isLoadingTimezone = false;
       $scope.view.searchLimit = 30;
       $scope.view.maxNameLength = 100;
-      $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
       $scope.view.isLoadingItineraryStops = false;
-
-      $scope.view.onClickCurrentTimezone = function (timezone) {
-          $scope.view.itineraryStop.timezoneId = timezone;
-      }
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop($scope.view.itineraryStop);

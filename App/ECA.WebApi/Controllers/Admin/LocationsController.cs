@@ -166,7 +166,7 @@ namespace ECA.WebApi.Controllers.Admin
         [ResponseType(typeof(TimeZoneResult))]
         public IHttpActionResult GetTimezoneByLatitudeAndLongitude(double latitude, double longitude)
         {
-            return Ok(locationService.GetIANATimezoneId(latitude, longitude));
+            return Ok(locationService.GetIANATimezone(latitude, longitude));
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace ECA.WebApi.Controllers.Admin
         [Route("Location/{id:int}/Timezone")]
         public async Task<IHttpActionResult> GetTimezoneByLocationIdAsync(int id)
         {
-            var result = await locationService.GetIANATimezoneIdAsync(id);
+            var result = await locationService.GetIANATimezoneAsync(id);
             if (result != null)
             {
                 return Ok(result);

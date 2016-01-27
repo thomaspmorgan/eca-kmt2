@@ -40,7 +40,6 @@ angular.module('staticApp')
       $scope.view.isDepartureDateOpen = false;
       $scope.view.isLoadingItineraryStops = false;
       $scope.view.isLoadingTimezone = false;
-      $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
 
       $scope.view.itineraryStop = {
@@ -157,10 +156,6 @@ angular.module('staticApp')
               $scope.view.onDestinationLocationSelect(addedLocation[0], addedLocation[0]);
           };
           addNewLocation(setDestinationLocationCallback);
-      }
-
-      $scope.view.onClickCurrentTimezone = function (timezone) {
-          $scope.view.itineraryStop.timezoneId = timezone;
       }
 
       function addNewLocation(callback) {
