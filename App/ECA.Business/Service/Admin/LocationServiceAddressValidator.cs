@@ -76,6 +76,10 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.CityId, string.Format(INACTIVE_CITY_FORMAT_ERROR_MESSAGE, validationEntity.City.LocationName));
             }
+            if (validationEntity.Country.LocationName == "United States")
+            {
+
+            }
         }
     }
 }

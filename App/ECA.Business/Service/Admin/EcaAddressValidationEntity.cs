@@ -22,12 +22,14 @@ namespace ECA.Business.Service.Admin
         public EcaAddressValidationEntity(int addressTypeId, 
             Location country, 
             Location division, 
-            Location city)
+            Location city,
+            string postalCode)
         {
             this.AddressTypeId = addressTypeId;
             this.Country = country;
             this.Division = division;
             this.City = city;
+            this.PostalCode = postalCode;
         }
 
         /// <summary>
@@ -49,5 +51,10 @@ namespace ECA.Business.Service.Admin
         /// Gets or sets the address type id.
         /// </summary>
         public int AddressTypeId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the postal code.
+        /// </summary>
+        public string PostalCode { get; private set; }
     }
 }

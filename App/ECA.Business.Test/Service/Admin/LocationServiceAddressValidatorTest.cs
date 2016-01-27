@@ -31,13 +31,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             addressTypeId = 0;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateCreate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("AddressTypeId", results.First().Property);
@@ -63,13 +64,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             country.IsActive = false;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateCreate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("CountryId", results.First().Property);
@@ -95,13 +97,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             division.IsActive = false;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateCreate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("DivisionId", results.First().Property);
@@ -127,13 +130,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             city.IsActive = false;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateCreate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("CityId", results.First().Property);
@@ -164,13 +168,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             addressTypeId = 0;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateUpdate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("AddressTypeId", results.First().Property);
@@ -196,13 +201,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             country.IsActive = false;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateUpdate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("CountryId", results.First().Property);
@@ -228,13 +234,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             division.IsActive = false;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateUpdate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("DivisionId", results.First().Property);
@@ -260,13 +267,14 @@ namespace ECA.Business.Test.Service.Admin
                 IsActive = true,
                 LocationName = "city"
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
 
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
             city.IsActive = false;
-            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateUpdate(entity);
             Assert.AreEqual(1, results.Count());
             Assert.AreEqual("CityId", results.First().Property);
