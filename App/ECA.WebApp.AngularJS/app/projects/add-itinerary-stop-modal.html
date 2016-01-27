@@ -157,9 +157,13 @@
                             <i style="margin-right:8px;margin-top:-5px;" class="material-icons md-dark md-18 pull-left">timelapse</i>
                             Destination Timezone<span class="asterisk"> *</span>
                             <a ng-click="view.onClickCurrentTimezone(view.currentTimezone)">(My timezone:  {{view.currentTimezone}})</a>
+                            <i style="margin-left:30px;"
+                               class="material-icons md-18 material-icons-spin contextual-busy"
+                               ng-show="view.isLoadingTimezone">autorenew</i>
                         </label>
                         <div>
                             <ui-select ng-model="view.itineraryStop.timezoneId"
+                                       ng-disabled="view.isLoadingTimezone"
                                        id="timezone"
                                        name="timezone"
                                        search-enabled="true"
@@ -169,7 +173,7 @@
                                 <ui-select-match placeholder="Select the timezone of the destination location...">
                                     {{view.itineraryStop.timezoneId}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="tz in view.timezoneNames | filter: $select.search">
+                                <ui-select-choices repeat="tz in view.timezoneNames | filter: $select.search | limitTo:50">
                                     <div ng-bind-html="tz | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>

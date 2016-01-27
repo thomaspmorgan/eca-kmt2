@@ -58,7 +58,55 @@ angular.module('staticApp')
               return DragonBreath.create(location, 'locations');
           },
 
-          geocode: function (address) {
+          getLocationByTimezone: function (location) {
+              if (location.latitude && location.longitude) {
+                  return service.getTimezoneByLatAndLong(location.latitude, location.longitude);
+              }
+              else {
+                  var locationName = location.name;
+                  if (location.division) {
+                      locationName += ' ' + location.division;
+                  }
+                  if (location.country) {
+                      locationName += ' ' + location.country
+                  }
+                  return service.getTimezoneByGeocoding(locationName);
+              }
+          },
+
+          getTimezoneByLatAndLong: function (latitude, longitude) {
+              var path = 'Location/Timezone';
+              return DragonBreath.get({ latitude: latitude, longitude: longitude }, path)
+              .then(function (response) {
+                  if (response.data.result) {
+                      return response.data.result;
+                  }
+              })
+              .catch(function (response) {
+                  $log.info('Unable to determine timezone by location.');
+              })
+          },
+
+          getTimezoneByGeocoding: function (locationName) {
+              return service.geocode(locationName)
+              .then(function (response) {
+                  $log.info('Found ' + response.length + ' geocoded responses for ' + locationName);
+                  if (response.length === 1) {
+                      var firstLocation = response[0];
+                      var lat = firstLocation.geometry.location.lat();
+                      var long = firstLocation.geometry.location.lng();
+                      return service.getTimezoneByLatAndLong(lat, long);
+                  }
+                  else {
+                      return null;
+                  }
+              })
+              .catch(function (response) {
+                  $log.info('Unable to determine timezone by location.');
+              })
+          },
+          
+          geocode: function (address, component) {
               var deferred = $q.defer();
               var geocoder = new google.maps.Geocoder();
               geocoder.geocode({ address: address }, function (results, status) {
@@ -94,7 +142,7 @@ angular.module('staticApp')
 
           getDivisionLocationParams: function (transformedLocation) {
               divisionsFilter.reset();
-              
+
               divisionsFilter = divisionsFilter
                 .skip(0)
                 .take(300)
@@ -141,7 +189,7 @@ angular.module('staticApp')
               for (var i = 0; i < result.types.length; i++) {
                   var constant = service.getLocationTypeConstant(result.types[i]);
                   if (constant !== null) {
-                      
+
                       transformedLocation.locationTypeId = constant.id;
                       transformedLocation.locationTypeName = constant.value;
                       if (transformedLocation.locationTypeId === ConstantsService.locationType.city.id) {

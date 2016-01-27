@@ -12,6 +12,7 @@ using ECA.WebApi.Controllers.Programs;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
+using GeoTimeZone;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
@@ -137,7 +138,37 @@ namespace ECA.WebApi.Test.Controllers.Admin
             var response = await controller.PutUpdateLocationAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
-        
+
+        #endregion
+
+        #region Timezone
+        [TestMethod]
+        public void TestGetTimezoneByLatitudeAndLongitude()
+        {
+            serviceMock.Setup(x => x.GetIANATimezoneId(It.IsAny<double>(), It.IsAny<double>())).Returns(new TimeZoneResult());
+            var response = controller.GetTimezoneByLatitudeAndLongitude(1.0, 1.0);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<TimeZoneResult>));
+            serviceMock.Verify(x => x.GetIANATimezoneId(It.IsAny<double>(), It.IsAny<double>()), Times.Once());
+
+        }
+
+        [TestMethod]
+        public async Task TestGetTimezoneByLocationId()
+        {
+            serviceMock.Setup(x => x.GetIANATimezoneIdAsync(It.IsAny<int>())).ReturnsAsync(new TimeZoneResult());
+            var response = await controller.GetTimezoneByLocationIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<TimeZoneResult>));
+            serviceMock.Verify(x => x.GetIANATimezoneIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetTimezoneByLocationId_NotFound()
+        {
+            serviceMock.Setup(x => x.GetIANATimezoneIdAsync(It.IsAny<int>())).ReturnsAsync(null);
+            var response = await controller.GetTimezoneByLocationIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+            serviceMock.Verify(x => x.GetIANATimezoneIdAsync(It.IsAny<int>()), Times.Once());
+        }
         #endregion
     }
 }
