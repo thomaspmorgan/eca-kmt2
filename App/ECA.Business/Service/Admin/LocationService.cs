@@ -437,7 +437,8 @@ namespace ECA.Business.Service.Admin
                 addressTypeId: address.AddressTypeId,
                 country: country,
                 division: division,
-                city: city);
+                city: city,
+                postalCode: address.PostalCode);
         }
 
 
