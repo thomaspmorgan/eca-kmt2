@@ -16,6 +16,7 @@ angular.module('staticApp')
         $compile,
         $filter,
         orderByFilter,
+        BrowserService,
         ProjectService,
         ConstantsService,
         NotificationService) {
@@ -64,6 +65,7 @@ angular.module('staticApp')
 
       $scope.view.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          BrowserService.setDocumentTitleByProject(project, 'Overview');
           if ($scope.$parent.project.locations) {
               $scope.$parent.project.locations = orderByFilter($scope.$parent.project.locations, '+name');
               for(var i=0; i<$scope.$parent.project.locations.length; i++){

@@ -215,6 +215,7 @@
     <Content Include="app\reports\projects-with-grant-number.controller.js" />
     <Content Include="app\search\spotlight.controller.js" />
     <Content Include="app\services\about.service.js" />
+    <Content Include="app\services\browser.service.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

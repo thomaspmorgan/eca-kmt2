@@ -18,6 +18,7 @@ angular.module('staticApp')
       FilterService,
       smoothScroll,
       ConstantsService,
+      BrowserService,
       OfficeService,
       TableService) {
 
@@ -34,6 +35,7 @@ angular.module('staticApp')
       $scope.view.listType = $scope.view.hierarchyKey;
       $scope.view.officesLoading = false;
 
+      BrowserService.setAllOfficesDocumentTitle();
       function updatePagingDetails(total, start, count) {
           $scope.view.totalNumberOfOffices = total;
           $scope.view.skippedNumberOfOffices = start;

@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         OrganizationService,
         ConstantsService,
+        BrowserService,
         NotificationService) {
 
       $scope.view = {};
@@ -24,6 +25,7 @@ angular.module('staticApp')
       $scope.data.loadedOrganizationPromise.promise
       .then(function (org) {
           $log.info('activities here.');
+          BrowserService.setDocumentTitleByOrganization(org, 'Timeline');
           isOrganizationLoading(false);
       });
 
