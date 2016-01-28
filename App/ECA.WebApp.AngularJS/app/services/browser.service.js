@@ -12,6 +12,7 @@
             setDocumentTitleByProject: setDocumentTitleByProject,
             setDocumentTitleByProgram: setDocumentTitleByProgram,
             setDocumentTitleByOffice: setDocumentTitleByOffice,
+            setAllProgramsDocumentTitle: setAllProgramsDocumentTitle,
             setAllOfficesDocumentTitle: setAllOfficesDocumentTitle,
             setAllOrganizationsDocumentTitle: setAllOrganizationsDocumentTitle,
             setDocumentTitleByOrganization: setDocumentTitleByOrganization,
@@ -24,6 +25,12 @@
         };
 
         return service;
+
+        function setAllProgramsDocumentTitle() {
+            service.setDocumentTitle(function () {
+                return 'All Programs';
+            })
+        }
 
         function setDocumentTitleByReport(tab) {
             service.setDocumentTitle(function () {
