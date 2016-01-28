@@ -15,7 +15,7 @@ angular.module('staticApp')
       $log,
       $q,
       $modal,
-      ProjectService,
+      ItineraryService,
       NotificationService,
       AuthService,
       ConstantsService) {
@@ -84,7 +84,7 @@ angular.module('staticApp')
       
       function loadItineraries(projectId) {
           $scope.view.isLoadingItineraries = true;
-          return ProjectService.getItineraries(projectId)
+          return ItineraryService.getItineraries(projectId)
           .then(function (response) {
               $scope.view.isLoadingItineraries = false;
               $scope.view.itineraries = response.data;

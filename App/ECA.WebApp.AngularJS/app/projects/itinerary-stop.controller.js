@@ -19,9 +19,8 @@ angular.module('staticApp')
         ConstantsService,
         LocationService,
         DateTimeService,
-        ProjectService,
-        FilterService,
-        LookupService) {
+        ItineraryService,
+        FilterService) {
       $scope.view = {};
       $scope.view.isInEditMode = false;
       $scope.view.itineraryStop = $scope.itineraryStop;
@@ -41,7 +40,7 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           $scope.view.itineraryStop = angular.copy(itineraryStopCopy);
-          ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
+          ItineraryService.initializeItineraryStopModel($scope.view.itineraryStop);
           initialize($scope.view.itineraryStop);
           $scope.view.isInEditMode = false;
       }
@@ -91,7 +90,7 @@ angular.module('staticApp')
           var dfd = $q.defer();
           if ($value && $value.trim().length > 0) {
               $scope.view.isLoadingItineraryStops = true;
-              ProjectService.getItineraryStops($scope.view.itinerary.projectId, $scope.view.itinerary.id)
+              ItineraryService.getItineraryStops($scope.view.itinerary.projectId, $scope.view.itinerary.id)
               .then(function (response) {
                   $scope.view.isLoadingItineraryStops = false;
                   angular.forEach(response.data, function (stop, index) {
@@ -195,7 +194,7 @@ angular.module('staticApp')
           itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalDate);
           itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureDate);
           
-          return ProjectService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
+          return ItineraryService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
           .then(function (response) {
               initialize(response.data);
               $scope.view.itineraryStop = response.data;

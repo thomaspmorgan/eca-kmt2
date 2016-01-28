@@ -20,10 +20,8 @@ angular.module('staticApp')
         NotificationService,
         ConstantsService,
         LocationService,
-        MessageBox,
-        ProjectService,
-        FilterService,
-        LookupService) {
+        ItineraryService,
+        FilterService) {
 
       $scope.view = {};
       $scope.view.showConfirmCancel = false;
@@ -78,7 +76,7 @@ angular.module('staticApp')
           var dfd = $q.defer();
           if ($value && $value.trim().length > 0) {
               $scope.view.isLoadingItineraries = true;
-              ProjectService.getItineraries(project.id)
+              ItineraryService.getItineraries(project.id)
               .then(function (response) {
                   $scope.view.isLoadingItineraries = false;
                   angular.forEach(response.data, function (itinerary, index) {
@@ -216,7 +214,7 @@ angular.module('staticApp')
 
       function saveItinerary() {
           $scope.view.isSavingItinerary = true;
-          return ProjectService.addItinerary($scope.view.itinerary, project.id)
+          return ItineraryService.addItinerary($scope.view.itinerary, project.id)
           .then(function (response) {
               $scope.view.isSavingItinerary = false;
               $modalInstance.close(response.data);

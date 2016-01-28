@@ -21,11 +21,8 @@ angular.module('staticApp')
         NotificationService,
         ConstantsService,
         LocationService,
-        MessageBox,
-        ProjectService,
-        FilterService,
-        DateTimeService,
-        LookupService) {
+        ItineraryService,
+        FilterService) {
 
       $scope.view = {};
       $scope.view.itinerary = itinerary;
@@ -48,7 +45,7 @@ angular.module('staticApp')
           arrivalDate: itinerary.startDate,
           departureDate: itinerary.endDate
       };
-      ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
+      ItineraryService.initializeItineraryStopModel($scope.view.itineraryStop);
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop();
@@ -87,7 +84,7 @@ angular.module('staticApp')
           var dfd = $q.defer();
           if ($value && $value.trim().length > 0) {
               $scope.view.isLoadingItineraryStops = true;
-              ProjectService.getItineraryStops($scope.view.itineraryStop.projectId, $scope.view.itineraryStop.itineraryId)
+              ItineraryService.getItineraryStops($scope.view.itineraryStop.projectId, $scope.view.itineraryStop.itineraryId)
               .then(function (response) {
                   $scope.view.isLoadingItineraryStops = false;
                   angular.forEach(response.data, function (stop, index) {
@@ -218,7 +215,7 @@ angular.module('staticApp')
           $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalDate);
           $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureDate);
 
-          return ProjectService.addItineraryStop($scope.view.itineraryStop, project.id, itinerary.id)
+          return ItineraryService.addItineraryStop($scope.view.itineraryStop, project.id, itinerary.id)
           .then(function (response) {
               $scope.view.isSavingItineraryStop = false;
               $modalInstance.close(response.data);
