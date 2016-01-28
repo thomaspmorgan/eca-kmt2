@@ -158,8 +158,8 @@ angular.module('staticApp')
           PersonService.updatePii($scope.pii, $scope.person.personId)
               .then(function () {
                   NotificationService.showSuccessMessage("The edit was successful.");
-                  $scope.edit.Pii = false;
                   loadPii($scope.person.personId);
+                  $scope.edit.Pii = false;
                   SevisResultService.updateSevisVerificationResults($scope.person.personId);
               },
               function (error) {

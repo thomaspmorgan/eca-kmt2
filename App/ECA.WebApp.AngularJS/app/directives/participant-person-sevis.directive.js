@@ -41,9 +41,9 @@
                 // pre-sevis validation
                 $scope.validateSevisInfo = function (sevisId) {
                     if (sevisId) {
-                        SevisResultService.validateUpdateSevisInfo($scope.participantid);
+                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateUpdateSevisInfo($scope.participantid);
                     } else {
-                        SevisResultService.validateCreateSevisInfo($scope.participantid);
+                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateCreateSevisInfo($scope.participantid);
                     }
                 }
 

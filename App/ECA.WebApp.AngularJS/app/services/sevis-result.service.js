@@ -16,7 +16,7 @@ angular.module('staticApp')
       obj.updateSevisVerificationResults = function (personid) {
           return PersonService.getParticipantByPersonId(personid)
           .then(function (participant) {
-              obj.validateSevisInfo(participant.data);
+              return obj.validateSevisInfo(participant.data);
           })
           .catch(function () {
               $log.error("Unable to retrieve participant by person id.");
@@ -25,11 +25,11 @@ angular.module('staticApp')
 
       // initiate pre-sevis validation
       obj.validateSevisInfo = function (participant) {
-          if (participant.sevisId) {
-              obj.validateUpdateSevisInfo(participant.participantId);
+          if (participant.sevisId && participant.participantId) {
+              return obj.validateUpdateSevisInfo(participant.participantId);
           } else {
               if (participant.participantId) {
-                  obj.validateCreateSevisInfo(participant.participantId);
+                  return obj.validateCreateSevisInfo(participant.participantId);
               }
           }
       }

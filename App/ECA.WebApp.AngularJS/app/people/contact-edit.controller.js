@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personContactEditCtrl', function ($scope, PersonService, NotificationService, $stateParams, $log) {
+  .controller('personContactEditCtrl', function ($scope, PersonService, SevisResultService, NotificationService, $stateParams, $log) {
 
       $scope.contactsLoading = true;
 
@@ -34,7 +34,8 @@ angular.module('staticApp')
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
               loadContactInfo($stateParams.personId);
-          $scope.edit.Contact = false;
+              $scope.edit.Contact = false;
+              SevisResultService.updateSevisVerificationResults($stateParams.personId);
           },
             function (error) {
                 if (error.status === 400) {
