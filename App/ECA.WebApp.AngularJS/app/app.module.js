@@ -32,5 +32,6 @@ angular
     'angular.filter',
     'ui.utils.masks',
     'ui.calendar',
-    'templates'
+    'templates',
+    'ngIdle'
   ]);

@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider) {
+  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider, IdleProvider) {
 
       adalAuthenticationServiceProvider.init({
           base: '',
@@ -32,4 +32,7 @@ angular.module('staticApp')
       $urlRouterProvider.otherwise('/');
 
       $httpProvider.interceptors.push('ErrorInterceptor');
+
+      IdleProvider.idle(5);
+      IdleProvider.timeout(5);
   });

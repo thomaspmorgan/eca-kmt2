@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-    .run(['$rootScope', '$location', '$state', '$modal', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-      function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+    .run(['$rootScope', '$location', '$state', '$modal', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService', 'Idle',
+      function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService, Idle) {
 
           console.assert(NotificationService, "The NotificationService is needed so that we can display notifications for user registration.");
           console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
@@ -100,4 +100,8 @@ angular.module('staticApp')
               // Prevent the transition from happening
               event.preventDefault();
           });
+
+          Idle.watch();
+          $rootScope.$on('IdleStart', function () { /* Display modal warning */ console.log('IdleStart')});
+          $rootScope.$on('IdleTimeout', function () { /* Logout user */ console.log('IdleTimeout')});
       }]);
