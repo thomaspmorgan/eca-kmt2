@@ -8,8 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ReportsCustomCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log, $window) {
+  .controller('ReportsCustomCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, BrowserService, $log, $window) {
 
+      BrowserService.setDocumentTitleByReport('Custom');
       $scope.$log = $log;
       $scope.reports = [
           { Title: "Project Awards By Year", Published: "4/28/2015", Author: "Tom Morgan", Prompts: "Program, Country" },

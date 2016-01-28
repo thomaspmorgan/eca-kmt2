@@ -16,6 +16,7 @@ angular.module('staticApp')
         $filter,
         DataPointConfigurationService,
         ConstantsService,
+        BrowserService,
         NotificationService) {
 
       $scope.view = {};
@@ -27,6 +28,7 @@ angular.module('staticApp')
       isLoadingOffice(true);
       $scope.data.loadedOfficePromise.promise
       .then(function (office) {
+          BrowserService.setDocumentTitleByOffice(office, 'Overview');
           $scope.view.office = office;
           var params = { officeId: office.id };
           DataPointConfigurationService.getDataPointConfigurations(params)

@@ -8,8 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log, $window) {
+  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, BrowserService, $log, $window) {
 
+      BrowserService.setDocumentTitleByReport('Archive');
       $scope.$log = $log;
       $scope.reports = [];
       $scope.parameters = [];

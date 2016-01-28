@@ -17,6 +17,7 @@ angular.module('staticApp')
       $modal,
       ItineraryService,
       NotificationService,
+      BrowserService,
       AuthService,
       ConstantsService) {
 
@@ -35,6 +36,7 @@ angular.module('staticApp')
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           $scope.view.project = project;
           $scope.view.isLoadingProject = false;
+          BrowserService.setDocumentTitleByProject(project, 'Travel');
       });
 
       $scope.view.onNewItineraryClick = function () {

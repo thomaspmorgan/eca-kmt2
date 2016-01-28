@@ -4,13 +4,18 @@
  * Controller for participant timeline
  */
 angular.module('staticApp')
-  .controller('PersonTimelineCtrl', function ($scope, ProjectService, ParticipantPersonsService, NotificationService) {
+  .controller('PersonTimelineCtrl', function ($scope, ProjectService, ParticipantPersonsService, NotificationService, BrowserService, PersonService) {
 
+      
       $scope.projectsLoading = false;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
             loadProjects(personId);
+            PersonService.getPersonById(personId)
+            .then(function (response) {
+                BrowserService.setDocumentTitleByPerson(response, 'Timeline');
+            })
         });
 
       function loadProjects(personId) {
