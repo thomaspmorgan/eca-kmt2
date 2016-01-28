@@ -1,13 +1,75 @@
-﻿<div ng-controller="ItineraryCtrl" class="itinerary" style="margin-bottom:100px;" id="{{view.getDivId(view.itinerary)}}">
+﻿<div ng-controller="ItineraryCtrl" class="itinerary" style="margin-bottom:60px;" id="{{view.getDivId(view.itinerary)}}">
     <div ng-show="!view.isInEditMode">
         <div>
-            <div class="itinerary-header">
-                <div class="row">
+            <div class="itinerary-header" style="height:90px;">
+                <div class="row" ng-show="view.isItineraryExpanded">
                     <div class="col-md-10">
-                        <h3 style="margin-top:22px; margin-left:20px;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">{{view.itinerary.name}}</h3>
+                        <h3 style="margin-top:28px; margin-left:20px;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">{{view.itinerary.name}}</h3>
                     </div>
                     <div class="col-md-2">
-                        <div class="right" style="margin-top:22px;">
+                        <div class="right" style="margin-top:28px;">
+                            <div class="col-md-3">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">edit</i>
+                            </div>
+                            <div class="col-md-3">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onCommentClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">mode_comment</i>
+                            </div>
+                            <div class="col-md-3">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onDeleteClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">delete</i>
+                            </div>
+                            <div class="col-md-3">
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onItineraryExpandClick(view.itinerary)" ng-show="!view.isItineraryExpanded">expand_more</i>
+                                <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onItineraryCollapseClick(view.itinerary)" ng-show="view.isItineraryExpanded">expand_less</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="!view.isItineraryExpanded">
+                    <div class="col-md-4">
+                        <h3 style="margin-top:28px; margin-left:20px;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">{{view.itinerary.name}}</h3>
+                    </div>
+
+                    <div class="col-md-2" style="margin-top:16px;">
+                        <div class="col-md-3">
+                            <i class="material-icons md-24">event</i>
+                        </div>
+                        <div class="col-md-9">
+                            <div>
+                                <h5 class="title-label text-right" style="color:white;">Start Date</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.startDate | date:'MMM dd, yyyy'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-top:16px;">
+                        <div class="col-md-3">
+                            <i class="material-icons md-24">event</i>
+                        </div>
+                        <div class="col-md-9">
+                            <div>
+                                <h5 class="title-label text-right" style="color:white;">End Date</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.endDate | date:'MMM dd, yyyy'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-top:16px;">
+                        <div class="col-md-3">
+                            <i class="material-icons md-24">person</i>
+                        </div>
+                        <div class="col-md-9">
+                            <div>
+                                <h5 class="title-label text-right" style="color:white;">Participants</h5>
+                            </div>
+                            <div>
+                                <p class="text-right">{{view.itinerary.participantsCount}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="right" style="margin-top:28px;">
                             <div class="col-md-3">
                                 <i class="material-icons md-24" style="cursor:pointer;" ng-click="view.onEditClick(view.itinerary)" ng-show="!view.isLoadingRequiredData">edit</i>
                             </div>
@@ -35,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div class="row itinerary-container" ng-show="!view.isLoadingRequiredData && !view.isSaving" style="padding-bottom: 20px;">
+        <div class="row itinerary-container" ng-show="!view.isLoadingRequiredData && !view.isSaving && view.isItineraryExpanded" style="padding-bottom: 20px;">
             <div class="col-md-11">
                 <div class="row" style="margin-top:15px;">
                     <div class="col-md-3">
@@ -138,7 +200,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-1 right" ng-show="view.areAllItineraryStopsExpanded">
+            <div class="col-md-1 right" tooltip="Collapse all city stops." ng-show="view.areAllItineraryStopsExpanded">
                 <div style="cursor:pointer" ng-click="view.onCollapseAllClick(view.itinerary)">
                     <div style="margin-top:45px;">
                         <i class="material-icons md-dark md-24">expand_less</i>
@@ -222,12 +284,14 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-                                            {{view.selectedCalendarItineraryStop.destinationArrivalMomentAsString}}
-                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                            <span>{{view.selectedCalendarItineraryStop.destinationArrivalDateAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.destinationArrivalTimeAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
                                         <div class="mute">
-                                            {{view.selectedCalendarItineraryStop.localArrivalMomentAsString}}
-                                            <span>{{view.currentTimezone}}</span>
+                                            {{view.selectedCalendarItineraryStop.localArrivalDateAsString}}
+                                            <span> {{view.selectedCalendarItineraryStop.localArrivalTimeAsString}}</span>
+                                            <span> {{view.currentTimezone}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -240,12 +304,14 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-                                            {{view.selectedCalendarItineraryStop.destinationDepartureMomentAsString}}
-                                            <span>  {{view.selectedCalendarItineraryStop.timezoneId}}</span>
+                                            <span>{{view.selectedCalendarItineraryStop.destinationDepartureDateAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.destinationDepartureTimeAsString}}</span>
+                                            <span> {{view.selectedCalendarItineraryStop.timezoneId}}</span>
                                         </div>
                                         <div class="mute">
-                                            {{view.selectedCalendarItineraryStop.localDepartureMomentAsString}}
-                                            <span>  {{view.currentTimezone}}</span>
+                                            {{view.selectedCalendarItineraryStop.localDepartureDateAsString}}
+                                            <span> {{view.selectedCalendarItineraryStop.localDepartureTimeAsString}}</span>
+                                            <span> {{view.currentTimezone}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -301,16 +367,28 @@
     <div ng-if="view.isInEditMode">
         <form name="form.editItineraryForm">
             <div>
-                <div class="itinerary-header">
+                <div class="itinerary-header" style="height: 90px;">
                     <div class="row">
-                        <div class="col-md-8" style="margin-top:19px;">
-                            <input class="form-control"
-                                   name="name"
-                                   maxlength="100"
-                                   required
-                                   ng-model="view.itinerary.name" />
+                        <div class="col-md-9" style="margin-top:27px;">
+                            <div class="col-md-11">
+                                <input class="form-control"
+                                       ng-class="{'has-error': form.editItineraryForm.name.$error.isNameUnique, 'has-feedback': form.editItineraryForm.name.$error.isNameUnique}"
+                                       name="name"
+                                       maxlength="100"
+                                       ui-validate-async="{unique: 'view.isItineraryNameUnique($value)'}"
+                                       ng-model-options="{debounce: 500}"
+                                       required
+                                       ng-model="view.itinerary.name" />
+                                <div ng-show="form.editItineraryForm.name.$error.unique" style="color:white;">
+                                    A travel period with this name already exists.
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <i class="material-icons md-18 material-icons-spin contextual-busy pull-right"
+                                   ng-show="view.isLoadingItineraries">autorenew</i>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-right" style="margin-top:19px;">
+                        <div class="col-md-3 text-right" style="margin-top:27px;">
                             <button class="btn btn-success" ng-disabled="form.editItineraryForm.$invalid" ng-click="view.onSaveClick(view.itinerary)">Save</button>
                             <button class="btn btn-default" ng-click="view.onCancelClick(view.itinerary)">Cancel</button>
                         </div>

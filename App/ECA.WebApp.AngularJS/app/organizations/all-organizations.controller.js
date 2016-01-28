@@ -8,8 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService, smoothScroll) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, $modal, OrganizationService, TableService, LookupService, NotificationService, StateService, BrowserService, smoothScroll) {
 
+      BrowserService.setAllOrganizationsDocumentTitle();
       $scope.organizations = [];
       $scope.start = 0;
       $scope.end = 0;

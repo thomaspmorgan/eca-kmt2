@@ -17,14 +17,12 @@ angular.module('staticApp')
         $modalInstance,
         project,
         itinerary,
+        filterFilter,
         NotificationService,
         ConstantsService,
         LocationService,
-        MessageBox,
-        ProjectService,
-        FilterService,
-        DateTimeService,
-        LookupService) {
+        ItineraryService,
+        FilterService) {
 
       $scope.view = {};
       $scope.view.itinerary = itinerary;
@@ -37,18 +35,17 @@ angular.module('staticApp')
       $scope.view.searchLimit = 30;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
-      $scope.view.currentTimezone = moment.tz.guess();
+      $scope.view.isLoadingItineraryStops = false;
+      $scope.view.isLoadingTimezone = false;
       $scope.view.timezoneNames = moment.tz.names();
 
       $scope.view.itineraryStop = {
           itineraryId: itinerary.id,
           projectId: project.id,
-          arrivalTime: new Date(),
-          departureTime: new Date(),
           arrivalDate: itinerary.startDate,
-          departureDate: itinerary.startDate
+          departureDate: itinerary.endDate
       };
-      ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
+      ItineraryService.initializeItineraryStopModel($scope.view.itineraryStop);
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop();
@@ -83,6 +80,43 @@ angular.module('staticApp')
           $scope.view.isDepartureDateOpen = true;
       }
 
+      $scope.view.isItineraryStopNameUnique = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.trim().length > 0) {
+              $scope.view.isLoadingItineraryStops = true;
+              ItineraryService.getItineraryStops($scope.view.itineraryStop.projectId, $scope.view.itineraryStop.itineraryId)
+              .then(function (response) {
+                  $scope.view.isLoadingItineraryStops = false;
+                  angular.forEach(response.data, function (stop, index) {
+                      stop.name = stop.name.toLowerCase().trim();
+                  });
+                  var itineraryStopIds = response.data.map(function (i) {
+                      return i.itineraryStopId;
+                  });
+                  var index = itineraryStopIds.indexOf($scope.view.itineraryStop.itineraryStopId);
+                  response.data.splice(index, 1);
+                  var likeStops = filterFilter(response.data, { name: $value.trim().toLowerCase() }, true);
+                  if (likeStops.length == 0) {
+                      dfd.resolve();
+                  }
+                  else {
+                      dfd.reject();
+                  }
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingItineraryStops = false;
+                  var message = "Unable to load city stops.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+                  dfd.reject();
+              });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
+      }
+
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');
       $scope.view.getDestinationLocations = function ($search) {
           var params = getSearchParams(departureFilter, $search, [
@@ -99,6 +133,19 @@ angular.module('staticApp')
       $scope.view.onDestinationLocationSelect = function ($item, $model) {
           $scope.view.itineraryStop.destinationLocation = $model;
           $scope.view.itineraryStop.destinationLocationId = $model.id;
+          $scope.view.itineraryStop.timezoneId = null;
+
+          $scope.view.isLoadingTimezone = true;
+          return LocationService.getLocationByTimezone($model)
+          .then(function (timezoneId) {
+              $scope.view.isLoadingTimezone = false;
+              if (timezoneId) {
+                  $scope.view.itineraryStop.timezoneId = timezoneId;
+              }
+          })
+          .catch(function() {
+              $scope.view.isLoadingTimezone = false;
+          });
       }
 
       $scope.view.onAddNewDestinationLocationClick = function () {
@@ -106,10 +153,6 @@ angular.module('staticApp')
               $scope.view.onDestinationLocationSelect(addedLocation[0], addedLocation[0]);
           };
           addNewLocation(setDestinationLocationCallback);
-      }
-
-      $scope.view.onClickCurrentTimezone = function (timezone) {
-          $scope.view.itineraryStop.timezoneId = timezone;
       }
 
       function addNewLocation(callback) {
@@ -169,10 +212,10 @@ angular.module('staticApp')
 
       function saveItineraryStop() {
           $scope.view.isSavingItineraryStop = true;
-          $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalTime);
-          $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureTime);
+          $scope.view.itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalDate);
+          $scope.view.itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureDate);
 
-          return ProjectService.addItineraryStop($scope.view.itineraryStop, project.id, itinerary.id)
+          return ItineraryService.addItineraryStop($scope.view.itineraryStop, project.id, itinerary.id)
           .then(function (response) {
               $scope.view.isSavingItineraryStop = false;
               $modalInstance.close(response.data);

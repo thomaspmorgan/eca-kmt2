@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace ECA.Data
 {
     /// <summary>
     /// Itinerary stops describe specific travel locations, logistics and activities during the course of a project.
     /// </summary>
-    public class ItineraryStop : IHistorical
+    public class ItineraryStop : IHistorical, IValidatableObject
     {
         public const int NAME_MAX_LENGTH = 100;
 
@@ -116,5 +117,32 @@ namespace ECA.Data
 
         //public virtual Location Origin { get; set; }
         //public virtual ICollection<Artifact> Artifacts { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            Contract.Assert(validationContext != null, "The validation context must not be null.");
+            Contract.Assert(validationContext.Items.ContainsKey(EcaContext.VALIDATABLE_CONTEXT_KEY), "The validation context must have a context to query.");
+            var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
+            Contract.Assert(context != null, "The context must not be null.");
+
+            var existingItinerariesByName = context.ItineraryStops
+                .Where(x =>
+                x.Name.ToLower().Trim() == this.Name.ToLower().Trim()
+                && x.ItineraryId == this.ItineraryId
+                && x.ItineraryStopId != this.ItineraryStopId)
+                .FirstOrDefault();
+            if (existingItinerariesByName != null)
+            {
+                yield return new ValidationResult(
+                    String.Format("The itinerary stop with the name [{0}] already exists.",
+                        this.Name),
+                    new List<string> { "Name" });
+            }
+        }
     }
 }

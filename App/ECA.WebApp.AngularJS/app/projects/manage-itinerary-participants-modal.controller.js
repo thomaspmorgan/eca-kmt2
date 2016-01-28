@@ -21,10 +21,8 @@ angular.module('staticApp')
         containsFilter,
         orderByFilter,
         NotificationService,
-        ConstantsService,
-        LocationService,
         ParticipantService,
-        ProjectService,
+        ItineraryService,
         FilterService) {
 
       $scope.view = {};
@@ -32,6 +30,8 @@ angular.module('staticApp')
       $scope.view.itineraryTabKey = 'itineraryTab';
       $scope.view.itineraryStopTabKey = 'itineraryStopTab';
       $scope.view.currentTab = $scope.view.itineraryTabKey;
+      $scope.view.showSelectedProjectParticipantsCount = true;
+      $scope.view.showSelectedSourceParticipantsCount = true;
 
       $scope.view.title = 'Manage ' + itinerary.name + ' Participants';
       $scope.view.limit = 30;
@@ -81,6 +81,10 @@ angular.module('staticApp')
 
       $scope.view.onSelectAvailableItineraryParticipantRow = function (participant) {
           participant.isSelected = !participant.isSelected;
+          $scope.view.showSelectedProjectParticipantsCount = false;
+          $timeout(function () {
+              $scope.view.showSelectedProjectParticipantsCount = true;
+          }, 1);
       }
 
       $scope.view.onAddSelectedProjectParticipantsToItinerary = function () {
@@ -174,6 +178,10 @@ angular.module('staticApp')
 
       $scope.view.onSelectSourceParticipantRow = function (participant) {
           participant.isSelected = !participant.isSelected;
+          $scope.view.showSelectedSourceParticipantsCount = false;
+          $timeout(function () {
+              $scope.view.showSelectedSourceParticipantsCount = true;
+          }, 1);
       }
 
       $scope.view.onAddSelectedParticipantsToItineraryStop = function () {
@@ -281,7 +289,7 @@ angular.module('staticApp')
           var model = {
               participantIds: getParticipantIds(participants)
           }
-          return ProjectService.updateItineraryParticipants(project.id, itinerary.id, model)
+          return ItineraryService.updateItineraryParticipants(project.id, itinerary.id, model)
           .then(function (response) {
               var message = "Successfully set travel period participants.";
               NotificationService.showSuccessMessage(message);
@@ -322,7 +330,7 @@ angular.module('staticApp')
               participantIds: getParticipantIds(participants)
           }
           $scope.view.isSavingItineraryStopParticipants = true;
-          return ProjectService.updateItineraryStopParticipants(project.id, itinerary.id, itineraryStop.itineraryStopId, model)
+          return ItineraryService.updateItineraryStopParticipants(project.id, itinerary.id, itineraryStop.itineraryStopId, model)
           .then(function (response) {
               itineraryStop.participants = participants;
               $scope.view.itineraryStopParticipants = getAllParticipants($scope.view.itineraryStops);
@@ -377,7 +385,7 @@ angular.module('staticApp')
 
       function loadItineraryParticipants(project, itinerary) {
           $scope.view.isLoadingItineraryParticipants = true;
-          return ProjectService.getItineraryParticipants(project.id, itinerary.id)
+          return ItineraryService.getItineraryParticipants(project.id, itinerary.id)
           .then(function (response) {
               $scope.view.isLoadingItineraryParticipants = false;
               $scope.view.itineraryParticipants = response.data;
@@ -392,7 +400,7 @@ angular.module('staticApp')
 
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
-          return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
+          return ItineraryService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
 
               $scope.view.itineraryStopParticipants = getAllParticipants(response.data);

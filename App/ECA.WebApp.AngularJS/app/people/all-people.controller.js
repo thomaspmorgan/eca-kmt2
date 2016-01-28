@@ -8,8 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllPeopleCtrl', function ($scope, $stateParams, $state, $log, PersonService, TableService) {
+  .controller('AllPeopleCtrl', function ($scope, $stateParams, $state, $log, PersonService, TableService, BrowserService) {
 
+      BrowserService.setAllPeopleDocumentTitle();
       $scope.persons = [];
       $scope.start = 0;
       $scope.end = 0;

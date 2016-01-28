@@ -161,6 +161,10 @@
       <HintPath>..\packages\FluentValidation.WebApi.5.6.2.0\lib\Net45\FluentValidation.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GeoTimeZone, Version=1.1.0.38953, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeoTimeZone.1.1.0\lib\portable-net40+sl50+win+wp80\GeoTimeZone.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Hyak.Common.1.0.3\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>

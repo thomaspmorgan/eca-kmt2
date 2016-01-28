@@ -18,6 +18,7 @@ angular.module('staticApp')
         $timeout,
         $filter,
         smoothScroll,
+        BrowserService,
         ProjectService,
         ProgramService,
         TableService,
@@ -718,6 +719,7 @@ angular.module('staticApp')
 
       $scope.editView.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          BrowserService.setDocumentTitleByProject(project, 'Edit');
           $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null)])
           .then(function (results) {
               //results is an array

@@ -9,6 +9,7 @@ using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Data;
 using FluentAssertions;
+using GeoTimeZone;
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -6269,5 +6270,92 @@ namespace ECA.Business.Test.Service.Programs
         }
         #endregion
 
+        #region Timezone
+        [TestMethod]
+        public void TestGetIANATimezone_LatitudeAndLongitude()
+        {
+            var pensacolaLongtiude = -87.21;
+            var pensacolaLatitude = 32.42;
+            var pensacolaTimezone = service.GetIANATimezone(pensacolaLatitude, pensacolaLongtiude);
+            Assert.IsNotNull(pensacolaTimezone);
+            Assert.AreEqual("America/Chicago", pensacolaTimezone.Result);
+            Assert.AreEqual(0, pensacolaTimezone.AlternativeResults.Count);
+        }
+
+        [TestMethod]
+        public async Task TestGetIANATimezone_ByLocation()
+        {
+            var pensacolaLongtiude = -87.21f;
+            var pensacolaLatitude = 32.42f;
+            var pensacola = new Location
+            {
+                LocationId = 1,
+                Latitude= pensacolaLatitude,
+                Longitude = pensacolaLongtiude
+            };
+            context.Locations.Add(pensacola);
+            Action<TimeZoneResult> tester = (result) =>
+            {
+                Assert.AreEqual("America/Chicago", result.Result);
+            };
+            var serviceResults = service.GetIANATimezone(pensacola.LocationId);
+            var serviceResultsAsync = await service.GetIANATimezoneAsync(pensacola.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetIANATimezone_ByLocation_LocationDoesNotExist()
+        {
+            Action<TimeZoneResult> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+            var serviceResults = service.GetIANATimezone(1);
+            var serviceResultsAsync = await service.GetIANATimezoneAsync(1);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetIANATimezone_ByLocation_LatitudeNotSet()
+        {
+            var pensacolaLongtiude = -87.21f;
+            var pensacola = new Location
+            {
+                LocationId = 1,
+                Longitude = pensacolaLongtiude
+            };
+            context.Locations.Add(pensacola);
+            Action<TimeZoneResult> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+            var serviceResults = service.GetIANATimezone(pensacola.LocationId);
+            var serviceResultsAsync = await service.GetIANATimezoneAsync(pensacola.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetIANATimezone_ByLocation_LongitudeNotSet()
+        {
+            var pensacolaLatitude = 32.42f;
+            var pensacola = new Location
+            {
+                LocationId = 1,
+                Latitude = pensacolaLatitude,
+            };
+            context.Locations.Add(pensacola);
+            Action<TimeZoneResult> tester = (result) =>
+            {
+                Assert.IsNull(result);
+            };
+            var serviceResults = service.GetIANATimezone(pensacola.LocationId);
+            var serviceResultsAsync = await service.GetIANATimezoneAsync(pensacola.LocationId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
     }
 }

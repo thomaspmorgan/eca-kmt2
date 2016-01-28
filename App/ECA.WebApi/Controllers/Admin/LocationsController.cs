@@ -7,6 +7,7 @@ using ECA.Core.Query;
 using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
+using GeoTimeZone;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -152,5 +153,40 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+
+        #region Timezone
+
+        /// <summary>
+        /// Returns timezone information for the given latitude and longitude.
+        /// </summary>
+        /// <param name="latitude">The latitude</param>
+        /// <param name="longitude">The longitude.</param>
+        /// <returns>The timezone result.</returns>
+        [Route("Location/Timezone")]
+        [ResponseType(typeof(TimeZoneResult))]
+        public IHttpActionResult GetTimezoneByLatitudeAndLongitude(double latitude, double longitude)
+        {
+            return Ok(locationService.GetIANATimezone(latitude, longitude));
+        }
+
+        /// <summary>
+        /// Returns timezone information for the location with the given id.
+        /// </summary>
+        /// <param name="id">The id of the location.</param>
+        /// <returns>The timezone information for the location with the given id.</returns>
+        [Route("Location/{id:int}/Timezone")]
+        public async Task<IHttpActionResult> GetTimezoneByLocationIdAsync(int id)
+        {
+            var result = await locationService.GetIANATimezoneAsync(id);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        #endregion
     }
 }

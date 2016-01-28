@@ -34,6 +34,10 @@ namespace ECA.Business.Service.Admin
         public const string INACTIVE_CITY_FORMAT_ERROR_MESSAGE = "The city named [{0}] is inactive.";
 
         /// <summary>
+        /// The error message to add when post code is invalid.
+        /// </summary>
+        public const string INVALID_POSTAL_CODE_MESSAGE = "The postal code must be specified for the United States.";
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="validationEntity"></param>
@@ -75,6 +79,10 @@ namespace ECA.Business.Service.Admin
             if (!validationEntity.City.IsActive)
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.CityId, string.Format(INACTIVE_CITY_FORMAT_ERROR_MESSAGE, validationEntity.City.LocationName));
+            }
+            if (validationEntity.Country.LocationName == "United States" && String.IsNullOrEmpty(validationEntity.PostalCode))
+            {
+                yield return new BusinessValidationResult<EcaAddress>(x => x.PostalCode, INVALID_POSTAL_CODE_MESSAGE);
             }
         }
     }

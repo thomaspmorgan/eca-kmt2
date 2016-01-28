@@ -24,11 +24,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 IsActive = true
             };
-            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city);
+            var postalCode = "12345";
+            var entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             Assert.IsTrue(Object.ReferenceEquals(country, entity.Country));
             Assert.IsTrue(Object.ReferenceEquals(division, entity.Division));
             Assert.IsTrue(Object.ReferenceEquals(city, entity.City));
             Assert.AreEqual(addressTypeId, entity.AddressTypeId);
+            Assert.AreEqual(postalCode, entity.PostalCode);
         }
     }
 }

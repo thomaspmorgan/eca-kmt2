@@ -27,7 +27,7 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.start = 0;
-      $scope.view.limit = 4;
+      $scope.view.limit = 8;
       $scope.view.total = 0;
       $scope.view.locations = [];
       $scope.view.locationTypes = [];
