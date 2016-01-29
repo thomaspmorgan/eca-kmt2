@@ -4,10 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .run(['$anchorScroll', function ($anchorScroll) {
-       $anchorScroll.yOffset = -200;   // always scroll by 100 less pixels
-  }])
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $location, $timeout, $anchorScroll) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, smoothScroll) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -43,8 +40,14 @@ angular.module('staticApp')
               }
 
               $timeout(function () {
-                    $location.hash(section);
-                    $anchorScroll();
+                  var options = {
+                      duration: 500,
+                      easing: 'easeIn',
+                      offset: 150,
+                      callbackBefore: function (element) { },
+                      callbackAfter: function (element) { }
+                  }
+                  smoothScroll(section, options);
               });
           }
       });

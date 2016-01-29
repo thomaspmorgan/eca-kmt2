@@ -22,6 +22,7 @@ angular.module('staticApp')
         StateService,
         OrganizationService,
         PersonService,
+        SevisResultService,
         ConstantsService,
         AuthService,
         ProjectService,
@@ -99,8 +100,14 @@ angular.module('staticApp')
               }, 800);
               
               $timeout(function () {
-                  $location.hash(participantid);
-                  $anchorScroll();
+                  var options = {
+                      duration: 500,
+                      easing: 'easeIn',
+                      offset: 150,
+                      callbackBefore: function (element) { },
+                      callbackAfter: function (element) { }
+                  }
+                  smoothScroll(section, options);
               }, 1100);
           }
       });
@@ -422,6 +429,7 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
+              validateSevisInfo(sevisInfo ? sevisInfo.sevisId : null, participantId);
           }, function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
               NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
@@ -434,11 +442,12 @@ angular.module('staticApp')
 
       function saveExchangeVisitorById(participantId) {
           var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
+          var sevisInfo = $scope.sevisInfo[participantId];
           return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(exchangeVisitorInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
-              //$scope.exchangeVisitorInfo[participantId].show = true;
+              validateSevisInfo(sevisInfo ? sevisInfo.sevisId : null, participantId);
           }, function (error) {
               $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);
               NotificationService.showErrorMessage('Unable to save participant exchange visitor info for participant: ' + participantId + '.');
@@ -448,6 +457,15 @@ angular.module('staticApp')
       $scope.saveExchangeVisitorInfo = function (participantId) {
           saveExchangeVisitorById(participantId);
       };
+      
+      // pre-sevis validation result update
+      function validateSevisInfo(sevisId, participantId) {
+          if (sevisId) {
+              SevisResultService.validateUpdateSevisInfo(participantId);
+          } else {
+              SevisResultService.validateCreateSevisInfo(participantId);
+          }
+      }
       
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;

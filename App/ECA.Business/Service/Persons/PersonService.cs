@@ -531,6 +531,11 @@ namespace ECA.Business.Service.Persons
             return await CreateGetPersonById(personId).FirstOrDefaultAsync();
         }
 
+        private IQueryable<Person> CreateGetPersonById(int personId)
+        {
+            return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
+        }
+
         /// <summary>
         /// Get the person by id 
         /// </summary>
@@ -540,11 +545,6 @@ namespace ECA.Business.Service.Persons
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
             return await CreateGetSimplePerson(personId).FirstOrDefaultAsync();
-        }
-
-        private IQueryable<Person> CreateGetPersonById(int personId)
-        {
-            return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
 
         private IQueryable<SimplePersonDTO> CreateGetSimplePerson(int personId)
@@ -593,20 +593,5 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
-        /// <summary>
-        /// Get participant by id 
-        /// </summary>
-        /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>The participant</returns>
-        public async Task<Participant> GetParticipantByIdAsync(int participantId)
-        {
-            this.logger.Trace("Retrieving participant with id {0}.", participantId);
-            return await CreateGetParticipantById(participantId).FirstOrDefaultAsync();
-        }
-
-        private IQueryable<Participant> CreateGetParticipantById(int participantId)
-        {
-            return Context.Participants.Where(x => x.ParticipantId == participantId);
-        }
     }
 }

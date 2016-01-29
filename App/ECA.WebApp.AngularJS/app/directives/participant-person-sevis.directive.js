@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService', '$state'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'SevisResultService', '$state'];
     
-    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService, $state) {
+    function participantPersonSevis($log, LookupService, FilterService, NotificationService, SevisResultService, $state) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -37,83 +37,15 @@
                     $event.stopPropagation();
                     $scope.edit.isEndDatePickerOpen = true
                 }
-
+                
                 // pre-sevis validation
                 $scope.validateSevisInfo = function (sevisId) {
                     if (sevisId) {
-                        validateUpdateSevisInfo();
+                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateUpdateSevisInfo($scope.participantid);
                     } else {
-                        validateCreateSevisInfo();
+                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateCreateSevisInfo($scope.participantid);
                     }
-                };
-                
-                // pre-sevis create validation
-                function validateCreateSevisInfo() {
-                    $scope.edit.isValidationLoading = true;
-                    return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.info('Validated participant create SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.errors.length; i++) {
-                            valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
-                        }
-                        $scope.sevisInfo.sevisValidationResult = valErrors;
-                        // log participant sevis validation attempt
-                        ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
-                        // update participant sevis validation results
-                        updateSevisInfo($scope.participantid, response.data);
-                        $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                        $scope.edit.isValidationLoading = false;
-                    });
-                };
-
-                // pre-sevis update validation
-                function validateUpdateSevisInfo() {
-                    $scope.edit.isValidationLoading = true;
-                    return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.info('Validated participant update SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.errors.length; i++) {
-                            valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
-                        }
-                        $scope.sevisInfo.sevisValidationResult = valErrors;
-                        // log participant sevis validation attempt
-                        ParticipantPersonsSevisService.createParticipantSevisCommStatus($scope.participantid, response.data);
-                        // update participant sevis validation results
-                        updateSevisInfo($scope.participantid, response.data);
-                        $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                        $scope.edit.isValidationLoading = false;
-                    });
-                };
-
-                // get participant record and attach validation results
-                function updateSevisInfo(participantId, validationResults) {
-                    return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
-                    .then(function (data) {
-                        var sevisInfo = data.data;
-                        sevisInfo.sevisValidationResult = JSON.stringify(validationResults);
-                        saveSevisInfo(participantId, sevisInfo);
-                    }, function (error) {
-                        $log.error('Unable to load participant SEVIS info for ' + participantId + '.');
-                        NotificationService.showErrorMessage('Unable to load participant SEVIS info for ' + participantId + '.');
-                    });
-                };
-
-                // update participant sevis results
-                function saveSevisInfo(participantId, updatedSevisInfo) {
-                    return ParticipantPersonsSevisService.updateParticipantPersonsSevis(updatedSevisInfo)
-                    .then(function (data) {
-                        NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
-                    }, function (error) {
-                        $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
-                        NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
-                    });
-                };
+                }
 
                 // Navigate to a section where the validation error can be resolved
                 $scope.goToErrorSection = function (customState) {                    

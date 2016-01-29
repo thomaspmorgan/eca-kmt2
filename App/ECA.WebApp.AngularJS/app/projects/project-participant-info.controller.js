@@ -113,6 +113,7 @@ angular.module('staticApp')
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
+                validateSevisInfo($scope.view.participantPerson.sevisId);
                 return loadParticipantInfo($scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
@@ -126,6 +127,15 @@ angular.module('staticApp')
                 $log.error(message);
                 NotificationService.showErrorMessage(message);
             });
+      }
+      
+      // pre-sevis validation
+      function validateSevisInfo(sevisId) {
+          if (sevisId) {
+              SevisResultService.validateUpdateSevisInfo($scope.participantid);
+          } else {
+              SevisResultService.validateCreateSevisInfo($scope.participantid);
+          }
       }
 
       var projectId = $stateParams.projectId;

@@ -70,8 +70,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-
-
+        
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participants by project id.
         /// </summary>
@@ -92,6 +91,7 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
         /// <summary>
         /// Deletes the participant from the project.
         /// </summary>
@@ -109,8 +109,7 @@ namespace ECA.WebApi.Controllers.Persons
             await this.service.SaveChangesAsync();
             return Ok();
         }
-
-
+        
         /// <summary>
         /// Retrieves the participant with the given id.
         /// </summary>
@@ -130,5 +129,26 @@ namespace ECA.WebApi.Controllers.Persons
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Retrieves the participant associated with a person
+        /// </summary>
+        /// <param name="personId">The id of the person</param>
+        /// <returns></returns>
+        [ResponseType(typeof(List<SimpleParticipantDTO>))]
+        [Route("Person/Participant/{personId:int}")]
+        public async Task<IHttpActionResult> GetParticipantByPersonIdAsync(int personId)
+        {
+            var participant = await this.service.GetParticipantByPersonIdAsync(personId);
+            if (participant != null)
+            {
+                return Ok(participant);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

@@ -102,7 +102,7 @@ angular.module('staticApp')
               onModelChange($scope.view.moneyFlow);
           }
           else {
-              $log.error('Direction key ]' + directionKey + '] is not recognized.');
+              $log.error('Direction key [' + directionKey + '] is not recognized.');
           }
           resetParentMoneyFlow();
           loadSourceMoneyFlows($scope.view.moneyFlow);

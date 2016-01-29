@@ -53,6 +53,9 @@ angular.module('staticApp')
           },
           getPeople: function (params) {
               return DragonBreath.get(params, 'people');
+          },          
+          getParticipantByPersonId: function(personid) {
+              return DragonBreath.get('Person/Participant/' + personid);
           },
           updatePii: function (pii, id) {
               return DragonBreath.save(pii, 'people/pii');
