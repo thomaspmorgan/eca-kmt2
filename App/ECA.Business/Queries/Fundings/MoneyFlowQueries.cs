@@ -55,6 +55,7 @@ namespace ECA.Business.Queries.Fundings
                         let status = moneyFlow.MoneyFlowStatus.MoneyFlowStatusName
                         let statusId = moneyFlow.MoneyFlowStatusId
                         let amount = moneyFlow.Value
+                        let hasChildren = moneyFlow.Children.Count() > 0
 
                         let sourceEntityTypeId = moneyFlow.SourceTypeId
 
@@ -108,6 +109,7 @@ namespace ECA.Business.Queries.Fundings
                             EntityTypeId = sourceEntityTypeId,
                             FiscalYear = moneyFlow.FiscalYear,
                             GrantNumber = moneyFlow.GrantNumber,
+                            HasChildren = hasChildren,
                             Id = moneyFlow.MoneyFlowId,
                             IsDirect = moneyFlow.IsDirect,
                             MoneyFlowStatus = status,
@@ -143,6 +145,7 @@ namespace ECA.Business.Queries.Fundings
                         let status = moneyFlow.MoneyFlowStatus.MoneyFlowStatusName
                         let statusId = moneyFlow.MoneyFlowStatusId
                         let amount = moneyFlow.Value
+                        let hasChildren = moneyFlow.Children.Count() > 0
 
                         let recipientEntityTypeId = moneyFlow.RecipientTypeId
 
@@ -192,6 +195,7 @@ namespace ECA.Business.Queries.Fundings
                             EntityTypeId = recipientEntityTypeId,
                             FiscalYear = moneyFlow.FiscalYear,
                             GrantNumber = moneyFlow.GrantNumber,
+                            HasChildren = hasChildren,
                             Id = moneyFlow.MoneyFlowId,
                             IsDirect = moneyFlow.IsDirect,
                             MoneyFlowStatus = status,

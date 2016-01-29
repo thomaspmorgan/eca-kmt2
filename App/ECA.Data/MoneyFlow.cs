@@ -32,6 +32,7 @@ namespace ECA.Data
         public MoneyFlow()
         {
             this.History = new History();
+            this.Children = new HashSet<MoneyFlow>();
         }
 
         /// <summary>
@@ -273,6 +274,12 @@ namespace ECA.Data
         /// Get or sets recipient accomdation id.
         /// </summary>
         public int? RecipientAccommodationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the children money flows.
+        /// </summary>
+        [ForeignKey("ParentMoneyFlowId")]
+        public virtual ICollection<MoneyFlow> Children { get; set; }
 
         /// <summary>
         /// Gets or sets the history.

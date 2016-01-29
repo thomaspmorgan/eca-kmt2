@@ -125,5 +125,10 @@ namespace ECA.Business.Queries.Models.Fundings
         /// Gets or sets whether the money flow is direct, if false, it is in-kind.
         /// </summary>
         public bool IsDirect { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether this money flow item has children money flows.
+        /// </summary>
+        public bool HasChildren { get; set; }
     }
 }

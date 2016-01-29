@@ -881,6 +881,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
             Assert.AreEqual(moneyFlow.GrantNumber, dto.GrantNumber);
             Assert.AreEqual(moneyFlow.IsDirect, dto.IsDirect);
+            Assert.IsFalse(dto.HasChildren);
 
             Assert.AreEqual(sourceId, dto.EntityId);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -890,6 +891,78 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.IsNull(dto.ParticipantTypeId);
             Assert.IsNull(dto.ParticipantTypeName);
+        }
+
+        [TestMethod]
+        public void TestCreateOutgoingMoneyFlowDTOsQuery_HasChild()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var parentMoneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100,
+                GrantNumber = "grant",
+                IsDirect = true
+            };
+            var childMoneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = 100,
+                Parent = parentMoneyFlow,
+                ParentMoneyFlowId = parentMoneyFlow.MoneyFlowId,
+
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                GrantNumber = "grant",
+                IsDirect = true
+            };
+            parentMoneyFlow.Children.Add(childMoneyFlow);
+            context.MoneyFlows.Add(childMoneyFlow);
+            context.MoneyFlows.Add(parentMoneyFlow);
+            context.Projects.Add(recipientProject);
+            context.Programs.Add(sourceProgram);
+            var results = MoneyFlowQueries.CreateOutgoingMoneyFlowDTOsQuery(context).ToList();
+            Assert.AreEqual(2, results.Count);
+            var parentDto = results.Where(x => x.Id == parentMoneyFlow.MoneyFlowId).First();
+            var childDto = results.Where(x => x.Id == childMoneyFlow.MoneyFlowId).First();
+            Assert.IsTrue(parentDto.HasChildren);
+            Assert.IsFalse(childDto.HasChildren);
         }
 
         [TestMethod]
@@ -1541,6 +1614,78 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.SourceRecipientEntityTypeId);
             Assert.IsNull(dto.ParticipantTypeId);
             Assert.IsNull(dto.ParticipantTypeName);
+        }
+
+        [TestMethod]
+        public void TestCreateIncomingMoneyFlowDTOsQuery_HasChild()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProgram = new Program
+            {
+                ProgramId = sourceId,
+                Name = "program"
+            };
+            var recipientProject = new Project
+            {
+                ProjectId = recipientId,
+                Name = "project"
+            };
+            var parentMoneyFlow = new MoneyFlow
+            {
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                ParentMoneyFlowId = 100,
+                GrantNumber = "grant",
+                IsDirect = true
+            };
+            var childMoneyFlow = new MoneyFlow
+            {
+                MoneyFlowId = 100,
+                Parent = parentMoneyFlow,
+                ParentMoneyFlowId = parentMoneyFlow.MoneyFlowId,
+
+                SourceProgramId = sourceId,
+                RecipientProjectId = recipientId,
+                SourceProgram = sourceProgram,
+                RecipientProject = recipientProject,
+                SourceType = programType,
+                SourceTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = projectType,
+                RecipientTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 1.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                GrantNumber = "grant",
+                IsDirect = true
+            };
+            parentMoneyFlow.Children.Add(childMoneyFlow);
+            context.MoneyFlows.Add(childMoneyFlow);
+            context.MoneyFlows.Add(parentMoneyFlow);
+            context.Projects.Add(recipientProject);
+            context.Programs.Add(sourceProgram);
+            var results = MoneyFlowQueries.CreateIncomingMoneyFlowDTOsQuery(context).ToList();
+            Assert.AreEqual(2, results.Count);
+            var parentDto = results.Where(x => x.Id == parentMoneyFlow.MoneyFlowId).First();
+            var childDto = results.Where(x => x.Id == childMoneyFlow.MoneyFlowId).First();
+            Assert.IsTrue(parentDto.HasChildren);
+            Assert.IsFalse(childDto.HasChildren);
         }
 
         [TestMethod]

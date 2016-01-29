@@ -97,7 +97,7 @@
                         </tr>
                     </thead>
                     <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
-                        <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
+                        <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows" ng-class="{'expandedDescription': moneyFlow.currentlyEditing, 'hover': !moneyFlow.currentlyEditing }">
                             <td class="col-md-1">
                                 <span class="text-left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                             </td>
@@ -291,17 +291,26 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Direct/In-Kind</label>
-                                                <div style="padding-top:10px;">
-                                                    <label class="radio-inline">
-                                                        <input type="radio"
-                                                               ng-value="true"
-                                                               ng-model="moneyFlow.isDirect" />Direct
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio"
-                                                               ng-value="false"
-                                                               ng-model="moneyFlow.isDirect" />In-Kind
-                                                    </label>
+                                                <div ng-show="moneyFlow.hasChildren" style="padding-top:10px;">
+                                                    <div>
+                                                        <span tooltip="This funding line item is a source for other funding line items and therefore must be direct.">Direct</span>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="!moneyFlow.hasChildren">
+                                                    <div style="padding-top:10px;">
+                                                        <label class="radio-inline">
+                                                            <input type="radio"
+                                                                   ng-disabled="moneyFlow.hasChildren"
+                                                                   ng-value="true"
+                                                                   ng-model="moneyFlow.isDirect" />Direct
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio"
+                                                                   ng-disabled="moneyFlow.hasChildren"
+                                                                   ng-value="false"
+                                                                   ng-model="moneyFlow.isDirect" />In-Kind
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
