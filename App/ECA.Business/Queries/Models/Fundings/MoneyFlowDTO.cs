@@ -120,5 +120,10 @@ namespace ECA.Business.Queries.Models.Fundings
         /// Gets or sets the grant number.
         /// </summary>
         public string GrantNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the money flow is direct, if false, it is in-kind.
+        /// </summary>
+        public bool IsDirect { get; set; }
     }
 }

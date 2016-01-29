@@ -632,7 +632,8 @@ angular.module('staticApp')
                   moneyFlowStatusId: null,
                   peerEntityId: null,
                   peerEntity: {},
-                  entityTypeId: entity.entityTypeId
+                  entityTypeId: entity.entityTypeId,
+                  isDirect: true
               };
           }
 

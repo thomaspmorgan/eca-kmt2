@@ -43,7 +43,8 @@ namespace ECA.Business.Test.Service.Fundings
             var transactionDate = DateTimeOffset.UtcNow;
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
             Assert.AreEqual(sourceEntityId, instance.SourceEntityId);
             Assert.AreEqual(recipientEntityId, instance.RecipientEntityId);
             Assert.AreEqual(sourceEntityTypeId, instance.SourceEntityTypeId);
@@ -57,6 +58,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(MoneyFlowType.Incoming.Id, instance.MoneyFlowTypeId);
             Assert.AreEqual(parentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(grantNumber, instance.GrantNumber);
+            Assert.AreEqual(isDirect, instance.IsDirect);
         }
 
         [TestMethod]
@@ -75,7 +77,8 @@ namespace ECA.Business.Test.Service.Fundings
             var transactionDate = DateTimeOffset.UtcNow;
             var moneyFlowStatusId = -1;
             var parentMoneyFlowId = 5;
-            Action a = () => new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            Action a = () => new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
             a.ShouldThrow<UnknownStaticLookupException>().WithMessage(String.Format("The money flow status [{0}] is not supported.", moneyFlowStatusId));
         }
 
@@ -95,7 +98,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            Action a = () => new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            Action a = () => new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
             a.ShouldThrow<UnknownStaticLookupException>().WithMessage(String.Format("The source type [{0}] is not supported.", sourceEntityTypeId));
         }
 
@@ -115,7 +119,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            Action a = () => new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            Action a = () => new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
             a.ShouldThrow<UnknownStaticLookupException>().WithMessage(String.Format("The recipient type [{0}] is not supported.", recipientEntityTypeId));
         }
 
@@ -135,7 +140,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(description, moneyFlow.Description);
@@ -149,6 +155,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(userId, moneyFlow.History.RevisedBy);
             Assert.AreEqual(parentMoneyFlowId, moneyFlow.ParentMoneyFlowId);
             Assert.AreEqual(grantNumber, moneyFlow.GrantNumber);
+            Assert.AreEqual(isDirect, moneyFlow.IsDirect);
             DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.CreatedOn, 2000);
             DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.RevisedOn, 2000);
             Assert.AreEqual(MoneyFlowType.Incoming.Id, moneyFlow.MoneyFlowTypeId);
@@ -170,7 +177,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceItineraryStopId);
@@ -205,7 +213,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceOrganizationId);
@@ -240,7 +249,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceOrganizationId);
@@ -275,7 +285,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceParticipantId);
@@ -312,7 +323,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceOrganizationId);
@@ -349,7 +361,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceProgramId);
@@ -385,7 +398,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceProjectId);
@@ -421,7 +435,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceProjectId);
@@ -457,7 +472,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceProjectId);
@@ -493,7 +509,8 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowStatusId = MoneyFlowStatus.Appropriated.Id;
             var parentMoneyFlowId = 5;
             var grantNumber = "grant";
-            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId);
+            var isDirect = true;
+            var instance = new AdditionalMoneyFlow(user, parentMoneyFlowId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, sourceEntityId, recipientEntityId, sourceEntityTypeId, recipientEntityTypeId, isDirect);
 
             var moneyFlow = instance.GetMoneyFlow();
             Assert.AreEqual(sourceEntityId, moneyFlow.SourceProjectId);

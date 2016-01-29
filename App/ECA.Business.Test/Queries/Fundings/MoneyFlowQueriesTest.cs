@@ -161,6 +161,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -202,6 +203,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -243,6 +245,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -284,6 +287,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -325,6 +329,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -369,6 +374,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -413,6 +419,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -457,6 +464,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -498,6 +506,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -539,6 +548,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             var childMoneyFlow = new MoneyFlow
             {
@@ -556,7 +566,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 MoneyFlowId = 20,
                 Value = 10.0m,
                 Parent = moneyFlow,
-                ParentMoneyFlowId = moneyFlow.MoneyFlowId
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                IsDirect = true
             };
             context.MoneyFlows.Add(childMoneyFlow);
             context.MoneyFlows.Add(moneyFlow);
@@ -622,6 +633,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1994,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             var childMoneyFlow1 = new MoneyFlow
             {
@@ -639,7 +651,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 MoneyFlowId = 20,
                 Value = 10.0m,
                 Parent = moneyFlow,
-                ParentMoneyFlowId = moneyFlow.MoneyFlowId
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                IsDirect = true
             };
             var childMoneyFlow2 = new MoneyFlow
             {
@@ -657,7 +670,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 MoneyFlowId = 20,
                 Value = 90.0m,
                 Parent = moneyFlow,
-                ParentMoneyFlowId = moneyFlow.MoneyFlowId
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                IsDirect = true
             };
             context.MoneyFlows.Add(childMoneyFlow1);
             context.MoneyFlows.Add(childMoneyFlow2);
@@ -715,6 +729,7 @@ namespace ECA.Business.Test.Queries.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);
@@ -733,6 +748,77 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(projectType.TypeName, testParentMoneyFlow.SourceEntityTypeName);
             Assert.AreEqual(0, testParentMoneyFlow.ChildMoneyFlowIds.Count());
             Assert.AreEqual(moneyFlow.FiscalYear, testParentMoneyFlow.FiscalYear);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSourceMoneyFlowDTOsQuery_MoneyFlowIsNotDirect()
+        {
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProgram = new Program
+            {
+                ProgramId = recipientId,
+                Name = "Program"
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                IsDirect = true
+            };
+            var childMoneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                Description = "desc",
+                FiscalYear = 2005,
+                MoneyFlowId = 20,
+                Value = 10.0m,
+                Parent = moneyFlow,
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                IsDirect = true
+            };
+            context.MoneyFlows.Add(childMoneyFlow);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Programs.Add(recipientProgram);
+
+            var results = MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsQuery(context).ToList();
+            Assert.AreEqual(2, results.Count);
+
+            moneyFlow.IsDirect = false;
+            results = MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            childMoneyFlow.IsDirect = false;
+            results = MoneyFlowQueries.CreateGetSourceMoneyFlowDTOsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+
         }
         #endregion
 
@@ -770,7 +856,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
                 ParentMoneyFlowId = 100,
-                GrantNumber = "grant"
+                GrantNumber = "grant",
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(recipientProject);
@@ -793,6 +880,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(outgoing.MoneyFlowTypeName, dto.MoneyFlowType);
             Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
             Assert.AreEqual(moneyFlow.GrantNumber, dto.GrantNumber);
+            Assert.AreEqual(moneyFlow.IsDirect, dto.IsDirect);
 
             Assert.AreEqual(sourceId, dto.EntityId);
             Assert.AreEqual(programType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -1423,7 +1511,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 GrantNumber = "grant",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
-                ParentMoneyFlowId = 100
+                ParentMoneyFlowId = 100,
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Programs.Add(sourceProgram);
@@ -1442,6 +1531,7 @@ namespace ECA.Business.Test.Queries.Fundings
             Assert.AreEqual(incoming.MoneyFlowTypeName, dto.MoneyFlowType);
             Assert.AreEqual(moneyFlow.ParentMoneyFlowId, dto.ParentMoneyFlowId);
             Assert.AreEqual(moneyFlow.GrantNumber, dto.GrantNumber);
+            Assert.AreEqual(moneyFlow.IsDirect, dto.IsDirect);
 
             Assert.AreEqual(recipientId, dto.EntityId);
             Assert.AreEqual(projectType.MoneyFlowSourceRecipientTypeId, dto.EntityTypeId);
@@ -1916,7 +2006,8 @@ namespace ECA.Business.Test.Queries.Fundings
                 FiscalYear = 1995,
                 MoneyFlowId = 10,                
                 ParentMoneyFlowId = 100,
-                GrantNumber = "grant"
+                GrantNumber = "grant",
+                IsDirect = true
             };
             context.MoneyFlows.Add(moneyFlow);
             context.Projects.Add(sourceProject);

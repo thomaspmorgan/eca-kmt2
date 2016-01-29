@@ -27,6 +27,11 @@ namespace ECA.WebApi.Models.Fundings
         public decimal Value { get; set; }
 
         /// <summary>
+        /// True if the funding is direct, of false if it is in-kind.
+        /// </summary>
+        public bool IsDirect { get; set; }
+
+        /// <summary>
         /// Gets or sets the description.
         /// </summary>
         [MaxLength(MoneyFlow.DESCRIPTION_MAX_LENGTH)]
@@ -108,7 +113,8 @@ namespace ECA.WebApi.Models.Fundings
                 sourceEntityId: this.GetEntityId(),
                 recipientEntityId: this.PeerEntityId,
                 sourceEntityTypeId: this.GetEntityTypeId(),
-                recipientEntityTypeId: this.PeerEntityTypeId
+                recipientEntityTypeId: this.PeerEntityTypeId,
+                isDirect: this.IsDirect
                 );
             }
             else
@@ -125,7 +131,8 @@ namespace ECA.WebApi.Models.Fundings
                     recipientEntityId: this.GetEntityId(),
                     sourceEntityId: this.PeerEntityId,
                     recipientEntityTypeId: this.GetEntityTypeId(),
-                    sourceEntityTypeId: this.PeerEntityTypeId
+                    sourceEntityTypeId: this.PeerEntityTypeId,
+                isDirect: this.IsDirect
                     );
             }
         }

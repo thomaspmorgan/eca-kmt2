@@ -109,6 +109,7 @@ namespace ECA.Business.Queries.Fundings
                             FiscalYear = moneyFlow.FiscalYear,
                             GrantNumber = moneyFlow.GrantNumber,
                             Id = moneyFlow.MoneyFlowId,
+                            IsDirect = moneyFlow.IsDirect,
                             MoneyFlowStatus = status,
                             MoneyFlowStatusId = statusId,
                             MoneyFlowType = outgoingMoneyFlowType,
@@ -192,6 +193,7 @@ namespace ECA.Business.Queries.Fundings
                             FiscalYear = moneyFlow.FiscalYear,
                             GrantNumber = moneyFlow.GrantNumber,
                             Id = moneyFlow.MoneyFlowId,
+                            IsDirect = moneyFlow.IsDirect,
                             MoneyFlowStatus = status,
                             MoneyFlowStatusId = statusId,
                             MoneyFlowType = incomingMoneyFlowType,
@@ -562,15 +564,15 @@ namespace ECA.Business.Queries.Fundings
         #region Source Money Flow DTOs
 
         /// <summary>
-        /// Creates a query to retrieve incoming money flow dtos and return the original amount for the incoming money flow
+        /// Creates a query to retrieve incoming direct money flow dtos and return the original amount for the incoming money flow
         /// minus all child money flows.
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query returning source money flow dtos detailing the original money flow amount, the remaining amount, and source entity information.</returns>
         public static IQueryable<SourceMoneyFlowDTO> CreateGetSourceMoneyFlowDTOsQuery(EcaContext context)
         {
-            var query = (from incomingMoneyFlow in CreateIncomingMoneyFlowDTOsQuery(context)
-                         let childMoneyFlows = context.MoneyFlows.Where(x => x.ParentMoneyFlowId == incomingMoneyFlow.Id)
+            var query = (from incomingMoneyFlow in CreateIncomingMoneyFlowDTOsQuery(context).Where(x => x.IsDirect)
+                         let childMoneyFlows = context.MoneyFlows.Where(x => x.ParentMoneyFlowId == incomingMoneyFlow.Id && x.IsDirect)
                          orderby incomingMoneyFlow.SourceRecipientName
                          select new SourceMoneyFlowDTO
                          {

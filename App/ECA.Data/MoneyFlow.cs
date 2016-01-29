@@ -46,6 +46,11 @@ namespace ECA.Data
         public MoneyFlowType MoneyFlowType { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the money flow is considered direct, if false, it's considered in-kind.
+        /// </summary>
+        public bool IsDirect { get; set; }
+
+        /// <summary>
         /// Gets or sets the money flow type id.
         /// </summary>
         [Required]
