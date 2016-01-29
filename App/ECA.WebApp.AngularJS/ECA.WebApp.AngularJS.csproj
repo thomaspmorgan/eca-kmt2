@@ -192,6 +192,7 @@
     <Content Include="app\filters\boolYesNo.filter.js" />
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\projects\add-itinerary-stop-modal.controller.js" />
     <Content Include="app\projects\add-itinerary-stop-modal.html" />
     <Content Include="app\projects\add-itinerary-modal.controller.js" />
@@ -215,6 +216,7 @@
     <Content Include="app\reports\projects-with-grant-number.controller.js" />
     <Content Include="app\search\spotlight.controller.js" />
     <Content Include="app\services\about.service.js" />
+    <Content Include="app\services\browser.service.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -225,8 +227,10 @@
       <LastGenOutput>constants.service.js</LastGenOutput>
     </Content>
     <Content Include="app\services\data-point-configuration.service.js" />
+    <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
     <Content Include="app\services\datetime.service.js" />
+    <Content Include="app\services\sevis-result.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />

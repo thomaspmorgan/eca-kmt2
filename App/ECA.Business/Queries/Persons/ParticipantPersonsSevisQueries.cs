@@ -1,9 +1,11 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
 using ECA.Data;
 using System;
 using System.Diagnostics.Contracts;
@@ -45,12 +47,12 @@ namespace ECA.Business.Queries.Persons
                                  Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId,
                                  SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
                              }).OrderBy(s => s.AddedOn),
-                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn)
+                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn),
+                             SevisValidationResult = p.SevisValidationResult
                          });
             return query;
         }
-
-
+        
         /// <summary>
         /// Get populated CREATE participant sevis object
         /// </summary>
@@ -61,6 +63,8 @@ namespace ECA.Business.Queries.Persons
         public static CreateExchVisitor GetCreateExchangeVisitor(int participantId, User user, EcaContext context)
         {
             //Get student details
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(user != null, "The user must not be null.");
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
             var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
@@ -70,16 +74,15 @@ namespace ECA.Business.Queries.Persons
             var physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
-            var project = context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
-            var program = context.Programs.Where(x => x.ProgramId == project.ProgramId).FirstOrDefault();
-
+            var projectProgram = context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
+            
             var ExchVisitor = new ExchangeVisitor();
 
             ExchVisitor.requestID = participantId.ToString();
             ExchVisitor.userID = user.Id.ToString();
             ExchVisitor.PositionCode = participantExchangeVisitor.PositionCode;
-            ExchVisitor.PrgStartDate = program.StartDate.DateTime > DateTime.MinValue ? program.StartDate.DateTime : DateTime.MinValue;
-            ExchVisitor.PrgEndDate = program.EndDate.HasValue ? program.EndDate.Value.DateTime : DateTime.MinValue;
+            ExchVisitor.PrgStartDate = projectProgram.StartDate.DateTime > DateTime.MinValue ? projectProgram.StartDate.DateTime : DateTime.MinValue;
+            ExchVisitor.PrgEndDate = projectProgram.EndDate.HasValue ? projectProgram.EndDate.Value.DateTime : DateTime.MinValue;
             ExchVisitor.CategoryCode = participantExchangeVisitor.ProgramCategoryCode;
             ExchVisitor.OccupationCategoryCode = "99"; // unknown
 
@@ -102,12 +105,17 @@ namespace ECA.Business.Queries.Persons
                 EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : ""
             };
             // subject field
+            var fos = new FieldOfStudyService(context);
+            var defaultSorter = new ExpressionSorter<SimpleSevisLookupDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleSevisLookupDTO>(0, 10, defaultSorter);
+            var fosResult = fos.Get(queryOperator).Results.FirstOrDefault();
+
             ExchVisitor.SubjectField = new SubjectField
             {
-                SubjectFieldCode = "",
-                ForeignDegreeLevel = "",
+                SubjectFieldCode = fosResult.Code,                
+                ForeignDegreeLevel = "", // TODO: add field to UI?
                 ForeignFieldOfStudy = participantPerson.FieldOfStudy,
-                Remarks = ""
+                Remarks = fosResult.Description // TODO: add field to UI?
             };
             // addresses
             if (physicalAddress != null)
@@ -204,7 +212,7 @@ namespace ECA.Business.Queries.Persons
                         name = participantExchangeVisitor.OtherName
                     },
                     Personal = participantExchangeVisitor.FundingPersonal.ToString()
-                }
+                }                
             };
             // TODO: complete when dependent feature is available
             ExchVisitor.CreateDependent = null;
@@ -268,6 +276,8 @@ namespace ECA.Business.Queries.Persons
         public static UpdateExchVisitor GetUpdateExchangeVisitor(int participantId, User user, EcaContext context)
         {
             //Get student details
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(user != null, "The user must not be null.");
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(context, participantId).FirstOrDefault();
             var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
@@ -411,16 +421,21 @@ namespace ECA.Business.Queries.Persons
                 }
             };
             // program and subject
+            var fos = new FieldOfStudyService(context);
+            var defaultSorter = new ExpressionSorter<SimpleSevisLookupDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimpleSevisLookupDTO>(0, 10, defaultSorter);
+            var fosResult = fos.Get(queryOperator).Results.FirstOrDefault();
+
             ExchVisitor.Program = new Validation.Model.Program
             {
                 EditSubject = new SubjectFieldUpdate
                 {
                     printForm = false,
-                    SubjectFieldCode = "",
-                    SubjectFieldRemarks = "",
-                    ForeignDegreeLevel = "",
+                    SubjectFieldCode = fosResult.Code,
+                    SubjectFieldRemarks = fosResult.Description,
+                    ForeignDegreeLevel = "", // TODO: add field to UI?
                     ForeignFieldOfStudy = participantPerson.FieldOfStudy,
-                    Remarks = ""
+                    Remarks = fosResult.Description // TODO: add field to UI?
                 }
             };
             // Reprint
@@ -668,7 +683,7 @@ namespace ECA.Business.Queries.Persons
 
             return updateVisitor;
         }
-
+        
         /// <summary>
         /// Creates a query to return all participantPersonSevises in the context.
         /// </summary>

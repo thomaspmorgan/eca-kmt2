@@ -46,7 +46,8 @@ namespace ECA.Business.Models.Fundings
             int? sourceEntityId,
             int? recipientEntityId,
             int sourceEntityTypeId,
-            int recipientEntityTypeId)
+            int recipientEntityTypeId,
+            bool isDirect)
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");
             var moneyFlowStatus = MoneyFlowStatus.GetStaticLookup(moneyFlowStatusId);
@@ -78,6 +79,7 @@ namespace ECA.Business.Models.Fundings
             this.RecipientEntityTypeId = recipientEntityTypeId;
             this.MoneyFlowTypeId = MoneyFlowType.Incoming.Id;
             this.GrantNumber = grantNumber;
+            this.IsDirect = isDirect;
         }
 
         /// <summary>
@@ -94,6 +96,11 @@ namespace ECA.Business.Models.Fundings
         /// Gets the create audit details.
         /// </summary>
         public Audit Audit { get; private set; }
+
+        /// <summary>
+        /// Gets whether the money flow is direct, if false, it's considered in-kind.
+        /// </summary>
+        public bool IsDirect { get; private set; }
 
         /// <summary>
         /// Gets or sets the parent money flow id.
@@ -165,6 +172,7 @@ namespace ECA.Business.Models.Fundings
             moneyFlow.RecipientTypeId = this.RecipientEntityTypeId;
             moneyFlow.ParentMoneyFlowId = this.ParentMoneyFlowId;
             moneyFlow.GrantNumber = this.GrantNumber;
+            moneyFlow.IsDirect = this.IsDirect;
 
             var sourcePropertyDictionary = new Dictionary<int, Expression<Func<MoneyFlow, int?>>>();
             sourcePropertyDictionary.Add(MoneyFlowSourceRecipientType.TravelStop.Id, x => x.SourceItineraryStopId);

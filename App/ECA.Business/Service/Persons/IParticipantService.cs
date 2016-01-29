@@ -57,7 +57,21 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participant</returns>
         System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.ParticipantDTO> GetParticipantByIdAsync(int participantId);
+        
+        /// <summary>
+        /// Returns a participant object for a person
+        /// </summary>
+        /// <param name="personId">The personId to lookup</param>
+        /// <returns>The participant</returns>
+        ECA.Business.Queries.Models.Persons.ParticipantDTO GetParticipantByPersonId(int personId);
 
+        /// <summary>
+        /// Returns a participant object for a person asyncronously
+        /// </summary>
+        /// <param name="personId">The personId to lookup</param>
+        /// <returns>The participant</returns>
+        System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.ParticipantDTO> GetParticipantByPersonIdAsync(int participantId);
+        
         /// <summary>
         /// Deletes the participant from the datastore given the DeletedParticipant business entity.
         /// </summary>
@@ -70,6 +84,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="deletedParticipant">The business entity.</param>
         System.Threading.Tasks.Task DeleteAsync(DeletedParticipant deletedParticipant);
     }
+
 
     /// <summary>
     /// 
@@ -120,6 +135,26 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public ParticipantDTO GetParticipantByPersonId(int personId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public Task<ParticipantDTO> GetParticipantByPersonIdAsync(int personId)
+        {
+            return Task.FromResult<ParticipantDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="queryOperator"></param>
         /// <returns></returns>
         public PagedQueryResults<SimpleParticipantDTO> GetParticipants(QueryableOperator<SimpleParticipantDTO> queryOperator)
@@ -138,7 +173,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<SimpleParticipantDTO>>(null);
         }
-
+        
         /// <summary>
         /// 
         /// </summary>

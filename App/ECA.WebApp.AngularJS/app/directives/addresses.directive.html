@@ -222,7 +222,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="postalCode">Postal Code</label>
+                                <label class="title-label col-md-3" for="postalCode">Postal Code<span ng-show="address.country === 'United States'" class="asterisk"> *</span></label>
                                 <div class="col-md-9">
                                     <input name="postalCode"
                                            maxlength="50"
@@ -231,7 +231,11 @@
                                            type="text"
                                            class="form-control"
                                            placeholder="Enter postal/zip code."
-                                           id="postalCode" />
+                                           id="postalCode" 
+                                           ng-required="address.country === 'United States'"/>
+                                    <div ng-show="form.addressForm.postalCode.$dirty || form.addressForm.postalCode.$error.required">
+                                        <div class="error" ng-show="form.addressForm.postalCode.$error.required">Please enter a postal code.</div>
+                                    </div>
                                 </div>
                             </div>
                         </form>

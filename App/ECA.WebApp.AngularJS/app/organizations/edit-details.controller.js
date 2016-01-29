@@ -41,7 +41,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onSelectParentOrganizationBlur = function ($event) {
-          if ($scope.organization.parentOrganizationName === '') {
+          if ($scope.organization.parentOrganizationName === null || $scope.organization.parentOrganizationName === '') {
               delete $scope.organization.parentOrganizationName;
               delete $scope.organization.parentOrganizationId;
           }

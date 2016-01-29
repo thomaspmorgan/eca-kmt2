@@ -24,7 +24,7 @@
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'sourceRecipientName'" class="col-md-2 sort-label medium">From/To</th>
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'grantNumber'" class="col-md-1 sort-label medium">Grant Number</th>
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'amount'" class="col-md-1 sort-label medium text-right" ">Amount</th>
-                            <th style="padding-left:15px;padding-right:15px;" st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>                            
+                            <th style="padding-left:15px;padding-right:15px;" st-sort="'fiscalYear'" class="col-md-1 sort-label medium text-right">FY</th>
                             <th style="padding-left:15px;padding-right:15px;" st-sort="'description'" class="col-md-1 sort-label medium">Description</th>
                             <th style="padding-left:15px;padding-right:15px;" class="col-md-1">&nbsp;</th>
                             <th style="padding-left:15px;padding-right:15px;" class="col-md-1 text-right">
@@ -97,7 +97,7 @@
                         </tr>
                     </thead>
                     <tbody class="list2" ng-show="!view.isLoadingRequiredData && !view.isLoadingMoneyFlows">
-                        <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows">
+                        <tr class="row hover" ng-repeat-start="moneyFlow in view.moneyFlows" ng-class="{'expandedDescription': moneyFlow.currentlyEditing, 'hover': !moneyFlow.currentlyEditing }">
                             <td class="col-md-1">
                                 <span class="text-left">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                             </td>
@@ -176,7 +176,7 @@
                                         <div class="bounce3"></div>
                                     </div>
                                     <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
-                                        <div class="row row2" style="margin-left:0;padding:5px;">
+                                        <div class="row">
                                             <div class="form-group col-md-4">
                                                 <label for="transactionDate{{moneyFlow.id}}">Transaction Date<span class="asterisk"> *</span></label>
                                                 <p class="input-group">
@@ -222,8 +222,8 @@
                                                        ng-model="moneyFlow.grantNumber" />
                                             </div>
                                         </div>
-                                        <div class="row row2" style="margin-left:0;padding:5px;">
-                                            <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
                                                 <label>Source</label>
                                                 <div ng-show="!moneyFlow.parentMoneyFlowId">
                                                     No source funding item.
@@ -238,7 +238,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label>Remaining Unassigned</label>
                                                 <div ng-show="!moneyFlow.parentMoneyFlowId">
                                                     N/A
@@ -250,7 +250,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-4">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
                                                 <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
                                                 <select class="form-control"
                                                         id="fiscalYear{{moneyFlow.id}}"
@@ -263,7 +268,7 @@
                                                     <div class="error" ng-show="form.moneyFlowForm.fiscalYear.$error.required">Please enter a fiscal year.</div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label for="amount{{moneyFlow.id}}">Amount<span class="asterisk"> *</span></label>
                                                 <input name="amount"
                                                        ng-model="moneyFlow.editableAmount"
@@ -284,8 +289,32 @@
                                                     <div class="error" ng-show="form.moneyFlowForm.amount.$error.exceedsSourceAmount">The amount exceeds the remaining source funding.</div>
                                                 </div>
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Direct/In-Kind</label>
+                                                <div ng-show="moneyFlow.hasChildren" style="padding-top:10px;">
+                                                    <div>
+                                                        <span tooltip="This funding line item is a source for other funding line items and therefore must be direct.">Direct</span>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="!moneyFlow.hasChildren">
+                                                    <div style="padding-top:10px;">
+                                                        <label class="radio-inline">
+                                                            <input type="radio"
+                                                                   ng-disabled="moneyFlow.hasChildren"
+                                                                   ng-value="true"
+                                                                   ng-model="moneyFlow.isDirect" />Direct
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio"
+                                                                   ng-disabled="moneyFlow.hasChildren"
+                                                                   ng-value="false"
+                                                                   ng-model="moneyFlow.isDirect" />In-Kind
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="row row2" style="margin-left:0;padding:5px;">
+                                        <div class="row">
                                             <div class="form-group col-md-12">
                                                 <label for="description{{moneyFlow.id}}">Description<span class="asterisk"> *</span></label>
                                                 <textarea name="description"

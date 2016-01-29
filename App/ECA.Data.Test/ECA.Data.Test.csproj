@@ -97,6 +97,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BookmarkTest.cs" />
+    <Compile Include="ItineraryStopTest.cs" />
+    <Compile Include="ItineraryTest.cs" />
     <Compile Include="SocialMediaTest.cs" />
     <Compile Include="CreateModelDbTest.cs" />
     <Compile Include="DbContextHelper.cs" />

@@ -54,6 +54,11 @@ namespace ECA.WebApi.Models.Fundings
         public int FiscalYear { get; set; }
 
         /// <summary>
+        /// True if the funding is direct, of false if it is in-kind.
+        /// </summary>
+        public bool IsDirect { get; set; }
+
+        /// <summary>
         /// Returns a business instance of the UpdatedMoneyFlow.
         /// </summary>
         /// <param name="user">The user doing the update.</param>
@@ -73,7 +78,8 @@ namespace ECA.WebApi.Models.Fundings
                 value: this.Amount, 
                 moneyFlowStatusId: this.MoneyFlowStatusId, 
                 transactionDate: this.TransactionDate, 
-                fiscalYear: this.FiscalYear);
+                fiscalYear: this.FiscalYear,
+                isDirect: this.IsDirect);
         }
     }
 }

@@ -11,18 +11,15 @@ angular.module('staticApp')
   .controller('ItineraryCtrl', function (
       $scope,
       $state,
-      $stateParams,
       $log,
       $q,
       $modal,
-      $compile,
       smoothScroll,
+      filterFilter,
       FilterService,
-      ProjectService,
+      ItineraryService,
       LocationService,
-      StateService,
       NotificationService,
-      DateTimeService,
       ConstantsService) {
 
       $scope.view = {};
@@ -50,6 +47,7 @@ angular.module('staticApp')
       $scope.view.selectedTravelStopParticipant = null;
       $scope.view.isArrivalDateOpen = false;
       $scope.view.areAllItineraryStopsExpanded = false;
+      $scope.view.isLoadingItineraries = false;
       $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
 
@@ -71,7 +69,6 @@ angular.module('staticApp')
               }
           }
       }
-
 
       var colorIndex = 0;
       var itineraryCopy = angular.copy($scope.view.itinerary);
@@ -130,7 +127,10 @@ angular.module('staticApp')
       }
 
       $scope.view.onCollapseAllClick = function (itinerary) {
-          $scope.view.isItineraryExpanded = false;
+          $scope.view.isItineraryExpanded = true;
+          angular.forEach($scope.view.itineraryStops, function (stop, index) {
+              stop.isExpanded = false;
+          });
           $scope.view.areAllItineraryStopsExpanded = false;
       }
 
@@ -176,7 +176,7 @@ angular.module('staticApp')
           $scope.view.isInEditMode = false;
           $scope.view.isSaving = true;
 
-          return ProjectService.updateItinerary(itinerary, $scope.view.project.id)
+          return ItineraryService.updateItinerary(itinerary, $scope.view.project.id)
           .then(function (response) {
               $scope.view.isSaving = false;
               NotificationService.showSuccessMessage("Successfully updated the traveling period.");
@@ -231,6 +231,43 @@ angular.module('staticApp')
 
       $scope.view.onCalendarKeySelect = function () {
           addAllItineraryStopsAsEvents($scope.view.itineraryStops);
+      }
+
+      $scope.view.isItineraryNameUnique = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.trim().length > 0) {
+              $scope.view.isLoadingItineraries = true;
+              ItineraryService.getItineraries($scope.view.itinerary.projectId)
+              .then(function (response) {
+                  $scope.view.isLoadingItineraries = false;
+                  angular.forEach(response.data, function (itinerary, index) {
+                      itinerary.name = itinerary.name.toLowerCase().trim();
+                  });
+                  var itineraryIds = response.data.map(function (i) {
+                      return i.itineraryId;
+                  });
+                  var index = itineraryIds.indexOf($scope.view.itinerary.itineraryId);
+                  response.data.splice(index, 1);
+                  var likeItineraries = filterFilter(response.data, { name: $value.trim().toLowerCase() }, true);
+                  if (likeItineraries.length == 0) {
+                      dfd.resolve();
+                  }
+                  else {
+                      dfd.reject();
+                  }
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingItineraries = false;
+                  var message = "Unable to load travel periods.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+                  dfd.reject();
+              });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
       }
 
       var arrivalFilter = FilterService.add('itinerary_arrivallocations');
@@ -302,7 +339,7 @@ angular.module('staticApp')
 
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
-          return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
+          return ItineraryService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
               angular.forEach(response.data, function (stop, index) {
                   stop.isExpanded = false;

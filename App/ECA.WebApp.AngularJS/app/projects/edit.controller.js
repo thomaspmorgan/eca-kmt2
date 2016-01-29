@@ -16,7 +16,9 @@ angular.module('staticApp')
         $state,
         $modal,
         $timeout,
+        $filter,
         smoothScroll,
+        BrowserService,
         ProjectService,
         ProgramService,
         TableService,
@@ -75,6 +77,8 @@ angular.module('staticApp')
       $scope.editView.maximumRequiredFoci = -1;
       $scope.editView.locationUiSelectId = 'selectLocations';
       $scope.editView.isLoadingOfficeSetting = false;
+
+      $scope.editView.dataPointConfigurations = {};
 
       $scope.editView.validateMinimumObjectives = function ($value) {
           if (!$scope.editView.isObjectivesRequired) {
@@ -235,6 +239,14 @@ angular.module('staticApp')
             $scope.editView.isObjectivesRequired = isObjectivesRequired;
             $scope.editView.isLoadingOfficeSetting = false;
         });
+
+      $scope.data.loadDataPointConfigurationsPromise.promise
+      .then(function (dataConfigurations) {
+          var array = $filter('filter')(dataConfigurations, { categoryId: ConstantsService.dataPointCategory.project.id });
+          for (var i = 0; i < array.length; i++) {
+              $scope.editView.dataPointConfigurations[array[i].propertyId] = array[i].isRequired;
+          }
+      });
 
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
@@ -707,6 +719,7 @@ angular.module('staticApp')
 
       $scope.editView.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          BrowserService.setDocumentTitleByProject(project, 'Edit');
           $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null)])
           .then(function (results) {
               //results is an array

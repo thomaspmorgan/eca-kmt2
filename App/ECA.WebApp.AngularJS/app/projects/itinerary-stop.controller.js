@@ -14,14 +14,13 @@ angular.module('staticApp')
         $q,
         $log,
         smoothScroll,
+        filterFilter,
         NotificationService,
         ConstantsService,
         LocationService,
         DateTimeService,
-        ProjectService,
-        FilterService,
-        LookupService) {
-
+        ItineraryService,
+        FilterService) {
       $scope.view = {};
       $scope.view.isInEditMode = false;
       $scope.view.itineraryStop = $scope.itineraryStop;
@@ -29,21 +28,11 @@ angular.module('staticApp')
       $scope.view.isArrivalDateOpen = false;
       $scope.view.isDepartureDateOpen = false;
       $scope.view.isSavingItineraryStop = false;
+      $scope.view.isLoadingTimezone = false;
       $scope.view.searchLimit = 30;
       $scope.view.maxNameLength = 100;
-      $scope.view.currentTimezone = moment.tz.guess();
       $scope.view.timezoneNames = moment.tz.names();
-
-      $scope.view.arrivalDate = null;
-      $scope.view.arrivalTime = null;
-
-      $scope.view.departureDate = null;
-      $scope.view.departureTime = null;
-
-
-      $scope.view.onClickCurrentTimezone = function (timezone) {
-          $scope.view.itineraryStop.timezoneId = timezone;
-      }
+      $scope.view.isLoadingItineraryStops = false;
 
       $scope.view.onSaveClick = function () {
           saveItineraryStop($scope.view.itineraryStop);
@@ -51,8 +40,8 @@ angular.module('staticApp')
 
       $scope.view.onCancelClick = function () {
           $scope.view.itineraryStop = angular.copy(itineraryStopCopy);
-          ProjectService.initializeItineraryStopModel($scope.view.itineraryStop);
-          setViewArrivalAndDepartureDates($scope.view.itineraryStop);
+          ItineraryService.initializeItineraryStopModel($scope.view.itineraryStop);
+          initialize($scope.view.itineraryStop);
           $scope.view.isInEditMode = false;
       }
 
@@ -97,20 +86,41 @@ angular.module('staticApp')
           return 'itineraryStop' + itineraryStop.itineraryStopId;
       }
 
-      $scope.view.onArrivalDateChange = function (itineraryStop) {
-          onArrivalDateTimeChange(itineraryStop);
-      }
-
-      $scope.view.onArrivalTimeChange = function (itineraryStop) {
-          onArrivalDateTimeChange(itineraryStop);
-      }
-
-      $scope.view.onDepartureDateChange = function (itineraryStop) {
-          onDepartureDateTimeChange(itineraryStop);
-      }
-
-      $scope.view.onDepartureTimeChange = function (itineraryStop) {
-          onDepartureDateTimeChange(itineraryStop);
+      $scope.view.isItineraryStopNameUnique = function ($value) {
+          var dfd = $q.defer();
+          if ($value && $value.trim().length > 0) {
+              $scope.view.isLoadingItineraryStops = true;
+              ItineraryService.getItineraryStops($scope.view.itinerary.projectId, $scope.view.itinerary.id)
+              .then(function (response) {
+                  $scope.view.isLoadingItineraryStops = false;
+                  angular.forEach(response.data, function (stop, index) {
+                      stop.name = stop.name.toLowerCase().trim();
+                  });
+                  var itineraryStopIds = response.data.map(function (i) {
+                      return i.itineraryStopId;
+                  });
+                  var index = itineraryStopIds.indexOf($scope.view.itineraryStop.itineraryStopId);
+                  response.data.splice(index, 1);
+                  var likeStops = filterFilter(response.data, { name: $value.trim().toLowerCase() }, true);
+                  if (likeStops.length == 0) {
+                      dfd.resolve();
+                  }
+                  else {
+                      dfd.reject();
+                  }
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingItineraryStops = false;
+                  var message = "Unable to load city stops.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+                  dfd.reject();
+              });
+          }
+          else {
+              dfd.resolve();
+          }
+          return dfd.promise;
       }
 
       var departureFilter = FilterService.add('additinerarystopmodal_destinationlocations');
@@ -133,14 +143,17 @@ angular.module('staticApp')
           $scope.view.itineraryStop.destinationLocation = $model;
           $scope.view.itineraryStop.destinationLocationId = $model.id;
           $scope.view.itineraryStop.timezoneId = null;
-      }
-
-      function onArrivalDateTimeChange(itineraryStop) {
-          itineraryStop.setArrivalDate(getArrivalDate());
-      }
-
-      function onDepartureDateTimeChange(itineraryStop) {
-          itineraryStop.setDepartureDate(getDepartureDate());
+          $scope.view.isLoadingTimezone = true;
+          return LocationService.getLocationByTimezone($model)
+          .then(function (timezoneId) {
+              $scope.view.isLoadingTimezone = false;
+              if (timezoneId) {
+                  $scope.view.itineraryStop.timezoneId = timezoneId;
+              }
+          })
+          .catch(function () {
+              $scope.view.isLoadingTimezone = false;
+          });
       }
 
       function scrollToItineraryStop(itineraryStop) {
@@ -178,13 +191,14 @@ angular.module('staticApp')
       function saveItineraryStop(itineraryStop) {
           $scope.view.isSavingItineraryStop = true;
           
-          itineraryStop.setArrivalDateFromDateAndTime($scope.view.arrivalDate, $scope.view.arrivalTime);
-          itineraryStop.setDepartureDateFromDateAndTime($scope.view.departureDate, $scope.view.departureTime);
+          itineraryStop.setArrivalDateFromDateAndTime($scope.view.itineraryStop.arrivalDate, $scope.view.itineraryStop.arrivalDate);
+          itineraryStop.setDepartureDateFromDateAndTime($scope.view.itineraryStop.departureDate, $scope.view.itineraryStop.departureDate);
           
-          return ProjectService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
+          return ItineraryService.updateItineraryStop(itineraryStop, itineraryStop.projectId, itineraryStop.itineraryId)
           .then(function (response) {
               initialize(response.data);
               $scope.view.itineraryStop = response.data;
+              initialize($scope.view.itineraryStop);
               copyItineraryStop($scope.view.itineraryStop);
 
               $scope.view.isSavingItineraryStop = false;
@@ -236,15 +250,12 @@ angular.module('staticApp')
       }
 
       function initialize(itineraryStop) {
-          setViewArrivalAndDepartureDates(itineraryStop);
+          setItineraryStopArrivalAndDepartureDatesAsLocalDates(itineraryStop);
       }
 
-      function setViewArrivalAndDepartureDates(itineraryStop) {
-          $scope.view.arrivalDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).startOf('day').toDate();
-          $scope.view.arrivalTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).toDate();
-
-          $scope.view.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).startOf('day').toDate();
-          $scope.view.departureTime = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();
+      function setItineraryStopArrivalAndDepartureDatesAsLocalDates(itineraryStop) {
+          $scope.view.itineraryStop.arrivalDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationArrivalMoment).toDate();
+          $scope.view.itineraryStop.departureDate = DateTimeService.getDateAsLocalDisplayMoment(itineraryStop.destinationDepartureMoment).toDate();
       }
 
       function getArrivalDate() {

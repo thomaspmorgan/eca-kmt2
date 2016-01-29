@@ -104,12 +104,13 @@ namespace ECA.WebApi.Controllers.Persons
                 return NotFound();
             }
         }
-        
+
         /// <summary>
         /// Updates the new participantPersonSevis with the given participantId.
         /// </summary>
         /// <param name="model">The new email address.</param>
         /// <returns>The saved email address.</returns>
+        [HttpPut]
         [Route("ParticipantPersonsSevis")]
         public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync([FromBody]UpdatedParticipantPersonSevisBindingModel model)
         {   
@@ -201,15 +202,14 @@ namespace ECA.WebApi.Controllers.Persons
         /// Update a participant SEVIS pre-validation status
         /// </summary>
         /// <param name="participantId">Participant ID</param>
-        /// <param name="errors">Validation error count</param>
-        /// <param name="isvalid">Indicates if SEVIS object passed validation</param>
-        [HttpGet]
-        [Route("ParticipantPersonsSevis/{participantId:int}/UpdateSevisCommStatus")]
-        public IHttpActionResult UpdateParticipantSevisCommStatus(int participantId, int errors, bool isvalid)
+        /// <param name="result">Validation result object</param>
+        [HttpPost]
+        [Route("ParticipantPersonsSevis/{participantId:int}/CreateSevisCommStatus")]
+        public IHttpActionResult PostParticipantSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result)
         {
-            participantService.UpdateParticipantPersonSevisCommStatus(participantId, errors, isvalid);
+            participantService.UpdateParticipantPersonSevisCommStatus(participantId, result);
             return Ok();
         }
-
+        
     }
 }

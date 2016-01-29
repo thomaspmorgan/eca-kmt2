@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personGeneralEditCtrl', function ($scope, PersonService, NotificationService, LookupService, $stateParams) {
+  .controller('personGeneralEditCtrl', function ($scope, PersonService, SevisResultService, NotificationService, LookupService, $stateParams) {
 
       $scope.general = [];
 
@@ -56,6 +56,7 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
               $scope.edit.General = false;
+              SevisResultService.updateSevisVerificationResults($scope.general.personId);
           }, 
             function (error) {
                 if (error.status == 400) {

@@ -3,6 +3,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using GeoTimeZone;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -138,6 +139,28 @@ namespace ECA.Business.Service.Admin
         /// <param name="additionalLocation">The new location.</param>
         /// <returns>The task.</returns>
         Task<Location> CreateAsync(AdditionalLocation additionalLocation);
+
+        /// <summary>
+        /// Returns timezone results for the location with the given latitude and longitude.
+        /// </summary>
+        /// <param name="latitude">The latitude.</param>
+        /// <param name="longitude">The longitude.</param>
+        /// <returns>The timezone details.</returns>
+        TimeZoneResult GetIANATimezone(double latitude, double longitude);
+
+        /// <summary>
+        /// Returns timezone results for the location with the given location id.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The timezone results, or null if not found.</returns>
+        TimeZoneResult GetIANATimezone(int locationId);
+
+        /// <summary>
+        /// Returns timezone results for the location with the given location id.
+        /// </summary>
+        /// <param name="locationId">The id of the location.</param>
+        /// <returns>The timezone results, or null if not found.</returns>
+        Task<TimeZoneResult> GetIANATimezoneAsync(int locationId);
     }
 
     /// <summary>
@@ -353,6 +376,37 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(additionalLocation != null, "The additional location must not be null.");
             return Task.FromResult<Location>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
+        public TimeZoneResult GetIANATimezone(double latitude, double longitude)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public TimeZoneResult GetIANATimezone(int locationId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public Task<TimeZoneResult> GetIANATimezoneAsync(int locationId)
+        {
+            return Task.FromResult<TimeZoneResult>(null);
         }
     }
 }

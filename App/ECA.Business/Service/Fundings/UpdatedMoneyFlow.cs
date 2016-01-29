@@ -37,7 +37,8 @@ namespace ECA.Business.Service.Fundings
             decimal value,
             int moneyFlowStatusId,
             DateTimeOffset transactionDate,
-            int fiscalYear)
+            int fiscalYear,
+            bool isDirect)
             : base(id, sourceOrRecipientEntityId, sourceOrRecipientEntityTypeId)
         {
             Contract.Requires(updator != null, "The updated by user must not be null.");
@@ -54,6 +55,7 @@ namespace ECA.Business.Service.Fundings
             this.FiscalYear = fiscalYear;
             this.MoneyFlowTypeId = MoneyFlowType.Incoming.Id;
             this.GrantNumber = grantNumber;
+            this.IsDirect = isDirect;
         }
 
         /// <summary>
@@ -95,5 +97,10 @@ namespace ECA.Business.Service.Fundings
         /// Gets the money flow status id.
         /// </summary>
         public int MoneyFlowStatusId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets whether the money flow is direct, if false it's considered in-kind.
+        /// </summary>
+        public bool IsDirect { get; private set; }
     }
 }

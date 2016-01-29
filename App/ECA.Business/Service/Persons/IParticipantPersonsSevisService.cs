@@ -161,6 +161,6 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">Participant ID</param>
         /// <param name="errorCount">Validation error count</param>
         /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        void UpdateParticipantPersonSevisCommStatus(int participantId, int errorCount, bool isValid);
+        void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result);
     }
 }

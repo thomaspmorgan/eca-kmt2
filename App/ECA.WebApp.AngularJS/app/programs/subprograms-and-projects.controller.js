@@ -23,6 +23,7 @@ angular.module('staticApp')
       NotificationService,
       StateService,
       LookupService,
+      BrowserService,
       orderByFilter) {
 
       $scope.view = {};
@@ -169,6 +170,7 @@ angular.module('staticApp')
       $scope.view.isLoadingProgram = true;
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
+          BrowserService.setDocumentTitleByProgram(program, 'Sub-Programs and Projects');
           $scope.view.program = program;
           $scope.view.isLoadingProgram = false;
       })

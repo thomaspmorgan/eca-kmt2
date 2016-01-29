@@ -14,7 +14,8 @@ angular.module('staticApp')
       StateService,
       ConstantsService,
       OfficeService,
-      orderByFilter) {
+      orderByFilter,
+      DataPointConfigurationService) {
 
       $scope.project = {};
       $scope.modalForm = {};
@@ -33,6 +34,7 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadProjectByIdPromise = $q.defer();
       $scope.data.loadOfficeSettingsPromise = $q.defer();
+      $scope.data.loadDataPointConfigurationsPromise = $q.defer();
 
       $scope.tabs = {
           overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
@@ -52,9 +54,7 @@ angular.module('staticApp')
       function disableProjectStatusButton() {
           $scope.isProjectStatusButtonEnabled = false;
       }
-
       
-
       ProjectService.getById($stateParams.projectId)
         .then(function (data) {
             $scope.project = data.data;
@@ -158,7 +158,18 @@ angular.module('staticApp')
             });
       }
 
-      $q.all([loadPermissions()])
+      function loadDataPointConfigurations() {
+          var params = { projectId: $stateParams.projectId };
+          return DataPointConfigurationService.getDataPointConfigurations(params)
+           .then(function (response) {
+               var data = response.data;
+               $scope.data.loadDataPointConfigurationsPromise.resolve(data);
+           }, function () {
+               NotificationService.showErrorMessage('Unable to load data point configurations for id = ' + projectId + ".");
+           });
+      }
+
+      $q.all([loadPermissions(), loadDataPointConfigurations()])
       .then(function () {
 
       }, function () {

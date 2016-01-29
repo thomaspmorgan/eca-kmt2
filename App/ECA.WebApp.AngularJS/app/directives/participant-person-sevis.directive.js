@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService', '$state'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'SevisResultService', '$state'];
     
-    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService, $state) {
+    function participantPersonSevis($log, LookupService, FilterService, NotificationService, SevisResultService, $state) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -37,71 +37,22 @@
                     $event.stopPropagation();
                     $scope.edit.isEndDatePickerOpen = true
                 }
-
+                
                 // pre-sevis validation
                 $scope.validateSevisInfo = function (sevisId) {
                     if (sevisId) {
-                        validateUpdateSevisInfo();
+                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateUpdateSevisInfo($scope.participantid);
                     } else {
-                        validateCreateSevisInfo();
+                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateCreateSevisInfo($scope.participantid);
                     }
-                };
-                
-                // pre-sevis create validation
-                function validateCreateSevisInfo() {
-                    $scope.edit.isValidationLoading = true;
-                    return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.info('Validated participant create SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.errors.length; i++) {
-                            valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
-                        }
-                        $scope.validationResults = valErrors;
-                        // update participant sevis status
-                        var params = {
-                            errors: response.data.errors.length,
-                            isvalid: response.data.isValid
-                        };
-                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
-                        $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                        $scope.edit.isValidationLoading = false;
-                    });
-                };
+                }
 
-                // pre-sevis update validation
-                function validateUpdateSevisInfo() {
-                    $scope.edit.isValidationLoading = true;
-                    return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis($scope.participantid)
-                    .then(function (response) {
-                        $log.info('Validated participant update SEVIS info');
-                        var valErrors = [];
-                        for (var i = 0; i < response.data.errors.length; i++) {
-                            valErrors.push({ msg: response.data.errors[i].errorMessage, path: response.data.errors[i].customState });
-                        }
-                        $scope.validationResults = valErrors;
-                        // update participant sevis status
-                        var params = {
-                            errors: response.data.errors.length,
-                            isvalid: response.data.isValid
-                        };
-                        ParticipantPersonsSevisService.updateParticipantSevisCommStatus($scope.participantid, params);
-                        $scope.edit.isValidationLoading = false;
-                    }, function (error) {
-                        NotificationService.showErrorMessage(error.data);
-                        $scope.edit.isValidationLoading = false;
-                    });
-                };
-
-                $scope.goToErrorSection = function (customState) {
-                    
+                // Navigate to a section where the validation error can be resolved
+                $scope.goToErrorSection = function (customState) {                    
                     if (customState)
                     {
                         $state.go(customState.category + '.' + customState.categorySub, { 'section': customState.section, 'tab': customState.tab, 'personId': $scope.participantid, 'participantId': $scope.participantid }, { reload: true });
                     }
-
                 };
             }
         };

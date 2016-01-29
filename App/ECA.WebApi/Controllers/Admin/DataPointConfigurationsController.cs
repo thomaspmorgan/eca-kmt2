@@ -70,11 +70,12 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="officeId">The office id</param>
         /// <param name="programId">The program id</param>
+        /// <param name="projectId">The project id</param>
         /// <returns></returns>
         [ResponseType(typeof(List<DataPointConfigurationDTO>))]
-        public async Task<IHttpActionResult> GetDataPointConfigurationsAsync(int? officeId = null, int? programId = null)
+        public async Task<IHttpActionResult> GetDataPointConfigurationsAsync(int? officeId = null, int? programId = null, int? projectId = null)
         {
-            var dataPointConfigurations = await service.GetDataPointConfigurationsAsync(officeId, programId);
+            var dataPointConfigurations = await service.GetDataPointConfigurationsAsync(officeId, programId, projectId);
             return Ok(dataPointConfigurations);
         }
     }

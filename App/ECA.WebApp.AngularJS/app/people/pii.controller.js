@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiViewCtrl', function ($scope, $timeout, PersonService, LocationService, ConstantsService, $stateParams, $q) {
+  .controller('personPiiViewCtrl', function ($scope, $timeout, PersonService, LocationService, ConstantsService, $stateParams, $q, BrowserService) {
 
       $scope.piiLoading = true;
 
@@ -18,6 +18,7 @@ angular.module('staticApp')
       PersonService.getPersonById($stateParams.personId)
         .then(function (data) {
             $scope.person = data;
+            BrowserService.setDocumentTitleByPerson(data, 'Personal Information');
             loadPii(data.personId);
             $scope.personIdDeferred.resolve(data.personId);
         });

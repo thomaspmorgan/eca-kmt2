@@ -76,6 +76,11 @@ namespace ECA.Business.Service.Fundings
         public const string FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE = "The fiscal year of the money flow must be equal to its parent fiscal year.";
 
         /// <summary>
+        /// The error message to return when a money flow has a parent funding item and it is not direct.
+        /// </summary>
+        public const string PARENT_MONEY_FLOW_MUST_BE_DIRECT_ERROR_MESSAGE = "The parent money flow line item must be direct.";
+
+        /// <summary>
         /// Returns enumerated validation results for a MoneyFlow create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
@@ -144,6 +149,10 @@ namespace ECA.Business.Service.Fundings
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE);
             }
+            if(validationEntity.IsParentMoneyFlowDirect.HasValue && !validationEntity.IsParentMoneyFlowDirect.Value)
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.ParentMoneyFlowId, PARENT_MONEY_FLOW_MUST_BE_DIRECT_ERROR_MESSAGE);
+            }
         }
         /// <summary>
         /// Returns enumerated validation results for a MoneyFlow update.
@@ -177,6 +186,10 @@ namespace ECA.Business.Service.Fundings
             if (validationEntity.ParentFiscalYear.HasValue && validationEntity.FiscalYear != validationEntity.ParentFiscalYear.Value)
             {
                 yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.FiscalYear, FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE);
+            }
+            if (validationEntity.NumberOfChildrenMoneyFlows > 0 && !validationEntity.IsDirect)
+            {
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.IsDirect, PARENT_MONEY_FLOW_MUST_BE_DIRECT_ERROR_MESSAGE);
             }
         }
     }

@@ -22,6 +22,7 @@ angular.module('staticApp')
         LookupService,
         ConstantsService,
         NotificationService,
+        BrowserService,
         TableService,
         StateService,
         orderByFilter
@@ -30,6 +31,8 @@ angular.module('staticApp')
       console.assert($scope.stateParamName !== undefined, 'The stateParamName must be defined in the directive, i.e. the state parameter name that has the id of the entity showing money flows.');
       console.assert($scope.sourceEntityTypeId !== undefined, 'The sourceEntityTypeId i.e. the money flow source recipient type id of the object that is current showing funding must be set in the directive.');
       console.assert($scope.resourceTypeId !== undefined, 'The resourceTypeId i.e. the cam resource type id must be set in the directive.');
+      
+      
       $scope.view = {};
       $scope.view.showFilters = false;
       $scope.view.params = $stateParams;
@@ -76,7 +79,7 @@ angular.module('staticApp')
                             break;
                     }
                 }
-            }, 500);
+            });
       });
 
       $scope.view.filterFiscalYearSummaries = function (fiscalYearSummary) {
@@ -263,6 +266,14 @@ angular.module('staticApp')
       $scope.view.getScope = function () {
           return $scope;
       };
+
+      $scope.$watch(function () {
+          return $scope.entityName;
+      }, function (newValue, oldValue) {
+          if (!angular.isUndefined(newValue)) {
+              BrowserService.setMoneyFlowTitleByEntityName(newValue);
+          }
+      });
 
       function scrollToMoneyFlow(moneyFlow) {
           var options = {
@@ -578,9 +589,7 @@ angular.module('staticApp')
               $log.error(message);
               NotificationService.showErrorMessage(message);
           });
-
       }
-
 
       function loadPermissions() {
           var foreignResourceId = $scope.view.entityId;
