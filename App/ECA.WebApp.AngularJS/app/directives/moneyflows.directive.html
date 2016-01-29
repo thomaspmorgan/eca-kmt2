@@ -296,7 +296,12 @@
                                                         <span tooltip="This funding line item is a source for other funding line items and therefore must be direct.">Direct</span>
                                                     </div>
                                                 </div>
-                                                <div ng-show="!moneyFlow.hasChildren">
+                                                <div ng-show="moneyFlow.parentMoneyFlowId" style="padding-top:10px;">
+                                                    <div>
+                                                        <span tooltip="This funding line item has a source and therefore must be direct.">Direct</span>
+                                                    </div>
+                                                </div>
+                                                <div ng-show="!moneyFlow.hasChildren && !moneyFlow.parentMoneyFlowId">
                                                     <div style="padding-top:10px;">
                                                         <label class="radio-inline">
                                                             <input type="radio"
