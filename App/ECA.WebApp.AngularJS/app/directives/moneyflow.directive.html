@@ -177,7 +177,7 @@
                 </div>
                 <div class="col-md-4">
                     <label>Direct/In-Kind</label>
-                    <div style="padding-top:10px;">
+                    <div style="padding-top:10px;" ng-show="!view.moneyFlow.parentMoneyFlowId">
                         <label class="radio-inline">
                             <input type="radio"
                                    ng-value="true"
@@ -188,6 +188,9 @@
                                    ng-value="false"
                                    ng-model="view.moneyFlow.isDirect" />In-Kind
                         </label>
+                    </div>
+                    <div style="padding-top:10px;" ng-show="view.moneyFlow.parentMoneyFlowId">
+                        <span>Direct</span>
                     </div>
                 </div>
             </div>

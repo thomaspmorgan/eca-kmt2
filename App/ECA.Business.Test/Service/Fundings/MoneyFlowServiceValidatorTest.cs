@@ -1747,14 +1747,14 @@ namespace ECA.Business.Test.Service.Fundings
         }
 
         [TestMethod]
-        public void TestDoValidateUpdate_MoneyFlowIsNotDirect_DoesNotHaveChildren()
+        public void TestDoValidateUpdate_MoneyFlowIsNotDirect_DoesNotHaveChildren_DoesNotHaveParent()
         {
             var value = 1.00m;
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
-            decimal? withdrawalLimit = 100m;
+            int? parentFiscalYear = null;
+            decimal? withdrawalLimit = null;
             var isDirect = false;
             var numberOfChildrenMoneyFlows = 0;
             Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
@@ -1770,6 +1770,48 @@ namespace ECA.Business.Test.Service.Fundings
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            parentFiscalYear = 2000;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.MONEY_FLOW_HAS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.IsDirect), validationErrors.First().Property);
+        }
+
+
+
+        [TestMethod]
+        public void TestDoValidateUpdate_MoneyFlowIsDirect_HasParent()
+        {
+            var value = 1.00m;
+            var description = "description";
+            var transactionDate = DateTimeOffset.UtcNow;
+            int fiscalYear = 2000;
+            int? parentFiscalYear = fiscalYear;
+            decimal? withdrawalLimit = 100m;
+            var isDirect = true;
+            var numberOfChildrenMoneyFlows = 0;
+            Func<MoneyFlowServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new MoneyFlowServiceUpdateValidationEntity(
+                    value: value,
+                    parentMoneyFlowWithdrawalMaximum: withdrawalLimit,
+                    description: description,
+                    fiscalYear: fiscalYear,
+                    parentFiscalYear: parentFiscalYear,
+                    isDirect: isDirect,
+                    numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
+
+            isDirect = false;
+            var entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(MoneyFlowServiceValidator.MONEY_FLOW_HAS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.IsDirect), validationErrors.First().Property);
         }
 
         [TestMethod]
@@ -1779,7 +1821,7 @@ namespace ECA.Business.Test.Service.Fundings
             var description = "description";
             var transactionDate = DateTimeOffset.UtcNow;
             int fiscalYear = 2000;
-            int? parentFiscalYear = fiscalYear;
+            int? parentFiscalYear = null;
             decimal? withdrawalLimit = 100m;
             var isDirect = false;
             var numberOfChildrenMoneyFlows = 0;
@@ -1796,12 +1838,12 @@ namespace ECA.Business.Test.Service.Fundings
                 );
             };
             Assert.AreEqual(0, validator.ValidateUpdate(createEntity()).Count());
-
+            isDirect = false;
             numberOfChildrenMoneyFlows = 1;
             var entity = createEntity();
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(MoneyFlowServiceValidator.PARENT_MONEY_FLOW_MUST_BE_DIRECT_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(MoneyFlowServiceValidator.MONEY_FLOW_IS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
             Assert.AreEqual(PropertyHelper.GetPropertyName<UpdatedMoneyFlow>(x => x.IsDirect), validationErrors.First().Property);
         }
         #endregion

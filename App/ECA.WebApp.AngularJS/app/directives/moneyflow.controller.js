@@ -203,6 +203,7 @@ angular.module('staticApp')
               $scope.view.selectedSourceMoneyFlow = null;
           }
           else {
+              $scope.view.moneyFlow.isDirect = true;
               $scope.view.selectedSourceMoneyFlow = $item;
           }
       }
