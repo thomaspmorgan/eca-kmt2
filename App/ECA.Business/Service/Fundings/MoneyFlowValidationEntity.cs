@@ -45,7 +45,8 @@ namespace ECA.Business.Service.Fundings
             bool hasRecipientEntityType,
             DateTimeOffset transactionDate,
             int fiscalYear,
-            int? parentFiscalYear)
+            int? parentFiscalYear,
+            bool? isParentMoneyFlowDirect)
         {
             this.ParentFiscalYear = parentFiscalYear;
             this.ParentMoneyFlowWithdrawlMaximum = parentMoneyFlowWithdrawalMaximum;
@@ -59,10 +60,16 @@ namespace ECA.Business.Service.Fundings
             this.RecipientEntityTypeId = recipientEntityTypeId;
             this.SourceEntityTypeId = sourceEntityTypeId;
             this.FiscalYear = fiscalYear;
+            this.IsParentMoneyFlowDirect = isParentMoneyFlowDirect;
             this.AllowedRecipientEntityTypeIds = allowedRecipientEntityTypeIds == null ? new List<int>() : allowedRecipientEntityTypeIds.Distinct();
             this.AllowedSourceEntityTypeIds = allowedSourceEntityTypeIds == null ? new List<int>() : allowedSourceEntityTypeIds.Distinct();
             this.AllowedProjectParticipantIds = allowedProjectParticipantIds == null ? new List<int>() : allowedProjectParticipantIds.Distinct();
         }
+
+        /// <summary>
+        /// Gets whether the parent money flow is direct, if false, it's in-kind.
+        /// </summary>
+        public bool? IsParentMoneyFlowDirect { get; private set; }
 
         /// <summary>
         /// Gets the parent money flow fiscal year.
@@ -152,18 +159,23 @@ namespace ECA.Business.Service.Fundings
         /// <param name="parentMoneyFlowWithdrawalMaximum">The withdrawal maximum of the parent money flow, if a parent money flow is set.</param>
         /// <param name="value">The value of the money flow.</param>
         /// <param name="fiscalYear">The fiscal year.</param>
+        /// <param name="numberOfChildrenMoneyFlows">The number of children the updated money flow has.</param>
         public MoneyFlowServiceUpdateValidationEntity(
             string description,
             decimal value,
             decimal? parentMoneyFlowWithdrawalMaximum,
             int fiscalYear,
-            int? parentFiscalYear)
+            int? parentFiscalYear,
+            bool isDirect,
+            int numberOfChildrenMoneyFlows)
         {
             this.Description = description;
             this.Value = value;
             this.FiscalYear = fiscalYear;
             this.ParentMoneyFlowWithdrawlMaximum = parentMoneyFlowWithdrawalMaximum;
             this.ParentFiscalYear = parentFiscalYear;
+            this.IsDirect = isDirect;
+            this.NumberOfChildrenMoneyFlows = numberOfChildrenMoneyFlows;
         }
 
         /// <summary>
@@ -190,6 +202,16 @@ namespace ECA.Business.Service.Fundings
         /// Gets the withdrawal maximum of a parent money flow, if a parent money flow was provided.
         /// </summary>
         public decimal? ParentMoneyFlowWithdrawlMaximum { get; private set; }
+
+        /// <summary>
+        /// Gets whether the parent money flow is direct, if not it's in-kind.
+        /// </summary>
+        public int NumberOfChildrenMoneyFlows { get; private set; }
+
+        /// <summary>
+        /// Get the is direct value, if false, it's considered in-kind.
+        /// </summary>
+        public bool IsDirect { get; private set; }
     }
 }
 

@@ -76,6 +76,21 @@ namespace ECA.Business.Service.Fundings
         public const string FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE = "The fiscal year of the money flow must be equal to its parent fiscal year.";
 
         /// <summary>
+        /// The error message to return when a money flow has a parent funding item and it is not direct.
+        /// </summary>
+        public const string PARENT_MONEY_FLOW_MUST_BE_DIRECT_ERROR_MESSAGE = "The parent money flow line item must be direct.";
+
+        /// <summary>
+        /// The error message to return when a money flow has children money flows and it is not direct.
+        /// </summary>
+        public const string MONEY_FLOW_IS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE = "The money flow is a source of other child money flows and it is not direct.";
+
+        /// <summary>
+        /// The error message to return when a money is not direct and it has a source.
+        /// </summary>
+        public const string MONEY_FLOW_HAS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE = "The money flow has a source money flow and it is not direct.";
+
+        /// <summary>
         /// Returns enumerated validation results for a MoneyFlow create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
@@ -144,6 +159,10 @@ namespace ECA.Business.Service.Fundings
             {
                 yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.FiscalYear, FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE);
             }
+            if(validationEntity.IsParentMoneyFlowDirect.HasValue && !validationEntity.IsParentMoneyFlowDirect.Value)
+            {
+                yield return new BusinessValidationResult<AdditionalMoneyFlow>(x => x.ParentMoneyFlowId, PARENT_MONEY_FLOW_MUST_BE_DIRECT_ERROR_MESSAGE);
+            }
         }
         /// <summary>
         /// Returns enumerated validation results for a MoneyFlow update.
@@ -177,6 +196,15 @@ namespace ECA.Business.Service.Fundings
             if (validationEntity.ParentFiscalYear.HasValue && validationEntity.FiscalYear != validationEntity.ParentFiscalYear.Value)
             {
                 yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.FiscalYear, FISCAL_YEARS_MUST_BE_EQUAL_ERROR_MESSAGE);
+            }
+            if (validationEntity.NumberOfChildrenMoneyFlows > 0 && !validationEntity.IsDirect)
+            {
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.IsDirect, MONEY_FLOW_IS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE);
+            }
+            if(validationEntity.ParentFiscalYear.HasValue && !validationEntity.IsDirect)
+            {
+                //if parent fiscal year has a value, then the money flow has a source
+                yield return new BusinessValidationResult<UpdatedMoneyFlow>(x => x.IsDirect, MONEY_FLOW_HAS_SOURCE_AND_IS_NOT_DIRECT_ERROR_MESSAGE);
             }
         }
     }

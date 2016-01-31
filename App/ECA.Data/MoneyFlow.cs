@@ -32,6 +32,7 @@ namespace ECA.Data
         public MoneyFlow()
         {
             this.History = new History();
+            this.Children = new HashSet<MoneyFlow>();
         }
 
         /// <summary>
@@ -44,6 +45,11 @@ namespace ECA.Data
         /// Gets or sets the money flow type.
         /// </summary>
         public MoneyFlowType MoneyFlowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the money flow is considered direct, if false, it's considered in-kind.
+        /// </summary>
+        public bool IsDirect { get; set; }
 
         /// <summary>
         /// Gets or sets the money flow type id.
@@ -268,6 +274,12 @@ namespace ECA.Data
         /// Get or sets recipient accomdation id.
         /// </summary>
         public int? RecipientAccommodationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the children money flows.
+        /// </summary>
+        [ForeignKey("ParentMoneyFlowId")]
+        public virtual ICollection<MoneyFlow> Children { get; set; }
 
         /// <summary>
         /// Gets or sets the history.

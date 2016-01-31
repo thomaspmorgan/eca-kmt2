@@ -25,7 +25,8 @@ namespace ECA.Business.Test.Service.Fundings
             var entityTypeId = MoneyFlowSourceRecipientType.Accomodation.Id;
             var fiscalYear = 2000;
             var grantNumber = "grant";
-            var instance = new UpdatedMoneyFlow(updator, id, sourceEntityId, entityTypeId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear);
+            var isDirect = true;
+            var instance = new UpdatedMoneyFlow(updator, id, sourceEntityId, entityTypeId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, isDirect);
             Assert.AreEqual(id, instance.Id);
             Assert.AreEqual(description, instance.Description);
             Assert.AreEqual(fiscalYear, instance.FiscalYear);
@@ -36,6 +37,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(value, instance.Value);
             Assert.AreEqual(entityTypeId, instance.SourceOrRecipientEntityTypeId);
             Assert.AreEqual(grantNumber, instance.GrantNumber);
+            Assert.AreEqual(isDirect, instance.IsDirect);
         }
 
         [TestMethod]
@@ -52,7 +54,8 @@ namespace ECA.Business.Test.Service.Fundings
             var fiscalYear = 2000;
             var grantNumber = "grant";
             var entityTypeId = MoneyFlowSourceRecipientType.Accomodation.Id;
-            Action a = () => new UpdatedMoneyFlow(updator, id, sourceEntityId, entityTypeId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear);
+            var isDirect = true;
+            Action a = () => new UpdatedMoneyFlow(updator, id, sourceEntityId, entityTypeId, description, grantNumber, value, moneyFlowStatusId, transactionDate, fiscalYear, isDirect);
             a.ShouldThrow<UnknownStaticLookupException>().WithMessage(String.Format("The money flow status [{0}] is not supported.", moneyFlowStatusId));
         }
     }

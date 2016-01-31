@@ -19,6 +19,7 @@ namespace ECA.Business.Test.Service.Fundings
             var transactionDate = DateTimeOffset.UtcNow;
             var hasSourceEntityType = true;
             var hasRecipientEntityType = true;
+            var isParentMoneyFlowDirect = true;
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
@@ -45,7 +46,9 @@ namespace ECA.Business.Test.Service.Fundings
                 hasRecipientEntityType, 
                 transactionDate,
                 fiscalYear,
-                parentFiscalYear);
+                parentFiscalYear,
+                isParentMoneyFlowDirect
+                );
             Assert.AreEqual(value, instance.Value);
             Assert.AreEqual(parentMoneyFlowWithdrawalMaximum, instance.ParentMoneyFlowWithdrawlMaximum);
             Assert.AreEqual(description, instance.Description);
@@ -58,6 +61,7 @@ namespace ECA.Business.Test.Service.Fundings
             Assert.AreEqual(recipientEntityTypeId, instance.RecipientEntityTypeId);
             Assert.AreEqual(fiscalYear, instance.FiscalYear);
             Assert.AreEqual(parentFiscalYear, instance.ParentFiscalYear);
+            Assert.AreEqual(isParentMoneyFlowDirect, instance.IsParentMoneyFlowDirect);
 
             CollectionAssert.AreEqual(allowedRecipientEntityTypeIds.Distinct().ToList(), instance.AllowedRecipientEntityTypeIds.ToList());
             CollectionAssert.AreEqual(allowedSourceEntityTypeIds.Distinct().ToList(), instance.AllowedSourceEntityTypeIds.ToList());
@@ -72,6 +76,7 @@ namespace ECA.Business.Test.Service.Fundings
             var transactionDate = DateTimeOffset.UtcNow;
             var hasSourceEntityType = true;
             var hasRecipientEntityType = true;
+            var isParentMoneyFlowDirect = true;
             int? sourceEntityId = 1;
             int? recipientEntityId = 2;
             var sourceEntityTypeId = MoneyFlowSourceRecipientType.Post.Id;
@@ -99,7 +104,8 @@ namespace ECA.Business.Test.Service.Fundings
                 hasRecipientEntityType,
                 transactionDate,
                 fiscalYear,
-                parentFiscalYear);
+                parentFiscalYear,
+                isParentMoneyFlowDirect);
             Assert.IsNotNull(instance.AllowedRecipientEntityTypeIds);
             Assert.IsNotNull(instance.AllowedProjectParticipantIds);
             Assert.IsNotNull(instance.AllowedSourceEntityTypeIds);

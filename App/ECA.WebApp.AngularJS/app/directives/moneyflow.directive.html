@@ -133,7 +133,7 @@
             </div>
             <hr />
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label>Transaction Date<span class="asterisk"> *</span></label>
                     <p class="input-group">
                         <input name="transactionDate"
@@ -154,7 +154,7 @@
                         <div class="error" ng-show="form.newMoneyFlow.transactionDate.$error.required">Please select a transaction date.</div>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label>Reference Fiscal Year<span class="asterisk"> *</span></label>
                     <ui-select ng-model="view.moneyFlow.fiscalYear"
                                search-enabled="false"
@@ -173,6 +173,24 @@
                     </ui-select>
                     <div ng-show="form.newMoneyFlow.fiscalYear.$dirty">
                         <div class="error" ng-show="form.newMoneyFlow.fiscalYear.$error.required">Please enter a fiscal year.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>Direct/In-Kind</label>
+                    <div style="padding-top:10px;" ng-show="!view.moneyFlow.parentMoneyFlowId">
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   ng-value="true"
+                                   ng-model="view.moneyFlow.isDirect" />Direct
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   ng-value="false"
+                                   ng-model="view.moneyFlow.isDirect" />In-Kind
+                        </label>
+                    </div>
+                    <div style="padding-top:10px;" ng-show="view.moneyFlow.parentMoneyFlowId">
+                        <span>Direct</span>
                     </div>
                 </div>
             </div>

@@ -549,13 +549,13 @@ namespace ECA.Business.Service.Fundings
                 var newestSummary = orderedSummaries.First();
                 var entityId = oldestSummary.EntityId;
                 var entityTypeId = oldestSummary.EntityTypeId;
-                
+
                 for (var i = oldestSummary.FiscalYear; i <= newestSummary.FiscalYear; i++)
                 {
-                    foreach(var status in statii)
+                    foreach (var status in statii)
                     {
                         var existingSummary = fiscalYearSummaries.Where(x => x.FiscalYear == i && x.StatusId == status.MoneyFlowStatusId).FirstOrDefault();
-                        if(existingSummary == null)
+                        if (existingSummary == null)
                         {
                             var emptyFiscalYearSummary = new FiscalYearSummaryDTO
                             {
@@ -654,7 +654,8 @@ namespace ECA.Business.Service.Fundings
                 hasRecipientEntityType: hasRecipientEntityType,
                 allowedRecipientEntityTypeIds: allowedMoneyFlowRecipientTypeIds,
                 allowedSourceEntityTypeIds: allowedMoneyFlowSourceTypeIds,
-                allowedProjectParticipantIds: allowedProjectParticipantIds
+                allowedProjectParticipantIds: allowedProjectParticipantIds,
+                isParentMoneyFlowDirect: parentMoneyFlow == null ? default(bool?) : parentMoneyFlow.IsDirect
                 ));
             if (hasSourceEntityType)
             {
@@ -709,7 +710,8 @@ namespace ECA.Business.Service.Fundings
                 hasRecipientEntityType: hasRecipientEntityType,
                 allowedRecipientEntityTypeIds: allowedMoneyFlowRecipientTypeIds,
                 allowedSourceEntityTypeIds: allowedMoneyFlowSourceTypeIds,
-                allowedProjectParticipantIds: allowedProjectParticipantIds
+                allowedProjectParticipantIds: allowedProjectParticipantIds,
+                isParentMoneyFlowDirect: parentMoneyFlow == null ? default(bool?) : parentMoneyFlow.IsDirect
                 ));
 
             if (hasSourceEntityType)
@@ -740,6 +742,7 @@ namespace ECA.Business.Service.Fundings
             AdditionalMoneyFlow moneyFlow,
             decimal? parentMoneyFlowWithdrawalMaximum,
             int? parentFiscalYear,
+            bool? isParentMoneyFlowDirect,
             bool hasSourceEntityType,
             bool hasRecipientEntityType,
             List<int> allowedRecipientEntityTypeIds,
@@ -761,7 +764,8 @@ namespace ECA.Business.Service.Fundings
                 sourceEntityId: moneyFlow.SourceEntityId,
                 recipientEntityId: moneyFlow.RecipientEntityId,
                 fiscalYear: moneyFlow.FiscalYear,
-                parentFiscalYear: parentFiscalYear);
+                parentFiscalYear: parentFiscalYear,
+                isParentMoneyFlowDirect: isParentMoneyFlowDirect);
         }
         #endregion
 
@@ -783,7 +787,13 @@ namespace ECA.Business.Service.Fundings
                 parentMoneyFlowWithdrawalMaximum = moneyFlowToUpdate.Value + GetMoneyFlowWithdrawalMaximum(moneyFlowToUpdate.ParentMoneyFlowId.Value);
                 parentMoneyFlow = Context.MoneyFlows.Find(moneyFlowToUpdate.ParentMoneyFlowId.Value);
             }
-            DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlow, parentMoneyFlowWithdrawalMaximum);
+            var numberOfChildrenMoneyFlows = CreateGetChildrenMoneyFlowsByParentId(updatedMoneyFlow.Id).Count();
+
+            DoUpdate(updatedMoneyFlow: updatedMoneyFlow,
+                moneyFlowToUpdate: moneyFlowToUpdate,
+                parentMoneyFlow: parentMoneyFlow,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows);
         }
 
         /// <summary>
@@ -803,7 +813,18 @@ namespace ECA.Business.Service.Fundings
                 parentMoneyFlowWithdrawalMaximum = moneyFlowToUpdate.Value + await GetMoneyFlowWithdrawalMaximumAsync(moneyFlowToUpdate.ParentMoneyFlowId.Value);
                 parentMoneyFlow = await Context.MoneyFlows.FindAsync(moneyFlowToUpdate.ParentMoneyFlowId.Value);
             }
-            DoUpdate(updatedMoneyFlow, moneyFlowToUpdate, parentMoneyFlow, parentMoneyFlowWithdrawalMaximum);
+            var numberOfChildrenMoneyFlows = await CreateGetChildrenMoneyFlowsByParentId(updatedMoneyFlow.Id).CountAsync();
+
+            DoUpdate(updatedMoneyFlow: updatedMoneyFlow,
+                moneyFlowToUpdate: moneyFlowToUpdate,
+                parentMoneyFlow: parentMoneyFlow,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows);
+        }
+
+        private IQueryable<MoneyFlow> CreateGetChildrenMoneyFlowsByParentId(int moneyFlowParentId)
+        {
+            return Context.MoneyFlows.Where(x => x.ParentMoneyFlowId == moneyFlowParentId);
         }
 
         private IQueryable<MoneyFlow> CreateGetMoneyFlowByIdQuery(int moneyFlowId)
@@ -812,7 +833,7 @@ namespace ECA.Business.Service.Fundings
             return this.Context.MoneyFlows.Include(x => x.Parent).Where(x => x.MoneyFlowId == moneyFlowId);
         }
 
-        private void DoUpdate(UpdatedMoneyFlow updatedMoneyFlow, MoneyFlow moneyFlowToUpdate, MoneyFlow parentMoneyFlow, decimal? parentMoneyFlowWithdrawalMaximum)
+        private void DoUpdate(UpdatedMoneyFlow updatedMoneyFlow, MoneyFlow moneyFlowToUpdate, MoneyFlow parentMoneyFlow, decimal? parentMoneyFlowWithdrawalMaximum, int numberOfChildrenMoneyFlows)
         {
             if (moneyFlowToUpdate == null)
             {
@@ -821,7 +842,13 @@ namespace ECA.Business.Service.Fundings
                     updatedMoneyFlow.Id,
                     updatedMoneyFlow.SourceOrRecipientEntityId));
             }
-            validator.ValidateUpdate(GetUpdateValidationEntity(updatedMoneyFlow, parentMoneyFlowWithdrawalMaximum, parentMoneyFlow == null ? default(int?) : parentMoneyFlow.FiscalYear));
+            validator.ValidateUpdate(GetUpdateValidationEntity(
+                moneyFlow: updatedMoneyFlow,
+                parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
+                parentFiscalYear: parentMoneyFlow == null ? default(int?) : parentMoneyFlow.FiscalYear,
+                numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows
+                ));
+
             moneyFlowToUpdate.Description = updatedMoneyFlow.Description;
             moneyFlowToUpdate.FiscalYear = updatedMoneyFlow.FiscalYear;
             moneyFlowToUpdate.MoneyFlowStatusId = updatedMoneyFlow.MoneyFlowStatusId;
@@ -829,17 +856,20 @@ namespace ECA.Business.Service.Fundings
             moneyFlowToUpdate.TransactionDate = updatedMoneyFlow.TransactionDate;
             moneyFlowToUpdate.Value = updatedMoneyFlow.Value;
             moneyFlowToUpdate.GrantNumber = updatedMoneyFlow.GrantNumber;
+            moneyFlowToUpdate.IsDirect = updatedMoneyFlow.IsDirect;
             updatedMoneyFlow.Audit.SetHistory(moneyFlowToUpdate);
         }
 
-        private MoneyFlowServiceUpdateValidationEntity GetUpdateValidationEntity(UpdatedMoneyFlow moneyFlow, decimal? parentMoneyFlowWithdrawalMaximum, int? parentFiscalYear)
+        private MoneyFlowServiceUpdateValidationEntity GetUpdateValidationEntity(UpdatedMoneyFlow moneyFlow, decimal? parentMoneyFlowWithdrawalMaximum, int? parentFiscalYear, int numberOfChildrenMoneyFlows)
         {
             return new MoneyFlowServiceUpdateValidationEntity(
                 description: moneyFlow.Description,
                 parentMoneyFlowWithdrawalMaximum: parentMoneyFlowWithdrawalMaximum,
                 value: moneyFlow.Value,
                 fiscalYear: moneyFlow.FiscalYear,
-                parentFiscalYear: parentFiscalYear);
+                parentFiscalYear: parentFiscalYear,
+                isDirect: moneyFlow.IsDirect,
+                numberOfChildrenMoneyFlows: numberOfChildrenMoneyFlows);
         }
         #endregion
 
