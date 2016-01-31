@@ -1,4 +1,5 @@
-﻿using ECA.Business.Models.Fundings;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Models.Fundings;
 using ECA.Business.Queries.Models.Fundings;
 using ECA.Business.Service;
 using ECA.Business.Service.Fundings;
@@ -3350,6 +3351,61 @@ namespace ECA.Business.Test.Service.Fundings
             beforeTester();
             await service.DeleteAsync(instance);
             afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_HasChildren()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var userId = 1;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            MoneyFlow moneyFlowToDelete = null;
+            MoneyFlow child = null;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            context.SetupActions.Add(() =>
+            {
+                moneyFlowToDelete = new MoneyFlow
+                {
+                    MoneyFlowId = moneyFlowId,
+                    Description = "old desc",
+                    FiscalYear = 1900,
+                    MoneyFlowStatusId = -1,
+                    MoneyFlowTypeId = -1,
+                    TransactionDate = lastWeek,
+                    Value = -1.0m,
+                    SourceProjectId = sourceEntityId,
+                    SourceTypeId = entityTypeId
+                };
+                moneyFlowToDelete.History.CreatedBy = userId;
+                moneyFlowToDelete.History.RevisedBy = userId;
+                moneyFlowToDelete.History.CreatedOn = yesterday;
+                moneyFlowToDelete.History.RevisedOn = yesterday;
+
+                child = new MoneyFlow
+                {
+                    MoneyFlowId = 100,
+                    Parent = moneyFlowToDelete,
+                    ParentMoneyFlowId = moneyFlowToDelete.MoneyFlowId
+                };
+                context.MoneyFlows.Add(child);
+                context.MoneyFlows.Add(moneyFlowToDelete);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(2, context.MoneyFlows.Count());
+            };
+            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId, entityTypeId);
+
+            context.Revert();
+            beforeTester();
+            var message = "The money flow to delete has children money flows.  It cannot be deleted.";
+            Action a = () => service.Delete(instance);
+            Func<Task> f = () => service.DeleteAsync(instance);
+            a.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            beforeTester();
         }
 
         [TestMethod]

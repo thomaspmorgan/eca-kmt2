@@ -65,7 +65,7 @@
                                            ui-select-st-search-model-id="id"
                                            ui-select-st-search-property="sourceRecipientEntityTypeId"
                                            ui-select-st-search-comparison-type="in"
-                                           close-on-select="true"
+                                           close-on-select="true"                                           
                                            ng-model="view.selectedFilterSourceRecipientTypes"
                                            theme="select2"
                                            append-to-body="true">
@@ -87,7 +87,23 @@
                                 <div equality-filter property="'amount'" propertytype="'float'"></div>
                             </th>
                             <th>
-                                <div equality-filter property="'fiscalYear'" propertytype="'int'"></div>
+                                <!--<div equality-filter property="'fiscalYear'" propertytype="'int'"></div>-->
+                                <ui-select multiple
+                                           ui-select-st-search
+                                           ui-select-st-search-model-id="year"
+                                           ui-select-st-search-property="fiscalYear"
+                                           ui-select-st-search-comparison-type="in"
+                                           close-on-select="true"
+                                           ng-model="view.selectedFilterFiscalYears"
+                                           theme="select2"
+                                           append-to-body="true">
+                                    <ui-select-match placeholder="Filter fiscal years...">
+                                        <div>{{$item}}</div>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="year in view.getFilterFiscalYears()">
+                                        <div ng-bind-html="year"></div>
+                                    </ui-select-choices>
+                                </ui-select>
                             </th>
                             <th>
                                 <input st-search="'description'" maxlength="100" placeholder="" type="search" class="form-control" />
