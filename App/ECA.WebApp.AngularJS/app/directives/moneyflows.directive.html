@@ -138,7 +138,7 @@
                                     <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(moneyFlow)">
                                         <i class="material-icons md-24 copyEditDeleteOption">edit</i>
                                     </div>
-                                    <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)">
+                                    <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteClick(moneyFlow)" ng-show="!moneyFlow.hasChildren">
                                         <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isDeleting">delete</i>
                                         <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isDeleting">autorenew</i>
                                     </div>
@@ -251,7 +251,11 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                &nbsp;
+                                                <label>Source For Other Funding Items</label>
+                                                <div>
+                                                    <span ng-show="moneyFlow.hasChildren">Yes</span>
+                                                    <span ng-show="!moneyFlow.hasChildren">No</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">
