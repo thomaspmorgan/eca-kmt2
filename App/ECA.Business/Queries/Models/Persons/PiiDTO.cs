@@ -127,5 +127,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the city of birth location.
         /// </summary>
         public LocationDTO PlaceOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant id.
+        /// </summary>
+        public int ParticipantId { get; set; }
+
+        /// <summary>
+        /// The most recent participant Sevis valiation result
+        /// </summary>
+        public string SevisValidationResult { get; set; }
     }
 }

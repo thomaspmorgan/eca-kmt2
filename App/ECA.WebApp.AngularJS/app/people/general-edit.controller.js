@@ -56,7 +56,13 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
               $scope.edit.General = false;
-              SevisResultService.updateSevisVerificationResults($scope.general.personId);
+              SevisResultService.updateSevisVerificationResults($scope.general.personId)
+                .then(function (validationResults) {
+                    $scope.person.sevisValidationResult = validationResults;
+                })
+                .catch(function (error) {
+                    $log.error('Unable to update sevis validation results for participantId: ' + participantId);
+                });
           }, 
             function (error) {
                 if (error.status == 400) {

@@ -16,6 +16,7 @@
             restrict: 'E',
             scope: {
                 participantid: '@',
+                personid: '@',
                 sevisinfo: '=',
                 active: '=',
                 update: '&'
@@ -38,20 +39,26 @@
                     $scope.edit.isEndDatePickerOpen = true
                 }
                 
-                // pre-sevis validation
-                $scope.validateSevisInfo = function (sevisId) {
-                    if (sevisId) {
-                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateUpdateSevisInfo($scope.participantid);
-                    } else {
-                        $scope.sevisinfo.sevisValidationResult = SevisResultService.validateCreateSevisInfo($scope.participantid);
-                    }
+                // pre-sevis validation result update
+                $scope.validateSevisInfo = function (sevisInfo) {
+                    var params = {
+                        participantId: sevisInfo.participantId,
+                        sevisId: sevisInfo.sevisId
+                    };
+                    SevisResultService.validateSevisInfo(params)
+                        .then(function (data) {
+                            $scope.sevisinfo.sevisValidationResult = data;
+                        })
+                        .catch(function (error) {
+                            $log.error('Unable to update sevis validation results for participantId: ' + sevisInfo.participantId);
+                        });
                 }
 
                 // Navigate to a section where the validation error can be resolved
                 $scope.goToErrorSection = function (customState) {                    
                     if (customState)
                     {
-                        $state.go(customState.category + '.' + customState.categorySub, { 'section': customState.section, 'tab': customState.tab, 'personId': $scope.participantid, 'participantId': $scope.participantid }, { reload: true });
+                        $state.go(customState.category + '.' + customState.categorySub, { 'section': customState.section, 'tab': customState.tab, 'personId': $scope.personid, 'participantId': $scope.participantid }, { reload: true });
                     }
                 };
             }
