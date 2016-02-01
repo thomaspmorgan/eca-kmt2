@@ -65,19 +65,19 @@
                                 </h4>
                             </div>
                         </div>
-                        <div class="col-md-2" ng-show="!office.loadingChildrenOffices && office.hasChildren">
+                        <div class="col-md-2" ng-show="!office.loadingChildrenOffices && office.numberOfChildren">
                             <span ng-click="view.onExpandClick(office)" ng-show="view.listType === view.hierarchyKey && (!office.children || office.children.length > 0)" style="cursor:pointer;" class="right">
                                 <i class="material-icons md-24" ng-show="!office.isExpanded">expand_less</i>
                             </span>
                             <span ng-click="view.onCollapseClick(office)" ng-show="view.listType === view.hierarchyKey && (!office.children || office.children.length > 0)" style="cursor:pointer;" class="right">
                                 <i class="material-icons md-24" ng-show="office.isExpanded">expand_more</i>
                             </span>
-                            <span ng-show="office.children && office.children.length > 0"
+                            <span ng-show="office.numberOfChildren"
                                   class="right mute"
                                   style="padding-left:2px;padding-right:2px;"
                                   tooltip="The number of sub-offices."
                                   tooltip-placement="bottom">
-                                ({{office.children.length}})
+                                ({{office.numberOfChildren}})
                             </span>
                             <span ng-show="office.parent"
                                   class="right"

@@ -47,9 +47,9 @@ namespace ECA.Business.Queries.Models.Admin
         public int OrganizationLevel { get; set; }
 
         /// <summary>
-        /// Gets or sets whether this instance has children.
+        /// Gets or sets the number of children.
         /// </summary>
-        public bool HasChildren { get; set; }
+        public int NumberOfChildren { get; set; }
 
         /// <summary>
         /// Gets or sets the description

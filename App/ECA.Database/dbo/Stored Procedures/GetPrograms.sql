@@ -25,7 +25,6 @@ with cte as
 		ProgramStatus.Status,
 		cast(row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) as varchar(max)) as [path],
 		0 as programLevel,
-		CASE WHEN EXISTS (SELECT 1 FROM dbo.Program AS p1 WHERE p1.parentProgram_ProgramId = prog.ProgramId) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS HasChildren,
 		row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) / power(10.0,0) as sortOrder 
 	from program as prog
 	Join Organization as Org on Owner_OrganizationId = Org.OrganizationId 
@@ -47,7 +46,6 @@ with cte as
 		ProgramStatus.Status,
 		[path] +'-'+ cast(row_number()over(partition by t.parentProgram_ProgramId order by t.name) as varchar(max)),
 		programLevel+1,
-		CASE WHEN EXISTS (SELECT 1 FROM dbo.Program AS p2 WHERE p2.parentProgram_ProgramId = t.ProgramId) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS HasChildren,
 		sortOrder + row_number()over(partition by t.parentProgram_ProgramId order by t.name) / power(10.0,programlevel+1) 
 	from
 		cte
@@ -56,6 +54,14 @@ with cte as
 		Join ProgramStatus On t.ProgramStatusId = ProgramStatus.ProgramStatusId
 )
    
-select * from cte order by sortOrder
+SELECT cte.*,
+(
+	SELECT COUNT(childProgram.ProgramId)
+	FROM Program childProgram
+	WHERE childProgram.ParentProgram_ProgramId = cte.ProgramId
+) as NumberOfChildren
+
+FROM cte 
+ORDER BY SortOrder
 
 END

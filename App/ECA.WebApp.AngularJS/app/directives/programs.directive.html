@@ -67,19 +67,19 @@
                             </div>
                         </div>
                         <div class="col-md-2" ng-show="!program.loadingChildrenPrograms">
-                            <span ng-click="view.onExpandClick(program)" ng-show="view.listType === view.hierarchyKey && program.hasChildren" style="cursor:pointer;" class="right">
+                            <span ng-click="view.onExpandClick(program)" ng-show="view.listType === view.hierarchyKey && program.numberOfChildren" style="cursor:pointer;" class="right">
                                 <i class="material-icons md-24" ng-show="!program.isExpanded">expand_less</i>
                             </span>
-                            <span ng-click="view.onCollapseClick(program)" ng-show="view.listType === view.hierarchyKey && program.hasChildren" style="cursor:pointer;" class="right">
+                            <span ng-click="view.onCollapseClick(program)" ng-show="view.listType === view.hierarchyKey && program.numberOfChildren" style="cursor:pointer;" class="right">
                                 <i class="material-icons md-24" ng-show="program.isExpanded">expand_more</i>
                             </span>
-                            <span ng-show="program.children && program.children.length > 0"
+                            <span ng-show="program.numberOfChildren"
                                   class="right mute"
                                   style="padding-left:2px;padding-right:2px;"
                                   tooltip="The number of sub-programs."
                                   tooltip-placement="bottom"
                                   >
-                                ({{program.children.length}})
+                                ({{program.numberOfChildren}})
                             </span>
                             <span ng-show="program.parent"
                                   class="right"
