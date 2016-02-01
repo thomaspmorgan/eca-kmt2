@@ -1,8 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-    .run(['$rootScope', '$location', '$state', '$modal', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService', 'Idle',
-      function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService, Idle) {
+    .run(function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService, Idle, AuthService) {
 
           console.assert(NotificationService, "The NotificationService is needed so that we can display notifications for user registration.");
           console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
@@ -102,6 +101,17 @@ angular.module('staticApp')
           });
 
           Idle.watch();
-          $rootScope.$on('IdleStart', function () { /* Display modal warning */ console.log('IdleStart')});
-          $rootScope.$on('IdleTimeout', function () { /* Logout user */ console.log('IdleTimeout')});
-      }]);
+
+          $rootScope.$on('IdleStart', function () { /* Display modal warning */
+              var modalInstance = $modal.open({
+                  controller: 'LogoutCtrl',
+                  templateUrl: '/app/auth/logout-warning.html',
+                  backdrop: 'static',
+                  size: 'lg'
+              });
+          });
+          $rootScope.$on('IdleTimeout', function () { /* Logout user */
+              console.log('IdleTimeout');
+              //AuthService.logOut();
+          });
+      });

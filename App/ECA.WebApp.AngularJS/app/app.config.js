@@ -7,7 +7,8 @@ angular.module('staticApp')
           base: '',
           tenant: 'statedept.us',
           clientId: 'e0356e55-e124-452c-837d-aeb7504185ff',
-          resource: 'https://ecaserver.state.gov'
+          resource: 'https://ecaserver.state.gov',
+          postLogoutRedirectUri: window.location.origin + '/logout.html'
       }, $httpProvider
       );
 
