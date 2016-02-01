@@ -229,13 +229,13 @@ angular.module('staticApp')
               filterOnThisPeerEntity = false;
               return $scope.view.getPeers(null);
           });
-          
+
       }
 
       var valuesThatCanFilterPeerEntitiesFilter = FilterService.add('moneyflowcontroller_valuesThatCanFilterPeerEntities');
       $scope.view.loadValuesThatCanFilterPeerEntities = function (search, moneyFlow) {
           var loadFn = null;
-          
+
           valuesThatCanFilterPeerEntitiesFilter.reset();
           valuesThatCanFilterPeerEntitiesFilter = valuesThatCanFilterPeerEntitiesFilter
               .skip(0)
@@ -292,6 +292,7 @@ angular.module('staticApp')
               if (search) {
                   valuesThatCanFilterPeerEntitiesFilter = valuesThatCanFilterPeerEntitiesFilter.like(propertyToFilter, search);
               }
+              valuesThatCanFilterPeerEntitiesFilter = valuesThatCanFilterPeerEntitiesFilter.sortBy(propertyToFilter);
               return loadFn(valuesThatCanFilterPeerEntitiesFilter.toParams())
               .then(function (response) {
                   var data = null;
@@ -307,7 +308,7 @@ angular.module('staticApp')
                   angular.forEach(data, function (item, index) {
                       item.id = idMapFn(item);
                       item.value = valueMapFn(item);
-                  });                  
+                  });
                   $scope.view.valuesThatCanFilterPeerEntities = data;
                   $scope.view.valuesThatCanFilterPeerEntitiesCount = total;
                   return $scope.view.valuesThatCanFilterPeerEntities;
@@ -592,11 +593,12 @@ angular.module('staticApp')
               throw Error("The peer entity type id [" + peerEntityTypeId + "] is not yet supported.");
           }
           searchFilter = searchFilter
+             .sortBy(namePropertyName)
             .skip(0)
             .take($scope.view.searchLimit);
-          if(search){
+          if (search) {
               searchFilter = searchFilter.like(namePropertyName, search);
-          } 
+          }
           if (peerEntityTypeId === entity.entityTypeId) {
               $log.info('Including identical entity id not equal filter.');
               var id = entity.entityId;

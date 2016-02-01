@@ -55,6 +55,7 @@ angular.module('staticApp')
 
       $scope.view.selectedFilterMoneyFlowStatii = [];
       $scope.view.selectedFilterSourceRecipientTypes = [];
+      $scope.view.selectedFilterFiscalYears = [];
 
       //the program id, project id, etc...
       $scope.view.entityId = $stateParams[$scope.$parent.stateParamName];
@@ -256,6 +257,17 @@ angular.module('staticApp')
                   allYears.splice(0, 0, moneyFlow.fiscalYear);
               }
           }          
+          return orderByFilter(allYears, '-');
+      }
+
+      $scope.view.getFilterFiscalYears = function () {
+          var currentYear = new Date().getFullYear();
+          var startYear = 1995;
+          var maxYear = currentYear + 2;
+          var allYears = [];
+          for (var i = startYear; i <= maxYear; i++) {
+              allYears.push(i);
+          }
           return orderByFilter(allYears, '-');
       }
 

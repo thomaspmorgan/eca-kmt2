@@ -21,127 +21,114 @@
             setAllPeopleDocumentTitle: setAllPeopleDocumentTitle,
             setMoneyFlowTitleByEntityName: setMoneyFlowTitleByEntityName,
             setHomeDocumentTitle: setHomeDocumentTitle,
-            setDocumentTitleByReport: setDocumentTitleByReport
+            setDocumentTitleByReport: setDocumentTitleByReport,
+            getModel: getModel,
+            _model: { title: null, tab: null }
         };
 
         return service;
 
         function setAllProgramsDocumentTitle() {
-            service.setDocumentTitle(function () {
-                return 'All Programs';
-            })
+            service._model.title = 'All Programs';
+            service._model.tab = null;
+            setDocumentTitle();
         }
 
         function setDocumentTitleByReport(tab) {
-            service.setDocumentTitle(function () {
-                var title = 'Reports';
-                if (tab) {
-                    title += ' - ' + tab;
-                }
-                return title;
-            })
+            service._model.title = 'Reports';
+            service._model.tab = tab;
+            setDocumentTitle();
         }
 
         function setHomeDocumentTitle(tab) {
-            service.setDocumentTitle(function () {
-                if (tab) {
-                    return tab;
-                }
-                else {
-                    return '';
-                }
-            })
+            service._model.title = 'Home';
+            service._model.tab = tab;
+            setDocumentTitle();
         }
 
         function setMoneyFlowTitleByEntityName(entityName) {
-            service.setDocumentTitle(function () {
-                var title = entityName + ' - Funding';
-                return title;
-            });
+            console.assert(entityName, 'The entity name must be defined.');
+            service._model.title = entityName;
+            service._model.tab = 'Funding';
+            setDocumentTitle();
         }
 
         function setDocumentTitleByPerson(person, tab) {
-            service.setDocumentTitle(function () {
-                var title = person.fullName;
-                if (tab) {
-                    title += ' - ' + tab;
-                }
-                return title;
-            });
+            console.assert(person, 'The person must be defined.');
+            console.assert(person.fullName, 'The fullName must be defined.');
+            service._model.title = person.fullName;
+            service._model.tab = tab;
+            setDocumentTitle();
         }
 
         function setAllPeopleDocumentTitle() {
-            service.setDocumentTitle(function () {
-                return 'People';
-            })
+            service._model.title = 'People';
+            service._model.tab = null;
+            setDocumentTitle();
         }
 
         function setAllOfficesDocumentTitle() {
-            service.setDocumentTitle(function () {
-                return 'Office Directory';
-            });
+            service._model.title = 'Office Directory';
+            service._model.tab = null;
+            setDocumentTitle();
         }
 
         function setAllOrganizationsDocumentTitle() {
-            service.setDocumentTitle(function () {
-                return 'Organizations';
-            });
+            service._model.title = 'Organizations';
+            service._model.tab = null;
+            setDocumentTitle();
         }
 
         function setDocumentTitleByOffice(office, tab) {
-            service.setDocumentTitle(function () {
-                var title = office.name;
-                if (tab) {
-                    title += ' - ' + tab;
-                }
-                return title;
-            })
+            console.assert(office, 'The office must be defined.');
+            console.assert(office.name, 'The name must be defined.');
+            service._model.title = office.name;
+            service._model.tab = tab;
+            setDocumentTitle();
         }
 
         function setDocumentTitleByOrganization(org, tab) {
-            service.setDocumentTitle(function () {
-                var title = org.name;
-                if (tab) {
-                    title += ' - ' + tab;
-                }
-                return title;
-            })
+            console.assert(org, 'The org must be defined.');
+            console.assert(org.name, 'The name must be defined.');
+            service._model.title = org.name;
+            service._model.tab = tab;
+            setDocumentTitle();
         }
 
         function setDocumentTitleByProject(project, tab) {
-            service.setDocumentTitle(function () {
-                var title = project.name;
-                if (tab) {
-                    title += ' - ' + tab;
-                }
-                return title;
-            });
+            console.assert(project, 'The project must be defined.');
+            console.assert(project.name, 'The name must be defined.');
+            service._model.title = project.name;
+            service._model.tab = tab;
+            setDocumentTitle();
         };
 
         function setDocumentTitleByProgram(program, tab) {
-            service.setDocumentTitle(function () {
-                var title = program.name;
-                if (tab) {
-                    title += ' - ' + tab;
-                }
-                return title;
-            });
+            console.assert(program, 'The program must be defined.');
+            console.assert(program.name, 'The name must be defined.');
+            service._model.title = program.name;
+            service._model.tab = tab;
+            setDocumentTitle();
         };
 
+        function getModel() {
+            return service._model;
+        }
 
-        function setDocumentTitle(documentTitleFn) {
-            if (angular.isUndefined(documentTitleFn)) {
-                throw Error('The documentTitleFn is undefined.');
+        function setDocumentTitle() {
+            if (angular.isUndefined(service._model.title)) {
+                throw Error('The model title is undefined.');
             }
-            if (!angular.isFunction(documentTitleFn)) {
-                throw Error('The documentTitleFn must be a function');
+            if (!angular.isString(service._model.title)) {
+                throw Error('the model title must be a string.');
             }
-            var title = documentTitleFn();
-            if (!angular.isString(title)) {
-                throw Error('The documentTitleFn must return a string.');
+            var title = 'ECA KMT - ' + service._model.title;
+            if (!angular.isUndefined(service._model.title) && service._model.tab !== null) {
+                if (!angular.isString(service._model.tab)) {
+                    throw Error('The model tab must be a string.');
+                }
+                title += ' - ' + service._model.tab;
             }
-            title = 'ECA KMT - ' + title;
-
             document.title = title;
         };
 
