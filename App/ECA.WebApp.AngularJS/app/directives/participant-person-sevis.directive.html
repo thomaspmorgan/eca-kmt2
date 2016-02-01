@@ -7,7 +7,7 @@
                 <div class="bounce3"></div>
             </div>
         </div>
-        <div ng-show="sevisinfo.sevisValidationResult.errors.length > 0 || sevisinfo.sevisValidationResult.isValid == false">
+        <div ng-show="sevisinfo.sevisValidationResult.isValid == false">
             <div class="col-md-4">
                 <p class="title-label" style="color:red; display:inline-flex; vertical-align:middle">
                     <i class="icon material-icons md-24">warning</i> verification failed
@@ -23,7 +23,7 @@
                 </fieldset>
             </div>
         </div>
-        <div ng-show="sevisinfo.sevisValidationResult.errors.length == 0">
+        <div ng-show="sevisinfo.sevisValidationResult.isValid == true">
             <div class="col-md-3 col-md-offset-9">
                 <p class="title-label" style="color:green; display:inline-flex; vertical-align:bottom">
                     <i class="material-icons md-dark md-24 pull-right" style="color: green">check</i> Validation passed

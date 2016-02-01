@@ -56,7 +56,7 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
               $scope.edit.General = false;
-              SevisResultService.updateSevisVerificationResults($scope.general.personId)
+              SevisResultService.updateSevisVerificationResultsByPersonId($scope.general.personId)
                 .then(function (validationResults) {
                     $scope.person.sevisValidationResult = validationResults;
                 })

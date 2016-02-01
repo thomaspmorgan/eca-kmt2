@@ -160,7 +160,7 @@ angular.module('staticApp')
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
-                  SevisResultService.updateSevisVerificationResults($scope.person.personId)
+                  SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (validationResults) {
                         $scope.person.sevisValidationResult = validationResults;
                     })
