@@ -191,6 +191,7 @@
     <Content Include="app\errors\error.routes.js" />
     <Content Include="app\filters\boolYesNo.filter.js" />
     <Content Include="app\filters\newline.filter.js" />
+    <Content Include="app\home\navigation.controller.js" />
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\projects\add-itinerary-stop-modal.controller.js" />

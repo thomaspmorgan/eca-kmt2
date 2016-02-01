@@ -57,8 +57,8 @@ namespace ECA.Business.Queries.Models.Office
         public int OfficeLevel { get; set; }
 
         /// <summary>
-        /// Gets or sets whether this instance has children.
+        /// Gets or sets the number of children.
         /// </summary>
-        public bool HasChildren { get; set; }
+        public int NumberOfChildren { get; set; }
     }
 }

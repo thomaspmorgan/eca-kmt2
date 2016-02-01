@@ -1,4 +1,5 @@
-﻿using ECA.Business.Models.Fundings;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Models.Fundings;
 using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Fundings;
 using ECA.Business.Queries.Models.Admin;
@@ -884,7 +885,9 @@ namespace ECA.Business.Service.Fundings
             var moneyFlowToDelete = Context.MoneyFlows.Find(deletedMoneyFlow.Id);
             var permissableMoneyFlow = CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow).FirstOrDefault();
             throwSecurityViolationIfNull(deletedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToDelete);
-            DoDelete(moneyFlowToDelete);
+
+            var childrenCount = CreateGetChildrenMoneyFlowsByParentId(deletedMoneyFlow.Id).Count();
+            DoDelete(moneyFlowToDelete, childrenCount);
         }
 
         /// <summary>
@@ -896,12 +899,18 @@ namespace ECA.Business.Service.Fundings
             var moneyFlowToDelete = await Context.MoneyFlows.FindAsync(deletedMoneyFlow.Id);
             var permissableMoneyFlow = await CreateGetMoneyFlowByIdAndEntityIdQuery(deletedMoneyFlow).FirstOrDefaultAsync();
             throwSecurityViolationIfNull(deletedMoneyFlow.Audit.User.Id, permissableMoneyFlow, moneyFlowToDelete);
-            DoDelete(moneyFlowToDelete);
+
+            var childrenCount = await CreateGetChildrenMoneyFlowsByParentId(deletedMoneyFlow.Id).CountAsync();
+            DoDelete(moneyFlowToDelete, childrenCount);
         }
 
-        private void DoDelete(MoneyFlow moneyFlowToDelete)
+        private void DoDelete(MoneyFlow moneyFlowToDelete, int childrenCount)
         {
             Contract.Requires(moneyFlowToDelete != null, "The money flow to delete must not be null.");
+            if(childrenCount != 0)
+            {
+                throw new EcaBusinessException("The money flow to delete has children money flows.  It cannot be deleted.");
+            }
             Context.MoneyFlows.Remove(moneyFlowToDelete);
         }
         #endregion

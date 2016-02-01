@@ -204,7 +204,6 @@
     <Build Include="dbo\Tables\ProjectCategory.sql" />
     <Build Include="dbo\Tables\ProjectObjective.sql" />
     <Build Include="dbo\Tables\OfficeSettings.sql" />
-    <Build Include="dbo\Stored Procedures\GetProgramsByOffice.sql" />
     <Build Include="dbo\Tables\Log.sql" />
     <Build Include="dbo\Tables\ItineraryStopAppointment.sql" />
     <Build Include="dbo\Tables\ItineraryAppointment.sql" />
