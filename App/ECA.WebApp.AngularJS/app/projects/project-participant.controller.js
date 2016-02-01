@@ -25,6 +25,7 @@ angular.module('staticApp')
         SevisResultService,
         ConstantsService,
         AuthService,
+        BrowserService,
         ProjectService,
         NotificationService,
         TableService,
@@ -220,6 +221,11 @@ angular.module('staticApp')
       $scope.view.onRadioButtonChange = function (radioButtonValue) {
           clearAddParticipantView();
       }
+
+      $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          BrowserService.setDocumentTitleByProject(project, 'Participants');
+          
+      });
 
       function reloadParticipantTable() {
           console.assert($scope.getParticipantsTableState, "The table state function must exist.");
