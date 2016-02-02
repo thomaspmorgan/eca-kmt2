@@ -110,10 +110,8 @@ angular.module('staticApp')
                   size: 'lg'
               });
           });
-
           $rootScope.$on('IdleTimeout', function () { /* Logout user */
               console.log('IdleTimeout');
-              AuthService.logOut();
+              //AuthService.logOut();
           });
-
       });
