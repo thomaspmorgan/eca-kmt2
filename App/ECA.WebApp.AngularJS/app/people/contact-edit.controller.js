@@ -36,8 +36,8 @@ angular.module('staticApp')
               loadContactInfo($stateParams.personId);
               $scope.edit.Contact = false;
               SevisResultService.updateSevisVerificationResultsByPersonId($stateParams.personId)
-                .then(function (validationResults) {
-                    $scope.person.sevisValidationResult = validationResults;
+                .then(function (response) {
+                    $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
                 })
                 .catch(function (error) {
                     $log.error('Unable to update sevis validation results for participantId: ' + participantId);

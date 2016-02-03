@@ -161,8 +161,8 @@ angular.module('staticApp')
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
-                    .then(function (validationResults) {
-                        $scope.person.sevisValidationResult = validationResults;
+                    .then(function (response) {
+                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
                     })
                     .catch(function (error) {
                         $log.error('Unable to update sevis validation results for participantId: ' + participantId);

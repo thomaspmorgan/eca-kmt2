@@ -22,8 +22,7 @@ angular.module('staticApp')
                       return obj.validateUpdateSevis(participant.data.participantId);
                   } else {
                       if (participant.data.participantId) {
-                          var results = obj.validateCreateSevis(participant.data.participantId);
-                          defer.resolve(results);
+                          defer.resolve(obj.validateCreateSevis(participant.data.participantId));
                       }
                   }
               })
