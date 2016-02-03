@@ -112,6 +112,6 @@ angular.module('staticApp')
           });
           $rootScope.$on('IdleTimeout', function () { /* Logout user */
               console.log('IdleTimeout');
-              //AuthService.logOut();
+              AuthService.logOut();
           });
       });

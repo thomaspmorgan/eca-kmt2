@@ -100,7 +100,7 @@
             <div class="text-stack">
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
-                <div ng-controller="AboutCtrl">
+                <div ng-controller="AboutCtrl" ng-if="userInfo.isAuthenticated">
                     <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}}</p>
                 </div>
             </div>
@@ -346,6 +346,6 @@
     <script src="app/services/user.service.js"></script>
     <!-- endbuild -->
     <script src="/app.tpls.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </body>
 </html>
