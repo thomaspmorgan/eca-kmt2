@@ -1,0 +1,233 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Points Of Contact</h3>
+</div>
+<div class="modal-body">
+    <div>
+        <div class="col-md-12">
+            <div class="list2">
+                <form name="form.pointOfContactForm">
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <i class="material-icons md-48">person</i>
+                        </div>
+                        <div class="col-md-9">
+                            <h4>General</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <a ng-click="view.showGeneral = !view.showGeneral">
+                                <i class="material-icons md-48" ng-show="view.showGeneral">expand_more</i>
+                                <i class="material-icons md-48" ng-show="!view.showGeneral">expand_less</i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="view.showGeneral">
+                        <div class="list2">
+                            <div class="row row4 form-group">
+                                <div class="col-md-2">
+                                    <label>
+                                        Full Name<span class="asterisk"> *</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input name="name"
+                                           maxlength="{{view.maxNameLength}}"
+                                           ng-model="view.newPointOfContact.fullName"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Enter the full name of the point of contact..."
+                                           required>
+                                </div>
+                            </div>
+                            <div ng-show="form.newPointOfContact.name.$dirty">
+                                <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
+                            </div>
+                            <div class="row row4 form-group">
+                                <div class="col-md-2">
+                                    <label>
+                                        Position
+                                    </label>
+                                </div>
+                                <div class="col-md-10">
+                                    <input name="position"
+                                           maxlength="{{view.maxNameLength}}"
+                                           ng-model="view.newPointOfContact.position"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Enter the point of contact's position...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <i class="material-icons md-48">email</i>
+                        </div>
+                        <div class="col-md-9">
+                            <h4>Email(s)</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <a ng-click="view.showEmails = !view.showEmails">
+                                <i class="material-icons md-48" ng-show="view.showEmails">expand_more</i>
+                                <i class="material-icons md-48" ng-show="!view.showEmails">expand_less</i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="view.showEmails">
+                        <div class="row form-group" ng-repeat="website in view.newPointOfContact.emailAddresses track by $index">
+                            <div class="col-md-10">
+                                <div class="row row4">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Type
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select ng-model="view.newPointOfContact.emailAddresses[$index].emailAddressTypeId"
+                                                class="form-control"
+                                                ng-options="type.id as type.name for type in view.emailAddressTypes" />
+                                    </div>
+                                </div>
+                                <div class="row row4">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Email Address<span class="asterisk"> *</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input name="emailAddress{{$index}}"
+                                               class="form-control"
+                                               ng-change="view.onEmailAddressChange($index)"
+                                               ui-validate-async="{unique: 'view.isUniquePointOfContact($value, $index)'}"
+                                               ng-model-options="{debounce: 750}"
+                                               type="email"
+                                               ng-model="view.newPointOfContact.emailAddresses[$index].address"
+                                               placeholder="Enter an email address (e.g. joe.smith@state.gov)..."
+                                               required />
+                                        <div ng-show="form.pointOfContactForm.emailAddress{{$index}}.$error.unique" class="error">
+                                            A point of contact with this email address already exists.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row4">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Primary
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="checkbox"
+                                               ng-change="view.onIsPrimaryAddressChange($index)"
+                                               ng-model="view.newPointOfContact.emailAddresses[$index].isPrimary" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a ng-click="view.deleteEmailAddress($index)">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length > 1">delete</i>
+                                </a>
+                                <a ng-click="view.addEmailAddress()">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length === $index + 1 && view.newPointOfContact.emailAddresses.length <= view.maxEmailAddresses">add</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <i class="material-icons md-48">phone</i>
+                        </div>
+                        <div class="col-md-9">
+                            <h4>Phone Number(s)</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <a ng-click="view.showPhoneNumbers = !view.showPhoneNumbers">
+                                <i class="material-icons md-48" ng-show="view.showPhoneNumbers">expand_more</i>
+                                <i class="material-icons md-48" ng-show="!view.showPhoneNumbers">expand_less</i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="view.showPhoneNumbers">
+                        <div class="row form-group" ng-repeat="website in view.newPointOfContact.phoneNumbers track by $index">
+                            <div class="col-md-10">
+                                <div class="row row4">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Type
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select ng-model="view.newPointOfContact.phoneNumbers[$index].phoneNumberTypeId"
+                                                class="form-control"
+                                                ng-options="type.id as type.name for type in view.phoneNumberTypes" />
+                                    </div>
+                                </div>
+                                <div class="row row4">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Phone Number<span class="asterisk"> *</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input name="phoneNumber{{$index}}"
+                                               maxlength="100"
+                                               ng-model="view.newPointOfContact.phoneNumbers[$index].number"
+                                               type="text"
+                                               class="form-control"
+                                               placeholder="Enter phone number."
+                                               id="phoneNumber{{$index}}"
+                                               international-phone-number
+                                               required />
+                                    </div>
+                                </div>
+                                <div class="row row4">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Primary
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="checkbox"
+                                               ng-change="view.onIsPrimaryPhoneNumberChange($index)"
+                                               ng-model="view.newPointOfContact.phoneNumbers[$index].isPrimary" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a ng-click="view.deletePhoneNumber($index)">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length > 1">delete</i>
+                                </a>
+                                <a ng-click="view.addPhoneNumber()">
+                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length === $index + 1 && view.newPointOfContact.phoneNumbers.length <= view.maxPhoneNumbers">add</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div ng-show="!view.showConfirmCancel">
+        <button class="btn btn-success"
+                ng-click="view.onSaveClick()"
+                ng-disabled="form.pointOfContactForm.$invalid || view.isSavingPointOfContact">
+            Save
+        </button>
+        <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+    </div>
+    <div ng-show="view.showConfirmCancel">
+        <div class="col-md-6">
+            <p class="text-left">There are unsaved changes to this new travel period.  Are you sure you wish to cancel?</p>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="view.onYesCancelChangesClick()">Yes, Cancel Changes</button>
+            <button class="btn btn-cancel" ng-click="view.onNoDoNotCancelChangesClick()">No</button>
+        </div>
+    </div>
+</div>

@@ -561,6 +561,7 @@
     <Compile Include="Models\Itineraries\AddedEcaItineraryStopBindingModel.cs" />
     <Compile Include="Models\Itineraries\AddedItineraryBindingModel.cs" />
     <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
+    <Compile Include="Models\Person\AdditionalPointOfContactBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />

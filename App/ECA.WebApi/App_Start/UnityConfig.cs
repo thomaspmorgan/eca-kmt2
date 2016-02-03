@@ -234,6 +234,9 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<
                 IBusinessValidator<ItineraryStopParticipantsValidationEntity, ItineraryStopParticipantsValidationEntity>,
                 ItineraryParticipantsStopValidator>();
+            container.RegisterType<
+                            IBusinessValidator<AdditionalPointOfContactValidationEntity, object>,
+                            ContactServiceValidator>();
         }
 
         /// <summary>

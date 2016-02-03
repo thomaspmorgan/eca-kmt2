@@ -23,7 +23,10 @@ namespace ECA.Business.Queries.Admin
                 Id = x.PhoneNumberId,
                 Number = x.Number,
                 PhoneNumberType = x.PhoneNumberType.PhoneNumberTypeName,
-                PhoneNumberTypeId = x.PhoneNumberTypeId
+                PhoneNumberTypeId = x.PhoneNumberTypeId,
+                PersonId = x.PersonId,
+                ContactId = x.ContactId,
+                IsPrimary = x.IsPrimary
             });
         }
 

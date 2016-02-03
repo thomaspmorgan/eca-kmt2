@@ -291,6 +291,7 @@
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
     <Compile Include="Service\Persons\EvaluationServiceTest.cs" />
     <Compile Include="Service\Persons\MembershipServiceTest.cs" />
+    <Compile Include="Service\Persons\ContactServiceValidatorTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidatorTest.cs" />
     <Compile Include="Service\Persons\DeletedParticipantTest.cs" />

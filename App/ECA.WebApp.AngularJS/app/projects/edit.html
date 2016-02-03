@@ -232,6 +232,9 @@
                                 <div class="small">{{person.position}}</div>
                             </ui-select-choices>
                         </ui-select>
+                        <div style="margin-top:5px;">
+                            <button class="btn btn-default" ng-click="editView.onAdvancedPointsOfContactClick()">Advanced <i class="material-icons md-dark">search</i></button>
+                        </div>
                     </div>
                 </div>                
                 <div class="form-group row" ng-show="project.locations && editView.dataPointConfigurations[constants.dataPointProperty.locations.id]">

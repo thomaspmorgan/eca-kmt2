@@ -45,4 +45,25 @@ namespace ECA.WebApi.Models.Admin
         /// <returns>The phone number.</returns>
         public abstract NewPhoneNumber<T> ToPhoneNumber(User user);
     }
+
+    /// <summary>
+    /// An AdditionalPhoneNumberbindingModel is used when the phone number is related to another
+    /// model implicity, such as creating a new point of contact.
+    /// </summary>
+    public class AdditionalPhoneNumberBindingModel : PhoneNumberBindingModelBase
+    {
+        /// <summary>
+        /// Returns a new NewPhoneNumber business entity.
+        /// </summary>
+        /// <param name="user">the user creating the phone number.</param>
+        /// <returns>The business entity instance.</returns>
+        public NewPhoneNumber ToNewPhoneNumber(User user)
+        {
+            return new NewPhoneNumber(
+                user: user,
+                phoneNumberTypeId: this.PhoneNumberTypeId,
+                number: this.Number
+                );
+        }
+    }
 }

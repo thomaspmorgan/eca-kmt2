@@ -248,6 +248,24 @@ angular.module('staticApp')
           }
       });
 
+      $scope.editView.onAdvancedPointsOfContactClick = function () {
+          var modalInstance = $modal.open({
+              animation: true,
+              backdrop: 'static',
+              templateUrl: 'app/points-of-contact/points-of-contact-modal.html',
+              controller: 'PointsOfContactModalCtrl',
+              windowClass: 'full-screen-modal',
+              resolve: {}
+          });
+
+          modalInstance.result.then(function () {
+          
+
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
       $scope.editView.onAdvancedSearchClick = function () {
           var modalInstance = $modal.open({
               animation: true,

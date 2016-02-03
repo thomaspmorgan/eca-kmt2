@@ -79,6 +79,8 @@
 	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
 	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
+	otherConstants["emailRegex"] = @"^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$";
+
 
 	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
 	WriteTypes(types, otherConstants);

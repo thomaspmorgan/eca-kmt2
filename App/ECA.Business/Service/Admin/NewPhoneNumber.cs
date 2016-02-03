@@ -9,12 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
-    /// <summary>
-    /// A NewEmailAddress provides a business layer client the ability to add a phone number
-    /// to an IPhoneNumberable entity.
-    /// </summary>
-    public abstract class NewPhoneNumber<T> 
-        where T : class, IPhoneNumberable
+    public class NewPhoneNumber : IAuditable
     {
         /// <summary>
         /// Creates a new phone number with the user, and phone number value.
@@ -27,7 +22,7 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(user != null, "The user must not be null.");
             this.PhoneNumberTypeId = phoneNumberTypeId;
             this.Number = number;
-            this.Create = new Create(user);
+            this.Audit = new Create(user);
         }
 
         /// <summary>
@@ -43,7 +38,27 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the create audit info.
         /// </summary>
-        public Create Create { get; private set; }
+        public Audit Audit { get; private set; }
+    }
+
+    /// <summary>
+    /// A NewEmailAddress provides a business layer client the ability to add a phone number
+    /// to an IPhoneNumberable entity.
+    /// </summary>
+    public abstract class NewPhoneNumber<T> : NewPhoneNumber
+        where T : class, IPhoneNumberable
+    {
+        /// <summary>
+        /// Creates a new phone number with the user, and phone number value.
+        /// </summary>
+        /// <param name="user">The user creating the phone number.</param>
+        /// <param name="phoneNumberTypeId">The phone number type of the phone number</param>
+        /// <param name="number">The phone number value.</param>
+        public NewPhoneNumber(User user, int phoneNumberTypeId, string number)
+            : base(user, phoneNumberTypeId, number)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+        }
 
         /// <summary>
         /// Adds the given 
@@ -59,7 +74,8 @@ namespace ECA.Business.Service.Admin
                 Number = this.Number,
                 PhoneNumberTypeId = this.PhoneNumberTypeId  
             };
-            this.Create.SetHistory(phoneNumber);
+            Contract.Assert(this.Audit.GetType() == typeof(Create), "The audit details must be a Create type.");
+            this.Audit.SetHistory(phoneNumber);
             phoneNumberable.PhoneNumbers.Add(phoneNumber);
             return phoneNumber;
         }

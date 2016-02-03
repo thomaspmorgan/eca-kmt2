@@ -179,18 +179,14 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<ContactInfoDTO> CreateGetContactInfoByIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
+            var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
 
             var query = from person in context.People
                         where person.PersonId == personId
                         select new ContactInfoDTO
                         {
-                            EmailAddresses = person.EmailAddresses.Select(x => new EmailAddressDTO
-                            {
-                                Id = x.EmailAddressId,
-                                Address = x.Address,
-                                EmailAddressType = x.EmailAddressType.EmailAddressTypeName,
-                                EmailAddressTypeId = x.EmailAddressTypeId
-                            }),
+                            EmailAddresses = emailAddressQuery.Where(x => x.PersonId == personId),
                             SocialMedias = person.SocialMedias.Select(x => new SocialMediaDTO
                             {
                                 Id = x.SocialMediaId,
@@ -198,7 +194,7 @@ namespace ECA.Business.Queries.Persons
                                 SocialMediaTypeId = x.SocialMediaTypeId,
                                 Value = x.SocialMediaValue
                             }).OrderBy(s => s.SocialMediaType),
-                            PhoneNumbers = person.PhoneNumbers.Select(x => new PhoneNumberDTO() { Id = x.PhoneNumberId, PhoneNumberType = x.PhoneNumberType.PhoneNumberTypeName, PhoneNumberTypeId = x.PhoneNumberTypeId, Number = x.Number }),
+                            PhoneNumbers = phoneNumberQuery.Where(x => x.PersonId == personId),
                             HasContactAgreement = person.HasContactAgreement,
                             PersonId = person.PersonId
                         };

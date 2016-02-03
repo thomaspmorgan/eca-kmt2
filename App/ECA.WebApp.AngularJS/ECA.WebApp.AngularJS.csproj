@@ -193,6 +193,8 @@
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\navigation.controller.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
+    <Content Include="app\points-of-contact\points-of-contact-modal.html" />
     <Content Include="app\programs\all-programs.controller.js" />
     <Content Include="app\projects\add-itinerary-stop-modal.controller.js" />
     <Content Include="app\projects\add-itinerary-stop-modal.html" />
@@ -227,6 +229,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constants.service.js</LastGenOutput>
     </Content>
+    <Content Include="app\services\contacts.service.js" />
     <Content Include="app\services\data-point-configuration.service.js" />
     <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />

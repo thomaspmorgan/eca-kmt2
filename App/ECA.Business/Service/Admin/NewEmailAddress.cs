@@ -9,12 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
-    /// <summary>
-    /// A NewEmailAddress provides a business layer client the ability to add an email address
-    /// to an IEmailAddressable entity.
-    /// </summary>
-    public abstract class NewEmailAddress<T> 
-        where T : class, IEmailAddressable
+    public class NewEmailAddress : IAuditable
     {
         /// <summary>
         /// Creates a new email address with the user, and address value.
@@ -27,7 +22,7 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(user != null, "The user must not be null.");
             this.EmailAddressTypeId = emailAddressTypeId;
             this.Address = address;
-            this.Create = new Create(user);
+            this.Audit = new Create(user);
         }
 
         /// <summary>
@@ -43,7 +38,28 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the create audit info.
         /// </summary>
-        public Create Create { get; private set; }
+        public Audit Audit { get; private set; }
+    }
+
+
+    /// <summary>
+    /// A NewEmailAddress provides a business layer client the ability to add an email address
+    /// to an IEmailAddressable entity.
+    /// </summary>
+    public abstract class NewEmailAddress<T> : NewEmailAddress
+        where T : class, IEmailAddressable
+    {
+        /// <summary>
+        /// Creates a new email address with the user, and address value.
+        /// </summary>
+        /// <param name="user">The user creating the social media presence.</param>
+        /// <param name="emailAddressTypeId">The email address type of the email</param>
+        /// <param name="address">The email address value.</param>
+        public NewEmailAddress(User user, int emailAddressTypeId, string address)
+            : base(user, emailAddressTypeId, address)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+        }
 
         /// <summary>
         /// Adds the given 
@@ -59,7 +75,8 @@ namespace ECA.Business.Service.Admin
                 Address = this.Address,
                 EmailAddressTypeId = this.EmailAddressTypeId  
             };
-            this.Create.SetHistory(emailAddress);
+            Contract.Assert(this.Audit.GetType() == typeof(Create), "The audit details must be a Create type.");
+            this.Audit.SetHistory(emailAddress);
             addressable.EmailAddresses.Add(emailAddress);
             return emailAddress;
         }
