@@ -396,7 +396,6 @@ angular.module('staticApp')
               $scope.sevisInfo[participantId].show = true;
 
               var errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length;
-
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -476,9 +475,9 @@ angular.module('staticApp')
               participantId: participantId,
               sevisId: sevisId
           };
-          SevisResultService.validateSevisInfo(params)
-            .then(function (data) {
-                $scope.sevisInfo[participantId].sevisValidationResult = data;
+          SevisResultService.updateSevisVerificationResultsByParticipant(params)
+            .then(function (validationResults) {
+                $scope.sevisInfo[participantId].sevisValidationResult = validationResults;
             })
             .catch(function (error) {
                 $log.error('Unable to update sevis validation results for participantId: ' + participantId);

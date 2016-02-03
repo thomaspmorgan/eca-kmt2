@@ -45,9 +45,12 @@
                         participantId: sevisInfo.participantId,
                         sevisId: sevisInfo.sevisId
                     };
-                    SevisResultService.validateSevisInfo(params)
-                        .then(function (data) {
-                            $scope.sevisinfo.sevisValidationResult = data;
+                    SevisResultService.updateSevisVerificationResultsByParticipant(params)
+                        .then(function (response) {
+                            $scope.sevisinfo.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+
+                            $log.info($scope.sevisinfo.sevisValidationResult);
+
                         })
                         .catch(function (error) {
                             $log.error('Unable to update sevis validation results for participantId: ' + sevisInfo.participantId);

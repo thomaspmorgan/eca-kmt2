@@ -70,8 +70,13 @@ namespace ECA.Business.Queries.Persons
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
             var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
-            var mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
-            var physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var mailingAddress = new Location();
+            var physicalAddress = new Location();
+            if (participantPerson != null)
+            {
+                mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+                physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            }
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var projectProgram = context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
@@ -114,7 +119,7 @@ namespace ECA.Business.Queries.Persons
             {
                 SubjectFieldCode = fosResult.Code,                
                 ForeignDegreeLevel = "", // TODO: add field to UI?
-                ForeignFieldOfStudy = participantPerson.FieldOfStudy,
+                ForeignFieldOfStudy = participantPerson != null ? participantPerson.FieldOfStudy : "",
                 Remarks = fosResult.Description // TODO: add field to UI?
             };
             // addresses
@@ -283,8 +288,13 @@ namespace ECA.Business.Queries.Persons
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
             var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
-            var mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
-            var physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var mailingAddress = new Location();
+            var physicalAddress = new Location();
+            if (participantPerson != null)
+            {
+                mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+                physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            }
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var project = context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
@@ -434,7 +444,7 @@ namespace ECA.Business.Queries.Persons
                     SubjectFieldCode = fosResult.Code,
                     SubjectFieldRemarks = fosResult.Description,
                     ForeignDegreeLevel = "", // TODO: add field to UI?
-                    ForeignFieldOfStudy = participantPerson.FieldOfStudy,
+                    ForeignFieldOfStudy = participantPerson != null ? participantPerson.FieldOfStudy : "",
                     Remarks = fosResult.Description // TODO: add field to UI?
                 }
             };
@@ -469,7 +479,7 @@ namespace ECA.Business.Queries.Persons
                     ParticipantInfo = new ParticipantInfoUpdate
                     {
                         EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
-                        FieldOfStudy = participantPerson.FieldOfStudy,
+                        FieldOfStudy = participantPerson != null ? participantPerson.FieldOfStudy : "",
                         TypeOfDegree = "",
                         DateAwardedOrExpected = program.EndDate.Value.Date > DateTime.MinValue ? program.EndDate.Value.Date : DateTime.MinValue
                     },

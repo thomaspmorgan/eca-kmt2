@@ -113,7 +113,7 @@ angular.module('staticApp')
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
-                validateSevisInfo($scope.view.participantPerson.sevisId);
+                validateSevisInfo($scope.view.participantPerson);
                 return loadParticipantInfo($scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
@@ -130,12 +130,18 @@ angular.module('staticApp')
       }
       
       // pre-sevis validation
-      function validateSevisInfo(sevisId) {
-          if (sevisId) {
-              SevisResultService.validateUpdateSevisInfo($scope.participantid);
-          } else {
-              SevisResultService.validateCreateSevisInfo($scope.participantid);
-          }
+      function validateSevisInfo(participantPerson) {
+          var params = {
+              participantId: participantPerson.participantId,
+              sevisId: participantPerson.sevisId
+          };
+          SevisResultService.updateSevisVerificationResultsByParticipant(params)
+              .then(function (validationResults) {
+
+              })
+              .catch(function (error) {
+                  $log.error('Unable to update sevis validation results for participantId: ' + params.participantId);
+              });
       }
 
       var projectId = $stateParams.projectId;
@@ -335,6 +341,7 @@ angular.module('staticApp')
 
       var hasAttemptedToSaveNewParticipantPersonCount = 0;
       var maxAttemptedSaveNewParticipantPersonCount = 5;
+
       function loadParticipantInfo(participantId) {
           $scope.view.isLoadingInfo = true;
           return ParticipantPersonsService.getParticipantPersonsById(participantId)
@@ -377,7 +384,8 @@ angular.module('staticApp')
               return ParticipantService.getParticipantById(participantId)
               .then(function (responseData) {
                   var newParticipantPerson = getNewParticipantPerson(participantId, responseData.statusId, responseData.participantTypeId);
-                  return saveParticipantPerson(newParticipantPerson)
+                  if (responseData.participantTypeId === 6) {
+                      return saveParticipantPerson(newParticipantPerson)
                       .then(function (response) {
                           $scope.view.isLoadingInfo = false;
                           return loadParticipantInfo(participantId);
@@ -388,7 +396,7 @@ angular.module('staticApp')
                           $log.error(message);
                           NotificationService.showErrorMessage(message);
                       });
-
+                  }
               })
               .catch(function (response) {
                   $scope.view.isLoadingInfo = false;
