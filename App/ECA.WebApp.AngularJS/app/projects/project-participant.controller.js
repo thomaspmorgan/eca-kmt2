@@ -395,7 +395,10 @@ angular.module('staticApp')
               $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
               $scope.sevisInfo[participantId].show = true;
 
-              var errorCount = $scope.sevisInfo[participantId].sevisValidationResult !== 'undefined' ? $scope.sevisInfo[participantId].sevisValidationResult.errors.length : 0;
+              var errorCount = 0;
+              if ($scope.sevisInfo[participantId].sevisValidationResult) {
+                  errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length
+              }
           })
           .catch(function (error) {
               if (error.status === 404) {
