@@ -41,6 +41,7 @@
                 
                 // pre-sevis validation result update
                 $scope.validateSevisInfo = function (sevisInfo) {
+                    $scope.edit.isValidationLoading = true;
                     var params = {
                         participantId: sevisInfo.participantId,
                         sevisId: sevisInfo.sevisId
@@ -48,12 +49,12 @@
                     SevisResultService.updateSevisVerificationResultsByParticipant(params)
                         .then(function (response) {
                             $scope.sevisinfo.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
-
-                            $log.info($scope.sevisinfo.sevisValidationResult);
-
                         })
                         .catch(function (error) {
                             $log.error('Unable to update sevis validation results for participantId: ' + sevisInfo.participantId);
+                        })
+                        .finally(function () {
+                            $scope.edit.isValidationLoading = false;
                         });
                 }
 
