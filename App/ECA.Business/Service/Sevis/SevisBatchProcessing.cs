@@ -130,7 +130,6 @@ namespace ECA.Business.Service.Sevis
         {
             Contract.Requires(updatedSevisBatchProcessing != null, "The updatedSevisBatchProcessing must not be null.");
             throwIfSevisBatchProcessingNotFound(modelToUpdate, updatedSevisBatchProcessing.BatchId);
-            modelToUpdate.BatchId = updatedSevisBatchProcessing.BatchId;
             modelToUpdate.SubmitDate = updatedSevisBatchProcessing.SubmitDate;
             modelToUpdate.RetrieveDate = updatedSevisBatchProcessing.RetrieveDate;
             modelToUpdate.SendXml = updatedSevisBatchProcessing.SendXml;
