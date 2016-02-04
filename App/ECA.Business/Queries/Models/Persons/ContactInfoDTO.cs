@@ -52,5 +52,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the Person Id.
         /// </summary>
         public int? PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant's sevis id
+        /// </summary>
+        public string SevisId { get; set; }
+
+        /// <summary>
+        /// The most recent participant Sevis valiation result
+        /// </summary>
+        public string SevisValidationResult { get; set; }
     }
 }
