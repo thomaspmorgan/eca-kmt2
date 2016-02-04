@@ -59,8 +59,8 @@ namespace ECA.Business.Queries.Models.Persons
         public string SevisId { get; set; }
 
         /// <summary>
-        /// The most recent participant Sevis valiation result
+        /// Sevis Status (person participants only)
         /// </summary>
-        public string SevisValidationResult { get; set; }
+        public string SevisStatus { get; set; }
     }
 }

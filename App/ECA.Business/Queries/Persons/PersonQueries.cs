@@ -100,14 +100,10 @@ namespace ECA.Business.Queries.Persons
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from person in context.People
-
                         let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
-                        let hasParticipantPerson = participantPerson != null
-
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
                         let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
-
                         where person.PersonId == personId
                         select new PiiDTO
                         {
@@ -168,8 +164,8 @@ namespace ECA.Business.Queries.Persons
                                          }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
                             IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
                             PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
-                            SevisId = hasParticipantPerson ? participantPerson.SevisId : string.Empty,
-                            SevisValidationResult = hasParticipantPerson ? participantPerson.SevisValidationResult : string.Empty
+                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
                         };
             return query;
         }
@@ -186,7 +182,6 @@ namespace ECA.Business.Queries.Persons
 
             var query = from person in context.People
                         let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
-                        let hasParticipantPerson = participantPerson != null
                         where person.PersonId == personId
                         select new ContactInfoDTO
                         {
@@ -207,8 +202,8 @@ namespace ECA.Business.Queries.Persons
                             PhoneNumbers = person.PhoneNumbers.Select(x => new PhoneNumberDTO() { Id = x.PhoneNumberId, PhoneNumberType = x.PhoneNumberType.PhoneNumberTypeName, PhoneNumberTypeId = x.PhoneNumberTypeId, Number = x.Number }),
                             HasContactAgreement = person.HasContactAgreement,
                             PersonId = person.PersonId,
-                            SevisId = hasParticipantPerson ? participantPerson.SevisId : string.Empty,
-                            SevisValidationResult = hasParticipantPerson ? participantPerson.SevisValidationResult : string.Empty
+                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
                         };
             return query;
         }
@@ -225,7 +220,6 @@ namespace ECA.Business.Queries.Persons
 
             var query = from person in context.People
                         let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
-                        let hasParticipantPerson = participantPerson != null
                         let currentParticipation = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statuses, Active(2) and Alumnus(1), Active is shown.
                         let hasCurrentParticipation = currentParticipation != null
                             && currentParticipation.Status != null
@@ -242,8 +236,8 @@ namespace ECA.Business.Queries.Persons
                             // RelatedReports TBD
                             ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description }),
                             CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
-                            SevisId = hasParticipantPerson ? participantPerson.SevisId : string.Empty,
-                            SevisValidationResult = hasParticipantPerson ? participantPerson.SevisValidationResult : string.Empty
+                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
                         };
 
             return query;
