@@ -67,7 +67,7 @@ INNER JOIN @tblTempTable tmp ON LiveTable.[DataPointCategoryPropertyId] = tmp.[D
 -- 5: Delete any missing records from the target
 IF @DeleteMissingRecords = 1
 BEGIN
-	DELETE FROM [dbo].[DataPointCategoryProperty] FROM [dbo].[DataPointCategoryProperty] LiveTable
+	DELETE FROM [dbo].[DataPointCategoryProperty] LiveTable
 	LEFT JOIN @tblTempTable tmp ON LiveTable.[DataPointCategoryPropertyId] = tmp.[DataPointCategoryPropertyId]
 	WHERE tmp.[DataPointCategoryPropertyId] IS NULL
 END
