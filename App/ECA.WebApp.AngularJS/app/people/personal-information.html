@@ -10,13 +10,13 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showGeneral">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showGeneral">expand_less</i>
             </a>
-            <a ng-show="!edit.General" ng-click="edit.General = !edit.General">
+            <a ng-show="!edit.General" ng-click="editGeneral()">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
     </div>
     <div collapse="!showGeneral">
-        <div ng-if="!edit.General"><ng-include src="'/app/people/general.html'"></ng-include></div>
+        <div ng-if="!edit.General"><ng-include ng-model="$parent.sevisStatus" src="'/app/people/general.html'"></ng-include></div>
         <div ng-if="edit.General"><ng-include src="'/app/people/general-edit.html'"></ng-include></div>
     </div>
 
@@ -29,7 +29,7 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showPii">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showPii">expand_less</i>
             </a>
-            <a ng-show="!edit.Pii" ng-click="edit.Pii = !edit.Pii">
+            <a ng-show="!edit.Pii" ng-click="editPii()">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
@@ -48,7 +48,7 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="showContact">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!showContact">expand_less</i>
             </a>
-            <a ng-show="!edit.Contact" ng-click="edit.Contact = !edit.Contact">
+            <a ng-show="!edit.Contact" ng-click="editContact()">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>
@@ -67,7 +67,7 @@
                 <i class="material-icons md-dark md-36 pull-right" ng-show="view.collapseEduEmp">expand_more</i>
                 <i class="material-icons md-dark md-36 pull-right" ng-show="!view.collapseEduEmp">expand_less</i>
             </a>
-            <a ng-show="!edit.EduEmp" ng-click="edit.EduEmp = !edit.EduEmp">
+            <a ng-show="!edit.EduEmp" ng-click="editEduEmp()">
                 <i class="material-icons md-dark md-24 pull-right">edit</i>
             </a>
         </div>

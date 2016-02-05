@@ -16,8 +16,8 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public ExchangeVisitorValidator()
         {
-            RuleFor(visitor => visitor.requestID).Length(1, RID_MAX_LENGTH).WithMessage("Exch. Visitor: Request ID is required and can be up to " + RID_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.userID).Length(1, UID_MAX_LENGTH).WithMessage("Exch. Visitor: User ID is required and can be up to " + UID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.requestID).NotNull().WithMessage("Exch. Visitor: Request ID is required").Length(1, RID_MAX_LENGTH).WithMessage("Exch. Visitor: Request ID is required and can be up to " + RID_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.userID).NotNull().WithMessage("Exch. Visitor: User ID is required").Length(1, UID_MAX_LENGTH).WithMessage("Exch. Visitor: User ID is required and can be up to " + UID_MAX_LENGTH.ToString() + " characters");
             RuleFor(visitor => visitor.printForm).NotNull().WithMessage("Exch. Visitor: Print form option is required");
             RuleFor(visitor => visitor.UserDefinedA).Length(0, USERDEFINEDA_MAX_LENGTH).WithMessage("Exch. Visitor: User Defined A can be up to " + USERDEFINEDA_MAX_LENGTH.ToString() + " characters");
             RuleFor(visitor => visitor.UserDefinedB).Length(0, USERDEFINEDB_MAX_LENGTH).WithMessage("Exch. Visitor: User Defined B can be up to " + USERDEFINEDB_MAX_LENGTH.ToString() + " characters");
