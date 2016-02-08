@@ -218,6 +218,8 @@
     <Compile Include="Models\Admin\LocationBindingModelTest.cs" />
     <Compile Include="Models\Admin\AdditionalEmailAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\AdditionalPhoneNumberBindingModelTest.cs" />
+    <Compile Include="Models\Admin\PersonEmailAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\PersonPhoneNumberBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedLocationBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />

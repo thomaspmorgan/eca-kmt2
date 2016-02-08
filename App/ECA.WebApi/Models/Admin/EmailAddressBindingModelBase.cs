@@ -25,6 +25,11 @@ namespace ECA.WebApi.Models.Admin
         [MaxLength(EmailAddress.EMAIL_ADDRESS_MAX_LENGTH)]
         [Required]
         public string Address { get; set; }
+
+        /// <summary>
+        /// If true, the email address is primary.
+        /// </summary>
+        public bool IsPrimary { get; set; }
     }
 
     /// <summary>
@@ -63,7 +68,8 @@ namespace ECA.WebApi.Models.Admin
             return new NewEmailAddress(
                 user: user,
                 emailAddressTypeId: this.EmailAddressTypeId,
-                address: this.Address
+                address: this.Address,
+                isPrimary: this.IsPrimary
                 );
         }
     }

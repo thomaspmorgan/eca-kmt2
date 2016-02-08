@@ -24,6 +24,11 @@ namespace ECA.WebApi.Models.Admin
         /// </summary>
         [Required]
         public string Number { get; set; }
+
+        /// <summary>
+        /// If true, this phone number is the primary phone number.
+        /// </summary>
+        public bool IsPrimary { get; set; }
     }
 
     /// <summary>
@@ -62,7 +67,8 @@ namespace ECA.WebApi.Models.Admin
             return new NewPhoneNumber(
                 user: user,
                 phoneNumberTypeId: this.PhoneNumberTypeId,
-                number: this.Number
+                number: this.Number,
+                isPrimary: this.IsPrimary
                 );
         }
     }

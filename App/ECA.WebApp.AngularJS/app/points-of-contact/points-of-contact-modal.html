@@ -11,10 +11,10 @@
                         <div class="col-md-2">
                             <i class="material-icons md-48">person</i>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8" style="margin-top:10px;">
                             <h4>General</h4>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2 text-right">
                             <a ng-click="view.showGeneral = !view.showGeneral">
                                 <i class="material-icons md-48" ng-show="view.showGeneral">expand_more</i>
                                 <i class="material-icons md-48" ng-show="!view.showGeneral">expand_less</i>
@@ -65,10 +65,13 @@
                         <div class="col-md-2">
                             <i class="material-icons md-48">email</i>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8" style="margin-top:10px;">
                             <h4>Email(s)</h4>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2 text-right">
+                            <a ng-click="view.addEmailAddress()">
+                                <i class="material-icons md-48" ng-show="view.newPointOfContact.emailAddresses.length <= view.maxEmailAddresses">add</i>
+                            </a>
                             <a ng-click="view.showEmails = !view.showEmails">
                                 <i class="material-icons md-48" ng-show="view.showEmails">expand_more</i>
                                 <i class="material-icons md-48" ng-show="!view.showEmails">expand_less</i>
@@ -127,11 +130,11 @@
                             </div>
                             <div class="col-md-2">
                                 <a ng-click="view.deleteEmailAddress($index)">
-                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length > 1">delete</i>
+                                    <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length > 0">delete</i>
                                 </a>
-                                <a ng-click="view.addEmailAddress()">
-                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length === $index + 1 && view.newPointOfContact.emailAddresses.length <= view.maxEmailAddresses">add</i>
-                                </a>
+                                <!--<a ng-click="view.addEmailAddress()">
+                                    <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length === $index + 1 && view.newPointOfContact.emailAddresses.length <= view.maxEmailAddresses">add</i>
+                                </a>-->
                             </div>
                         </div>
                     </div>
@@ -140,10 +143,13 @@
                         <div class="col-md-2">
                             <i class="material-icons md-48">phone</i>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8" style="margin-top:10px;">
                             <h4>Phone Number(s)</h4>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2 text-right">
+                            <a ng-click="view.addPhoneNumber()">
+                                <i class="material-icons md-48" ng-show="view.newPointOfContact.phoneNumbers.length <= view.maxPhoneNumbers">add</i>
+                            </a>
                             <a ng-click="view.showPhoneNumbers = !view.showPhoneNumbers">
                                 <i class="material-icons md-48" ng-show="view.showPhoneNumbers">expand_more</i>
                                 <i class="material-icons md-48" ng-show="!view.showPhoneNumbers">expand_less</i>
@@ -169,7 +175,7 @@
                                 <div class="row row4">
                                     <div class="col-md-4">
                                         <label>
-                                            Phone Number<span class="asterisk"> *</span>
+                                            Phone Number
                                         </label>
                                     </div>
                                     <div class="col-md-8">
@@ -181,7 +187,7 @@
                                                placeholder="Enter phone number."
                                                id="phoneNumber{{$index}}"
                                                international-phone-number
-                                               required />
+                                               />
                                     </div>
                                 </div>
                                 <div class="row row4">
@@ -199,11 +205,11 @@
                             </div>
                             <div class="col-md-2">
                                 <a ng-click="view.deletePhoneNumber($index)">
-                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length > 1">delete</i>
+                                    <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length > 0">delete</i>
                                 </a>
-                                <a ng-click="view.addPhoneNumber()">
-                                    <i style="margin-top: 12px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length === $index + 1 && view.newPointOfContact.phoneNumbers.length <= view.maxPhoneNumbers">add</i>
-                                </a>
+                                <!--<a ng-click="view.addPhoneNumber()">
+                                    <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length === $index + 1 && view.newPointOfContact.phoneNumbers.length <= view.maxPhoneNumbers">add</i>
+                                </a>-->
                             </div>
                         </div>
                     </div>
@@ -223,7 +229,7 @@
     </div>
     <div ng-show="view.showConfirmCancel">
         <div class="col-md-6">
-            <p class="text-left">There are unsaved changes to this new travel period.  Are you sure you wish to cancel?</p>
+            <p class="text-left">There are unsaved changes to this new point of contact.  Are you sure you wish to cancel?</p>
         </div>
         <div class="col-md-6">
             <button class="btn btn-success" ng-click="view.onYesCancelChangesClick()">Yes, Cancel Changes</button>

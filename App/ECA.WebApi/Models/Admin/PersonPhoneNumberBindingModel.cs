@@ -19,7 +19,7 @@ namespace ECA.WebApi.Models.Admin
         /// <returns>The phone numbers.</returns>
         public override NewPhoneNumber<ECA.Data.Person> ToPhoneNumber(Business.Service.User user)
         {
-            return new NewPersonPhoneNumber(user, this.PhoneNumberTypeId, this.Number, this.PhoneNumberableId);
+            return new NewPersonPhoneNumber(user, this.PhoneNumberTypeId, this.Number, this.PhoneNumberableId, this.IsPrimary);
         }
     }
 }

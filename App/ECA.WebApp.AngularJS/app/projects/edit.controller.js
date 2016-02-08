@@ -248,7 +248,7 @@ angular.module('staticApp')
           }
       });
 
-      $scope.editView.onAdvancedPointsOfContactClick = function () {
+      $scope.editView.onAddPointsOfContactClick = function () {
           var modalInstance = $modal.open({
               animation: true,
               backdrop: 'static',
@@ -258,9 +258,10 @@ angular.module('staticApp')
               resolve: {}
           });
 
-          modalInstance.result.then(function () {
-          
-
+          modalInstance.result.then(function (pointOfContact) {
+              pointOfContact.value = pointOfContact.fullName + ' (' + pointOfContact.position + ')';
+              $scope.$parent.project.contacts.push(pointOfContact);
+              $scope.editView.selectedPointsOfContact.push(pointOfContact);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });

@@ -19,8 +19,9 @@ namespace ECA.Business.Service.Admin
         /// <param name="emailAddressTypeId">The email address type by id.</param>
         /// <param name="address">The value.</param>
         /// <param name="personId">The person id.</param>
-        public NewPersonEmailAddress(User user, int emailAddressTypeId, string address, int personId)
-            :base(user, emailAddressTypeId, address)
+        /// <param name="isPrimary">The is primary flag.</param>
+        public NewPersonEmailAddress(User user, int emailAddressTypeId, string address, bool isPrimary, int personId)
+            :base(user, emailAddressTypeId, address, isPrimary)
         {
             this.PersonId = personId;
         }

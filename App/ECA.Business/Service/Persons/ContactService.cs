@@ -126,9 +126,13 @@ namespace ECA.Business.Service.Persons
             pointOfContactValidator.ValidateCreate(validationEntity);
 
             var contact = new Contact();
-            //full name and position should have a value as caught by validator
+            Contract.Assert(!String.IsNullOrWhiteSpace(pointOfContact.FullName), "The point of contact must have a full name value.");
             contact.FullName = pointOfContact.FullName.Trim();
-            contact.Position = pointOfContact.Position.Trim();
+            if(!string.IsNullOrWhiteSpace(pointOfContact.Position))
+            {
+                contact.Position = pointOfContact.Position.Trim();
+            }
+            
 
             foreach(var email in pointOfContact.EmailAddresses.Where(x => !String.IsNullOrWhiteSpace(x.Address)))
             {
@@ -136,6 +140,7 @@ namespace ECA.Business.Service.Persons
                 {
                     EmailAddressTypeId = email.EmailAddressTypeId,
                     Address = email.Address.Trim(),
+                    IsPrimary = email.IsPrimary
                 };
                 pointOfContact.Audit.SetHistory(newEmail);
                 contact.EmailAddresses.Add(newEmail);
@@ -146,7 +151,8 @@ namespace ECA.Business.Service.Persons
                 var newPhoneNumber = new PhoneNumber
                 {
                     Number = phoneNumber.Number.Trim(),
-                    PhoneNumberTypeId = phoneNumber.PhoneNumberTypeId
+                    PhoneNumberTypeId = phoneNumber.PhoneNumberTypeId,
+                    IsPrimary = phoneNumber.IsPrimary
                 };
                 pointOfContact.Audit.SetHistory(newPhoneNumber);
                 contact.PhoneNumbers.Add(newPhoneNumber);
@@ -160,9 +166,13 @@ namespace ECA.Business.Service.Persons
 
         private AdditionalPointOfContactValidationEntity GetAdditionalPointOfContactValidationEntity(AdditionalPointOfContact pointOfContact, int likeEmailAddressesCount)
         {
+            var numberOfPrimaryEmailAddresses = pointOfContact.EmailAddresses.Where(x => x.IsPrimary).Count();
+            var numberOfPrimaryPhoneNumbers = pointOfContact.PhoneNumbers.Where(x => x.IsPrimary).Count();
             return new AdditionalPointOfContactValidationEntity(
                 fullName: pointOfContact.FullName,
                 position: pointOfContact.Position,
+                numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
+                numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers,
                 likeEmailAddressCount: likeEmailAddressesCount);
         }
         #endregion

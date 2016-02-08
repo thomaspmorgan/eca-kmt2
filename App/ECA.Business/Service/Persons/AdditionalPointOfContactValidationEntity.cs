@@ -17,11 +17,15 @@ namespace ECA.Business.Service.Persons
         /// <param name="fullName">The full name of the point of the contact.</param>
         /// <param name="position">The position of the point of contact.</param>
         /// <param name="likeEmailAddressCount">The number of email addresses that are equal to the point of contact's email address.</param>
-        public AdditionalPointOfContactValidationEntity(string fullName, string position, int likeEmailAddressCount)
+        /// <param name="numberOfPrimaryEmailAddresses">The number of primary email addresses.</param>
+        /// <param name="numberOfPrimaryPhoneNumbers">The number of primary phone numbers.</param>
+        public AdditionalPointOfContactValidationEntity(string fullName, string position, int likeEmailAddressCount, int numberOfPrimaryEmailAddresses, int numberOfPrimaryPhoneNumbers)
         {
             this.FullName = fullName;
             this.Position = position;
             this.LikeEmailAddressCount = likeEmailAddressCount;
+            this.NumberOfPrimaryEmailAddresses = numberOfPrimaryEmailAddresses;
+            this.NumberOfPrimaryPhoneNumbers = numberOfPrimaryPhoneNumbers;
         }
 
         /// <summary>
@@ -38,5 +42,15 @@ namespace ECA.Business.Service.Persons
         /// Gets the like email address count.
         /// </summary>
         public int LikeEmailAddressCount { get; private set; }
+
+        /// <summary>
+        /// Gets the number of primary email addresses.
+        /// </summary>
+        public int NumberOfPrimaryEmailAddresses { get; private set; }
+
+        /// <summary>
+        /// Gets the number of primary phone numbers.
+        /// </summary>
+        public int NumberOfPrimaryPhoneNumbers { get; private set; }
     }
 }

@@ -42,18 +42,12 @@ angular.module('staticApp')
 
       $scope.view.deleteEmailAddress = function ($index) {
           $scope.view.newPointOfContact.emailAddresses.splice($index, 1);
-          if ($scope.view.newPointOfContact.emailAddresses.length === 1) {
-              var firstEmail = $scope.view.newPointOfContact.emailAddresses[0];
-              if (firstEmail.address.length === 0) {
-                  firstEmail.isDefault = true;
-              }
-          }
       }
       $scope.view.addEmailAddress = function () {
+          $scope.view.showEmails = true;
           $scope.view.newPointOfContact.emailAddresses.push({
               emailAddressTypeId: ConstantsService.emailAddressType.home.id,
-              address: '',
-              isPrimary: false
+              address: ''
           });
       }
 
@@ -74,23 +68,37 @@ angular.module('staticApp')
 
       $scope.view.deletePhoneNumber = function ($index) {
           $scope.view.newPointOfContact.phoneNumbers.splice($index, 1);
-          if ($scope.view.newPointOfContact.phoneNumbers.length === 1) {
-              var firstNumber = $scope.view.newPointOfContact.phoneNumbers[0];
-              if (firstNumber.number.length === 0) {
-                  firstNumber.isDefault = true;
-              }
-          }
       }
       $scope.view.addPhoneNumber = function () {
+          $scope.view.showPhoneNumbers = true;
           $scope.view.newPointOfContact.phoneNumbers.push({
               phoneNumberTypeId: ConstantsService.phoneNumberType.home.id,
-              number: '',
-              isPrimary: false
+              number: ''
           });
       }
 
       $scope.view.onSaveClick = function () {
-          return savePointOfContact($scope.view.newPointOfContact);
+          return savePointOfContact($scope.view.newPointOfContact)
+          .then(function (pointOfContact) {
+              $modalInstance.close(pointOfContact);
+          });
+      }
+
+      $scope.view.onCancelClick = function () {
+          if ($scope.form.pointOfContactForm.$dirty) {
+              $scope.view.showConfirmCancel = true;
+          }
+          else {
+              $modalInstance.dismiss('cancel');
+          }
+      }
+
+      $scope.view.onYesCancelChangesClick = function () {
+          $modalInstance.dismiss('cancel');
+      }
+
+      $scope.view.onNoDoNotCancelChangesClick = function () {
+          $scope.view.showConfirmCancel = false;
       }
 
       $scope.view.onIsPrimaryAddressChange = function ($index) {
@@ -153,34 +161,6 @@ angular.module('staticApp')
           });
       }
 
-      //var emailRegex = new RegExp(ConstantsService.emailRegex);
-      //var pointsOfContactFilter = FilterService.add('points-of-contact');
-      //function loadPointsOfContact(search) {
-      //    pointsOfContactFilter.reset();
-      //    pointsOfContactFilter = pointsOfContactFilter
-      //        .skip(0)
-      //        .take(100);
-      //    if (search) {
-      //        if (emailRegex.test(search)) {
-      //            pointsOfContactFilter = pointsOfContactFilter.containsAny('emailAddressValues', [search]);
-      //        }
-      //        else {
-      //            pointsOfContactFilter = pointsOfContactFilter.like('fullName', search);
-      //        }
-      //    }
-      //    var params = pointsOfContactFilter.toParams();
-      //    return ContactsService.get(params)
-      //    .then(function (response) {
-      //        $scope.view.contacts = response.data.results;
-      //        return $scope.view.contacts;
-      //    })
-      //    .catch(function (response) {
-      //        var mesage = "Unable to load points of contact.";
-      //        NotificationService.showErrorMessage(message);
-      //        $log.error(message);
-      //    });
-      //}
-
       function loadEmailAddressTypes() {
           return LookupService.getEmailAddressTypes({ start: 0, limit: 300 })
           .then(function (response) {
@@ -207,22 +187,10 @@ angular.module('staticApp')
           })
       }
 
-      var newPointOfContactId = -1;
       function createNewPointOfContact() {
           var newPointOfContact = {
-              id: newPointOfContactId,
-              emailAddresses: [{
-                  address: '',
-                  emailAddressTypeId: ConstantsService.emailAddressType.home.id,
-                  isDefault: true,
-                  isPrimary: true
-              }],
-              phoneNumbers: [{
-                  phoneNumberTypeId: ConstantsService.phoneNumberType.home.id,
-                  number: '',
-                  isDefault: true,
-                  isPrimary: true
-              }]
+              emailAddresses: [],
+              phoneNumbers: []
           };
           return newPointOfContact;
       }
@@ -233,6 +201,7 @@ angular.module('staticApp')
           .then(function (response) {
               $scope.view.isSavingPointOfContact = false;
               pointOfContact = response.data;
+              return pointOfContact;
           })
           .catch(function (response) {
               $scope.view.isSavingPointOfContact = false;
@@ -240,7 +209,6 @@ angular.module('staticApp')
               NotificationService.showErrorMessage(message);
               $log.error(message);
           });
-
       }
 
       $scope.view.isLoadingRequiredData = true;

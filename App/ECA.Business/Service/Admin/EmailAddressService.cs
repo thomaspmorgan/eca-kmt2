@@ -99,7 +99,7 @@ namespace ECA.Business.Service.Admin
             return DoCreate(newEmailAddress, addressable);
         }
 
-        private EmailAddress DoCreate<T>(NewEmailAddress<T> newEmailAddress, IEmailAddressable emailAddressable) where T : class, IEmailAddressable
+        private EmailAddress DoCreate<T>(NewEmailAddress<T> newEmailAddress, T emailAddressable) where T : class, IEmailAddressable
         {
             throwIfEMailAddressableEntityNotFound(emailAddressable, newEmailAddress.GetEmailAddressableEntityId());
             return newEmailAddress.AddEmailAddress(emailAddressable);

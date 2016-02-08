@@ -343,12 +343,14 @@ namespace ECA.Business.Test.Service.Persons
             var email2 = "me@gmail.com";
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimaryEmail = true;
+            var isPrimaryPhone = true;
 
-            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1);
-            var newEmail2 = new NewEmailAddress(user, EmailAddressType.Home.Id, email2);
+            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1, isPrimaryEmail);
+            var newEmail2 = new NewEmailAddress(user, EmailAddressType.Home.Id, email2, false);
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phoneNumber1);
-            var newPhone2 = new NewPhoneNumber(user, PhoneNumberType.Home.Id, phoneNumber2);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phoneNumber1, isPrimaryPhone);
+            var newPhone2 = new NewPhoneNumber(user, PhoneNumberType.Home.Id, phoneNumber2, false);
 
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress> { newEmail1, newEmail2 }, new List<NewPhoneNumber> { newPhone1, newPhone2 });
 
@@ -363,6 +365,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(fullName, entity.FullName);
                 Assert.AreEqual(position, entity.Position);
                 Assert.AreEqual(0, entity.LikeEmailAddressCount);
+                Assert.AreEqual(1, entity.NumberOfPrimaryEmailAddresses);
+                Assert.AreEqual(1, entity.NumberOfPrimaryPhoneNumbers);
             };
             Action afterTester = () =>
             {
@@ -386,8 +390,10 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsTrue(context.EmailAddresses.Contains(secondEmail));
                 Assert.AreEqual(newEmail1.EmailAddressTypeId, firstEmail.EmailAddressTypeId);
                 Assert.AreEqual(newEmail1.Address, firstEmail.Address);
+                Assert.IsTrue(firstEmail.IsPrimary.Value);
                 Assert.AreEqual(newEmail2.EmailAddressTypeId, secondEmail.EmailAddressTypeId);
                 Assert.AreEqual(newEmail2.Address, secondEmail.Address);
+                Assert.IsFalse(secondEmail.IsPrimary.Value);
 
                 Assert.AreEqual(userId, firstEmail.History.CreatedBy);
                 Assert.AreEqual(userId, firstEmail.History.RevisedBy);
@@ -406,8 +412,10 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsTrue(context.PhoneNumbers.Contains(secondPhone));
                 Assert.AreEqual(newPhone1.PhoneNumberTypeId, firstPhone.PhoneNumberTypeId);
                 Assert.AreEqual(newPhone1.Number, firstPhone.Number);
+                Assert.IsTrue(firstPhone.IsPrimary.Value);
                 Assert.AreEqual(newPhone2.PhoneNumberTypeId, secondPhone.PhoneNumberTypeId);
                 Assert.AreEqual(newPhone2.Number, secondPhone.Number);
+                Assert.IsFalse(secondPhone.IsPrimary.Value);
 
                 Assert.AreEqual(userId, firstPhone.History.CreatedBy);
                 Assert.AreEqual(userId, firstPhone.History.RevisedBy);
@@ -432,6 +440,123 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestCreate_PositionIsNull()
+        {
+            var userId = 1;
+            var user = new User(userId);
+            var fullName = "Full Name";
+            string position = null;
+
+            var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber>());
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.PhoneNumbers.Count());
+                Assert.AreEqual(0, context.EmailAddresses.Count());
+                Assert.AreEqual(0, context.Contacts.Count());
+            };
+            Action<AdditionalPointOfContactValidationEntity> validationEntityTester = (entity) =>
+            {
+                Assert.AreEqual(position, entity.Position);
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.Contacts.Count());                
+                var pointOfContact = context.Contacts.First();
+                Assert.AreEqual(position, pointOfContact.Position);
+                
+            };
+            validator.Setup(x => x.ValidateCreate(It.IsAny<AdditionalPointOfContactValidationEntity>())).Callback(validationEntityTester);
+            context.Revert();
+            beforeTester();
+            service.Create(additionalPointOfContact);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.CreateAsync(additionalPointOfContact);
+            afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestCreate_PositionIsEmpty()
+        {
+            var userId = 1;
+            var user = new User(userId);
+            var fullName = "Full Name";
+            string position = String.Empty;
+
+            var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber>());
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.PhoneNumbers.Count());
+                Assert.AreEqual(0, context.EmailAddresses.Count());
+                Assert.AreEqual(0, context.Contacts.Count());
+            };
+            Action<AdditionalPointOfContactValidationEntity> validationEntityTester = (entity) =>
+            {
+                Assert.AreEqual(position, entity.Position);
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.Contacts.Count());
+                var pointOfContact = context.Contacts.First();
+                Assert.IsNull(pointOfContact.Position);
+
+            };
+            validator.Setup(x => x.ValidateCreate(It.IsAny<AdditionalPointOfContactValidationEntity>())).Callback(validationEntityTester);
+            context.Revert();
+            beforeTester();
+            service.Create(additionalPointOfContact);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.CreateAsync(additionalPointOfContact);
+            afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestCreate_PositionIsWhitespace()
+        {
+            var userId = 1;
+            var user = new User(userId);
+            var fullName = "Full Name";
+            string position = " ";
+
+            var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber>());
+
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.PhoneNumbers.Count());
+                Assert.AreEqual(0, context.EmailAddresses.Count());
+                Assert.AreEqual(0, context.Contacts.Count());
+            };
+            Action<AdditionalPointOfContactValidationEntity> validationEntityTester = (entity) =>
+            {
+                Assert.AreEqual(position, entity.Position);
+            };
+            Action afterTester = () =>
+            {
+                Assert.AreEqual(1, context.Contacts.Count());
+                var pointOfContact = context.Contacts.First();
+                Assert.IsNull(pointOfContact.Position);
+
+            };
+            validator.Setup(x => x.ValidateCreate(It.IsAny<AdditionalPointOfContactValidationEntity>())).Callback(validationEntityTester);
+            context.Revert();
+            beforeTester();
+            service.Create(additionalPointOfContact);
+            afterTester();
+
+            context.Revert();
+            beforeTester();
+            await service.CreateAsync(additionalPointOfContact);
+            afterTester();
+        }
+
+        [TestMethod]
         public async Task TestCreate_LikeContactEmailAddress()
         {
             var userId = 1;
@@ -439,8 +564,9 @@ namespace ECA.Business.Test.Service.Persons
             var email1 = "someone@isp.com";
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1);
+            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1, isPrimary);
 
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress> { newEmail1 }, new List<NewPhoneNumber>());
 
@@ -488,8 +614,9 @@ namespace ECA.Business.Test.Service.Persons
             string email1 = null;
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1);
+            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress> { newEmail1 }, new List<NewPhoneNumber>());
 
             Action beforeTester = () =>
@@ -522,8 +649,9 @@ namespace ECA.Business.Test.Service.Persons
             string email1 = String.Empty;
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1);
+            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress> { newEmail1 }, new List<NewPhoneNumber>());
 
             Action beforeTester = () =>
@@ -556,8 +684,9 @@ namespace ECA.Business.Test.Service.Persons
             string email1 = String.Empty;
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1);
+            var newEmail1 = new NewEmailAddress(user, EmailAddressType.Business.Id, email1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress> { newEmail1 }, new List<NewPhoneNumber>());
 
             Action beforeTester = () =>
@@ -590,8 +719,9 @@ namespace ECA.Business.Test.Service.Persons
             string phone1 = null;
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber> { newPhone1 });
 
             Action beforeTester = () =>
@@ -624,8 +754,9 @@ namespace ECA.Business.Test.Service.Persons
             string phone1 = String.Empty;
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber> { newPhone1 });
 
             Action beforeTester = () =>
@@ -658,8 +789,9 @@ namespace ECA.Business.Test.Service.Persons
             string phone1 = " ";
             var fullName = "Full Name";
             var position = "Star Lord";
+            var isPrimary = true;
 
-            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1);
+            var newPhone1 = new NewPhoneNumber(user, PhoneNumberType.Cell.Id, phone1, isPrimary);
             var additionalPointOfContact = new AdditionalPointOfContact(user, fullName, position, new List<NewEmailAddress>(), new List<NewPhoneNumber> { newPhone1 });
 
             Action beforeTester = () =>
