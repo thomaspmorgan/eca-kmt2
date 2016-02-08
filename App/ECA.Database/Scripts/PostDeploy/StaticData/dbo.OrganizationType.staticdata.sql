@@ -41,7 +41,7 @@ INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [Histor
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('2', 'Branch', '0', '1/1/2015 12:00:00 AM +00:00', '0', '1/1/2016 12:00:00 AM +00:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('3', 'Division', '0', '1/26/2015 12:00:00 AM +00:00', '0', '1/26/2015 12:00:00 AM +00:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('4', 'Foreign Educational Institution', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
-INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Foreign Government', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
+INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Foreign Government (National)', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Foreign NGO/PVO', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Other', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Public International Organization (PIO)', '0', '1/30/2015 6:39:38 PM -05:00', '0', '1/30/2015 6:39:38 PM -05:00')
@@ -53,6 +53,8 @@ INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [Histor
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('15','Foreign Company', '0', '11/05/2015 12:00:00 PM -00:00', '0', '11/05/2015 12:00:00 PM -00:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('16','Bilateral Commission', '0', '11/05/2015 12:00:00 PM -00:00', '0', '11/05/2015 12:00:00 PM -00:00')
 INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('17','U.S. Embassy/American Space', '0', '11/05/2015 12:00:00 PM -00:00', '0', '11/05/2015 12:00:00 PM -00:00')
+INSERT INTO @tblTempTable ([OrganizationTypeId], [OrganizationTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('18','Foreign Government (Sub-National)', '0', '11/05/2015 12:00:00 PM -00:00', '0', '11/05/2015 12:00:00 PM -00:00')
+
 
 
 -- 3: Insert any new items into the table from the table variable
