@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         OrganizationService,
+        BrowserService,
         ConstantsService,
         NotificationService) {
 
@@ -23,7 +24,8 @@ angular.module('staticApp')
 
       $scope.data.loadedOrganizationPromise.promise
       .then(function (org) {
-          $log.info('artificats here.');
+          BrowserService.setDocumentTitleByOrganization(org, 'Attachments');
+          $log.info('artifacts here.');
           isOrganizationLoading(false);
       });
 

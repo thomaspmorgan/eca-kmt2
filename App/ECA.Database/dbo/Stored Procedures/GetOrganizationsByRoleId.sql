@@ -11,7 +11,6 @@ WITH Organization_CTE AS
 		ParentOrg.Name,
 		ParentOrg.ParentOrganization_OrganizationId,
 		CAST (ROW_NUMBER() OVER (PARTITION BY ParentOrg.ParentOrganization_OrganizationId ORDER BY ParentOrg.Name) AS varchar(max)) AS Path,
-		CASE WHEN EXISTS (SELECT 1 FROM Organization WHERE ParentOrganization_OrganizationId = ParentOrg.OrganizationId) THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END AS HasChildren,
 		0 as OrganizationLevel,
 		ROW_NUMBER() OVER (PARTITION BY ParentOrg.ParentOrganization_OrganizationId ORDER BY ParentOrg.Name) / power(10.0, 0) as SortOrder,
 		ParentOrg.Status,
@@ -29,7 +28,6 @@ WITH Organization_CTE AS
 		ChildOrg.Name,
 		ChildOrg.ParentOrganization_OrganizationId,
 		[Path] +'-'+ CAST (ROW_NUMBER() OVER (PARTITION BY ChildOrg.ParentOrganization_OrganizationId ORDER BY ChildOrg.Name) AS varchar(max)),
-		CASE WHEN EXISTS (SELECT 1 FROM Organization WHERE ParentOrganization_OrganizationId = ChildOrg.OrganizationId) THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END AS HasChildren,
 		OrgCTE.OrganizationLevel + 1,
 		SortOrder + ROW_NUMBER() OVER (PARTITION BY ChildOrg.ParentOrganization_OrganizationId ORDER BY ChildOrg.Name) / power(10.0, OrganizationLevel),
 		ChildOrg.Status,
@@ -42,7 +40,15 @@ WITH Organization_CTE AS
 
  )
 
-SELECT * FROM Organization_CTE WHERE OrganizationId IN (SELECT OrganizationId from OrganizationOrganizationRole WHERE OrganizationRoleId = @OrganizationRoleId) ORDER BY OrganizationLevel
+SELECT Organization_CTE.*,
+	(SELECT count(childOrg.OrganizationId) 
+	  FROM Organization childOrg 
+	  WHERE Organization_CTE.OrganizationId = childOrg.ParentOrganization_OrganizationId 
+		  and childOrg.OrganizationTypeId NOT IN (1,2,3) 
+		  and childOrg.Status = 'Active') as NumberOfChildren
+FROM Organization_CTE 
+WHERE OrganizationId IN (SELECT OrganizationId from OrganizationOrganizationRole WHERE OrganizationRoleId = @OrganizationRoleId) 
+ORDER BY OrganizationLevel
 
 END
 GO

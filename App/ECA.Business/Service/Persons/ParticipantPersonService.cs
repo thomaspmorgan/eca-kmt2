@@ -130,7 +130,7 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = new ParticipantPerson();
             participantPerson.Participant = participant;
-
+            
             var createAudit = new Create(audit.User);
             createAudit.SetHistory(participantPerson);
             this.Context.ParticipantPersons.Add(participantPerson);
@@ -158,12 +158,12 @@ namespace ECA.Business.Service.Persons
             Address hostAddress = null;
             Address homeAddress = null;
             ParticipantStatus participantStatus = null;
-
+            
             if (updatedPerson.HomeInstitutionId.HasValue)
             {
                 home = CreateGetInstitutionByIdQuery(updatedPerson.HomeInstitutionId.Value).FirstOrDefault();
                 throwIfModelDoesNotExist(updatedPerson.HomeInstitutionId.Value, home, typeof(Organization));
-
+                                
                 if (updatedPerson.HomeInstitutionAddressId.HasValue)
                 {
                     homeAddress = CreateGetAddressByIdQuery(updatedPerson.HomeInstitutionAddressId.Value, home.OrganizationId).FirstOrDefault();

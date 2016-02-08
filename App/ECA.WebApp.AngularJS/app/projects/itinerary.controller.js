@@ -11,19 +11,15 @@ angular.module('staticApp')
   .controller('ItineraryCtrl', function (
       $scope,
       $state,
-      $stateParams,
       $log,
       $q,
       $modal,
-      $compile,
       smoothScroll,
       filterFilter,
       FilterService,
-      ProjectService,
+      ItineraryService,
       LocationService,
-      StateService,
       NotificationService,
-      DateTimeService,
       ConstantsService) {
 
       $scope.view = {};
@@ -180,7 +176,7 @@ angular.module('staticApp')
           $scope.view.isInEditMode = false;
           $scope.view.isSaving = true;
 
-          return ProjectService.updateItinerary(itinerary, $scope.view.project.id)
+          return ItineraryService.updateItinerary(itinerary, $scope.view.project.id)
           .then(function (response) {
               $scope.view.isSaving = false;
               NotificationService.showSuccessMessage("Successfully updated the traveling period.");
@@ -241,7 +237,7 @@ angular.module('staticApp')
           var dfd = $q.defer();
           if ($value && $value.trim().length > 0) {
               $scope.view.isLoadingItineraries = true;
-              ProjectService.getItineraries($scope.view.itinerary.projectId)
+              ItineraryService.getItineraries($scope.view.itinerary.projectId)
               .then(function (response) {
                   $scope.view.isLoadingItineraries = false;
                   angular.forEach(response.data, function (itinerary, index) {
@@ -343,7 +339,7 @@ angular.module('staticApp')
 
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
-          return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
+          return ItineraryService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
               angular.forEach(response.data, function (stop, index) {
                   stop.isExpanded = false;

@@ -21,10 +21,8 @@ angular.module('staticApp')
         containsFilter,
         orderByFilter,
         NotificationService,
-        ConstantsService,
-        LocationService,
         ParticipantService,
-        ProjectService,
+        ItineraryService,
         FilterService) {
 
       $scope.view = {};
@@ -291,7 +289,7 @@ angular.module('staticApp')
           var model = {
               participantIds: getParticipantIds(participants)
           }
-          return ProjectService.updateItineraryParticipants(project.id, itinerary.id, model)
+          return ItineraryService.updateItineraryParticipants(project.id, itinerary.id, model)
           .then(function (response) {
               var message = "Successfully set travel period participants.";
               NotificationService.showSuccessMessage(message);
@@ -332,7 +330,7 @@ angular.module('staticApp')
               participantIds: getParticipantIds(participants)
           }
           $scope.view.isSavingItineraryStopParticipants = true;
-          return ProjectService.updateItineraryStopParticipants(project.id, itinerary.id, itineraryStop.itineraryStopId, model)
+          return ItineraryService.updateItineraryStopParticipants(project.id, itinerary.id, itineraryStop.itineraryStopId, model)
           .then(function (response) {
               itineraryStop.participants = participants;
               $scope.view.itineraryStopParticipants = getAllParticipants($scope.view.itineraryStops);
@@ -387,7 +385,7 @@ angular.module('staticApp')
 
       function loadItineraryParticipants(project, itinerary) {
           $scope.view.isLoadingItineraryParticipants = true;
-          return ProjectService.getItineraryParticipants(project.id, itinerary.id)
+          return ItineraryService.getItineraryParticipants(project.id, itinerary.id)
           .then(function (response) {
               $scope.view.isLoadingItineraryParticipants = false;
               $scope.view.itineraryParticipants = response.data;
@@ -402,7 +400,7 @@ angular.module('staticApp')
 
       function loadItineraryStops(itinerary) {
           $scope.view.isLoadingItineraryStops = true;
-          return ProjectService.getItineraryStops(itinerary.projectId, itinerary.id)
+          return ItineraryService.getItineraryStops(itinerary.projectId, itinerary.id)
           .then(function (response) {
 
               $scope.view.itineraryStopParticipants = getAllParticipants(response.data);

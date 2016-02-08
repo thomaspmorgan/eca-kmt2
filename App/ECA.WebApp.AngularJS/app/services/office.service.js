@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name staticApp.program
+ * @name staticApp.office
  * @description
  * # program
  * Factory in the staticApp.

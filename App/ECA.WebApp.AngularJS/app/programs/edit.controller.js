@@ -24,6 +24,7 @@ angular.module('staticApp')
         StateService,
         AuthService,
         OfficeService,
+        BrowserService,
         ProgramService,
         orderByFilter
       ) {
@@ -533,6 +534,7 @@ angular.module('staticApp')
       $scope.$parent.view.isEditButtonEnabled = false;
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
+          BrowserService.setDocumentTitleByProgram(program, 'Edit');
           $scope.view.isLoadingProgram = false;
           $scope.view.program = program;
           if ($scope.view.program.websites.length === 0) {

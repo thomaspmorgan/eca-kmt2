@@ -204,7 +204,6 @@
     <Build Include="dbo\Tables\ProjectCategory.sql" />
     <Build Include="dbo\Tables\ProjectObjective.sql" />
     <Build Include="dbo\Tables\OfficeSettings.sql" />
-    <Build Include="dbo\Stored Procedures\GetProgramsByOffice.sql" />
     <Build Include="dbo\Tables\Log.sql" />
     <Build Include="dbo\Tables\ItineraryStopAppointment.sql" />
     <Build Include="dbo\Tables\ItineraryAppointment.sql" />
@@ -222,7 +221,6 @@
     <Build Include="Sevis\Tables\EducationLevel.sql" />
     <Build Include="Sevis\Tables\StudentCancellation.sql" />
     <Build Include="Sevis\Tables\StudentCreation.sql" />
-    <Build Include="Sevis\Tables\StudentTermination.sql" />
     <Build Include="Sevis\Tables\ProgramCategory.sql" />
     <Build Include="Sevis\Tables\OccupationalCategory.sql" />
     <Build Include="Sevis\Tables\StudentReprint.sql" />
@@ -266,10 +264,7 @@
     <Build Include="dbo\Tables\ParticipantExchangeVisitor.sql" />
     <Build Include="dbo\Tables\VisitorType.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.VisitorType.staticdata.sql" />
-
-    
     <Build Include="dbo\Tables\SevisBatchProcessing.sql" />
-
     <Build Include="dbo\Tables\ItineraryStopParticipant.sql" />
     <Build Include="dbo\Stored Procedures\GetOrganizationsByRoleId.sql" />
     <Build Include="dbo\Tables\ItineraryParticipant.sql" />

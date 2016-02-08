@@ -266,7 +266,7 @@
                                         <ui-select-match placeholder="Select the timezone of the destination location...">
                                             {{view.itineraryStop.timezoneId}}
                                         </ui-select-match>
-                                        <ui-select-choices repeat="tz in view.timezoneNames | filter: $select.search">
+                                        <ui-select-choices repeat="tz in view.timezoneNames | filter: $select.search | limitTo: 50">
                                             <div ng-bind-html="tz | highlight: $select.search"></div>
                                         </ui-select-choices>
                                     </ui-select>

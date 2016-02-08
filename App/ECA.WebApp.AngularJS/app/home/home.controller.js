@@ -8,8 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, MessageBox, AuthService, BookmarkService, NotificationService, StateService) {
+  .controller('HomeCtrl', function ($rootScope, $scope, $state, $modal, MessageBox, AuthService, BookmarkService, NotificationService, StateService, BrowserService) {
 
+      BrowserService.setHomeDocumentTitle('Your Shortcuts');
       $scope.loadingBookmarks = true;
 
       $scope.tabs = {

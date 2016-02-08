@@ -1,4 +1,5 @@
-﻿using ECA.Business.Models.Fundings;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Models.Fundings;
 using ECA.Business.Queries.Models.Fundings;
 using ECA.Business.Service;
 using ECA.Business.Service.Fundings;
@@ -89,6 +90,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             var childMoneyFlow = new MoneyFlow
             {
@@ -105,7 +107,8 @@ namespace ECA.Business.Test.Service.Fundings
 
                 MoneyFlowId = 100,
                 ParentMoneyFlowId = moneyFlow.MoneyFlowId,
-                Parent = moneyFlow
+                Parent = moneyFlow,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -180,6 +183,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -245,6 +249,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -310,6 +315,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -375,6 +381,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -440,6 +447,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -505,6 +513,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -570,6 +579,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -630,6 +640,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -689,6 +700,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             context.MoneyFlowStatuses.Add(actual);
             context.MoneyFlowSourceRecipientTypes.Add(projectType);
@@ -1420,6 +1432,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Description = "desc",
                 FiscalYear = 1995,
                 MoneyFlowId = 10,
+                IsDirect = true
             };
             var childMoneyFlow = new MoneyFlow
             {
@@ -1437,7 +1450,8 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowId = 20,
                 Value = 10.0m,
                 Parent = moneyFlow,
-                ParentMoneyFlowId = moneyFlow.MoneyFlowId
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                IsDirect = true
             };
             context.MoneyFlows.Add(childMoneyFlow);
             context.MoneyFlows.Add(moneyFlow);
@@ -1450,6 +1464,89 @@ namespace ECA.Business.Test.Service.Fundings
             var resultsAsync = await service.GetMoneyFlowWithdrawalMaximumAsync(moneyFlow.MoneyFlowId);
             Assert.AreEqual(moneyFlow.Value - childMoneyFlow.Value, results);
             Assert.AreEqual(moneyFlow.Value - childMoneyFlow.Value, resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetMoneyFlowWithdrawalMaximum_MoneyFlowIsNotDirect()
+        {
+            var projectType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Project.Id,
+                TypeName = MoneyFlowSourceRecipientType.Project.Value,
+
+            };
+            var programType = new MoneyFlowSourceRecipientType
+            {
+                MoneyFlowSourceRecipientTypeId = MoneyFlowSourceRecipientType.Program.Id,
+                TypeName = MoneyFlowSourceRecipientType.Program.Value,
+            };
+            var actual = new MoneyFlowStatus
+            {
+                MoneyFlowStatusId = MoneyFlowStatus.Actual.Id,
+                MoneyFlowStatusName = MoneyFlowStatus.Actual.Value
+            };
+
+            var sourceId = 1;
+            var recipientId = 2;
+            var sourceProject = new Project
+            {
+                ProjectId = sourceId,
+                Name = "Project"
+            };
+            var recipientProgram = new Program
+            {
+                ProgramId = recipientId,
+                Name = "Program"
+            };
+            var moneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                MoneyFlowStatusId = actual.MoneyFlowStatusId,
+                TransactionDate = DateTimeOffset.UtcNow,
+                Value = 100.00m,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 10,
+                IsDirect = false
+            };
+            var childMoneyFlow = new MoneyFlow
+            {
+                SourceProjectId = sourceId,
+                RecipientProgramId = recipientId,
+                SourceProject = sourceProject,
+                RecipientProgram = recipientProgram,
+                SourceType = projectType,
+                SourceTypeId = projectType.MoneyFlowSourceRecipientTypeId,
+                RecipientType = programType,
+                RecipientTypeId = programType.MoneyFlowSourceRecipientTypeId,
+                MoneyFlowStatus = actual,
+                Description = "desc",
+                FiscalYear = 1995,
+                MoneyFlowId = 20,
+                Value = 10.0m,
+                Parent = moneyFlow,
+                ParentMoneyFlowId = moneyFlow.MoneyFlowId,
+                IsDirect = false
+            };
+            context.MoneyFlows.Add(childMoneyFlow);
+            context.MoneyFlows.Add(moneyFlow);
+            context.Projects.Add(sourceProject);
+            context.Programs.Add(recipientProgram);
+            context.MoneyFlowSourceRecipientTypes.Add(programType);
+            context.MoneyFlowSourceRecipientTypes.Add(projectType);
+
+            var results = service.GetMoneyFlowWithdrawalMaximum(moneyFlow.MoneyFlowId);
+            var resultsAsync = await service.GetMoneyFlowWithdrawalMaximumAsync(moneyFlow.MoneyFlowId);
+            Assert.IsNull(results);
+            Assert.IsNull(resultsAsync);
         }
 
         [TestMethod]
@@ -1504,7 +1601,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var fiscalYear = 2015;
                 var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
-
+                var isDirect = true;
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: null,
@@ -1517,7 +1614,8 @@ namespace ECA.Business.Test.Service.Fundings
                     sourceEntityId: sourceProject.ProjectId,
                     sourceEntityTypeId: projectMoneyFlowTypeId,
                     recipientEntityId: recipientProject.ProjectId,
-                    recipientEntityTypeId: projectMoneyFlowTypeId
+                    recipientEntityTypeId: projectMoneyFlowTypeId,
+                    isDirect: isDirect
                     );
                 var allowedSourceEntityTypes = new List<MoneyFlowSourceRecipientTypeDTO>
                 {
@@ -1549,6 +1647,7 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.AreEqual(sourceProject.ProjectId, moneyFlow.SourceProjectId);
                     Assert.AreEqual(recipientProject.ProjectId, moneyFlow.RecipientProjectId);
                     Assert.AreEqual(grantNumber, moneyFlow.GrantNumber);
+                    Assert.AreEqual(isDirect, moneyFlow.IsDirect);
                     Assert.AreEqual(userId, moneyFlow.History.CreatedBy);
                     Assert.AreEqual(userId, moneyFlow.History.RevisedBy);
                     DateTimeOffset.UtcNow.Should().BeCloseTo(moneyFlow.History.CreatedOn, 2000);
@@ -1583,6 +1682,7 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.AreEqual(sourceProject.ProjectId, validationEntity.SourceEntityId);
                     Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.SourceEntityTypeId);
                     Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.RecipientEntityTypeId);
+                    Assert.IsFalse(validationEntity.IsParentMoneyFlowDirect.HasValue);
                 };
                 validator.Setup(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>())).Callback(createValidatorTester);
 
@@ -1615,7 +1715,8 @@ namespace ECA.Business.Test.Service.Fundings
                 };
                 var parentMoneyFlow = new MoneyFlow
                 {
-                    MoneyFlowId = 3
+                    MoneyFlowId = 3,
+                    IsDirect = true
                 };
                 System.Data.Entity.Fakes.ShimDbContext.AllInstances.SetType = (c, type) =>
                 {
@@ -1655,6 +1756,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
                 var grantNumber = "grant";
+                var isDirect = true;
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
 
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
@@ -1669,7 +1771,8 @@ namespace ECA.Business.Test.Service.Fundings
                     sourceEntityId: sourceProject.ProjectId,
                     sourceEntityTypeId: projectMoneyFlowTypeId,
                     recipientEntityId: recipientProject.ProjectId,
-                    recipientEntityTypeId: projectMoneyFlowTypeId
+                    recipientEntityTypeId: projectMoneyFlowTypeId,
+                    isDirect: isDirect
                     );
                 var allowedSourceEntityTypes = new List<MoneyFlowSourceRecipientTypeDTO>
                 {
@@ -1713,6 +1816,7 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.AreEqual(sourceProject.ProjectId, validationEntity.SourceEntityId);
                     Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.SourceEntityTypeId);
                     Assert.AreEqual(projectMoneyFlowTypeId, validationEntity.RecipientEntityTypeId);
+                    Assert.AreEqual(parentMoneyFlow.IsDirect, validationEntity.IsParentMoneyFlowDirect);
                 };
                 validator.Setup(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>())).Callback(createValidatorTester);
 
@@ -1757,7 +1861,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var fiscalYear = 2015;
                 var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
-
+                var isDirect = true;
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: -1,
@@ -1770,7 +1874,8 @@ namespace ECA.Business.Test.Service.Fundings
                     sourceEntityId: sourceProject.ProjectId,
                     sourceEntityTypeId: projectMoneyFlowTypeId,
                     recipientEntityId: recipientProject.ProjectId,
-                    recipientEntityTypeId: projectMoneyFlowTypeId
+                    recipientEntityTypeId: projectMoneyFlowTypeId,
+                    isDirect: isDirect
                     );
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
@@ -1828,7 +1933,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var fiscalYear = 2015;
                 var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
-
+                var isDirect = true;
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: null,
@@ -1841,7 +1946,8 @@ namespace ECA.Business.Test.Service.Fundings
                     sourceEntityId: -1,
                     sourceEntityTypeId: projectMoneyFlowTypeId,
                     recipientEntityId: recipientProject.ProjectId,
-                    recipientEntityTypeId: projectMoneyFlowTypeId
+                    recipientEntityTypeId: projectMoneyFlowTypeId,
+                    isDirect: isDirect
                     );
                 context.Revert();
                 Func<Task> f = () =>
@@ -1896,7 +2002,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var now = DateTimeOffset.UtcNow;
                 var fiscalYear = 2015;
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
-
+                var isDirect = true;
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: null,
@@ -1909,7 +2015,8 @@ namespace ECA.Business.Test.Service.Fundings
                     sourceEntityId: sourceProject.ProjectId,
                     sourceEntityTypeId: projectMoneyFlowTypeId,
                     recipientEntityId: -1,
-                    recipientEntityTypeId: projectMoneyFlowTypeId
+                    recipientEntityTypeId: projectMoneyFlowTypeId,
+                    isDirect: isDirect
                     );
                 context.Revert();
                 Func<Task> f = () =>
@@ -2012,7 +2119,7 @@ namespace ECA.Business.Test.Service.Fundings
                 var grantNumber = "grant";
                 var projectMoneyFlowTypeId = MoneyFlowSourceRecipientType.Project.Id;
                 var participantMoneyFlowTypeId = MoneyFlowSourceRecipientType.Participant.Id;
-
+                var isDirect = true;
                 var additionalMoneyFlow = new AdditionalMoneyFlow(
                     createdBy: creator,
                     parentMoneyFlowId: null,
@@ -2025,7 +2132,8 @@ namespace ECA.Business.Test.Service.Fundings
                     sourceEntityId: sourceProject.ProjectId,
                     sourceEntityTypeId: projectMoneyFlowTypeId,
                     recipientEntityId: recipientParticipant.ParticipantId,
-                    recipientEntityTypeId: participantMoneyFlowTypeId
+                    recipientEntityTypeId: participantMoneyFlowTypeId,
+                    isDirect: isDirect
                     );
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypes(It.IsAny<int>())).Returns(new List<MoneyFlowSourceRecipientTypeDTO>());
                 moneyFlowSourceRecipientTypeService.Setup(x => x.GetRecipientMoneyFlowTypesAsync(It.IsAny<int>())).ReturnsAsync(new List<MoneyFlowSourceRecipientTypeDTO>());
@@ -2034,7 +2142,7 @@ namespace ECA.Business.Test.Service.Fundings
                 Action<MoneyFlowServiceCreateValidationEntity> createValidatorTester = (validationEntity) =>
                 {
                     Assert.AreEqual(1, validationEntity.AllowedProjectParticipantIds.Count());
-                    Assert.AreEqual(recipientParticipant.ParticipantId, validationEntity.AllowedProjectParticipantIds.First());                    
+                    Assert.AreEqual(recipientParticipant.ParticipantId, validationEntity.AllowedProjectParticipantIds.First());
                 };
                 validator.Setup(x => x.ValidateCreate(It.IsAny<MoneyFlowServiceCreateValidationEntity>())).Callback(createValidatorTester);
 
@@ -2121,7 +2229,7 @@ namespace ECA.Business.Test.Service.Fundings
                 RemainingAmount = 10.0m,
                 Status = actual.MoneyFlowStatusName,
                 StatusId = actual.MoneyFlowStatusId
-                
+
             };
             var summary2 = new FiscalYearSummaryDTO
             {
@@ -2763,7 +2871,7 @@ namespace ECA.Business.Test.Service.Fundings
                 MoneyFlowId = 10,
                 ParentMoneyFlowId = 100
             };
-            
+
             context.MoneyFlowSourceRecipientTypes.Add(sourceType);
             context.MoneyFlowSourceRecipientTypes.Add(recipientType);
             context.MoneyFlows.Add(moneyFlow);
@@ -3243,6 +3351,61 @@ namespace ECA.Business.Test.Service.Fundings
             beforeTester();
             await service.DeleteAsync(instance);
             afterTester();
+        }
+
+        [TestMethod]
+        public async Task TestDelete_HasChildren()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var lastWeek = DateTime.UtcNow.AddDays(-7.0);
+            var userId = 1;
+            var moneyFlowId = 1;
+            var sourceEntityId = 3;
+            MoneyFlow moneyFlowToDelete = null;
+            MoneyFlow child = null;
+            var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            context.SetupActions.Add(() =>
+            {
+                moneyFlowToDelete = new MoneyFlow
+                {
+                    MoneyFlowId = moneyFlowId,
+                    Description = "old desc",
+                    FiscalYear = 1900,
+                    MoneyFlowStatusId = -1,
+                    MoneyFlowTypeId = -1,
+                    TransactionDate = lastWeek,
+                    Value = -1.0m,
+                    SourceProjectId = sourceEntityId,
+                    SourceTypeId = entityTypeId
+                };
+                moneyFlowToDelete.History.CreatedBy = userId;
+                moneyFlowToDelete.History.RevisedBy = userId;
+                moneyFlowToDelete.History.CreatedOn = yesterday;
+                moneyFlowToDelete.History.RevisedOn = yesterday;
+
+                child = new MoneyFlow
+                {
+                    MoneyFlowId = 100,
+                    Parent = moneyFlowToDelete,
+                    ParentMoneyFlowId = moneyFlowToDelete.MoneyFlowId
+                };
+                context.MoneyFlows.Add(child);
+                context.MoneyFlows.Add(moneyFlowToDelete);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(2, context.MoneyFlows.Count());
+            };
+            var instance = new DeletedMoneyFlow(new User(userId), moneyFlowId, sourceEntityId, entityTypeId);
+
+            context.Revert();
+            beforeTester();
+            var message = "The money flow to delete has children money flows.  It cannot be deleted.";
+            Action a = () => service.Delete(instance);
+            Func<Task> f = () => service.DeleteAsync(instance);
+            a.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            f.ShouldThrow<EcaBusinessException>().WithMessage(message);
+            beforeTester();
         }
 
         [TestMethod]
@@ -3764,10 +3927,13 @@ namespace ECA.Business.Test.Service.Fundings
             var creatorId = 1;
             var revisorId = 2;
             var moneyFlowId = 1;
+            var childMoneyFlowId = 5;
             var sourceEntityId = 3;
             MoneyFlow moneyFlowToUpdate = null;
+            MoneyFlow childMoneyFlow = null;
             var grantNumber = "grant";
             var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            var isDirect = true;
             context.SetupActions.Add(() =>
             {
                 moneyFlowToUpdate = new MoneyFlow
@@ -3781,13 +3947,21 @@ namespace ECA.Business.Test.Service.Fundings
                     TransactionDate = lastWeek,
                     Value = -1.0m,
                     SourceProjectId = sourceEntityId,
-                    SourceTypeId = entityTypeId
+                    SourceTypeId = entityTypeId,
+                    IsDirect = false,
+                };
+                childMoneyFlow = new MoneyFlow
+                {
+                    MoneyFlowId = childMoneyFlowId,
+                    Parent = moneyFlowToUpdate,
+                    ParentMoneyFlowId = moneyFlowToUpdate.MoneyFlowId
                 };
                 moneyFlowToUpdate.History.CreatedBy = creatorId;
                 moneyFlowToUpdate.History.RevisedBy = creatorId;
                 moneyFlowToUpdate.History.CreatedOn = yesterday;
                 moneyFlowToUpdate.History.RevisedOn = yesterday;
                 context.MoneyFlows.Add(moneyFlowToUpdate);
+                context.MoneyFlows.Add(childMoneyFlow);
             });
 
             var updatedMoneyFlow = new UpdatedMoneyFlow(
@@ -3800,18 +3974,20 @@ namespace ECA.Business.Test.Service.Fundings
                 transactionDate: DateTimeOffset.UtcNow,
                 fiscalYear: 2015,
                 sourceOrRecipientEntityId: sourceEntityId,
-                sourceOrRecipientEntityTypeId: entityTypeId
+                sourceOrRecipientEntityTypeId: entityTypeId,
+                isDirect: isDirect
                 );
 
             Action tester = () =>
             {
-                Assert.AreEqual(1, context.MoneyFlows.Count());
+                Assert.AreEqual(2, context.MoneyFlows.Count());
                 Assert.AreEqual(updatedMoneyFlow.Description, moneyFlowToUpdate.Description);
                 Assert.AreEqual(updatedMoneyFlow.Value, moneyFlowToUpdate.Value);
                 Assert.AreEqual(updatedMoneyFlow.MoneyFlowStatusId, moneyFlowToUpdate.MoneyFlowStatusId);
                 Assert.AreEqual(updatedMoneyFlow.TransactionDate, moneyFlowToUpdate.TransactionDate);
                 Assert.AreEqual(updatedMoneyFlow.FiscalYear, moneyFlowToUpdate.FiscalYear);
                 Assert.AreEqual(updatedMoneyFlow.GrantNumber, moneyFlowToUpdate.GrantNumber);
+                Assert.AreEqual(updatedMoneyFlow.IsDirect, moneyFlowToUpdate.IsDirect);
                 Assert.AreEqual(creatorId, moneyFlowToUpdate.History.CreatedBy);
                 Assert.AreEqual(revisorId, moneyFlowToUpdate.History.RevisedBy);
                 Assert.AreEqual(yesterday, moneyFlowToUpdate.History.CreatedOn);
@@ -3823,6 +3999,8 @@ namespace ECA.Business.Test.Service.Fundings
                 Assert.AreEqual(updatedMoneyFlow.Description, validationEntity.Description);
                 Assert.AreEqual(updatedMoneyFlow.Value, validationEntity.Value);
                 Assert.AreEqual(updatedMoneyFlow.FiscalYear, validationEntity.FiscalYear);
+                Assert.AreEqual(1, validationEntity.NumberOfChildrenMoneyFlows);
+                Assert.AreEqual(isDirect, validationEntity.IsDirect);
             };
             validator.Setup(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>())).Callback(updateValidatorTester);
             context.Revert();
@@ -3857,15 +4035,17 @@ namespace ECA.Business.Test.Service.Fundings
                 var revisorId = 2;
                 var moneyFlowId = 1;
                 var parentMoneyFlowId = 2;
+                var childMoneyFlowId = 5;
                 var sourceEntityId = 3;
                 MoneyFlow moneyFlowToUpdate = null;
                 MoneyFlow parentMoneyFlow = null;
+                MoneyFlow childMoneyFlow = null;
 
                 var parentDescription = "parent desc";
                 var parentFiscalYear = -1;
                 var parentMoneyFlowStatusId = -2;
                 var value = -3.0m;
-
+                var isDirect = true;
                 var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
                 context.SetupActions.Add(() =>
                 {
@@ -3876,7 +4056,8 @@ namespace ECA.Business.Test.Service.Fundings
                         FiscalYear = parentFiscalYear,
                         MoneyFlowStatusId = parentMoneyFlowStatusId,
                         TransactionDate = lastWeek,
-                        Value = value
+                        Value = value,
+                        IsDirect = false
                     };
                     moneyFlowToUpdate = new MoneyFlow
                     {
@@ -3891,7 +4072,14 @@ namespace ECA.Business.Test.Service.Fundings
                         SourceProjectId = sourceEntityId,
                         SourceTypeId = entityTypeId,
                         Parent = parentMoneyFlow,
-                        ParentMoneyFlowId = parentMoneyFlowId
+                        ParentMoneyFlowId = parentMoneyFlowId,
+                        IsDirect = false,
+                    };
+                    childMoneyFlow = new MoneyFlow
+                    {
+                        MoneyFlowId = childMoneyFlowId,
+                        Parent = moneyFlowToUpdate,
+                        ParentMoneyFlowId = moneyFlowToUpdate.MoneyFlowId
                     };
                     moneyFlowToUpdate.History.CreatedBy = creatorId;
                     moneyFlowToUpdate.History.RevisedBy = creatorId;
@@ -3904,6 +4092,7 @@ namespace ECA.Business.Test.Service.Fundings
                     parentMoneyFlow.History.RevisedOn = yesterday;
                     context.MoneyFlows.Add(moneyFlowToUpdate);
                     context.MoneyFlows.Add(parentMoneyFlow);
+                    context.MoneyFlows.Add(childMoneyFlow);
                 });
 
                 var updatedMoneyFlow = new UpdatedMoneyFlow(
@@ -3916,16 +4105,18 @@ namespace ECA.Business.Test.Service.Fundings
                     transactionDate: DateTimeOffset.UtcNow,
                     fiscalYear: 2015,
                     sourceOrRecipientEntityId: sourceEntityId,
-                    sourceOrRecipientEntityTypeId: entityTypeId
+                    sourceOrRecipientEntityTypeId: entityTypeId,
+                    isDirect: isDirect
                     );
 
                 Action tester = () =>
                 {
-                    Assert.AreEqual(2, context.MoneyFlows.Count());
+                    Assert.AreEqual(3, context.MoneyFlows.Count());
                     Assert.AreEqual(parentDescription, parentMoneyFlow.Description);
                     Assert.AreEqual(value, parentMoneyFlow.Value);
                     Assert.AreEqual(parentMoneyFlowStatusId, parentMoneyFlow.MoneyFlowStatusId);
                     Assert.AreEqual(lastWeek, parentMoneyFlow.TransactionDate);
+                    Assert.IsFalse(parentMoneyFlow.IsDirect);
                     Assert.AreEqual(parentFiscalYear, parentMoneyFlow.FiscalYear);
                     Assert.AreEqual(creatorId, parentMoneyFlow.History.CreatedBy);
                     Assert.AreEqual(creatorId, parentMoneyFlow.History.RevisedBy);
@@ -3938,6 +4129,8 @@ namespace ECA.Business.Test.Service.Fundings
                     Assert.AreEqual(updatedMoneyFlow.Description, validationEntity.Description);
                     Assert.AreEqual(updatedMoneyFlow.Value, validationEntity.Value);
                     Assert.AreEqual(updatedMoneyFlow.FiscalYear, validationEntity.FiscalYear);
+                    Assert.AreEqual(1, validationEntity.NumberOfChildrenMoneyFlows);
+                    Assert.AreEqual(isDirect, validationEntity.IsDirect);
                 };
                 validator.Setup(x => x.ValidateUpdate(It.IsAny<MoneyFlowServiceUpdateValidationEntity>())).Callback(updateValidatorTester);
 
@@ -3963,6 +4156,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            var isDirect = true;
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
@@ -3973,7 +4167,8 @@ namespace ECA.Business.Test.Service.Fundings
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 sourceOrRecipientEntityTypeId: entityTypeId,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4002,7 +4197,7 @@ namespace ECA.Business.Test.Service.Fundings
                 SourceTypeId = entityTypeId
             };
             context.MoneyFlows.Add(moneyFlow);
-
+            var isDirect = true;
             var updatedMoneyFlow = new UpdatedMoneyFlow(
                 updator: new User(revisorId),
                 sourceOrRecipientEntityId: sourceEntityId,
@@ -4013,7 +4208,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4038,6 +4234,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Program.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4056,7 +4253,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4081,6 +4279,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4099,7 +4298,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4124,6 +4324,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4142,7 +4343,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4167,6 +4369,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4185,7 +4388,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4210,6 +4414,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var sourceEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4228,7 +4433,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4253,6 +4459,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Accomodation.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4271,7 +4478,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4296,6 +4504,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.TravelStop.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4314,7 +4523,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4339,6 +4549,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Organization.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4357,7 +4568,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4382,6 +4594,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Office.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4400,7 +4613,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4425,6 +4639,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Participant.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4443,7 +4658,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4468,6 +4684,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Program.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4486,7 +4703,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4511,6 +4729,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Project.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4529,7 +4748,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>
@@ -4554,6 +4774,7 @@ namespace ECA.Business.Test.Service.Fundings
             var moneyFlowId = 1;
             var recipientEntityId = 3;
             var entityTypeId = MoneyFlowSourceRecipientType.Transportation.Id;
+            var isDirect = true;
             var moneyFlow = new MoneyFlow
             {
                 MoneyFlowId = moneyFlowId,
@@ -4572,7 +4793,8 @@ namespace ECA.Business.Test.Service.Fundings
                 value: 10.00m,
                 moneyFlowStatusId: MoneyFlowStatus.Appropriated.Id,
                 transactionDate: DateTimeOffset.UtcNow,
-                fiscalYear: 2015
+                fiscalYear: 2015,
+                isDirect: isDirect
                 );
 
             Func<Task> f = () =>

@@ -41,7 +41,8 @@ namespace ECA.WebApi.Test.Models.Fundings
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 IsOutgoing = true,
-                GrantNumber = "grant"
+                GrantNumber = "grant",
+                IsDirect = true
             };
             var user = new User(1);
             var instance = model.ToAdditionalMoneyFlow(user);
@@ -51,6 +52,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.Value, instance.Value);
             Assert.AreEqual(model.GrantNumber, instance.GrantNumber);
+            Assert.AreEqual(model.IsDirect, instance.IsDirect);
 
             Assert.AreEqual(model.ParentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(model.SourceEntityId, instance.SourceEntityId);
@@ -74,7 +76,8 @@ namespace ECA.WebApi.Test.Models.Fundings
                 TransactionDate = DateTimeOffset.UtcNow,
                 Value = 1.00m,
                 GrantNumber = "grant",
-                IsOutgoing = false
+                IsOutgoing = false,
+                IsDirect = true
             };
             var user = new User(1);
             var instance = model.ToAdditionalMoneyFlow(user);
@@ -84,6 +87,7 @@ namespace ECA.WebApi.Test.Models.Fundings
             Assert.AreEqual(model.MoneyFlowStatusId, instance.MoneyFlowStatusId);
             Assert.AreEqual(model.Value, instance.Value);
             Assert.AreEqual(model.GrantNumber, instance.GrantNumber);
+            Assert.AreEqual(model.IsDirect, instance.IsDirect);
 
             Assert.AreEqual(model.ParentMoneyFlowId, instance.ParentMoneyFlowId);
             Assert.AreEqual(model.PeerEntityId, instance.SourceEntityId);

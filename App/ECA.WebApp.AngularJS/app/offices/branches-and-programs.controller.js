@@ -17,6 +17,7 @@ angular.module('staticApp')
         StateService,
         TableService,
         OfficeService,
+        BrowserService,
         ConstantsService,
         NotificationService) {
 
@@ -88,6 +89,7 @@ angular.module('staticApp')
       isLoadingOffice(true);
       $scope.data.loadedOfficePromise.promise
       .then(function (office) {
+          BrowserService.setDocumentTitleByOffice(office, 'Branches and Programs');
           $scope.view.office = office;
           var params = {
               start: 0,

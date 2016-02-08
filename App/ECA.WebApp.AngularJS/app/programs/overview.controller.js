@@ -15,7 +15,8 @@ angular.module('staticApp')
       $log,
       $filter,
       orderByFilter,
-      ConstantsService
+      ConstantsService,
+      BrowserService
       ) {
 
       $scope.view = {};
@@ -30,6 +31,7 @@ angular.module('staticApp')
 
       $scope.data.loadProgramPromise.promise
       .then(function (program) {
+          BrowserService.setDocumentTitleByProgram(program, 'Overview');
           $scope.view.program = program;
           $scope.view.sortedCategories = orderByFilter(program.categories, '+focusName');
           $scope.view.sortedObjectives = orderByFilter(program.objectives, '+justificationName');

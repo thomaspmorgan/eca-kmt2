@@ -39,7 +39,7 @@
     <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
         <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
     </nav>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top" ng-controller="NavigationCtrl">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="row navbar-header">
@@ -76,6 +76,9 @@
                 </div>
                 <div ng-show="currentUser.isBusy" class="pull-right" style="margin-top:14px;">
                     <i class="material-icons md-18 material-icons-spin">autorenew</i>
+                </div>
+                <div style="padding-top:16px;" ng-cloak>
+                    <p style="white-space: nowrap; overflow: hidden;text-overflow:ellipsis; max-width:700px;">{{view.title}}</p>
                 </div>
             </div>
         </div>
@@ -177,6 +180,7 @@
     <script src="app/about/about.controller.js"></script>
     <script src="app/home/home.routes.js"></script>
     <script src="app/home/home.controller.js"></script>
+    <script src="app/home/navigation.controller.js"></script>
     <script src="app/activities/activities.routes.js"></script>
     <script src="app/auth/auth.routes.js"></script>
     <script src="app/auth/logout.controller.js"></script>
@@ -211,6 +215,7 @@
     <script src="app/people/timeline.controller.js"></script>
     <script src="app/programs/add-program-modal.controller.js"></script>
     <script src="app/programs/edit.controller.js"></script>
+    <script src="app/programs/all-programs.controller.js"></script>
     <script src="app/programs/overview.controller.js"></script>
     <script src="app/programs/program.controller.js"></script>
     <script src="app/programs/programs.routes.js"></script>
@@ -282,7 +287,6 @@
     <script src="app/directives/participant-exchange-visitor.directive.js"></script>
     <script src="app/directives/participant-person-info.directive.js"></script>
     <script src="app/directives/participant-person-sevis.directive.js"></script>
-    <script src="app/directives/participant-student-visitor.directive.js"></script>
     <script src="app/directives/phone-numbers.controller.js"></script>
     <script src="app/directives/phone-number.controller.js"></script>
     <script src="app/directives/phone-numbers.directive.js"></script>
@@ -337,9 +341,12 @@
     <script src="app/services/phone-number.service.js"></script>
     <script src="app/services/program.service.js"></script>
     <script src="app/services/project.service.js"></script>
+    <script src="app/services/browser.service.js"></script>
+    <script src="app/services/itinerary.service.js"></script>
     <script src="app/services/register-user-event.service.js"></script>
     <script src="app/services/report.service.js"></script>
     <script src="app/services/search.service.js"></script>
+    <script src="app/services/sevis-result.service.js"></script>
     <script src="app/services/snapshot.service.js"></script>
     <script src="app/services/social-media.service.js"></script>
     <script src="app/services/state.service.js"></script>
