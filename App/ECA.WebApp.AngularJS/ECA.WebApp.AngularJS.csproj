@@ -175,6 +175,7 @@
     <Content Include="app\app.config.js" />
     <Content Include="app\application-insights\appinsightsinit.js" />
     <Content Include="app\auth\auth.routes.js" />
+    <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />
     <Content Include="app\directives\participant-person-info.directive.html" />
@@ -215,6 +216,7 @@
     <Content Include="app\reports\projects-with-grant-number.controller.js" />
     <Content Include="app\search\spotlight.controller.js" />
     <Content Include="app\services\about.service.js" />
+    <Content Include="app\services\app-settings.service.js" />
     <Content Include="app\services\browser.service.js" />
     <Content Include="app\services\constants.service.js">
       <AutoGen>True</AutoGen>
@@ -332,6 +334,7 @@
     <Content Include="app\services\participant-person.service.js" />
     <Content Include="app\services\state.service.js" />
     <Content Include="app\services\user.service.js" />
+    <Content Include="logout.html" />
     <Content Include="styles\fonts\raleway-v9-latin-100.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-200.svg" />
     <Content Include="styles\fonts\raleway-v9-latin-300.svg" />
