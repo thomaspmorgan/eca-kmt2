@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider, IdleProvider) {
+  .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $log, $locationProvider, IdleProvider, AppSettingsService) {
 
       adalAuthenticationServiceProvider.init({
           base: '',
@@ -34,6 +34,11 @@ angular.module('staticApp')
 
       $httpProvider.interceptors.push('ErrorInterceptor');
 
-      IdleProvider.idle(5);
-      IdleProvider.timeout(5);
+      AppSettingsService.get()
+        .then(function (response) {
+          IdleProvider.idle(response.idleDuration);
+          IdleProvider.timeout(response.idleTimeout);
+        }, function () {
+            $log.error('Unable to load app settings.');
+        });
   });
