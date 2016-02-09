@@ -119,7 +119,7 @@ namespace ECA.Business.Queries.Persons
             {
                 SubjectFieldCode = fosResult.Code,                
                 ForeignDegreeLevel = "", // TODO: add field to UI?
-                ForeignFieldOfStudy = participantPerson != null ? participantPerson.FieldOfStudy : "",
+                ForeignFieldOfStudy = participantExchangeVisitor.FieldOfStudy,
                 Remarks = fosResult.Description // TODO: add field to UI?
             };
             // addresses
@@ -442,9 +442,8 @@ namespace ECA.Business.Queries.Persons
                 {
                     printForm = false,
                     SubjectFieldCode = fosResult.Code,
-                    SubjectFieldRemarks = fosResult.Description,
                     ForeignDegreeLevel = "", // TODO: add field to UI?
-                    ForeignFieldOfStudy = participantPerson != null ? participantPerson.FieldOfStudy : "",
+                    ForeignFieldOfStudy = participantExchangeVisitor.FieldOfStudy,
                     Remarks = fosResult.Description // TODO: add field to UI?
                 }
             };

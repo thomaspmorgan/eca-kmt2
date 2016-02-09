@@ -54,10 +54,11 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis(participantid)
           .then(function (response) {
               $log.info('Validated participant create SEVIS information');
+              var verifyResult = response.data;
               // log and update participant sevis validation results
-              return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, response.data)
+              return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
                 .then(function (response) {
-                    return obj.updateSevisInfo(participantid, response.data)
+                    return obj.updateSevisInfo(participantid, verifyResult)
                 })
           })
           .catch(function () {
@@ -70,10 +71,11 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis(participantid)
             .then(function (response) {
                 $log.info('Validated participant update SEVIS information');
+                var verifyResult = response.data;
                 // log and update participant sevis validation results
-                return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, response.data)
+                return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
                 .then(function (response) {
-                    return obj.updateSevisInfo(participantid, response.data)
+                    return obj.updateSevisInfo(participantid, verifyResult)
                 })
             })
             .catch(function () {

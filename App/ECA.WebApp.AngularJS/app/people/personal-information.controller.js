@@ -19,31 +19,31 @@ angular.module('staticApp')
       $scope.sevisStatus = {statusName: ""};
 
       // TODO: use constant service
-      var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Validated", "SEVIS Received"];
+      var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Ready To Submit", "Validated", "SEVIS Received"];
 
       $scope.editGeneral = function () {
-          CreateMessageBox($scope.edit.General)
+          return CreateMessageBox($scope.edit.General)
           .then(function (response) {
               $scope.edit.General = status;
           });
       }
 
       $scope.editPii = function () {
-          CreateMessageBox($scope.edit.Pii)
+          return CreateMessageBox($scope.edit.Pii)
           .then(function (response) {
               $scope.edit.Pii = response;
           });
       }
 
       $scope.editContact = function () {
-          CreateMessageBox($scope.edit.Contact)
+          return CreateMessageBox($scope.edit.Contact)
           .then(function (response) {
               $scope.edit.Contact = status;
           });
       }
 
       $scope.editEduEmp = function () {
-          CreateMessageBox($scope.edit.EduEmp)
+          return CreateMessageBox($scope.edit.EduEmp)
           .then(function (response) {
               $scope.edit.EduEmp = status;
           });
