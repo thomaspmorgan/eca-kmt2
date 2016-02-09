@@ -160,7 +160,13 @@ angular.module('staticApp')
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
-                  SevisResultService.updateSevisVerificationResults($scope.person.personId);
+                  SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
+                    .then(function (response) {
+                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                    })
+                    .catch(function (error) {
+                        $log.error('Unable to update sevis validation results for participantId: ' + participantId);
+                    });
               },
               function (error) {
                   if (error.status == 400) {

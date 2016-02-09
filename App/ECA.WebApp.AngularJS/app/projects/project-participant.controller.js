@@ -25,6 +25,7 @@ angular.module('staticApp')
         SevisResultService,
         ConstantsService,
         AuthService,
+        BrowserService,
         ProjectService,
         NotificationService,
         TableService,
@@ -221,6 +222,11 @@ angular.module('staticApp')
           clearAddParticipantView();
       }
 
+      $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
+          BrowserService.setDocumentTitleByProject(project, 'Participants');
+          
+      });
+
       function reloadParticipantTable() {
           console.assert($scope.getParticipantsTableState, "The table state function must exist.");
           $scope.getParticipants($scope.getParticipantsTableState());
@@ -335,7 +341,7 @@ angular.module('staticApp')
       $scope.getParticipants = function (tableState) {
           $scope.participantInfo = {};
           $scope.participantsLoading = true;
-          
+
           TableService.setTableState(tableState);
 
           var params = {
@@ -347,10 +353,11 @@ angular.module('staticApp')
           };
 
           // Get the total number or participants
-          ParticipantService.getParticipantsByProject($stateParams.projectId, {start: 0, limit: 1})
+          ParticipantService.getParticipantsByProject($stateParams.projectId, { start: 0, limit: 1 })
             .then(function (data) {
                 $scope.view.totalParticipants = data.total;
-            }, function () {
+            })
+            .catch(function () {
                 $log.error('Unable to load project participants.');
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
@@ -374,7 +381,8 @@ angular.module('staticApp')
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
                 $scope.participantsLoading = false;
-            }, function (error) {
+            })
+            .catch(function (error) {
                 $log.error('Unable to load project participants.');
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
@@ -387,9 +395,12 @@ angular.module('staticApp')
               $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
               $scope.sevisInfo[participantId].show = true;
 
-              var errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length;
-
-          }, function (error) {
+              var errorCount = 0;
+              if ($scope.sevisInfo[participantId].sevisValidationResult) {
+                  errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length
+              }
+          })
+          .catch(function (error) {
               if (error.status === 404) {
                   $scope.sevisInfo[participantId] = {};
                   $scope.sevisInfo[participantId].show = true;
@@ -405,7 +416,8 @@ angular.module('staticApp')
           .then(function (data) {
               $scope.exchangeVisitorInfo[participantId] = data.data;
               //$scope.exchangeVisitorInfo[participantId].show = true;
-          }, function (error) {
+          })
+          .catch(function (error) {
               if (error.status === 404) {
                   $scope.exchangeVisitorInfo[participantId] = {};
                   //$scope.exchangeVisitorInfo[participantId].show = true;
@@ -419,7 +431,6 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
-          $scope.view.tabExchangeVisitor = false;
       }
 
       function saveSevisInfoById(participantId) {
@@ -430,7 +441,8 @@ angular.module('staticApp')
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
               validateSevisInfo(sevisInfo ? sevisInfo.sevisId : null, participantId);
-          }, function (error) {
+          })
+          .catch(function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
               NotificationService.showErrorMessage('Unable to save participant SEVIS info for participant: ' + participantId + '.');
           });
@@ -448,7 +460,8 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
               validateSevisInfo(sevisInfo ? sevisInfo.sevisId : null, participantId);
-          }, function (error) {
+          })
+          .catch(function (error) {
               $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);
               NotificationService.showErrorMessage('Unable to save participant exchange visitor info for participant: ' + participantId + '.');
           });
@@ -460,26 +473,25 @@ angular.module('staticApp')
       
       // pre-sevis validation result update
       function validateSevisInfo(sevisId, participantId) {
-          if (sevisId) {
-              SevisResultService.validateUpdateSevisInfo(participantId);
-          } else {
-              SevisResultService.validateCreateSevisInfo(participantId);
-          }
+          var params = {
+              participantId: participantId,
+              sevisId: sevisId
+          };
+          SevisResultService.updateSevisVerificationResultsByParticipant(params)
+            .then(function (validationResults) {
+                $scope.sevisInfo[participantId].sevisValidationResult = validationResults;
+            })
+            .catch(function (error) {
+                $log.error('Unable to update sevis validation results for participantId: ' + participantId);
+            });
       }
       
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
-          $scope.view.tabExchangeVisitor = false;
           loadSevisInfo(participantId);
+          loadExchangeVisitorInfo(participantId);
       };
-
-      $scope.onExchangeVisitorTabSelected = function (participantId) {
-          $scope.view.tabExchangeVisitor = true;
-          $scope.view.tabSevis = false;
-          $scope.view.tabInfo = false;
-          loadExchangeVisitorInfo(participantId)
-      }
 
       $scope.toggleParticipantInfo = function (participantId) {
           var defaultParticipantInfo = {show: false};

@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personContactEditCtrl', function ($scope, PersonService, SevisResultService, NotificationService, $stateParams, $log) {
+  .controller('personContactEditCtrl', function ($scope, PersonService, SevisResultService, NotificationService, $stateParams, $log, $q) {
 
       $scope.contactsLoading = true;
 
@@ -35,7 +35,13 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage("The edit was successful.");
               loadContactInfo($stateParams.personId);
               $scope.edit.Contact = false;
-              SevisResultService.updateSevisVerificationResults($stateParams.personId);
+              SevisResultService.updateSevisVerificationResultsByPersonId($stateParams.personId)
+                .then(function (response) {
+                    $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                })
+                .catch(function (error) {
+                    $log.error('Unable to update sevis validation results for participantId: ' + participantId);
+                });
           },
             function (error) {
                 if (error.status === 400) {

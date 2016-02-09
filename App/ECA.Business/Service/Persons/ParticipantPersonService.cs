@@ -130,7 +130,7 @@ namespace ECA.Business.Service.Persons
         {
             var participantPerson = new ParticipantPerson();
             participantPerson.Participant = participant;
-
+            
             var createAudit = new Create(audit.User);
             createAudit.SetHistory(participantPerson);
             this.Context.ParticipantPersons.Add(participantPerson);

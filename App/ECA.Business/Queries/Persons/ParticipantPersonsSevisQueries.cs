@@ -70,8 +70,13 @@ namespace ECA.Business.Queries.Persons
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
             var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
-            var mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
-            var physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var mailingAddress = new Location();
+            var physicalAddress = new Location();
+            if (participantPerson != null)
+            {
+                mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+                physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            }
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var projectProgram = context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
@@ -114,7 +119,7 @@ namespace ECA.Business.Queries.Persons
             {
                 SubjectFieldCode = fosResult.Code,                
                 ForeignDegreeLevel = "", // TODO: add field to UI?
-                ForeignFieldOfStudy = participantPerson.FieldOfStudy,
+                ForeignFieldOfStudy = participantExchangeVisitor.FieldOfStudy,
                 Remarks = fosResult.Description // TODO: add field to UI?
             };
             // addresses
@@ -283,8 +288,13 @@ namespace ECA.Business.Queries.Persons
             var personalPII = PersonQueries.CreateGetPiiByIdQuery(context, (int)participant.PersonId).FirstOrDefault();
             var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
             var personalEmail = PersonQueries.CreateGetContactInfoByIdQuery(context, (int)participant.PersonId).Select(x => x.EmailAddresses).FirstOrDefault();
-            var mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
-            var physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            var mailingAddress = new Location();
+            var physicalAddress = new Location();
+            if (participantPerson != null)
+            {
+                mailingAddress = context.Locations.Where(x => x.LocationId == participantPerson.HomeInstitutionAddressId).FirstOrDefault();
+                physicalAddress = context.Locations.Where(x => x.LocationId == participantPerson.HostInstitutionAddressId).FirstOrDefault();
+            }
             var locid = personalPII.CountriesOfCitizenship.Select(c => c.Id).FirstOrDefault();
             var citizenship = context.Locations.Where(x => x.LocationId == locid).FirstOrDefault();
             var project = context.Projects.Where(x => x.ProjectId == participant.ProjectId).FirstOrDefault();
@@ -323,11 +333,11 @@ namespace ECA.Business.Queries.Persons
             {
                 ExchVisitor.Biographical.MailAddress = new USAddress
                 {
-                    Address1 = mailingAddress.Street1,
-                    Address2 = mailingAddress.Street2,
-                    City = mailingAddress.City.LocationName,
-                    State = mailingAddress.Division.LocationName,
-                    PostalCode = mailingAddress.PostalCode,
+                    Address1 = mailingAddress.Street1 != null ? mailingAddress.Street1 : "",
+                    Address2 = mailingAddress.Street2 != null ? mailingAddress.Street2 : "",
+                    City = mailingAddress.City != null ? mailingAddress.City.LocationName != null ? mailingAddress.City.LocationName : "" : "",
+                    State = mailingAddress.Division != null ? mailingAddress.Division.LocationName != null ? mailingAddress.Division.LocationName : "" : "",
+                    PostalCode = mailingAddress.PostalCode != null ? mailingAddress.PostalCode : "",
                     Explanation = "",
                     ExplanationCode = ""
                 };
@@ -341,11 +351,11 @@ namespace ECA.Business.Queries.Persons
                 ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "";
                 ExchVisitor.Biographical.USAddress = new USAddress
                 {
-                    Address1 = physicalAddress.Street1,
-                    Address2 = physicalAddress.Street2,
-                    City = physicalAddress.City.LocationName,
-                    State = physicalAddress.Division.LocationName,
-                    PostalCode = physicalAddress.PostalCode,
+                    Address1 = physicalAddress.Street1 != null ? physicalAddress.Street1 : "",
+                    Address2 = physicalAddress.Street2 != null ? physicalAddress.Street2 : "",
+                    City = physicalAddress.City != null ? physicalAddress.City.LocationName != null ? physicalAddress.City.LocationName : "" : "",
+                    State = physicalAddress.Division != null ? physicalAddress.Division.LocationName != null ? physicalAddress.Division.LocationName : "" : "",
+                    PostalCode = physicalAddress.PostalCode != null ? physicalAddress.PostalCode : "",
                     Explanation = "",
                     ExplanationCode = ""
                 };
@@ -388,7 +398,7 @@ namespace ECA.Business.Queries.Persons
             ExchVisitor.FinancialInfo = new FinancialInfoUpdate
             {
                 printForm = false,
-                ReceivedUSGovtFunds = usfunds > 0,
+                ReceivedUSGovtFunds = usfunds != null ? usfunds > 0 : false,
                 ProgramSponsorFunds = participantExchangeVisitor.FundingSponsor.ToString(),
                 OtherFunds = new OtherFunds
                 {
@@ -432,9 +442,8 @@ namespace ECA.Business.Queries.Persons
                 {
                     printForm = false,
                     SubjectFieldCode = fosResult.Code,
-                    SubjectFieldRemarks = fosResult.Description,
                     ForeignDegreeLevel = "", // TODO: add field to UI?
-                    ForeignFieldOfStudy = participantPerson.FieldOfStudy,
+                    ForeignFieldOfStudy = participantExchangeVisitor.FieldOfStudy,
                     Remarks = fosResult.Description // TODO: add field to UI?
                 }
             };
@@ -461,185 +470,185 @@ namespace ECA.Business.Queries.Persons
                 }
             };
             // TIPP
-            ExchVisitor.TIPP = new TippUpdate
-            {
-                AddTIPP = new AddTIPPUpdate
-                {
-                    print7002 = false,
-                    ParticipantInfo = new ParticipantInfoUpdate
-                    {
-                        EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
-                        FieldOfStudy = participantPerson.FieldOfStudy,
-                        TypeOfDegree = "",
-                        DateAwardedOrExpected = program.EndDate.Value.Date > DateTime.MinValue ? program.EndDate.Value.Date : DateTime.MinValue
-                    },
-                    TippSite = new TippSiteUpdate
-                    {
-                        Address1 = "2201 C St NW",
-                        PostalCode = "20520",
-                        SiteName = "US Department of State",
-                        PrimarySite = true,
-                        EmployerID = "123456789",
-                        FullTimeEmployees = "1",
-                        AnnualRevenue = "0",
-                        WebsiteURL = "",
-                        WorkersCompInd = false,
-                        WorkersCompForEvInd = false,
-                        EvHoursPerWeek = "20",
-                        StipendInd = false,
-                        SupervisorLastName = "",
-                        SupervisorFirstName = "",
-                        SupervisorTitle = "",
-                        SupervisorPhone = "",
-                        SupervisorEmail = "",
-                        TippPhase = new TippPhase
-                        {
-                            PhaseName = "",
-                            StartDate = new DateTime(1998, 2, 10),
-                            EndDate = new DateTime(2002, 4, 20),
-                            TrainingField = "",
-                            SuperLastName = "",
-                            SuperFirstName = "",
-                            SuperTitle = "",
-                            SuperEmail = "",
-                            SuperPhone = "",
-                            EvRole = "",
-                            GoalsAndObjectives = "",
-                            SupervisorAndQualifications = "",
-                            CulturalActivities = "",
-                            SkillsLearned = "",
-                            TeachingMethod = "",
-                            HowCompetencyMeasured = ""
-                        }
-                    }
-                },
-                AddSite = new TippSite
-                {
-                    Address1 = "2201 C St NW",
-                    PostalCode = "20520",
-                    SiteName = "US Department of State",
-                    PrimarySite = true,
-                    EmployerID = "123456789",
-                    FullTimeEmployees = "1",
-                    AnnualRevenue = "0",
-                    WebsiteURL = "",
-                    WorkersCompInd = false,
-                    WorkersCompForEvInd = false,
-                    EvHoursPerWeek = "20",
-                    StipendInd = false,
-                    SupervisorLastName = "",
-                    SupervisorFirstName = "",
-                    SupervisorTitle = "",
-                    SupervisorPhone = "",
-                    SupervisorEmail = "",
-                    TippPhase = new TippPhase
-                    {
-                        PhaseName = "",
-                        StartDate = new DateTime(1998, 2, 10),
-                        EndDate = new DateTime(2002, 4, 20),
-                        TrainingField = "",
-                        SuperLastName = "",
-                        SuperFirstName = "",
-                        SuperTitle = "",
-                        SuperEmail = "",
-                        SuperPhone = "",
-                        EvRole = "",
-                        GoalsAndObjectives = "",
-                        SupervisorAndQualifications = "",
-                        CulturalActivities = "",
-                        SkillsLearned = "",
-                        TeachingMethod = "",
-                        HowCompetencyMeasured = ""
-                    }
-                },
-                EditSite = new EditTippSite
-                {
-                    Supervisors = new SupervisorsUpdate
-                    {
-                        TippPhase = new TippSupervisorPhaseUpdate
-                        {
-                            PhaseId = "123",
-                            SignatureDate = DateTime.Today
-                        }
-                    }
-                },
-                DeleteSite = new DeleteTippSite
-                {
-                    SiteId = "1"
-                },
-                AddPhase = new AddPhase
-                {
-                    SiteId = "1",
-                    PhaseName = "",
-                    StartDate = new DateTime(1998, 2, 10),
-                    EndDate = new DateTime(2002, 4, 20),
-                    TrainingField = "",
-                    SuperLastName = "",
-                    SuperFirstName = "",
-                    SuperTitle = "",
-                    SuperEmail = "",
-                    SuperPhone = "",
-                    EvRole = "",
-                    GoalsAndObjectives = "",
-                    SupervisorAndQualifications = "",
-                    CulturalActivities = "",
-                    SkillsLearned = "",
-                    TeachingMethod = "",
-                    HowCompetencyMeasured = ""
-                },
-                EditPhase = new EditPhase
-                {
-                    PhaseId = "123",
-                    PhaseName = "",
-                    StartDate = new DateTime(1998, 2, 10),
-                    EndDate = new DateTime(2002, 4, 20),
-                    TrainingField = "",
-                    SuperLastName = "",
-                    SuperFirstName = "",
-                    SuperTitle = "",
-                    SuperEmail = "",
-                    SuperPhone = "",
-                    EvRole = "",
-                    GoalsAndObjectives = "",
-                    SupervisorAndQualifications = "",
-                    CulturalActivities = "",
-                    SkillsLearned = "",
-                    TeachingMethod = "",
-                    HowCompetencyMeasured = ""
-                },
-                DeletePhase = new DeletePhase
-                {
-                    PhaseId = "123"
-                },
-                UpdateSignatureDates = new UpdateSignatureDates
-                {
-                    TippSite = new TippSiteUpdate
-                    {
-                        SiteId = "1",
-                        ProgramOfficial = new ProgramOfficial
-                        {
-                            UserName = "",
-                            SignatureDate = DateTime.Today
-                        },
-                        EvSignatureDate = DateTime.Today,
-                        Supervisors = new TippSupervisorsUpdate
-                        {
-                            TippPhase = new TippSupervisorPhaseUpdate
-                            {
-                                PhaseId = "123",
-                                SignatureDate = DateTime.Today
-                            }
-                        }
-                    },
-                    UpdateParticipantInfo = new ParticipantInfoUpdate
-                    {
-                        EmailAddress = "",
-                        FieldOfStudy = "",
-                        TypeOfDegree = "",
-                        DateAwardedOrExpected = new DateTime(2002, 4, 20)
-                    }
-                }
-            };
+            //ExchVisitor.TIPP = new TippUpdate
+            //{
+            //    AddTIPP = new AddTIPPUpdate
+            //    {
+            //        print7002 = false,
+            //        ParticipantInfo = new ParticipantInfoUpdate
+            //        {
+            //            EmailAddress = personalEmail != null ? personalEmail.Select(x => x.Address).FirstOrDefault() : "",
+            //            FieldOfStudy = participantPerson != null ? participantPerson.FieldOfStudy : "",
+            //            TypeOfDegree = "",
+            //            DateAwardedOrExpected = program.EndDate.Value.Date > DateTime.MinValue ? program.EndDate.Value.Date : DateTime.MinValue
+            //        },
+            //        TippSite = new TippSiteUpdate
+            //        {
+            //            Address1 = "2201 C St NW",
+            //            PostalCode = "20520",
+            //            SiteName = "US Department of State",
+            //            PrimarySite = true,
+            //            EmployerID = "123456789",
+            //            FullTimeEmployees = "1",
+            //            AnnualRevenue = "0",
+            //            WebsiteURL = "",
+            //            WorkersCompInd = false,
+            //            WorkersCompForEvInd = false,
+            //            EvHoursPerWeek = "20",
+            //            StipendInd = false,
+            //            SupervisorLastName = "",
+            //            SupervisorFirstName = "",
+            //            SupervisorTitle = "",
+            //            SupervisorPhone = "",
+            //            SupervisorEmail = "",
+            //            TippPhase = new TippPhase
+            //            {
+            //                PhaseName = "",
+            //                StartDate = new DateTime(1998, 2, 10),
+            //                EndDate = new DateTime(2002, 4, 20),
+            //                TrainingField = "",
+            //                SuperLastName = "",
+            //                SuperFirstName = "",
+            //                SuperTitle = "",
+            //                SuperEmail = "",
+            //                SuperPhone = "",
+            //                EvRole = "",
+            //                GoalsAndObjectives = "",
+            //                SupervisorAndQualifications = "",
+            //                CulturalActivities = "",
+            //                SkillsLearned = "",
+            //                TeachingMethod = "",
+            //                HowCompetencyMeasured = ""
+            //            }
+            //        }
+            //    },
+            //    AddSite = new TippSite
+            //    {
+            //        Address1 = "2201 C St NW",
+            //        PostalCode = "20520",
+            //        SiteName = "US Department of State",
+            //        PrimarySite = true,
+            //        EmployerID = "123456789",
+            //        FullTimeEmployees = "1",
+            //        AnnualRevenue = "0",
+            //        WebsiteURL = "",
+            //        WorkersCompInd = false,
+            //        WorkersCompForEvInd = false,
+            //        EvHoursPerWeek = "20",
+            //        StipendInd = false,
+            //        SupervisorLastName = "",
+            //        SupervisorFirstName = "",
+            //        SupervisorTitle = "",
+            //        SupervisorPhone = "",
+            //        SupervisorEmail = "",
+            //        TippPhase = new TippPhase
+            //        {
+            //            PhaseName = "",
+            //            StartDate = new DateTime(1998, 2, 10),
+            //            EndDate = new DateTime(2002, 4, 20),
+            //            TrainingField = "",
+            //            SuperLastName = "",
+            //            SuperFirstName = "",
+            //            SuperTitle = "",
+            //            SuperEmail = "",
+            //            SuperPhone = "",
+            //            EvRole = "",
+            //            GoalsAndObjectives = "",
+            //            SupervisorAndQualifications = "",
+            //            CulturalActivities = "",
+            //            SkillsLearned = "",
+            //            TeachingMethod = "",
+            //            HowCompetencyMeasured = ""
+            //        }
+            //    },
+            //    EditSite = new EditTippSite
+            //    {
+            //        Supervisors = new SupervisorsUpdate
+            //        {
+            //            TippPhase = new TippSupervisorPhaseUpdate
+            //            {
+            //                PhaseId = "123",
+            //                SignatureDate = DateTime.Today
+            //            }
+            //        }
+            //    },
+            //    DeleteSite = new DeleteTippSite
+            //    {
+            //        SiteId = "1"
+            //    },
+            //    AddPhase = new AddPhase
+            //    {
+            //        SiteId = "1",
+            //        PhaseName = "",
+            //        StartDate = new DateTime(1998, 2, 10),
+            //        EndDate = new DateTime(2002, 4, 20),
+            //        TrainingField = "",
+            //        SuperLastName = "",
+            //        SuperFirstName = "",
+            //        SuperTitle = "",
+            //        SuperEmail = "",
+            //        SuperPhone = "",
+            //        EvRole = "",
+            //        GoalsAndObjectives = "",
+            //        SupervisorAndQualifications = "",
+            //        CulturalActivities = "",
+            //        SkillsLearned = "",
+            //        TeachingMethod = "",
+            //        HowCompetencyMeasured = ""
+            //    },
+            //    EditPhase = new EditPhase
+            //    {
+            //        PhaseId = "123",
+            //        PhaseName = "",
+            //        StartDate = new DateTime(1998, 2, 10),
+            //        EndDate = new DateTime(2002, 4, 20),
+            //        TrainingField = "",
+            //        SuperLastName = "",
+            //        SuperFirstName = "",
+            //        SuperTitle = "",
+            //        SuperEmail = "",
+            //        SuperPhone = "",
+            //        EvRole = "",
+            //        GoalsAndObjectives = "",
+            //        SupervisorAndQualifications = "",
+            //        CulturalActivities = "",
+            //        SkillsLearned = "",
+            //        TeachingMethod = "",
+            //        HowCompetencyMeasured = ""
+            //    },
+            //    DeletePhase = new DeletePhase
+            //    {
+            //        PhaseId = "123"
+            //    },
+            //    UpdateSignatureDates = new UpdateSignatureDates
+            //    {
+            //        TippSite = new TippSiteUpdate
+            //        {
+            //            SiteId = "1",
+            //            ProgramOfficial = new ProgramOfficial
+            //            {
+            //                UserName = "",
+            //                SignatureDate = DateTime.Today
+            //            },
+            //            EvSignatureDate = DateTime.Today,
+            //            Supervisors = new TippSupervisorsUpdate
+            //            {
+            //                TippPhase = new TippSupervisorPhaseUpdate
+            //                {
+            //                    PhaseId = "123",
+            //                    SignatureDate = DateTime.Today
+            //                }
+            //            }
+            //        },
+            //        UpdateParticipantInfo = new ParticipantInfoUpdate
+            //        {
+            //            EmailAddress = "",
+            //            FieldOfStudy = "",
+            //            TypeOfDegree = "",
+            //            DateAwardedOrExpected = new DateTime(2002, 4, 20)
+            //        }
+            //    }
+            //};
             // Status
             //ExchVisitor.Status = new StatusUpdate
             //{

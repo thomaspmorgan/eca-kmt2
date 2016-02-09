@@ -7,6 +7,8 @@ namespace ECA.Business.Validation.Model
     {
         public CreateExchVisitorValidator()
         {
+            CascadeMode = CascadeMode.Continue;
+
             RuleFor(visitor => visitor.ExchangeVisitor).SetValidator(new ExchangeVisitorValidator()).When(update => update.ExchangeVisitor != null);
         }
     }

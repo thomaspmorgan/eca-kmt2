@@ -136,8 +136,8 @@
                                 <div class="pull-right">
                                     <p>&nbsp;
                                         <span style="vertical-align: top" class="mute" ng-show="organization.parent"><small><a ng-click="scrollToParent(organization)">scroll to parent</a></small></span>
-                                        <span ng-show="organization.hasChildren">
-                                            <span style="vertical-align: top" class="mute" ng-show="organization.children && organization.children.length > 0">({{organization.children.length}})</span>
+                                        <span ng-show="organization.numberOfChildren">
+                                            <span style="vertical-align: top" class="mute" ng-show="organization.numberOfChildren">({{organization.numberOfChildren}})</span>
                                             <a ng-click="expandOrganization(organization)" ng-show="!organization.isExpanded">
                                                 <i class="material-icons md-24">expand_less</i>
                                             </a>

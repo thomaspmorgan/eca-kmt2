@@ -1,8 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-    .run(['$rootScope', '$location', '$state', '$modal', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-      function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+    .run(function ($rootScope, $location, $state, $modal, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService, Idle, AuthService, AppSettingsService) {
 
           console.assert(NotificationService, "The NotificationService is needed so that we can display notifications for user registration.");
           console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
@@ -100,4 +99,30 @@ angular.module('staticApp')
               // Prevent the transition from happening
               event.preventDefault();
           });
-      }]);
+
+          AppSettingsService.get()
+         .then(function (response) {
+             Idle.setIdle(parseInt(response.data.idleDuration));
+             Idle.setTimeout(parseInt(response.data.idleTimeout));
+         }, function () {
+             console.log('Unable to load app settings.');
+         });
+
+          Idle.watch();
+
+
+          var modalInstance;
+
+          $rootScope.$on('IdleStart', function () { /* Display modal warning */
+              var modalInstance = $modal.open({
+                  controller: 'LogoutCtrl',
+                  templateUrl: '/app/auth/logout-warning.html',
+                  windowClass: 'full-screen-modal',
+                  backdrop: 'static'
+              });
+          });
+          $rootScope.$on('IdleTimeout', function () { /* Logout user */
+              AuthService.logOut();
+              console.log('IdleTimeout');
+          });
+      });

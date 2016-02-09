@@ -10,19 +10,25 @@
               var propertyName = attr.uiSelectStSearchProperty;
               var mode = attr.uiSelectStSearchComparisonType;
               var modelIdPropertyName = attr.uiSelectStSearchModelId || "id";
+
               var currentIds = [];
-              var getModelId = function(model){
-                  return model[modelIdPropertyName];
+              var getModelId = function (model) {
+                  if (model.property === modelIdPropertyName) {
+                      return model.item;
+                  }
+                  else {
+                      return model.item[modelIdPropertyName];
+                  }
               }
 
               var getModel = function (args) {
-                  return args[1].$item;
+                  return { item: args[1].$item, property: args[0].$select.itemProperty };
               }
 
               attr.onSelect = function () {
                   var id = getModelId(getModel(arguments));
                   currentIds.push(id);
-                  onChange();                  
+                  onChange();
               }
               attr.onRemove = function () {
                   var id = getModelId(getModel(arguments));
