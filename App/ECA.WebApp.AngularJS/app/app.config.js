@@ -32,5 +32,5 @@ angular.module('staticApp')
 
       $httpProvider.interceptors.push('ErrorInterceptor');
 
-      IdleProvider.autoResume(false);
+      IdleProvider.autoResume('notIdle');
   });
