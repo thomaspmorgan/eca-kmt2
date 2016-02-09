@@ -18,7 +18,7 @@
                     <div class="bounce3"></div>
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
-                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditEmailAddress">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditEmailAddress">
                         <a ng-href="mailto:{{emailAddress.address}}">{{emailAddress.address}}</a>
                         <div class="pull-right" ng-show="!view.showEditEmailAddress">
                             {{emailAddress.emailAddressType}}
@@ -81,11 +81,11 @@
                                     <input name="isPrimary"
                                            type="checkbox"
                                            ng-model="emailAddress.isPrimary"
+                                           ng-change="view.onIsPrimaryChange()"
                                            id="isPrimary"
                                            />
                                 </div>
                             </div>
-
                         </form>
                         <div class="row right" ng-show="view.showEditEmailAddress">
                             <button ng-click="view.saveEmailAddressChanges()" class="btn btn-success" ng-disabled="form.emailAddressForm.$invalid">Save</button>

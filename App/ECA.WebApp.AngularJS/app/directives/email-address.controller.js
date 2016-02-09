@@ -28,6 +28,7 @@ angular.module('staticApp')
       $scope.view.isLoadingRequiredData = false;
       var originalEmailAddress = angular.copy($scope.emailAddress);
 
+
       $scope.view.saveEmailAddressChanges = function () {
           $scope.view.isSavingChanges = true;
           console.assert($scope.modelType, 'The emailAddressable type must be defined.');
@@ -90,6 +91,10 @@ angular.module('staticApp')
               });
           }
       };
+
+      $scope.view.onIsPrimaryChange = function () {
+          $scope.$emit(ConstantsService.primaryEmailAddressChangedEventName, $scope.emailAddress);
+      }
 
       $scope.view.onEditEmailAddressClick = function () {
           $scope.view.showEditEmailAddress = true;

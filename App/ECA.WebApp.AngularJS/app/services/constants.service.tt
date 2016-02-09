@@ -49,6 +49,8 @@
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
+	otherConstants["primaryEmailAddressChangedEventName"] = "primaryEmailAddressChanged";
+	otherConstants["primaryPhoneNumberChangedEventName"] = "primaryPhoneNumberChanged";
 	otherConstants["removeNewSocialMediaEventName"] = "removeNewSocialMedia";
 	otherConstants["removeNewMembershipsEventName"] = "removeNewMembership";
 	otherConstants["removeNewLanguageProficiencyEventName"] = "removeNewLanguageProficiency";

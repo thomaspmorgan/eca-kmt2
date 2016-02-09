@@ -55,6 +55,19 @@ angular.module('staticApp')
           $log.info('Removed one new email address at index ' + index);
       });
 
+      $scope.$on(ConstantsService.primaryEmailAddressChangedEventName, function (event, primaryEmailAddress) {
+          console.assert($scope.emailAddressable, 'The scope emailAddressable property must exist.  It should be set by the directive.');
+          console.assert($scope.emailAddressable.emailAddresses instanceof Array, 'The entity emailAddresses is defined but must be an array.');
+
+          var emailAddresses = $scope.emailAddressable.emailAddresses;
+          var primaryEmailAddressIndex = emailAddresses.indexOf(primaryEmailAddress);
+          angular.forEach(emailAddresses, function (emailAddress, index) {
+              if (primaryEmailAddressIndex !== index) {
+                  emailAddress.isPrimary = false;
+              }
+          });
+      });
+
       function getEmailAddressTypes() {
           var params = {
               start: 0,
