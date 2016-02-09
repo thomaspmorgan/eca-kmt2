@@ -131,7 +131,7 @@
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false" ng-if="showSevisTab(participant.participantTypeId)">
                                     <div>
-                                        <participant-person-sevis participantid="{{participant.participantId}}" personid="{{participant.personId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
+                                    <participant-person-sevis participantid="{{participant.participantId}}" personid="{{participant.personId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
                                     </div>
                                     <div>
                                         <participant-exchange-visitor participantid="{{participant.participantId}}" exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]" update="saveExchangeVisitorInfo(participantId)" />

@@ -79,7 +79,7 @@ angular.module('staticApp')
                 defer.resolve(obj.updateSevisInfo(participantid, response.data));
             })
             .catch(function () {
-                $log.error("Unable to validate participant create SEVIS information.");
+                $log.error("Unable to validate participant update SEVIS information.");
             });
 
           return defer.promise;

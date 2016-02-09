@@ -195,7 +195,14 @@ namespace ECA.WebApi.Controllers.Persons
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
             var status = await validationService.PreUpdateSevisValidationAsync(participantId, businessUser);
-            return Ok(status);
+            if (status != null)
+            {
+                return Ok(status);
+            }
+            else
+            {
+                return NotFound();
+            }            
         }
 
         /// <summary>
