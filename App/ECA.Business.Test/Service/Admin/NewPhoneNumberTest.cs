@@ -16,6 +16,11 @@ namespace ECA.Business.Test.Service.Admin
 
         }
 
+        public override IQueryable<PhoneNumber> CreateGetPhoneNumbersQuery(EcaContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int GetPhoneNumberableEntityId()
         {
             return 1;

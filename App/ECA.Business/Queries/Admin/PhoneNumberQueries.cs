@@ -27,7 +27,7 @@ namespace ECA.Business.Queries.Admin
                 PersonId = x.PersonId,
                 ContactId = x.ContactId,
                 IsPrimary = x.IsPrimary
-            });
+            }).OrderByDescending(x => x.IsPrimary).ThenBy(x => x.PhoneNumberType);
         }
 
         /// <summary>

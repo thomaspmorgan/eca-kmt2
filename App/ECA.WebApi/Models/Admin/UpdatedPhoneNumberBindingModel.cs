@@ -27,7 +27,13 @@ namespace ECA.WebApi.Models.Admin
         public UpdatedPhoneNumber ToUpdatedPhoneNumber(User updator)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
-            return new UpdatedPhoneNumber(updator, this.Id, this.Number, this.PhoneNumberTypeId);
+            return new UpdatedPhoneNumber(
+                updator: updator,
+                id: this.Id,
+                number: this.Number,
+                phoneNumberTypeId: this.PhoneNumberTypeId,
+                isPrimary: this.IsPrimary);
+
         }
     }
 }

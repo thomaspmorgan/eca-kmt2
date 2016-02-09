@@ -32,6 +32,16 @@ namespace ECA.Business.Service.Admin
         public int PersonId { get; private set; }
 
         /// <summary>
+        /// Returns a query to retrieve phone numbers of the person with this instance's PersonId.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns></returns>
+        public override IQueryable<PhoneNumber> CreateGetPhoneNumbersQuery(EcaContext context)
+        {
+            return context.PhoneNumbers.Where(x => x.PersonId == this.PersonId);
+        }
+
+        /// <summary>
         /// Returns the person id.
         /// </summary>
         /// <returns>The person id.</returns>

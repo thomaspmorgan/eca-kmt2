@@ -32,6 +32,16 @@ namespace ECA.Business.Service.Admin
         public int PersonId { get; private set; }
 
         /// <summary>
+        /// Returns a query to retrieve email addresses of the person.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The email address query.</returns>
+        public override IQueryable<EmailAddress> CreateGetEmailAddressesQuery(EcaContext context)
+        {
+            return context.EmailAddresses.Where(x => x.PersonId == this.PersonId);
+        }
+
+        /// <summary>
         /// Returns the person id.
         /// </summary>
         /// <returns>The person id.</returns>

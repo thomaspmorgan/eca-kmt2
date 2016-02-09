@@ -16,10 +16,12 @@ namespace ECA.WebApi.Test.Models.Admin
             var model = new AdditionalEmailAddressBindingModel();
             model.Address = "someone@isp.com";
             model.EmailAddressTypeId = EmailAddressType.Business.Id;
+            model.IsPrimary = true;
             var instance = model.ToNewEmailAddress(user);
             Assert.AreEqual(model.Address, instance.Address);
             Assert.AreEqual(model.EmailAddressTypeId, instance.EmailAddressTypeId);
             Assert.AreEqual(user.Id, instance.Audit.User.Id);
+            Assert.AreEqual(model.IsPrimary, instance.IsPrimary);
         }
     }
 }

@@ -19,6 +19,11 @@ namespace ECA.Business.Test.Service.Admin
 
         public ICollection<EmailAddress> EmailAddresses { get; set; }
 
+        public override IQueryable<EmailAddress> CreateGetEmailAddressesQuery(EcaContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         public override int GetEmailAddressableEntityId()
         {
             return 1;

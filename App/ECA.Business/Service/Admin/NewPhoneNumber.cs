@@ -94,5 +94,12 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <returns></returns>
         public abstract int GetPhoneNumberableEntityId();
+
+        /// <summary>
+        /// Creates a query to retrieve all phone numbers for the entity of type T.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public abstract IQueryable<PhoneNumber> CreateGetPhoneNumbersQuery(EcaContext context);
     }
 }

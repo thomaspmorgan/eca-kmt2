@@ -301,7 +301,7 @@ namespace ECA.Business.Service.Admin
                 city: city);
         }
 
-        private void SetAllAddressNotPrimary(ICollection<Address> addresses)
+        private void SetAllAddressesNotPrimary(ICollection<Address> addresses)
         {
             addresses.ToList().ForEach(x => x.IsPrimary = false);
         }
@@ -323,7 +323,7 @@ namespace ECA.Business.Service.Admin
             additionalAddress.Create.SetHistory(address.Location);
             if (additionalAddress.IsPrimary)
             {
-                SetAllAddressNotPrimary(existingAddresses);
+                SetAllAddressesNotPrimary(existingAddresses);
             }
             return address;
         }
@@ -428,7 +428,7 @@ namespace ECA.Business.Service.Admin
             updatedAddress.Update.SetHistory(address);
             if (updatedAddress.IsPrimary)
             {
-                SetAllAddressNotPrimary(otherAddresses);
+                SetAllAddressesNotPrimary(otherAddresses);
             }
         }
 

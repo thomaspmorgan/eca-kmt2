@@ -38,6 +38,7 @@ angular.module('staticApp')
               emailAddressType: ConstantsService.emailAddressType.home.value,
               emailAddressTypeId: ConstantsService.emailAddressType.home.id,
               isNew: true,
+              isPrimary: false,
               address: ""
           };
           entityEmailAddresses.splice(0, 0, newEmailAddress);

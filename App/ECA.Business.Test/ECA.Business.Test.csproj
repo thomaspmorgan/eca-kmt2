@@ -255,6 +255,10 @@
     <Compile Include="Service\Admin\NewPermsionEmailAddressTest.cs" />
     <Compile Include="Service\Admin\NewPhoneNumberTest.cs" />
     <Compile Include="Service\Admin\NewPersonPhoneNumberTest.cs" />
+    <Compile Include="Service\Admin\PhoneNumberServiceTest.cs" />
+    <Compile Include="Service\Admin\EmailAddressServiceTest.cs" />
+    <Compile Include="Service\Admin\UpdatedEmailAddressTest.cs" />
+    <Compile Include="Service\Admin\UpdatedPhoneNumberTest.cs" />
     <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />

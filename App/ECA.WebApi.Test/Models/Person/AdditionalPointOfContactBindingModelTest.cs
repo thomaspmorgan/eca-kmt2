@@ -23,12 +23,14 @@ namespace ECA.WebApi.Test.Models.Person
             var newEmailAddress = new AdditionalEmailAddressBindingModel
             {
                 Address = email,
-                EmailAddressTypeId = emailTypeId
+                EmailAddressTypeId = emailTypeId,
+                IsPrimary = true
             };
             var newPhoneNumber = new AdditionalPhoneNumberBindingModel
             {
                 Number = phoneNumber,
-                PhoneNumberTypeId = phoneNumberTypeId
+                PhoneNumberTypeId = phoneNumberTypeId,
+                IsPrimary = true
             };
             var model = new AdditionalPointOfContactBindingModel
             {
@@ -50,11 +52,13 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(email, firstEmail.Address);
             Assert.AreEqual(emailTypeId, firstEmail.EmailAddressTypeId);
             Assert.AreEqual(user.Id, firstEmail.Audit.User.Id);
+            Assert.AreEqual(newEmailAddress.IsPrimary, firstEmail.IsPrimary);
 
             var firstPhoneNumber = instance.PhoneNumbers.First();
             Assert.AreEqual(phoneNumber, firstPhoneNumber.Number);
             Assert.AreEqual(phoneNumberTypeId, firstPhoneNumber.PhoneNumberTypeId);
             Assert.AreEqual(user.Id, firstPhoneNumber.Audit.User.Id);
+            Assert.AreEqual(newPhoneNumber.IsPrimary, firstPhoneNumber.IsPrimary);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
-        /// Adds the given 
+        /// Adds the given address to the addressable entity.
         /// </summary>
         /// <param name="addressable">The socialable entity.</param>
         /// <returns>The email address that should be added to the context.</returns>
@@ -93,5 +93,12 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <returns></returns>
         public abstract int GetEmailAddressableEntityId();
+
+        /// <summary>
+        /// Creates a query to retrieve all email addresses for the entity of type T.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public abstract IQueryable<EmailAddress> CreateGetEmailAddressesQuery(EcaContext context);
     }
 }

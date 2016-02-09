@@ -84,7 +84,12 @@ namespace ECA.Business.Service.Admin
         public EmailAddress Create<T>(NewEmailAddress<T> newEmailAddress) where T : class, IEmailAddressable
         {
             var addressable = this.Context.Set<T>().Find(newEmailAddress.GetEmailAddressableEntityId());
-            return DoCreate(newEmailAddress, addressable);
+            List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
+            if (newEmailAddress.IsPrimary)
+            {
+                existingEmailAddresses = newEmailAddress.CreateGetEmailAddressesQuery(this.Context).ToList();
+            }
+            return DoCreate(newEmailAddress, addressable, existingEmailAddresses);
         }
 
         /// <summary>
@@ -96,12 +101,21 @@ namespace ECA.Business.Service.Admin
         public async Task<EmailAddress> CreateAsync<T>(NewEmailAddress<T> newEmailAddress) where T : class, IEmailAddressable
         {
             var addressable = await this.Context.Set<T>().FindAsync(newEmailAddress.GetEmailAddressableEntityId());
-            return DoCreate(newEmailAddress, addressable);
+            List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
+            if (newEmailAddress.IsPrimary)
+            {
+                existingEmailAddresses = await newEmailAddress.CreateGetEmailAddressesQuery(this.Context).ToListAsync();
+            }
+            return DoCreate(newEmailAddress, addressable, existingEmailAddresses);
         }
 
-        private EmailAddress DoCreate<T>(NewEmailAddress<T> newEmailAddress, T emailAddressable) where T : class, IEmailAddressable
+        private EmailAddress DoCreate<T>(NewEmailAddress<T> newEmailAddress, T emailAddressable, List<EmailAddress> existingEmailAddresses) where T : class, IEmailAddressable
         {
             throwIfEMailAddressableEntityNotFound(emailAddressable, newEmailAddress.GetEmailAddressableEntityId());
+            if (newEmailAddress.IsPrimary)
+            {
+                existingEmailAddresses.ForEach(x => x.IsPrimary = false);
+            }
             return newEmailAddress.AddEmailAddress(emailAddressable);
         }
         #endregion
@@ -115,7 +129,12 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedEmailAddress updatedEmailAddress)
         {
             var emailAddress = Context.EmailAddresses.Find(updatedEmailAddress.Id);
-            DoUpdate(updatedEmailAddress, emailAddress);
+            List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
+            if (emailAddress != null && updatedEmailAddress.IsPrimary)
+            {
+                existingEmailAddresses = CreateGetOtherEmailAddressesQuery(emailAddress).ToList();
+            }
+            DoUpdate(updatedEmailAddress, emailAddress, existingEmailAddresses);
         }
 
         /// <summary>
@@ -125,16 +144,41 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedEmailAddress updatedEmailAddress)
         {
             var emailAddress = await Context.EmailAddresses.FindAsync(updatedEmailAddress.Id);
-            DoUpdate(updatedEmailAddress, emailAddress);
+            List<EmailAddress> existingEmailAddresses = new List<EmailAddress>();
+            if (emailAddress != null && updatedEmailAddress.IsPrimary)
+            {
+                existingEmailAddresses = await CreateGetOtherEmailAddressesQuery(emailAddress).ToListAsync();
+            }
+            DoUpdate(updatedEmailAddress, emailAddress, existingEmailAddresses);
         }
 
-        private void DoUpdate(UpdatedEmailAddress updatedEmailAddress, EmailAddress modelToUpdate)
+        private IQueryable<EmailAddress> CreateGetOtherEmailAddressesQuery(EmailAddress emailAddressToUpdate)
+        {
+            var query = this.Context.EmailAddresses.Where(x => x.EmailAddressId != emailAddressToUpdate.EmailAddressId);
+            Contract.Assert(emailAddressToUpdate.PersonId.HasValue || emailAddressToUpdate.ContactId.HasValue, "The email address must either be related to a contact or person.");
+            if (emailAddressToUpdate.PersonId.HasValue)
+            {
+                query = query.Where(x => x.PersonId == emailAddressToUpdate.PersonId);
+            }
+            else if (emailAddressToUpdate.ContactId.HasValue)
+            {
+                query = query.Where(x => x.ContactId == emailAddressToUpdate.ContactId);
+            }
+            return query;
+        }
+
+        private void DoUpdate(UpdatedEmailAddress updatedEmailAddress, EmailAddress modelToUpdate, List<EmailAddress> otherEmailAddresses)
         {
             Contract.Requires(updatedEmailAddress != null, "The updatedEmailAddress must not be null.");
             throwIfEmailAddressNotFound(modelToUpdate, updatedEmailAddress.Id);
             modelToUpdate.EmailAddressTypeId = updatedEmailAddress.EmailAddressTypeId;
             modelToUpdate.Address = updatedEmailAddress.Address;
-            updatedEmailAddress.Update.SetHistory(modelToUpdate);
+            modelToUpdate.IsPrimary = updatedEmailAddress.IsPrimary;
+            updatedEmailAddress.Audit.SetHistory(modelToUpdate);
+            if (updatedEmailAddress.IsPrimary)
+            {
+                otherEmailAddresses.ForEach(x => x.IsPrimary = false);
+            }
         }
         #endregion
 
