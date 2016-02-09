@@ -114,8 +114,8 @@ angular.module('staticApp')
               var modalInstance = $modal.open({
                   controller: 'LogoutCtrl',
                   templateUrl: '/app/auth/logout-warning.html',
-                  backdrop: 'static',
-                  size: 'lg'
+                  windowClass: 'full-screen-modal',
+                  backdrop: 'static'
               });
           });
           $rootScope.$on('IdleTimeout', function () { /* Logout user */
