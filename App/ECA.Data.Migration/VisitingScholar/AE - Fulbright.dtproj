@@ -26,12 +26,13 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">BE00003308</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAACRHyiE19vv7cYHPCw+2ySUmP8C7ciwyUi9PL13OVQDIgAAAAAOgAAAAAIAACAAAACehlaqznWovmPTSPWsqy/kMO49MBAa6VPHLbWri7FS8JAAAABweinrnCyHvut+8/RLRNXr8XnNiJKSavVWt/MX9QKUoPzcRgvRlu27ggPSFUcy05kFhT+K+Zxn2E/cWKykTJ2oCJ5z801+4zG/RenNv+Tp3nhdvpeb75GjNLilyjgMRJiKkXiJMo5ZryovSWgg5YnZqpzu7V1sveMWmEAXyrqWHmW5zkVWauabLyifcxftAnNAAAAAYaDVMCtW16I/FhX1Xxpw21lNZen7tpG/WpDSgCnsKc/Vk9n2UyGVXb/C2zpD06SFJ28s7RKwvIet+GODoE4R9A==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAACAAAAAAAQZgAAAAEAACAAAAAgJYSIZy5a3LIjhw5MKfCgbcIlMWTJipmB8lUBxAaEhAAAAAAOgAAAAAIAACAAAADIHcNwUATnYIR8jgKzqd/ocfLGuQRtvUx+eTcwXoUdpZAAAADEpCKoU+UZBo5M5XEy8oUMO1xIFcWY6C6Ntzvd7RL+zOktOSpZOR30gz8rtV5nDuAVzxDiOT4pkkqQhj1gpgvPDzUGG9XJpZ/FnwrDtYQrC831hxm+FM2G7xnsv0HXbwhi4WFmMZCmflZfx0CVfbZvKuiwrAME6UsXaT9Va8xIBmuX68DLJyJ+Zfh0fE8+oApAAAAAolorAjBu94gR0ogoYdFpbLLNRWsuoc7GT7OnquC6lBOTz/0cHWA+7xfrRJxCzZWz7Q0CYyqehKnxR7KnrEXYEw==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
           <SSIS:Package SSIS:Name="Import Fulbright Dataset2 to Fulbright DB.dtsx" SSIS:EntryPoint="1" />
           <SSIS:Package SSIS:Name="Create Participant Exchange Visitor Data.dtsx" SSIS:EntryPoint="1" />
+          <SSIS:Package SSIS:Name="Create Fulbright Person Data.dtsx" SSIS:EntryPoint="1" />
         </SSIS:Packages>
         <SSIS:ConnectionManagers>
           <SSIS:ConnectionManager SSIS:Name="ECA_KMT_DB.conmgr" />
@@ -362,6 +363,23 @@
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionGUID">{B7397194-9835-4FC4-8557-C257DBBE4B9B}</SSIS:Property>
+                <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                <SSIS:Property SSIS:Name="Description">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="ProtectionLevel">1</SSIS:Property>
+              </SSIS:Properties>
+              <SSIS:Parameters />
+            </SSIS:PackageMetaData>
+            <SSIS:PackageMetaData SSIS:Name="Create Fulbright Person Data.dtsx">
+              <SSIS:Properties>
+                <SSIS:Property SSIS:Name="ID">{6932A719-A152-4793-8CAF-6DB9621A1328}</SSIS:Property>
+                <SSIS:Property SSIS:Name="Name">Create Fulbright Person Data</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">1</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionComments">
+                </SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{1326EB02-DE43-4147-A1C6-94416F7A17A8}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
