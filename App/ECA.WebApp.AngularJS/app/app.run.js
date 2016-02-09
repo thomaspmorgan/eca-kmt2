@@ -110,6 +110,9 @@ angular.module('staticApp')
 
           Idle.watch();
 
+
+          var modalInstance;
+
           $rootScope.$on('IdleStart', function () { /* Display modal warning */
               var modalInstance = $modal.open({
                   controller: 'LogoutCtrl',
@@ -120,5 +123,6 @@ angular.module('staticApp')
           });
           $rootScope.$on('IdleTimeout', function () { /* Logout user */
               AuthService.logOut();
+              console.log('IdleTimeout');
           });
       });
