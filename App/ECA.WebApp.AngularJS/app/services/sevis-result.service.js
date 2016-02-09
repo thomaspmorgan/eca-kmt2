@@ -51,71 +51,63 @@ angular.module('staticApp')
 
       // pre-sevis create validation
       obj.validateCreateSevis = function (participantid) {
-          var defer = $q.defer();
-          ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis(participantid)
+          return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis(participantid)
           .then(function (response) {
               $log.info('Validated participant create SEVIS information');
-              // log participant sevis validation attempt
-              ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, response.data);
-              // update participant sevis validation results
-              defer.resolve(obj.updateSevisInfo(participantid, response.data));
+              var verifyResult = response.data;
+              // log and update participant sevis validation results
+              return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
+                .then(function (response) {
+                    return obj.updateSevisInfo(participantid, verifyResult)
+                })
           })
           .catch(function () {
               $log.error("Unable to validate participant create SEVIS information.");
           });
-
-          return defer.promise;
       }
 
       // pre-sevis update validation
       obj.validateUpdateSevis = function (participantid) {
-          var defer = $q.defer();
-          ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis(participantid)
+          return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis(participantid)
             .then(function (response) {
                 $log.info('Validated participant update SEVIS information');
-                // log participant sevis validation attempt
-                ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, response.data);
-                // update participant sevis validation results
-                defer.resolve(obj.updateSevisInfo(participantid, response.data));
+                var verifyResult = response.data;
+                // log and update participant sevis validation results
+                return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
+                .then(function (response) {
+                    return obj.updateSevisInfo(participantid, verifyResult)
+                })
             })
             .catch(function () {
                 $log.error("Unable to validate participant update SEVIS information.");
             });
-
-          return defer.promise;
       }
 
       // get participant record and attach validation results
       obj.updateSevisInfo = function (participantId, validationResults) {
-          var defer = $q.defer();
-          ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
           .then(function (data) {
               var sevisInfo = data.data;
               if (sevisInfo) {
                   sevisInfo.sevisValidationResult = JSON.stringify(validationResults);
-                  defer.resolve(obj.saveSevisInfo(participantId, sevisInfo));
+                  return obj.saveSevisInfo(participantId, sevisInfo);
               }
           })
           .catch(function () {
               $log.error('Unable to load participant SEVIS information.');
           });
-
-          return defer.promise;
       }
 
       // update participant sevis results
       obj.saveSevisInfo = function (participantId, updatedSevisInfo) {
-          var defer = $q.defer();
-          ParticipantPersonsSevisService.updateParticipantPersonsSevis(updatedSevisInfo)
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(updatedSevisInfo)
           .then(function (data) {
               $log.info('Participant SEVIS verification results saved successfully.');
-              defer.resolve(updatedSevisInfo);
+              return updatedSevisInfo;
           })
           .catch(function () {
               $log.error('Unable to save participant SEVIS verification results');
           });
-
-          return defer.promise;
       }
       
       return obj;
