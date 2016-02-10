@@ -516,6 +516,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Admin\AddressesController.cs" />
+    <Compile Include="Controllers\Admin\AppSettingsController.cs" />
     <Compile Include="Controllers\Admin\BookmarksController.cs" />
     <Compile Include="Controllers\Admin\DataPointConfigurationsController.cs" />
     <Compile Include="Controllers\Admin\VisitorTypesController.cs" />
@@ -552,6 +553,7 @@
     <Compile Include="Controllers\Persons\ParticipantExchangeVisitorsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
+    <Compile Include="Models\Admin\AppSettingsViewModel.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />

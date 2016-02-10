@@ -395,7 +395,10 @@ angular.module('staticApp')
               $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
               $scope.sevisInfo[participantId].show = true;
 
-              var errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length;
+              var errorCount = 0;
+              if ($scope.sevisInfo[participantId].sevisValidationResult) {
+                  errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length
+              }
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -428,7 +431,6 @@ angular.module('staticApp')
       $scope.onInfoTabSelected = function (participantId) {
           $scope.view.tabInfo = true;
           $scope.view.tabSevis = false;
-          $scope.view.tabExchangeVisitor = false;
       }
 
       function saveSevisInfoById(participantId) {
@@ -487,16 +489,9 @@ angular.module('staticApp')
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
-          $scope.view.tabExchangeVisitor = false;
           loadSevisInfo(participantId);
+          loadExchangeVisitorInfo(participantId);
       };
-
-      $scope.onExchangeVisitorTabSelected = function (participantId) {
-          $scope.view.tabExchangeVisitor = true;
-          $scope.view.tabSevis = false;
-          $scope.view.tabInfo = false;
-          loadExchangeVisitorInfo(participantId)
-      }
 
       $scope.toggleParticipantInfo = function (participantId) {
           var defaultParticipantInfo = {show: false};

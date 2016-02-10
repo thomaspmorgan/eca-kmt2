@@ -134,8 +134,13 @@ namespace ECA.Business.Queries.Models.Persons
         public int ParticipantId { get; set; }
 
         /// <summary>
-        /// The most recent participant Sevis valiation result
+        /// Gets or sets the participant's sevis id
         /// </summary>
-        public string SevisValidationResult { get; set; }
+        public string SevisId { get; set; }
+
+        /// <summary>
+        /// Sevis Status (person participants only)
+        /// </summary>
+        public string SevisStatus { get; set; }
     }
 }

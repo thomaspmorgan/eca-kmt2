@@ -103,7 +103,7 @@
             <div class="text-stack">
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
-                <div ng-controller="AboutCtrl">
+                <div ng-controller="AboutCtrl" ng-if="userInfo.isAuthenticated">
                     <p ng-show="!view.isLoading">{{view.versionNumber}} {{view.isDebugBuild ? 'Debug' : ''}}</p>
                 </div>
             </div>
@@ -167,6 +167,7 @@
     <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
     <script src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
     <script src="bower_components/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+    <script src="bower_components/ng-idle/angular-idle.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
@@ -287,7 +288,6 @@
     <script src="app/directives/participant-exchange-visitor.directive.js"></script>
     <script src="app/directives/participant-person-info.directive.js"></script>
     <script src="app/directives/participant-person-sevis.directive.js"></script>
-    <script src="app/directives/participant-student-visitor.directive.js"></script>
     <script src="app/directives/phone-numbers.controller.js"></script>
     <script src="app/directives/phone-number.controller.js"></script>
     <script src="app/directives/phone-numbers.directive.js"></script>
@@ -311,6 +311,7 @@
     <!-- Services -->
     <script src="app/services/contacts.service.js"></script>
     <script src="app/services/about.service.js"></script>
+    <script src="app/services/app-settings.service.js"></script>
     <script src="app/services/datetime.service.js"></script>
     <script src="app/services/address.service.js"></script>
     <script src="app/services/auth.service.js"></script>
@@ -355,6 +356,6 @@
     <script src="app/services/user.service.js"></script>
     <!-- endbuild -->
     <script src="/app.tpls.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </body>
 </html>

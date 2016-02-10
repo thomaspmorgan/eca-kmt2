@@ -4,7 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, smoothScroll) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, $q, smoothScroll, MessageBox) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -16,6 +16,59 @@ angular.module('staticApp')
       $scope.edit.Pii = false;
       $scope.edit.Contact = false;
       $scope.edit.EduEmp = false;
+      $scope.sevisStatus = {statusName: ""};
+
+      // TODO: use constant service
+      var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Ready To Submit", "Validated", "SEVIS Received"];
+
+      $scope.editGeneral = function () {
+          return CreateMessageBox($scope.edit.General)
+          .then(function (response) {
+              $scope.edit.General = status;
+          });
+      }
+
+      $scope.editPii = function () {
+          return CreateMessageBox($scope.edit.Pii)
+          .then(function (response) {
+              $scope.edit.Pii = response;
+          });
+      }
+
+      $scope.editContact = function () {
+          return CreateMessageBox($scope.edit.Contact)
+          .then(function (response) {
+              $scope.edit.Contact = status;
+          });
+      }
+
+      $scope.editEduEmp = function () {
+          return CreateMessageBox($scope.edit.EduEmp)
+          .then(function (response) {
+              $scope.edit.EduEmp = status;
+          });
+      }
+
+      function CreateMessageBox(userSection) {
+          var defer = $q.defer();
+          if (notifyStatuses.indexOf($scope.sevisStatus.statusName) !== -1) {
+              MessageBox.confirm({
+                  title: 'Confirm Edit',
+                  message: 'The SEVIS participant status of this person is ' + $scope.sevisStatus.statusName + '. Are you sure you want to edit?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      userSection = true
+                      defer.resolve(userSection);
+                  }
+              });
+          } else {
+              userSection = !userSection
+              defer.resolve(userSection);
+          }
+
+          return defer.promise;
+      }
       
       // SEVIS validation: expand section and set active tab where error is located.
       $scope.$on('$viewContentLoaded', function () {

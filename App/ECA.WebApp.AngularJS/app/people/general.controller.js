@@ -21,6 +21,7 @@ angular.module('staticApp')
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
+              $scope.sevisStatus.statusName = data.sevisStatus;
               $scope.generalLoading = false;
           });
       };

@@ -100,11 +100,10 @@ namespace ECA.Business.Queries.Persons
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from person in context.People
-
+                        let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
                         let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
-
                         where person.PersonId == personId
                         select new PiiDTO
                         {
@@ -164,8 +163,9 @@ namespace ECA.Business.Queries.Persons
                                              Street3 = location.Street3,
                                          }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
                             IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
-                            PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null
-
+                            PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
+                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
                         };
             return query;
         }
@@ -183,6 +183,7 @@ namespace ECA.Business.Queries.Persons
             var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
 
             var query = from person in context.People
+                        let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
                         where person.PersonId == personId
                         select new ContactInfoDTO
                         {
@@ -196,7 +197,9 @@ namespace ECA.Business.Queries.Persons
                             }).OrderBy(s => s.SocialMediaType),
                             PhoneNumbers = phoneNumberQuery.Where(x => x.PersonId == personId),
                             HasContactAgreement = person.HasContactAgreement,
-                            PersonId = person.PersonId
+                            PersonId = person.PersonId,
+                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
                         };
             return query;
         }
@@ -212,6 +215,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
 
             var query = from person in context.People
+                        let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
                         let currentParticipation = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statuses, Active(2) and Alumnus(1), Active is shown.
                         let hasCurrentParticipation = currentParticipation != null
                             && currentParticipation.Status != null
@@ -227,7 +231,9 @@ namespace ECA.Business.Queries.Persons
                             Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
                             // RelatedReports TBD
                             ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description }),
-                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS
+                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
+                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
+                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
                         };
 
             return query;

@@ -127,6 +127,19 @@ namespace ECA.Core.Settings
         public const string AZURE_WEB_JOBS_STORAGE_KEY = "AzureWebJobsStorage";
         #endregion
 
+        #region Session Constants
+
+        /// <summary>
+        /// The idle duration string key
+        /// </summary>
+        public const string IDLE_DURATION = "session.IdleDuration";
+
+        /// <summary>
+        /// The idle timout string key
+        /// </summary>
+        public const string IDLE_TIMEOUT = "session.IdleTimeout";
+        #endregion
+
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
 
@@ -219,6 +232,10 @@ namespace ECA.Core.Settings
         /// Gets the active directory tenant id.
         /// </summary>
         public string AdTenantId { get { return GetAppSetting(AD_TENANT_ID); } }
+
+        public string IdleDuration { get { return GetAppSetting(IDLE_DURATION);  } }
+
+        public string IdleTimeout { get { return GetAppSetting(IDLE_TIMEOUT);  } }
 
         #endregion
 

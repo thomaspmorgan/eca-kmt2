@@ -130,10 +130,12 @@
                                     <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
                                 </tab>
                                 <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false" ng-if="showSevisTab(participant.participantTypeId)">
-                                    <participant-person-sevis participantid="{{participant.participantId}}" personid="{{participant.personId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
-                                </tab>
-                                <tab heading="Exchange Visitor Data" class="tab" select="onExchangeVisitorTabSelected(participant.participantId)" active="view.tabExchangeVisitor" deselect="view.tabExchangeVisitor=false" ng-if="visitorTypeExchangeVisitor(participant.participantTypeId)">
-                                    <participant-exchange-visitor participantid="{{participant.participantId}}" active="view.tabExchangeVisitor" exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]" update="saveExchangeVisitorInfo(participantId)" />
+                                    <div>
+                                        <participant-person-sevis participantid="{{participant.participantId}}" personid="{{participant.personId}}" active="view.tabSevis" sevisinfo="sevisInfo[participant.participantId]" update="saveSevisInfo(participantId)" />
+                                    </div>
+                                    <div>
+                                        <participant-exchange-visitor participantid="{{participant.participantId}}" exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]" update="saveExchangeVisitorInfo(participantId)" />
+                                    </div>
                                 </tab>
                             </tabset>
                         </td>
