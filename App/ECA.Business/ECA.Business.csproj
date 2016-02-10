@@ -303,6 +303,9 @@
     <Compile Include="Service\Lookup\EmailAddressTypeDTO.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeService.cs" />
     <Compile Include="Service\Lookup\SimpleSevisLookupDTO.cs" />
+    <Compile Include="Service\Persons\AdditionalPointOfContact.cs" />
+    <Compile Include="Service\Persons\AdditionalPointOfContactValidationEntity.cs" />
+    <Compile Include="Service\Persons\ContactServiceValidator.cs" />
     <Compile Include="Service\Persons\DeletedParticipant.cs" />
     <Compile Include="Service\Persons\EduEmpService.cs" />
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />

@@ -502,27 +502,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetContactInfoById_Emails()
         {
-            var email = new EmailAddress
-            {
-                EmailAddressId = 1,
-                Address = "test@test.com",
-                EmailAddressTypeId = 1
-            };
-
-            var email2 = new EmailAddress
-            {
-                EmailAddressId = 2,
-                Address = "test1@test.com",
-                EmailAddressTypeId = 1
-            };
-
-            var email3 = new EmailAddress
-            {
-                EmailAddressId = 3,
-                Address = "test2@test.com",
-                EmailAddressTypeId = 1
-            };
-
             var person = new Person
             {
                 PersonId = 1
@@ -533,17 +512,32 @@ namespace ECA.Business.Test.Service.Persons
                 EmailAddressTypeId = 1,
                 EmailAddressTypeName = "Home"
             };
+            var email = new EmailAddress
+            {
+                EmailAddressId = 1,
+                Address = "test@test.com",
+                EmailAddressTypeId = 1,
+                Person = person,
+                PersonId = person.PersonId,
+                EmailAddressType = emailAddressType,
+                IsPrimary = true
+            
+            };
 
-            email.EmailAddressType = emailAddressType;
-            email2.EmailAddressType = emailAddressType;
-            email3.EmailAddressType = emailAddressType;
+            var email2 = new EmailAddress
+            {
+                EmailAddressId = 2,
+                Address = "test1@test.com",
+                EmailAddressTypeId = 1,
+                EmailAddressType = emailAddressType,
+                IsPrimary = false
+            };
 
             person.EmailAddresses.Add(email);
 
             context.EmailAddressTypes.Add(emailAddressType);
             context.EmailAddresses.Add(email);
             context.EmailAddresses.Add(email2);
-            context.EmailAddresses.Add(email3);
             context.People.Add(person);
 
             Action<ContactInfoDTO> tester = (serviceResult) =>
@@ -553,6 +547,14 @@ namespace ECA.Business.Test.Service.Persons
                 CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressId).ToList(), serviceResult.EmailAddresses.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.Address).ToList(), serviceResult.EmailAddresses.Select(x => x.Address).ToList());
                 CollectionAssert.AreEqual(person.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList(), serviceResult.EmailAddresses.Select(x => x.EmailAddressTypeId).ToList());
+
+                var emailAddressPersonIds = serviceResult.EmailAddresses.Select(x => x.PersonId).Distinct().ToList();
+                Assert.AreEqual(1, emailAddressPersonIds.Count);
+                Assert.AreEqual(person.PersonId, emailAddressPersonIds.First());
+
+                var contactIds = serviceResult.EmailAddresses.Select(x => x.ContactId).Distinct().ToList();
+                Assert.AreEqual(1, contactIds.Count());
+                Assert.IsNull(contactIds.First());
             };
 
             var result = service.GetContactInfoById(person.PersonId);
@@ -616,21 +618,22 @@ namespace ECA.Business.Test.Service.Persons
                 PhoneNumberTypeName = PhoneNumberType.Home.Value
             };
 
-            var phoneNumber = new PhoneNumber
-            {
-                PhoneNumberId = 1,
-                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
-                PhoneNumberType = phoneNumberType,
-                Number = "1234567890"
-            };
-
             var person = new Person
             {
                 PersonId = 1
             };
 
-            person.PhoneNumbers.Add(phoneNumber);
+            var phoneNumber = new PhoneNumber
+            {
+                PhoneNumberId = 1,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
+                PhoneNumberType = phoneNumberType,
+                Number = "1234567890",
+                Person = person,
+                PersonId = person.PersonId
+            };
 
+            person.PhoneNumbers.Add(phoneNumber);
             context.PhoneNumberTypes.Add(phoneNumberType);
             context.PhoneNumbers.Add(phoneNumber);
             context.People.Add(person);
@@ -642,6 +645,11 @@ namespace ECA.Business.Test.Service.Persons
                 CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberId).ToList(), serviceResult.PhoneNumbers.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberType.PhoneNumberTypeName).ToList(), serviceResult.PhoneNumbers.Select(x => x.PhoneNumberType).ToList());
                 CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.Number).ToList(), serviceResult.PhoneNumbers.Select(x => x.Number).ToList());
+
+                var phoneNumberPersonIds = serviceResult.PhoneNumbers.Select(x => x.PersonId).Distinct().ToList();
+                Assert.AreEqual(1, phoneNumberPersonIds.Count);
+                Assert.AreEqual(person.PersonId, phoneNumberPersonIds.First());
+                Assert.AreEqual(0, serviceResult.EmailAddresses.Select(x => x.ContactId).Distinct().Count());
             };
 
             var result = service.GetContactInfoById(person.PersonId);

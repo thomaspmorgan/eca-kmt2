@@ -18,7 +18,7 @@
                     <div class="bounce3"></div>
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
-                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditPhoneNumber">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditPhoneNumber">
                         <a href="tel:{{phoneNumber.number}}">{{phoneNumber.number}}</a>
                         <div class="pull-right" ng-show="!view.showEditPhoneNumber">
                             {{phoneNumber.phoneNumberType}}
@@ -76,7 +76,16 @@
                                     <div class="error" ng-show="form.phoneNumberForm.phoneNumberValue.$error.required">Please enter a phone number value.</div>
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label class="title-label col-md-3" for="isPrimary">Is Primary</label>
+                                <div class="col-md-9">
+                                    <input name="isPrimary"
+                                           type="checkbox"
+                                           ng-model="phoneNumber.isPrimary"
+                                           ng-change="view.onIsPrimaryChange()"
+                                           id="isPrimary" />
+                                </div>
+                            </div>
                         </form>
                         <div class="row right" ng-show="view.showEditPhoneNumber">
                             <button ng-click="view.savePhoneNumberChanges()" class="btn btn-success" ng-disabled="form.phoneNumberForm.$invalid">Save</button>

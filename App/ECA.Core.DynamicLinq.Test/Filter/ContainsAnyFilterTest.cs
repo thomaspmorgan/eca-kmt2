@@ -16,6 +16,7 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             this.Ids = new List<int>();
             this.LongIds = new List<long>();
             this.Strings = new List<string>();
+            this.Chars = new List<char>();
 
         }
         public string A { get; set; }
@@ -27,6 +28,8 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public IEnumerable<int> Ids { get; set; }
 
         public IEnumerable<long> LongIds { get; set; }
+
+        public IEnumerable<char> Chars { get; set; }
     }
 
     [TestClass]
@@ -59,6 +62,121 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Ids", new List<long>());
             Assert.AreEqual(typeof(Int32), filter.ValueCollectionType);
         }
+
+        #region String Property
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_SinglePropertyValue()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string> { "A" }
+            });
+
+            var testStrings = new List<string> { "A" };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_MultiPropertyValues()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string> { "A", "B" }
+            });
+
+            var testStrings = new List<string> { "A" };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_SingleFilterValue()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string> { "A", "B" }
+            });
+
+            var testStrings = new List<string> { "A" };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_MultipleFilterValues()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string> { "A", "B" }
+            });
+
+            var testStrings = new List<string> { "A", "B" };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_MultipleFilterValues_MultiplePropertyValues()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string> { "A", "B" }
+            });
+
+            var testStrings = new List<string> { "A", "B" };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_EmptyPropertyValues()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string>()
+            });
+
+            var testStrings = new List<string> { "A" };
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestToWhereExpression_StringProperty_EmptyFilterValues()
+        {
+            var list = new List<ContainsFilterTestClass>();
+            list.Add(new ContainsFilterTestClass
+            {
+                Strings = new List<string> { "A", "B" }
+            });
+
+            var testStrings = new List<string>();
+            var filter = new ContainsAnyFilter<ContainsFilterTestClass>("Strings", testStrings);
+            filter.Invoking(x => x.ToWhereExpression()).ShouldThrow<NotSupportedException>()
+                .WithMessage("There must be at least one value to filter on.");
+
+        }
+        #endregion
 
         #region Int Property
         [TestMethod]
@@ -99,7 +217,7 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             var list = new List<ContainsFilterTestClass>();
             list.Add(new ContainsFilterTestClass
             {
-                Ids = new List<int> { 1 }
+                Ids = new List<int> { 1, 2 }
             });
 
             var testIds = new List<int> { 1 };
@@ -225,19 +343,37 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         }
 
         [TestMethod]
-        public void TestToWhereExpression_EnumerableStringProperty()
+        public void TestToWhereExpression_EnumerableStringProperty_NumericCollection()
         {
             var ids = new List<int>();
             Action a = () => new ContainsAnyFilter<ContainsFilterTestClass>("Strings", ids);
-            a.ShouldThrow<NotSupportedException>().WithMessage("The property collection type is not a numeric collection.");
+            a.ShouldThrow<NotSupportedException>().WithMessage("The collection type is numeric but the property collection type is not numeric.");
         }
 
         [TestMethod]
-        public void TestToWhereExpression_StringCollection()
+        public void TestToWhereExpression_NumericProperty_StringCollection()
         {
-            var strings = new List<string> { "abc" };
-            Action a = () => new ContainsAnyFilter<ContainsFilterTestClass>("Ids", strings);
-            a.ShouldThrow<NotSupportedException>().WithMessage("The collection type is not a numeric collection.");
+            var values = new List<string>();
+            Action a = () => new ContainsAnyFilter<ContainsFilterTestClass>("Ids", values);
+            a.ShouldThrow<NotSupportedException>().WithMessage("The collection type is not numeric but the property collection type is numeric.");
+        }
+
+        [TestMethod]
+        public void TestToWhereExpression_NonStringProperty_NonStringCollection()
+        {
+            var values = new List<char>();
+            Action a = () => new ContainsAnyFilter<ContainsFilterTestClass>("Chars", values);
+            a.ShouldThrow<NotSupportedException>().WithMessage("The collection type and property type must both be either a string or a numeric value.");
+        }
+
+
+
+        [TestMethod]
+        public void TestToWhereExpression_CharCollection()
+        {
+            var chars = new List<char> { 'a', 'b', 'c' };
+            Action a = () => new ContainsAnyFilter<ContainsFilterTestClass>("Chars", chars);
+            a.ShouldThrow<NotSupportedException>().WithMessage("The collection type and property type must both be either a string or a numeric value.");
         }
 
         [TestMethod]

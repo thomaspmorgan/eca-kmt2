@@ -251,6 +251,14 @@
     <Compile Include="Service\Admin\LocationValidationEntityTest.cs" />
     <Compile Include="Service\Admin\EcaAddressValidationEntityTest.cs" />
     <Compile Include="Service\Admin\DataPointConfigurationServiceTest.cs" />
+    <Compile Include="Service\Admin\NewEmailAddressTest.cs" />
+    <Compile Include="Service\Admin\NewPermsionEmailAddressTest.cs" />
+    <Compile Include="Service\Admin\NewPhoneNumberTest.cs" />
+    <Compile Include="Service\Admin\NewPersonPhoneNumberTest.cs" />
+    <Compile Include="Service\Admin\PhoneNumberServiceTest.cs" />
+    <Compile Include="Service\Admin\EmailAddressServiceTest.cs" />
+    <Compile Include="Service\Admin\UpdatedEmailAddressTest.cs" />
+    <Compile Include="Service\Admin\UpdatedPhoneNumberTest.cs" />
     <Compile Include="Service\Fundings\AdditionalMoneyFlowTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Fundings\MoneyFlowServiceUpdateValidationEntityTest.cs" />
@@ -291,6 +299,7 @@
     <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
     <Compile Include="Service\Persons\EvaluationServiceTest.cs" />
     <Compile Include="Service\Persons\MembershipServiceTest.cs" />
+    <Compile Include="Service\Persons\ContactServiceValidatorTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidatorTest.cs" />
     <Compile Include="Service\Persons\DeletedParticipantTest.cs" />

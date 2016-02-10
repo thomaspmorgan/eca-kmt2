@@ -24,6 +24,11 @@ namespace ECA.WebApi.Models.Admin
         /// </summary>
         [Required]
         public string Number { get; set; }
+
+        /// <summary>
+        /// If true, this phone number is the primary phone number.
+        /// </summary>
+        public bool IsPrimary { get; set; }
     }
 
     /// <summary>
@@ -44,5 +49,27 @@ namespace ECA.WebApi.Models.Admin
         /// <param name="user">The user performing the operation.</param>
         /// <returns>The phone number.</returns>
         public abstract NewPhoneNumber<T> ToPhoneNumber(User user);
+    }
+
+    /// <summary>
+    /// An AdditionalPhoneNumberbindingModel is used when the phone number is related to another
+    /// model implicity, such as creating a new point of contact.
+    /// </summary>
+    public class AdditionalPhoneNumberBindingModel : PhoneNumberBindingModelBase
+    {
+        /// <summary>
+        /// Returns a new NewPhoneNumber business entity.
+        /// </summary>
+        /// <param name="user">the user creating the phone number.</param>
+        /// <returns>The business entity instance.</returns>
+        public NewPhoneNumber ToNewPhoneNumber(User user)
+        {
+            return new NewPhoneNumber(
+                user: user,
+                phoneNumberTypeId: this.PhoneNumberTypeId,
+                number: this.Number,
+                isPrimary: this.IsPrimary
+                );
+        }
     }
 }

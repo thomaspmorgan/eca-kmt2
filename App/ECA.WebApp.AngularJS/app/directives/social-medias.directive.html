@@ -18,7 +18,7 @@
                     <div class="bounce3"></div>
                 </div>
                 <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
-                    <div ng-class="{true: 'row', false: 'row2'}[editMode]" ng-show="!view.showEditSocialMedia">
+                    <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditSocialMedia">
                         <socialmedialink model="socialMedia"/>
                         <div class="pull-right" ng-show="!view.showEditSocialMedia">
                             {{socialMedia.socialMediaType}}

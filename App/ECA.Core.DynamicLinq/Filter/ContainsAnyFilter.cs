@@ -49,14 +49,20 @@ namespace ECA.Core.DynamicLinq.Filter
             var collectionTypeIsNumeric = this.IsTypeNumeric(this.ValueCollectionType);
             var propertyCollectionTypeIsNumeric = this.IsTypeNumeric(this.PropertyCollectionType);
 
-            if (!collectionTypeIsNumeric)
+
+            if (collectionTypeIsNumeric && !propertyCollectionTypeIsNumeric)
             {
-                throw new NotSupportedException("The collection type is not a numeric collection.");
+                throw new NotSupportedException("The collection type is numeric but the property collection type is not numeric.");
             }
-            if (!propertyCollectionTypeIsNumeric)
+            else if (!collectionTypeIsNumeric && propertyCollectionTypeIsNumeric)
             {
-                throw new NotSupportedException("The property collection type is not a numeric collection.");
+                throw new NotSupportedException("The collection type is not numeric but the property collection type is numeric.");
             }
+            else if (!collectionTypeIsNumeric && !propertyCollectionTypeIsNumeric && this.ValueCollectionType != typeof(string) && this.PropertyCollectionType != typeof(string))
+            {
+                throw new NotSupportedException("The collection type and property type must both be either a string or a numeric value.");
+            }
+
             if (PropertyCollectionType == typeof(Int32) && ValueCollectionType == typeof(Int64))
             {
                 ValueCollectionType = typeof(Int32);
@@ -83,7 +89,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// </summary>
         /// <returns>The typed list of values.</returns>
         private IList GetValuesAsList()
-        {   
+        {
             var listType = typeof(List<>).MakeGenericType(this.ValueCollectionType);
             var list = (IList)Activator.CreateInstance(listType);
             foreach (var v in (IEnumerable)this.Value)

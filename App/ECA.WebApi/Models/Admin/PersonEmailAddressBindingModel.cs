@@ -19,7 +19,7 @@ namespace ECA.WebApi.Models.Admin
         /// <returns>The email address.</returns>
         public override NewEmailAddress<ECA.Data.Person> ToEmailAddress(Business.Service.User user)
         {
-            return new NewPersonEmailAddress(user, this.EmailAddressTypeId, this.Address, this.EMailAddressableId);
+            return new NewPersonEmailAddress(user, this.EmailAddressTypeId, this.Address, this.IsPrimary, this.EMailAddressableId);
         }
     }
 }
