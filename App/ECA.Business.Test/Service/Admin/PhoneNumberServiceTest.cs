@@ -461,6 +461,10 @@ namespace ECA.Business.Test.Service.Admin
                 {
                     PersonId = 10,
                 };
+                Person otherPerson = new Person
+                {
+                    PersonId = 20
+                };
                 PhoneNumberType type = new PhoneNumberType
                 {
                     PhoneNumberTypeId = PhoneNumberType.Home.Id,
@@ -469,7 +473,7 @@ namespace ECA.Business.Test.Service.Admin
                 PhoneNumber phoneNumber = null;
                 PhoneNumber primaryPhone1 = null;
                 PhoneNumber primaryPhone2 = null;
-
+                PhoneNumber otherPersonPrimaryPhoneNumber = null;
                 var number = "12345";
                 var isPrimary = true;
                 var updatedPhone = new UpdatedPhoneNumber(user, phoneNumberId, number, type.PhoneNumberTypeId, isPrimary);
@@ -485,10 +489,18 @@ namespace ECA.Business.Test.Service.Admin
                     Assert.IsTrue(phoneNumber.IsPrimary.Value);
                     Assert.IsFalse(primaryPhone1.IsPrimary.Value);
                     Assert.IsFalse(primaryPhone2.IsPrimary.Value);
+                    Assert.IsTrue(otherPersonPrimaryPhoneNumber.IsPrimary.Value);
                 };
 
                 context.SetupActions.Add(() =>
                 {
+                    otherPersonPrimaryPhoneNumber = new PhoneNumber
+                    {
+                        PhoneNumberId = 100,
+                        IsPrimary = true,
+                        Person = otherPerson,
+                        PersonId = otherPerson.PersonId
+                    };
                     primaryPhone1 = new PhoneNumber
                     {
                         PhoneNumberId = 20,
@@ -512,6 +524,7 @@ namespace ECA.Business.Test.Service.Admin
                     context.PhoneNumbers.Add(phoneNumber);
                     context.PhoneNumbers.Add(primaryPhone1);
                     context.PhoneNumbers.Add(primaryPhone2);
+                    context.PhoneNumbers.Add(otherPersonPrimaryPhoneNumber);
                     context.PhoneNumberTypes.Add(type);
                 });
                 context.Revert();

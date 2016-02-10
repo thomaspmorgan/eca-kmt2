@@ -80,6 +80,9 @@
                     </div>
 
                     <div class="row" ng-show="view.showEmails">
+                        <div class="row row4" ng-show="view.newPointOfContact.emailAddresses.length == 0">
+                            No email addresses to show.  Click the plus button to add a new email address.
+                        </div>
                         <div class="row form-group" ng-repeat="website in view.newPointOfContact.emailAddresses track by $index">
                             <div class="col-md-10">
                                 <div class="row row4">
@@ -132,9 +135,6 @@
                                 <a ng-click="view.deleteEmailAddress($index)">
                                     <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length > 0">delete</i>
                                 </a>
-                                <!--<a ng-click="view.addEmailAddress()">
-                                    <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.emailAddresses.length === $index + 1 && view.newPointOfContact.emailAddresses.length <= view.maxEmailAddresses">add</i>
-                                </a>-->
                             </div>
                         </div>
                     </div>
@@ -158,6 +158,9 @@
                     </div>
 
                     <div class="row" ng-show="view.showPhoneNumbers">
+                        <div class="row row4" ng-show="view.newPointOfContact.phoneNumbers.length == 0">
+                            No phone numbers to show.  Click the plus button to add a new phone number.
+                        </div>
                         <div class="row form-group" ng-repeat="website in view.newPointOfContact.phoneNumbers track by $index">
                             <div class="col-md-10">
                                 <div class="row row4">
@@ -207,9 +210,6 @@
                                 <a ng-click="view.deletePhoneNumber($index)">
                                     <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length > 0">delete</i>
                                 </a>
-                                <!--<a ng-click="view.addPhoneNumber()">
-                                    <i style="margin-top: 30px;" class="material-icons md-18" ng-show="view.newPointOfContact.phoneNumbers.length === $index + 1 && view.newPointOfContact.phoneNumbers.length <= view.maxPhoneNumbers">add</i>
-                                </a>-->
                             </div>
                         </div>
                     </div>

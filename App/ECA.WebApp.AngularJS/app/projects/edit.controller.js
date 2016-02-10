@@ -259,7 +259,10 @@ angular.module('staticApp')
           });
 
           modalInstance.result.then(function (pointOfContact) {
-              pointOfContact.value = pointOfContact.fullName + ' (' + pointOfContact.position + ')';
+              pointOfContact.value = pointOfContact.fullName;
+              if (pointOfContact.position) {
+                  pointOfContact.value += ' (' + pointOfContact.position + ')';
+              }
               $scope.$parent.project.contacts.push(pointOfContact);
               $scope.editView.selectedPointsOfContact.push(pointOfContact);
           }, function () {

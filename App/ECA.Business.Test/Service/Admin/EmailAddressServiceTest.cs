@@ -406,6 +406,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ContactId = contactId
             };
+            Contact otherContact = new Contact
+            {
+                ContactId = 2
+            };
             EmailAddressType emailAddressType = new EmailAddressType
             {
                 EmailAddressTypeId = EmailAddressType.Home.Id,
@@ -418,6 +422,7 @@ namespace ECA.Business.Test.Service.Admin
             EmailAddress emailAddressToUpdate = null;
             EmailAddress primaryEmail1 = null;
             EmailAddress primaryEmail2 = null;
+            EmailAddress otherContactPrimaryEmail = null;
             context.SetupActions.Add(() =>
             {
                 emailAddressToUpdate = new EmailAddress
@@ -441,6 +446,13 @@ namespace ECA.Business.Test.Service.Admin
                     Contact = contact,
                     ContactId = contact.ContactId
                 };
+                otherContactPrimaryEmail = new EmailAddress
+                {
+                    EmailAddressId = 30,
+                    IsPrimary = true,
+                    Contact = otherContact,
+                    ContactId = otherContact.ContactId
+                };
                 emailAddressToUpdate.History.CreatedBy = creatorId;
                 emailAddressToUpdate.History.RevisedBy = creatorId;
                 emailAddressToUpdate.History.CreatedOn = yesterday;
@@ -448,29 +460,33 @@ namespace ECA.Business.Test.Service.Admin
                 contact.EmailAddresses.Add(emailAddressToUpdate);
                 contact.EmailAddresses.Add(primaryEmail1);
                 contact.EmailAddresses.Add(primaryEmail2);
+                otherContact.EmailAddresses.Add(otherContactPrimaryEmail);
                 context.EmailAddressTypes.Add(emailAddressType);
                 context.Contacts.Add(contact);
                 context.EmailAddresses.Add(emailAddressToUpdate);
                 context.EmailAddresses.Add(primaryEmail1);
                 context.EmailAddresses.Add(primaryEmail2);
+                context.EmailAddresses.Add(otherContactPrimaryEmail);
             });
             var updatedEmailModel = new UpdatedEmailAddress(new User(updatorId), emailAddressId, "someone@isp.com", emailAddressType.EmailAddressTypeId, true);
 
             Action beforeTester = () =>
             {
                 Assert.AreEqual(1, context.Contacts.Count());
-                Assert.AreEqual(3, context.EmailAddresses.Count());
+                Assert.AreEqual(4, context.EmailAddresses.Count());
                 Assert.IsNull(emailAddressToUpdate.Address);
                 Assert.IsTrue(primaryEmail1.IsPrimary.Value);
                 Assert.IsTrue(primaryEmail2.IsPrimary.Value);
+                Assert.IsTrue(otherContactPrimaryEmail.IsPrimary.Value);
             };
             Action afterTester = () =>
             {
                 Assert.AreEqual(1, context.Contacts.Count());
-                Assert.AreEqual(3, context.EmailAddresses.Count());
+                Assert.AreEqual(4, context.EmailAddresses.Count());
                 Assert.IsTrue(emailAddressToUpdate.IsPrimary.Value);
                 Assert.IsFalse(primaryEmail1.IsPrimary.Value);
                 Assert.IsFalse(primaryEmail2.IsPrimary.Value);
+                Assert.IsTrue(otherContactPrimaryEmail.IsPrimary.Value);
             };
 
             context.Revert();
