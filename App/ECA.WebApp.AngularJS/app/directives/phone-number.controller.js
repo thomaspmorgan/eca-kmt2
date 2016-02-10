@@ -89,8 +89,11 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage(message);
               });
           }
-
       };
+
+      $scope.view.onIsPrimaryChange = function () {
+          $scope.$emit(ConstantsService.primaryPhoneNumberChangedEventName, $scope.phoneNumber);
+      }
 
       $scope.view.onEditPhoneNumberClick = function () {
           $scope.view.showEditPhoneNumber = true;

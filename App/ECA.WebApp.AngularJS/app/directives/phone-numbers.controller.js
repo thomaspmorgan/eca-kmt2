@@ -53,6 +53,18 @@ angular.module('staticApp')
           $log.info('Removed one new phone number at index ' + index);
       });
 
+      $scope.$on(ConstantsService.primaryPhoneNumberChangedEventName, function (event, primaryPhoneNumber) {
+          console.assert($scope.phoneNumberable, 'The scope phoneNumberable property must exist.  It should be set by the directive.');
+          console.assert($scope.phoneNumberable.phoneNumbers instanceof Array, 'The entity phoneNumbers is defined but must be an array.');
+          var phoneNumbers = $scope.phoneNumberable.phoneNumbers;
+          var primaryPhoneNumberIndex = phoneNumbers.indexOf(primaryPhoneNumber);
+          angular.forEach(phoneNumbers, function (phoneNumber, index) {
+              if (primaryPhoneNumberIndex !== index) {
+                  phoneNumber.isPrimary = false;
+              }
+          });
+      });
+
       function getPhoneNumberTypes() {
           var params = {
               start: 0,

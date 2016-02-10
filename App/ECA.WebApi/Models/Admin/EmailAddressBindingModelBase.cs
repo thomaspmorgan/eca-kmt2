@@ -25,6 +25,11 @@ namespace ECA.WebApi.Models.Admin
         [MaxLength(EmailAddress.EMAIL_ADDRESS_MAX_LENGTH)]
         [Required]
         public string Address { get; set; }
+
+        /// <summary>
+        /// If true, the email address is primary.
+        /// </summary>
+        public bool IsPrimary { get; set; }
     }
 
     /// <summary>
@@ -45,5 +50,27 @@ namespace ECA.WebApi.Models.Admin
         /// <param name="user">The user performing the operation.</param>
         /// <returns>The email address.</returns>
         public abstract NewEmailAddress<T> ToEmailAddress(User user);
+    }
+
+    /// <summary>
+    /// An AdditionalEmailAddressBindingModel is used when the email address that is created will
+    /// be related to another model implicity such as creating a new point of a contact.
+    /// </summary>
+    public class AdditionalEmailAddressBindingModel : EmailAddressBindingModelBase
+    {
+        /// <summary>
+        /// Returns a new NewEmailAddress business entity.
+        /// </summary>
+        /// <param name="user">The user creating the address.</param>
+        /// <returns>The new email address.</returns>
+        public NewEmailAddress ToNewEmailAddress(User user)
+        {
+            return new NewEmailAddress(
+                user: user,
+                emailAddressTypeId: this.EmailAddressTypeId,
+                address: this.Address,
+                isPrimary: this.IsPrimary
+                );
+        }
     }
 }

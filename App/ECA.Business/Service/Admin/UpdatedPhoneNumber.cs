@@ -12,7 +12,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// An UpdatedPhoneNumber is used by a business layer client to update a phone number entity.
     /// </summary>
-    public class UpdatedPhoneNumber
+    public class UpdatedPhoneNumber : IAuditable
     {
         /// <summary>
         /// Creates a new UpdatedPhoneNumber and initialized it with the given values.
@@ -21,19 +21,21 @@ namespace ECA.Business.Service.Admin
         /// <param name="id">The id of the phone number.</param>
         /// <param name="number">The value.</param>
         /// <param name="phoneNumberTypeId">The phone number type id</param>
-        public UpdatedPhoneNumber(User updator, int id, string number, int phoneNumberTypeId)
+        /// <param name="isPrimary">The is primary flag.</param>
+        public UpdatedPhoneNumber(User updator, int id, string number, int phoneNumberTypeId, bool isPrimary)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
-            this.Update = new Update(updator);
+            this.Audit = new Update(updator);
             this.Id = id;
             this.Number = number;
             this.PhoneNumberTypeId = phoneNumberTypeId;
+            this.IsPrimary = isPrimary;
         }
 
         /// <summary>
         /// Gets the update audit.
         /// </summary>
-        public Update Update { get; private set; }
+        public Audit Audit { get; private set; }
 
         /// <summary>
         /// Gets the Id.
@@ -49,6 +51,11 @@ namespace ECA.Business.Service.Admin
         /// Gets the value of the Number
         /// </summary>
         public string Number { get; private set; }
+
+        /// <summary>
+        /// Gets the is primary flag.
+        /// </summary>
+        public bool IsPrimary { get; private set; }
 
     }
 }

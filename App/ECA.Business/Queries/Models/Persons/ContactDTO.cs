@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Queries.Models.Admin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,14 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class ContactDTO
     {
+        public ContactDTO()
+        {
+            this.EmailAddresses = new List<EmailAddressDTO>();
+            this.PhoneNumbers = new List<PhoneNumberDTO>();
+            this.EmailAddressValues = new List<string>();
+            this.PhoneNumberValues = new List<string>();
+        }
+
         /// <summary>
         /// Gets or sets the Id.
         /// </summary>
@@ -25,5 +34,25 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the position.
         /// </summary>
         public string Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email addresses.
+        /// </summary>
+        public IEnumerable<EmailAddressDTO> EmailAddresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address values, useful for filtering.
+        /// </summary>
+        public IEnumerable<string> EmailAddressValues { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone numbers.
+        /// </summary>
+        public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number values, useful for filtering.
+        /// </summary>
+        public IEnumerable<string> PhoneNumberValues { get; set; }
     }
 }

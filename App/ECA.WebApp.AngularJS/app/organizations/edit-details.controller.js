@@ -13,6 +13,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        $modal,
         OrganizationService,
         LookupService,
         ConstantsService,
@@ -57,6 +58,29 @@ angular.module('staticApp')
       $scope.view.updateCollections = function () {
           updatePointsOfContactIds();
           updateOrganizationRoleIds();
+      }
+
+      $scope.view.onAddPointsOfContactClick = function () {
+          var modalInstance = $modal.open({
+              animation: true,
+              backdrop: 'static',
+              templateUrl: 'app/points-of-contact/points-of-contact-modal.html',
+              controller: 'PointsOfContactModalCtrl',
+              windowClass: 'full-screen-modal',
+              resolve: {}
+          });
+
+          modalInstance.result.then(function (pointOfContact) {
+              pointOfContact.value = pointOfContact.fullName;
+              if (pointOfContact.position) {
+                  pointOfContact.value += ' (' + pointOfContact.position + ')';
+              }
+              $scope.organization.contacts.push(pointOfContact);
+              $scope.view.selectedPointsOfContact.push(pointOfContact);
+              updatePointsOfContactIds();
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
       }
 
       function setSelectedPointsOfContact() {

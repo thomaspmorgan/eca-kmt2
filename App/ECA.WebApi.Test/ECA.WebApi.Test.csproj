@@ -216,6 +216,12 @@
     <Compile Include="Models\Admin\PersonAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\OrganizationAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\LocationBindingModelTest.cs" />
+    <Compile Include="Models\Admin\AdditionalEmailAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\AdditionalPhoneNumberBindingModelTest.cs" />
+    <Compile Include="Models\Admin\PersonEmailAddressBindingModelTest.cs" />
+    <Compile Include="Models\Admin\PersonPhoneNumberBindingModelTest.cs" />
+    <Compile Include="Models\Admin\UpdatedPhoneNumberBindingModelTest.cs" />
+    <Compile Include="Models\Admin\UpdatedEmailAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedLocationBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedAddressBindingModelTest.cs" />
     <Compile Include="Models\Admin\UpdatedOrganizationBindingModelTest.cs" />
@@ -235,6 +241,7 @@
     <Compile Include="Models\Offices\OfficeCollaboratorBindingModelTest.cs" />
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Person\PersonBindingModelTest.cs" />
+    <Compile Include="Models\Person\AdditionalPointOfContactBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />

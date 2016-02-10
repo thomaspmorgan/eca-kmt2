@@ -84,7 +84,12 @@ namespace ECA.Business.Service.Admin
         public PhoneNumber Create<T>(NewPhoneNumber<T> newPhoneNumber) where T : class, IPhoneNumberable
         {
             var phoneNumberable = this.Context.Set<T>().Find(newPhoneNumber.GetPhoneNumberableEntityId());
-            return DoCreate(newPhoneNumber, phoneNumberable);
+            List<PhoneNumber> existingPhoneNumbers = new List<PhoneNumber>();
+            if (newPhoneNumber.IsPrimary)
+            {
+                existingPhoneNumbers = newPhoneNumber.CreateGetPhoneNumbersQuery(this.Context).ToList();
+            }
+            return DoCreate(newPhoneNumber, phoneNumberable, existingPhoneNumbers);
         }
 
         /// <summary>
@@ -96,12 +101,21 @@ namespace ECA.Business.Service.Admin
         public async Task<PhoneNumber> CreateAsync<T>(NewPhoneNumber<T> newPhoneNumber) where T : class, IPhoneNumberable
         {
             var phoneNumberable = await this.Context.Set<T>().FindAsync(newPhoneNumber.GetPhoneNumberableEntityId());
-            return DoCreate(newPhoneNumber, phoneNumberable);
+            List<PhoneNumber> existingPhoneNumbers = new List<PhoneNumber>();
+            if (newPhoneNumber.IsPrimary)
+            {
+                existingPhoneNumbers = await newPhoneNumber.CreateGetPhoneNumbersQuery(this.Context).ToListAsync();
+            }
+            return DoCreate(newPhoneNumber, phoneNumberable, existingPhoneNumbers);
         }
 
-        private PhoneNumber DoCreate<T>(NewPhoneNumber<T> newPhoneNumber, IPhoneNumberable phoneNumberable) where T : class, IPhoneNumberable
+        private PhoneNumber DoCreate<T>(NewPhoneNumber<T> newPhoneNumber, T phoneNumberable, List<PhoneNumber> existingPhoneNumbers) where T : class, IPhoneNumberable
         {
-            throwIfPhoneNumberableEntityNotFound(phoneNumberable, newPhoneNumber.GetPhoneNumberableEntityId());            
+            throwIfPhoneNumberableEntityNotFound(phoneNumberable, newPhoneNumber.GetPhoneNumberableEntityId());
+            if (newPhoneNumber.IsPrimary)
+            {
+                existingPhoneNumbers.ForEach(x => x.IsPrimary = false);
+            }           
             return newPhoneNumber.AddPhoneNumber(phoneNumberable);
         }
         #endregion
@@ -115,7 +129,12 @@ namespace ECA.Business.Service.Admin
         public void Update(UpdatedPhoneNumber updatedPhoneNumber)
         {
             var phoneNumber = Context.PhoneNumbers.Find(updatedPhoneNumber.Id);
-            DoUpdate(updatedPhoneNumber, phoneNumber);
+            List<PhoneNumber> existingPhoneNumbers = new List<PhoneNumber>();
+            if (phoneNumber != null && updatedPhoneNumber.IsPrimary)
+            {
+                existingPhoneNumbers = CreateGetOtherPhoneNumbersQuery(phoneNumber).ToList();
+            }
+            DoUpdate(updatedPhoneNumber, phoneNumber, existingPhoneNumbers);
         }
 
         /// <summary>
@@ -125,16 +144,41 @@ namespace ECA.Business.Service.Admin
         public async Task UpdateAsync(UpdatedPhoneNumber updatedPhoneNumber)
         {
             var phoneNumber = await Context.PhoneNumbers.FindAsync(updatedPhoneNumber.Id);
-            DoUpdate(updatedPhoneNumber, phoneNumber);
+            List<PhoneNumber> existingPhoneNumbers = new List<PhoneNumber>();
+            if (phoneNumber != null && updatedPhoneNumber.IsPrimary)
+            {
+                existingPhoneNumbers = await CreateGetOtherPhoneNumbersQuery(phoneNumber).ToListAsync();
+            }
+            DoUpdate(updatedPhoneNumber, phoneNumber, existingPhoneNumbers);
         }
 
-        private void DoUpdate(UpdatedPhoneNumber updatedPhoneNumber, PhoneNumber modelToUpdate)
+        private void DoUpdate(UpdatedPhoneNumber updatedPhoneNumber, PhoneNumber modelToUpdate, List<PhoneNumber> existingPhoneNumbers)
         {
             Contract.Requires(updatedPhoneNumber != null, "The updatedPhoneNumber must not be null.");
             throwIfPhoneNumberNotFound(modelToUpdate, updatedPhoneNumber.Id);
             modelToUpdate.PhoneNumberTypeId = updatedPhoneNumber.PhoneNumberTypeId;
             modelToUpdate.Number = updatedPhoneNumber.Number;
-            updatedPhoneNumber.Update.SetHistory(modelToUpdate);
+            modelToUpdate.IsPrimary = updatedPhoneNumber.IsPrimary;
+            updatedPhoneNumber.Audit.SetHistory(modelToUpdate);
+            if (updatedPhoneNumber.IsPrimary)
+            {
+                existingPhoneNumbers.ForEach(x => x.IsPrimary = false);
+            }
+        }
+
+        private IQueryable<PhoneNumber> CreateGetOtherPhoneNumbersQuery(PhoneNumber phoneNumberToUpdate)
+        {
+            var query = this.Context.PhoneNumbers.Where(x => x.PhoneNumberId != phoneNumberToUpdate.PhoneNumberId);
+            Contract.Assert(phoneNumberToUpdate.PersonId.HasValue || phoneNumberToUpdate.ContactId.HasValue, "The phone number must either be related to a contact or person.");
+            if (phoneNumberToUpdate.PersonId.HasValue)
+            {
+                query = query.Where(x => x.PersonId == phoneNumberToUpdate.PersonId);
+            }
+            else if (phoneNumberToUpdate.ContactId.HasValue)
+            {
+                query = query.Where(x => x.ContactId == phoneNumberToUpdate.ContactId);
+            }
+            return query;
         }
         #endregion
 

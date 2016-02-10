@@ -1,21 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-angular.module('staticApp').factory('ConstantsService', function() {
+﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -169,6 +152,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		cancelProjectEventName: 'cancelProjectEdit',
 		containsAnyComparisonType: 'containsany',
 		descending: 'DESC',
+		emailRegex: '^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
 		greaterThanComparisonType: 'gt',
@@ -188,7 +172,9 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		officeJustificationSettingName: 'Justification',
 		officeObjectiveSettingName: 'Objective',
 		primaryAddressChangedEventName: 'primaryAddressChanged',
+		primaryEmailAddressChangedEventName: 'primaryEmailAddressChanged',
 		primaryLanguageProficiencyChangedEventName: 'primaryLanguageProficiencyChanged',
+		primaryPhoneNumberChangedEventName: 'primaryPhoneNumberChanged',
 		registeringUserEventName: 'registeringUser',
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
@@ -206,5 +192,4 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		searchDelimiter: ' '
 	};
 });
-
 

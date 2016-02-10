@@ -19,8 +19,9 @@ namespace ECA.Business.Service.Admin
         /// <param name="phoneNumberTypeId">The  phone number type by id.</param>
         /// <param name="number">The value.</param>
         /// <param name="personId">The person id.</param>
-        public NewPersonPhoneNumber(User user, int phoneNumberTypeId, string number, int personId)
-            :base(user, phoneNumberTypeId, number)
+        /// <param name="isPrimary">The is primary phone number flag.</param>
+        public NewPersonPhoneNumber(User user, int phoneNumberTypeId, string number, int personId, bool isPrimary)
+            :base(user, phoneNumberTypeId, number, isPrimary)
         {
             this.PersonId = personId;
         }
@@ -29,6 +30,16 @@ namespace ECA.Business.Service.Admin
         /// Gets the organization id.
         /// </summary>
         public int PersonId { get; private set; }
+
+        /// <summary>
+        /// Returns a query to retrieve phone numbers of the person with this instance's PersonId.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns></returns>
+        public override IQueryable<PhoneNumber> CreateGetPhoneNumbersQuery(EcaContext context)
+        {
+            return context.PhoneNumbers.Where(x => x.PersonId == this.PersonId);
+        }
 
         /// <summary>
         /// Returns the person id.

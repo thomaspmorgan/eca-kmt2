@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System;
@@ -16,6 +17,33 @@ namespace ECA.Business.Queries.Persons
     public static class ContactQueries
     {
         /// <summary>
+        /// Returns a query to get contacts.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to get contacts.</returns>
+        public static IQueryable<ContactDTO> CreateContactDTOQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
+            var phoneNumbersQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
+
+            var query = from contact in context.Contacts
+                        let phoneNumbers = phoneNumbersQuery.Where(x => x.ContactId == contact.ContactId)
+                        let emailAddresses = emailAddressQuery.Where(x => x.ContactId == contact.ContactId)
+                        select new ContactDTO
+                        {
+                            EmailAddresses = emailAddresses,
+                            EmailAddressValues = emailAddresses.Select(x => x.Address),
+                            FullName = contact.FullName,
+                            Id = contact.ContactId,
+                            PhoneNumbers = phoneNumbers,
+                            PhoneNumberValues = phoneNumbers.Select(x => x.Number),
+                            Position = contact.Position
+                        };
+            return query;
+        }
+
+        /// <summary>
         /// Returns a query to filtered and sorted contacts in the system.
         /// </summary>
         /// <param name="context">The context to query.</param>
@@ -25,13 +53,7 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-
-            var query = context.Contacts.Select(x => new ContactDTO
-            {
-                FullName = x.FullName,
-                Id = x.ContactId,
-                Position = x.Position
-            });
+            var query = CreateContactDTOQuery(context);
             query = query.Apply(queryOperator);
             return query;
         }

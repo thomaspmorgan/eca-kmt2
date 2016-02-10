@@ -27,7 +27,13 @@ namespace ECA.WebApi.Models.Admin
         public UpdatedEmailAddress ToUpdatedEmailAddress(User updator)
         {
             Contract.Requires(updator != null, "The updator must not be null.");
-            return new UpdatedEmailAddress(updator, this.Id, this.Address, this.EmailAddressTypeId);
+            return new UpdatedEmailAddress(
+                updator: updator,
+                id: this.Id,
+                address: this.Address,
+                emailAddressTypeId: this.EmailAddressTypeId,
+                isPrimary: this.IsPrimary);
+
         }
     }
 }

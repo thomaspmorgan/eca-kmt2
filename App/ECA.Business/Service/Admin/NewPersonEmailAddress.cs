@@ -19,8 +19,9 @@ namespace ECA.Business.Service.Admin
         /// <param name="emailAddressTypeId">The email address type by id.</param>
         /// <param name="address">The value.</param>
         /// <param name="personId">The person id.</param>
-        public NewPersonEmailAddress(User user, int emailAddressTypeId, string address, int personId)
-            :base(user, emailAddressTypeId, address)
+        /// <param name="isPrimary">The is primary flag.</param>
+        public NewPersonEmailAddress(User user, int emailAddressTypeId, string address, bool isPrimary, int personId)
+            :base(user, emailAddressTypeId, address, isPrimary)
         {
             this.PersonId = personId;
         }
@@ -29,6 +30,16 @@ namespace ECA.Business.Service.Admin
         /// Gets the organization id.
         /// </summary>
         public int PersonId { get; private set; }
+
+        /// <summary>
+        /// Returns a query to retrieve email addresses of the person.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The email address query.</returns>
+        public override IQueryable<EmailAddress> CreateGetEmailAddressesQuery(EcaContext context)
+        {
+            return context.EmailAddresses.Where(x => x.PersonId == this.PersonId);
+        }
 
         /// <summary>
         /// Returns the person id.

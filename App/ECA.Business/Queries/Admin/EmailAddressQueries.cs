@@ -23,8 +23,11 @@ namespace ECA.Business.Queries.Admin
                 Id = x.EmailAddressId,
                 Address = x.Address,
                 EmailAddressType = x.EmailAddressType.EmailAddressTypeName,
-                EmailAddressTypeId = x.EmailAddressTypeId
-            });
+                EmailAddressTypeId = x.EmailAddressTypeId,
+                PersonId = x.PersonId,
+                ContactId = x.ContactId,
+                IsPrimary = x.IsPrimary
+            }).OrderByDescending(x => x.IsPrimary).ThenBy(x => x.EmailAddressType);
         }
 
         /// <summary>

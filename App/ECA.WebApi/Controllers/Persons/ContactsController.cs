@@ -3,7 +3,9 @@ using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Person;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,15 +31,19 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ContactDTO> DEFAULT_SORTER = new ExpressionSorter<ContactDTO>(x => x.FullName, SortDirection.Ascending);
 
         private IContactService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ContactsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ContactsController(IContactService service)
+        /// <param name="userProvider">The user provider.</param>
+        public ContactsController(IContactService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The contact service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -52,6 +58,28 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var results = await this.service.GetContactsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.FullName, x => x.Position));
                 return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new contact to the system.
+        /// </summary>
+        /// <returns>The saved contact.</returns>
+        public async Task<IHttpActionResult> PostCreateContactAsync(AdditionalPointOfContactBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var instance = model.ToAdditionalPointOfContact(businessUser);
+                var contact = await service.CreateAsync(instance);
+                await service.SaveChangesAsync();
+                var dto = await service.GetContactByIdAsync(contact.ContactId);
+                return Ok(dto);
             }
             else
             {
