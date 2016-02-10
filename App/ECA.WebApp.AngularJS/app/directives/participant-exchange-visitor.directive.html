@@ -8,6 +8,10 @@
         <a ng-click="edit.onPositionAndFieldEditChange()">
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.PositionAndField && !view.PositionAndFieldEdit">edit</i>
         </a>
+        <div class="pull-right" ng-if="view.PositionAndFieldEdit" ng-show="view.PositionAndField">
+            <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
+            <button ng-click="view.PositionAndFieldEdit=false" class="btn btn-cancel">Cancel</button>
+        </div>
     </div>
 </div>
 <div ng-if="!view.PositionAndFieldEdit">
@@ -51,12 +55,6 @@
     </div>
 </div>
 <div ng-if="view.PositionAndFieldEdit">
-    <div class="row row4">
-        <div class="pull-right">
-            <button ng-click="savePositionAndField()" class="btn btn-success" ng-disabled="formPositionAndFieldForm.$invalid || formPositionAndFieldForm.$pristine">Save</button>
-            <button ng-click="view.PositionAndFieldEdit=false" class="btn btn-cancel">Cancel</button>
-        </div>
-    </div>
     <form name="formPositionAndFieldForm" ng-show="view.PositionAndField">
         <div class="row row4">
             <div class="col-md-3">
@@ -111,20 +109,24 @@
         </div>
     </form>
 </div>
-    <div class="row row2">
-        <div class="col-md-5"><h5>Funding</h5></div>
-        <div class="col-md-7">
-            <a ng-click="view.Funding=!view.Funding">
-                <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
-                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
-            </a>
-            <a ng-click="edit.onFundingEditChange()">
-                <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding && !view.FundingEdit">edit</i>
-            </a>
+<div class="row row2">
+    <div class="col-md-5"><h5>Funding</h5></div>
+    <div class="col-md-7">
+        <a ng-click="view.Funding=!view.Funding">
+            <i class="material-icons md-dark md-36 pull-right" ng-show="view.Funding">expand_more</i>
+            <i class="material-icons md-dark md-36 pull-right" ng-show="!view.Funding">expand_less</i>
+        </a>
+        <a ng-click="edit.onFundingEditChange()">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.Funding && !view.FundingEdit">edit</i>
+        </a>
+        <div class="pull-right" ng-if="view.FundingEdit" ng-show="view.Funding">
+                <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
+                <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
         </div>
     </div>
+</div>
     <div ng-if="!view.FundingEdit">
-        <div ng-show="view.Funding" class="rowalt">
+        <div ng-show="view.Funding" class="row row2">
             <div class="row row4">
                 <div class="col-md-3">
                     <label class="title-label">Sponsor</label>
@@ -282,13 +284,7 @@
         </div>
     </div>
     <div ng-if="view.FundingEdit">
-        <form name="fundingEditForm" class="rowalt" ng-show="view.Funding">
-        <div class="row row4">
-                <div class="pull-right" style="padding-right:10px">
-                <button ng-click="saveFunding()" class="btn btn-success" ng-disabled="fundingEditForm.$invalid || fundingEditForm.$pristine">Save</button>
-                <button ng-click="view.FundingEdit=false" class="btn btn-cancel">Cancel</button>
-            </div>
-        </div>
+        <form name="fundingEditForm" class="row row2" ng-show="view.Funding">
             <div class="row row4">
                 <div class="col-md-2">
                     <label class="title-label">Sponsor</label>
