@@ -137,6 +137,11 @@ angular.module('staticApp')
             });
       }
 
+      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
+
       function loadLocationById(id) {
           return LocationService.get({
               limit: 1,
