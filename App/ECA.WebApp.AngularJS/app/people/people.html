@@ -8,7 +8,7 @@
     <div class="heading">
         <h5>Person</h5>
         <h1>{{person.fullName}}</h1>
-        <span class="prominent">Prominent</span>
+        <span class="prominent" ng-if="person.prominentCategories.length > 0">Prominent in {{person.prominentCategories.join(', ')}}</span>
         <div class="permalink">Permalink: url goes here</div>
     </div>
 </div>
