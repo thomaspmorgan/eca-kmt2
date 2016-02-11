@@ -10,26 +10,38 @@
 angular.module('staticApp')
   .factory('StateService', function ($rootScope, $log, $http, $state, ConstantsService, ParticipantService, DragonBreath) {
 
+      var projectPrefix = 'projects';
+      var programPrefix = 'programs';
+      var officePrefix = 'offices';
+      var organizationPrefix = 'organizations';
+      var personPrefix = 'people'
+
       var service = {
           stateNames: {
+              prefixes: {
+                  project: projectPrefix,
+                  program: programPrefix,
+                  office: officePrefix,
+                  organization: organizationPrefix,
+                  person: personPrefix
+              },
               overview: {
-                  project: 'projects.overview',
-                  program: 'programs.overview',
-                  office: 'offices.overview',
-                  organization: 'organizations.overview',
-                  person: 'people.personalinformation'
+                  project: projectPrefix + '.overview',
+                  program: programPrefix + '.overview',
+                  office: officePrefix + '.overview',
+                  organization: organizationPrefix + '.overview',
+                  person: personPrefix + '.personalinformation'
               },
               edit: {
-                  project: 'projects.edit',
-                  program: 'programs.edit'
+                  project: projectPrefix + '.edit',
+                  program: programPrefix + '.edit'
               },
               moneyflow: {
-                  organization: 'organizations.moneyflows',
-                  person: 'people.moneyflows',
-                  office: 'offices.moneyflows',
-                  project: 'projects.moneyflows',
-                  program: 'programs.moneyflows'
-
+                  organization: organizationPrefix + '.moneyflows',
+                  person: personPrefix + '.moneyflows',
+                  office: officePrefix + '.moneyflows',
+                  project: projectPrefix + '.moneyflows',
+                  program: programPrefix + '.moneyflows'
               }
           },
 
@@ -153,6 +165,31 @@ angular.module('staticApp')
           goToEditProgramState: function (programId, options) {
               options = options || {};
               return $state.go(service.stateNames.edit.program, { programId: programId }, options) + '#top';
+          },
+
+          isProjectState: function (stateName) {
+              console.assert(stateName, 'The stateName must be defined.');
+              return stateName.indexOf(service.stateNames.prefixes.project) == 0;
+          },
+
+          isProgramState: function (stateName) {
+              console.assert(stateName, 'The stateName must be defined.');
+              return stateName.indexOf(service.stateNames.prefixes.program) == 0;
+          },
+
+          isOfficeState: function (stateName) {
+              console.assert(stateName, 'The stateName must be defined.');
+              return stateName.indexOf(service.stateNames.prefixes.office) == 0;
+          },
+
+          isOrganizationState: function (stateName) {
+              console.assert(stateName, 'The stateName must be defined.');
+              return stateName.indexOf(service.stateNames.prefixes.organization) == 0;
+          },
+
+          isPersonState: function (stateName) {
+              console.assert(stateName, 'The stateName must be defined.');
+              return stateName.indexOf(service.stateNames.prefixes.person) == 0;
           }
       };
       return service;
