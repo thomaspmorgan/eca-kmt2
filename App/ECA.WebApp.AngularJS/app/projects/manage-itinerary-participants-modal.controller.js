@@ -74,10 +74,10 @@ angular.module('staticApp')
           }
       }
 
-      $scope.view.onClearItineraryStopParticipantsClick = function () {
-          $scope.view.selectedItineraryStop.participants = [];
-          return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants);
-      }
+      //$scope.view.onClearItineraryStopParticipantsClick = function () {
+      //    $scope.view.selectedItineraryStop.participants = [];
+      //    return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants);
+      //}
 
       $scope.view.onSelectAvailableItineraryParticipantRow = function (participant) {
           participant.isSelected = !participant.isSelected;
@@ -146,6 +146,7 @@ angular.module('staticApp')
                   participants = participant;
               }
               else {
+                  participant.isSelected = false;
                   participants = [participant];
               }
               if (participants.length == 0) {
@@ -154,7 +155,6 @@ angular.module('staticApp')
               else {
                   angular.forEach(participants, function (p, index) {
                       removeParticipant(p, $scope.view.selectedItineraryStop.participants);
-                      p.isSelected = false;
                   });
 
                   return saveItineraryStopParticipants(project, itinerary, $scope.view.selectedItineraryStop, $scope.view.selectedItineraryStop.participants)
@@ -168,6 +168,7 @@ angular.module('staticApp')
       $scope.view.onClearItineraryStopParticipantsClick = function () {
           var participantsCopy = [];
           angular.forEach($scope.view.selectedItineraryStop.participants, function (p, index) {
+              p.isSelected = false;
               participantsCopy.push({
                   participantId: p.participantId
               });

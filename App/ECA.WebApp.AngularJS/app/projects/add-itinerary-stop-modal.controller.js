@@ -136,7 +136,7 @@ angular.module('staticApp')
           $scope.view.itineraryStop.timezoneId = null;
 
           $scope.view.isLoadingTimezone = true;
-          return LocationService.getLocationByTimezone($model)
+          return LocationService.getTimezoneByLocation($model)
           .then(function (timezoneId) {
               $scope.view.isLoadingTimezone = false;
               if (timezoneId) {

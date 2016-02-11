@@ -15,7 +15,6 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        smoothScroll,
         LookupService,
         LocationService,
         ConstantsService,

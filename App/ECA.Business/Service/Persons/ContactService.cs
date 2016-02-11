@@ -132,7 +132,6 @@ namespace ECA.Business.Service.Persons
             {
                 contact.Position = pointOfContact.Position.Trim();
             }
-            
 
             foreach(var email in pointOfContact.EmailAddresses.Where(x => !String.IsNullOrWhiteSpace(x.Address)))
             {
