@@ -42,6 +42,7 @@ INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('10'
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('11','U.S. Non Traveling Participant', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('12','Foreign Traveling Participant', 'true')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('13','U.S. Traveling Participant', 'true')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name], [IsPerson]) VALUES ('14','Language Officer', 'true')
 
 
 -- 3: Insert any new items into the table from the table variable
