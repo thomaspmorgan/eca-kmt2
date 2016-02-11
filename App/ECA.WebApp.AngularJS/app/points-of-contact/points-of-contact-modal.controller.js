@@ -26,6 +26,7 @@ angular.module('staticApp')
       $scope.view.pointOfContactFilter = '';
       $scope.view.isLoadingRequiredData = false;
       $scope.view.isSavingPointOfContact = false;
+      $scope.view.isLoadingPointsOfContactByFullName = false;
 
       $scope.view.maxNameLength = 100;
       $scope.view.searchLimit = 30;
@@ -38,17 +39,24 @@ angular.module('staticApp')
       $scope.view.newPointOfContact = createNewPointOfContact();
       $scope.view.emailAddressTypes = [];
       $scope.view.phoneNumberTypes = [];
-      $scope.view.likePointsOfContact = [];
+      $scope.view.likePointsOfContactByEmail = [];
+      $scope.view.likePointsOfContactByFullName = [];
+      $scope.view.likePointsOfContactByFullNameTotal = 0;
 
       $scope.view.deleteEmailAddress = function ($index) {
           $scope.view.newPointOfContact.emailAddresses.splice($index, 1);
       }
+
       $scope.view.addEmailAddress = function () {
           $scope.view.showEmails = true;
           $scope.view.newPointOfContact.emailAddresses.push({
               emailAddressTypeId: ConstantsService.emailAddressType.home.id,
               address: ''
           });
+      }
+
+      $scope.view.onFullNameChange = function () {
+          return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
       }
 
       $scope.view.onEmailAddressChange = function ($index) {
@@ -137,8 +145,31 @@ angular.module('staticApp')
           .catch(function (response) {
               dfd.reject();
           });
-
           return dfd.promise;
+      }
+
+      var likePointsOfContactByFullNameFilter = FilterService.add('points-of-contact-model-search-by-full-name-filter');
+      function loadPointsOfContactByFullName(fullName) {
+          likePointsOfContactByFullNameFilter.reset();
+          likePointsOfContactByFullNameFilter = likePointsOfContactByFullNameFilter
+              .skip(0)
+              .take(1)
+              .equal('fullName', fullName);
+          $scope.view.isLoadingPointsOfContactByFullName = true;
+          var params = likePointsOfContactByFullNameFilter.toParams();
+          return ContactsService.get(params)
+          .then(function (response) {
+              $scope.view.likePointsOfContactByFullName = response.data.results;
+              $scope.view.isLoadingPointsOfContactByFullName = false;
+              $scope.view.likePointsOfContactByFullNameTotal = response.data.total;
+              return $scope.view.likePointsOfContactByFullName;
+          })
+          .catch(function (response) {
+              $scope.view.isLoadingPointsOfContactByFullName = false;
+              var mesage = "Unable to load like points of contact.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
       }
 
       var likePointsOfContactByEmailFilter = FilterService.add('points-of-contact-model-search-by-email-filter');
@@ -151,7 +182,7 @@ angular.module('staticApp')
           var params = likePointsOfContactByEmailFilter.toParams();
           return ContactsService.get(params)
           .then(function (response) {
-              $scope.view.likePointsOfContact = response.data.results;
+              $scope.view.likePointsOfContactByEmail = response.data.results;
               return $scope.view.likePointsOfContact;
           })
           .catch(function (response) {
