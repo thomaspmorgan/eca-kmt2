@@ -124,7 +124,8 @@ namespace ECA.Business.Queries.Persons
             ExchVisitor.FinancialInfo = GetFinancialInfo(participantExchangeVisitor);
 
             // dependents
-            ExchVisitor.CreateDependent = GetDependent();
+            ExchVisitor.CreateDependent = null;
+            //ExchVisitor.CreateDependent = GetDependent();
 
             // site of activity
             ExchVisitor.AddSiteOfActivity = GetAddSiteOfActivity();
