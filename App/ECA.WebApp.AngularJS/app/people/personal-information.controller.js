@@ -24,7 +24,7 @@ angular.module('staticApp')
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.edit.General)
           .then(function (response) {
-              $scope.edit.General = status;
+              $scope.edit.General = response;
           });
       }
 
@@ -38,14 +38,14 @@ angular.module('staticApp')
       $scope.editContact = function () {
           return CreateMessageBox($scope.edit.Contact)
           .then(function (response) {
-              $scope.edit.Contact = status;
+              $scope.edit.Contact = response;
           });
       }
 
       $scope.editEduEmp = function () {
           return CreateMessageBox($scope.edit.EduEmp)
           .then(function (response) {
-              $scope.edit.EduEmp = status;
+              $scope.edit.EduEmp = response;
           });
       }
 
