@@ -22,6 +22,34 @@ namespace ECA.Business.Test.Service.Persons
         }
         #region Create
         [TestMethod]
+        public void TestDoValidateCreate_PointOfContactWithEmailAddressAlreadyExists()
+        {
+            var fullName = "full name";
+            var position = "position";
+            var likeEmailAddressCount = 0;
+            var numberOfPrimaryEmailAddresses = 1;
+            var numberOfPrimaryPhoneNumbers = 1;
+            Func<AdditionalPointOfContactValidationEntity> createEntity = () =>
+            {
+                return new AdditionalPointOfContactValidationEntity(
+                    fullName: fullName,
+                    position: position,
+                    likeEmailAddressCount: likeEmailAddressCount,
+                    numberOfPrimaryEmailAddresses: numberOfPrimaryEmailAddresses,
+                    numberOfPrimaryPhoneNumbers: numberOfPrimaryPhoneNumbers
+                );
+            };
+            Assert.AreEqual(0, validator.ValidateCreate(createEntity()).Count());
+            likeEmailAddressCount = 2;
+
+            var entity = createEntity();
+            var results = validator.DoValidateCreate(entity);
+            Assert.AreEqual(1, results.Count());
+            Assert.AreEqual(PropertyHelper.GetPropertyName<AdditionalPointOfContact>(x => x.EmailAddresses), results.First().Property);
+            Assert.AreEqual(ContactServiceValidator.POINT_OF_CONTACT_WITH_EMAIL_ADDRESS_EXISTS, results.First().ErrorMessage);
+        }
+
+        [TestMethod]
         public void TestDoValidateCreate_MoreThanOnePrimaryEmail()
         {
             var fullName = "full name";

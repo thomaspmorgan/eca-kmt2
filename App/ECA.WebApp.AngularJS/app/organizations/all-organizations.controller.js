@@ -104,6 +104,7 @@ angular.module('staticApp')
           organization.loadingChildrenOrganizations = true;
           OrganizationService.getOrganizationsHierarchyByRoleId({ organizationRoleId: $scope.view.selectedOrganizationRoleId, limit: 300, filter: { property: "parentOrganization_OrganizationId", comparison: "eq", value: organization.organizationId } })
           .then(function (result) {
+              scrollToOrganization(organization);
               organization.loadingChildrenOrganizations = false;
               var childOrganizations = result.data.results;
               var parentOrganizationIndex = $scope.organizations.indexOf(organization);
