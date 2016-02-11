@@ -568,10 +568,10 @@ namespace ECA.Business.Queries.Persons
             var soa = new SiteOfActivitySOA
             {
                 printForm = false,
-                Address1 = "2201 C St NW",
+                Address1 = "2200 C Street, NW",
                 City = "Washington",
                 State = "DC",
-                PostalCode = "20520",
+                PostalCode = "20522",
                 SiteName = "US Department of State",
                 PrimarySite = true,
                 Remarks = ""
