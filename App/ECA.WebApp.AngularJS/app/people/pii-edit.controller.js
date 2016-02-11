@@ -25,6 +25,15 @@ angular.module('staticApp')
           $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
 
+      function getObjectById(id, array) {
+          for (var i = 0; i < array.length; i++) {
+              if (array[i].id === id) {
+                  return array[i];
+              }
+          }
+          return null;
+      };
+
       $scope.onSelectCityOfBirth = function () {
           $scope.pii.isPlaceOfBirthUnknown = false;
       }
@@ -67,9 +76,6 @@ angular.module('staticApp')
                  $scope.pii = data;
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
-                 }
-                 if ($scope.pii.dateOfBirth) {
-                     $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
                  }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
@@ -128,6 +134,11 @@ angular.module('staticApp')
             });
       }
 
+      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
+
       function loadLocationById(id) {
           return LocationService.get({
               limit: 1,
@@ -160,6 +171,7 @@ angular.module('staticApp')
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
+                  /*
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (response) {
                         $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
@@ -167,6 +179,7 @@ angular.module('staticApp')
                     .catch(function (error) {
                         $log.error('Unable to update sevis validation results for participantId: ' + participantId);
                     });
+                   */
               },
               function (error) {
                   if (error.status == 400) {
@@ -191,6 +204,10 @@ angular.module('staticApp')
           $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
+          if ($scope.pii.dateOfBirth) {
+              $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
+              console.log($scope.pii.dateOfBirth);
+          }
       };
 
       $scope.openDatePicker = function ($event) {

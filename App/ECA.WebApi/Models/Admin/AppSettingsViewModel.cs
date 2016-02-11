@@ -17,18 +17,18 @@ namespace ECA.WebApi.Models.Admin
         public AppSettingsViewModel()
         {
             var appSettings = new AppSettings();
-            this.IdleDuration = appSettings.IdleDuration;
-            this.IdleTimeout = appSettings.IdleTimeout;
+            this.IdleDurationInSeconds = appSettings.IdleDurationInSeconds;
+            this.IdleTimeoutInSeconds = appSettings.IdleTimeoutInSeconds;
         }   
 
         /// <summary>
         /// Gets or sets the idle duration
         /// </summary>
-        public string IdleDuration { get; set; }
+        public string IdleDurationInSeconds { get; set; }
 
         /// <summary>
         /// Gets or sets the idle timeout
         /// </summary>
-        public string IdleTimeout { get; set; }
+        public string IdleTimeoutInSeconds { get; set; }
     }
 }
