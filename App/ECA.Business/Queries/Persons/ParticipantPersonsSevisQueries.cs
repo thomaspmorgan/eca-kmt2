@@ -172,7 +172,7 @@ namespace ECA.Business.Queries.Persons
             {
                 requestID = participantId.ToString(),
                 userID = user.Id.ToString(),
-                sevisID = participant.SevisId,
+                sevisID = participantPerson.SevisId,
                 statusCode = participant.StatusId.ToString()
             };
 
