@@ -132,12 +132,12 @@ namespace ECA.Core.Settings
         /// <summary>
         /// The idle duration string key
         /// </summary>
-        public const string IDLE_DURATION = "session.IdleDuration";
+        public const string IDLE_DURATION_IN_SECONDS = "session.IdleDurationInSeconds";
 
         /// <summary>
         /// The idle timout string key
         /// </summary>
-        public const string IDLE_TIMEOUT = "session.IdleTimeout";
+        public const string IDLE_TIMEOUT_IN_SECONDS = "session.IdleTimeoutInSeconds";
         #endregion
 
         private NameValueCollection appSettings;
@@ -233,9 +233,9 @@ namespace ECA.Core.Settings
         /// </summary>
         public string AdTenantId { get { return GetAppSetting(AD_TENANT_ID); } }
 
-        public string IdleDuration { get { return GetAppSetting(IDLE_DURATION);  } }
+        public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS);  } }
 
-        public string IdleTimeout { get { return GetAppSetting(IDLE_TIMEOUT);  } }
+        public string IdleTimeoutInSeconds { get { return GetAppSetting(IDLE_TIMEOUT_IN_SECONDS);  } }
 
         #endregion
 

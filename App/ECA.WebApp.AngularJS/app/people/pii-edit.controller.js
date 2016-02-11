@@ -25,6 +25,15 @@ angular.module('staticApp')
           $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
 
+      function getObjectById(id, array) {
+          for (var i = 0; i < array.length; i++) {
+              if (array[i].id === id) {
+                  return array[i];
+              }
+          }
+          return null;
+      };
+
       $scope.onSelectCityOfBirth = function () {
           $scope.pii.isPlaceOfBirthUnknown = false;
       }
@@ -127,6 +136,11 @@ angular.module('staticApp')
                 return $scope.cities;
             });
       }
+
+      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
 
       function loadLocationById(id) {
           return LocationService.get({

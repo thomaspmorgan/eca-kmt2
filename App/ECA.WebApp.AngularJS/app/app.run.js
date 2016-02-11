@@ -102,8 +102,8 @@ angular.module('staticApp')
 
           AppSettingsService.get()
          .then(function (response) {
-             Idle.setIdle(parseInt(response.data.idleDuration));
-             Idle.setTimeout(parseInt(response.data.idleTimeout));
+             Idle.setIdle(parseInt(response.data.idleDurationInSeconds));
+             Idle.setTimeout(parseInt(response.data.idleTimeoutInSeconds));
          }, function () {
              console.log('Unable to load app settings.');
          });
@@ -123,6 +123,5 @@ angular.module('staticApp')
           });
           $rootScope.$on('IdleTimeout', function () { /* Logout user */
               AuthService.logOut();
-              console.log('IdleTimeout');
           });
       });
