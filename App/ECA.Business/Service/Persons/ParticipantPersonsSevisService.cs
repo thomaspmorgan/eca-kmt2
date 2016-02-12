@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
+using ECA.Business.Service.Sevis;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
@@ -15,8 +16,10 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
@@ -29,7 +32,8 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-        
+        private IParticipantPersonsSevisService participantService;
+
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -250,6 +254,39 @@ namespace ECA.Business.Service.Persons
 
             Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
             Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        public async void UpdateParticipantPersonSevisBatchStatus(int batchId)
+        {
+            var service = new SevisBatchProcessingService(this.Context);
+            var batchLog = await service.GetByIdAsync(batchId);
+            User user = new User(50);
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
+            sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
+            sb.Append(@"</Record></Process></root>");
+            
+            var root = XElement.Parse(batchLog.TransactionLogXml.Value);
+
+            IEnumerable<XElement> participants =
+                from el in root.Descendants("Process")
+                where
+                    (from record in el.Elements("Record")
+                     select record).Any()
+                select el;
+
+            foreach (XElement record in participants)
+            {
+                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"), "");
+                await participantService.UpdateAsync(updatedParticipantPersonSevis);
+                await participantService.SaveChangesAsync();
+            }
         }
 
         /// <summary>
