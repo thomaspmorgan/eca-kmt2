@@ -268,9 +268,9 @@ namespace ECA.Business.Service.Persons
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
-            sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
-            sb.Append(@"</Record></Process></root>");
+            //sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
+            //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
+            //sb.Append(@"</Record></Process></root>");
             
             var root = XElement.Parse(batchLog.TransactionLogXml.Value);
 

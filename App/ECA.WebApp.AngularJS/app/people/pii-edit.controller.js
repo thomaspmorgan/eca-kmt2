@@ -205,8 +205,9 @@ angular.module('staticApp')
               return obj.id;
           });
           if ($scope.pii.dateOfBirth) {
+              if (typeof $scope.pii.dateOfBirth == "string") $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
               $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
-              console.log($scope.pii.dateOfBirth);
+              //console.log($scope.pii.dateOfBirth);
           }
       };
 
