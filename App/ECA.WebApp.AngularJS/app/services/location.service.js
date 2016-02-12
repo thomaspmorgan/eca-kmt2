@@ -52,7 +52,7 @@ angular.module('staticApp')
               return DragonBreath.create(location, 'locations');
           },
 
-          getLocationByTimezone: function (location) {
+          getTimezoneByLocation: function (location) {
               if (location.latitude && location.longitude) {
                   return service.getTimezoneByLatAndLong(location.latitude, location.longitude);
               }
@@ -104,16 +104,11 @@ angular.module('staticApp')
               var deferred = $q.defer();
               var geocoder = new google.maps.Geocoder();
               geocoder.geocode({ address: address }, function (results, status) {
-                  var serviceResult = {
-                      success: false,
-                      transformedLocation: null,
-                      geocodeResponse: null
-                  };
                   if (status === google.maps.GeocoderStatus.OK) {
                       deferred.resolve(results);
                   }
                   else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
-                      deferred.resolve(serviceResult);
+                      deferred.resolve([]);
                   }
                   else {
                       var message = 'Unable to geocode the given location.  Error returned from api [' + status.toString() + '].'

@@ -124,7 +124,8 @@ namespace ECA.Business.Queries.Persons
             ExchVisitor.FinancialInfo = GetFinancialInfo(participantExchangeVisitor);
 
             // dependents
-            ExchVisitor.CreateDependent = GetDependent();
+            ExchVisitor.CreateDependent = null;
+            //ExchVisitor.CreateDependent = GetDependent();
 
             // site of activity
             ExchVisitor.AddSiteOfActivity = GetAddSiteOfActivity();
@@ -171,7 +172,7 @@ namespace ECA.Business.Queries.Persons
             {
                 requestID = participantId.ToString(),
                 userID = user.Id.ToString(),
-                sevisID = participant.SevisId,
+                sevisID = participantPerson.SevisId,
                 statusCode = participant.StatusId.ToString()
             };
 
@@ -343,8 +344,8 @@ namespace ECA.Business.Queries.Persons
             {
                 Address1 = physicalAddress.Street1,
                 Address2 = physicalAddress.Street2,
-                City = physicalAddress.City.LocationName,
-                State = physicalAddress.Division.LocationName,
+                City = physicalAddress.City != null ? physicalAddress.City.LocationName : "",
+                State = physicalAddress.Division != null ? physicalAddress.Division.LocationName : "",
                 PostalCode = physicalAddress.PostalCode,
                 Explanation = "",
                 ExplanationCode = ""
@@ -567,10 +568,10 @@ namespace ECA.Business.Queries.Persons
             var soa = new SiteOfActivitySOA
             {
                 printForm = false,
-                Address1 = "2201 C St NW",
+                Address1 = "2200 C Street, NW",
                 City = "Washington",
                 State = "DC",
-                PostalCode = "20520",
+                PostalCode = "20522",
                 SiteName = "US Department of State",
                 PrimarySite = true,
                 Remarks = ""

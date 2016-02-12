@@ -1,13 +1,3 @@
-<div class="breadcrumbs">
-    <p ng-if="organization.parentOrganizationId">
-        <a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a>
-        &bull;
-        <a ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a>
-    </p>
-    <p ng-if="!organization.parentOrganizationId">
-        <a ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a>
-    </p>
-</div>
 <div class="jumbotron organization">
     <div class="toolbar" sticky offset="49">
         <div class="left">

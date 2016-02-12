@@ -15,7 +15,6 @@ angular.module('staticApp')
         $log,
         $modal,
         $modalInstance,
-        smoothScroll,
         LookupService,
         LocationService,
         ConstantsService,

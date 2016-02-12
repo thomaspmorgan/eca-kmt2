@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="col-md-12">
-                                <div class="pull-right">
+                                <div class="pull-right" ng-show="!organization.loadingChildrenOrganizations">
                                     <p>&nbsp;
                                         <span style="vertical-align: top" class="mute" ng-show="organization.parent"><small><a ng-click="scrollToParent(organization)">scroll to parent</a></small></span>
                                         <span ng-show="organization.numberOfChildren">
@@ -146,6 +146,9 @@
                                             </a>
                                         </span>
                                     </p>
+                                </div>
+                                <div class="pull-right" ng-show="organization.loadingChildrenOrganizations">
+                                    <i class="material-icons md-24 material-icons-spin">autorenew</i>
                                 </div>
                             </div>
                             <div class="col-md-12">

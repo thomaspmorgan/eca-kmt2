@@ -1,27 +1,16 @@
-﻿using ECA.Core.Exceptions;
-using ECA.Data;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Xml.Linq;
 
 namespace ECA.Business.Service.Sevis
 {
     /// <summary>
-    /// An UpdatedPhoneNumber is used by a business layer client to update a phone number entity.
+    /// An updated SEVIS Batch Processing record is used by a business layer client to update a sevis batch entity.
     /// </summary>
     public class UpdatedSevisBatchProcessing
     {
         /// <summary>
-        /// Creates a new UpdatedPhoneNumber and initialized it with the given values.
+        /// Creates a new UpdatedSevisBatchProcessing and initialized it with the given values.
         /// </summary>
-        /// <param name="updator">The updator.</param>
-        /// <param name="id">The id of the phone number.</param>
-        /// <param name="number">The value.</param>
-        /// <param name="phoneNumberTypeId">The phone number type id</param>
         public UpdatedSevisBatchProcessing(int batchId, DateTimeOffset submitDate, DateTimeOffset? retrieveDate,  XElement sendXml, XElement transactionLogXml, string uploadDispositionCode, string processDispositionCode, string downloadDispositionCode)
         {
             this.BatchId = batchId;

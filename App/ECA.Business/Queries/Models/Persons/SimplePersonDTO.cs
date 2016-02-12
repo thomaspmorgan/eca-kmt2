@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -117,5 +118,9 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public int? CityOfBirthId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the prominent categories
+        /// </summary>
+        public IEnumerable<String> ProminentCategories { get; set; }
     }
 }

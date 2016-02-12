@@ -283,9 +283,10 @@ img {
 
 .breadcrumbs {
     font-size: 12px;
-    height: 54px;
-    // margin-top: 48px;
-    padding: 18px 40px;
+    padding-top: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
 }
 
 .mute {

@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, $log, $q, $stateParams, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, NotificationService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -76,9 +76,6 @@ angular.module('staticApp')
                  $scope.pii = data;
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
-                 }
-                 if ($scope.pii.dateOfBirth) {
-                     $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
                  }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
@@ -176,7 +173,9 @@ angular.module('staticApp')
                   $scope.edit.Pii = false;
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (response) {
-                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        if (response) {
+                            $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        }
                     })
                     .catch(function (error) {
                         $log.error('Unable to update sevis validation results for participantId: ' + participantId);
@@ -205,6 +204,10 @@ angular.module('staticApp')
           $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
+          if ($scope.pii.dateOfBirth) {
+              $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
+              console.log($scope.pii.dateOfBirth);
+          }
       };
 
       $scope.openDatePicker = function ($event) {

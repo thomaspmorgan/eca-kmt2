@@ -88,8 +88,8 @@ angular.module('staticApp')
       $scope.view.cancelAddressChanges = function () {
           $scope.view.showEditAddress = false;
           $scope.view.collapseAddress = true;
-          $scope.form.addressForm.$setPristine();
-          $scope.form.addressForm.$setUntouched();
+          //$scope.form.addressForm.$setPristine();
+          //$scope.form.addressForm.$setUntouched();
           if (isNewAddress($scope.address)) {
               removeAddressFromView($scope.address);
           }
