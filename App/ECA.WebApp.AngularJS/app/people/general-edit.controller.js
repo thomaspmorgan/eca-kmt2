@@ -7,14 +7,12 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personGeneralEditCtrl', function ($scope, PersonService, SevisResultService, NotificationService, LookupService, $stateParams) {
+  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, SevisResultService, NotificationService, LookupService) {
 
       $scope.general = [];
-
       $scope.editView = [];
       $scope.editView.prominentCategories = [];
       $scope.editView.selectedProminentCategories = [];
-
       $scope.loadingGeneral = true;
 
       $scope.personIdDeferred.promise
@@ -58,7 +56,9 @@ angular.module('staticApp')
               $scope.edit.General = false;
               SevisResultService.updateSevisVerificationResultsByPersonId($scope.general.personId)
                 .then(function (response) {
-                    $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                    if (response) {
+                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                    }
                 })
                 .catch(function (error) {
                     $log.error('Unable to update sevis validation results for participantId: ' + participantId);

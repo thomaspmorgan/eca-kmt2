@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, $log, $q, $stateParams, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, NotificationService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -171,15 +171,15 @@ angular.module('staticApp')
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
-                  /*
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (response) {
-                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        if (response) {
+                            $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        }
                     })
                     .catch(function (error) {
                         $log.error('Unable to update sevis validation results for participantId: ' + participantId);
                     });
-                   */
               },
               function (error) {
                   if (error.status == 400) {

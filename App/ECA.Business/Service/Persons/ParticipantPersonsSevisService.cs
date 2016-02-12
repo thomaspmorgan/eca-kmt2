@@ -276,6 +276,17 @@ namespace ECA.Business.Service.Persons
             }
         }
 
+
+        public string GetSevisBatchLogFromXml(string batchId)
+        {
+
+
+
+
+            return "";
+        }
+
+
         #endregion
 
         #region ParticipantPersonSevisStatus
