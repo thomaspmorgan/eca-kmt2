@@ -247,7 +247,9 @@ namespace ECA.Business.Queries.Persons
 
         private static ParticipantExchangeVisitorDTO GetParticipantExchangeVisitor(EcaContext context, int participantId)
         {
-            var visitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
+            throw new NotSupportedException("The project id must be loaded and then provided to this method here.");
+            var projectId = 0;
+            var visitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, projectId, participantId).FirstOrDefault();
             return visitor;
         }
 
@@ -259,7 +261,9 @@ namespace ECA.Business.Queries.Persons
 
         private static SimpleParticipantPersonDTO GetParticipantPerson(EcaContext context, int participantId)
         {
-            var pperson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, participantId).FirstOrDefault();
+            throw new NotSupportedException("The project id of the participant must be loaded and passed here.");
+            var projectId = 0;
+            var pperson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, projectId, participantId).FirstOrDefault();
             return pperson;
         }
 

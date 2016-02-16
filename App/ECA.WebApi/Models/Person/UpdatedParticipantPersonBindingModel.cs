@@ -51,11 +51,13 @@ namespace ECA.WebApi.Models.Person
         /// Returns a business layer UpdatedParticipantPerson instance.
         /// </summary>
         /// <param name="user">The user performing the update.</param>
+        /// <param name="projectId">The id of the project.</param>
         /// <returns>The business layer update entity.</returns>
-        public UpdatedParticipantPerson ToUpdatedParticipantPerson(User user)
+        public UpdatedParticipantPerson ToUpdatedParticipantPerson(User user, int projectId)
         {
             var model = new UpdatedParticipantPerson(
                 updater: user,
+                projectId: projectId,
                 participantId: this.ParticipantId,
                 hostInstitutionId: this.HostInstitutionId,
                 homeInstitutionId: this.HomeInstitutionId,

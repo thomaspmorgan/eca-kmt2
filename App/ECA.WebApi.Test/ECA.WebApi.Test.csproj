@@ -242,6 +242,9 @@
     <Compile Include="Models\Person\PiiBindingModelTest.cs" />
     <Compile Include="Models\Person\PersonBindingModelTest.cs" />
     <Compile Include="Models\Person\AdditionalPointOfContactBindingModelTest.cs" />
+    <Compile Include="Models\Person\ParticipantExchangeVisitorsControllerTest.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantPersonBindingModelTest.cs" />
+    <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />

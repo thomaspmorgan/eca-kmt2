@@ -412,7 +412,7 @@ angular.module('staticApp')
       };
 
       function loadExchangeVisitorInfo(participantId) {
-          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(participantId)
+          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(projectId, participantId)
           .then(function (data) {
               $scope.exchangeVisitorInfo[participantId] = data.data;
               //$scope.exchangeVisitorInfo[participantId].show = true;
@@ -455,7 +455,7 @@ angular.module('staticApp')
       function saveExchangeVisitorById(participantId) {
           var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
           var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(exchangeVisitorInfo)
+          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(projectId, exchangeVisitorInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
@@ -498,7 +498,7 @@ angular.module('staticApp')
           $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
           $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
           if ($scope.participantInfo[participantId].show) {
-                $scope.view.tabInfo = true;
+              $scope.view.tabInfo = true;
           }
       };
 

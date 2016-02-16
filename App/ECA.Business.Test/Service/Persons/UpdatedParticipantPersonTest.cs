@@ -16,6 +16,7 @@ namespace ECA.Business.Test.Service.Persons
         {
             var user = new User(1);
             var participantId = 100;
+            var projectId = 1;
             var hostInstitutionId = 200;
             var hostInstitutionAddressId = 300;
             var homeInstitutionId = 400;
@@ -26,6 +27,7 @@ namespace ECA.Business.Test.Service.Persons
             var instance = new UpdatedParticipantPerson(
                 user,
                 participantId,
+                projectId,
                 hostInstitutionId,
                 homeInstitutionId,
                 hostInstitutionAddressId,
@@ -41,6 +43,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(participantId, instance.ParticipantId);
             Assert.AreEqual(participantStatusId, instance.ParticipantStatusId);
             Assert.AreEqual(participantTypeId, instance.ParticipantTypeId);
+            Assert.AreEqual(projectId, instance.ProjectId);
 
             Assert.IsTrue(object.ReferenceEquals(user, instance.Audit.User));
             DateTimeOffset.UtcNow.Should().BeCloseTo(instance.Audit.Date, 20000);
@@ -51,6 +54,7 @@ namespace ECA.Business.Test.Service.Persons
         {
             var user = new User(1);
             var participantId = 100;
+            var projectId = 1;
             var hostInstitutionId = 200;
             var hostInstitutionAddressId = 300;
             var homeInstitutionId = 400;
@@ -60,6 +64,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreNotEqual(participantTypeId, participantStatusId);
             Action a = () => new UpdatedParticipantPerson(
                 user,
+                projectId,
                 participantId,
                 hostInstitutionId,
                 homeInstitutionId,
@@ -78,6 +83,7 @@ namespace ECA.Business.Test.Service.Persons
         {
             var user = new User(1);
             var participantId = 100;
+            var projectId = 1;
             var hostInstitutionId = 200;
             var hostInstitutionAddressId = 300;
             var homeInstitutionId = 400;
@@ -87,6 +93,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreNotEqual(participantTypeId, participantStatusId);
             Action a = () => new UpdatedParticipantPerson(
                 user,
+                projectId,
                 participantId,
                 hostInstitutionId,
                 homeInstitutionId,
@@ -105,6 +112,7 @@ namespace ECA.Business.Test.Service.Persons
         {
             var user = new User(1);
             var participantId = 100;
+            var projectId = 1;
             var hostInstitutionId = 200;
             var hostInstitutionAddressId = 300;
             var homeInstitutionId = 400;
@@ -114,6 +122,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreNotEqual(participantTypeId, participantStatusId);
             Action a = () => new UpdatedParticipantPerson(
                 user,
+                projectId,
                 participantId,
                 hostInstitutionId,
                 homeInstitutionId,

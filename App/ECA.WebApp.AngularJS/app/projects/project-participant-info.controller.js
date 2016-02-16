@@ -235,7 +235,7 @@ angular.module('staticApp')
       }
 
       function saveParticipantPerson(participantPerson) {
-          return ParticipantPersonsService.updateParticipantPerson(participantPerson);
+          return ParticipantPersonsService.updateParticipantPerson(projectId, participantPerson);
       }
 
       function loadOrganizations(filter) {
@@ -342,9 +342,9 @@ angular.module('staticApp')
       var hasAttemptedToSaveNewParticipantPersonCount = 0;
       var maxAttemptedSaveNewParticipantPersonCount = 5;
 
-      function loadParticipantInfo(participantId) {
+      function loadParticipantInfo(projectId, participantId) {
           $scope.view.isLoadingInfo = true;
-          return ParticipantPersonsService.getParticipantPersonsById(participantId)
+          return ParticipantPersonsService.getParticipantPersonsById(projectId, participantId)
           .then(function (response) {
               if (response.data.homeInstitution) {
                   response.data.homeInstitutionId = response.data.homeInstitution.organizationId;
@@ -388,7 +388,7 @@ angular.module('staticApp')
                       return saveParticipantPerson(newParticipantPerson)
                       .then(function (response) {
                           $scope.view.isLoadingInfo = false;
-                          return loadParticipantInfo(participantId);
+                          return loadParticipantInfo(projectId, participantId);
                       })
                       .catch(function (response) {
                           $scope.view.isLoadingInfo = false;
@@ -416,7 +416,7 @@ angular.module('staticApp')
       $q.all([
           loadParticipantTypes(),
           loadParticipantStatii(),
-          loadParticipantInfo($scope.participantid)])
+          loadParticipantInfo(projectId, $scope.participantid)])
       .then(function (results) {
           $scope.view.isLoadingEditParticipantInfoRequiredData = false;
       })

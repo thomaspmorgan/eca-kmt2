@@ -28,12 +28,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public void TestInit()
         {
             service = new Mock<IParticipantPersonService>();
-            service.Setup(x => x.GetParticipantPersonsAsync(It.IsAny<QueryableOperator<SimpleParticipantPersonDTO>>()))
-               .ReturnsAsync(new PagedQueryResults<SimpleParticipantPersonDTO>(1, new List<SimpleParticipantPersonDTO>()));
             service.Setup(x => x.GetParticipantPersonsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleParticipantPersonDTO>>()))
                .ReturnsAsync(new PagedQueryResults<SimpleParticipantPersonDTO>(1, new List<SimpleParticipantPersonDTO>()));
-            service.Setup(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(new SimpleParticipantPersonDTO());
 
             userProvider = new Mock<IUserProvider>();
 
@@ -41,21 +37,26 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         #region Get
+
         [TestMethod]
-        public async Task TestGetParticipantPersonsAsync()
+        public async Task TestGetParticipantPersonByIdAsync()
         {
-            var response = await controller.GetParticipantPersonsAsync(new PagingQueryBindingModel<SimpleParticipantPersonDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleParticipantPersonDTO>>));
+            service.Setup(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new SimpleParticipantPersonDTO());
+            var response = await controller.GetParticipantPersonByIdAsync(1, 1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimpleParticipantPersonDTO>));
+            service.Verify(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]
-        public async Task TestGetParticipantPersonsAsync_InvalidModel()
+        public async Task TestGetParticipantPersonByIdAsync_NotFound()
         {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetParticipantPersonsAsync(new PagingQueryBindingModel<SimpleParticipantPersonDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+            service.Setup(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(null);
+            var response = await controller.GetParticipantPersonByIdAsync(1, 1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+            service.Verify(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
         }
-
 
         [TestMethod]
         public async Task TestGetParticipantPersonsByProjectIdAsync()
@@ -72,21 +73,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
-        [TestMethod]
-        public async Task TestGetParticipantPersonByIdAsync()
-        {
-            var response = await controller.GetParticipantPersonByIdAsync(1);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimpleParticipantPersonDTO>));
-        }
+        #endregion
 
-        [TestMethod]
-        public async Task TestGetParticipantPersonByIdAsync_NotFound()
-        {
-            service.Setup(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(null);
-            var response = await controller.GetParticipantPersonByIdAsync(1);
-            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
-        }
+        #region Update
 
         [TestMethod]
         public async Task TestPutUpdateParticipantPersonAsync()
@@ -99,11 +88,11 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var model = new UpdatedParticipantPersonBindingModel();
             model.ParticipantTypeId = ParticipantType.Individual.Id;
 
-            var result = await controller.PutCreateOrUpdateParticipantPersonAsync(model);
+            var result = await controller.PutCreateOrUpdateParticipantPersonAsync(1, model);
             Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<SimpleParticipantPersonDTO>));
             service.Verify(x => x.CreateOrUpdateAsync(It.IsAny<UpdatedParticipantPerson>()), Times.Once());
             service.Verify(x => x.SaveChangesAsync(), Times.Once());
-            service.Verify(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>()), Times.Once());
+            service.Verify(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once());
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
         }
@@ -115,7 +104,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             model.ParticipantTypeId = ParticipantType.Individual.Id;
 
             controller.ModelState.AddModelError("key", "error");
-            var result = await controller.PutCreateOrUpdateParticipantPersonAsync(model);
+            var result = await controller.PutCreateOrUpdateParticipantPersonAsync(1, model);
             Assert.IsInstanceOfType(result, typeof(InvalidModelStateResult));
         }
         #endregion

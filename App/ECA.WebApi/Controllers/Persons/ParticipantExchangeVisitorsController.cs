@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.WebApi.Security;
+using CAM.Data;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -44,56 +45,16 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of participantExchangeVisitors
-        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of participantExchangeVisitors.</returns>
-        [ResponseType(typeof(PagedQueryResults<ParticipantExchangeVisitorDTO>))]
-        [Route("ParticipantExchangeVisitors")]
-        public async Task<IHttpActionResult> GetParticipantExchangeVisitorsAsync([FromUri]PagingQueryBindingModel<ParticipantExchangeVisitorDTO> queryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var results = await this.service.GetParticipantExchangeVisitorsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
-                return Ok(results);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-
-        /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of participants and there exchange visitor info by project id.
-        /// </summary>
-        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <param name="projectId">The id of the project to get participants for.</param>
-        /// <returns>The list of participantExchangeVisitors.</returns>
-        [ResponseType(typeof(PagedQueryResults<ParticipantExchangeVisitorDTO>))]
-        [Route("Projects/{projectId:int}/ParticipantExchangeVisitors")]
-        public async Task<IHttpActionResult> GetParticipantExchangeVisitorsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<ParticipantExchangeVisitorDTO> queryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var results = await this.service.GetParticipantExchangeVisitorsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
-                return Ok(results);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
         /// Retrieves the participantExchangeVisitor with the given id.
         /// </summary>
         /// <param name="participantId">The id of the participant.</param>
+        /// <param name="projectId">The id of the project.</param>
         /// <returns>The participantExchangeVisitor with the given id.</returns>
         [ResponseType(typeof(ParticipantExchangeVisitorDTO))]
-        [Route("ParticipantExchangeVisitors/{participantId:int}")]
-        public async Task<IHttpActionResult> GetParticipantExchangeVisitorByIdAsync(int participantId) 
+        [Route("Project/{projectId:int}/ParticipantExchangeVisitors/{participantId:int}")]
+        public async Task<IHttpActionResult> GetParticipantExchangeVisitorByIdAsync(int projectId, int participantId) 
         {
-            var participantExchangeVisitor = await service.GetParticipantExchangeVisitorByIdAsync(participantId);
+            var participantExchangeVisitor = await service.GetParticipantExchangeVisitorByIdAsync(projectId, participantId);
             if (participantExchangeVisitor != null)
             {
                 return Ok(participantExchangeVisitor);
@@ -103,7 +64,7 @@ namespace ECA.WebApi.Controllers.Persons
                 var participant = await participantService.GetParticipantByIdAsync(participantId);
                 if (participant != null)
                 {
-                    var newParticipantExchangeVisitor = await NewParticipantExchangeVisitorAsync(participantId);
+                    var newParticipantExchangeVisitor = await NewParticipantExchangeVisitorAsync(projectId, participantId);
                     return Ok(newParticipantExchangeVisitor);
                 }
                 else
@@ -116,17 +77,19 @@ namespace ECA.WebApi.Controllers.Persons
         /// Updates the new participantExchangeVisitor with the given participantId.
         /// </summary>
         /// <param name="model">The new participantExchangeVisitor.</param>
+        /// <param name="projectId">The id of the project.</param>
         /// <returns>The saved participantExchangeVisitor.</returns>
-        [Route("ParticipantExchangeVisitors")]
-        public async Task<IHttpActionResult> PutParticipantStudentVisitorAsync([FromBody]UpdatedParticipantExchangeVisitorBindingModel model)
+        [Route("Project/{projectId:int}/ParticipantExchangeVisitors")]
+        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> PutParticipantStudentVisitorAsync(int projectId, [FromBody]UpdatedParticipantExchangeVisitorBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var participantStudentVisitorDTO = await service.UpdateAsync(model.ToUpdatedParticipantExchangeVisitor(businessUser));
+                await service.UpdateAsync(model.ToUpdatedParticipantExchangeVisitor(businessUser, projectId));
                 await service.SaveChangesAsync();
-                participantStudentVisitorDTO = await service.GetParticipantExchangeVisitorByIdAsync(participantStudentVisitorDTO.ParticipantId);
+                var participantStudentVisitorDTO = await service.GetParticipantExchangeVisitorByIdAsync(projectId, model.ParticipantId);
                 return Ok(participantStudentVisitorDTO);
             }
             else
@@ -135,13 +98,13 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
         
-        private async Task<ParticipantExchangeVisitorDTO> NewParticipantExchangeVisitorAsync(int participantId)
+        private async Task<ParticipantExchangeVisitorDTO> NewParticipantExchangeVisitorAsync(int projectId, int participantId)
         {
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
             await service.CreateParticipantExchangeVisitor(participantId, businessUser);
             await service.SaveChangesAsync();
-            return await service.GetParticipantExchangeVisitorByIdAsync(participantId);
+            return await service.GetParticipantExchangeVisitorByIdAsync(projectId, participantId);
         }
     }
 }
