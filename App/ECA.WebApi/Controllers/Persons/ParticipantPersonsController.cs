@@ -92,7 +92,6 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(SimpleParticipantPersonDTO))]
         [Route("Project/{projectId:int}/ParticipantPersons/")]
-        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<IHttpActionResult> PutCreateOrUpdateParticipantPersonAsync(int projectId, [FromBody]UpdatedParticipantPersonBindingModel model)
         {
             if (ModelState.IsValid)

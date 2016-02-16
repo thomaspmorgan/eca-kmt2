@@ -1,9 +1,11 @@
 ﻿using ECA.Business.Service.Persons;
+using FluentAssertions;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -25,75 +27,256 @@ namespace ECA.Business.Test.Service.Persons
         {
             var now = DateTimeOffset.Now;
             var yesterday = now.AddDays(-1.0);
-
-            var status = new ParticipantPersonSevisCommStatus
+            var projectId = 1;
+            ParticipantPersonSevisCommStatus status = null;
+            ParticipantPersonSevisCommStatus status2 = null;
+            var participant = new Participant
             {
-                Id = 1,
-                ParticipantId = 1,
-                SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
-                AddedOn = yesterday
+                ProjectId = projectId,
+                ParticipantId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
             };
 
-            var status2 = new ParticipantPersonSevisCommStatus
+            context.SetupActions.Add(() =>
             {
-                Id = 2,
-                ParticipantId = 1,
-                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
-                AddedOn = now
+                status = new ParticipantPersonSevisCommStatus
+                {
+                    Id = 1,
+                    ParticipantId = participant.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
+                    AddedOn = yesterday,
+                    ParticipantPerson = participantPerson,
+                };
+                status2 = new ParticipantPersonSevisCommStatus
+                {
+                    Id = 2,
+                    ParticipantId = participant.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                    AddedOn = now,
+                    ParticipantPerson = participantPerson,
+                };
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantPersonSevisCommStatuses.Add(status);
+                context.ParticipantPersonSevisCommStatuses.Add(status2);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
             };
+            Action<IEnumerable<int>> afterTester = (returnedParticipantIds) =>
+            {
+                Assert.AreEqual(3, context.ParticipantPersonSevisCommStatuses.Count());
+                var addedStatus = context.ParticipantPersonSevisCommStatuses.Last();
+                Assert.AreEqual(SevisCommStatus.QueuedToSubmit.Id, addedStatus.SevisCommStatusId);
+                Assert.AreEqual(participant.ParticipantId, addedStatus.ParticipantId);
+                DateTimeOffset.Now.Should().BeCloseTo(addedStatus.AddedOn, 20000);
 
-            context.ParticipantPersonSevisCommStatuses.Add(status);
-            context.ParticipantPersonSevisCommStatuses.Add(status2);
+                CollectionAssert.AreEqual(new List<int> { participant.ParticipantId }, returnedParticipantIds.ToList());
+            };
+            context.Revert();
+            beforeTester();
+            var response = await sevisService.SendToSevisAsync(projectId, new int[] { status.ParticipantId });
+            afterTester(response);
 
-            var response = await sevisService.SendToSevis(new int[] { status.ParticipantId });
+            context.Revert();
+            beforeTester();
+            response = sevisService.SendToSevis(projectId, new int[] { status.ParticipantId });
+            afterTester(response);
 
-            Assert.AreEqual(1, response.Length);
-            Assert.AreEqual(status.ParticipantId, response[0]);
-
-            var newStatus = context.ParticipantPersonSevisCommStatuses.Where(p => p.ParticipantId == status.ParticipantId)
-                .OrderByDescending(o => o.AddedOn)
-                .FirstOrDefault();
-
-            Assert.AreEqual(SevisCommStatus.QueuedToSubmit.Id, newStatus.SevisCommStatusId);
         }
 
         [TestMethod]
         public async Task TestSendToSevis_EmptyArray()
         {
-            var response = await sevisService.SendToSevis(new int[] {});
-            Assert.AreEqual(0, response.Length);
+            var now = DateTimeOffset.Now;
+            var yesterday = now.AddDays(-1.0);
+            var projectId = 1;
+            
+            var participant = new Participant
+            {
+                ProjectId = projectId,
+                ParticipantId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            Action<IEnumerable<int>> afterTester = (returnedParticipantIds) =>
+            {
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(0, returnedParticipantIds.Count());
+            };
+            context.Revert();
+            beforeTester();
+            var response = await sevisService.SendToSevisAsync(projectId, new int[] { });
+            afterTester(response);
+
+            context.Revert();
+            beforeTester();
+            response = sevisService.SendToSevis(projectId, new int[] { });
+            afterTester(response);
         }
 
         [TestMethod]
         public async Task TestSendToSevis_Null()
         {
-            var response = await sevisService.SendToSevis(null);
-            Assert.AreEqual(0, response.Length);
-        }
+            var now = DateTimeOffset.Now;
+            var yesterday = now.AddDays(-1.0);
+            var projectId = 1;
 
-        [TestMethod]
-        public void TestSendToSevis_NullPerson()
-        {
-            
+            var participant = new Participant
+            {
+                ProjectId = projectId,
+                ParticipantId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            Action<IEnumerable<int>> afterTester = (returnedParticipantIds) =>
+            {
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(0, returnedParticipantIds.Count());
+            };
+            context.Revert();
+            beforeTester();
+            var response = await sevisService.SendToSevisAsync(projectId, null);
+            afterTester(response);
+
+            context.Revert();
+            beforeTester();
+            response = sevisService.SendToSevis(projectId, null);
+            afterTester(response);
         }
         
+
         [TestMethod]
         public async Task TestSendToSevis_IncorrectStatus()
         {
-            var status = new ParticipantPersonSevisCommStatus
+            var now = DateTimeOffset.Now;
+            var yesterday = now.AddDays(-1.0);
+            var projectId = 1;
+            ParticipantPersonSevisCommStatus status = null;
+            var participant = new Participant
             {
-                Id = 1,
-                ParticipantId = 1,
-                SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
-                AddedOn = DateTimeOffset.Now
+                ProjectId = projectId,
+                ParticipantId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
             };
 
-            context.ParticipantPersonSevisCommStatuses.Add(status);
+            context.SetupActions.Add(() =>
+            {
+                status = new ParticipantPersonSevisCommStatus
+                {
+                    Id = 1,
+                    ParticipantId = participant.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.InformationRequired.Id,
+                    AddedOn = yesterday,
+                    ParticipantPerson = participantPerson,
+                };
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantPersonSevisCommStatuses.Add(status);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            Action<IEnumerable<int>> afterTester = (returnedParticipantIds) =>
+            {
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(0, returnedParticipantIds.Count());
+            };
+            context.Revert();
+            beforeTester();
+            var response = await sevisService.SendToSevisAsync(projectId, new int[] { status.ParticipantId });
+            afterTester(response);
 
-            var response = await sevisService.SendToSevis(new int[] { status.ParticipantId });
-
-            Assert.AreEqual(0, response.Length);
+            context.Revert();
+            beforeTester();
+            response = sevisService.SendToSevis(projectId, new int[] { status.ParticipantId });
+            afterTester(response);
         }
 
+        [TestMethod]
+        public async Task TestSendToSevis_ParticipantDoesNotBelongToProject()
+        {
+            var now = DateTimeOffset.Now;
+            var yesterday = now.AddDays(-1.0);
+            var projectId = 1;
+            ParticipantPersonSevisCommStatus status = null;
+            var participant = new Participant
+            {
+                ProjectId = projectId,
+                ParticipantId = 10
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                status = new ParticipantPersonSevisCommStatus
+                {
+                    Id = 1,
+                    ParticipantId = participant.ParticipantId,
+                    SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                    AddedOn = yesterday,
+                    ParticipantPerson = participantPerson,
+                };
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantPersonSevisCommStatuses.Add(status);
+            });
+            Action beforeTester = () =>
+            {
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            Action<IEnumerable<int>> afterTester = (returnedParticipantIds) =>
+            {
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(0, returnedParticipantIds.Count());
+            };
+            context.Revert();
+            beforeTester();
+            var response = await sevisService.SendToSevisAsync(projectId + 1, new int[] { status.ParticipantId });
+            afterTester(response);
+
+            context.Revert();
+            beforeTester();
+            response = sevisService.SendToSevis(projectId + 1, new int[] { status.ParticipantId });
+            afterTester(response);
+        }
     }
 }

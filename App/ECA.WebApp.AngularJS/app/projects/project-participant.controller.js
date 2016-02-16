@@ -353,7 +353,7 @@ angular.module('staticApp')
           };
 
           // Get the total number or participants
-          ParticipantService.getParticipantsByProject($stateParams.projectId, { start: 0, limit: 1 })
+          ParticipantService.getParticipantsByProject(projectId, { start: 0, limit: 1 })
             .then(function (data) {
                 $scope.view.totalParticipants = data.total;
             })
@@ -362,7 +362,7 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
 
-          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+          ParticipantService.getParticipantsByProject(projectId, params)
             .then(function (data) {
                 angular.forEach(data.results, function (result, index) {
                     if (result.personId) {
@@ -389,7 +389,7 @@ angular.module('staticApp')
       };
 
       function loadSevisInfo(participantId) {
-          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
@@ -435,7 +435,7 @@ angular.module('staticApp')
 
       function saveSevisInfoById(participantId) {
           var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(projectId, sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
               $scope.sevisInfo[participantId] = data.data;
@@ -548,7 +548,7 @@ angular.module('staticApp')
       $scope.applyAction = function () {
           if ($scope.selectedAction === 1) {
               var participants = Object.keys($scope.selectedParticipants).map(Number);
-              ParticipantPersonsSevisService.sendToSevis(participants)
+              ParticipantPersonsSevisService.sendToSevis(projectId, participants)
               .then(function (results) {
                   $scope.selectAll = false;
                   $scope.selectedParticipants = {};

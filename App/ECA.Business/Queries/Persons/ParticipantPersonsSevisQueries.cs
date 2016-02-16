@@ -598,47 +598,18 @@ namespace ECA.Business.Queries.Persons
         }
 
         /// <summary>
-        /// Creates a query to return all participantPersonSevises in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOQuery(EcaContext context, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
-        /// Creates a query to return all participantPersonSevises for the project with the given id in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The project id.</param>
-        /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context).Where(x => x.ProjectId == projectId);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
         /// Returns the participantPersonSevis by participant id 
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPersonSevis</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int participantId)
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int projectId, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context).
-                Where(p => p.ParticipantId == participantId);
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context)
+                .Where(p => p.ProjectId == projectId)
+                .Where(p => p.ParticipantId == participantId);
             return query;
         }
     }
