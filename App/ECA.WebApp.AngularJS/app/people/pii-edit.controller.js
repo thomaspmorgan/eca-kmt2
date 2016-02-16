@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -83,6 +83,8 @@ angular.module('staticApp')
                      location.name = obj.value;
                      return location;
                  });
+                 // Convert from UTC to local date time
+                 $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
                  $scope.piiLoading = false;
              });
       };
