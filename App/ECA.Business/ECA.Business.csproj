@@ -214,7 +214,6 @@
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
-    <Compile Include="Queries\Persons\ParticipantPersonsSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />

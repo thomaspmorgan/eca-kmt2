@@ -10,7 +10,6 @@
     function participantPersonsSevisService($q, DragonBreath) {
         var service = {
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
-            getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
@@ -22,11 +21,6 @@
 
         function getParticipantPersonsSevisById(projectId, id) {
             return DragonBreath.get('project/' + projectId + '/participantPersonsSevis', id);
-        };
-
-        function getParticipantPersonsSevisCommStatusesById(id, params) {
-            var path = 'participantPersonsSevis/' + id + '/sevisCommStatuses';
-            return DragonBreath.get(params, path);
         };
 
         function updateParticipantPersonsSevis(projectId, sevisInfo) {

@@ -69,44 +69,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="validationEntity">Participant object to be validated</param>
         /// <returns>Participant object in XML format</returns>
         string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity);
-
-        /// Sevis Comm Status
-
-        /// <summary>
-        /// Returns the participantPersonSevises in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatuses(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
-
-        /// <summary>
-        /// Returns the participantPersonSevises in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
-
-        /// <summary>
-        /// Returns a participantPersonSevisCommStatus
-        /// </summary>
-        /// <param name="participantId">The participantId to lookup</param>
-        /// <returns>The participantPersonSevis</returns>
-        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
-
-        /// <summary>
-        /// Returns a participantPersonSevisCommStatus asyncronously
-        /// </summary>
-        /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>The participantPersonSevisCommStatuses</returns>
-        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
-
-        /// <summary>
-        /// Returns a participantPersonSevisCommStatus
-        /// </summary>
-        /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>The participantPersonSevisCommStatuses</returns>
-        IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds);
-
+        
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.
         /// </summary>

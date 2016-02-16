@@ -93,27 +93,6 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of participant's SEVIS comm statuses.
-        /// </summary>
-        /// <param name="participantId">The id of the participant.</param>
-        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of participantPerson Sevis Comm Statuses.</returns>
-        [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisCommStatusDTO>))]
-        [Route("ParticipantPersonsSevis/{participantId:int}/SevisCommStatuses")]
-        public async Task<IHttpActionResult> GetParticipantPersonsSevisCommStatusesByProjectIdAsync(int participantId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisCommStatusDTO> queryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var results = await this.participantService.GetParticipantPersonsSevisCommStatusesByIdAsync(participantId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
-                return Ok(results);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
         /// Send to sevis async
         /// </summary>
         /// <param name="participantIds">The participant ids to send to sevis</param>
