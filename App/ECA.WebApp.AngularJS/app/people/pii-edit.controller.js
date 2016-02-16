@@ -208,7 +208,6 @@ angular.module('staticApp')
           });
           if ($scope.pii.dateOfBirth) {
               $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
-              console.log($scope.pii.dateOfBirth);
           }
       };
 
