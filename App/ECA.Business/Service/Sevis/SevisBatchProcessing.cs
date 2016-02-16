@@ -109,7 +109,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Updates the ECA system's SEVIS Batch Processing record with the given updated SEVIS Batch Processing record.
         /// </summary>
-        /// <param name="updatedPhoneNumber">The updated SEVIS Batch Processing record.</param>
+        /// <param name="updatedSevisBatchProcessing">The updated SEVIS Batch Processing record.</param>
         public void Update(UpdatedSevisBatchProcessing updatedSevisBatchProcessing)
         {
             var sevisBatchProcessing = Context.SevisBatchProcessings.Find(updatedSevisBatchProcessing.BatchId);
@@ -119,7 +119,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Updates the ECA system's SEVIS Batch Processing record with the given SEVIS Batch Processing record.
         /// </summary>
-        /// <param name="updatedPhoneNumber">The SEVIS Batch Processing record.</param>
+        /// <param name="updatedSevisBatchProcessing">The SEVIS Batch Processing record.</param>
         public async Task UpdateAsync(UpdatedSevisBatchProcessing updatedSevisBatchProcessing)
         {
             var sevisBatchProcessing = await Context.SevisBatchProcessings.FindAsync(updatedSevisBatchProcessing.BatchId);

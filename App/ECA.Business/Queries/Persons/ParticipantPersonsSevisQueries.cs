@@ -344,8 +344,8 @@ namespace ECA.Business.Queries.Persons
             {
                 Address1 = physicalAddress.Street1,
                 Address2 = physicalAddress.Street2,
-                City = physicalAddress.City.LocationName,
-                State = physicalAddress.Division.LocationName,
+                City = physicalAddress.City != null ? physicalAddress.City.LocationName : "",
+                State = physicalAddress.Division != null ? physicalAddress.Division.LocationName : "",
                 PostalCode = physicalAddress.PostalCode,
                 Explanation = "",
                 ExplanationCode = ""
