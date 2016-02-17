@@ -22,6 +22,8 @@ angular.module('staticApp')
         ConstantsService,
         FilterService) {
 
+      var emailRegex = new RegExp(ConstantsService.emailRegex);
+
       $scope.view = {};
       $scope.view.pointOfContactFilter = '';
       $scope.view.isLoadingRequiredData = false;
@@ -59,19 +61,15 @@ angular.module('staticApp')
           return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
       }
 
-      $scope.view.onEmailAddressChange = function ($index) {
-          var email = $scope.view.newPointOfContact.emailAddresses[$index];
-          if ($index === 0) {
-              if (email.address && email.address.length > 0) {
-                  delete email.default;
-              }
-              else {
-                  email.default = true;
-              }
-          }
-          if (email.address && email.address.length > 0) {
-              return loadPointsOfContactByEmail(email.address);
-          }
+      //$scope.view.onEmailAddressChange = function ($index) {
+      //    var email = $scope.view.newPointOfContact.emailAddresses[$index];          
+      //    if (email.address && email.address.length > 0 && emailRegex.test(email)) {
+      //        return loadPointsOfContactByEmail(email.address);
+      //    }
+      //}
+
+      $scope.view.isValidEmail = function ($value, $index) {
+          return emailRegex.test($value);
       }
 
       $scope.view.deletePhoneNumber = function ($index) {
@@ -183,7 +181,7 @@ angular.module('staticApp')
           return ContactsService.get(params)
           .then(function (response) {
               $scope.view.likePointsOfContactByEmail = response.data.results;
-              return $scope.view.likePointsOfContact;
+              return $scope.view.likePointsOfContactByEmail;
           })
           .catch(function (response) {
               var mesage = "Unable to load like points of contact.";
