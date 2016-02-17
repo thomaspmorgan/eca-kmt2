@@ -217,6 +217,18 @@ namespace ECA.WebApi.Controllers.Persons
             participantService.UpdateParticipantPersonSevisCommStatus(participantId, result);
             return Ok();
         }
+
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        [ResponseType(typeof(int))]
+        [Route("ParticipantPersonsSevis/UpdateSevisBatchStatus/{batchId:int}")]
+        public async Task<IHttpActionResult> PutSevisBatchStatus(int batchId)
+        {
+            var status = await participantService.UpdateParticipantPersonSevisBatchStatusAsync(batchId);
+            return Ok();
+        }
         
     }
 }

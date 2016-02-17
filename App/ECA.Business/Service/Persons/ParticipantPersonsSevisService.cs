@@ -253,21 +253,21 @@ namespace ECA.Business.Service.Persons
             }
 
             Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-            Context.SaveChanges();
+            Context.SaveChanges();            
         }
 
         /// <summary>
         /// Process SEVIS batch transaction log
         /// </summary>
         /// <param name="batchId">Batch ID</param>
-        public async void UpdateParticipantPersonSevisBatchStatus(int batchId)
+        public async Task<int> UpdateParticipantPersonSevisBatchStatusAsync(int batchId)
         {
             var service = new SevisBatchProcessingService(this.Context);
             var batchLog = await service.GetByIdAsync(batchId);
+            int updates = 0;
             User user = new User(50);
 
-            StringBuilder sb = new StringBuilder();
-
+            //StringBuilder sb = new StringBuilder();
             //sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
             //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
             //sb.Append(@"</Record></Process></root>");
@@ -286,7 +286,10 @@ namespace ECA.Business.Service.Persons
                 var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"), "");
                 await participantService.UpdateAsync(updatedParticipantPersonSevis);
                 await participantService.SaveChangesAsync();
+                updates++;
             }
+
+            return updates;
         }
 
         /// <summary>

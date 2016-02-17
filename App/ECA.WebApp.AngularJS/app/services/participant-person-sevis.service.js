@@ -18,6 +18,7 @@
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
             validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis,
             createParticipantSevisCommStatus: createParticipantSevisCommStatus,
+            processParticipantSevisBatchLog: processParticipantSevisBatchLog
         };
 
         return service;
@@ -75,6 +76,11 @@
         function createParticipantSevisCommStatus(id, params) {
             var path = 'ParticipantPersonsSevis/' + id + '/CreateSevisCommStatus';
             return DragonBreath.create(params, path);
+        };
+        
+        // update participant sevis batch status
+        function processParticipantSevisBatchLog(id) {
+            return DragonBreath.get('ParticipantPersonsSevis/ProcessSevisBatchLog', id);
         };
         
     }
