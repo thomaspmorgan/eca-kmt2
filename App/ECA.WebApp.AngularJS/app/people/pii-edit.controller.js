@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, $log, $q, $stateParams, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, NotificationService) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -83,6 +83,8 @@ angular.module('staticApp')
                      location.name = obj.value;
                      return location;
                  });
+                 // Convert from UTC to local date time
+                 $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
                  $scope.piiLoading = false;
              });
       };
@@ -174,7 +176,7 @@ angular.module('staticApp')
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (response) {
                         if (response) {
-                            $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
                         }
                     })
                     .catch(function (error) {
@@ -205,9 +207,7 @@ angular.module('staticApp')
               return obj.id;
           });
           if ($scope.pii.dateOfBirth) {
-              if (typeof $scope.pii.dateOfBirth == "string") $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
               $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
-              //console.log($scope.pii.dateOfBirth);
           }
       };
 
