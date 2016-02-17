@@ -1,7 +1,9 @@
 ﻿using ECA.Business.Queries.Models.Sevis;
 using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace ECA.Business.Queries.Sevis
 {
@@ -18,19 +20,23 @@ namespace ECA.Business.Queries.Sevis
         public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return context.SevisBatchProcessings.Select(x => new SevisBatchProcessingDTO
-            {
-                BatchId = x.BatchId,
-                SubmitDate = x.SubmitDate,
-                RetrieveDate = x.RetrieveDate,
-                SendXml = x.SendXml,
-                TransactionLogXml = x.TransactionLogXml,
-                UploadDispositionCode = x.UploadDispositionCode,
-                ProcessDispositionCode = x.ProcessDispositionCode,
-                DownloadDispositionCode = x.DownloadDispositionCode
-            });
-        }
 
+            var query = from batch in context.SevisBatchProcessings
+                        select new SevisBatchProcessingDTO
+                        {
+                            BatchId = batch.BatchId,
+                            SubmitDate = batch.SubmitDate,
+                            RetrieveDate = batch.RetrieveDate,
+                            SendString = batch.SendString,
+                            TransactionLogString = batch.TransactionLogString,
+                            UploadDispositionCode = batch.UploadDispositionCode,
+                            ProcessDispositionCode = batch.ProcessDispositionCode,
+                            DownloadDispositionCode = batch.DownloadDispositionCode
+                        };
+
+            return query;
+        }
+        
         /// <summary>
         /// Returns a query to get the social media dto for the social media entity with the given id.
         /// </summary>

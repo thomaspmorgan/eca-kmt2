@@ -80,7 +80,8 @@
         
         // update participant sevis batch status
         function processParticipantSevisBatchLog(id) {
-            return DragonBreath.get('ParticipantPersonsSevis/ProcessSevisBatchLog', id);
+            var path = 'ParticipantPersonsSevis/UpdateSevisBatchStatus';
+            return DragonBreath.get(path, id);
         };
         
     }

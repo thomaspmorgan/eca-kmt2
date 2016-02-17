@@ -167,6 +167,7 @@ namespace ECA.Business.Service.Persons
         /// Process SEVIS batch transaction log
         /// </summary>
         /// <param name="batchId">Batch ID</param>
-        Task<int> UpdateParticipantPersonSevisBatchStatusAsync(int batchId);
+        /// <param name="user">User</param>
+        Task<int> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId);
     }
 }

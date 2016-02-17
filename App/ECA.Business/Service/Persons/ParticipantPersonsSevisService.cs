@@ -260,19 +260,18 @@ namespace ECA.Business.Service.Persons
         /// Process SEVIS batch transaction log
         /// </summary>
         /// <param name="batchId">Batch ID</param>
-        public async Task<int> UpdateParticipantPersonSevisBatchStatusAsync(int batchId)
+        public async Task<int> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
         {
             var service = new SevisBatchProcessingService(this.Context);
             var batchLog = await service.GetByIdAsync(batchId);
             int updates = 0;
-            User user = new User(50);
 
             //StringBuilder sb = new StringBuilder();
             //sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
             //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
             //sb.Append(@"</Record></Process></root>");
             
-            var root = XElement.Parse(batchLog.TransactionLogXml.Value);
+            var root = batchLog.TransactionLogXml;
 
             IEnumerable<XElement> participants =
                 from el in root.Descendants("Process")

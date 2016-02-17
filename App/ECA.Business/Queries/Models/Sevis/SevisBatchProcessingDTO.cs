@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 namespace ECA.Business.Queries.Models.Sevis
@@ -24,15 +26,38 @@ namespace ECA.Business.Queries.Models.Sevis
         public DateTimeOffset? RetrieveDate { get; set; }
 
         /// <summary>
+        /// Storage for SEVIS Submission XML
+        /// </summary>
+        [Required]
+        [Column(TypeName = "xml")]
+        public string SendString { get; set; }
+
+        /// <summary>
+        /// Storage for SEVIS Transaction Log XML
+        /// </summary>
+        [Column(TypeName = "xml")]
+        public string TransactionLogString { get; set; }
+
+        /// <summary>
         /// Property to save/retrieve XML submission string as an XElement
         /// </summary>
-        public XElement SendXml { get;  set; }
+        [NotMapped]
+        public XElement SendXml
+        {
+            get { return XElement.Parse(SendString); }
+            set { SendString = value.ToString(); }
+        }
 
         /// <summary>
         /// Property to save/retrieve XML transaction log string as an XElement
         /// </summary>
-        public XElement TransactionLogXml { get; set; }
-
+        [NotMapped]
+        public XElement TransactionLogXml
+        {
+            get { return XElement.Parse(TransactionLogString); }
+            set { TransactionLogString = value.ToString(); }
+        }
+        
         /// <summary>
         /// Error code for SEVIS Upload (submission)
         /// </summary>
