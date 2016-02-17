@@ -99,7 +99,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="projectId">The project id of the participants.</param>
         /// <returns>Success or error</returns>
         [Route("Project/{projectId:int}/ParticipantPersonsSevis/SendToSevis")]
-        [ResourceAuthorize(Permission.SUBMIT_TO_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        [ResourceAuthorize(Permission.SEND_TO_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<IHttpActionResult> PostSendToSevisAsync(int projectId, int[] participantIds)
         {
             if (ModelState.IsValid)
@@ -118,9 +118,10 @@ namespace ECA.WebApi.Controllers.Persons
         /// Retrieves participant sevis CREATE record validation results.
         /// </summary>
         /// <param name="participantId">Participant ID</param>
+        /// <param name="projectId">The id of the project the participant belongs to.</param>
         /// <returns>Validation results</returns>
-        [Route("ParticipantPersonsSevis/ValidateCreateSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetValidateCreateSevisAsync(int participantId)
+        [Route("Project/{projectId:int}/ParticipantPersonsSevis/ValidateCreateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateCreateSevisAsync(int projectId, int participantId)
         {
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
@@ -132,9 +133,10 @@ namespace ECA.WebApi.Controllers.Persons
         /// Retrieves participant sevis UPDATE record validation results.
         /// </summary>
         /// <param name="participantId">Participant ID</param>
+        /// <param name="projectId">The id of the project the participant belongs to.</param>
         /// <returns>Validation results</returns>
-        [Route("ParticipantPersonsSevis/ValidateUpdateSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetValidateUpdateSevisAsync(int participantId)
+        [Route("Project/{projectId:int}/ParticipantPersonsSevis/ValidateUpdateSevis/{participantId:int}")]
+        public async Task<IHttpActionResult> GetValidateUpdateSevisAsync(int projectId, int participantId)
         {
             var currentUser = userProvider.GetCurrentUser();
             var businessUser = userProvider.GetBusinessUser(currentUser);
@@ -155,7 +157,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="participantId">Participant ID</param>
         /// <param name="result">Validation result object</param>
         [HttpPost]
-        [Route("ParticipantPersonsSevis/{participantId:int}/CreateSevisCommStatus")]
+        [Route("Project/{projectId:int}/ParticipantPersonsSevis/{participantId:int}/CreateSevisCommStatus")]
         public IHttpActionResult PostParticipantSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result)
         {
             participantService.UpdateParticipantPersonSevisCommStatus(participantId, result);

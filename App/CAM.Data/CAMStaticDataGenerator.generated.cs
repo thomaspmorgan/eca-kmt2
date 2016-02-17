@@ -168,9 +168,9 @@ namespace CAM.Data
 		/// </summary>
 		public static StaticLookup EditSevis { get { return new StaticLookup("Edit Sevis", 13); } }
 		/// <summary>
-		/// Returns the Submit To Sevis lookup with id 14.
+		/// Returns the Send To Sevis lookup with id 14.
 		/// </summary>
-		public static StaticLookup SubmitToSevis { get { return new StaticLookup("Submit To Sevis", 14); } }
+		public static StaticLookup SendToSevis { get { return new StaticLookup("Send To Sevis", 14); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -190,7 +190,7 @@ namespace CAM.Data
 			if (11 == id) return Permission.Administrator;
 			if (12 == id) return Permission.Search;
 			if (13 == id) return Permission.EditSevis;
-			if (14 == id) return Permission.SubmitToSevis;
+			if (14 == id) return Permission.SendToSevis;
 			return null;
 		}
 		///<summary>
@@ -212,7 +212,7 @@ namespace CAM.Data
 			if ("Administrator".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Administrator;
 			if ("Search".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Search;
 			if ("Edit Sevis".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.EditSevis;
-			if ("Submit To Sevis".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.SubmitToSevis;
+			if ("Send To Sevis".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.SendToSevis;
 			return null;
 		}
 
@@ -362,16 +362,16 @@ namespace CAM.Data
 		public const int EDIT_SEVIS_ID = 13;
 
 		/// <summary>
-		/// Returns the Submit To Sevis string value.
+		/// Returns the Send To Sevis string value.
 		/// </summary>
-		///Submit To Sevis
-		public const string SUBMIT_TO_SEVIS_VALUE = "Submit To Sevis";
+		///Send To Sevis
+		public const string SEND_TO_SEVIS_VALUE = "Send To Sevis";
 
 		/// <summary>
 		/// Returns the 14 integer id value.
 		/// </summary>
-		///Submit To Sevis
-		public const int SUBMIT_TO_SEVIS_ID = 14;
+		///Send To Sevis
+		public const int SEND_TO_SEVIS_ID = 14;
 
 		/// <summary>
 		/// Returns the static lookup config used to generate this type's static lookups.

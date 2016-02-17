@@ -68,9 +68,9 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(user != null, "The user must not be null.");
             var participant = GetParticipant(context, participantId);
-            var participantPerson = GetParticipantPerson(context, participantId);
+            var participantPerson = GetParticipantPerson(context, participant.ProjectId, participantId);
             var personalPII = GetPersonPii(context, (int)participant.PersonId);
-            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participantId);
+            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participant.ProjectId, participantId);
             var personalEmail = GetPersonalEmail(context, participantId);
             var mailingAddress = new Location();
             var physicalAddress = new Location();
@@ -152,9 +152,9 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(user != null, "The user must not be null.");
             var participant = GetParticipant(context, participantId);
-            var participantPerson = GetParticipantPerson(context, participantId);
+            var participantPerson = GetParticipantPerson(context, participant.ProjectId, participantId);
             var personalPII = GetPersonPii(context, (int)participant.PersonId);
-            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participantId);
+            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participant.ProjectId, participantId);
             var personalEmail = GetPersonalEmail(context, participantId);
             var mailingAddress = new Location();
             var physicalAddress = new Location();
@@ -245,10 +245,8 @@ namespace ECA.Business.Queries.Persons
             return email;
         }
 
-        private static ParticipantExchangeVisitorDTO GetParticipantExchangeVisitor(EcaContext context, int participantId)
+        private static ParticipantExchangeVisitorDTO GetParticipantExchangeVisitor(EcaContext context, int projectId, int participantId)
         {
-            throw new NotSupportedException("The project id must be loaded and then provided to this method here.");
-            var projectId = 0;
             var visitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, projectId, participantId).FirstOrDefault();
             return visitor;
         }
@@ -259,10 +257,8 @@ namespace ECA.Business.Queries.Persons
             return pii;
         }
 
-        private static SimpleParticipantPersonDTO GetParticipantPerson(EcaContext context, int participantId)
+        private static SimpleParticipantPersonDTO GetParticipantPerson(EcaContext context, int projectId, int participantId)
         {
-            throw new NotSupportedException("The project id of the participant must be loaded and passed here.");
-            var projectId = 0;
             var pperson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, projectId, participantId).FirstOrDefault();
             return pperson;
         }
