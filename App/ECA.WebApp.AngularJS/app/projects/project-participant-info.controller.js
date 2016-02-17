@@ -24,6 +24,7 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         ProjectService,
+        SevisResultService,
         NotificationService,
         ParticipantService,
         ParticipantPersonsService
@@ -114,7 +115,7 @@ angular.module('staticApp')
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
                 validateSevisInfo($scope.view.participantPerson);
-                return loadParticipantInfo($scope.participantid)
+                return loadParticipantInfo(projectId, $scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;
@@ -133,7 +134,8 @@ angular.module('staticApp')
       function validateSevisInfo(participantPerson) {
           var params = {
               participantId: participantPerson.participantId,
-              sevisId: participantPerson.sevisId
+              sevisId: participantPerson.sevisId,
+              projectId: projectId
           };
           SevisResultService.updateSevisVerificationResultsByParticipant(params)
               .then(function (validationResults) {

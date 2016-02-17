@@ -32,6 +32,7 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
+        private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private IParticipantPersonsSevisService participantService;
 
         /// <summary>
@@ -47,6 +48,17 @@ namespace ECA.Business.Service.Persons
                 if (instance == null)
                 {
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
+                }
+            };
+            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
+            {
+                if (participant != null && participant.ProjectId != projectId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        userId,
+                        participant.ParticipantId,
+                        projectId));
                 }
             };
         }
@@ -187,12 +199,35 @@ namespace ECA.Business.Service.Persons
         /// <param name="errorCount">Validation error count</param>
         /// <param name="isValid">Indicates if SEVIS object passed validation</param>
         /// <param name="result">Validation result object</param>
-        public void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result)
+        public ParticipantPersonSevisCommStatus UpdateParticipantPersonSevisCommStatus(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result)
         {
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            return DoUpdateParticipantPersonSevisCommStatus(user, projectId, participant, result);
+        }
+
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="projectId">The id of the project the participant belongs to.</param>
+        /// <param name="user">The user performing the update.</param>
+        /// <param name="result">Validation result object</param>
+        /// <returns>The new comm status.</returns>
+        public async Task<ParticipantPersonSevisCommStatus> UpdateParticipantPersonSevisCommStatusAsync(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result)
+        {
+            var participant = await Context.Participants.FindAsync(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            return DoUpdateParticipantPersonSevisCommStatus(user, projectId, participant, result);
+        }
+
+        private ParticipantPersonSevisCommStatus DoUpdateParticipantPersonSevisCommStatus(User user, int projectId, Participant participant, FluentValidation.Results.ValidationResult result)
+        {
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
             var newStatus = new ParticipantPersonSevisCommStatus
             {
-                ParticipantId = participantId,
-                AddedOn = DateTimeOffset.Now
+                ParticipantId = participant.ParticipantId,
+                AddedOn = DateTimeOffset.Now,
             };
 
             if (result.Errors.Count > 0 || !result.IsValid)
@@ -205,7 +240,7 @@ namespace ECA.Business.Service.Persons
             }
 
             Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-            Context.SaveChanges();
+            return newStatus;
         }
 
         /// <summary>

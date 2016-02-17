@@ -6,6 +6,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -96,7 +98,7 @@ namespace ECA.Business.Test.Service.Persons
             var now = DateTimeOffset.Now;
             var yesterday = now.AddDays(-1.0);
             var projectId = 1;
-            
+
             var participant = new Participant
             {
                 ProjectId = projectId,
@@ -173,7 +175,7 @@ namespace ECA.Business.Test.Service.Persons
             response = sevisService.SendToSevis(projectId, null);
             afterTester(response);
         }
-        
+
 
         [TestMethod]
         public async Task TestSendToSevis_IncorrectStatus()
@@ -277,6 +279,52 @@ namespace ECA.Business.Test.Service.Persons
             beforeTester();
             response = sevisService.SendToSevis(projectId + 1, new int[] { status.ParticipantId });
             afterTester(response);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateParticipantPersonSevisCommStatus_ParticipantDoesNotExist()
+        {
+            var participantId = 1;
+            var projectId = 2;
+            var user = new User(3);
+            Assert.AreEqual(0, context.Participants.Count());
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, participantId);
+            Action a = () => sevisService.UpdateParticipantPersonSevisCommStatus(user, projectId, participantId, null);
+            Func<Task> f = () => sevisService.UpdateParticipantPersonSevisCommStatusAsync(user, projectId, participantId, null);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateParticipantPersonSevisCommStatus_ParticipantDoesNotBelongToProject()
+        {
+            var participantId = 1;
+            var projectId = 2;
+            var user = new User(3);
+            var project = new Project
+            {
+                ProjectId = projectId,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+            Assert.AreEqual(0, context.Participants.Count());
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+
+            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        user.Id,
+                        participant.ParticipantId,
+                        projectId + 1);
+
+            Action a = () => sevisService.UpdateParticipantPersonSevisCommStatus(user, projectId + 1, participantId, null);
+            Func<Task> f = () => sevisService.UpdateParticipantPersonSevisCommStatusAsync(user, projectId + 1, participantId, null);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }
     }
 }

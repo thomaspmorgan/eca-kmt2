@@ -7,13 +7,14 @@ using ECA.Core.Service;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
 using System.Collections.Generic;
+using ECA.Data;
 
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// An IParticipantPersonSevisService is capable of performing crud operations on participants and their SEVIS information.
     /// </summary>
-    public interface IParticipantPersonsSevisService: ISaveable 
+    public interface IParticipantPersonsSevisService : ISaveable
     {
         /// <summary>
         /// Returns the participantPersonSevis by id
@@ -62,14 +63,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="user"></param>
         /// <returns>Sevis exchange visitor update objects (250 max)</returns>
         List<UpdateExchVisitor> GetSevisUpdateEVs(User user);
-        
+
         /// <summary>
         /// Retrieve XML format of SEVIS batch object
         /// </summary>
         /// <param name="validationEntity">Participant object to be validated</param>
         /// <returns>Participant object in XML format</returns>
         string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity);
-        
+
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.
         /// </summary>
@@ -105,6 +106,17 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">Participant ID</param>
         /// <param name="errorCount">Validation error count</param>
         /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result);
+        /// <param name="result">Validation result object</param>
+        ParticipantPersonSevisCommStatus UpdateParticipantPersonSevisCommStatus(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result);
+
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="projectId">The id of the project the participant belongs to.</param>
+        /// <param name="user">The user performing the update.</param>
+        /// <param name="result">Validation result object</param>
+        /// <returns>The new comm status.</returns>
+        Task<ParticipantPersonSevisCommStatus> UpdateParticipantPersonSevisCommStatusAsync(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result);
     }
 }

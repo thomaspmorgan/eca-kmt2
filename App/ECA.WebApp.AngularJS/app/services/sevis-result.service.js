@@ -19,10 +19,10 @@ angular.module('staticApp')
               PersonService.getParticipantByPersonId(personid)
               .then(function (participant) {
                   if (participant.data.sevisId) {
-                      return obj.validateUpdateSevis(participant.data.participantId);
+                      return obj.validateUpdateSevis(participant.data.projectId, participant.data.participantId);
                   } else {
                       if (participant.data.participantId) {
-                          defer.resolve(obj.validateCreateSevis(participant.data.participantId));
+                          defer.resolve(obj.validateCreateSevis(participant.data.projectId, participant.data.participantId));
                       }
                   }
               })
@@ -31,34 +31,34 @@ angular.module('staticApp')
               });
 
               return defer.promise;
-          }          
+          }
       }
 
       obj.updateSevisVerificationResultsByParticipant = function (participant) {
           if (participant) {
               var defer = $q.defer();
               if (participant.sevisId) {
-                  defer.resolve(obj.validateUpdateSevis(participant.participantId));
+                  defer.resolve(obj.validateUpdateSevis(participant.projectId, participant.participantId));
               } else {
                   if (participant.participantId) {
-                      defer.resolve(obj.validateCreateSevis(participant.participantId));
+                      defer.resolve(obj.validateCreateSevis(participant.projectId, participant.participantId));
                   }
               }
 
               return defer.promise;
-          }          
+          }
       }
 
       // pre-sevis create validation
-      obj.validateCreateSevis = function (participantid) {
-          return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis(participantid)
+      obj.validateCreateSevis = function (projectId, participantid) {
+          return ParticipantPersonsSevisService.validateParticipantPersonsCreateSevis(projectId, participantid)
           .then(function (response) {
               $log.info('Validated participant create SEVIS information');
               var verifyResult = response.data;
               // log and update participant sevis validation results
-              return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
+              return ParticipantPersonsSevisService.createParticipantSevisCommStatus(projectId, participantid, verifyResult)
                 .then(function (response) {
-                    return obj.updateSevisInfo(participantid, verifyResult)
+                    return obj.updateSevisInfo(projectId, participantid, verifyResult)
                 })
           })
           .catch(function () {
@@ -67,15 +67,15 @@ angular.module('staticApp')
       }
 
       // pre-sevis update validation
-      obj.validateUpdateSevis = function (participantid) {
-          return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis(participantid)
+      obj.validateUpdateSevis = function (projectId, participantid) {
+          return ParticipantPersonsSevisService.validateParticipantPersonsUpdateSevis(projectId, participantid)
             .then(function (response) {
                 $log.info('Validated participant update SEVIS information');
                 var verifyResult = response.data;
                 // log and update participant sevis validation results
-                return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
+                return ParticipantPersonsSevisService.createParticipantSevisCommStatus(projectId, participantid, verifyResult)
                 .then(function (response) {
-                    return obj.updateSevisInfo(participantid, verifyResult)
+                    return obj.updateSevisInfo(projectId, participantid, verifyResult)
                 })
             })
             .catch(function () {
@@ -84,13 +84,13 @@ angular.module('staticApp')
       }
 
       // get participant record and attach validation results
-      obj.updateSevisInfo = function (participantId, validationResults) {
-          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+      obj.updateSevisInfo = function (projectId, participantId, validationResults) {
+          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
               var sevisInfo = data.data;
               if (sevisInfo) {
                   sevisInfo.sevisValidationResult = JSON.stringify(validationResults);
-                  return obj.saveSevisInfo(participantId, sevisInfo);
+                  return obj.saveSevisInfo(projectId, participantId, sevisInfo);
               }
           })
           .catch(function () {
@@ -99,8 +99,8 @@ angular.module('staticApp')
       }
 
       // update participant sevis results
-      obj.saveSevisInfo = function (participantId, updatedSevisInfo) {
-          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(updatedSevisInfo)
+      obj.saveSevisInfo = function (projectId, participantId, updatedSevisInfo) {
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(projectId, updatedSevisInfo)
           .then(function (data) {
               $log.info('Participant SEVIS verification results saved successfully.');
               return updatedSevisInfo;
@@ -109,6 +109,6 @@ angular.module('staticApp')
               $log.error('Unable to save participant SEVIS verification results');
           });
       }
-      
+
       return obj;
   });
