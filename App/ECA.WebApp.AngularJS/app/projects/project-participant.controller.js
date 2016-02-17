@@ -64,13 +64,13 @@ angular.module('staticApp')
       $scope.participantInfo = {};
 
       $scope.actions = {
-          "Select Action": undefined,
-          "Send To SEVIS": 1
+          "Select Action": undefined
       };
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
+      $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
 
       // SEVIS validation: expand participant and set active tab where error is located.
@@ -307,6 +307,27 @@ angular.module('staticApp')
                   $log.info('User not authorized to edit project in project-participant.controller.js.');
               }
           };
+          config[ConstantsService.permission.editSevis.value] = {
+              hasPermission: function () {
+                  $scope.permissions.hasEditSevisPermission = true;
+                  $log.info('User has edit sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $scope.permissions.hasEditSevisPermission = false;
+                  $log.info('User not authorized to edit sevis in project-participant.controller.js.');
+              }
+          };
+          config[ConstantsService.permission.sendToSevis.value] = {
+              hasPermission: function () {
+                  addSendToSevisAction();
+                  $log.info('User has send to sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $log.info('User not authorized to send to sevis in project-participant.controller.js.');
+              }
+          };
+          
+
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
             }, function () {
@@ -410,6 +431,10 @@ angular.module('staticApp')
               }
           });
       };
+
+      function addSendToSevisAction() {
+          $scope.actions["Send To SEVIS"] = 1;
+      }
 
       function loadExchangeVisitorInfo(participantId) {
           return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(projectId, participantId)

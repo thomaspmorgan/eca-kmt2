@@ -96,7 +96,9 @@
 			programOwner: {id: 9, value: "Program Owner"},
 			officeOwner: {id: 10, value: "Office Owner"},
 			administrator: {id: 11, value: "Administrator"},
-			search: {id: 12, value: "Search"}
+			search: {id: 12, value: "Search"},
+			editSevis: {id: 13, value: "Edit Sevis"},
+			sendToSevis: {id: 14, value: "Send To Sevis"}
 		},
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
@@ -152,7 +154,7 @@
 		cancelProjectEventName: 'cancelProjectEdit',
 		containsAnyComparisonType: 'containsany',
 		descending: 'DESC',
-		emailRegex: '^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$',
+		emailRegex: '^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
 		greaterThanComparisonType: 'gt',
