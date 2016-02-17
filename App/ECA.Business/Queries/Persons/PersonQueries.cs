@@ -68,7 +68,8 @@ namespace ECA.Business.Queries.Persons
                             CountryOfBirth = countryOfBirthName,
                             DivisionOfBirth = divisionOfBirthName,
                             CityOfBirth = cityOfBirthName,
-                            CityOfBirthId = hasPlaceOfBirth ? cityOfBirth.LocationId : default(int?)
+                            CityOfBirthId = hasPlaceOfBirth ? cityOfBirth.LocationId : default(int?),
+                            ProminentCategories = person.ProminentCategories.Select(x => x.Name)
                         };
             return query;
         }

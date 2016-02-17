@@ -214,8 +214,8 @@
     <Content Include="app\projects\project-location-marker.html" />
     <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\reports\reports.routes.js" />
-    <Content Include="app\reports\projects-with-grant-number.html" />
-    <Content Include="app\reports\projects-with-grant-number.controller.js" />
+    <Content Include="app\reports\report.controller.js" />
+    <Content Include="app\reports\report.html" />
     <Content Include="app\search\spotlight.controller.js" />
     <Content Include="app\services\about.service.js" />
     <Content Include="app\services\app-settings.service.js" />
@@ -295,13 +295,6 @@
     <Content Include="app\projects\project-participant.controller.js" />
     <Content Include="app\projects\unsaved-changes.controller.js" />
     <Content Include="app\reports\custom.controller.js" />
-    <Content Include="app\reports\objective-awards.controller.js" />
-    <Content Include="app\reports\focus-category-awards.controller.js" />
-    <Content Include="app\reports\focus-awards.controller.js" />
-    <Content Include="app\reports\post-awards.controller.js" />
-    <Content Include="app\reports\country-awards.controller.js" />
-    <Content Include="app\reports\year-awards.controller.js" />
-    <Content Include="app\reports\region-awards.controller.js" />
     <Content Include="app\directives\snapshots.controller.js" />
     <Content Include="app\directives\social-media.controller.js" />
     <Content Include="app\directives\social-medias.controller.js" />
@@ -392,7 +385,6 @@
     <Content Include="app\services\organization.service.js" />
     <Content Include="app\organizations\all-organizations.html" />
     <Content Include="app\projects\unsaved-changes.html" />
-    <Content Include="app\reports\project-awards.controller.js" />
     <Content Include="app\directives\date-picker-popup.directive.js" />
     <Content Include="app\filters\highlight.filter.js" />
     <Content Include="app\services\download.service.js" />
@@ -649,14 +641,6 @@
     <Content Include="app\reports\reports.html" />
     <Content Include="app\reports\custom.html" />
     <Content Include="app\reports\archive.html" />
-    <Content Include="app\reports\focus-category-awards.html" />
-    <Content Include="app\reports\focus-awards.html" />
-    <Content Include="app\reports\country-awards.html" />
-    <Content Include="app\reports\objective-awards.html" />
-    <Content Include="app\reports\year-awards.html" />
-    <Content Include="app\reports\project-awards.html" />
-    <Content Include="app\reports\post-awards.html" />
-    <Content Include="app\reports\region-awards.html" />
     <Content Include="app.tpls.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -83,6 +83,8 @@ angular.module('staticApp')
                      location.name = obj.value;
                      return location;
                  });
+                 // Convert from UTC to local date time
+                 $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
                  $scope.piiLoading = false;
              });
       };
@@ -171,15 +173,15 @@ angular.module('staticApp')
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
-                  /*
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (response) {
+                        if (response) {
                         $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        }
                     })
                     .catch(function (error) {
                         $log.error('Unable to update sevis validation results for participantId: ' + participantId);
                     });
-                   */
               },
               function (error) {
                   if (error.status == 400) {
@@ -206,7 +208,6 @@ angular.module('staticApp')
           });
           if ($scope.pii.dateOfBirth) {
               $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
-              console.log($scope.pii.dateOfBirth);
           }
       };
 

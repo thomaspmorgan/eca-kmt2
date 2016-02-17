@@ -13,15 +13,15 @@ angular.module('staticApp')
       BrowserService.setDocumentTitleByReport('Custom');
       $scope.$log = $log;
       $scope.reports = [
-          { Title: "Project Awards By Year", Published: "4/28/2015", Author: "Tom Morgan", Prompts: "Program, Country" },
-          { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Objective Awards", Published: "7/6/2015", Author: "Tom Morgan", Prompts: "Program, Objective" },
-          { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" },
-          { Title: "Projects with Grant Number", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program" }        
+          { Title: "Project Awards By Year", Published: "4/28/2015", Author: "Tom Morgan", Prompts: "Program, Country", Report: "ProjectAwards" },
+          { Title: "Region Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program", Report: "RegionAwards"},
+          { Title: "Post Awards", Published: "6/22/2015", Author: "Tom Morgan", Prompts: "Program" , Report: "PostAwards"},
+          { Title: "Focus Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program" , Report: "FocusAwards"},
+          { Title: "Focus-Category Awards", Published: "6/23/2015", Author: "Tom Morgan", Prompts: "Program", Report: "FocusCategoryAwards" },
+          { Title: "Country Awards", Published: "7/2/2015", Author: "Tom Morgan", Prompts: "Program", Report: "CountryAwards"},
+          { Title: "Objective Awards", Published: "7/6/2015", Author: "Tom Morgan", Prompts: "Program, Objective", Report: "ObjectiveAwards" },
+          { Title: "Year Awards", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program", Report: "YearAwards"},
+          { Title: "Projects with Grant Number", Published: "7/7/2015", Author: "Tom Morgan", Prompts: "Program", Report: "ProjectsWithGrantNumber" }        
       ];
       $scope.formats = [{ type: 'Portable Document Format - PDF', key: 'pdf', mimetype: 'application/pdf' },
                         { type: 'Microsoft Excel - XLSX', key: 'xlsx', mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
@@ -92,49 +92,10 @@ angular.module('staticApp')
             });
       };
 
-      $scope.openReport = function (title) {
-          if (title == 'Project Awards By Year')
-          {
-              var template = "/app/reports/project-awards.html";
-              var controller = "ProjectAwardsCtrl";
-          }
-          else if (title == 'Region Awards')
-          {
-              var template = "/app/reports/region-awards.html";
-              var controller = "RegionAwardsCtrl";
-          }
-          else if (title == 'Post Awards') {
-              var template = "/app/reports/post-awards.html";
-              var controller = "PostAwardsCtrl";
-          }
-          else if (title == 'Focus Awards') {
-              var template = "/app/reports/focus-awards.html";
-              var controller = "FocusAwardsCtrl";
-          }
-          else if (title == 'Focus-Category Awards') {
-              var template = "/app/reports/focus-category-awards.html";
-              var controller = "FocusCategoryAwardsCtrl";
-          }
-          else if (title == 'Country Awards') {
-              var template = "/app/reports/country-awards.html";
-              var controller = "CountryAwardsCtrl";
-          }
-          else if (title == 'Objective Awards') {
-              var template = "/app/reports/objective-awards.html";
-              var controller = "ObjectiveAwardsCtrl";
-          }
-          else if (title == 'Year Awards') {
-              var template = "/app/reports/year-awards.html";
-              var controller = "YearAwardsCtrl";
-          }
-          else if (title == 'Projects with Grant Number') {
-              var template = "/app/reports/projects-with-grant-number.html";
-              var controller = "ProjectsWithGrantNumberCtrl";
-          }
-          else
-          {
-              return;
-          }
+      $scope.openReport = function (report) {
+              var template = "/app/reports/report.html";
+              var controller = "ReportCtrl";
+              $scope.parameters.report = report;
        
          var modalInstance = $modal.open({
             templateUrl: template,
@@ -153,7 +114,7 @@ angular.module('staticApp')
             $scope.parameters = parameters;
                   
          }, function () {
-            $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
+            $log.info('Report: ' + report.title + '  Dismissed at: ' + new Date());
          });
       };
 
