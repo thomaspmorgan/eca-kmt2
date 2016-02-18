@@ -194,40 +194,7 @@ namespace ECA.Business.Service.Persons
             return updateEvs;
         }
 
-        public ValidationResult ValidateExchangeVisitor(User user, int projectId, int participantId)
-        {
-
-        }
-
-        public async Task<ValidationResult> ValidateExchangeVisitorAsync(User user, int projectId, int participantId)
-        {
-            
-
-            //exchange visitor
-            if (String.IsNullOrWhiteSpace(participantPerson.SevisId))
-            {
-
-            }//update exchange visitor
-            else
-            {
-
-            }
-
-            
-        }
-
-        public ExchangeVisitor GetNewExchangeVisitor(int participantId)
-        {
-            var exchangeVisitor = ParticipantPersonsSevisQueries.GetCreateExchangeVisitor()
-        }
-
-        public ExchangeVisitorUpdate GetUpdatedExchangeVisitor(int participantId)
-        {
-
-        }
-
-
-
+       
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>

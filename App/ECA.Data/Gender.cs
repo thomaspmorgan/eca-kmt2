@@ -16,5 +16,10 @@ namespace ECA.Data
         [MaxLength(20)]
         public string GenderName { get; set; }
         public History History { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis gender code.
+        /// </summary>
+        public string SevisGenderCode { get; set; }
     }
 }

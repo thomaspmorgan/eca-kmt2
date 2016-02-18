@@ -275,7 +275,7 @@ namespace ECA.Business.Queries.Persons
             {
                 FullName = new FullName
                 {
-                    FirsName = personalPII.FirstName,
+                    FirstName = personalPII.FirstName,
                     LastName = personalPII.LastName,
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
@@ -300,7 +300,7 @@ namespace ECA.Business.Queries.Persons
                 printForm = false,
                 FullName = new FullName
                 {
-                    FirsName = personalPII.FirstName,
+                    FirstName = personalPII.FirstName,
                     LastName = personalPII.LastName,
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
@@ -507,7 +507,7 @@ namespace ECA.Business.Queries.Persons
                     CitizenshipCountryCode = "01",
                     FullName = new FullName
                     {
-                        FirsName = "Some",
+                        FirstName = "Some",
                         LastName = "Dependent"
                     }
                 }
@@ -530,7 +530,7 @@ namespace ECA.Business.Queries.Persons
                     CitizenshipCountryCode = "01",
                     FullName = new FullName
                     {
-                        FirsName = "Some",
+                        FirstName = "Some",
                         LastName = "Dependent"
                     }
                 }
