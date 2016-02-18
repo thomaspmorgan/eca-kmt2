@@ -308,6 +308,7 @@
     <Compile Include="Service\Persons\DeletedParticipant.cs" />
     <Compile Include="Service\Persons\EduEmpService.cs" />
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />

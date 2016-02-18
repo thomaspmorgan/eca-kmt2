@@ -3,12 +3,14 @@ using ECA.Business.Queries.Persons;
 using ECA.Business.Service.Sevis;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using FluentValidation.Results;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -192,6 +194,40 @@ namespace ECA.Business.Service.Persons
             return updateEvs;
         }
 
+        public ValidationResult ValidateExchangeVisitor(User user, int projectId, int participantId)
+        {
+
+        }
+
+        public async Task<ValidationResult> ValidateExchangeVisitorAsync(User user, int projectId, int participantId)
+        {
+            
+
+            //exchange visitor
+            if (String.IsNullOrWhiteSpace(participantPerson.SevisId))
+            {
+
+            }//update exchange visitor
+            else
+            {
+
+            }
+
+            
+        }
+
+        public ExchangeVisitor GetNewExchangeVisitor(int participantId)
+        {
+            var exchangeVisitor = ParticipantPersonsSevisQueries.GetCreateExchangeVisitor()
+        }
+
+        public ExchangeVisitorUpdate GetUpdatedExchangeVisitor(int participantId)
+        {
+
+        }
+
+
+
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
@@ -270,7 +306,7 @@ namespace ECA.Business.Service.Persons
 
             foreach (XElement record in participants)
             {
-                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"), "");
+                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"));
                 await participantService.UpdateAsync(updatedParticipantPersonSevis);
                 await participantService.SaveChangesAsync();
             }
@@ -392,7 +428,6 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
-            participantPerson.SevisValidationResult = updatedParticipantPersonSevis.SevisValidationResult;
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)
