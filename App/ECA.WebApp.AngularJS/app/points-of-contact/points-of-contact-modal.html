@@ -116,15 +116,17 @@
                                     <div class="col-md-8">
                                         <input name="emailAddress{{$index}}"
                                                class="form-control"
-                                               ng-change="view.onEmailAddressChange($index)"
                                                ui-validate-async="{unique: 'view.isUniquePointOfContact($value, $index)'}"
+                                               ui-validate="{isEmail: 'view.isValidEmail($value, $index)'}"
                                                ng-model-options="{debounce: 750}"
-                                               type="email"
                                                ng-model="view.newPointOfContact.emailAddresses[$index].address"
                                                placeholder="Enter an email address (e.g. joe.smith@state.gov)..."
                                                required />
                                         <div ng-show="form.pointOfContactForm.emailAddress{{$index}}.$error.unique" class="error">
                                             A point of contact, {{view.likePointsOfContactByEmail[0].fullName}}, with this email address already exists.
+                                        </div>
+                                        <div ng-show="form.pointOfContactForm.$dirty && form.pointOfContactForm.emailAddress{{$index}}.$error.isEmail" class="error">
+                                            The given email address is not valid.
                                         </div>
                                     </div>
                                 </div>
