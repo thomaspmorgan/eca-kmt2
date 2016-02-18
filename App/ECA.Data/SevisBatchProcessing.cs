@@ -48,7 +48,7 @@ namespace ECA.Data
         [NotMapped]
         public XElement SendXml
         {
-            get { return XElement.Parse(SendString); }
+            get { return (SendString != null ? XElement.Parse(SendString) : null); }
             set { SendString = value.ToString(); }
         }
 
@@ -58,7 +58,7 @@ namespace ECA.Data
         [NotMapped]
         public XElement TransactionLogXml
         {
-            get { return XElement.Parse(TransactionLogString); }
+            get { return (TransactionLogString != null ? XElement.Parse(TransactionLogString) : null); }
             set { TransactionLogString = value.ToString(); }
         }
 
