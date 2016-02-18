@@ -9,6 +9,7 @@ using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -267,7 +268,7 @@ namespace ECA.Business.Service.Persons
             int updates = 0;
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(@"<Root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
+            sb.Append(@"<Root><Process><Record sevisID='N0012309439' requestID='1179' userID='50'>");
             sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
             sb.Append(@"</Record></Process></Root>");
 
@@ -275,23 +276,25 @@ namespace ECA.Business.Service.Persons
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(sb.ToString());
 
-            XmlNodeList batchNodes = doc.SelectNodes("//Process");
+            XmlNodeList batchNodes = doc.SelectNodes("/Root/Process/Record");
             
             foreach (XmlNode record in batchNodes)
-            {
-                foreach (XmlNode result in record.ChildNodes)
-                {
-                    
-                    var ee = result;
-    //                var ii = record.Attribute("userID");
+            {                    
+                //var sevisID = record.Attributes["sevisID"].Value;
+                //var requestID = record.Attributes["requestID"].Value;
+                //var userID = record.Attributes["userID"].Value;
 
-    //                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("userID"),
-    //record.Attribute("sevisID").Value, false, false, false, false, false, false, null, null,
-    //record.Attribute("Result").Value);
-    //                await participantService.UpdateAsync(updatedParticipantPersonSevis);
-    //                await participantService.SaveChangesAsync();
-    //                updates++;
-                }
+                //foreach (XmlNode result in record.ChildNodes)
+                //{
+                //    var ErrorCode = result["ErrorCode"].InnerText;
+                //    var ErrorMessage = result["ErrorMessage"].InnerText;
+                //}
+
+                string json = JsonConvert.SerializeXmlNode(record);
+
+                // update participant batch result
+
+                updates++;
             }
 
             return updates;
@@ -463,6 +466,7 @@ namespace ECA.Business.Service.Persons
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
             participantPerson.SevisValidationResult = updatedParticipantPersonSevis.SevisValidationResult;
+            participantPerson.SevisBatchResult = updatedParticipantPersonSevis.SevisBatchResult;
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)

@@ -35,7 +35,8 @@ namespace ECA.Business.Service.Persons
             bool isDS2019SentToTraveler,
             DateTimeOffset? startDate,
             DateTimeOffset? endDate,
-            string sevisValidationResult)
+            string sevisValidationResult,
+            string sevisBatchResult)
         {
             this.Audit = new Update(updater);
             this.ParticipantId = participantId;
@@ -49,6 +50,7 @@ namespace ECA.Business.Service.Persons
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.SevisValidationResult = sevisValidationResult;
+            this.SevisBatchResult = sevisBatchResult;
         }
 
         /// <summary>
@@ -105,6 +107,11 @@ namespace ECA.Business.Service.Persons
         /// The most recent participant Sevis valiation result
         /// </summary>
         public string SevisValidationResult { get; set; }
+
+        /// <summary>
+        /// The most recent participant Sevis batch submission result
+        /// </summary>
+        public string SevisBatchResult { get; set; }
 
         /// <summary>
         /// Gets the update audit.

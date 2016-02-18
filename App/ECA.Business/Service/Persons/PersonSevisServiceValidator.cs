@@ -83,24 +83,7 @@ namespace ECA.Business.Service.Persons
             return results;
         }
         
-
-        #region Temp
         
-        //// write to a local file
-        //XmlSerializer writer = new XmlSerializer(validationEntity.GetType());
-        //var path = @"C:\temp\SevisBatch.xml";
-        ////Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SevisBatch.xml";
-        ////FileStream file = File.Create(path);
-        //FileInfo file = new FileInfo(path);
-        //if (file.Exists)
-            //{
-        //    file.Delete();
-            //}
-        //XmlWriter xfile = XmlWriter.Create(path);
-        //writer.Serialize(xfile, validationEntity);
-        //xfile.Close();
-
-        #endregion
         
     }
 }
