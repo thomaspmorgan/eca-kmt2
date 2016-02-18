@@ -266,26 +266,32 @@ namespace ECA.Business.Service.Persons
             var batchLog = await service.GetByIdAsync(batchId);
             int updates = 0;
 
-            //StringBuilder sb = new StringBuilder();
-            //sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
-            //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
-            //sb.Append(@"</Record></Process></root>");
+            StringBuilder sb = new StringBuilder();
+            sb.Append(@"<Root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
+            sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
+            sb.Append(@"</Record></Process></Root>");
+
+            //var doc = batchLog.TransactionLogXml;
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(sb.ToString());
+
+            XmlNodeList batchNodes = doc.SelectNodes("//Process");
             
-            var root = batchLog.TransactionLogXml;
-
-            IEnumerable<XElement> participants =
-                from el in root.Descendants("Process")
-                where
-                    (from record in el.Elements("Record")
-                     select record).Any()
-                select el;
-
-            foreach (XElement record in participants)
+            foreach (XmlNode record in batchNodes)
             {
-                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"), "");
-                await participantService.UpdateAsync(updatedParticipantPersonSevis);
-                await participantService.SaveChangesAsync();
-                updates++;
+                foreach (XmlNode result in record.ChildNodes)
+                {
+                    
+                    var ee = result;
+    //                var ii = record.Attribute("userID");
+
+    //                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("userID"),
+    //record.Attribute("sevisID").Value, false, false, false, false, false, false, null, null,
+    //record.Attribute("Result").Value);
+    //                await participantService.UpdateAsync(updatedParticipantPersonSevis);
+    //                await participantService.SaveChangesAsync();
+    //                updates++;
+                }
             }
 
             return updates;

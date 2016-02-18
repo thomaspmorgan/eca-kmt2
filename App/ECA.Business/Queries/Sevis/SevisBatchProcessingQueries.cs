@@ -3,6 +3,7 @@ using ECA.Data;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 
 namespace ECA.Business.Queries.Sevis
@@ -20,17 +21,23 @@ namespace ECA.Business.Queries.Sevis
         public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append(@"<root><Process><Record sevisID='N0012309439' requestID='1179' userID='50'>");
+            //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
+            //sb.Append(@"</Record></Process></root>");
+            //string xmlstring = sb.ToString();
+
             return context.SevisBatchProcessings.Select(x => new SevisBatchProcessingDTO
             {
                 BatchId = x.BatchId,
                 SubmitDate = x.SubmitDate,
                 RetrieveDate = x.RetrieveDate,
-                SendString = x.SendXml.Value,
-                TransactionLogString = x.TransactionLogXml.Value,
+                SendXml = x.SendXml,
+                TransactionLogXml = x.TransactionLogXml,
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
                 DownloadDispositionCode = x.DownloadDispositionCode
-            });
+            }).ToList();
         }
         
         /// <summary>

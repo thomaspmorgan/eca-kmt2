@@ -58,14 +58,7 @@ angular.module('staticApp')
               // log and update participant sevis validation results
               return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
                 .then(function (response) {
-
-                    return ParticipantPersonsSevisService.processParticipantSevisBatchLog(1)
-                    .then(function (response) {
-
-                        return obj.updateSevisInfo(participantid, verifyResult);
-
-                    })
-
+                    return obj.updateSevisInfo(participantid, verifyResult);
                 })
           })
           .catch(function () {
@@ -82,14 +75,7 @@ angular.module('staticApp')
                 // log and update participant sevis validation results
                 return ParticipantPersonsSevisService.createParticipantSevisCommStatus(participantid, verifyResult)
                 .then(function (response) {
-                    
-                    return ParticipantPersonsSevisService.processParticipantSevisBatchLog(1)
-                    .then(function (response) {
-
-                        return obj.updateSevisInfo(participantid, verifyResult);
-
-                    })
-
+                    return obj.updateSevisInfo(participantid, verifyResult);
                 })
             })
             .catch(function () {
