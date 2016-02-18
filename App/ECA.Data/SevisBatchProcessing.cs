@@ -80,4 +80,5 @@ namespace ECA.Data
         [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
         public string DownloadDispositionCode { get; set; }
     }
+    
 }

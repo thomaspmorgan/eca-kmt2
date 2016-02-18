@@ -59,9 +59,9 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="batchId">The id of the SevisBatchProcessing record.</param>
         /// <returns>The SevisBatchProcessing  dto.</returns>
-        public async Task<SevisBatchProcessingDTO> GetByIdAsync(int batchId)
+        public Task<SevisBatchProcessingDTO> GetByIdAsync(int batchId)
         {
-            var dto = await SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId).FirstOrDefaultAsync();
+            var dto = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId).FirstOrDefault());
             logger.Info("Retrieved the Sevis Batch Processing dto with the given id [{0}].", batchId);
             return dto;
         }
