@@ -20,21 +20,17 @@ namespace ECA.Business.Queries.Sevis
         public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-
-            var query = from batch in context.SevisBatchProcessings
-                        select new SevisBatchProcessingDTO
-                        {
-                            BatchId = batch.BatchId,
-                            SubmitDate = batch.SubmitDate,
-                            RetrieveDate = batch.RetrieveDate,
-                            SendString = batch.SendString,
-                            TransactionLogString = batch.TransactionLogString,
-                            UploadDispositionCode = batch.UploadDispositionCode,
-                            ProcessDispositionCode = batch.ProcessDispositionCode,
-                            DownloadDispositionCode = batch.DownloadDispositionCode
-                        };
-
-            return query;
+            return context.SevisBatchProcessings.Select(x => new SevisBatchProcessingDTO
+            {
+                BatchId = x.BatchId,
+                SubmitDate = x.SubmitDate,
+                RetrieveDate = x.RetrieveDate,
+                SendString = x.SendString,
+                TransactionLogString = x.TransactionLogString,
+                UploadDispositionCode = x.UploadDispositionCode,
+                ProcessDispositionCode = x.ProcessDispositionCode,
+                DownloadDispositionCode = x.DownloadDispositionCode
+            });
         }
         
         /// <summary>

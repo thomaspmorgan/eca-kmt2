@@ -28,20 +28,16 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <summary>
         /// Storage for SEVIS Submission XML
         /// </summary>
-        [Required]
-        [Column(TypeName = "xml")]
         public string SendString { get; set; }
 
         /// <summary>
         /// Storage for SEVIS Transaction Log XML
         /// </summary>
-        [Column(TypeName = "xml")]
         public string TransactionLogString { get; set; }
 
         /// <summary>
         /// Property to save/retrieve XML submission string as an XElement
         /// </summary>
-        [NotMapped]
         public XElement SendXml
         {
             get { return XElement.Parse(SendString); }
@@ -51,7 +47,6 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <summary>
         /// Property to save/retrieve XML transaction log string as an XElement
         /// </summary>
-        [NotMapped]
         public XElement TransactionLogXml
         {
             get { return XElement.Parse(TransactionLogString); }
