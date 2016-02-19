@@ -17,7 +17,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestInit()
         {
             context = new TestEcaContext();
-            sevisService = new ParticipantPersonsSevisService(context, sevisService);
+            sevisService = new ParticipantPersonsSevisService(context);
         }
 
         [TestMethod]

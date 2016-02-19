@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
+        public ParticipantPersonsSevisService(EcaContext context, ISaveAction saveActions = null) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfModelDoesNotExist = (id, instance, type) =>
@@ -264,36 +264,22 @@ namespace ECA.Business.Service.Persons
         {
             var service = new SevisBatchProcessingService(this.Context);
             var batchLog = await service.GetByIdAsync(batchId);
+            var xml = batchLog.TransactionLogXml;
             int updates = 0;
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(@"<Root><Process><Record sevisID='N0012309439' requestID='1179' userID='50'>");
-            sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
-            sb.Append(@"</Record></Process></Root>");
-
-            //var doc = batchLog.TransactionLogXml;
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(sb.ToString());
-
-            XmlNodeList batchNodes = doc.SelectNodes("/Root/Process/Record");
             
-            foreach (XmlNode record in batchNodes)
+            var doc = XDocument.Parse(xml.ToString());
+            
+            foreach (XElement record in doc.Descendants("Record"))
             {                    
-                var sevisID = record.Attributes["sevisID"].Value;
-                var participantID = Convert.ToInt32(record.Attributes["requestID"].Value);
-                string json = JsonConvert.SerializeXmlNode(record);
-
-                //foreach (XmlNode result in record.ChildNodes)
-                //{
-                //    var ErrorCode = result["ErrorCode"].InnerText;
-                //    var ErrorMessage = result["ErrorMessage"].InnerText;
-                //}
-
-                // update participant batch result
-                ParticipantPersonsSevisService participantService = new ParticipantPersonsSevisService(this.Context);
-                var participantPersonSevisDTO = await participantService.GetParticipantPersonsSevisByIdAsync(participantID);
+                var sevisID = record.Attribute("sevisID").Value;
+                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
+                string json = JsonConvert.SerializeXNode(record);
+                
+                // update participant person batch result
+                ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
+                var participantPersonSevisDTO = await participantPersonsSevisService.GetParticipantPersonsSevisByIdAsync(participantID);
                 participantPersonSevisDTO.SevisBatchResult = json;
-                await participantService.SaveChangesAsync();
+                await participantPersonsSevisService.SaveChangesAsync();
                 updates++;
             }
 

@@ -49,7 +49,7 @@ namespace ECA.Business.Service.Sevis
         /// <returns>The phone number dto.</returns>
         public SevisBatchProcessingDTO GetById(int batchId)
         {
-            var dto = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId).FirstOrDefault();
+            var dto = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingByIdQuery(this.Context, batchId);
             logger.Info("Retrieved the Sevis Batch Processing dto with the given id [{0}].", batchId);
             return dto;
         }
@@ -61,7 +61,7 @@ namespace ECA.Business.Service.Sevis
         /// <returns>The SevisBatchProcessing  dto.</returns>
         public Task<SevisBatchProcessingDTO> GetByIdAsync(int batchId)
         {
-            var dto = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId).FirstOrDefault());
+            var dto = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId));
             logger.Info("Retrieved the Sevis Batch Processing dto with the given id [{0}].", batchId);
             return dto;
         }

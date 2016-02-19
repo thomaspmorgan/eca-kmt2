@@ -1,5 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Service;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -218,19 +217,6 @@ namespace ECA.WebApi.Controllers.Persons
             participantService.UpdateParticipantPersonSevisCommStatus(participantId, result);
             return Ok();
         }
-
-        /// <summary>
-        /// Process SEVIS batch transaction log
-        /// </summary>
-        /// <param name="batchId">Batch ID</param>
-        [Route("ParticipantPersonsSevis/UpdateSevisBatchStatus/{batchId:int}")]
-        public async Task<IHttpActionResult> GetSevisBatchStatusAsync(int batchId)
-        {
-            var currentUser = this.userProvider.GetCurrentUser();
-            var businessUser = this.userProvider.GetBusinessUser(currentUser);
-            var status = await participantService.UpdateParticipantPersonSevisBatchStatusAsync(businessUser, batchId);
-            return Ok(status);
-        }
-        
+                
     }
 }

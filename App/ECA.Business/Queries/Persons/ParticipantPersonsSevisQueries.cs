@@ -634,8 +634,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context).
-                Where(p => p.ParticipantId == participantId);
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context).Where(p => p.ParticipantId == participantId);
             return query;
         }
     }
