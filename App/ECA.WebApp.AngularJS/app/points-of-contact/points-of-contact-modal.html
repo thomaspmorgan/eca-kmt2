@@ -34,14 +34,24 @@
                                     <input name="name"
                                            maxlength="{{view.maxNameLength}}"
                                            ng-model="view.newPointOfContact.fullName"
+                                           ng-change="view.onFullNameChange()"
+                                           ng-model-options="{debounce: 500}"
                                            type="text"
                                            class="form-control"
                                            placeholder="Enter the full name of the point of contact..."
                                            required>
+                                    <div ng-show="form.newPointOfContact.name.$dirty">
+                                        <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
+                                    </div>
+                                    <div class="warning" ng-show="view.likePointsOfContactByFullNameTotal > 0">
+                                        <div ng-if="view.likePointsOfContactByFullNameTotal == 1">
+                                            There is {{view.likePointsOfContactByFullNameTotal}} other point of contact with this name.
+                                        </div>
+                                        <div ng-if="view.likePointsOfContactByFullNameTotal > 1">
+                                            There are {{view.likePointsOfContactByFullNameTotal}} other points of contact with this name.
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div ng-show="form.newPointOfContact.name.$dirty">
-                                <div class="error" ng-show="form.pointOfContactForm.name.$error.required">Please enter the full name of the point of contact.</div>
                             </div>
                             <div class="row row4 form-group">
                                 <div class="col-md-2">
@@ -106,15 +116,17 @@
                                     <div class="col-md-8">
                                         <input name="emailAddress{{$index}}"
                                                class="form-control"
-                                               ng-change="view.onEmailAddressChange($index)"
                                                ui-validate-async="{unique: 'view.isUniquePointOfContact($value, $index)'}"
+                                               ui-validate="{isEmail: 'view.isValidEmail($value, $index)'}"
                                                ng-model-options="{debounce: 750}"
-                                               type="email"
                                                ng-model="view.newPointOfContact.emailAddresses[$index].address"
                                                placeholder="Enter an email address (e.g. joe.smith@state.gov)..."
                                                required />
                                         <div ng-show="form.pointOfContactForm.emailAddress{{$index}}.$error.unique" class="error">
-                                            A point of contact with this email address already exists.
+                                            A point of contact, {{view.likePointsOfContactByEmail[0].fullName}}, with this email address already exists.
+                                        </div>
+                                        <div ng-show="form.pointOfContactForm.$dirty && form.pointOfContactForm.emailAddress{{$index}}.$error.isEmail" class="error">
+                                            The given email address is not valid.
                                         </div>
                                     </div>
                                 </div>
@@ -189,8 +201,7 @@
                                                class="form-control"
                                                placeholder="Enter phone number."
                                                id="phoneNumber{{$index}}"
-                                               international-phone-number
-                                               />
+                                               international-phone-number />                                        
                                     </div>
                                 </div>
                                 <div class="row row4">
@@ -222,7 +233,7 @@
     <div ng-show="!view.showConfirmCancel">
         <button class="btn btn-success"
                 ng-click="view.onSaveClick()"
-                ng-disabled="form.pointOfContactForm.$invalid || view.isSavingPointOfContact">
+                ng-disabled="form.pointOfContactForm.$invalid || view.isSavingPointOfContact || view.isLoadingPointsOfContactByFullName || view.isLoadingPointsOfContactByPhoneNumber">
             Save
         </button>
         <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>

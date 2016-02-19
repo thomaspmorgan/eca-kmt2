@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -24,6 +24,15 @@ angular.module('staticApp')
       $scope.updateMaritalStatus = function () {
           $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
+
+      function getObjectById(id, array) {
+          for (var i = 0; i < array.length; i++) {
+              if (array[i].id === id) {
+                  return array[i];
+              }
+          }
+          return null;
+      };
 
       $scope.onSelectCityOfBirth = function () {
           $scope.pii.isPlaceOfBirthUnknown = false;
@@ -68,15 +77,14 @@ angular.module('staticApp')
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }
-                 if ($scope.pii.dateOfBirth) {
-                     $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
-                 }
                  $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                      var location = {};
                      location.id = obj.id;
                      location.name = obj.value;
                      return location;
                  });
+                 // Convert from UTC to local date time
+                 $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
                  $scope.piiLoading = false;
              });
       };
@@ -128,6 +136,11 @@ angular.module('staticApp')
             });
       }
 
+      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
+
       function loadLocationById(id) {
           return LocationService.get({
               limit: 1,
@@ -162,7 +175,9 @@ angular.module('staticApp')
                   $scope.edit.Pii = false;
                   SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
                     .then(function (response) {
+                        if (response) {
                         $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                        }
                     })
                     .catch(function (error) {
                         $log.error('Unable to update sevis validation results for participantId: ' + participantId);
@@ -191,6 +206,9 @@ angular.module('staticApp')
           $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
+          if ($scope.pii.dateOfBirth) {
+              $scope.pii.dateOfBirth.setUTCHours(0, 0, 0, 0);
+          }
       };
 
       $scope.openDatePicker = function ($event) {

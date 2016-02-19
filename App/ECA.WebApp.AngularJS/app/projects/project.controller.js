@@ -13,6 +13,7 @@ angular.module('staticApp')
       AuthService,
       StateService,
       ConstantsService,
+      NotificationService,
       OfficeService,
       orderByFilter,
       DataPointConfigurationService) {
@@ -54,7 +55,7 @@ angular.module('staticApp')
       function disableProjectStatusButton() {
           $scope.isProjectStatusButtonEnabled = false;
       }
-      
+
       ProjectService.getById($stateParams.projectId)
         .then(function (data) {
             $scope.project = data.data;
@@ -165,7 +166,7 @@ angular.module('staticApp')
                var data = response.data;
                $scope.data.loadDataPointConfigurationsPromise.resolve(data);
            }, function () {
-               NotificationService.showErrorMessage('Unable to load data point configurations for id = ' + projectId + ".");
+               NotificationService.showErrorMessage('Unable to load data point configurations for id = ' + params.projectId + ".");
            });
       }
 

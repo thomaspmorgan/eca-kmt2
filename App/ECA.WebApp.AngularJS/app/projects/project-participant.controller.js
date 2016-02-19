@@ -578,7 +578,7 @@ angular.module('staticApp')
       });
 
       $scope.showSevisTab = function (participantTypeId) {
-          return ( !($scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id) 
+          return (!($scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id)
                && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id || 
                    participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
                    participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id || 

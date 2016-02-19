@@ -1,28 +1,44 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Project Awards</h3>
+    <h3 class="modal-title">{{parameters.report.Title}}</h3>
 </div>
 
-<form name="projectAwardForm">
+<form name="reportForm">
     <div class="modal-body">
-        <div class="form-group">
+        <div class="form-group" ng-if="!needsObjective(parameters.report.Prompts)">
             <label>Program<span class="asterisk"> *</span></label>
             <input name="program" ng-model="parameters.program" type="text" placeholder="Enter Program name..."
                    typeahead="p as p.name for p in getPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.id"
                    typeahead-editable="false" class="form-control" required />
             <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
         </div>
-        <div ng-show="projectAwardForm.program.$dirty">
+        <div class="form-group" ng-if="needsObjective(parameters.report.Prompts)">
+            <label>Program<span class="asterisk"> *</span></label>
+            <input name="program" ng-model="parameters.program" type="text" placeholder="Enter Program name..."
+                   typeahead="p as p.name for p in getPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="onTypeAheadSelect($item, $model, $label)"
+                   typeahead-editable="false" class="form-control" required />
+            <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
+        </div>
+        <div ng-show="reportForm.program.$dirty">
             <div class="error" ng-show="!parameters.program">Please select a program.</div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="needsCountry(parameters.report.Prompts)">
             <label>Country<span class="asterisk"> *</span></label>
             <input name="country" ng-model="parameters.country" type="text" placeholder="Enter Country name..."
                    typeahead="p as p.name for p in getCountries($viewValue)" typeahead-loading="loadingCountries" typeahead-on-select="model=$item.id"
                    typeahead-editable="false" class="form-control" required />
             <i class="material-icons md-18 material-icons-spin" ng-show="loadingPrograms">autorenew</i>
         </div>
-        <div ng-show="projectAwardForm.country.$dirty">
+        <div ng-if="needsCountry(parameters.report.Prompts)" ng-show="reportForm.country.$dirty">
             <div class="error" ng-show="!parameters.country">Please select a country.</div>
+        </div>
+        <div class="form-group" ng-if="needsObjective(parameters.report.Prompts)">
+            <label>Objective<span class="asterisk"> *</span></label>
+            <select name="objective" ng-model="parameters.objective" ng-options="objective.name for objective in objectives">
+                <option value="">-- Select Objective --</option>
+            </select>
+        </div>
+        <div ng-if="needsObjective(parameters.report.Prompts)" ng-show="reportForm.objective.$dirty">
+            <div class="error" ng-show="!parameters.objective">Please select an objective.</div>
         </div>
         <div class="form-group">
             <label>Output Format</label>
@@ -41,7 +57,6 @@
     </div>
 </form>
 <div class="modal-footer">
-    <button ng-disabled="!parameters.program || !parameters.country || isRunning || !parameters.selectedFormat" class="btn btn-primary" ng-click="run()">Run</button>
+    <button ng-disabled="!parameters.program || isRunning || !parameters.selectedFormat" class="btn btn-primary" ng-click="run()">Run</button>
     <button class="btn btn-cancel" ng-click="cancel()">Cancel</button>
 </div>
-

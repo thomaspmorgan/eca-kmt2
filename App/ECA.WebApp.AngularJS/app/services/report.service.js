@@ -13,7 +13,38 @@ angular.module('staticApp')
       return {
           get: function (id) {
               return DragonBreath.get('reports', id);
-          },          
+          },
+          getReport: function(parameters) {
+              switch (parameters.report.Report) {
+                  case "ProjectAwards":
+                      return this.getProjectAwards(parameters.program.programId, parameters.country.id, parameters.selectedFormat.key);
+                      break;
+                  case "RegionAwards":
+                      return this.getRegionAwards(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+                  case "PostAwards":
+                      return this.getPostAwards(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+                  case "FocusAwards":
+                      return this.getFocusAwards(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+                  case "FocusCategoryAwards":
+                      return this.getFocusCategoryAwards(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+                  case "CountryAwards":
+                      return this.getCountryAwards(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+                  case "ObjectiveAwards":
+                      return this.getObjectiveAwards(parameters.program.programId, parameters.objective.id, parameters.selectedFormat.key);
+                      break;
+                  case "YearAwards":
+                      return this.getYearAwards(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+                  case "ProjectsWithGrantNumber":
+                      return this.getProjectsWithGrantNumber(parameters.program.programId, parameters.selectedFormat.key);
+                      break;
+              }
+          },
           getProjectAwards: function(programId, countryId, format) {
               return "report/ProjectAwards?programId=" + programId + "&countryId=" + countryId + "&format=" + format;
           },

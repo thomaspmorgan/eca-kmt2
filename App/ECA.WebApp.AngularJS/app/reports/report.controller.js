@@ -2,36 +2,35 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:ReportsArchiveCtrl
+ * @name staticApp.controller:ReportCtrl
  * @description
- * # Get parameters for ProjectAwards and execute report
+ * # Get parameters for a report and execute report
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ObjectiveAwardsCtrl', function ($scope, $modalInstance, $log, ProgramService, OfficeService, LocationService, parameters, ReportService, DownloadService, ConstantsService, ProjectService, NotificationService) {
+  .controller('ReportCtrl', function ($scope, $modalInstance, $log, ProgramService, LocationService, parameters, ReportService, ProjectService, DownloadService) {
 
       $scope.parameters = parameters;
 
       $scope.parameters.program = null;
-      $scope.parameters.objective = null;
       $scope.parameters.selectedFormat = null;
+      $scope.parameters.objective = null;
+      var maxLimit = 300;
 
       var programParams = null;
       var locationParams = null;
-      var maxLimit = 300;
-
       $scope.isRunning = false;
       $scope.run = function () {
 
-          var url = ReportService.getObjectiveAwards(parameters.program.programId, parameters.objective.id, parameters.selectedFormat.key);
+          var url = ReportService.getReport(parameters);
           $scope.isRunning = true;
-          $log.debug('Report: ObjectiveAwards programId:[' + parameters.program.programId + ']');
-          $log.info('Report: ObjectiveAwards run at: ' + new Date());
-          DownloadService.get(url, parameters.selectedFormat.mimetype, 'ObjectiveAwards.' + parameters.selectedFormat.key)
+          $log.debug('Report: ' + parameters.report.Title + ' programId:[' + parameters.program.programId + ']');
+          $log.info('Report: ' + parameters.report.Title + ' run at: ' + new Date());
+          DownloadService.get(url, parameters.selectedFormat.mimetype, parameters.report.Report + '.' + parameters.selectedFormat.key)
           .then(function () {
 
           }, function () {
-              $log.error('Unable to download Objective awards report.');
+              $log.error('Unable to run ' + parameters.report.Title + ' report.');
           })
           .then(function () {
               $scope.isRunning = false;
@@ -59,8 +58,21 @@ angular.module('staticApp')
               });
       };
 
-      $scope.onTypeAheadSelect = function($item, $model, $label)
-      {
+      $scope.getCountries = function (val) {
+          locationParams = {
+              start: null,
+              limit: 25,
+              sort: null,
+              filter: [{ property: 'name', comparison: 'like', value: val },
+                      { property: 'locationTypeId', comparison: 'eq', value: 3 }]
+          };
+          return LocationService.get(locationParams)
+              .then(function (data) {
+                  return data.results;
+              });
+      };
+
+      $scope.onTypeAheadSelect = function ($item, $model, $label) {
           loadObjectives();
       }
 
@@ -82,10 +94,10 @@ angular.module('staticApp')
           }
           return ProjectService.getObjectives(programId, params)
               .then(function (response) {
-                  if (response.total > maxLimit) {
+                  if (response.data.total > maxLimit) {
                       $log.error('There are more objectives in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
-                  //normalizeLookupProperties(response.data.results);
+                  //normalizeLookupProperties(response.data.results)
                   $scope.objectives = response.data.results;
               })
               .catch(function () {
@@ -94,4 +106,11 @@ angular.module('staticApp')
               });
       }
 
+      $scope.needsCountry = function (str) {
+          return (str.indexOf("Country") > -1);
+      };
+
+      $scope.needsObjective = function (str) {
+          return (str.indexOf("Objective") > -1);
+      };
   });

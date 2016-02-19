@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- set base for HTML5 mode -->
-    <base href="/"> 
+    <base href="/">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
     <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
-    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css"/>
+    <link rel="stylesheet" href="bower_components/intl-tel-input/build/css/intlTelInput.css" />
     <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
     <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css" />
     <!-- endbower -->
@@ -52,9 +52,9 @@
                 <div style="margin-right: 50px;margin-top:14px;cursor: pointer;"
                      class="navbar-right right"
                      ng-controller="SpotlightCtrl">
-                    <a ng-click="view.onSpotlightSearchClick()" 
-                       ng-if="view.isSpotlightIconVisible" 
-                       tooltip-placement="bottom" 
+                    <a ng-click="view.onSpotlightSearchClick()"
+                       ng-if="view.isSpotlightIconVisible"
+                       tooltip-placement="bottom"
                        tooltip="Click to Search ECA KMT or press Ctrl + Shift + F.">
                         <i class="material-icons md-18 col-sd-1">search</i>
                     </a>
@@ -77,8 +77,33 @@
                 <div ng-show="currentUser.isBusy" class="pull-right" style="margin-top:14px;">
                     <i class="material-icons md-18 material-icons-spin">autorenew</i>
                 </div>
-                <div style="padding-top:16px;" ng-cloak>
-                    <p style="white-space: nowrap; overflow: hidden;text-overflow:ellipsis; max-width:700px;">{{view.title}}</p>
+                <div ng-cloak
+                     class="breadcrumbs"
+                     style="max-width:800px;"
+                     ng-show="!view.isLoadingBreadcrumbs">
+                    <span ng-if="view.breadcrumbs.length > view.maxBreadcrumbs">
+                        &hellip;
+                        &bull;
+                    </span>
+                    <span ng-repeat="breadcrumb in view.breadcrumbs">
+                        <span ng-if="$index >= view.breadcrumbs.length - view.maxBreadcrumbs && !$last">
+                            <a href="{{breadcrumb.href}}"
+                               tooltip-placement="bottom"
+                               tooltip="{{breadcrumb.name}}">
+                                {{breadcrumb.name.length > view.maxTruncatedBreadcrumbNameLength ? ((breadcrumb.name | limitTo: view.maxTruncatedBreadcrumbNameLength) + '&hellip;') : breadcrumb.name}}
+                            </a>
+                            &bull;
+                        </span>
+                        <span ng-if="$last && view.maxBreadcrumbs > 0">
+                            <a 
+                               href="#" 
+                               scroll-to="top"
+                               tooltip-placement="bottom"
+                               tooltip="{{breadcrumb.name}}">
+                                {{breadcrumb.name}}
+                            </a>
+                        </span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -186,18 +211,10 @@
     <script src="app/auth/logout.controller.js"></script>
     <script src="app/errors/error.routes.js"></script>
     <script src="app/reports/archive.controller.js"></script>
-    <script src="app/reports/country-awards.controller.js"></script>
     <script src="app/reports/custom.controller.js"></script>
-    <script src="app/reports/focus-awards.controller.js"></script>
-    <script src="app/reports/focus-category-awards.controller.js"></script>
-    <script src="app/reports/objective-awards.controller.js"></script>
-    <script src="app/reports/post-awards.controller.js"></script>
-    <script src="app/reports/project-awards.controller.js"></script>
-    <script src="app/reports/projects-with-grant-number.controller.js"></script>
-    <script src="app/reports/region-awards.controller.js"></script>
     <script src="app/reports/reports.controller.js"></script>
     <script src="app/reports/reports.routes.js"></script>
-    <script src="app/reports/year-awards.controller.js"></script>
+    <script src="app/reports/report.controller.js"></script>
     <script src="app/people/all-people.controller.js"></script>
     <script src="app/people/contact-edit.controller.js"></script>
     <script src="app/people/contact.controller.js"></script>
