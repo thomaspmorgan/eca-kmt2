@@ -10,6 +10,7 @@ using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -1384,6 +1385,302 @@ namespace ECA.Business.Test.Service.Persons
             var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
             tester(serviceResult);
             tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ProjectDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId - 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+
+            };
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, participant.ProjectId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantExchangeVisitorDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantExchangeVisitor).Name, participant.ParticipantId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantPerson).Name, participant.ParticipantId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantDoesNotExist()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            context.People.Add(person);
+            context.Projects.Add(project);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, 1);
+            Action a = () => service.GetCreateExchangeVisitor(user, project.ProjectId, 1);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, project.ProjectId, 1);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesBelongToProject()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+
+            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        user.Id,
+                        participant.ParticipantId,
+                        participant.ProjectId + 1);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId + 1, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId + 1, participant.ParticipantId);
+
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantIsNotAPerson()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            var organization = new Organization
+            {
+                OrganizationId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                OrganizationId = organization.OrganizationId,
+                Organization = organization
+            };
+            context.Organizations.Add(organization);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+
+            var message = String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantHasMoreThanOneCitizenship()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            person.CountriesOfCitizenship.Add(new Location());
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+
+            };
+            context.ParticipantExchangeVisitors.Add(visitor);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The participant with id [0] has more than one country of citizenship.", participant.ParticipantId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
         #endregion
     }

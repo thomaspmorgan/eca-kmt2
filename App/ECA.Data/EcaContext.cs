@@ -426,6 +426,10 @@ namespace ECA.Data
         /// </summary>
         public DbSet<USGovernmentAgency> USGovernmentAgencies { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sevis birth countries.
+        /// </summary>
+        public DbSet<BirthCountry> BirthCountries { get; set; }
 
         /// <summary>
         /// Overrides the DbContext OnModelCreating method.

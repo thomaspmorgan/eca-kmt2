@@ -125,8 +125,7 @@ namespace ECA.Business.Service.Persons
             var numberOfCitizenships = CreateGetNumberOfCitizenshipsQuery(participantId).Count();
             throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
 
-            //need to check if city of birth is a city type...
-
+            //need to check if city of birth is a city type...            
 
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));

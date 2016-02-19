@@ -29,10 +29,17 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "citizenship",
                 LocationIso2 = "iso2"
             };
+            var sevisCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
             var countryOfBirth = new Location
             {
                 LocationId = 42,
-                LocationName = "country of birth"
+                LocationName = "country of birth",
+                BirthCountryId = sevisCountry.BirthCountryId,
+                BirthCountry = sevisCountry
             };
             var cityOfBirth = new Location
             {
@@ -123,6 +130,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(addressLocation);
             context.Addresses.Add(hostInstitutionAddress);
             context.Locations.Add(addressCountry);
+            context.BirthCountries.Add(sevisCountry);
 
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -138,7 +146,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(countryOfCitizenship.LocationIso2, biography.CitizenshipCountryCode);
 
             Assert.AreEqual(cityOfBirth.LocationName, biography.BirthCity);
-            Assert.AreEqual(countryOfBirth.LocationIso2, biography.BirthCountryCode);
+            Assert.AreEqual(sevisCountry.CountryCode, biography.BirthCountryCode);
             Assert.IsNull(biography.BirthCountryReason);
 
             Assert.IsNull(biography.ResidentialAddress);
@@ -197,10 +205,17 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "citizenship",
                 LocationIso2 = "iso2"
             };
+            var sevisCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
             var countryOfBirth = new Location
             {
                 LocationId = 42,
-                LocationName = "country of birth"
+                LocationName = "country of birth",
+                BirthCountry = sevisCountry,
+                BirthCountryId = sevisCountry.BirthCountryId
             };
             var cityOfBirth = new Location
             {
@@ -291,6 +306,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(addressLocation);
             context.Addresses.Add(hostInstitutionAddress);
             context.Locations.Add(addressCountry);
+            context.BirthCountries.Add(sevisCountry);
 
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);

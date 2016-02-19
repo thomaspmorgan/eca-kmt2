@@ -39,6 +39,8 @@ namespace ECA.Business.Queries.Persons
                         let hasCountryOfBirth = hasPlaceOfBirth && placeOfBirth.CountryId.HasValue
                         let countryOfBirth = hasCountryOfBirth ? placeOfBirth.Country : null
 
+                        let sevisCountryOfBirth = (hasCountryOfBirth && countryOfBirth.BirthCountryId.HasValue) ? countryOfBirth.BirthCountry : null
+
                         let emailAddress = emailAddressQuery.Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId).FirstOrDefault()
 
                         let hostInsitutionAddressCountry = participantPerson.HostInstitutionAddress != null
@@ -62,7 +64,7 @@ namespace ECA.Business.Queries.Persons
                             BirthDate = person.DateOfBirth,
                             Gender = gender != null ? gender.SevisGenderCode : null,
                             BirthCity = hasPlaceOfBirth ? placeOfBirth.LocationName : null,
-                            BirthCountryCode = hasCountryOfBirth ? countryOfBirth.LocationIso2 : null,
+                            BirthCountryCode = hasCountryOfBirth ? sevisCountryOfBirth.CountryCode : null,
                             CitizenshipCountryCode = countryOfCitizenship != null ? countryOfCitizenship.LocationIso2 : null,
                             BirthCountryReason = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,

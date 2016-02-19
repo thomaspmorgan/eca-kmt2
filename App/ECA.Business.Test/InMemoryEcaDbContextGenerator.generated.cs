@@ -132,6 +132,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ArtifactType>(this.SingleOrDefault(x => x.ArtifactTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class BirthCountryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.BirthCountry>
+	{
+		public override ECA.Data.BirthCountry Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///BirthCountryId
+			return this.SingleOrDefault(x => x.BirthCountryId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.BirthCountry> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///BirthCountryId
+			return Task.FromResult<ECA.Data.BirthCountry>(this.SingleOrDefault(x => x.BirthCountryId.Equals(keyValues.First())));
+		}
+	}
 	public class BookmarkTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Bookmark>
 	{
 		public override ECA.Data.Bookmark Find(params object[] keyValues)
@@ -1200,6 +1215,7 @@ namespace ECA.Business.Test
 			this.AddressTypes = new AddressTypeTestDbSet();
 			this.Artifacts = new ArtifactTestDbSet();
 			this.ArtifactTypes = new ArtifactTypeTestDbSet();
+			this.BirthCountries = new BirthCountryTestDbSet();
 			this.Bookmarks = new BookmarkTestDbSet();
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
