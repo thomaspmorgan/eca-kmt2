@@ -192,6 +192,8 @@
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\navigation.controller.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\offices\edit.controller.js" />
+    <Content Include="app\offices\edit.html" />
     <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
     <Content Include="app\points-of-contact\points-of-contact-modal.html" />
     <Content Include="app\programs\all-programs.controller.js" />

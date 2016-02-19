@@ -49,7 +49,9 @@ namespace ECA.Business.Queries.Admin
                             Name = office.Name,
                             RevisedOn = office.History.RevisedOn,
                             Themes = themes.OrderBy(x => x.ThemeName).Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            OfficeSymbol = office.OfficeSymbol
+                            OfficeSymbol = office.OfficeSymbol,
+                            ParentOfficeId = office.ParentOrganizationId.Value,
+                            ParentOfficeName = office.ParentOrganization.Name
                         };
             return query;
         }
