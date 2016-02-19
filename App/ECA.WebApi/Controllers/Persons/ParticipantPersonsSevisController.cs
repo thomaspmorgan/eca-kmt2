@@ -223,7 +223,6 @@ namespace ECA.WebApi.Controllers.Persons
         /// Process SEVIS batch transaction log
         /// </summary>
         /// <param name="batchId">Batch ID</param>
-        /// <param name="user">User</param>
         [Route("ParticipantPersonsSevis/UpdateSevisBatchStatus/{batchId:int}")]
         public async Task<IHttpActionResult> GetSevisBatchStatusAsync(int batchId)
         {

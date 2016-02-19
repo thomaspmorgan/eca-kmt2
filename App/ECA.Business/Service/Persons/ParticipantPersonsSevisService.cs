@@ -33,8 +33,7 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-        private IParticipantPersonsSevisService participantService;
-
+        
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
@@ -280,9 +279,9 @@ namespace ECA.Business.Service.Persons
             
             foreach (XmlNode record in batchNodes)
             {                    
-                //var sevisID = record.Attributes["sevisID"].Value;
-                //var requestID = record.Attributes["requestID"].Value;
-                //var userID = record.Attributes["userID"].Value;
+                var sevisID = record.Attributes["sevisID"].Value;
+                var participantID = Convert.ToInt32(record.Attributes["requestID"].Value);
+                string json = JsonConvert.SerializeXmlNode(record);
 
                 //foreach (XmlNode result in record.ChildNodes)
                 //{
@@ -290,10 +289,11 @@ namespace ECA.Business.Service.Persons
                 //    var ErrorMessage = result["ErrorMessage"].InnerText;
                 //}
 
-                string json = JsonConvert.SerializeXmlNode(record);
-
                 // update participant batch result
-
+                ParticipantPersonsSevisService participantService = new ParticipantPersonsSevisService(this.Context);
+                var participantPersonSevisDTO = await participantService.GetParticipantPersonsSevisByIdAsync(participantID);
+                participantPersonSevisDTO.SevisBatchResult = json;
+                await participantService.SaveChangesAsync();
                 updates++;
             }
 
