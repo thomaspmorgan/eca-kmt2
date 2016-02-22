@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
@@ -14,16 +15,18 @@ namespace ECA.Business.Queries.Persons
 {
     public static class ExchangeVisitorQueries
     {
+
+        #region Create Exchange Visitor
         /// <summary>
         /// Returns a query to get biographical information about a participant as it relates to sevis.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="participantId">the participant by id.</param>
         /// <returns>The query to get biographical information about a participant.</returns>
-        public static IQueryable<Biographical> CreateGetBiographicalDataByParticipantIdQuery(EcaContext context, int participantId)
+        public static IQueryable<BiographicalDTO> CreateGetBiographicalDataQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);     
+            var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
+            var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
             var query = from participant in context.Participants
                         let participantPerson = participant.ParticipantPerson
                         let person = participant.Person
@@ -41,20 +44,30 @@ namespace ECA.Business.Queries.Persons
 
                         let sevisCountryOfBirth = (hasCountryOfBirth && countryOfBirth.BirthCountryId.HasValue) ? countryOfBirth.BirthCountry : null
 
-                        let emailAddress = emailAddressQuery.Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId).FirstOrDefault()
+                        let emailAddress = emailAddressQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .OrderByDescending(x => x.IsPrimary)
+                            .FirstOrDefault()
+
+                        let phoneNumber = phoneNumberQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .OrderByDescending(x => x.IsPrimary)
+                            .FirstOrDefault()
 
                         let hostInsitutionAddressCountry = participantPerson.HostInstitutionAddress != null
                             && participantPerson.HostInstitutionAddress.Location != null
                             && participantPerson.HostInstitutionAddress.Location.Country != null
                             ? participantPerson.HostInstitutionAddress.Location.Country
                             : null
-                        
-                        where participant.PersonId.HasValue
-                        && participant.ParticipantId == participantId
 
-                        select new Biographical
+                        where participant.PersonId.HasValue
+
+                        select new BiographicalDTO
                         {
-                            FullName = new Validation.Model.FullName
+                            ParticipantId = participant.ParticipantId,
+                            ProjectId = participant.ProjectId,
+                            PersonId = person.PersonId,
+                            FullName = new FullNameDTO
                             {
                                 FirstName = person.FirstName,
                                 LastName = person.LastName,
@@ -71,9 +84,21 @@ namespace ECA.Business.Queries.Persons
                             PermanentResidenceCountryCode = hostInsitutionAddressCountry != null
                                 ? hostInsitutionAddressCountry.LocationIso2
                                 : null,
-                            ResidentialAddress = null
+                            PhoneNumber = phoneNumber != null ? phoneNumber.Number : null
                         };
             return query;
+        }
+
+        /// <summary>
+        /// Returns a query to get biographical information about a participant as it relates to sevis.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="participantId">the participant by id.</param>
+        /// <returns>The query to get biographical information about a participant.</returns>
+        public static IQueryable<BiographicalDTO> CreateGetBiographicalDataByParticipantIdQuery(EcaContext context, int participantId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetBiographicalDataQuery(context).Where(x => x.ParticipantId == participantId);
         }
 
         /// <summary>
@@ -140,7 +165,7 @@ namespace ECA.Business.Queries.Persons
                         let secondIternationalFundingOrg = visitor.IntlOrg2
 
                         where visitor.ParticipantId == participantId
-                        
+
                         select new International
                         {
                             Amount1 = firstInternationalFundingOrg != null && visitor.FundingIntlOrg1.HasValue ? ((int)visitor.FundingIntlOrg1).ToString() : null,
@@ -184,5 +209,7 @@ namespace ECA.Business.Queries.Persons
 
             return query;
         }
+
+        #endregion
     }
 }

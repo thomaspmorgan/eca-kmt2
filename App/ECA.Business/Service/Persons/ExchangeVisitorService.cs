@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Queries.Models.Persons;
 
 namespace ECA.Business.Service.Persons
 {
@@ -46,6 +47,11 @@ namespace ECA.Business.Service.Persons
         /// The postal code of the state dept site of activity.
         /// </summary>
         public const string SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE = "20522";
+
+        /// <summary>
+        /// The reprint form update reason code.
+        /// </summary>
+        public const string REPRINT_FORM_UPDATE_REASON_CODE = "05";
 
         /// <summary>
         /// The name of the state dept site of activity.
@@ -95,7 +101,117 @@ namespace ECA.Business.Service.Persons
             };
         }
 
+        #region Get Update Exchange Visitor
+        public UpdateExchVisitor GetUpdateExchangeVisitor(User user, int personId)
+        {
+            //do the lookup here for the person's participant info based on latest participant.
+            throw new NotImplementedException();
+        }
+
+        public UpdateExchVisitor GetUpdateExchangeVisitorAsync(User user, int personId)
+        {
+            //do the lookup here for the person's participant info based on latest participant.
+            throw new NotImplementedException();
+        }
+
+        public UpdateExchVisitor GetUpdateExchangeVisitor(User user, int projectId, int participantId)
+        {
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+            throwIfParticipantIsNotAPerson(participant);
+
+            var participantPerson = Context.ParticipantPersons.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
+
+            var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
+            throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
+
+            //need to check for multiple countries of citizen...
+            var numberOfCitizenships = CreateGetNumberOfCitizenshipsQuery(participantId).Count();
+            throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
+
+            //need to check if city of birth is a city type...
+
+
+            var project = Context.Projects.Find(participant.ProjectId);
+            throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+
+            var exchangeVisitorUpdate = GetExchangeVisitorUpdate(participant, user, participantPerson);
+
+
+            var updateVisitor = new UpdateExchVisitor
+            {
+                ExchangeVisitor = exchangeVisitorUpdate
+            };
+            return updateVisitor;
+        }
+
+        public async Task<UpdateExchVisitor> GetUpdateExchangeVisitorAsync(User user, int projectId, int participantId)
+        {
+            var participant = await Context.Participants.FindAsync(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+            throwIfParticipantIsNotAPerson(participant);
+
+            var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+            throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
+
+            var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
+            throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
+
+            //need to check for multiple countries of citizen...
+            var numberOfCitizenships = await CreateGetNumberOfCitizenshipsQuery(participantId).CountAsync();
+            throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
+
+            //need to check if city of birth is a city type...
+
+
+            var project = await Context.Projects.FindAsync(participant.ProjectId);
+            throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+
+            var exchangeVisitorUpdate = GetExchangeVisitorUpdate(participant, user, participantPerson);
+
+
+            var updateVisitor = new UpdateExchVisitor
+            {
+                ExchangeVisitor = exchangeVisitorUpdate
+            };
+            return updateVisitor;
+        }
+
+        public ExchangeVisitorUpdate GetExchangeVisitorUpdate(Participant participant, User user, ParticipantPerson participantPerson)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            var instance = new ExchangeVisitorUpdate();
+            if (String.IsNullOrWhiteSpace(participantPerson.SevisId))
+            {
+                throw new NotSupportedException(String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId));
+            }
+            instance.sevisID = participantPerson.SevisId;
+            instance.requestID = participant.ParticipantId.ToString();
+            instance.userID = user.Id.ToString();
+            instance.Reprint = new ReprintFormUpdate
+            {
+                printForm = true,
+                Reason = REPRINT_FORM_UPDATE_REASON_CODE
+            };
+            instance.Reprint7002 = new Reprint7002
+            {
+                print7002 = false
+            };
+            
+            return instance;
+        }
+
+        #endregion
+
+
+
         #region Get Create Exchange Visitor
+
         public CreateExchVisitor GetCreateExchangeVisitor(User user, int personId)
         {
             //do the lookup here for the person's participant info based on latest participant.
@@ -187,7 +303,6 @@ namespace ECA.Business.Service.Persons
             {
                 ExchangeVisitor = visitor
             };
-
         }
 
         public ExchangeVisitor GetCreateExchangeVisitor(Participant participant, User user, Project project, ParticipantExchangeVisitor visitor)
@@ -309,7 +424,6 @@ namespace ECA.Business.Service.Persons
 
         #region US Address
 
-
         public async Task SetUSAddressAsync(Participant participant, ExchangeVisitor visitor, ParticipantPerson participantPerson)
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
@@ -409,7 +523,7 @@ namespace ECA.Business.Service.Persons
             SetBiography(participant, visitor, biography);
         }
 
-        private void SetBiography(Participant participant, ExchangeVisitor visitor, Biographical biography)
+        private void SetBiography(Participant participant, ExchangeVisitor visitor, BiographicalDTO biography)
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
@@ -417,7 +531,67 @@ namespace ECA.Business.Service.Persons
             {
                 throw new NotSupportedException(String.Format("The participant with id [{0}] must have biographical information.", participant.ParticipantId));
             }
-            visitor.Biographical = biography;
+            visitor.Biographical = biography.GetBiographical();
+        }
+
+        public async Task SetBiographyUpdateAsync(Participant participant, ParticipantPerson participantPerson, ExchangeVisitorUpdate visitor)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            USAddress usAddress = null; //host
+            USAddress mailingAddress = null; //home
+
+            if (participantPerson.HostInstitutionAddressId.HasValue)
+            {
+                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefaultAsync();
+            }
+            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            {
+                mailingAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefaultAsync();
+            }
+            var biography = await ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
+            SetBiographyUpdate(
+                participant: participant, 
+                visitor: visitor, 
+                biography: biography, 
+                mailingAddress: mailingAddress, 
+                usAddress: usAddress);
+        }
+
+        public void SetBiographyUpdate(Participant participant, ParticipantPerson participantPerson, ExchangeVisitorUpdate visitor)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            USAddress usAddress = null; //host
+            USAddress mailingAddress = null; //home
+
+            if (participantPerson.HostInstitutionAddressId.HasValue)
+            {
+                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefault();
+            }
+            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            {
+                mailingAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefault();
+            }
+            var biography = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefault();
+            SetBiographyUpdate(
+                participant: participant,
+                visitor: visitor,
+                biography: biography,
+                mailingAddress: mailingAddress,
+                usAddress: usAddress);
+        }
+
+        private void SetBiographyUpdate(Participant participant, ExchangeVisitorUpdate visitor, BiographicalDTO biography, USAddress mailingAddress, USAddress usAddress)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            if (biography == null)
+            {
+                throw new NotSupportedException(String.Format("The participant with id [{0}] must have biographical information.", participant.ParticipantId));
+            }
+            visitor.Biographical = biography.GetBiographicalUpdate(mailingAddress, usAddress);
         }
 
         #endregion
@@ -444,18 +618,14 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
-            if(subjectField != null && subjectField.Remarks != null && subjectField.Remarks.Length > SUBJECT_FIELD_REMARKS_MAX_LENGTH)
+            if (subjectField != null && subjectField.Remarks != null && subjectField.Remarks.Length > SUBJECT_FIELD_REMARKS_MAX_LENGTH)
             {
                 subjectField.Remarks = subjectField.Remarks.Substring(0, SUBJECT_FIELD_REMARKS_MAX_LENGTH);
             }
             visitor.SubjectField = subjectField;
         }
         #endregion
-
-        #region Get Update Exchange Visitor
-
-        #endregion
-
+        
 
         private IQueryable<ParticipantExchangeVisitor> CreateGetParticipantExchangeVisitorByParticipantIdQuery(int participantId)
         {

@@ -511,7 +511,7 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
-        #region SetMUSAddress
+        #region SetUSAddress
         [TestMethod]
         public async Task TestSetUSAddress_CheckProperties()
         {
@@ -1272,7 +1272,7 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-            
+
             var person = new Person
             {
                 PersonId = 10,
@@ -1306,7 +1306,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Participants.Add(participant);
             context.Projects.Add(project);
             context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);            
+            context.ParticipantExchangeVisitors.Add(visitor);
             Action<CreateExchVisitor> tester = (instance) =>
             {
                 Assert.IsNotNull(instance);
@@ -1682,6 +1682,499 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
+        #endregion
+
+        #region GetExchangeVisitorUpdate
+        [TestMethod]
+        public void TestGetExchangeVisitorUpdate()
+        {
+            var person = new Person
+            {
+                PersonId = 20
+
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+            };
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var instance = service.GetExchangeVisitorUpdate(participant, user, participantPerson);
+            Assert.IsNotNull(instance);
+            Assert.AreEqual(participantPerson.SevisId, instance.sevisID);
+            Assert.AreEqual(participant.ParticipantId.ToString(), instance.requestID.ToString());
+
+            Assert.IsNotNull(instance.Reprint);
+            Assert.IsTrue(instance.Reprint.printForm);
+            Assert.AreEqual(ExchangeVisitorService.REPRINT_FORM_UPDATE_REASON_CODE, instance.Reprint.Reason);
+
+            Assert.IsNotNull(instance.Reprint7002);
+            Assert.IsFalse(instance.Reprint7002.print7002);
+        }
+
+        [TestMethod]
+        public void TestGetExchangeVisitorUpdate_SevisIdIsEmpty()
+        {
+            var person = new Person
+            {
+                PersonId = 20
+
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+            };
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = String.Empty
+            };
+            participant.ParticipantPerson = participantPerson;
+            var message = String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId);
+            Action a = () => service.GetExchangeVisitorUpdate(participant, user, participantPerson);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public void TestGetExchangeVisitorUpdate_SevisIdIsWhitespace()
+        {
+            var person = new Person
+            {
+                PersonId = 20
+
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+            };
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = " "
+            };
+            participant.ParticipantPerson = participantPerson;
+            var message = String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId);
+            Action a = () => service.GetExchangeVisitorUpdate(participant, user, participantPerson);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+
+        [TestMethod]
+        public void TestGetExchangeVisitorUpdate_SevisIdIsNull()
+        {
+            var person = new Person
+            {
+                PersonId = 20
+
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+            };
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = null
+            };
+            participant.ParticipantPerson = participantPerson;
+            var message = String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId);
+            Action a = () => service.GetExchangeVisitorUpdate(participant, user, participantPerson);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+        #endregion
+
+        #region SetBiographyUpdate
+        [TestMethod]
+        public async Task TestSetBiographyUpdate_CheckProperties()
+        {
+
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                LastName = "lastName"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            Action<ExchangeVisitorUpdate> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance.Biographical);
+                Assert.IsNotNull(instance.Biographical.FullName);
+                Assert.AreEqual(person.FirstName, instance.Biographical.FullName.FirstName);
+                Assert.AreEqual(person.LastName, instance.Biographical.FullName.LastName);
+            };
+
+            var visitor = new ExchangeVisitorUpdate();
+            var asyncVisitor = new ExchangeVisitorUpdate();
+            service.SetBiographyUpdate(participant, participantPerson, visitor);
+            await service.SetBiographyUpdateAsync(participant, participantPerson, asyncVisitor);
+            tester(visitor);
+            tester(asyncVisitor);
+        }
+
+        [TestMethod]
+        public async Task TestSetBiographyUpdate_CheckMailAddress()
+        {
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "US",
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+            };
+
+
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                LastName = "lastName"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                HomeInstitutionAddressId = address.AddressId,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Addresses.Add(address);
+            context.AddressTypes.Add(addressType);
+            context.Locations.Add(addressLocation);
+            context.LocationTypes.Add(addressLocationType);
+            context.Locations.Add(division);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            Action<ExchangeVisitorUpdate> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance.Biographical);
+                Assert.IsNull(instance.Biographical.USAddress);
+                Assert.IsNotNull(instance.Biographical.MailAddress);
+                Assert.AreEqual(addressLocation.Street1, instance.Biographical.MailAddress.Address1);
+                Assert.AreEqual(addressLocation.Street2, instance.Biographical.MailAddress.Address2);
+                Assert.AreEqual(city.LocationName, instance.Biographical.MailAddress.City);
+                Assert.AreEqual(addressLocation.PostalCode, instance.Biographical.MailAddress.PostalCode);
+                Assert.AreEqual(division.LocationName, instance.Biographical.MailAddress.State);
+            };
+
+            var visitor = new ExchangeVisitorUpdate();
+            var asyncVisitor = new ExchangeVisitorUpdate();
+            service.SetBiographyUpdate(participant, participantPerson, visitor);
+            await service.SetBiographyUpdateAsync(participant, participantPerson, asyncVisitor);
+            tester(visitor);
+            tester(asyncVisitor);
+        }
+
+        [TestMethod]
+        public async Task TestSetBiographyUpdate_CheckUSAddress()
+        {
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "US",
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+            };
+
+
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                LastName = "lastName"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                HostInstitutionAddressId = address.AddressId,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Addresses.Add(address);
+            context.AddressTypes.Add(addressType);
+            context.Locations.Add(addressLocation);
+            context.LocationTypes.Add(addressLocationType);
+            context.Locations.Add(division);
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            Action<ExchangeVisitorUpdate> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance.Biographical);
+                Assert.IsNull(instance.Biographical.MailAddress);
+                Assert.IsNotNull(instance.Biographical.USAddress);
+                Assert.AreEqual(addressLocation.Street1, instance.Biographical.USAddress.Address1);
+                Assert.AreEqual(addressLocation.Street2, instance.Biographical.USAddress.Address2);
+                Assert.AreEqual(city.LocationName, instance.Biographical.USAddress.City);
+                Assert.AreEqual(addressLocation.PostalCode, instance.Biographical.USAddress.PostalCode);
+                Assert.AreEqual(division.LocationName, instance.Biographical.USAddress.State);
+            };
+
+            var visitor = new ExchangeVisitorUpdate();
+            var asyncVisitor = new ExchangeVisitorUpdate();
+            service.SetBiographyUpdate(participant, participantPerson, visitor);
+            await service.SetBiographyUpdateAsync(participant, participantPerson, asyncVisitor);
+            tester(visitor);
+            tester(asyncVisitor);
+        }
+        
+        #endregion
+
+        #region GetUpdateExchangeVisitor
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_CheckExchangeVisitorUpdateProperty()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var person = new Person
+            {
+                PersonId = 20
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            Action<UpdateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.AreEqual(participantPerson.SevisId, instance.ExchangeVisitor.sevisID);
+                Assert.AreEqual(participant.ParticipantId.ToString(), instance.ExchangeVisitor.requestID.ToString());
+                Assert.IsNotNull(instance.ExchangeVisitor.Reprint);
+                Assert.IsNotNull(instance.ExchangeVisitor.Reprint7002);
+            };
+
+            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(resultAsync);
+        }
+
+        //need to right the test that checks the GetUpdateExchangeVisitor biography information
+        //and need a test to check that the biography can not be null...
+
         #endregion
     }
 }
