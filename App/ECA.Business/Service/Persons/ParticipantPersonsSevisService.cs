@@ -287,6 +287,36 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        public int UpdateParticipantPersonSevisBatchStatus(User user, int batchId)
+        {
+            var service = new SevisBatchProcessingService(this.Context);
+            var batchLog = service.GetById(batchId);
+            var xml = batchLog.TransactionLogXml;
+            int updates = 0;
+
+            var doc = XDocument.Parse(xml.ToString());
+
+            foreach (XElement record in doc.Descendants("Record"))
+            {
+                var sevisID = record.Attribute("sevisID").Value;
+                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
+                string json = JsonConvert.SerializeXNode(record);
+
+                // update participant person batch result
+                ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
+                var participantPersonSevisDTO = participantPersonsSevisService.GetParticipantPersonsSevisById(participantID);
+                participantPersonSevisDTO.SevisBatchResult = json;
+                participantPersonsSevisService.SaveChanges();
+                updates++;
+            }
+
+            return updates;
+        }
+
+        /// <summary>
         /// Serialize SEVIS batch object to XML
         /// </summary>
         /// <param name="validationEntity">Participant object to be validated</param>
