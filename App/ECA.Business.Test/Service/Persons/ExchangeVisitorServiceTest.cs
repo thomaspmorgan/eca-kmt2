@@ -677,7 +677,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public void TestGetFinancialInfo_CheckProperties()
         {
-            var exchangeVisitor = new ExchangeVisitor();
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
                 FundingGovtAgency1 = 1.0m,
@@ -694,7 +693,7 @@ namespace ECA.Business.Test.Service.Persons
             {
 
             };
-            var instance = service.GetFinancialInfo(exchangeVisitor, participantExchangeVisitor, orgFunding, usGovFunding);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
             Assert.AreEqual("2", instance.ProgramSponsorFunds);
             Assert.IsNotNull(instance.OtherFunds);
@@ -709,7 +708,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public void TestGetFinancialInfo_HasFundingGovtAgency1()
         {
-            var exchangeVisitor = new ExchangeVisitor();
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
                 FundingGovtAgency1 = 1.0m,
@@ -722,14 +720,13 @@ namespace ECA.Business.Test.Service.Persons
             {
 
             };
-            var instance = service.GetFinancialInfo(exchangeVisitor, participantExchangeVisitor, orgFunding, usGovFunding);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
         }
 
         [TestMethod]
         public void TestGetFinancialInfo_HasFundingGovtAgency2()
         {
-            var exchangeVisitor = new ExchangeVisitor();
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
                 FundingGovtAgency2 = 1.0m,
@@ -742,13 +739,13 @@ namespace ECA.Business.Test.Service.Persons
             {
 
             };
-            var instance = service.GetFinancialInfo(exchangeVisitor, participantExchangeVisitor, orgFunding, usGovFunding);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
         }
+
         [TestMethod]
         public void TestGetFinancialInfo_DoesNotHaveUsGovAgencyFunding()
         {
-            var exchangeVisitor = new ExchangeVisitor();
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
             };
@@ -760,7 +757,7 @@ namespace ECA.Business.Test.Service.Persons
             {
 
             };
-            var instance = service.GetFinancialInfo(exchangeVisitor, participantExchangeVisitor, orgFunding, usGovFunding);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsFalse(instance.ReceivedUSGovtFunds);
         }
         #endregion
@@ -802,6 +799,139 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        #region SetFinancialInfo
+        [TestMethod]
+        public async Task TestSetFinancialInfo_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+
+            };
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+            Action<ExchangeVisitor> tester = (instance) =>
+            {
+                Assert.AreEqual("2", instance.FinancialInfo.ProgramSponsorFunds);
+                Assert.AreEqual("3", instance.FinancialInfo.OtherFunds.EVGovt);
+                Assert.AreEqual("4", instance.FinancialInfo.OtherFunds.BinationalCommission);
+                Assert.AreEqual("5", instance.FinancialInfo.OtherFunds.Personal);
+            };
+            var exchangeVisitor = new ExchangeVisitor();
+            var exchangeVisitorAsync = new ExchangeVisitor();
+
+            service.SetFinancialInfo(exchangeVisitor, visitor);
+            tester(exchangeVisitor);
+            await service.SetFinancialInfoAsync(exchangeVisitorAsync, visitor);
+            tester(exchangeVisitorAsync);
+        }
+        #endregion
+
+        #region SetFinancialInfoUpdate
+        [TestMethod]
+        public async Task TestSetFinancialInfoUpdate_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+
+            };
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+            Action<ExchangeVisitorUpdate> tester = (instance) =>
+            {
+                Assert.AreEqual("2", instance.FinancialInfo.ProgramSponsorFunds);
+                Assert.AreEqual("3", instance.FinancialInfo.OtherFunds.EVGovt);
+                Assert.AreEqual("4", instance.FinancialInfo.OtherFunds.BinationalCommission);
+                Assert.AreEqual("5", instance.FinancialInfo.OtherFunds.Personal);
+                Assert.IsTrue(instance.FinancialInfo.printForm);
+            };
+            var exchangeVisitor = new ExchangeVisitorUpdate();
+            var exchangeVisitorAsync = new ExchangeVisitorUpdate();
+
+            service.SetFinancialInfoUpdate(exchangeVisitor, visitor);
+            tester(exchangeVisitor);
+            await service.SetFinancialInfoUpdateAsync(exchangeVisitorAsync, visitor);
+            tester(exchangeVisitorAsync);
+        }
+        #endregion
+
         #region GetCreateExchangeVisitorAsync
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_CheckExchangeVisitor()
@@ -816,9 +946,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
             var participant = new Participant
             {
@@ -853,6 +990,7 @@ namespace ECA.Business.Test.Service.Persons
                 ProgramCategory = category,
                 ProgramCategoryId = category.ProgramCategoryId
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -891,6 +1029,11 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
@@ -898,6 +1041,8 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "first name",
                 LastName = "last name",
                 NameSuffix = "suffix",
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
             };
             var participant = new Participant
             {
@@ -932,6 +1077,7 @@ namespace ECA.Business.Test.Service.Persons
                 ProgramCategory = category,
                 ProgramCategoryId = category.ProgramCategoryId
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -974,9 +1120,16 @@ namespace ECA.Business.Test.Service.Persons
                 FieldOfStudyCode = "code",
                 FieldOfStudyId = 2,
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
             var participant = new Participant
             {
@@ -999,6 +1152,7 @@ namespace ECA.Business.Test.Service.Persons
                 FieldOfStudy = fieldOfStudy,
                 FieldOfStudyId = fieldOfStudy.FieldOfStudyId
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -1084,6 +1238,11 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 505,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
@@ -1091,6 +1250,8 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "first name",
                 LastName = "last name",
                 NameSuffix = "suffix",
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
             };
             var participant = new Participant
             {
@@ -1112,6 +1273,7 @@ namespace ECA.Business.Test.Service.Persons
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
             };
+            context.Locations.Add(cityOfBirth);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
             context.AddressTypes.Add(addressType);
@@ -1123,6 +1285,7 @@ namespace ECA.Business.Test.Service.Persons
             context.LocationTypes.Add(addressLocationType);
             context.ParticipantExchangeVisitors.Add(visitor);
             context.Projects.Add(project);
+            context.People.Add(person);
 
             Action<CreateExchVisitor> tester = (testInstance) =>
             {
@@ -1204,6 +1367,11 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 505,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
@@ -1211,6 +1379,8 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "first name",
                 LastName = "last name",
                 NameSuffix = "suffix",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
             var participant = new Participant
             {
@@ -1232,6 +1402,7 @@ namespace ECA.Business.Test.Service.Persons
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
             };
+            context.Locations.Add(cityOfBirth);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
             context.AddressTypes.Add(addressType);
@@ -1243,6 +1414,7 @@ namespace ECA.Business.Test.Service.Persons
             context.LocationTypes.Add(addressLocationType);
             context.ParticipantExchangeVisitors.Add(visitor);
             context.Projects.Add(project);
+            context.People.Add(person);
 
             Action<CreateExchVisitor> tester = (testInstance) =>
             {
@@ -1272,10 +1444,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
             };
             var participant = new Participant
             {
@@ -1302,6 +1480,7 @@ namespace ECA.Business.Test.Service.Persons
                 FundingPersonal = 5.5m
 
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -1337,10 +1516,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
             var participant = new Participant
             {
@@ -1362,6 +1547,7 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = participant.ParticipantId,
 
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -1400,7 +1586,124 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId - 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
 
+            };
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, participant.ProjectId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_PersonPlaceOfBirthIsNotACity()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.Address.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId - 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+
+            };
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var message = String.Format("The participant with id [{0}] does not have a place of birth that is a city.", participant.ParticipantId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_PersonDoesNotHavePlaceOfBirth()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
             var person = new Person
             {
                 PersonId = 10,
@@ -1431,12 +1734,12 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.ParticipantExchangeVisitors.Add(visitor);
 
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, participant.ProjectId);
+            var message = String.Format("The participant with id [{0}] does not have a place of birth.", participant.ParticipantId);
             Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
             Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
 
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -1452,10 +1755,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
             var participant = new Participant
             {
@@ -1470,6 +1779,7 @@ namespace ECA.Business.Test.Service.Persons
                 Participant = participant,
                 ParticipantId = participant.ParticipantId
             };
+            context.Locations.Add(cityOfBirth);
             participant.ParticipantPerson = participantPerson;
             context.People.Add(person);
             context.Participants.Add(participant);
@@ -1497,10 +1807,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
             };
             var participant = new Participant
             {
@@ -1510,6 +1826,7 @@ namespace ECA.Business.Test.Service.Persons
                 Person = person,
                 PersonId = person.PersonId
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -1535,11 +1852,18 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Projects.Add(project);
 
@@ -1564,10 +1888,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
             };
             var participant = new Participant
             {
@@ -1577,6 +1907,7 @@ namespace ECA.Business.Test.Service.Persons
                 Person = person,
                 PersonId = person.PersonId
             };
+            context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
             context.Projects.Add(project);
@@ -1642,10 +1973,16 @@ namespace ECA.Business.Test.Service.Persons
                 StartDate = yesterday,
                 EndDate = endDate
             };
-
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
                 PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
             };
             person.CountriesOfCitizenship.Add(new Location());
             person.CountriesOfCitizenship.Add(new Location());
@@ -1667,8 +2004,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
-
             };
+            context.Locations.Add(cityOfBirth);
             context.ParticipantExchangeVisitors.Add(visitor);
             context.People.Add(person);
             context.Participants.Add(participant);
@@ -1863,6 +2200,65 @@ namespace ECA.Business.Test.Service.Persons
             await service.SetBiographyUpdateAsync(participant, participantPerson, asyncVisitor);
             tester(visitor);
             tester(asyncVisitor);
+        }
+
+        [TestMethod]
+        public async Task TestSetBiographyUpdate_BiographyNotFound()
+        {
+
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                LastName = "lastName"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            ExchangeVisitorUpdate visitor = new ExchangeVisitorUpdate();
+            var otherParticipant = new Participant
+            {
+                ParticipantId = participant.ParticipantId + 1
+            };
+
+            Assert.IsNull(ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.context, otherParticipant.ParticipantId).FirstOrDefault());
+
+
+            var message = String.Format("The participant with id [{0}] must have biographical information.", otherParticipant.ParticipantId);
+            Action a = () => service.SetBiographyUpdate(otherParticipant, participantPerson, visitor);
+            Func<Task> f = () => service.SetBiographyUpdateAsync(otherParticipant, participantPerson, visitor);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -2112,7 +2508,7 @@ namespace ECA.Business.Test.Service.Persons
             tester(visitor);
             tester(asyncVisitor);
         }
-        
+
         #endregion
 
         #region GetUpdateExchangeVisitor
@@ -2123,9 +2519,16 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1
             };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
             var person = new Person
             {
-                PersonId = 20
+                PersonId = 20,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
             };
             var participant = new Participant
             {
@@ -2151,6 +2554,7 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
             context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             context.Projects.Add(project);
             context.People.Add(person);
@@ -2172,9 +2576,520 @@ namespace ECA.Business.Test.Service.Persons
             tester(resultAsync);
         }
 
-        //need to right the test that checks the GetUpdateExchangeVisitor biography information
-        //and need a test to check that the biography can not be null...
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_CheckBiographicalUpdateProperty()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
 
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            Action<UpdateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor.Biographical);
+                Assert.AreEqual(person.FirstName, instance.ExchangeVisitor.Biographical.FullName.FirstName);
+            };
+
+            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_CheckFinancialInfoUpdateProperty()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            Action<UpdateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor.FinancialInfo);
+                Assert.AreEqual("2", instance.ExchangeVisitor.FinancialInfo.ProgramSponsorFunds);
+                Assert.AreEqual("3", instance.ExchangeVisitor.FinancialInfo.OtherFunds.EVGovt);
+                Assert.AreEqual("4", instance.ExchangeVisitor.FinancialInfo.OtherFunds.BinationalCommission);
+                Assert.AreEqual("5", instance.ExchangeVisitor.FinancialInfo.OtherFunds.Personal);
+                Assert.IsTrue(instance.ExchangeVisitor.FinancialInfo.printForm);
+            };
+
+            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitor_PersonPlaceOfBirthIsNotACity()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.Address.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId - 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+
+            };
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var message = String.Format("The participant with id [{0}] does not have a place of birth that is a city.", participant.ParticipantId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitor_PersonDoesNotHavePlaceOfBirth()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId - 1,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+
+            };
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+
+            var message = String.Format("The participant with id [{0}] does not have a place of birth.", participant.ParticipantId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ProjectDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = 2,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, participant.ProjectId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_MoreThanOneCountryOfCitzenships()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            person.CountriesOfCitizenship.Add(new Location());
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The participant with id [0] has more than one country of citizenship.", participant.ParticipantId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantExchangeVisitorDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantExchangeVisitor).Name, participant.ParticipantId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantPersonDoesNotExist()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            context.Locations.Add(cityOfBirth);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantPerson).Name, participant.ParticipantId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantIsNotAPerson()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+
+            var message = String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantDoesNotBelongToProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+
+            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        user.Id,
+                        participant.ParticipantId,
+                        -1);
+            Action a = () => service.GetUpdateExchangeVisitor(user, -1, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, -1, participant.ParticipantId);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantDoesNotExist()
+        {
+            var user = new User(100);
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, 1);
+            Action a = () => service.GetUpdateExchangeVisitor(user, 1, 1);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, 1, 1);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
         #endregion
     }
 }
