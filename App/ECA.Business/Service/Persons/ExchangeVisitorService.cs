@@ -17,7 +17,7 @@ using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Service.Persons
 {
-    public class ExchangeVisitorService : EcaService
+    public class ExchangeVisitorService : EcaService, IExchangeVisitorService
     {
         /// <summary>
         /// The default exchange visitor occupation category code.

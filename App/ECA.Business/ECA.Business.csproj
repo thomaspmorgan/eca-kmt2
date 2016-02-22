@@ -314,6 +314,7 @@
     <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\IExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\IParticipantExchangeVisitorService.cs" />

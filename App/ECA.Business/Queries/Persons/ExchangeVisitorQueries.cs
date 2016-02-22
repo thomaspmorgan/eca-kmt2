@@ -13,9 +13,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {
+    /// <summary>
+    /// The ExchangeVisitorQueries are provided to convert ECA KMT data in sevis compatible data.
+    /// </summary>
     public static class ExchangeVisitorQueries
     {
-
         #region Create Exchange Visitor
         /// <summary>
         /// Returns a query to get biographical information about a participant as it relates to sevis.
