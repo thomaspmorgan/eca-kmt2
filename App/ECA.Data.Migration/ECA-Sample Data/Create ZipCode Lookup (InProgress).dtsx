@@ -1,0 +1,1014 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/11/2016 10:51:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{1510CD45-FA84-495E-B029-12D5177E4C1C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Create ZipCode Lookup  InProgress"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{ABF6FDE6-9790-42FA-A46E-F88C434C39A9}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{416FE1F1-CA75-4905-B3F1-8928A2BF1D6E}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\zip_code_database.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create ZipCode Lookup"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{AE823BE9-2135-4861-A24C-8404C5D85B94}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create ZipCode Lookup"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create ZipCode Lookup\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create ZipCode Lookup\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\Data Conversion.Inputs[Data Conversion Input].Columns[zip]"
+                      cachedDataType="r8"
+                      cachedName="zip"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[zip]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Create ZipCode Lookup\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[ZipFormatted]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[ZipFormatted]"
+                      name="ZipFormatted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[zip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Create ZipCode Lookup\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ZipCode Lookup\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create ZipCode Lookup\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ZipCode Lookup\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Create ZipCode Lookup\Derived Column.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ZipCode Lookup\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Create ZipCode Lookup\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ZipCode Lookup\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">zip_code_database$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ZipCode Lookup\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[zip]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[zip]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[zip]"
+                      name="zip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[type]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[type]"
+                      name="type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[primary_city]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[primary_city]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[primary_city]"
+                      name="primary_city"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[acceptable_cities]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[acceptable_cities]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[acceptable_cities]"
+                      name="acceptable_cities"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[unacceptable_cities]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[unacceptable_cities]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[unacceptable_cities]"
+                      name="unacceptable_cities"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[state]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[state]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[state]"
+                      name="state"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[county]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[county]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[county]"
+                      name="county"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[timezone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[timezone]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[timezone]"
+                      name="timezone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[area_codes]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[area_codes]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[area_codes]"
+                      name="area_codes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[latitude]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[latitude]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[latitude]"
+                      name="latitude"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[longitude]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[longitude]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[longitude]"
+                      name="longitude"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[world_region]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[world_region]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[world_region]"
+                      name="world_region"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[country]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[country]"
+                      name="country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[decommissioned]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[decommissioned]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[decommissioned]"
+                      name="decommissioned"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[estimated_population]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[estimated_population]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[estimated_population]"
+                      name="estimated_population"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[notes]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[notes]"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[notes]"
+                      name="notes"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[zip]"
+                      dataType="r8"
+                      name="zip" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[type]"
+                      dataType="wstr"
+                      length="255"
+                      name="type" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[primary_city]"
+                      dataType="wstr"
+                      length="255"
+                      name="primary_city" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[acceptable_cities]"
+                      dataType="wstr"
+                      length="255"
+                      name="acceptable_cities" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[unacceptable_cities]"
+                      dataType="nText"
+                      name="unacceptable_cities" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[state]"
+                      dataType="wstr"
+                      length="255"
+                      name="state" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[county]"
+                      dataType="wstr"
+                      length="255"
+                      name="county" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[timezone]"
+                      dataType="wstr"
+                      length="255"
+                      name="timezone" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[area_codes]"
+                      dataType="r8"
+                      name="area_codes" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[latitude]"
+                      dataType="r8"
+                      name="latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[longitude]"
+                      dataType="r8"
+                      name="longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[world_region]"
+                      dataType="wstr"
+                      length="255"
+                      name="world_region" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="255"
+                      name="country" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[decommissioned]"
+                      dataType="r8"
+                      name="decommissioned" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[estimated_population]"
+                      dataType="r8"
+                      name="estimated_population" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].ExternalColumns[notes]"
+                      dataType="wstr"
+                      length="255"
+                      name="notes" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[zip]"
+                      dataType="r8"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[zip]"
+                      name="zip" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[type]"
+                      name="type" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[primary_city]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[primary_city]"
+                      name="primary_city" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[acceptable_cities]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[acceptable_cities]"
+                      name="acceptable_cities" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[unacceptable_cities]"
+                      dataType="nText"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[unacceptable_cities]"
+                      name="unacceptable_cities" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[state]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[state]"
+                      name="state" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[county]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[county]"
+                      name="county" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[timezone]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[timezone]"
+                      name="timezone" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[area_codes]"
+                      dataType="r8"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[area_codes]"
+                      name="area_codes" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[latitude]"
+                      dataType="r8"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[latitude]"
+                      name="latitude" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[longitude]"
+                      dataType="r8"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[longitude]"
+                      name="longitude" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[world_region]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[world_region]"
+                      name="world_region" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[country]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[country]"
+                      name="country" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[decommissioned]"
+                      dataType="r8"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[decommissioned]"
+                      name="decommissioned" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[estimated_population]"
+                      dataType="r8"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[estimated_population]"
+                      name="estimated_population" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[notes]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[notes]"
+                      name="notes" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ZipCode Lookup\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ZipCodesTest]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ZipCode Lookup\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{10258656-65F3-4691-94F9-F2D256749F96}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.ECA_Data_Migration]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[zip]"
+                      cachedDataType="r8"
+                      cachedName="zip"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[zip]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[zip]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="type"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[type]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[type]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[primary_city]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="primary_city"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[primary_city]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[primary_city]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[acceptable_cities]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="acceptable_cities"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[acceptable_cities]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[acceptable_cities]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[unacceptable_cities]"
+                      cachedDataType="nText"
+                      cachedName="unacceptable_cities"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[unacceptable_cities]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[unacceptable_cities]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[state]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="state"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[state]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[state]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[county]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="county"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[county]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[county]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[timezone]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="timezone"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[timezone]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[timezone]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[area_codes]"
+                      cachedDataType="r8"
+                      cachedName="area_codes"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[area_codes]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[area_codes]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[latitude]"
+                      cachedDataType="r8"
+                      cachedName="latitude"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[latitude]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[latitude]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[longitude]"
+                      cachedDataType="r8"
+                      cachedName="longitude"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[longitude]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[longitude]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[world_region]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="world_region"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[world_region]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[world_region]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[country]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="country"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[country]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[country]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[decommissioned]"
+                      cachedDataType="r8"
+                      cachedName="decommissioned"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[decommissioned]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[decommissioned]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[estimated_population]"
+                      cachedDataType="r8"
+                      cachedName="estimated_population"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[estimated_population]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[estimated_population]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[notes]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="notes"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[notes]"
+                      lineageId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output].Columns[notes]" />
+                    <inputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ZipFormatted]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="ZipFormatted"
+                      externalMetadataColumnId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ZipFormatted]"
+                      lineageId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[ZipFormatted]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[zip]"
+                      dataType="r8"
+                      name="zip" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[type]"
+                      dataType="wstr"
+                      length="255"
+                      name="type" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[primary_city]"
+                      dataType="wstr"
+                      length="255"
+                      name="primary_city" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[acceptable_cities]"
+                      dataType="wstr"
+                      length="255"
+                      name="acceptable_cities" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[unacceptable_cities]"
+                      dataType="nText"
+                      name="unacceptable_cities" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[state]"
+                      dataType="wstr"
+                      length="255"
+                      name="state" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[county]"
+                      dataType="wstr"
+                      length="255"
+                      name="county" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[timezone]"
+                      dataType="wstr"
+                      length="255"
+                      name="timezone" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[area_codes]"
+                      dataType="r8"
+                      name="area_codes" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[latitude]"
+                      dataType="r8"
+                      name="latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[longitude]"
+                      dataType="r8"
+                      name="longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[world_region]"
+                      dataType="wstr"
+                      length="255"
+                      name="world_region" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="255"
+                      name="country" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[decommissioned]"
+                      dataType="r8"
+                      name="decommissioned" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[estimated_population]"
+                      dataType="r8"
+                      name="estimated_population" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[notes]"
+                      dataType="wstr"
+                      length="255"
+                      name="notes" />
+                    <externalMetadataColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ZipFormatted]"
+                      dataType="wstr"
+                      length="5"
+                      name="ZipFormatted" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ZipCode Lookup\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create ZipCode Lookup\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ZipCode Lookup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ZipCode Lookup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create ZipCode Lookup.Paths[Data Conversion Output]"
+              endId="Package\Create ZipCode Lookup\Derived Column.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Create ZipCode Lookup\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Create ZipCode Lookup.Paths[Excel Source Output]"
+              endId="Package\Create ZipCode Lookup\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Create ZipCode Lookup\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Create ZipCode Lookup"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Create ZipCode Lookup">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Create ZipCode Lookup\Excel Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Create ZipCode Lookup\Data Conversion"
+          TopLeft="25.5,99.5" />
+        <EdgeLayout
+          Id="Package\Create ZipCode Lookup.Paths[Excel Source Output]"
+          TopLeft="75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.5,52"
+              Start="0,0"
+              End="28.5,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22"
+                    Point2="0,26"
+                    Point3="4,26" />
+                  <mssgle:LineSegment
+                    End="24.5,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.5,26"
+                    Point2="28.5,26"
+                    Point3="28.5,30" />
+                  <mssgle:LineSegment
+                    End="28.5,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Create ZipCode Lookup\OLE DB Destination"
+          TopLeft="42.5,273.5" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Create ZipCode Lookup\Derived Column"
+          TopLeft="46.5,185.5" />
+        <EdgeLayout
+          Id="Package\Create ZipCode Lookup.Paths[Data Conversion Output]"
+          TopLeft="103.5,141.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="20,44"
+              Start="0,0"
+              End="20,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18"
+                    Point2="0,22"
+                    Point3="4,22" />
+                  <mssgle:LineSegment
+                    End="16,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="16,22"
+                    Point2="20,22"
+                    Point3="20,26" />
+                  <mssgle:LineSegment
+                    End="20,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ZipCode Lookup\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ZipCode Lookup\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
