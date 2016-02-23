@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load CE Components as Itineraries"
   DTS:PackageType="5"
-  DTS:VersionBuild="63"
-  DTS:VersionGUID="{BAC7F7B9-69A2-49FA-9C68-27770F2E791E}">
+  DTS:VersionBuild="64"
+  DTS:VersionGUID="{C8AA6B25-8D8C-4151-A481-3BD369314B20}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -841,13 +841,14 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Create CE Itinerary Participants (In Progress)"
+      DTS:refId="Package\Create CE Itinerary Participants (Completed)"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{f4d43381-2590-4b0e-b7b4-df0fe01f5166}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Create CE Itinerary Participants (In Progress)"
+      DTS:ObjectName="Create CE Itinerary Participants (Completed)"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -855,7 +856,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
           version="1">
           <components>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary"
+              refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary"
               componentClassID="Microsoft.Aggregate"
               contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
               description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
@@ -887,26 +888,26 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Inputs[Aggregate Input 1]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Inputs[Aggregate Input 1]"
                   name="Aggregate Input 1">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Inputs[Aggregate Input 1].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Inputs[Aggregate Input 1].Columns[Itinerary_ItineraryId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ItineraryId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Inputs[Aggregate Input 1].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Inputs[Aggregate Input 1].Columns[KMT_ParticipantId]"
                       cachedDataType="i4"
                       cachedName="KMT_ParticipantId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1]"
                   name="Aggregate Output 1">
                   <properties>
                     <property
@@ -921,16 +922,16 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
                   </properties>
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[Itinerary_ItineraryId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[Itinerary_ItineraryId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[Itinerary_ItineraryId]"
                       name="Itinerary_ItineraryId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the ID of the input column used in the aggregation."
-                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]}</property>
+                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]}</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the type of aggregation."
@@ -947,16 +948,16 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
                       name="KMT_ParticipantId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the ID of the input column used in the aggregation."
-                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]}</property>
+                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]}</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the type of aggregation."
@@ -978,7 +979,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop"
+              refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop"
               componentClassID="Microsoft.Aggregate"
               contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
               description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
@@ -1010,26 +1011,26 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1]"
                   name="Aggregate Input 1">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1].Columns[KMT_ItineraryStopId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1].Columns[KMT_ItineraryStopId]"
                       cachedDataType="i4"
                       cachedName="KMT_ItineraryStopId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1].Columns[KMT_ParticipantId]"
                       cachedDataType="i4"
                       cachedName="KMT_ParticipantId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1]"
                   name="Aggregate Output 1">
                   <properties>
                     <property
@@ -1044,16 +1045,16 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
                   </properties>
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ItineraryStopId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ItineraryStopId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ItineraryStopId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ItineraryStopId]"
                       name="KMT_ItineraryStopId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the ID of the input column used in the aggregation."
-                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]}</property>
+                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]}</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the type of aggregation."
@@ -1070,16 +1071,16 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]"
                       name="KMT_ParticipantId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the ID of the input column used in the aggregation."
-                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]}</property>
+                          name="AggregationColumnId">#{Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]}</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the type of aggregation."
@@ -1101,7 +1102,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant"
+              refId="Package\Create CE Itinerary Participants (Completed)\CE Participant"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -1150,7 +1151,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Connections[OleDbConnection]"
                   connectionManagerID="{5D8F5C50-636D-463C-A91F-EE92820556FD}:external"
                   connectionManagerRefId="Project.ConnectionManagers[BE00003308.CE]"
                   description="The OLE DB runtime connection used to access the database."
@@ -1158,118 +1159,118 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </connections>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[COMPONENT_ID]"
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[COMPONENT_ID]"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]"
                       name="CE_Participant_COMPONENT_ID"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]"
                       name="CE_Participant_PERSON_ID"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_ID]"
                       dataType="wstr"
                       length="255"
                       name="PARTICIPANT_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[COMPONENT_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[COMPONENT_ID]"
                       dataType="wstr"
                       length="255"
                       name="COMPONENT_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
                       dataType="wstr"
                       length="255"
                       name="PERSON_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[ROLE]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[ROLE]"
                       dataType="wstr"
                       length="255"
                       name="ROLE" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_STATUS]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_STATUS]"
                       dataType="wstr"
                       length="255"
                       name="PARTICIPANT_STATUS" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[ACCOMPANYING_DEPENDENT_QTY]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[ACCOMPANYING_DEPENDENT_QTY]"
                       dataType="r8"
                       name="ACCOMPANYING_DEPENDENT_QTY" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PLACEMENT_ORG_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PLACEMENT_ORG_ID]"
                       dataType="wstr"
                       length="255"
                       name="PLACEMENT_ORG_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_COORDINATOR_PERSON_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[LOCAL_COORDINATOR_PERSON_ID]"
                       dataType="wstr"
                       length="255"
                       name="LOCAL_COORDINATOR_PERSON_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_CREATE_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_CREATE_ID]"
                       dataType="wstr"
                       length="255"
                       name="PARTICIPANT_CREATE_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_CREATE_DT]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_CREATE_DT]"
                       dataType="dbTimeStamp"
                       name="PARTICIPANT_CREATE_DT" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_UPDATE_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_UPDATE_ID]"
                       dataType="wstr"
                       length="255"
                       name="PARTICIPANT_UPDATE_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_UPDATE_DT]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].ExternalColumns[PARTICIPANT_UPDATE_DT]"
                       dataType="dbTimeStamp"
                       name="PARTICIPANT_UPDATE_DT" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[COMPONENT_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[COMPONENT_ID]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[COMPONENT_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[COMPONENT_ID]"
                       name="COMPONENT_ID" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
                       name="PERSON_ID" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1278,7 +1279,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split"
+              refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split"
               componentClassID="Microsoft.ConditionalSplit"
               contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
@@ -1286,36 +1287,36 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Inputs[Conditional Split Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Inputs[Conditional Split Input]"
                   description="Input to the Conditional Split Transformation"
                   name="Conditional Split Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Inputs[Conditional Split Input].Columns[Itinerary_CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Inputs[Conditional Split Input].Columns[Itinerary_CE_ComponentId]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="Itinerary_CE_ComponentId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[CE Component Itinerary]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[CE Component Itinerary]"
                   description="Output 1 of the Conditional Split Transformation"
                   errorOrTruncationOperation="Computation"
                   errorRowDisposition="FailComponent"
                   exclusionGroup="1"
                   name="CE Component Itinerary"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Inputs[Conditional Split Input]"
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Inputs[Conditional Split Input]"
                   truncationRowDisposition="FailComponent">
                   <properties>
                     <property
                       containsID="true"
                       dataType="System.String"
                       description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
-                      name="Expression">!([ISNULL](#{Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]}))</property>
+                      name="Expression">!([ISNULL](#{Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]}))</property>
                     <property
                       containsID="true"
                       dataType="System.String"
@@ -1330,11 +1331,11 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[Conditional Split Default Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[Conditional Split Default Output]"
                   description="Default Output of the Conditional Split Transformation"
                   exclusionGroup="1"
                   name="Conditional Split Default Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Inputs[Conditional Split Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Inputs[Conditional Split Input]">
                   <properties>
                     <property
                       dataType="System.Boolean"
@@ -1343,23 +1344,23 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[Conditional Split Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[Conditional Split Error Output]"
                   description="Error Output of the Conditional Split Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Conditional Split Error Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Inputs[Conditional Split Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Inputs[Conditional Split Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1368,7 +1369,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant"
+              refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -1425,7 +1426,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Connections[OleDbConnection]"
                   connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
                   connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
@@ -1433,33 +1434,33 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input].Columns[Itinerary_ItineraryId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ItineraryId"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryId]"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[Itinerary_ItineraryId]" />
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[Itinerary_ItineraryId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input].Columns[KMT_ParticipantId]"
                       cachedDataType="i4"
                       cachedName="KMT_ParticipantId"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]" />
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryId]"
                       dataType="i4"
                       name="ItineraryId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
                       dataType="i4"
                       name="ParticipantId" />
                   </externalMetadataColumns>
@@ -1467,22 +1468,22 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1491,7 +1492,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant"
+              refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -1548,7 +1549,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Connections[OleDbConnection]"
                   connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
                   connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
@@ -1556,33 +1557,33 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].Columns[KMT_ItineraryStopId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].Columns[KMT_ItineraryStopId]"
                       cachedDataType="i4"
                       cachedName="KMT_ItineraryStopId"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryStopId]"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ItineraryStopId]" />
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryStopId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ItineraryStopId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].Columns[KMT_ParticipantId]"
                       cachedDataType="i4"
                       cachedName="KMT_ParticipantId"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]" />
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1].Columns[KMT_ParticipantId]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryStopId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryStopId]"
                       dataType="i4"
                       name="ItineraryStopId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input].ExternalColumns[ParticipantId]"
                       dataType="i4"
                       name="ParticipantId" />
                   </externalMetadataColumns>
@@ -1590,22 +1591,22 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1614,7 +1615,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary"
+              refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -1663,7 +1664,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Connections[OleDbConnection]"
                   connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
                   connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
@@ -1671,152 +1672,152 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </connections>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ItineraryId]"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]"
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ItineraryId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]"
                       name="Itinerary_ItineraryId"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ProjectId]"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]"
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ProjectId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]"
                       name="Itinerary_ProjectId"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Name]"
                       length="100"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]"
                       name="Itinerary_Name"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[CE_ComponentId]"
+                      externalMetadataColumnId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[CE_ComponentId]"
                       length="32"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]"
                       name="Itinerary_CE_ComponentId"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ItineraryId]"
                       dataType="i4"
                       name="ItineraryId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ItineraryStatusId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ItineraryStatusId]"
                       dataType="i4"
                       name="ItineraryStatusId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
                       dataType="dbTimeStampOffset"
                       name="StartDate"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[EndDate]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[EndDate]"
                       dataType="dbTimeStampOffset"
                       name="EndDate"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_CreatedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_RevisedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[ProjectId]"
                       dataType="i4"
                       name="ProjectId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Name]"
                       dataType="wstr"
                       length="100"
                       name="Name" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Arrival_LocationId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Arrival_LocationId]"
                       dataType="i4"
                       name="Arrival_LocationId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Departure_LocationId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[Departure_LocationId]"
                       dataType="i4"
                       name="Departure_LocationId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[IVLP_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[IVLP_ItineraryId]"
                       dataType="wstr"
                       length="32"
                       name="IVLP_ItineraryId" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].ExternalColumns[CE_ComponentId]"
                       dataType="wstr"
                       length="32"
                       name="CE_ComponentId" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ItineraryId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ItineraryId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ItineraryId]"
                       name="ItineraryId" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ProjectId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ProjectId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ProjectId]"
                       name="ProjectId" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[Name]"
                       dataType="wstr"
                       length="100"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[Name]"
                       name="Name" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[CE_ComponentId]"
                       dataType="wstr"
                       length="32"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[CE_ComponentId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[CE_ComponentId]"
                       name="CE_ComponentId" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1825,7 +1826,7 @@ where UPPER([refTable].[ItineraryStatusName]) = UPPER(?)</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID"
+              refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
               description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
@@ -1881,7 +1882,7 @@ where [refTable].[ItineraryId] = ?</property>
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]};</property>
+                  name="ParameterMap">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -1893,7 +1894,7 @@ where [refTable].[ItineraryId] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Connections[OleDbConnection]"
                   connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
                   connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
@@ -1901,14 +1902,14 @@ where [refTable].[ItineraryId] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Inputs[Lookup Input].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Inputs[Lookup Input].Columns[Itinerary_ItineraryId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ItineraryId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -1926,18 +1927,18 @@ where [refTable].[ItineraryId] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
                   errorRowDisposition="FailComponent"
                   exclusionGroup="1"
                   name="Lookup Match Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]"
                       dataType="i4"
                       errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output].Columns[KMT_ItineraryStopId]"
                       name="KMT_ItineraryStopId"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -1951,30 +1952,30 @@ where [refTable].[ItineraryId] = ?</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup No Match Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup No Match Output]"
                   description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
                   exclusionGroup="1"
                   name="Lookup No Match Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Lookup Error Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1983,7 +1984,7 @@ where [refTable].[ItineraryId] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID"
+              refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
               description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
@@ -2039,7 +2040,7 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]};#{Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]};</property>
+                  name="ParameterMap">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]};#{Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -2051,7 +2052,7 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Connections[OleDbConnection]"
                   connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
                   connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
@@ -2059,14 +2060,14 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input].Columns[KMT_PersonID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input].Columns[KMT_PersonID]"
                       cachedDataType="i4"
                       cachedName="KMT_PersonID"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -2079,10 +2080,10 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input].Columns[Itinerary_ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input].Columns[Itinerary_ProjectId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ProjectId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -2100,17 +2101,17 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
                   exclusionGroup="1"
                   name="Lookup Match Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]"
                       dataType="i4"
                       errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output].Columns[KMT_ParticipantId]"
                       name="KMT_ParticipantId"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -2124,30 +2125,30 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup No Match Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup No Match Output]"
                   description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
                   exclusionGroup="1"
                   name="Lookup No Match Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Lookup Error Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -2156,7 +2157,7 @@ where [refTable].[ProjectId] = ? and [refTable].[PersonId] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID"
+              refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
               description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
@@ -2212,7 +2213,7 @@ where [refTable].[CE_Person_ID] = ?</property>
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]};</property>
+                  name="ParameterMap">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -2224,7 +2225,7 @@ where [refTable].[CE_Person_ID] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Connections[OleDbConnection]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Connections[OleDbConnection]"
                   connectionManagerID="{5D8F5C50-636D-463C-A91F-EE92820556FD}:external"
                   connectionManagerRefId="Project.ConnectionManagers[BE00003308.CE]"
                   description="Connection manager used to access lookup data."
@@ -2232,15 +2233,15 @@ where [refTable].[CE_Person_ID] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Inputs[Lookup Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Inputs[Lookup Input].Columns[CE_Participant_Person_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Inputs[Lookup Input].Columns[CE_Participant_Person_ID]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="CE_Participant_Person_ID"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -2258,17 +2259,17 @@ where [refTable].[CE_Person_ID] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Match Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
                   exclusionGroup="1"
                   name="Lookup Match Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]"
                       dataType="i4"
                       errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Match Output].Columns[KMT_PersonID]"
                       name="KMT_PersonID"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -2282,30 +2283,30 @@ where [refTable].[CE_Person_ID] = ?</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup No Match Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup No Match Output]"
                   description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
                   exclusionGroup="1"
                   name="Lookup No Match Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Error Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Lookup Error Output"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Inputs[Lookup Input]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -2314,7 +2315,7 @@ where [refTable].[CE_Person_ID] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join"
+              refId="Package\Create CE Itinerary Participants (Completed)\Merge Join"
               componentClassID="Microsoft.MergeJoin"
               contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
@@ -2341,110 +2342,110 @@ where [refTable].[CE_Person_ID] = ?</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input]"
                   hasSideEffects="true"
                   name="Merge Join Left Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_CE_ComponentId]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="Itinerary_CE_ComponentId"
                       cachedSortKeyPosition="1"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_CE_ComponentId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_CE_ComponentId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ItineraryId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ItineraryId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ItineraryId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ItineraryId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ProjectId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ProjectId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ProjectId]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ProjectId]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_Name]"
                       cachedDataType="wstr"
                       cachedLength="100"
                       cachedName="Itinerary_Name"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_Name]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_Name]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Right Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Right Input]"
                   hasSideEffects="true"
                   name="Merge Join Right Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Component_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Component_ID]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="CE_Participant_Component_ID"
                       cachedSortKeyPosition="1"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Component_ID]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Component_ID]" />
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Person_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Person_ID]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="CE_Participant_Person_ID"
                       cachedSortKeyPosition="2"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Person_ID]" />
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Person_ID]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output]"
                   isSorted="true"
                   name="Merge Join Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ItineraryId]"
                       name="Itinerary_ItineraryId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ItineraryId]}</property>
+                          name="InputColumnID">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ItineraryId]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_ProjectId]"
                       name="Itinerary_ProjectId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ProjectId]}</property>
+                          name="InputColumnID">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_ProjectId]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_Name]"
                       dataType="wstr"
                       length="100"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_Name]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_Name]"
                       name="Itinerary_Name">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_Name]}</property>
+                          name="InputColumnID">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_Name]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_CE_ComponentId]"
                       dataType="wstr"
                       length="32"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_CE_ComponentId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[Itinerary_CE_ComponentId]"
                       name="Itinerary_CE_ComponentId"
                       sortKeyPosition="1">
                       <properties>
@@ -2452,35 +2453,35 @@ where [refTable].[CE_Person_ID] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_CE_ComponentId]}</property>
+                          name="InputColumnID">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input].Columns[Itinerary_CE_ComponentId]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Component_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Component_ID]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Component_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Component_ID]"
                       name="CE_Participant_Component_ID">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Component_ID]}</property>
+                          name="InputColumnID">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Component_ID]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output].Columns[CE_Participant_Person_ID]"
                       name="CE_Participant_Person_ID">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Person_ID]}</property>
+                          name="InputColumnID">#{Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Right Input].Columns[CE_Participant_Person_ID]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -2489,45 +2490,45 @@ where [refTable].[CE_Person_ID] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Multicast"
+              refId="Package\Create CE Itinerary Participants (Completed)\Multicast"
               componentClassID="Microsoft.Multicast"
               contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
               name="Multicast">
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Inputs[Multicast Input 1]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Multicast.Inputs[Multicast Input 1]"
                   name="Multicast Input 1">
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Outputs[Multicast Output 1]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Multicast.Outputs[Multicast Output 1]"
                   deleteOutputOnPathDetached="true"
                   name="Multicast Output 1"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Inputs[Multicast Input 1]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Multicast.Inputs[Multicast Input 1]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Outputs[Multicast Output 2]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Multicast.Outputs[Multicast Output 2]"
                   deleteOutputOnPathDetached="true"
                   name="Multicast Output 2"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Inputs[Multicast Input 1]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Multicast.Inputs[Multicast Input 1]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Outputs[Multicast Output 3]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Multicast.Outputs[Multicast Output 3]"
                   dangling="true"
                   deleteOutputOnPathDetached="true"
                   name="Multicast Output 3"
-                  synchronousInputId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Inputs[Multicast Input 1]">
+                  synchronousInputId="Package\Create CE Itinerary Participants (Completed)\Multicast.Inputs[Multicast Input 1]">
                   <externalMetadataColumns />
                 </output>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID"
+              refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID"
               componentClassID="Microsoft.Sort"
               contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
@@ -2546,14 +2547,14 @@ where [refTable].[CE_Person_ID] = ?</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Inputs[Sort Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Inputs[Sort Input]"
                   name="Sort Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_ItineraryId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ItineraryId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -2566,10 +2567,10 @@ where [refTable].[CE_Person_ID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_ProjectId]"
                       cachedDataType="i4"
                       cachedName="Itinerary_ProjectId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -2582,11 +2583,11 @@ where [refTable].[CE_Person_ID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_Name]"
                       cachedDataType="wstr"
                       cachedLength="100"
                       cachedName="Itinerary_Name"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -2599,11 +2600,11 @@ where [refTable].[CE_Person_ID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Inputs[Sort Input].Columns[Itinerary_CE_ComponentId]"
                       cachedDataType="wstr"
                       cachedLength="32"
                       cachedName="Itinerary_CE_ComponentId"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -2621,55 +2622,55 @@ where [refTable].[CE_Person_ID] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output]"
                   isSorted="true"
                   name="Sort Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ItineraryId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ItineraryId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ItineraryId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ItineraryId]"
                       name="Itinerary_ItineraryId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]}</property>
+                          name="SortColumnId">#{Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ItineraryId]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ProjectId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ProjectId]"
                       dataType="i4"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ProjectId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_ProjectId]"
                       name="Itinerary_ProjectId">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]}</property>
+                          name="SortColumnId">#{Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_ProjectId]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_Name]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_Name]"
                       dataType="wstr"
                       length="100"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_Name]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_Name]"
                       name="Itinerary_Name">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]}</property>
+                          name="SortColumnId">#{Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_Name]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_CE_ComponentId]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_CE_ComponentId]"
                       dataType="wstr"
                       length="32"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_CE_ComponentId]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output].Columns[Itinerary_CE_ComponentId]"
                       name="Itinerary_CE_ComponentId"
                       sortKeyPosition="1">
                       <properties>
@@ -2677,7 +2678,7 @@ where [refTable].[CE_Person_ID] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]}</property>
+                          name="SortColumnId">#{Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output].Columns[Itinerary_CE_ComponentId]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -2686,7 +2687,7 @@ where [refTable].[CE_Person_ID] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID"
+              refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID"
               componentClassID="Microsoft.Sort"
               contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
@@ -2705,15 +2706,15 @@ where [refTable].[CE_Person_ID] = ?</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Inputs[Sort Input]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Inputs[Sort Input]"
                   name="Sort Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Inputs[Sort Input].Columns[CE_Participant_COMPONENT_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Inputs[Sort Input].Columns[CE_Participant_COMPONENT_ID]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="CE_Participant_COMPONENT_ID"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -2726,11 +2727,11 @@ where [refTable].[CE_Person_ID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Inputs[Sort Input].Columns[CE_Participant_PERSON_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Inputs[Sort Input].Columns[CE_Participant_PERSON_ID]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="CE_Participant_PERSON_ID"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]">
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -2748,15 +2749,15 @@ where [refTable].[CE_Person_ID] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output]"
+                  refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output]"
                   isSorted="true"
                   name="Sort Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Component_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Component_ID]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Component_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Component_ID]"
                       name="CE_Participant_Component_ID"
                       sortKeyPosition="1">
                       <properties>
@@ -2764,14 +2765,14 @@ where [refTable].[CE_Person_ID] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]}</property>
+                          name="SortColumnId">#{Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_COMPONENT_ID]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Person_ID]"
+                      refId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Person_ID]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Person_ID]"
+                      lineageId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output].Columns[CE_Participant_Person_ID]"
                       name="CE_Participant_Person_ID"
                       sortKeyPosition="2">
                       <properties>
@@ -2779,7 +2780,7 @@ where [refTable].[CE_Person_ID] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]}</property>
+                          name="SortColumnId">#{Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output].Columns[CE_Participant_PERSON_ID]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -2790,70 +2791,70 @@ where [refTable].[CE_Person_ID] = ?</property>
           </components>
           <paths>
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Aggregate Output 1]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant.Inputs[OLE DB Destination Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Aggregate Output 1]"
+              endId="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant.Inputs[OLE DB Destination Input]"
               name="Aggregate Output 1"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Outputs[Aggregate Output 1]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Outputs[Aggregate Output 1]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Aggregate Output 11]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant.Inputs[OLE DB Destination Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Aggregate Output 11]"
+              endId="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant.Inputs[OLE DB Destination Input]"
               name="Aggregate Output 1"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Outputs[Aggregate Output 1]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[CE Component Itinerary]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Inputs[Sort Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[CE Component Itinerary]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Inputs[Sort Input]"
               name="CE Component Itinerary"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Outputs[CE Component Itinerary]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Outputs[CE Component Itinerary]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Lookup Match Output]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Inputs[Lookup Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Lookup Match Output]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Outputs[Lookup Match Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Outputs[Lookup Match Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Lookup Match Output1]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Lookup Match Output1]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID.Outputs[Lookup Match Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID.Outputs[Lookup Match Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Lookup Match Output2]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Inputs[Multicast Input 1]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Lookup Match Output2]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Multicast.Inputs[Multicast Input 1]"
               name="Lookup Match Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID.Outputs[Lookup Match Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Merge Join Output]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID.Inputs[Lookup Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Merge Join Output]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID.Inputs[Lookup Input]"
               name="Merge Join Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Outputs[Merge Join Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Outputs[Merge Join Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Multicast Output 1]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary.Inputs[Aggregate Input 1]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Multicast Output 1]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary.Inputs[Aggregate Input 1]"
               name="Multicast Output 1"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Outputs[Multicast Output 1]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Multicast.Outputs[Multicast Output 1]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Multicast Output 2]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Multicast Output 2]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop.Inputs[Aggregate Input 1]"
               name="Multicast Output 2"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Multicast.Outputs[Multicast Output 2]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Multicast.Outputs[Multicast Output 2]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[OLE DB Source Output]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Conditional Split.Inputs[Conditional Split Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[OLE DB Source Output]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Conditional Split.Inputs[Conditional Split Input]"
               name="OLE DB Source Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary.Outputs[OLE DB Source Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[OLE DB Source Output1]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Inputs[Sort Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[OLE DB Source Output1]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Inputs[Sort Input]"
               name="OLE DB Source Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\CE Participant.Outputs[OLE DB Source Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\CE Participant.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Sort Output]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Left Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Sort Output]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Left Input]"
               name="Sort Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID.Outputs[Sort Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID.Outputs[Sort Output]" />
             <path
-              refId="Package\Create CE Itinerary Participants (In Progress).Paths[Sort Output1]"
-              endId="Package\Create CE Itinerary Participants (In Progress)\Merge Join.Inputs[Merge Join Right Input]"
+              refId="Package\Create CE Itinerary Participants (Completed).Paths[Sort Output1]"
+              endId="Package\Create CE Itinerary Participants (Completed)\Merge Join.Inputs[Merge Join Right Input]"
               name="Sort Output"
-              startId="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID.Outputs[Sort Output]" />
+              startId="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -5776,7 +5777,7 @@ where [refTable].[CE_ComponentId] = ?</property>
       DTS:From="Package\Load CE Components as Itinerary Stops (Completed)"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
-      DTS:To="Package\Create CE Itinerary Participants (In Progress)" />
+      DTS:To="Package\Create CE Itinerary Participants (Completed)" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -5795,9 +5796,13 @@ where [refTable].[CE_ComponentId] = ?</property>
           Id="Package\Add missing Itinerary Status Values (Completed)"
           TopLeft="58.5,68.5" />
         <NodeLayout
-          Size="292,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)"
+          Size="288,42"
+          Id="Package\Create CE Itinerary Participants (Completed)"
           TopLeft="73,410" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Create Person XREF Table Data DEV"
+          TopLeft="500.5,103.5" />
         <NodeLayout
           Size="306,42"
           Id="Package\Load CE Components as Itineraries (Completed)"
@@ -5852,7 +5857,7 @@ where [refTable].[CE_ComponentId] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="217.75,324">
+          TopLeft="216.75,324">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -5872,10 +5877,6 @@ where [refTable].[CE_ComponentId] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="250,42"
-          Id="Package\Create Person XREF Table Data DEV"
-          TopLeft="500.5,103.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -6081,114 +6082,68 @@ where [refTable].[CE_ComponentId] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)">
+    design-time-name="Package\Create CE Itinerary Participants (Completed)">
     <LayoutInfo>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="155,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Conditional Split"
-          TopLeft="41.5,93.5" />
-        <NodeLayout
-          Size="270,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID and PersonID"
-          TopLeft="282.5,185.5" />
-        <NodeLayout
-          Size="201,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID"
-          TopLeft="419.5,358.115384615385" />
-        <NodeLayout
-          Size="143,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary"
-          TopLeft="41.5,14.5" />
-        <NodeLayout
           Size="183,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID"
+          Id="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID"
           TopLeft="144.5,362.5" />
         <NodeLayout
-          Size="203,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Sort by CE Component_ID"
-          TopLeft="20.5,188.5" />
+          Size="213,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID"
+          TopLeft="703.5,356.777227722772" />
         <NodeLayout
           Size="130,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Merge Join"
+          Id="Package\Create CE Itinerary Participants (Completed)\Merge Join"
           TopLeft="172.5,279.5" />
         <NodeLayout
+          Size="207,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Aggregate by ItineraryStop"
+          TopLeft="854.5,182.5" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant"
+          TopLeft="871.5,96.5" />
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary"
+          TopLeft="41.5,14.5" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID"
+          TopLeft="20.5,188.5" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant"
+          TopLeft="615.5,93.5" />
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Multicast"
+          TopLeft="746.5,269.5" />
+        <NodeLayout
           Size="144,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\CE Participant"
+          Id="Package\Create CE Itinerary Participants (Completed)\CE Participant"
           TopLeft="342.5,95.5" />
+        <NodeLayout
+          Size="201,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID"
+          TopLeft="419.5,358.115384615385" />
+        <NodeLayout
+          Size="270,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Sort by CE Component_ID and PersonID"
+          TopLeft="282.5,185.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Conditional Split"
+          TopLeft="41.5,93.5" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Create CE Itinerary Participants (Completed)\Aggregate by Itinerary"
+          TopLeft="613.5,180.5" />
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Merge Join Output]"
-          TopLeft="236.75,321.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,41"
-              Start="0,0"
-              End="0,33.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,33.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Lookup Match Output]"
-          TopLeft="327.5,381.307692307692">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="92,0"
-              Start="0,0"
-              End="84.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="84.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-5.94138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[CE Component Itinerary]"
-          TopLeft="120.5,135.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,53"
-              Start="0,0"
-              End="0,45.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,45.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-53.859453125,17.04296875,107.71890625,11.4140625"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Sort Output1]"
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Sort Output1]"
           TopLeft="417.5,227.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -6222,7 +6177,7 @@ where [refTable].[CE_ComponentId] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Sort Output]"
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Sort Output]"
           TopLeft="122,230.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -6256,7 +6211,7 @@ where [refTable].[CE_ComponentId] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[OLE DB Source Output1]"
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[OLE DB Source Output1]"
           TopLeft="416,137.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -6278,7 +6233,7 @@ where [refTable].[CE_ComponentId] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[OLE DB Source Output]"
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[OLE DB Source Output]"
           TopLeft="116,56.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -6299,110 +6254,8 @@ where [refTable].[CE_ComponentId] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="213,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID"
-          TopLeft="703.5,356.777227722772" />
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Lookup Match Output1]"
-          TopLeft="620.5,378.446306169079">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="83,0"
-              Start="0,0"
-              End="75.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="75.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-10.44138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant"
-          TopLeft="615.5,93.5" />
-        <NodeLayout
-          Size="120,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Multicast"
-          TopLeft="746.5,269.5" />
-        <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Lookup Match Output2]"
-          TopLeft="808.25,356.777227722772">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-45.2772277227723"
-              Start="0,0"
-              End="0,-37.7772277227723">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-37.7772277227723" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-24.6933013613861,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="185,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Aggregate by Itinerary"
-          TopLeft="613.5,180.5" />
-        <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Multicast Output 1]"
-          TopLeft="806.5,269.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-100.5,-47"
-              Start="0,0"
-              End="-100.5,-39.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-19.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-19.5"
-                    Point2="0,-23.5"
-                    Point3="-4,-23.5" />
-                  <mssgle:LineSegment
-                    End="-96.5,-23.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-96.5,-23.5"
-                    Point2="-100.5,-23.5"
-                    Point3="-100.5,-27.5" />
-                  <mssgle:LineSegment
-                    End="-100.5,-39.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="207,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\Aggregate by ItineraryStop"
-          TopLeft="854.5,182.5" />
-        <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Multicast Output 2]"
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Multicast Output 2]"
           TopLeft="825.166666666667,269.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -6436,19 +6289,31 @@ where [refTable].[CE_ComponentId] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Aggregate Output 1]"
-          TopLeft="703,180.5">
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Multicast Output 1]"
+          TopLeft="806.5,269.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-45"
+              EndConnector="-100.5,-47"
               Start="0,0"
-              End="0,-37.5">
+              End="-100.5,-39.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-37.5" />
+                    End="0,-19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-19.5"
+                    Point2="0,-23.5"
+                    Point3="-4,-23.5" />
+                  <mssgle:LineSegment
+                    End="-96.5,-23.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-96.5,-23.5"
+                    Point2="-100.5,-23.5"
+                    Point3="-100.5,-27.5" />
+                  <mssgle:LineSegment
+                    End="-100.5,-39.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -6457,12 +6322,126 @@ where [refTable].[CE_ComponentId] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="190,42"
-          Id="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant"
-          TopLeft="871.5,96.5" />
         <EdgeLayout
-          Id="Package\Create CE Itinerary Participants (In Progress).Paths[Aggregate Output 11]"
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Merge Join Output]"
+          TopLeft="236.75,321.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Lookup Match Output2]"
+          TopLeft="808.25,356.777227722772">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-45.2772277227723"
+              Start="0,0"
+              End="0,-37.7772277227723">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-37.7772277227723" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-24.6933013613861,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Lookup Match Output1]"
+          TopLeft="620.5,378.446306169079">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="83,0"
+              Start="0,0"
+              End="75.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="75.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-10.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Lookup Match Output]"
+          TopLeft="327.5,381.307692307692">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="92,0"
+              Start="0,0"
+              End="84.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="84.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-5.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[CE Component Itinerary]"
+          TopLeft="120.5,135.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-53.859453125,17.04296875,107.71890625,11.4140625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Aggregate Output 11]"
           TopLeft="958,182.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -6495,16 +6474,136 @@ where [refTable].[CE_ComponentId] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Itinerary Participants (Completed).Paths[Aggregate Output 1]"
+          TopLeft="703,180.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-45"
+              Start="0,0"
+              End="0,-37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ParticipantID">
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\Lookup KMT PersonID">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[CE_KMT_Person_XREF_DEV]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ItineraryStopID">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ItineraryStop]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\ItineraryStopParticipant">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\KMT Itinerary">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\ItineraryParticipant">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\CE Participant">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Itinerary Participants (Completed)\Lookup KMT ParticipantID">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -6518,55 +6617,6 @@ where [refTable].[CE_ComponentId] = ?</property>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\KMT Itinerary">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT PersonID">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[CE_KMT_Person_XREF_DEV]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\CE Participant">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -6966,9 +7016,7 @@ where [refTable].[CE_ComponentId] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -6990,9 +7038,7 @@ where [refTable].[CE_ComponentId] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7014,9 +7060,7 @@ where [refTable].[CE_ComponentId] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -7047,55 +7091,6 @@ where [refTable].[CE_ComponentId] = ?</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load CE Components as Itinerary Stops (Completed)\Write ItineraryStop">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\Lookup KMT ItineraryStopID">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ItineraryStop]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\ItineraryParticipant">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create CE Itinerary Participants (In Progress)\ItineraryStopParticipant">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -162,5 +162,12 @@ namespace ECA.Business.Service.Persons
         /// <param name="errorCount">Validation error count</param>
         /// <param name="isValid">Indicates if SEVIS object passed validation</param>
         void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result);
+
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        /// <param name="user">User</param>
+        Task<int> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId);
     }
 }

@@ -50,7 +50,8 @@ namespace ECA.Business.Queries.Persons
                                  SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
                              }).OrderBy(s => s.AddedOn),
                              LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn),
-                             SevisValidationResult = p.SevisValidationResult
+                             SevisValidationResult = p.SevisValidationResult,
+                             SevisBatchResult = p.SevisBatchResult
                          });
             return query;
         }
@@ -633,8 +634,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context).
-                Where(p => p.ParticipantId == participantId);
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context).Where(p => p.ParticipantId == participantId);
             return query;
         }
     }

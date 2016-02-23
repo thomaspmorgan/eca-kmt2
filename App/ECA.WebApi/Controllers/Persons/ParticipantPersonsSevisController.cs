@@ -217,6 +217,6 @@ namespace ECA.WebApi.Controllers.Persons
             participantService.UpdateParticipantPersonSevisCommStatus(participantId, result);
             return Ok();
         }
-        
+                
     }
 }
