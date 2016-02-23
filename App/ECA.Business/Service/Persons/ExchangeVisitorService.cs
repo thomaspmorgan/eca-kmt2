@@ -127,17 +127,6 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get Update Exchange Visitor
-        public UpdateExchVisitor GetUpdateExchangeVisitor(User user, int personId)
-        {
-            //do the lookup here for the person's participant info based on latest participant.
-            throw new NotImplementedException();
-        }
-
-        public UpdateExchVisitor GetUpdateExchangeVisitorAsync(User user, int personId)
-        {
-            //do the lookup here for the person's participant info based on latest participant.
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Returns the update exchange visitor for the participant with the given participant and project ids.
@@ -255,18 +244,6 @@ namespace ECA.Business.Service.Persons
         #endregion
 
         #region Get Create Exchange Visitor
-
-        public CreateExchVisitor GetCreateExchangeVisitor(User user, int personId)
-        {
-            //do the lookup here for the person's participant info based on latest participant.
-            throw new NotImplementedException();
-        }
-
-        public Task<CreateExchVisitor> GetCreateExchangeVisitorAsync(User user, int personId)
-        {
-            //do the lookup here for the person's participant info based on latest participant.
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Returns the CreateExchVisitor object to validate and send to sevis to create a new exchange visitor.

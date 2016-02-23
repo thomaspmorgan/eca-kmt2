@@ -202,6 +202,7 @@
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\ValidatableExchangeVisitorParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -311,6 +312,7 @@
     <Compile Include="Service\Persons\DeletedParticipant.cs" />
     <Compile Include="Service\Persons\EduEmpService.cs" />
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorSaveAction.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />

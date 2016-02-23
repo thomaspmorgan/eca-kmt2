@@ -10,6 +10,18 @@ namespace ECA.Data
 {
     public partial class Gender
     {
+
+        /// <summary>
+        /// The sevis male gender code value.
+        /// </summary>
+        public const string SEVIS_MALE_GENDER_CODE_VALUE = "M";
+
+        /// <summary>
+        /// The sevis female gender code.
+        /// </summary>
+        public const string SEVIS_FEMALE_GENDER_CODE_VALUE = "F";
+
+
         [Key]
         public int GenderId { get; set; }
         [Required]

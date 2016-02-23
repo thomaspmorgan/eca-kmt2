@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
@@ -219,6 +220,62 @@ namespace ECA.Business.Queries.Persons
 
             return query;
         }
+
+        /// <summary>
+        /// Returns a query to retrieve participants that can be sent through the sevis validation.  These person participants should have
+        /// a valid sevis gender, a birthdate, and a city of birth, and a single country of citizenship.  They should belong to a project that is an exchange visitor project and they should be
+        /// a traveling foreign participant.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static IQueryable<ValidatableExchangeVisitorParticipantDTO> CreateGetValidatableParticipantsQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var exchangeVisitorTypeId = VisitorType.ExchangeVisitor.Id;
+            var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
+            var foreignTravelingParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            var cityLocationTypeId = LocationType.City.Id;
+
+            var query = from participant in context.Participants
+                        let project = participant.Project
+                        let person = participant.Person
+                        let gender = person.Gender
+                        let countriesOfCitizenship = person.CountriesOfCitizenship
+                        let placeOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth : null
+                        let placeOfBirthTypeId = placeOfBirth != null ? placeOfBirth.LocationTypeId : default(int?)
+
+                        where project.VisitorTypeId == exchangeVisitorTypeId
+                        && (gender.SevisGenderCode == maleGenderCode || gender.SevisGenderCode == femaleGenderCode)
+                        && participant.PersonId.HasValue
+                        && participant.ParticipantTypeId == foreignTravelingParticipantTypeId
+                        && person.DateOfBirth.HasValue
+                        && person.PlaceOfBirthId.HasValue
+                        && countriesOfCitizenship.Count() == 1
+                        && (placeOfBirthTypeId.HasValue && placeOfBirthTypeId.Value == cityLocationTypeId)
+                        select new ValidatableExchangeVisitorParticipantDTO
+                        {
+                            ParticipantId = participant.ParticipantId,
+                            ProjectId = project.ProjectId,
+                            PersonId = person.PersonId
+                        };
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to retrieve participants that can be sent through the sevis validation.  These person participants should have
+        /// a valid sevis gender, a birthdate, and a city of birth, and a single country of citizenship.  They should belong to a project that is an exchange visitor project and they should be
+        /// a traveling foreign participant.
+        /// </summary>
+        /// <param name="participantIds">The participant ids to get validatable participants of.</param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static IQueryable<ValidatableExchangeVisitorParticipantDTO> CreateGetValidatableParticipantsByParticipantIdsQuery(EcaContext context, IEnumerable<int> participantIds)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetValidatableParticipantsQuery(context).Where(x => participantIds.Distinct().Contains(x.ParticipantId));
+        }
+
 
         #endregion
     }

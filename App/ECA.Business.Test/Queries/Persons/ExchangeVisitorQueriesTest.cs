@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Data;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation.Model;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Queries.Persons
 {
@@ -308,7 +309,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Participant = participant,
             };
             participant.ParticipantPerson = participantPerson;
-            
+
             context.AddressTypes.Add(residenceAddressType);
             context.BirthCountries.Add(sevisResidenceCountry);
             context.Participants.Add(participant);
@@ -456,7 +457,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PlaceOfBirthId = cityOfBirth.LocationId
             };
             person.CountriesOfCitizenship.Add(countryOfCitizenship);
-            
+
 
             var participant = new Participant
             {
@@ -497,7 +498,7 @@ namespace ECA.Business.Test.Queries.Persons
             };
             person.EmailAddresses.Add(otherEmail);
             person.EmailAddresses.Add(primaryEmail);
-            
+
             var phoneNumberType = new PhoneNumberType
             {
                 PhoneNumberTypeId = 97,
@@ -665,7 +666,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Participant = participant,
             };
             participant.ParticipantPerson = participantPerson;
-            
+
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
@@ -971,7 +972,7 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetInternationalFundingQuery_HasInternationalOrgsWithCodes()
         {
-            
+
             var internationalFundingOrg1 = new InternationalOrganization
             {
                 OrganizationId = 2,
@@ -1229,13 +1230,13 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(getExpectedFundingStringValue(org2Amount), result.Amount2);
             Assert.IsNull(result.Org2);
             Assert.AreEqual(govAgency2.Description, result.OtherName2);
-            
+
         }
 
         [TestMethod]
         public void TestCreateGetUSFundingQuery_NoUsGovFunding()
         {
-            
+
             var visitor = new ParticipantExchangeVisitor
             {
                 ParticipantId = 1,
@@ -1269,6 +1270,815 @@ namespace ECA.Business.Test.Queries.Persons
 
             result = ExchangeVisitorQueries.CreateGetUSFundingQuery(context, visitor.ParticipantId + 1).FirstOrDefault();
             Assert.IsNull(result);
+        }
+        #endregion
+
+        #region CreateGetValidatableParticipantsQuery
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsByParticipantIdsQuery()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(context, new List<int> { participant.ParticipantId }).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(context, new List<int> { participant.ParticipantId + 1 }).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_Female_ParticipantIsValidatable()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+            
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+            var firstResult = results.First();
+            Assert.AreEqual(participant.ParticipantId, firstResult.ParticipantId);
+            Assert.AreEqual(person.PersonId, firstResult.PersonId);
+            Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_Male()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+            var firstResult = results.First();
+            Assert.AreEqual(participant.ParticipantId, firstResult.ParticipantId);
+            Assert.AreEqual(person.PersonId, firstResult.PersonId);
+            Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_ProjectIsNotExchangeVisitor()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            project.VisitorTypeId = 0;
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_GenderIsNotMaleOrFemale()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            gender.SevisGenderCode = "U";
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_ParticipantIsNotPerson()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participant.PersonId = null;
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_ParticipantIsNotForeignTravelingParticipant()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            participantType.ParticipantTypeId = 0;
+            participant.ParticipantTypeId = 0;
+
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_ParticipantDoesNotHaveDateOfBirth()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            person.DateOfBirth = null;
+
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_PersonDoesNotHavePlaceOfBirth()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            person.PlaceOfBirthId = null;
+
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_PersonHasMoreThanOneCountryOfCitizenship()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            person.CountriesOfCitizenship.Add(new Location());
+
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [TestMethod]
+        public void TestCreateGetValidatableParticipantsQuery_PlaceOfBirthIsNotACity()
+        {
+            var exchangeVisitorType = new VisitorType
+            {
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id,
+                VisitorTypeName = VisitorType.ExchangeVisitor.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
+            };
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorType = exchangeVisitorType,
+                VisitorTypeId = exchangeVisitorType.VisitorTypeId
+            };
+            var locationType = new LocationType
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationTypeName = LocationType.City.Value
+            };
+            var placeOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationType = locationType,
+                LocationTypeId = locationType.LocationTypeId
+            };
+            var person = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                DateOfBirth = DateTime.UtcNow,
+                PlaceOfBirth = placeOfBirth,
+                PlaceOfBirthId = placeOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(new Location());
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                Name = ParticipantType.ForeignTravelingParticipant.Value
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 3,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId
+            };
+
+            context.VisitorTypes.Add(exchangeVisitorType);
+            context.Genders.Add(gender);
+            context.Projects.Add(project);
+            context.LocationTypes.Add(locationType);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantTypes.Add(participantType);
+
+            var results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            placeOfBirth.LocationTypeId = 0;
+            results = ExchangeVisitorQueries.CreateGetValidatableParticipantsQuery(context).ToList();
+            Assert.AreEqual(0, results.Count);
         }
         #endregion
     }

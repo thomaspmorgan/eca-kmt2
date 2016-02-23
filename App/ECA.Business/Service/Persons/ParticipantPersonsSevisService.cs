@@ -268,7 +268,7 @@ namespace ECA.Business.Service.Persons
             
                 // update participant person batch result
                 ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
-                var participantPersonSevisDTO = await participantPersonsSevisService.GetParticipantPersonsSevisByIdAsync(participantID);
+                var participantPersonSevisDTO = await participantPersonsSevisService.GetParticipantPersonsSevisByIdAsync(0, participantID);
                 participantPersonSevisDTO.SevisBatchResult = json;
                 await participantPersonsSevisService.SaveChangesAsync();
                 updates++;
@@ -298,7 +298,7 @@ namespace ECA.Business.Service.Persons
 
                 // update participant person batch result
                 ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
-                var participantPersonSevisDTO = participantPersonsSevisService.GetParticipantPersonsSevisById(participantID);
+                var participantPersonSevisDTO = participantPersonsSevisService.GetParticipantPersonsSevisById(0, participantID);
                 participantPersonSevisDTO.SevisBatchResult = json;
                 participantPersonsSevisService.SaveChanges();
                 updates++;
