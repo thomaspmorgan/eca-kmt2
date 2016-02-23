@@ -1650,19 +1650,29 @@ namespace ECA.Data
 		/// Returns the Queued To Submit lookup with id 5.
 		/// </summary>
 		public static StaticLookup QueuedToSubmit { get { return new StaticLookup("Queued To Submit", 5); } }
-		///<summary>
-		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
-		///<param name="id">The lookup id.</param>
-		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
-		///</summary>
-		public static StaticLookup GetStaticLookup(int id)
+        /// <summary>
+		/// Returns the Batch Request Successful lookup with id 12.
+		/// </summary>
+		public static StaticLookup BatchRequestSuccessful { get { return new StaticLookup("Batch Request Successful", 12); } }
+        /// <summary>
+        /// Returns the Batch Request Unsuccessful lookup with id 13.
+        /// </summary>
+        public static StaticLookup BatchRequestUnsuccessful { get { return new StaticLookup("Batch Request Unsuccessful", 13); } }
+        ///<summary>
+        /// Returns the lookup value of this entity with the given id, or null if it does not exist.
+        ///<param name="id">The lookup id.</param>
+        /// <returns>The lookup with the given id, or null if it does not exist.</returns>
+        ///</summary>
+        public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return SevisCommStatus.InformationRequired;
 			if (2 == id) return SevisCommStatus.ReadyToSubmit;
 			if (3 == id) return SevisCommStatus.SentToDhs;
 			if (4 == id) return SevisCommStatus.Validated;
 			if (5 == id) return SevisCommStatus.QueuedToSubmit;
-			return null;
+            if (12 == id) return SevisCommStatus.BatchRequestSuccessful;
+            if (13 == id) return SevisCommStatus.BatchRequestUnsuccessful;
+            return null;
 		}
 		///<summary>
 		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
@@ -1676,7 +1686,9 @@ namespace ECA.Data
 			if ("Sent To DHS".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentToDhs;
 			if ("Validated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Validated;
 			if ("Queued To Submit".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.QueuedToSubmit;
-			return null;
+            if ("Batch Request Successful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchRequestSuccessful;
+            if ("Batch Request Unsuccessful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchRequestUnsuccessful;
+            return null;
 		}
 
 		/// <summary>

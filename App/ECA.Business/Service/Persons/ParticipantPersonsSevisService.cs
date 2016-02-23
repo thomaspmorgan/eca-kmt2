@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
-using ECA.Business.Service.Sevis;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
@@ -9,7 +8,6 @@ using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
-using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -17,10 +15,8 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
@@ -254,66 +250,6 @@ namespace ECA.Business.Service.Persons
 
             Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
             Context.SaveChanges();            
-        }
-
-        /// <summary>
-        /// Process SEVIS batch transaction log
-        /// </summary>
-        /// <param name="batchId">Batch ID</param>
-        public async Task<int> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
-        {
-            var service = new SevisBatchProcessingService(this.Context);
-            var batchLog = await service.GetByIdAsync(batchId);
-            var xml = batchLog.TransactionLogXml;
-            int updates = 0;
-            
-            var doc = XDocument.Parse(xml.ToString());
-            
-            foreach (XElement record in doc.Descendants("Record"))
-            {                    
-                var sevisID = record.Attribute("sevisID").Value;
-                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
-                string json = JsonConvert.SerializeXNode(record);
-                
-                // update participant person batch result
-                ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
-                var participantPersonSevisDTO = await participantPersonsSevisService.GetParticipantPersonsSevisByIdAsync(participantID);
-                participantPersonSevisDTO.SevisBatchResult = json;
-                await participantPersonsSevisService.SaveChangesAsync();
-                updates++;
-            }
-
-            return updates;
-        }
-
-        /// <summary>
-        /// Process SEVIS batch transaction log
-        /// </summary>
-        /// <param name="batchId">Batch ID</param>
-        public int UpdateParticipantPersonSevisBatchStatus(User user, int batchId)
-        {
-            var service = new SevisBatchProcessingService(this.Context);
-            var batchLog = service.GetById(batchId);
-            var xml = batchLog.TransactionLogXml;
-            int updates = 0;
-
-            var doc = XDocument.Parse(xml.ToString());
-
-            foreach (XElement record in doc.Descendants("Record"))
-            {
-                var sevisID = record.Attribute("sevisID").Value;
-                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
-                string json = JsonConvert.SerializeXNode(record);
-
-                // update participant person batch result
-                ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
-                var participantPersonSevisDTO = participantPersonsSevisService.GetParticipantPersonsSevisById(participantID);
-                participantPersonSevisDTO.SevisBatchResult = json;
-                participantPersonsSevisService.SaveChanges();
-                updates++;
-            }
-
-            return updates;
         }
 
         /// <summary>
