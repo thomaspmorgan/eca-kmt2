@@ -11,11 +11,14 @@
                 <input name="name"
                        class="form-control" 
                        ng-model="view.office.name"
+                       ng-model-options="{debounce: 500}"
+                       ui-validate-async="{unique: 'view.validateUniqueOfficeName($value)'}"
                        placeholder="Enter office name..."
                        maxlength="600"
                        required/>
                 <div ng-show="form.officeForm.name.$dirty">
                     <div class="error" ng-show="form.officeForm.name.$error.required">Please enter an office name.</div>
+                    <div class="error" ng-show="form.officeForm.name.$error.unique">The office already exists.</div>
                 </div>
             </div>
         </div>
@@ -25,11 +28,14 @@
                 <input name="officeSymbol"
                        class="form-control" 
                        ng-model="view.office.officeSymbol" 
+                       ng-model-options="{debounce: 500}"
+                       ui-validate-async="{unique: 'view.validateUniqueOfficeSymbol($value)'}"
                        placeholder="Enter office symbol..."
                        maxlength="128"
                        required/>
                 <div ng-show="form.officeForm.officeSymbol.$dirty">
                     <div class="error" ng-show="form.officeForm.officeSymbol.$error.required">Please enter an office symbol.</div>
+                    <div class="error" ng-show="form.officeForm.officeSymbol.$error.unique">The office symbol already exists.</div>
                 </div>
             </div>
         </div>

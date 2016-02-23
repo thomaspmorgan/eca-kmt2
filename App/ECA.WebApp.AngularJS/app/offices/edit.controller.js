@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $q, $log, FilterService, LookupService, OfficeService) {
+  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, FilterService, LookupService, OfficeService) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
@@ -30,6 +30,46 @@ angular.module('staticApp')
       
       $scope.view.saveOffice = function () {
           console.log($scope.view.office);
+      }
+
+      var officesWithSameNameFilter = FilterService.add('officeedit_officeswithsamename');
+      $scope.view.validateUniqueOfficeName = function ($value) {
+          var deferred = $q.defer();
+          if ($value && $value.length > 0) {
+              officesWithSameNameFilter.reset();
+              officesWithSameNameFilter = officesWithSameNameFilter.skip(0).take(1).equal('name', $value).notEqual('organizationId', parseInt($stateParams.officeId));
+              OfficeService.getAll(officesWithSameNameFilter.toParams())
+                .then(function (response) {
+                    if (response.data.total > 0) {
+                        deferred.reject();
+                    } else {
+                        deferred.resolve();
+                    }
+                });
+          } else {
+              deferred.resolve();
+          }
+          return deferred.promise;
+      }
+
+      var officesWithSameOfficeSymbolFilter = FilterService.add('officeedit_officeswithsameofficesymbol');
+      $scope.view.validateUniqueOfficeSymbol = function ($value) {
+          var deferred = $q.defer();
+          if ($value && $value.length > 0) {
+              officesWithSameOfficeSymbolFilter.reset();
+              officesWithSameOfficeSymbolFilter = officesWithSameOfficeSymbolFilter.skip(0).take(1).equal('officeSymbol', $value).notEqual('organizationId', parseInt($stateParams.officeId));
+              OfficeService.getAll(officesWithSameOfficeSymbolFilter.toParams())
+                .then(function (response) {
+                    if (response.data.total > 0) {
+                        deferred.reject();
+                    } else {
+                        deferred.resolve();
+                    }
+                });
+          } else {
+              deferred.resolve();
+          }
+          return deferred.promise;
       }
 
       $scope.$watch('form.officeForm.$invalid', function (isInvalid) {
