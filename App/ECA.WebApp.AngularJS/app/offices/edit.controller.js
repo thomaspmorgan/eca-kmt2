@@ -11,7 +11,7 @@ angular.module('staticApp')
 
       $scope.data.loadedOfficePromise.promise
         .then(function (office) {
-            $scope.view.office = office;
+            $scope.view.office = angular.copy(office);
             $q.all([
                 loadGoals(),
                 loadThemes()])
@@ -20,13 +20,25 @@ angular.module('staticApp')
           })
         });
 
-      $scope.searchPointsOfContact = function (search) {
+      $scope.view.searchPointsOfContact = function (search) {
           return loadPointsOfContact(search);
       }
 
-      $scope.searchParentOffices = function (search) {
+      $scope.view.searchParentOffices = function (search) {
           return loadParentOffices(search);
       }
+      
+      $scope.view.saveOffice = function () {
+          console.log($scope.view.office);
+      }
+
+      $scope.$watch('form.officeForm.$invalid', function (isInvalid) {
+          $scope.$parent.isEditButtonEnabled = isInvalid;
+      });
+
+      $scope.$on('saveOffice', function () {
+          $scope.view.saveOffice();
+      });
 
       function setAllUiSelectValues() {
           setSelectedGoals();

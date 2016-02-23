@@ -5,7 +5,7 @@
                 <button type="button" class="btn" ng-click="editButtonClicked()" ng-show="!isInEditState">
                     Edit
                 </button>
-                <button type="button" class="btn modified" ng-click="" ng-show="isInEditState">
+                <button type="button" class="btn modified" ng-show="isInEditState" ng-disabled="isEditButtonEnabled" ng-click="saveButtonClicked()">
                     Save Changes
                 </button>
                 <button type="button" class="btn btn-cancel cancel" ng-click="cancelButtonClicked()" ng-show="isInEditState">

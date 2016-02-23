@@ -62,12 +62,19 @@ angular.module('staticApp')
 
       $scope.isInEditState = $state.current.name === editStateName;
 
+      $scope.isEditButtonEnabled = false;
+
       $scope.editButtonClicked = function () {
           $state.go(editStateName);
           $scope.isInEditState = true;
       }
 
+      $scope.saveButtonClicked = function () {
+          $scope.$broadcast('saveOffice');
+      }
+
       $scope.cancelButtonClicked = function () {
+          getOfficeById(officeId);
           $state.go(overviewStateName);
           $scope.isInEditState = false;
       }
