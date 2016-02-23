@@ -69,9 +69,9 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(user != null, "The user must not be null.");
             var participant = GetParticipant(context, participantId);
-            var participantPerson = GetParticipantPerson(context, participantId);
+            var participantPerson = GetParticipantPerson(context, participant.ProjectId, participantId);
             var personalPII = GetPersonPii(context, (int)participant.PersonId);
-            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participantId);
+            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participant.ProjectId, participantId);
             var personalEmail = GetPersonalEmail(context, participantId);
             var mailingAddress = new Location();
             var physicalAddress = new Location();
@@ -153,9 +153,9 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(user != null, "The user must not be null.");
             var participant = GetParticipant(context, participantId);
-            var participantPerson = GetParticipantPerson(context, participantId);
+            var participantPerson = GetParticipantPerson(context, participant.ProjectId, participantId);
             var personalPII = GetPersonPii(context, (int)participant.PersonId);
-            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participantId);
+            var participantExchangeVisitor = GetParticipantExchangeVisitor(context, participant.ProjectId, participantId);
             var personalEmail = GetPersonalEmail(context, participantId);
             var mailingAddress = new Location();
             var physicalAddress = new Location();
@@ -246,9 +246,9 @@ namespace ECA.Business.Queries.Persons
             return email;
         }
 
-        private static ParticipantExchangeVisitorDTO GetParticipantExchangeVisitor(EcaContext context, int participantId)
+        private static ParticipantExchangeVisitorDTO GetParticipantExchangeVisitor(EcaContext context, int projectId, int participantId)
         {
-            var visitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, participantId).FirstOrDefault();
+            var visitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(context, projectId, participantId).FirstOrDefault();
             return visitor;
         }
 
@@ -258,9 +258,9 @@ namespace ECA.Business.Queries.Persons
             return pii;
         }
 
-        private static SimpleParticipantPersonDTO GetParticipantPerson(EcaContext context, int participantId)
+        private static SimpleParticipantPersonDTO GetParticipantPerson(EcaContext context, int projectId, int participantId)
         {
-            var pperson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, participantId).FirstOrDefault();
+            var pperson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(context, projectId, participantId).FirstOrDefault();
             return pperson;
         }
 
@@ -276,7 +276,7 @@ namespace ECA.Business.Queries.Persons
             {
                 FullName = new FullName
                 {
-                    FirsName = personalPII.FirstName,
+                    FirstName = personalPII.FirstName,
                     LastName = personalPII.LastName,
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
@@ -301,7 +301,7 @@ namespace ECA.Business.Queries.Persons
                 printForm = false,
                 FullName = new FullName
                 {
-                    FirsName = personalPII.FirstName,
+                    FirstName = personalPII.FirstName,
                     LastName = personalPII.LastName,
                     Suffix = personalPII.NameSuffix,
                     PreferredName = personalPII.Alias
@@ -508,7 +508,7 @@ namespace ECA.Business.Queries.Persons
                     CitizenshipCountryCode = "01",
                     FullName = new FullName
                     {
-                        FirsName = "Some",
+                        FirstName = "Some",
                         LastName = "Dependent"
                     }
                 }
@@ -531,7 +531,7 @@ namespace ECA.Business.Queries.Persons
                     CitizenshipCountryCode = "01",
                     FullName = new FullName
                     {
-                        FirsName = "Some",
+                        FirstName = "Some",
                         LastName = "Dependent"
                     }
                 }
@@ -595,46 +595,18 @@ namespace ECA.Business.Queries.Persons
         }
 
         /// <summary>
-        /// Creates a query to return all participantPersonSevises in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOQuery(EcaContext context, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
-        /// Creates a query to return all participantPersonSevises for the project with the given id in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The project id.</param>
-        /// <returns>The filtered and sorted query to retrieve participantPersonSevises.</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context).Where(x => x.ProjectId == projectId);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
         /// Returns the participantPersonSevis by participant id 
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPersonSevis</returns>
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int participantId)
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int projectId, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context).Where(p => p.ParticipantId == participantId);
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context)
+                .Where(p => p.ProjectId == projectId)
+                .Where(p => p.ParticipantId == participantId);
             return query;
         }
     }

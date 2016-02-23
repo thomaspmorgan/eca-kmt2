@@ -29,8 +29,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
         [TestMethod]
         public async Task TestPostSendToSevisAsync()
         {
-            serviceMock.Setup(x => x.SendToSevis(It.IsAny<int[]>())).ReturnsAsync(new int[] { });
-            var response = await controller.PostSendToSevisAsync(new int[] { 1, 2, 3 });
+            serviceMock.Setup(x => x.SendToSevisAsync(It.IsAny<int>(), It.IsAny<int[]>())).ReturnsAsync(new int[] { });
+            var response = await controller.PostSendToSevisAsync(1, new int[] { 1, 2, 3 });
             serviceMock.Verify(x => x.SaveChangesAsync(), Times.Once);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<int []>));
         }
@@ -39,7 +39,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task TestPostSendToSevisAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostSendToSevisAsync(new int[] { 1, 2, 3 });
+            var response = await controller.PostSendToSevisAsync(1, new int[] { 1, 2, 3 });
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }

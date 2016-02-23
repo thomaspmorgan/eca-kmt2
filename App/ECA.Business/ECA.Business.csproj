@@ -202,20 +202,23 @@
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\ValidatableExchangeVisitorParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantExchangeVisitorDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\BiographicalDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
+    <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
-    <Compile Include="Queries\Persons\ParticipantPersonsSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
@@ -310,8 +313,11 @@
     <Compile Include="Service\Persons\DeletedParticipant.cs" />
     <Compile Include="Service\Persons\EduEmpService.cs" />
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorSaveAction.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\IExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\IParticipantExchangeVisitorService.cs" />
@@ -670,6 +676,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />

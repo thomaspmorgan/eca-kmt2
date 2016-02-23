@@ -16,10 +16,12 @@ namespace ECA.Business.Service.Persons
         /// Test validation on a create sevis object.
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The id of the project the partipant belongs.</param>
+        /// <param name="user">The user performing the validation.</param>
         /// <returns>Sevis object validation results</returns>
-        public ValidationResult PreCreateSevisValidation(int participantId, User user)
+        public ValidationResult PreCreateSevisValidation(int projectId, int participantId, User user)
         {
-            var results = validator.ValidateSevisCreateEV(participantId, user);
+            var results = validator.ValidateSevisCreateEV(projectId, participantId, user);
             
             return results;
         }
@@ -28,10 +30,12 @@ namespace ECA.Business.Service.Persons
         /// Test validation on a create sevis object.
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The id of the project the partipant belongs.</param>
+        /// <param name="user">The user performing the validation.</param>
         /// <returns>Sevis object validation results</returns>
-        public async Task<ValidationResult> PreCreateSevisValidationAsync(int participantId, User user)
+        public async Task<ValidationResult> PreCreateSevisValidationAsync(int projectId, int participantId, User user)
         {
-            var results = await validator.ValidateSevisCreateEVAsync(participantId, user);
+            var results = await validator.ValidateSevisCreateEVAsync(projectId, participantId, user);
 
             return results;
         }
@@ -40,10 +44,12 @@ namespace ECA.Business.Service.Persons
         /// Test validation on a update sevis object.
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The id of the project the partipant belongs.</param>
+        /// <param name="user">The user performing the validation.</param>
         /// <returns>Sevis object validation results</returns>
-        public ValidationResult PreUpdateSevisValidation(int participantId, User user)
+        public ValidationResult PreUpdateSevisValidation(int projectId, int participantId, User user)
         {
-            var results = validator.ValidateSevisUpdateEV(participantId, user);
+            var results = validator.ValidateSevisUpdateEV(projectId, participantId, user);
 
             return results;
         }
@@ -52,10 +58,12 @@ namespace ECA.Business.Service.Persons
         /// Test validation on a update sevis object.
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The id of the project the partipant belongs.</param>
+        /// <param name="user">The user performing the validation.</param>
         /// <returns>Sevis object validation results</returns>
-        public async Task<ValidationResult> PreUpdateSevisValidationAsync(int participantId, User user)
+        public async Task<ValidationResult> PreUpdateSevisValidationAsync(int projectId, int participantId, User user)
         {
-            var results = await validator.ValidateSevisUpdateEVAsync(participantId, user);
+            var results = await validator.ValidateSevisUpdateEVAsync(projectId, participantId, user);
 
             return results;
         }

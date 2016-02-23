@@ -46,21 +46,6 @@ namespace ECA.Business.Queries.Persons
         }
 
         /// <summary>
-        /// Creates a query to return all participantPersons in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The filtered and sorted query to retrieve participantPersons.</returns>
-        public static IQueryable<SimpleParticipantPersonDTO> CreateGetSimpleParticipantPersonsDTOQuery(EcaContext context, QueryableOperator<SimpleParticipantPersonDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetSimpleParticipantPersonsDTOQuery(context);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
         /// Creates a query to return all participantPersons for the project with the given id in the context.
         /// </summary>
         /// <param name="context">The context to query.</param>
@@ -82,11 +67,12 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantPerson</returns>
-        public static IQueryable<SimpleParticipantPersonDTO> CreateGetParticipantPersonDTOByIdQuery(EcaContext context, int participantId)
+        public static IQueryable<SimpleParticipantPersonDTO> CreateGetParticipantPersonDTOByIdQuery(EcaContext context, int projectId, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetSimpleParticipantPersonsDTOQuery(context).
-                Where(p => p.ParticipantId == participantId);
+            var query = CreateGetSimpleParticipantPersonsDTOQuery(context)
+                .Where(p => p.ProjectId == projectId)
+                .Where(p => p.ParticipantId == participantId);
             return query;
         }
     }

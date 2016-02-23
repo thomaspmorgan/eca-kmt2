@@ -225,9 +225,13 @@
     <Compile Include="Queries\Itineraries\ItineraryQueriesTest.cs" />
     <Compile Include="Queries\Itineraries\ItineraryStopQueriesTest.cs" />
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\BiographicalDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
     <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
@@ -305,6 +309,9 @@
     <Compile Include="Service\Persons\DeletedParticipantTest.cs" />
     <Compile Include="Service\Persons\NewPersonTest.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantExchangeVisitorServiceTest.cs" />
+    <Compile Include="Service\Persons\PersonSevisServiceValidatorTest.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />

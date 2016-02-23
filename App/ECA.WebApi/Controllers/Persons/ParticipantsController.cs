@@ -46,30 +46,6 @@ namespace ECA.WebApi.Controllers.Persons
             this.service = service;
             this.userProvider = userProvider;
         }
-
-        /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of participants.
-        /// </summary>
-        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of participants.</returns>
-        [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
-        [Route("Participants")]
-        public async Task<IHttpActionResult> GetParticipantsAsync([FromUri]PagingQueryBindingModel<SimpleParticipantDTO> queryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var results = await this.service.GetParticipantsAsync(
-                    queryModel.ToQueryableOperator(DEFAULT_SORTER,
-                    x => x.City,
-                    x => x.Country,
-                    x => x.Name));
-                return Ok(results);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
         
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participants by project id.

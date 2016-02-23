@@ -61,13 +61,6 @@ angular.module('staticApp')
           return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
       }
 
-      //$scope.view.onEmailAddressChange = function ($index) {
-      //    var email = $scope.view.newPointOfContact.emailAddresses[$index];          
-      //    if (email.address && email.address.length > 0 && emailRegex.test(email)) {
-      //        return loadPointsOfContactByEmail(email.address);
-      //    }
-      //}
-
       $scope.view.isValidEmail = function ($value, $index) {
           return emailRegex.test($value);
       }

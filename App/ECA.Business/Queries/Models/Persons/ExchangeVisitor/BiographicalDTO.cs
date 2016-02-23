@@ -1,0 +1,156 @@
+﻿using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
+using ECA.Business.Validation.Model.Shared;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ECA.Business.Queries.Models.Persons
+{
+    public class BiographicalDTO
+    {
+        /// <summary>
+        /// Gets or sets the participant id.
+        /// </summary>
+        public int ParticipantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project id.
+        /// </summary>
+        public int ProjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        public int PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address id, this relates to the permanent residence address.
+        /// </summary>
+        public int? AddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number id.
+        /// </summary>
+        public int? PhoneNumberId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address id.
+        /// </summary>
+        public int? EmailAddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gender id.
+        /// </summary>
+        public int GenderId { get; set; }
+
+        /// <summary>
+        /// Current phone number
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Position held in home country
+        /// </summary>
+        public string PositionCode { get; set; }
+
+        /// <summary>
+        /// Full name of person
+        /// </summary>
+        public FullNameDTO FullName { get; set; }
+
+        /// <summary>
+        /// Student date of birth.
+        /// </summary>
+        public DateTime? BirthDate { get; set; }
+
+        /// <summary>
+        /// Gender code.
+        /// </summary>
+        public string Gender { get; set; }
+
+        /// <summary>
+        /// City of birth
+        /// </summary>
+        public string BirthCity { get; set; }
+
+        /// <summary>
+        /// Country of birth
+        /// </summary>
+        public string BirthCountryCode { get; set; }
+
+        /// <summary>
+        /// Country of citizenship
+        /// </summary>
+        public string CitizenshipCountryCode { get; set; }
+
+        /// <summary>
+        /// Country of legal permanent residence
+        /// </summary>
+        public string PermanentResidenceCountryCode { get; set; }
+
+        /// <summary>
+        /// Birth country reason (01 = U.S. - Born to foreign diplomat, 02 = U.S. - Expatriated)
+        /// </summary>
+        public string BirthCountryReason { get; set; }
+
+        /// <summary>
+        /// Email address
+        /// </summary>
+        public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Returns a sevis biographical model instance.
+        /// </summary>
+        /// <returns>The biographical model instance.</returns>
+        public Biographical GetBiographical()
+        {
+            Contract.Requires(this.FullName != null, "The full name must not be null.");
+            return new Biographical
+            {
+                BirthCity = this.BirthCity,
+                BirthCountryCode = this.BirthCountryCode,
+                BirthCountryReason = this.BirthCountryReason,
+                BirthDate = this.BirthDate,
+                CitizenshipCountryCode = this.CitizenshipCountryCode,
+                EmailAddress = this.EmailAddress,
+                FullName = this.FullName.GetFullName(),
+                Gender = this.Gender,
+                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
+                ResidentialAddress = null,
+            };
+        }
+
+        /// <summary>
+        /// Returns a sevis biographical update model instance.
+        /// </summary>
+        /// <returns>The biographical update instance.</returns>
+        public BiographicalUpdate GetBiographicalUpdate(USAddress mailingAddress, USAddress usAddress)
+        {
+            Contract.Requires(this.FullName != null, "The full name must not be null.");
+            return new BiographicalUpdate
+            {
+                BirthCity = this.BirthCity,
+                BirthCountryCode = this.BirthCountryCode,
+                BirthCountryReason = this.BirthCountryReason,
+                BirthDate = this.BirthDate,
+                CitizenshipCountryCode = this.CitizenshipCountryCode,
+                EmailAddress = this.EmailAddress,
+                FullName = this.FullName.GetFullName(),
+                Gender = this.Gender,
+                MailAddress = mailingAddress,
+                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
+                PhoneNumber = this.PhoneNumber,
+                PositionCode = this.PositionCode,
+                printForm = true,
+                Remarks = String.Empty,
+                ResidentialAddress = null,
+                USAddress = usAddress
+            };
+        }
+
+    }
+}

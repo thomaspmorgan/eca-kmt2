@@ -491,7 +491,7 @@ namespace ECA.Business.Test.Service.Persons
                     {
                         FullName = new FullName
                         {
-                            FirsName = "Jon",
+                            FirstName = "Jon",
                             LastName = "Doe"
                         },
                         Gender = "M",

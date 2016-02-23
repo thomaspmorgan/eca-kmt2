@@ -9,10 +9,7 @@
 
     function participantPersonsSevisService($q, DragonBreath) {
         var service = {
-            getParticipantPersonsSevis: getParticipantPersonsSevis,
-            getParticipantPersonsSevisByProject: getParticipantPersonsSevisByProject,
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
-            getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
             validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
@@ -23,58 +20,34 @@
 
         return service;
 
-        function getParticipantPersonsSevis(params) {
-            var defer = $q.defer();
-            DragonBreath.get(params, 'participantPersonsSevis')
-              .success(function (data) {
-                  defer.resolve(data);
-              });
-            return defer.promise;
+        function getParticipantPersonsSevisById(projectId, id) {
+            return DragonBreath.get('project/' + projectId + '/participantPersonsSevis', id);
         };
 
-        function getParticipantPersonsSevisByProject(id, params) {
-            var defer = $q.defer();
-            var path = 'projects/' + id + "/participantPersonsSevis";
-            DragonBreath.get(params, path)
-              .success(function (data) {
-                  defer.resolve(data);
-              });
-            return defer.promise;
-        };
-
-        function getParticipantPersonsSevisById(id) {
-            return DragonBreath.get('participantPersonsSevis', id);
-        };
-
-        function getParticipantPersonsSevisCommStatusesById(id, params) {
-            var path = 'participantPersonsSevis/' + id + '/sevisCommStatuses';
-            return DragonBreath.get(params, path);
-        };
-
-        function updateParticipantPersonsSevis(sevisInfo) {
-            var path = 'participantPersonsSevis';
+        function updateParticipantPersonsSevis(projectId, sevisInfo) {
+            var path = 'project/' + projectId + '/participantPersonsSevis';
             return DragonBreath.save(sevisInfo, path);
         };
 
-        function sendToSevis(participantIds) {
-            return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
+        function sendToSevis(projectId, participantIds) {
+            return DragonBreath.create(participantIds, 'project/' + projectId + '/participantPersonsSevis/sendToSevis');
         };
         
         // validate a sevis create object
-        function validateParticipantPersonsCreateSevis(id) {
-            var path = 'ParticipantPersonsSevis/ValidateCreateSevis';
+        function validateParticipantPersonsCreateSevis(projectId, id) {
+            var path = 'project/' + projectId + '/ParticipantPersonsSevis/ValidateCreateSevis';
             return DragonBreath.get(path, id);
         };
 
         // validate a sevis update object
-        function validateParticipantPersonsUpdateSevis(id) {
-            var path = 'ParticipantPersonsSevis/ValidateUpdateSevis';
+        function validateParticipantPersonsUpdateSevis(projectId, id) {
+            var path = 'project/' + projectId + '/ParticipantPersonsSevis/ValidateUpdateSevis';
             return DragonBreath.get(path, id);
         };
 
         // create participant sevis status
-        function createParticipantSevisCommStatus(id, params) {
-            var path = 'ParticipantPersonsSevis/' + id + '/CreateSevisCommStatus';
+        function createParticipantSevisCommStatus(projectId, id, params) {
+            var path = 'project/' + projectId +'/ParticipantPersonsSevis/' + id + '/CreateSevisCommStatus';
             return DragonBreath.create(params, path);
         };
         

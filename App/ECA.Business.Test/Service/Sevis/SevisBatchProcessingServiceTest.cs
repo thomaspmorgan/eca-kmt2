@@ -86,59 +86,59 @@ namespace ECA.Business.Test.Service.Sevis
             };
             context.SevisBatchProcessings.Add(sbp1);
 
-            ParticipantType individual = new ParticipantType
-            {
-                IsPerson = true,
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id
-            };
-            ParticipantStatus status = new ParticipantStatus
-            {
-                ParticipantStatusId = ParticipantStatus.Active.Id,
-                Status = ParticipantStatus.Active.Value
-            };            
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 123,
-                SevisId = "N0000000001",
-                ParticipantPersonSevisCommStatuses = null
-            };
-            ParticipantPersonSevisCommStatus sevisCommStatus = new ParticipantPersonSevisCommStatus
-            {
-                Id = 1,
-                AddedOn = DateTimeOffset.Now,
-                ParticipantId = 123,
-                ParticipantPerson = participantPerson,
-                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id
-            };
-            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
-            sevisCommStatuses.Add(sevisCommStatus);
-            participantPerson.ParticipantPersonSevisCommStatuses = sevisCommStatuses;
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = participantPerson.ParticipantId,
-                ProjectId = project.ProjectId,
-                Project = project,
-                ParticipantStatusId = status.ParticipantStatusId,
-                ParticipantTypeId = individual.ParticipantTypeId
-            };
-            participantPerson.Participant = participant;
-            project.Participants.Add(participant);
+        //    ParticipantType individual = new ParticipantType
+        //    {
+        //        IsPerson = true,
+        //        Name = ParticipantType.Individual.Value,
+        //        ParticipantTypeId = ParticipantType.Individual.Id
+        //    };
+        //    ParticipantStatus status = new ParticipantStatus
+        //    {
+        //        ParticipantStatusId = ParticipantStatus.Active.Id,
+        //        Status = ParticipantStatus.Active.Value
+        //    };            
+        //    var participantPerson = new ParticipantPerson
+        //    {
+        //        ParticipantId = 123,
+        //        SevisId = "N0000000001",
+        //        ParticipantPersonSevisCommStatuses = null
+        //    };
+        //    ParticipantPersonSevisCommStatus sevisCommStatus = new ParticipantPersonSevisCommStatus
+        //    {
+        //        Id = 1,
+        //        AddedOn = DateTimeOffset.Now,
+        //        ParticipantId = 123,
+        //        ParticipantPerson = participantPerson,
+        //        SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id
+        //    };
+        //    List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+        //    sevisCommStatuses.Add(sevisCommStatus);
+        //    participantPerson.ParticipantPersonSevisCommStatuses = sevisCommStatuses;
+        //    var project = new Project
+        //    {
+        //        ProjectId = 1
+        //    };
+        //    var participant = new Participant
+        //    {
+        //        ParticipantId = participantPerson.ParticipantId,
+        //        ProjectId = project.ProjectId,
+        //        Project = project,
+        //        ParticipantStatusId = status.ParticipantStatusId,
+        //        ParticipantTypeId = individual.ParticipantTypeId
+        //    };
+        //    participantPerson.Participant = participant;
+        //    project.Participants.Add(participant);
 
-            context.Projects.Add(project);
-            context.ParticipantStatuses.Add(status);
-            context.ParticipantTypes.Add(individual);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
+        //    context.Projects.Add(project);
+        //    context.ParticipantStatuses.Add(status);
+        //    context.ParticipantTypes.Add(individual);
+        //    context.Participants.Add(participant);
+        //    context.ParticipantPersons.Add(participantPerson);
+            
             var updates = sevisService.UpdateParticipantPersonSevisBatchStatusAsync(user, 1);
 
             var resultsDTO = updates.Result;
-            
+
             Assert.IsTrue(resultsDTO.Count() == 1);
             Assert.IsTrue(resultsDTO.Select(x => x.SevisCommStatus).FirstOrDefault() == SevisCommStatus.BatchRequestUnsuccessful.Value);
         }

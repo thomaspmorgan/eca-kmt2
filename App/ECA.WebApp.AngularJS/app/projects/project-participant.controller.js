@@ -64,13 +64,13 @@ angular.module('staticApp')
       $scope.participantInfo = {};
 
       $scope.actions = {
-          "Select Action": undefined,
-          "Send To SEVIS": 1
+          "Select Action": undefined
       };
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
+      $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
 
       // SEVIS validation: expand participant and set active tab where error is located.
@@ -304,6 +304,27 @@ angular.module('staticApp')
                   $log.info('User not authorized to edit project in project-participant.controller.js.');
               }
           };
+          config[ConstantsService.permission.editSevis.value] = {
+              hasPermission: function () {
+                  $scope.permissions.hasEditSevisPermission = true;
+                  $log.info('User has edit sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $scope.permissions.hasEditSevisPermission = false;
+                  $log.info('User not authorized to edit sevis in project-participant.controller.js.');
+              }
+          };
+          config[ConstantsService.permission.sendToSevis.value] = {
+              hasPermission: function () {
+                  addSendToSevisAction();
+                  $log.info('User has send to sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $log.info('User not authorized to send to sevis in project-participant.controller.js.');
+              }
+          };
+          
+
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
             }, function () {
@@ -350,7 +371,7 @@ angular.module('staticApp')
           };
 
           // Get the total number or participants
-          ParticipantService.getParticipantsByProject($stateParams.projectId, { start: 0, limit: 1 })
+          ParticipantService.getParticipantsByProject(projectId, { start: 0, limit: 1 })
             .then(function (data) {
                 $scope.view.totalParticipants = data.total;
             })
@@ -359,7 +380,7 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
 
-          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+          ParticipantService.getParticipantsByProject(projectId, params)
             .then(function (data) {
                 angular.forEach(data.results, function (result, index) {
                     if (result.personId) {
@@ -386,7 +407,7 @@ angular.module('staticApp')
       };
 
       function loadSevisInfo(participantId) {
-          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
+          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
@@ -408,8 +429,12 @@ angular.module('staticApp')
           });
       };
 
+      function addSendToSevisAction() {
+          $scope.actions["Send To SEVIS"] = 1;
+      }
+
       function loadExchangeVisitorInfo(participantId) {
-          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(participantId)
+          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(projectId, participantId)
           .then(function (data) {
               $scope.exchangeVisitorInfo[participantId] = data.data;
           })
@@ -430,7 +455,7 @@ angular.module('staticApp')
 
       function saveSevisInfoById(participantId) {
           var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(projectId, sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
               $scope.sevisInfo[participantId] = data.data;
@@ -449,7 +474,7 @@ angular.module('staticApp')
       function saveExchangeVisitorById(participantId) {
           var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
           var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(exchangeVisitorInfo)
+          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(projectId, exchangeVisitorInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
@@ -476,7 +501,7 @@ angular.module('staticApp')
           $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
           $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
           if ($scope.participantInfo[participantId].show) {
-                $scope.view.tabInfo = true;
+              $scope.view.tabInfo = true;
           }
       };
 
@@ -526,7 +551,7 @@ angular.module('staticApp')
       $scope.applyAction = function () {
           if ($scope.selectedAction === 1) {
               var participants = Object.keys($scope.selectedParticipants).map(Number);
-              ParticipantPersonsSevisService.sendToSevis(participants)
+              ParticipantPersonsSevisService.sendToSevis(projectId, participants)
               .then(function (results) {
                   $scope.selectAll = false;
                   $scope.selectedParticipants = {};
