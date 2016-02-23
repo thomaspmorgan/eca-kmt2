@@ -129,6 +129,11 @@ namespace ECA.Data
         public string SevisValidationResult { get; set; }
 
         /// <summary>
+        /// The most recent participant Sevis batch submission result
+        /// </summary>
+        public string SevisBatchResult { get; set; }
+
+        /// <summary>
         /// Collection of SEVIS communication statuses
         /// </summary>
         public ICollection<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }

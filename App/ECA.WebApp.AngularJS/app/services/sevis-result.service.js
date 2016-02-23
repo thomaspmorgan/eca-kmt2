@@ -31,7 +31,7 @@ angular.module('staticApp')
               });
 
               return defer.promise;
-          }
+          }          
       }
 
       obj.updateSevisVerificationResultsByParticipant = function (participant) {
@@ -46,7 +46,7 @@ angular.module('staticApp')
               }
 
               return defer.promise;
-          }
+          }          
       }
 
       // pre-sevis create validation
@@ -109,6 +109,6 @@ angular.module('staticApp')
               $log.error('Unable to save participant SEVIS verification results');
           });
       }
-
+      
       return obj;
   });

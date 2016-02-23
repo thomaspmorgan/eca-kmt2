@@ -63,7 +63,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="user"></param>
         /// <returns>Sevis exchange visitor update objects (250 max)</returns>
         List<UpdateExchVisitor> GetSevisUpdateEVs(User user);
-
+        
         /// <summary>
         /// Retrieve XML format of SEVIS batch object
         /// </summary>
@@ -99,7 +99,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The id of the project the participants belong to.</param>
         /// <returns>List of participant ids that were updated</returns>
         int[] SendToSevis(int projectId, int[] participantIds);
-
+        
         /// <summary>
         /// Update a participant SEVIS pre-validation status
         /// </summary>
@@ -118,5 +118,22 @@ namespace ECA.Business.Service.Persons
         /// <param name="result">Validation result object</param>
         /// <returns>The new comm status.</returns>
         Task<ParticipantPersonSevisCommStatus> UpdateParticipantPersonSevisCommStatusAsync(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result);
+
+        /// <summary>
+        /// Update a participant SEVIS pre-validation status
+        /// </summary>
+        /// <param name="participantId">Participant ID</param>
+        /// <param name="projectId">The id of the project the participant belongs to.</param>
+        /// <param name="user">The user performing the update.</param>
+        /// <param name="result">Validation result object</param>
+        /// <returns>The new comm status.</returns>
+        void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result);
+
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        /// <param name="user">User</param>
+        Task<int> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId);
     }
 }

@@ -10,6 +10,7 @@ using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using Newtonsoft.Json;
 using FluentValidation.Results;
 using NLog;
 using System;
@@ -42,7 +43,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
+        public ParticipantPersonsSevisService(EcaContext context, ISaveAction saveActions = null) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfModelDoesNotExist = (id, instance, type) =>
@@ -53,15 +54,15 @@ namespace ECA.Business.Service.Persons
                 }
             };
             throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
-            {
+        {
                 if (participant != null && participant.ProjectId != projectId)
-                {
+        {
                     throw new BusinessSecurityException(
                         String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
                         userId,
                         participant.ParticipantId,
                         projectId));
-                }
+        }
             };
         }
 
@@ -250,33 +251,60 @@ namespace ECA.Business.Service.Persons
         /// Process SEVIS batch transaction log
         /// </summary>
         /// <param name="batchId">Batch ID</param>
-        public async void UpdateParticipantPersonSevisBatchStatus(int batchId)
+        public async Task<int> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
         {
             var service = new SevisBatchProcessingService(this.Context);
             var batchLog = await service.GetByIdAsync(batchId);
-            User user = new User(50);
+            var xml = batchLog.TransactionLogXml;
+            int updates = 0;
 
-            StringBuilder sb = new StringBuilder();
+            var doc = XDocument.Parse(xml.ToString());
 
-            //sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
-            //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
-            //sb.Append(@"</Record></Process></root>");
+            foreach (XElement record in doc.Descendants("Record"))
+            {                    
+                var sevisID = record.Attribute("sevisID").Value;
+                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
+                string json = JsonConvert.SerializeXNode(record);
             
-            var root = XElement.Parse(batchLog.TransactionLogXml.Value);
-
-            IEnumerable<XElement> participants =
-                from el in root.Descendants("Process")
-                where
-                    (from record in el.Elements("Record")
-                     select record).Any()
-                select el;
-
-            foreach (XElement record in participants)
-            {
-                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"));
-                await participantService.UpdateAsync(updatedParticipantPersonSevis);
-                await participantService.SaveChangesAsync();
+                // update participant person batch result
+                ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
+                var participantPersonSevisDTO = await participantPersonsSevisService.GetParticipantPersonsSevisByIdAsync(participantID);
+                participantPersonSevisDTO.SevisBatchResult = json;
+                await participantPersonsSevisService.SaveChangesAsync();
+                updates++;
             }
+
+            return updates;
+        }
+
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        public int UpdateParticipantPersonSevisBatchStatus(User user, int batchId)
+        {
+            var service = new SevisBatchProcessingService(this.Context);
+            var batchLog = service.GetById(batchId);
+            var xml = batchLog.TransactionLogXml;
+            int updates = 0;
+
+            var doc = XDocument.Parse(xml.ToString());
+
+            foreach (XElement record in doc.Descendants("Record"))
+            {
+                var sevisID = record.Attribute("sevisID").Value;
+                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
+                string json = JsonConvert.SerializeXNode(record);
+
+                // update participant person batch result
+                ParticipantPersonsSevisService participantPersonsSevisService = new ParticipantPersonsSevisService(this.Context);
+                var participantPersonSevisDTO = participantPersonsSevisService.GetParticipantPersonsSevisById(participantID);
+                participantPersonSevisDTO.SevisBatchResult = json;
+                participantPersonsSevisService.SaveChanges();
+                updates++;
+            }
+
+            return updates;
         }
 
         /// <summary>

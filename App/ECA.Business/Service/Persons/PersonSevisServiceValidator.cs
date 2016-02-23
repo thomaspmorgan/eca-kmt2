@@ -13,7 +13,7 @@ namespace ECA.Business.Service.Persons
     {
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private readonly Action<int, object, Type> throwIfEntityNotFound;
-
+        
         public PersonSevisServiceValidator(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -26,7 +26,7 @@ namespace ECA.Business.Service.Persons
                         userId,
                         participant.ParticipantId,
                         projectId));
-                }
+        }
             };
             throwIfEntityNotFound = (id, instance, t) =>
             {

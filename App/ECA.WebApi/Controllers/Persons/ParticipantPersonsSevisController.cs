@@ -167,6 +167,6 @@ namespace ECA.WebApi.Controllers.Persons
             await participantService.SaveChangesAsync();
             return Ok();
         }
-        
+                
     }
 }
