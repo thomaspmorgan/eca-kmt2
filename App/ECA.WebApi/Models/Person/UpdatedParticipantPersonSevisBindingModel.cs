@@ -65,6 +65,11 @@ namespace ECA.WebApi.Models.Person
         public string SevisValidationResult { get; set; }
 
         /// <summary>
+        /// The most recent participant Sevis batch submission result
+        /// </summary>
+        public string SevisBatchResult { get; set; }
+
+        /// <summary>
         /// Convert binding model to business model 
         /// </summary>
         /// <param name="user">The user updating the membership</param>
@@ -83,7 +88,8 @@ namespace ECA.WebApi.Models.Person
                 isDS2019SentToTraveler: this.IsDS2019SentToTraveler,
                 startDate: this.StartDate,
                 endDate: this.EndDate,
-                sevisValidationResult: this.SevisValidationResult
+                sevisValidationResult: this.SevisValidationResult,
+                sevisBatchResult: this.SevisBatchResult
             );
         }
     }
