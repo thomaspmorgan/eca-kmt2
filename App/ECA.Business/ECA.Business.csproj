@@ -314,6 +314,7 @@
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveAction.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorValidationService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
     <Compile Include="Service\Persons\IExchangeVisitorService.cs" />
@@ -675,7 +676,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />

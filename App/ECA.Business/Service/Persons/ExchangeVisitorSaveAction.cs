@@ -113,79 +113,69 @@ namespace ECA.Business.Service.Persons
 
         public async Task AfterSaveChangesAsync(DbContext context)
         {
-            var addedParticipantIds = await GetParticipantIdsAsync(this.CreatedObjects);
-            var modifiedParticipantIds = await GetParticipantIdsAsync(this.ModifiedObjects);
-            var allParticipantIds = addedParticipantIds.Union(modifiedParticipantIds).Distinct().ToList();
+            //var addedParticipantIds = await GetParticipantIdsAsync(this.CreatedObjects);
+            //var modifiedParticipantIds = await GetParticipantIdsAsync(this.ModifiedObjects);
+            //var allParticipantIds = addedParticipantIds.Union(modifiedParticipantIds).Distinct().ToList();
 
-            var validatableParticipantIds = await ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(this.Context, allParticipantIds).ToListAsync();
-            var nonValidatableParticipantIds = allParticipantIds.Except(validatableParticipantIds.Select(x => x.ParticipantId).ToList());
-            if (validatableParticipantIds.Count > 0)
-            {
-                foreach(var validatableParticipants in validatableParticipantIds)
-                {
-                    var participant = await this.Context.ParticipantPersons.FindAsync(validatableParticipants.ParticipantId);
-                    ValidationResult result;
-                    if (String.IsNullOrWhiteSpace(participant.SevisId))
-                    {
-                        var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(this.SystemUser, validatableParticipants.ProjectId, participant.ParticipantId);
-                        var validator = new CreateExchVisitorValidator();
-                        result = await validator.ValidateAsync(createExchangeVisitor);
+            //var validatableParticipantIds = await ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(this.Context, allParticipantIds).ToListAsync();
+            //var nonValidatableParticipantIds = allParticipantIds.Except(validatableParticipantIds.Select(x => x.ParticipantId).ToList());
+            //if (validatableParticipantIds.Count > 0)
+            //{
+            //    foreach(var validatableParticipants in validatableParticipantIds)
+            //    {
+            //        var participant = await this.Context.ParticipantPersons.FindAsync(validatableParticipants.ParticipantId);
+            //        ValidationResult result;
+            //        if (String.IsNullOrWhiteSpace(participant.SevisId))
+            //        {
+            //            var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(this.SystemUser, validatableParticipants.ProjectId, participant.ParticipantId);
+            //            var validator = new CreateExchVisitorValidator();
+            //            result = await validator.ValidateAsync(createExchangeVisitor);
 
-                    }
-                    else
-                    {
-                        var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(this.SystemUser, validatableParticipants.ProjectId, participant.ParticipantId);
-                        var validator = new UpdateExchVisitorValidator();
-                        result = await validator.ValidateAsync(updateExchangeVisitor);
-                    }
-                    await SaveParticipantPersonValidationResultsAsync(participant.ParticipantId, result);
-                    UpdateValidatedParticipantPersonSevisCommStatus(participant.ParticipantId, result);                    
-                };
-            }
+            //        }
+            //        else
+            //        {
+            //            var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(this.SystemUser, validatableParticipants.ProjectId, participant.ParticipantId);
+            //            var validator = new UpdateExchVisitorValidator();
+            //            result = await validator.ValidateAsync(updateExchangeVisitor);
+            //        }
+            //        await SaveParticipantPersonValidationResultsAsync(participant.ParticipantId, result);
+            //        UpdateValidatedParticipantPersonSevisCommStatus(participant.ParticipantId, result);                    
+            //    };
+            //}
         }
 
-        public async Task SaveParticipantPersonValidationResultsAsync(int participantId, ValidationResult result)
-        {
-            if (!result.IsValid)
-            {
-                var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
-                participantPerson.SevisValidationResult = JsonConvert.SerializeObject(result);
-            }
-        }
+        //public async Task SaveParticipantPersonValidationResultsAsync(int participantId, ValidationResult result)
+        //{
+        //    if (!result.IsValid)
+        //    {
+        //        var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+        //        participantPerson.SevisValidationResult = JsonConvert.SerializeObject(result);
+        //    }
+        //}
 
-        public ParticipantPersonSevisCommStatus UpdateValidatedParticipantPersonSevisCommStatus(int participantId, ValidationResult result)
-        {
-            if(result.IsValid && result.Errors.Count == 0)
-            {
-                return AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.QueuedToSubmit.Id);
-            }
-            else
-            {
-                return AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.InformationRequired.Id);
-            }
-        }
+        //public ParticipantPersonSevisCommStatus UpdateValidatedParticipantPersonSevisCommStatus(int participantId, ValidationResult result)
+        //{
+        //    if(result.IsValid && result.Errors.Count == 0)
+        //    {
+        //        return AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.QueuedToSubmit.Id);
+        //    }
+        //    else
+        //    {
+        //        return AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.InformationRequired.Id);
+        //    }
+        //}
 
-        public List<ParticipantPersonSevisCommStatus> UpdateNonValidatableParticipantSevisCommStatus(List<int> participantIds)
-        {
-            var statuses = new List<ParticipantPersonSevisCommStatus>();
-            foreach (var participantId in participantIds)
-            {
-                statuses.Add(AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.InformationRequired.Id));
-            }
-            return statuses;
-        }
+        //public List<ParticipantPersonSevisCommStatus> UpdateNonValidatableParticipantSevisCommStatus(List<int> participantIds)
+        //{
+        //    var statuses = new List<ParticipantPersonSevisCommStatus>();
+        //    foreach (var participantId in participantIds)
+        //    {
+        //        statuses.Add(AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.InformationRequired.Id));
+        //    }
+        //    return statuses;
+        //}
 
-        private ParticipantPersonSevisCommStatus AddParticipantPersonSevisCommStatus(int participantId, int commStatusId)
-        {
-            var status = new ParticipantPersonSevisCommStatus
-            {
-                AddedOn = DateTimeOffset.UtcNow,
-                ParticipantId = participantId,
-                SevisCommStatusId = commStatusId
-            };
-            this.Context.ParticipantPersonSevisCommStatuses.Add(status);
-            return status;
-        }
+        
 
 
 
