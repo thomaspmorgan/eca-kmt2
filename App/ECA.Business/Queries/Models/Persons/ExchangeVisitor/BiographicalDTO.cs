@@ -28,6 +28,26 @@ namespace ECA.Business.Queries.Models.Persons
         public int PersonId { get; set; }
 
         /// <summary>
+        /// Gets or sets the address id, this relates to the permanent residence address.
+        /// </summary>
+        public int? AddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number id.
+        /// </summary>
+        public int? PhoneNumberId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address id.
+        /// </summary>
+        public int? EmailAddressId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gender id.
+        /// </summary>
+        public int GenderId { get; set; }
+
+        /// <summary>
         /// Current phone number
         /// </summary>
         public string PhoneNumber { get; set; }

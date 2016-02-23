@@ -29,6 +29,8 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
             var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
+            var addressQuery = AddressQueries.CreateGetAddressDTOQuery(context);
+
             var query = from participant in context.Participants
                         let participantPerson = participant.ParticipantPerson
                         let person = participant.Person
@@ -37,6 +39,8 @@ namespace ECA.Business.Queries.Persons
 
                         //right now assuming one country of citizenship, this should be checked by business layer
                         let countryOfCitizenship = person.CountriesOfCitizenship.FirstOrDefault()
+                        let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.BirthCountry : null
+                        let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
 
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let placeOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
@@ -56,11 +60,13 @@ namespace ECA.Business.Queries.Persons
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
-                        let hostInsitutionAddressCountry = participantPerson.HostInstitutionAddress != null
-                            && participantPerson.HostInstitutionAddress.Location != null
-                            && participantPerson.HostInstitutionAddress.Location.Country != null
-                            ? participantPerson.HostInstitutionAddress.Location.Country
-                            : null
+                        let residenceAddress = addressQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .OrderByDescending(x => x.IsPrimary)
+                            .FirstOrDefault()
+                        let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
+                        let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
+                        let residenceSevisCounryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
 
                         where participant.PersonId.HasValue
 
@@ -69,6 +75,10 @@ namespace ECA.Business.Queries.Persons
                             ParticipantId = participant.ParticipantId,
                             ProjectId = participant.ProjectId,
                             PersonId = person.PersonId,
+                            EmailAddressId = emailAddress != null ? emailAddress.Id : default(int?),
+                            AddressId = residenceAddress != null ? residenceAddress.AddressId : default(int?),
+                            PhoneNumberId = phoneNumber != null ? phoneNumber.Id : default(int?),
+                            GenderId = gender.GenderId,
                             FullName = new FullNameDTO
                             {
                                 FirstName = person.FirstName,
@@ -80,12 +90,10 @@ namespace ECA.Business.Queries.Persons
                             Gender = gender != null ? gender.SevisGenderCode : null,
                             BirthCity = hasPlaceOfBirth ? placeOfBirth.LocationName : null,
                             BirthCountryCode = hasCountryOfBirth ? sevisCountryOfBirth.CountryCode : null,
-                            CitizenshipCountryCode = countryOfCitizenship != null ? countryOfCitizenship.LocationIso2 : null,
+                            CitizenshipCountryCode = sevisCountryOfCitizenshipCode,
                             BirthCountryReason = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
-                            PermanentResidenceCountryCode = hostInsitutionAddressCountry != null
-                                ? hostInsitutionAddressCountry.LocationIso2
-                                : null,
+                            PermanentResidenceCountryCode = residenceSevisCounryCode,
                             PhoneNumber = phoneNumber != null ? phoneNumber.Number : null
                         };
             return query;

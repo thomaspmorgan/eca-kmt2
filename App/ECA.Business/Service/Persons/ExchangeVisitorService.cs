@@ -65,6 +65,7 @@ namespace ECA.Business.Service.Persons
         private readonly Action<Participant, int> throwIfMoreThanOneCountryOfCitizenship;
         private readonly Action<Person, int> throwIfPersonDoesNotHavePlaceOfBirth;
         private readonly Action<int, int> throwIfLocationIsNotACity;
+        private readonly Action<Participant, Project> throwIfProjectIsNotExchangeVisitorType;
 
         public ExchangeVisitorService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
@@ -116,6 +117,13 @@ namespace ECA.Business.Service.Persons
                     throw new NotSupportedException(String.Format("The participant with id [{0}] does not have a place of birth that is a city.", participantId));
                 }
             };
+            throwIfProjectIsNotExchangeVisitorType = (participant, project) =>
+            {
+                if(project.VisitorTypeId != VisitorType.ExchangeVisitor.Id)
+                {
+                    throw new NotSupportedException(String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId));
+                }
+            };
         }
 
         #region Get Update Exchange Visitor
@@ -162,6 +170,7 @@ namespace ECA.Business.Service.Persons
 
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+            throwIfProjectIsNotExchangeVisitorType(participant, project);
 
             var exchangeVisitorUpdate = GetExchangeVisitorUpdate(participant, user, participantPerson);
             SetBiographyUpdate(participant, participantPerson, exchangeVisitorUpdate);
@@ -205,6 +214,7 @@ namespace ECA.Business.Service.Persons
 
             var project = await Context.Projects.FindAsync(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+            throwIfProjectIsNotExchangeVisitorType(participant, project);
 
             var exchangeVisitorUpdate = GetExchangeVisitorUpdate(participant, user, participantPerson);
             await SetBiographyUpdateAsync(participant, participantPerson, exchangeVisitorUpdate);
@@ -243,8 +253,6 @@ namespace ECA.Business.Service.Persons
         }
 
         #endregion
-
-
 
         #region Get Create Exchange Visitor
 
@@ -290,6 +298,7 @@ namespace ECA.Business.Service.Persons
 
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+            throwIfProjectIsNotExchangeVisitorType(participant, project);
 
             var visitor = GetCreateExchangeVisitor(
                 participant: participant,
@@ -340,6 +349,7 @@ namespace ECA.Business.Service.Persons
 
             var project = await Context.Projects.FindAsync(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+            throwIfProjectIsNotExchangeVisitorType(participant, project);
 
             var visitor = GetCreateExchangeVisitor(
                 participant: participant,

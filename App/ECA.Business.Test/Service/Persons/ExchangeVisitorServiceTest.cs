@@ -43,7 +43,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var position = new Position
             {
@@ -88,6 +89,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var visitor = new ParticipantExchangeVisitor
             {
@@ -106,6 +108,11 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestSetBiography_CheckProperties()
         {
             ExchangeVisitor visitor = null;
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 100,
@@ -114,6 +121,8 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "first name",
                 LastName = "last name",
                 NameSuffix = "suffix",
+                GenderId = gender.GenderId,
+                Gender = gender
             };
 
             var participant = new Participant
@@ -132,6 +141,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                context.Genders.Add(gender);
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
                 context.People.Add(person);
@@ -811,7 +821,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
 
             var person = new Person
@@ -877,7 +888,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
 
             var person = new Person
@@ -944,18 +956,26 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 10,
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -990,6 +1010,7 @@ namespace ECA.Business.Test.Service.Persons
                 ProgramCategory = category,
                 ProgramCategoryId = category.ProgramCategoryId
             };
+            context.Genders.Add(gender);
             context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
@@ -1023,11 +1044,17 @@ namespace ECA.Business.Test.Service.Persons
             var endDate = DateTimeOffset.Now.AddDays(20.0);
 
             var user = new User(2);
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var project = new Project
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1042,7 +1069,9 @@ namespace ECA.Business.Test.Service.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -1077,6 +1106,7 @@ namespace ECA.Business.Test.Service.Persons
                 ProgramCategory = category,
                 ProgramCategoryId = category.ProgramCategoryId
             };
+            context.Genders.Add(gender);
             context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
@@ -1112,7 +1142,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var fieldOfStudy = new FieldOfStudy
             {
@@ -1125,11 +1156,18 @@ namespace ECA.Business.Test.Service.Persons
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 10,
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -1152,6 +1190,7 @@ namespace ECA.Business.Test.Service.Persons
                 FieldOfStudy = fieldOfStudy,
                 FieldOfStudyId = fieldOfStudy.FieldOfStudyId
             };
+            context.Genders.Add(gender);
             context.Locations.Add(cityOfBirth);
             context.People.Add(person);
             context.Participants.Add(participant);
@@ -1236,12 +1275,18 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 505,
                 LocationTypeId = LocationType.City.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
             };
             var person = new Person
             {
@@ -1251,7 +1296,9 @@ namespace ECA.Business.Test.Service.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -1286,6 +1333,7 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantExchangeVisitors.Add(visitor);
             context.Projects.Add(project);
             context.People.Add(person);
+            context.Genders.Add(gender);
 
             Action<CreateExchVisitor> tester = (testInstance) =>
             {
@@ -1365,12 +1413,18 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 505,
                 LocationTypeId = LocationType.City.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
             };
             var person = new Person
             {
@@ -1380,7 +1434,9 @@ namespace ECA.Business.Test.Service.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -1415,6 +1471,7 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantExchangeVisitors.Add(visitor);
             context.Projects.Add(project);
             context.People.Add(person);
+            context.Genders.Add(gender);
 
             Action<CreateExchVisitor> tester = (testInstance) =>
             {
@@ -1442,18 +1499,26 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 10,
                 PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -1486,6 +1551,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
             context.ParticipantPersons.Add(participantPerson);
             context.ParticipantExchangeVisitors.Add(visitor);
+            context.Genders.Add(gender);
             Action<CreateExchVisitor> tester = (instance) =>
             {
                 Assert.IsNotNull(instance);
@@ -1514,18 +1580,26 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 10,
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -1553,6 +1627,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
             context.ParticipantPersons.Add(participantPerson);
             context.ParticipantExchangeVisitors.Add(visitor);
+            context.Genders.Add(gender);
             Action<CreateExchVisitor> tester = (instance) =>
             {
                 Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Address1);
@@ -1574,6 +1649,65 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetCreateExchangeVisitorAsync_ProjectIsNotAnExchangeVisitorProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
+            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+
+        [TestMethod]
         public async Task TestGetCreateExchangeVisitor_ProjectDoesNotExist()
         {
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);
@@ -1584,7 +1718,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1643,7 +1778,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1702,7 +1838,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var person = new Person
             {
@@ -1753,7 +1890,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1805,7 +1943,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1850,7 +1989,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1886,7 +2026,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -1934,7 +2075,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var organization = new Organization
             {
@@ -1971,7 +2113,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -2150,11 +2293,18 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 FirstName = "firstName",
-                LastName = "lastName"
+                LastName = "lastName",
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -2185,6 +2335,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
 
             Action<ExchangeVisitorUpdate> tester = (instance) =>
             {
@@ -2210,11 +2361,18 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 FirstName = "firstName",
-                LastName = "lastName"
+                LastName = "lastName",
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -2244,6 +2402,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
 
             ExchangeVisitorUpdate visitor = new ExchangeVisitorUpdate();
             var otherParticipant = new Participant
@@ -2321,11 +2480,18 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 FirstName = "firstName",
-                LastName = "lastName"
+                LastName = "lastName",
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -2364,7 +2530,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
+            context.Genders.Add(gender);
             Action<ExchangeVisitorUpdate> tester = (instance) =>
             {
                 Assert.IsNotNull(instance.Biographical);
@@ -2445,11 +2611,18 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 FirstName = "firstName",
-                LastName = "lastName"
+                LastName = "lastName",
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -2488,7 +2661,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
+            context.Genders.Add(gender);
             Action<ExchangeVisitorUpdate> tester = (instance) =>
             {
                 Assert.IsNotNull(instance.Biographical);
@@ -2517,18 +2690,26 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -2560,6 +2741,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
 
             Action<UpdateExchVisitor> tester = (instance) =>
             {
@@ -2581,19 +2763,27 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 FirstName = "firstName",
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
             };
             var participant = new Participant
             {
@@ -2625,7 +2815,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-
+            context.Genders.Add(gender);
             Action<UpdateExchVisitor> tester = (instance) =>
             {
                 Assert.IsNotNull(instance);
@@ -2644,19 +2834,27 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
                 LocationId = 1,
                 LocationTypeId = LocationType.City.Id,
             };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
             var person = new Person
             {
                 PersonId = 20,
                 FirstName = "firstName",
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                GenderId = gender.GenderId,
+                Gender = gender
             };
             var participant = new Participant
             {
@@ -2693,6 +2891,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
 
             Action<UpdateExchVisitor> tester = (instance) =>
             {
@@ -2722,7 +2921,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -2781,7 +2981,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 3,
                 StartDate = yesterday,
-                EndDate = endDate
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var person = new Person
             {
@@ -2826,7 +3027,8 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -2879,11 +3081,70 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_ProjectIsNotAnExchangeVisitorProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                FirstName = "firstName",
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
+            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
         public async Task TestGetUpdateExchangeVisitorAsync_MoreThanOneCountryOfCitzenships()
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -2942,7 +3203,8 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -2991,7 +3253,8 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
             {
@@ -3032,7 +3295,8 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
@@ -3057,7 +3321,8 @@ namespace ECA.Business.Test.Service.Persons
         {
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
