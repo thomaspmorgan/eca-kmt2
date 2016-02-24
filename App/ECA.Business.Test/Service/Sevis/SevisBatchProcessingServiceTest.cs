@@ -79,12 +79,12 @@ namespace ECA.Business.Test.Service.Sevis
             var sbp1 = new ECA.Data.SevisBatchProcessing
             {
                 BatchId = 1,
-                SubmitDate = new DateTimeOffset(new DateTime(2016, 02, 02)),
-                RetrieveDate = new DateTimeOffset(new DateTime(2016, 02, 04)),
+                SubmitDate = DateTimeOffset.Now,
+                RetrieveDate = DateTimeOffset.Now,
                 SendXml = XElement.Parse(@"<root></root>"),
                 TransactionLogXml = XElement.Parse(@"<Root><Process><Record sevisID='N0000000001' requestID='123' userID='1'><Result status='0'><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result></Record></Process></Root>")
             };
-            ParticipantType individual = new ParticipantType
+            ParticipantType participantType = new ParticipantType
             {
                 IsPerson = true,
                 Name = ParticipantType.Individual.Value,
@@ -94,6 +94,20 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ParticipantStatusId = ParticipantStatus.Active.Id,
                 Status = ParticipantStatus.Active.Value
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                GenderId = gender.GenderId,
+                FirstName = "first",
+                LastName = "last",
+                FullName = "full name"
             };
             var participantPerson = new ParticipantPerson
             {
@@ -115,13 +129,24 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 ProjectId = 1
             };
+            var history = new History
+            {
+                RevisedOn = DateTimeOffset.Now
+            };
             var participant = new Participant
             {
                 ParticipantId = participantPerson.ParticipantId,
+                Person = person,
+                PersonId = person.PersonId,
                 ProjectId = project.ProjectId,
                 Project = project,
                 ParticipantStatusId = status.ParticipantStatusId,
-                ParticipantTypeId = individual.ParticipantTypeId
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,                
+                ParticipantPerson = participantPerson,
+                History = history,
+                Status = status,
+                StatusDate = DateTimeOffset.Now
             };
             participantPerson.Participant = participant;
             project.Participants.Add(participant);
@@ -129,7 +154,9 @@ namespace ECA.Business.Test.Service.Sevis
             context.SevisBatchProcessings.Add(sbp1);
             context.Projects.Add(project);
             context.ParticipantStatuses.Add(status);
-            context.ParticipantTypes.Add(individual);
+            context.ParticipantTypes.Add(participantType);
+            context.Genders.Add(gender);
+            context.People.Add(person);
             context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
