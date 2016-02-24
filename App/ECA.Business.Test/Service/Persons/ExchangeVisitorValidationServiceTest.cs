@@ -112,7 +112,6 @@ namespace ECA.Business.Test.Service.Persons
                 };
                 System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
                 {
-
                     return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
                 });
                 var user = new User(1);

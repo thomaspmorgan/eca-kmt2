@@ -1373,7 +1373,7 @@ namespace ECA.Data
 			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Participant;
 			if ("Dependent".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Dependent;
 			return null;
-	}
+		}
 
 		/// <summary>
 		/// Returns the static lookup config used to generate this type's static lookups.
@@ -1382,7 +1382,7 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "PersonType", TableName = "PersonType", IdColumnName = "PersonTypeId", ValueColumnName = "Name" };
-}
+		}
 	}
 }
 #endregion

@@ -17,6 +17,132 @@ namespace ECA.Business.Test.Queries.Persons
             context = new TestEcaContext();
         }
 
+        #region CreateGetRelatedPersonByDependentFamilyMemberQuery
+        [TestMethod]
+        public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_CheckProperties()
+        {
+            var dependent = new Person
+            {
+                PersonId = 10,
+                PersonTypeId = PersonType.Dependent.Id
+            };
+
+            var person = new Person
+            {
+                PersonTypeId = PersonType.Participant.Id,
+                PersonId = 1,
+                Alias = "alias",
+                FamilyName = "family",
+                FirstName = "firstName",
+                GivenName = "givenName",
+                LastName = "lastName",
+                MiddleName = "middleName",
+                NamePrefix = "Mr.",
+                NameSuffix = "III",
+                Patronym = "patronym",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                }
+            };
+            dependent.Family.Add(person);
+            person.Family.Add(dependent);
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.People.Add(dependent);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(person.PersonId, result.PersonId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DependentDoesNotHaveParticipantFamilyMember()
+        {
+            var dependent = new Person
+            {
+                PersonId = 10,
+                PersonTypeId = PersonType.Dependent.Id
+            };
+
+            var person = new Person
+            {
+                PersonTypeId = PersonType.Dependent.Id,
+                PersonId = 1,
+                Alias = "alias",
+                FamilyName = "family",
+                FirstName = "firstName",
+                GivenName = "givenName",
+                LastName = "lastName",
+                MiddleName = "middleName",
+                NamePrefix = "Mr.",
+                NameSuffix = "III",
+                Patronym = "patronym",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                }
+            };
+            dependent.Family.Add(person);
+            person.Family.Add(dependent);
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                Status = status,
+                Person = person,
+            };
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.People.Add(person);
+            context.People.Add(dependent);
+            context.Genders.Add(person.Gender);
+
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DepdendentDoesNotHaveFmaily()
+        {
+            var dependent = new Person
+            {
+                PersonId = 10,
+                PersonTypeId = PersonType.Dependent.Id
+            };
+            context.People.Add(dependent);
+
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DepdendentDoesNotExist()
+        {
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, 0).FirstOrDefault();
+            Assert.IsNull(result);
+        }
+        #endregion
+
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_HasCurrentParticipation()
         {
@@ -37,23 +163,75 @@ namespace ECA.Business.Test.Queries.Persons
                     GenderName = Gender.Female.Value
                 }
             };
-            var status = new ParticipantStatus
+            var activeStatus = new ParticipantStatus
             {
-                ParticipantStatusId = 1,
-                Status = "status"
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
             };
-            var participant = new Participant
+            var activeParticipant = new Participant
             {
-                Status = status,
+                ParticipantId = 25,
+                Status = activeStatus,
                 Person = person,
+                ProjectId = 10
             };
-            context.ParticipantStatuses.Add(status);
-            person.Participations.Add(participant);
+            var alumnusStatus = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Alumnus.Id,
+                Status = ParticipantStatus.Alumnus.Value
+            };
+            var alumnusParticipant = new Participant
+            {
+                ParticipantId = 250,
+                Status = activeStatus,
+                Person = person,
+                ProjectId = 100
+            };
+            context.ParticipantStatuses.Add(activeStatus);
+            context.ParticipantStatuses.Add(alumnusStatus);
+
+            person.Participations.Add(activeParticipant);
+            person.Participations.Add(alumnusParticipant);
+
+            person.Participations = person.Participations.OrderBy(x => x.ParticipantStatusId).ToList();
+
             context.People.Add(person);
+            context.Participants.Add(activeParticipant);
+            context.Participants.Add(alumnusParticipant);
             context.Genders.Add(person.Gender);
 
             var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
-            Assert.AreEqual(status.Status, result.CurrentStatus);
+            Assert.AreEqual(activeStatus.Status, result.CurrentStatus);
+            Assert.AreEqual(activeParticipant.ParticipantId, result.ParticipantId);
+            Assert.AreEqual(activeParticipant.ProjectId, result.ProjectId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetSimplePersonDTOsQuery_DoesNotHaveCurrentParticipation()
+        {
+            var person = new Person
+            {
+                Alias = "alias",
+                FamilyName = "family",
+                FirstName = "firstName",
+                GivenName = "givenName",
+                LastName = "lastName",
+                MiddleName = "middleName",
+                NamePrefix = "Mr.",
+                NameSuffix = "III",
+                Patronym = "patronym",
+                Gender = new Gender
+                {
+                    GenderId = Gender.Female.Id,
+                    GenderName = Gender.Female.Value
+                }
+            };
+            context.People.Add(person);
+            context.Genders.Add(person.Gender);
+            var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
+            Assert.AreEqual(PersonQueries.UNKNOWN_PARTICIPANT_STATUS, result.CurrentStatus);
+            Assert.IsNull(result.ParticipantId);
+            Assert.IsNull(result.ProjectId);
         }
 
         [TestMethod]
@@ -234,7 +412,7 @@ namespace ECA.Business.Test.Queries.Persons
 
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_PlaceOfBirthIsUnknown()
-        {  
+        {
             var person = new Person
             {
 

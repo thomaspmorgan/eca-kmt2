@@ -214,7 +214,7 @@ namespace ECA.Data
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Activity> Activities { get; set; }
         public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
-        public ICollection<Person> Family { get; set; }
+        public virtual ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
         public ICollection<Impact> Impacts { get; set; }
         public ICollection<Participant> Participations { get; set; }
