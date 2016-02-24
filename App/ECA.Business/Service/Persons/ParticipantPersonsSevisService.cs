@@ -43,7 +43,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonsSevisService(EcaContext context, ISaveAction saveActions = null) : base(context)
+        public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
             throwIfModelDoesNotExist = (id, instance, type) =>

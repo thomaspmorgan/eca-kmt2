@@ -837,6 +837,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.PersonLanguageProficiency>(this.SingleOrDefault(x => x.LanguageId.Equals(keyValues.First())));
 		}
 	}
+	public class PersonTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonType>
+	{
+		public override ECA.Data.PersonType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PersonTypeId
+			return this.SingleOrDefault(x => x.PersonTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.PersonType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PersonTypeId
+			return Task.FromResult<ECA.Data.PersonType>(this.SingleOrDefault(x => x.PersonTypeId.Equals(keyValues.First())));
+		}
+	}
 	public class PhoneNumberTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PhoneNumber>
 	{
 		public override ECA.Data.PhoneNumber Find(params object[] keyValues)
@@ -1262,6 +1277,7 @@ namespace ECA.Business.Test
 			this.People = new PersonTestDbSet();
 			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
 			this.PersonLanguageProficiencies = new PersonLanguageProficiencyTestDbSet();
+			this.PersonTypes = new PersonTypeTestDbSet();
 			this.PhoneNumbers = new PhoneNumberTestDbSet();
 			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.Positions = new PositionTestDbSet();

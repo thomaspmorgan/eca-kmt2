@@ -223,6 +223,17 @@ namespace ECA.Data
 
         public History History { get; set; }
 
+        /// <summary>
+        /// Gets or sets the person type id.
+        /// </summary>
+        [Column("PersonTypeId")]
+        public int PersonTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person type.
+        /// </summary>
+        [ForeignKey("PersonTypeId")]
+        public virtual PersonType PersonType { get; set; }
 
         public int GetId()
         {

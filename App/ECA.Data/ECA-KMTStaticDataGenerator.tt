@@ -102,6 +102,14 @@
 		ValueColumnName = "Name",
 		Namespace = nameSpace
 	});
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "PersonType",
+		ClassName = "PersonType",
+		IdColumnName = "PersonTypeId",
+		ValueColumnName = "Name",
+		Namespace = nameSpace
+	});
 
 	types.Add(new StaticLookupConfig
 	{

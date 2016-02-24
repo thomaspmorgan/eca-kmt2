@@ -17,19 +17,30 @@ using FluentValidation;
 
 namespace ECA.Business.Service.Persons
 {
-    public class ExchangeVisitorValidationService : EcaService
+    /// <summary>
+    /// The ExchangeVisitorValidationService is used to execute sevis validation on a participant and save the validation results
+    /// and sevis comm status to the datastore.
+    /// </summary>
+    public class ExchangeVisitorValidationService : EcaService, IExchangeVisitorValidationService
     {
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private readonly Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private IExchangeVisitorService exchangeVisitorService;
 
-
+        /// <summary>
+        /// Creates a new instance of the service with the context to query and the validators.
+        /// </summary>
+        /// <param name="context">The context to operate against.</param>
+        /// <param name="exchangeVisitorService">The exchange visitor service that is capable of executing validation.</param>
+        /// <param name="updateExchVisitorValidator">The update exchange visitor validator.</param>
+        /// <param name="createExchVisitorValidator">The create exchange visitor validator.</param>
+        /// <param name="saveActions">The context save actions.</param>
         public ExchangeVisitorValidationService(EcaContext context,
             IExchangeVisitorService exchangeVisitorService,
             AbstractValidator<UpdateExchVisitor> updateExchVisitorValidator = null,
             AbstractValidator<CreateExchVisitor> createExchVisitorValidator = null,
             List<ISaveAction> saveActions = null)
-            : base(context)
+            : base(context, saveActions)
         {
             Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
@@ -67,7 +78,16 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         public AbstractValidator<CreateExchVisitor> CreateExchangeVisitorValidator { get; private set; }
 
-        public ParticipantPersonSevisCommStatus UpdateParticipantSevisValidation(User user, int projectId, int participantId)
+        /// <summary>
+        /// Runs a validation on sevis information for the participant with the given id and updates the sevis comm
+        /// status with the latest validation result.  If the sevis validation is successful then a sevis comm status is added
+        /// with the Ready To Submit status, otherwise, Information Required is set.
+        /// </summary>
+        /// <param name="user">The user performing the validation.</param>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <returns>The added participant sevis comm status.</returns>
+        public ParticipantPersonSevisCommStatus RunParticipantSevisValidation(User user, int projectId, int participantId)
         {
             var participant = Context.Participants.Find(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
@@ -98,7 +118,16 @@ namespace ECA.Business.Service.Persons
             }
         }
 
-        public async Task<ParticipantPersonSevisCommStatus> UpdateParticipantSevisValidationAsync(User user, int projectId, int participantId)
+        /// <summary>
+        /// Runs a validation on sevis information for the participant with the given id and updates the sevis comm
+        /// status with the latest validation result.  If the sevis validation is successful then a sevis comm status is added
+        /// with the Ready To Submit status, otherwise, Information Required is set.
+        /// </summary>
+        /// <param name="user">The user performing the validation.</param>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <returns>The added participant sevis comm status.</returns>
+        public async Task<ParticipantPersonSevisCommStatus> RunParticipantSevisValidationAsync(User user, int projectId, int participantId)
         {
             var participant = await Context.Participants.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
@@ -159,7 +188,5 @@ namespace ECA.Business.Service.Persons
             this.Context.ParticipantPersonSevisCommStatuses.Add(status);
             return status;
         }
-
-
     }
 }

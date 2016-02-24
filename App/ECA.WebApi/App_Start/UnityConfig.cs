@@ -89,6 +89,7 @@ namespace ECA.WebApi.App_Start
                 list.Add(new OfficeDocumentSaveAction(new AppSettings()));
                 list.Add(new OrganizationDocumentSaveAction(new AppSettings()));
                 list.Add(new AddressToEntityDocumentSaveAction(new AppSettings()));
+                list.Add(new ExchangeVisitorSaveAction(c.Resolve<IExchangeVisitorValidationService>()));
                 return list;
             }));
         }
@@ -187,6 +188,18 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IVisitorTypeService, VisitorTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDataPointConfigurationService, DataPointConfigurationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IItineraryStopService, ItineraryStopService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IParticipantPersonsSevisService, ParticipantPersonsSevisService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISevisValidationService, SevisValidationService>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IExchangeVisitorService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new ExchangeVisitorService(c.Resolve<EcaContext>(), null);
+            }));
+            container.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), null, null, null);
+            }));
         }
 
         /// <summary>
