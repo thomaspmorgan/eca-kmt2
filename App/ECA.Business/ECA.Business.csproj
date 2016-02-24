@@ -213,6 +213,7 @@
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />

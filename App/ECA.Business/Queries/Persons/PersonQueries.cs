@@ -101,7 +101,7 @@ namespace ECA.Business.Queries.Persons
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
 
             var query = from person in context.People
-                        let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
+                        let currentParticipant = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault()
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
                         let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
@@ -165,8 +165,8 @@ namespace ECA.Business.Queries.Persons
                                          }).OrderByDescending(a => a.IsPrimary).ThenBy(a => a.AddressType),
                             IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
                             PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
-                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
-                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                            ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
+                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId
                         };
             return query;
         }
@@ -185,6 +185,7 @@ namespace ECA.Business.Queries.Persons
 
             var query = from person in context.People
                         let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
+                        let currentParticipant = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault()
                         where person.PersonId == personId
                         select new ContactInfoDTO
                         {
@@ -199,8 +200,8 @@ namespace ECA.Business.Queries.Persons
                             PhoneNumbers = phoneNumberQuery.Where(x => x.PersonId == personId),
                             HasContactAgreement = person.HasContactAgreement,
                             PersonId = person.PersonId,
-                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
-                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                            ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
+                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId
                         };
             return query;
         }
@@ -217,10 +218,10 @@ namespace ECA.Business.Queries.Persons
 
             var query = from person in context.People
                         let participantPerson = context.ParticipantPersons.Where(x => x.Participant.PersonId == person.PersonId).FirstOrDefault()
-                        let currentParticipation = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statuses, Active(2) and Alumnus(1), Active is shown.
-                        let hasCurrentParticipation = currentParticipation != null
-                            && currentParticipation.Status != null
-                            && currentParticipation.Status.Status != null
+                        let currentParticipant = person.Participations.OrderByDescending(p => p.ParticipantStatusId).FirstOrDefault() // the ID order has default precidence, for example if there are two statuses, Active(2) and Alumnus(1), Active is shown.
+                        let hasCurrentParticipation = currentParticipant != null
+                            && currentParticipant.Status != null
+                            && currentParticipant.Status.Status != null
                         where person.PersonId == personId
                         select new GeneralDTO
                         {
@@ -232,13 +233,12 @@ namespace ECA.Business.Queries.Persons
                             Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
                             // RelatedReports TBD
                             ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description }),
-                            CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
-                            SevisId = participantPerson == null ? string.Empty : participantPerson.SevisId,
-                            SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                            CurrentStatus = hasCurrentParticipation ? currentParticipant.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
+                            ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
+                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId
                         };
 
             return query;
-
         }
 
         /// <summary>

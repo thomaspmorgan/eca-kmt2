@@ -134,13 +134,8 @@ namespace ECA.Business.Queries.Models.Persons
         public int ParticipantId { get; set; }
 
         /// <summary>
-        /// Gets or sets the participant's sevis id
+        /// Gets or sets the ProjectId of this participant.
         /// </summary>
-        public string SevisId { get; set; }
-
-        /// <summary>
-        /// Sevis Status (person participants only)
-        /// </summary>
-        public string SevisStatus { get; set; }
+        public int ProjectId { get; set; }
     }
 }

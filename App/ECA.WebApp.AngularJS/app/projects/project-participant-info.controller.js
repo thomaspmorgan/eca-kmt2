@@ -114,8 +114,7 @@ angular.module('staticApp')
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
-                validateSevisInfo($scope.view.participantPerson);
-                return loadParticipantInfo(projectId, $scope.participantid)
+                return loadParticipantInfo($scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;
@@ -130,22 +129,6 @@ angular.module('staticApp')
             });
       }
       
-      // pre-sevis validation
-      function validateSevisInfo(participantPerson) {
-          var params = {
-              participantId: participantPerson.participantId,
-              sevisId: participantPerson.sevisId,
-              projectId: projectId
-          };
-          SevisResultService.updateSevisVerificationResultsByParticipant(params)
-              .then(function (validationResults) {
-
-              })
-              .catch(function (error) {
-                  $log.error('Unable to update sevis validation results for participantId: ' + params.participantId);
-              });
-      }
-
       var projectId = $stateParams.projectId;
       var limit = 300;
       var searchLimit = 10;

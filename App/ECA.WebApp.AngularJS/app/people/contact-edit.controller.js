@@ -35,15 +35,6 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage("The edit was successful.");
               loadContactInfo($stateParams.personId);
               $scope.edit.Contact = false;
-              SevisResultService.updateSevisVerificationResultsByPersonId($stateParams.personId)
-                .then(function (response) {
-                    if (response) {
-                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
-                    }
-                })
-                .catch(function (error) {
-                    $log.error('Unable to update sevis validation results for participantId: ' + participantId);
-                });
           },
             function (error) {
                 if (error.status === 400) {

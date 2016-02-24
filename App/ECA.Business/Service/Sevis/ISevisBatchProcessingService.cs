@@ -1,8 +1,10 @@
 ﻿using ECA.Business.Queries.Models.Sevis;
 using ECA.Core.Service;
 using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+
 namespace ECA.Business.Service.Sevis
 {
     /// <summary>
@@ -35,6 +37,13 @@ namespace ECA.Business.Service.Sevis
         /// <param name="updatedSevisBatchProcessing">The SevisBatchProcessing record.</param>
         Task UpdateAsync(UpdatedSevisBatchProcessing updatedSevisBatchProcessing);
 
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        /// <param name="user">User</param>
+        Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId);
+        
         /// <summary>
         /// Retrieves the  SevisBatchProcessing dto with the given id.
         /// </summary>
@@ -109,6 +118,18 @@ namespace ECA.Business.Service.Sevis
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="batchId"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            return Task.FromResult<IEnumerable<ParticipantSevisBatchProcessingResultDTO>>(null);
+        }
+        
         /// <summary>
         /// 
         /// </summary>
