@@ -791,7 +791,6 @@ namespace ECA.Business.Test.Service.Persons
                 context.Revert();
                 await saveAction.BeforeSaveChangesAsync(context);
                 tester();
-
             }
         }
         #endregion
@@ -807,6 +806,5 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsTrue(list.Contains(a));
             Assert.IsTrue(list.Contains(b));
         }
-
     }
 }
