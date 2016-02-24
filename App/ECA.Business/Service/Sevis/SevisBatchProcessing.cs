@@ -24,6 +24,7 @@ namespace ECA.Business.Service.Sevis
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<SevisBatchProcessing, int> throwIfSevisBatchProcessingNotFound;
+        private ParticipantService participantService;
         private ParticipantPersonsSevisService sevisService;
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="saveActions">The save actions.</param>
-        public SevisBatchProcessingService(EcaContext context, ParticipantPersonsSevisService sevisService, List<ISaveAction> saveActions = null)
+        public SevisBatchProcessingService(EcaContext context, ParticipantService participantService, ParticipantPersonsSevisService sevisService, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -42,6 +43,7 @@ namespace ECA.Business.Service.Sevis
                     throw new ModelNotFoundException(String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId));
                 }
             };
+            this.participantService = participantService;
             this.sevisService = sevisService;
         }
 
@@ -143,7 +145,9 @@ namespace ECA.Business.Service.Sevis
         private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
         {
             var result = new ParticipantSevisBatchProcessingResultDTO();
-            var participantPersonSevisDTO = await sevisService.GetParticipantPersonsSevisByIdAsync(participantID);
+
+            var participantDTO = await participantService.GetParticipantByIdAsync(participantID);
+            var participantPersonSevisDTO = await sevisService.GetParticipantPersonsSevisByIdAsync(participantDTO.ProjectId, participantID);
             participantPersonSevisDTO.SevisBatchResult = json;
 
             await SaveChangesAsync();
