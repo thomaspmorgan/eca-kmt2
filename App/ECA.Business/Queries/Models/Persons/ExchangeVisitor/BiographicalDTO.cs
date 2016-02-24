@@ -103,6 +103,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets the number of cuntry citizenships.
+        /// </summary>
+        public int NumberOfCitizenships { get; set; }
+
+        /// <summary>
         /// Returns a sevis biographical model instance.
         /// </summary>
         /// <returns>The biographical model instance.</returns>

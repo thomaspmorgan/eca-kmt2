@@ -77,6 +77,28 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public void TestGetCreateExchangeVisitor_ParticipantExchangeVisitorIsNull()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var instance = service.GetCreateExchangeVisitor(participant, user, project, null);
+            Assert.IsNull(instance.PositionCode);
+            Assert.IsNull(instance.CategoryCode);
+        }
+
+        [TestMethod]
         public void TestGetCreateExchangeVisitor_ProjectEndDateAndPositionAndCategoryAreNull()
         {
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);
@@ -1766,171 +1788,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_PersonPlaceOfBirthIsNotACity()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.Address.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId - 1,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-
-            var message = String.Format("The participant with id [{0}] does not have a place of birth that is a city.", participant.ParticipantId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_PersonDoesNotHavePlaceOfBirth()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId - 1,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-
-            };
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-
-            var message = String.Format("The participant with id [{0}] does not have a place of birth.", participant.ParticipantId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantExchangeVisitorDoesNotExist()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            context.Locations.Add(cityOfBirth);
-            participant.ParticipantPerson = participantPerson;
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantExchangeVisitor).Name, participant.ParticipantId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
+        
 
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesNotExist()
@@ -2101,67 +1959,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantHasMoreThanOneCitizenship()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
-            };
-            person.CountriesOfCitizenship.Add(new Location());
-            person.CountriesOfCitizenship.Add(new Location());
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The participant with id [0] has more than one country of citizenship.", participant.ParticipantId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
+        
         #endregion
 
         #region GetExchangeVisitorUpdate
@@ -2911,118 +2709,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitor_PersonPlaceOfBirthIsNotACity()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.Address.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId - 1,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-
-            var message = String.Format("The participant with id [{0}] does not have a place of birth that is a city.", participant.ParticipantId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetUpdateExchangeVisitor_PersonDoesNotHavePlaceOfBirth()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId - 1,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-
-            };
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-
-            var message = String.Format("The participant with id [{0}] does not have a place of birth.", participant.ParticipantId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
         public async Task TestGetUpdateExchangeVisitorAsync_ProjectDoesNotExist()
         {
             var project = new Project
@@ -3132,66 +2818,6 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantPersons.Add(participantPerson);
 
             var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_MoreThanOneCountryOfCitzenships()
-        {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-            };
-            person.CountriesOfCitizenship.Add(new Location());
-            person.CountriesOfCitizenship.Add(new Location());
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
-            };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The participant with id [0] has more than one country of citizenship.", participant.ParticipantId);
             Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
             Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);

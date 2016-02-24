@@ -62,9 +62,6 @@ namespace ECA.Business.Service.Persons
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private readonly Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private readonly Action<Participant> throwIfParticipantIsNotAPerson;
-        private readonly Action<Participant, int> throwIfMoreThanOneCountryOfCitizenship;
-        private readonly Action<Person, int> throwIfPersonDoesNotHavePlaceOfBirth;
-        private readonly Action<int, int> throwIfLocationIsNotACity;
         private readonly Action<Participant, Project> throwIfProjectIsNotExchangeVisitorType;
 
         public ExchangeVisitorService(EcaContext context, List<ISaveAction> saveActions = null)
@@ -94,27 +91,6 @@ namespace ECA.Business.Service.Persons
                 if (!participant.PersonId.HasValue)
                 {
                     throw new NotSupportedException(String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId));
-                }
-            };
-            throwIfMoreThanOneCountryOfCitizenship = (participant, numberOfCitizenships) =>
-            {
-                if (numberOfCitizenships > 1)
-                {
-                    throw new NotSupportedException(String.Format("The participant with id [0] has more than one country of citizenship.", participant.ParticipantId));
-                }
-            };
-            throwIfPersonDoesNotHavePlaceOfBirth = (person, participantId) =>
-            {
-                if (!person.PlaceOfBirthId.HasValue)
-                {
-                    throw new NotSupportedException(String.Format("The participant with id [{0}] does not have a place of birth.", participantId));
-                }
-            };
-            throwIfLocationIsNotACity = (locationTypeId, participantId) =>
-            {
-                if(locationTypeId != LocationType.City.Id)
-                {
-                    throw new NotSupportedException(String.Format("The participant with id [{0}] does not have a place of birth that is a city.", participantId));
                 }
             };
             throwIfProjectIsNotExchangeVisitorType = (participant, project) =>
@@ -147,16 +123,7 @@ namespace ECA.Business.Service.Persons
 
             var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
             throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-
-            //need to check for multiple countries of citizen...
-            var numberOfCitizenships = CreateGetNumberOfCitizenshipsQuery(participantId).Count();
-            throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
-
-            var person = Context.People.Find(participant.PersonId.Value);
-            throwIfPersonDoesNotHavePlaceOfBirth(person, participantId);
-            var cityOfBirth = Context.Locations.Find(person.PlaceOfBirthId.Value);
-            throwIfLocationIsNotACity(cityOfBirth.LocationTypeId, participantId);
-
+            
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -191,16 +158,7 @@ namespace ECA.Business.Service.Persons
 
             var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-
-            //need to check for multiple countries of citizen...
-            var numberOfCitizenships = await CreateGetNumberOfCitizenshipsQuery(participantId).CountAsync();
-            throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
-
-            var person = await Context.People.FindAsync(participant.PersonId.Value);
-            throwIfPersonDoesNotHavePlaceOfBirth(person, participantId);
-            var cityOfBirth = await Context.Locations.FindAsync(person.PlaceOfBirthId.Value);
-            throwIfLocationIsNotACity(cityOfBirth.LocationTypeId, participantId);
-
+            
             var project = await Context.Projects.FindAsync(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -262,17 +220,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
-            throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-
-            //need to check for multiple countries of citizen...
-            var numberOfCitizenships = CreateGetNumberOfCitizenshipsQuery(participantId).Count();
-            throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
-
-            var person = Context.People.Find(participant.PersonId.Value);
-            throwIfPersonDoesNotHavePlaceOfBirth(person, participantId);
-            var cityOfBirth = Context.Locations.Find(person.PlaceOfBirthId.Value);
-            throwIfLocationIsNotACity(cityOfBirth.LocationTypeId, participantId);
-
+            
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -313,17 +261,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
-            throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-
-            //need to check for multiple countries of citizen...
-            var numberOfCitizenships = await CreateGetNumberOfCitizenshipsQuery(participantId).CountAsync();
-            throwIfMoreThanOneCountryOfCitizenship(participant, numberOfCitizenships);
             
-            var person = await Context.People.FindAsync(participant.PersonId.Value);
-            throwIfPersonDoesNotHavePlaceOfBirth(person, participantId);
-            var cityOfBirth = await Context.Locations.FindAsync(person.PlaceOfBirthId.Value);
-            throwIfLocationIsNotACity(cityOfBirth.LocationTypeId, participantId);
-
             var project = await Context.Projects.FindAsync(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -351,18 +289,17 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(project != null, "The project must not be null.");
-            Contract.Requires(visitor != null, "The visitor must not be null.");
             var instance = new ExchangeVisitor();
             instance.requestID = participant.ParticipantId.ToString();
             instance.userID = user.Id.ToString();
             instance.PrgStartDate = project.StartDate.UtcDateTime;
             instance.PrgEndDate = project.EndDate.HasValue ? project.EndDate.Value.UtcDateTime : default(DateTime?);
             instance.OccupationCategoryCode = EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
-            if (visitor.Position != null)
+            if (visitor != null && visitor.Position != null)
             {
                 instance.PositionCode = visitor.Position.PositionCode;
             }
-            if (visitor.ProgramCategory != null)
+            if (visitor != null && visitor.ProgramCategory != null)
             {
                 instance.CategoryCode = visitor.ProgramCategory.ProgramCategoryCode;
             }

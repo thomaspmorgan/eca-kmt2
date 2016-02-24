@@ -15,6 +15,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Newtonsoft.Json;
 using ECA.Core.Exceptions;
+using Newtonsoft.Json.Serialization;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -102,578 +103,402 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsNotValidatable()
+        public async Task TestRunParticipantSevisValidation_ParticipantHasASevisId_ValidationSucceeds()
         {
-            using (ShimsContext.Create())
+            var user = new User(1);
+            var project = new Project
             {
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    return new List<ValidatableExchangeVisitorParticipantDTO>().AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId
-                };
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                SevisValidationResult = "some string"
+            };
 
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-            }
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
+
+                Assert.IsNull(participantPerson.SevisValidationResult);
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Once());
+
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatableAndHasASevisId_ValidationSucceeds()
+        public async Task TestRunParticipantSevisValidation_ParticipantHasASevisId_ValidationFails()
         {
-            using (ShimsContext.Create())
+
+            var user = new User(1);
+            var project = new Project
             {
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisId = "N1234",
-                    SevisValidationResult = "some string"
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                SevisValidationResult = "some string"
+            };
+
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+
+            var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
+            updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
+
+                Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
+                    validationResult,
+                    new JsonSerializerSettings
                     {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }));
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Once());
 
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
-
-                var validationResult = new ValidationResult(new List<ValidationFailure>());
-                updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
-
-                    Assert.IsNull(participantPerson.SevisValidationResult);
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Exactly(2));
-            }
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatableHasASevisId_ValidationFails()
+        public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveASevisId_ValidationSucceeds()
         {
-            using (ShimsContext.Create())
+            var user = new User(1);
+            var project = new Project
             {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisValidationResult = "some string"
+            };
 
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisId = "N1234",
-                    SevisValidationResult = "some string"
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
-                    {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
 
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
-                updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
+                Assert.IsNull(participantPerson.SevisValidationResult);
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
 
-                    Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(validationResult));
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Exactly(2));
-            }
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatableAndDoesNotHaveASevisId_ValidationSucceeds()
+        public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveASevisId_ValidationFails()
         {
-            using (ShimsContext.Create())
+
+            var user = new User(1);
+            var project = new Project
             {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisValidationResult = "some string"
+            };
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
 
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisValidationResult = "some string"
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
+            var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
+            createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
+
+                Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
+                    validationResult,
+                    new JsonSerializerSettings
                     {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }));
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
 
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
-
-                var validationResult = new ValidationResult(new List<ValidationFailure>());
-                createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
-
-                    Assert.IsNull(participantPerson.SevisValidationResult);
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
-            }
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatableAndDoesNotHaveASevisId_ValidationFails()
+        public async Task TestRunParticipantSevisValidation_SevisIdIsNull()
         {
-            using (ShimsContext.Create())
+            var user = new User(1);
+            var project = new Project
             {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisValidationResult = "some string",
+                SevisId = null
+            };
 
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisValidationResult = "some string"
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
-                    {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
 
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
-                createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
+                Assert.IsNull(participantPerson.SevisValidationResult);
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
 
-                    Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(validationResult));
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
-            }
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatable_SevisIdIsNull()
+        public async Task TestRunParticipantSevisValidation_SevisIdIsWhitespace()
         {
-            using (ShimsContext.Create())
+
+            var user = new User(1);
+            var project = new Project
             {
-
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisValidationResult = "some string",
-                    SevisId = null
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
-                    {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
-
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
-
-                var validationResult = new ValidationResult(new List<ValidationFailure>());
-                createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
-
-                    Assert.IsNull(participantPerson.SevisValidationResult);
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
-            }
-        }
-
-        [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatable_SevisIdIsWhitespace()
-        {
-            using (ShimsContext.Create())
+                ProjectId = 1
+            };
+            var participant = new Participant
             {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisValidationResult = "some string",
+                SevisId = " "
+            };
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
 
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisValidationResult = "some string",
-                    SevisId = " "
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
-                    {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+                Assert.IsNull(participantPerson.SevisValidationResult);
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
 
-                var validationResult = new ValidationResult(new List<ValidationFailure>());
-                createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
-
-                    Assert.IsNull(participantPerson.SevisValidationResult);
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
-            }
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
         }
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantIsValidatable_SevisIdIsEmpty()
+        public async Task TestRunParticipantSevisValidation_SevisIdIsEmpty()
         {
-            using (ShimsContext.Create())
+            var user = new User(1);
+            var project = new Project
             {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisValidationResult = "some string",
+                SevisId = String.Empty
+            };
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
 
-                var user = new User(1);
-                var project = new Project
-                {
-                    ProjectId = 1
-                };
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                    ProjectId = project.ProjectId,
-                    Project = project
-                };
-                var participantPerson = new ParticipantPerson
-                {
-                    Participant = participant,
-                    ParticipantId = participant.ParticipantId,
-                    SevisValidationResult = "some string",
-                    SevisId = String.Empty
-                };
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetValidatableParticipantsQueryEcaContext = (ctx) =>
-                {
-                    var list = new List<ValidatableExchangeVisitorParticipantDTO>();
-                    list.Add(new ValidatableExchangeVisitorParticipantDTO
-                    {
-                        ParticipantId = participant.ParticipantId,
-                        PersonId = 1,
-                        ProjectId = project.ProjectId
-                    });
-                    return list.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ValidatableExchangeVisitorParticipantDTO>((src) =>
-                {
-                    return Task<ValidatableExchangeVisitorParticipantDTO>.FromResult(src.FirstOrDefault());
-                });
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNotNull(commStatus);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
+                Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
+                Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                var updateExchVisitor = new UpdateExchVisitor();
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-                exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+                Assert.IsNull(participantPerson.SevisValidationResult);
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
 
-                var validationResult = new ValidationResult(new List<ValidationFailure>());
-                createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
-                context.SetupActions.Add(() =>
-                {
-                    context.Projects.Add(project);
-                    context.Participants.Add(participant);
-                    context.ParticipantPersons.Add(participantPerson);
-                });
-                Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
-                {
-                    Assert.IsNotNull(commStatus);
-                    Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
-                    Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), commStatus));
-                    Assert.AreEqual(participant.ParticipantId, commStatus.ParticipantId);
-                    Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
-                    DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
-
-                    Assert.IsNull(participantPerson.SevisValidationResult);
-                };
-                context.Revert();
-                var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Once());
-
-                context.Revert();
-                result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
-                tester(result);
-                createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
-            }
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
         }
     }
 }

@@ -14,6 +14,7 @@ using ECA.Business.Validation.Model;
 using Newtonsoft.Json;
 using ECA.Core.Exceptions;
 using FluentValidation;
+using Newtonsoft.Json.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
@@ -96,26 +97,19 @@ namespace ECA.Business.Service.Persons
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var validatableParticipant = ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(this.Context, new List<int> { participantId }).FirstOrDefault();
-            if (validatableParticipant != null)
+            ValidationResult validationResult;
+            if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
             {
-                ValidationResult validationResult;
-                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
-                {
-                    var updateExchangeVisitor = exchangeVisitorService.GetUpdateExchangeVisitor(user, projectId, participantId);
-                    validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
-                }
-                else
-                {
-                    var createExchangeVisitor = exchangeVisitorService.GetCreateExchangeVisitor(user, projectId, participantId);
-                    validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
-                }
-                return HandleValidationResult(participantPerson, validationResult);
+                var updateExchangeVisitor = exchangeVisitorService.GetUpdateExchangeVisitor(user, projectId, participantId);
+                validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
             }
             else
             {
-                return HandleNonValidatableParticipant(participantPerson);
+                var createExchangeVisitor = exchangeVisitorService.GetCreateExchangeVisitor(user, projectId, participantId);
+                validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
             }
+            return HandleValidationResult(participantPerson, validationResult);
+
         }
 
         /// <summary>
@@ -136,26 +130,19 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var validatableParticipant = await ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(this.Context, new List<int> { participantId }).FirstOrDefaultAsync();
-            if (validatableParticipant != null)
+            ValidationResult validationResult;
+            if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
             {
-                ValidationResult validationResult;
-                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
-                {
-                    var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(user, projectId, participantId);
-                    validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
-                }
-                else
-                {
-                    var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
-                    validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
-                }
-                return HandleValidationResult(participantPerson, validationResult);
+                var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(user, projectId, participantId);
+                validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
             }
             else
             {
-                return HandleNonValidatableParticipant(participantPerson);
+                var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
+                validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
             }
+            return HandleValidationResult(participantPerson, validationResult);
+
         }
 
         private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
@@ -167,14 +154,14 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
-                person.SevisValidationResult = JsonConvert.SerializeObject(result);
+                person.SevisValidationResult = JsonConvert.SerializeObject(
+                    result,
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    });
                 return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.InformationRequired.Id);
             }
-        }
-
-        private ParticipantPersonSevisCommStatus HandleNonValidatableParticipant(ParticipantPerson person)
-        {
-            return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.InformationRequired.Id);
         }
 
         private ParticipantPersonSevisCommStatus AddParticipantPersonSevisCommStatus(int participantId, int commStatusId)
