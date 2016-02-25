@@ -187,6 +187,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IVisitorTypeService, VisitorTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDataPointConfigurationService, DataPointConfigurationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IItineraryStopService, ItineraryStopService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISevisValidationService, SevisValidationService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
