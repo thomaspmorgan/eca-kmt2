@@ -1286,7 +1286,7 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
-        #region GetCreateExchangeVisitorAsync
+        #region GetCreateExchVisitor
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_CheckExchangeVisitor()
         {
@@ -1363,14 +1363,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.IsNotNull(instance);
                 Assert.IsNotNull(instance.ExchangeVisitor);
-
-                Assert.AreEqual(participant.ParticipantId.ToString(), instance.ExchangeVisitor.requestID);
-                Assert.AreEqual(user.Id.ToString(), instance.ExchangeVisitor.userID);
-                Assert.AreEqual(project.StartDate.UtcDateTime, instance.ExchangeVisitor.PrgStartDate);
-                Assert.AreEqual(project.EndDate.Value.UtcDateTime, instance.ExchangeVisitor.PrgEndDate.Value);
-                Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, instance.ExchangeVisitor.OccupationCategoryCode);
-                Assert.AreEqual(position.PositionCode, instance.ExchangeVisitor.PositionCode);
-                Assert.AreEqual(category.ProgramCategoryCode, instance.ExchangeVisitor.CategoryCode);
+                Assert.IsNotNull(instance.ExchangeVisitor.CreateDependent);
+                Assert.AreEqual(0, instance.ExchangeVisitor.CreateDependent.Count());
             };
 
             var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
@@ -2540,6 +2534,65 @@ namespace ECA.Business.Test.Service.Persons
 
         #endregion
 
+        #region Set Dependents
+        [TestMethod]
+        public async Task TestSetDependents_ExchangeVisitorUpdate()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+            };
+            ExchangeVisitorUpdate exchangeVisitorUpdate = null;
+            context.SetupActions.Add(() =>
+            {
+                exchangeVisitorUpdate = new ExchangeVisitorUpdate
+                {
+
+                };
+            });
+            Action tester = () =>
+            {
+                Assert.IsNull(exchangeVisitorUpdate.Dependent);
+            };
+            context.Revert();
+            service.SetDependents(participant, exchangeVisitorUpdate);
+            tester();
+
+            context.Revert();
+            await service.SetDependentsAsync(participant, exchangeVisitorUpdate);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestSetDependents_ExchangeVisitor()
+        {
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+            };
+            ExchangeVisitor exchangeVisitorUpdate = null;
+            context.SetupActions.Add(() =>
+            {
+                exchangeVisitorUpdate = new ExchangeVisitor
+                {
+
+                };
+            });
+            Action tester = () =>
+            {
+                Assert.IsNotNull(exchangeVisitorUpdate.CreateDependent);
+                Assert.AreEqual(0, exchangeVisitorUpdate.CreateDependent.Count());
+            };
+            context.Revert();
+            service.SetDependents(participant, exchangeVisitorUpdate);
+            tester();
+
+            context.Revert();
+            await service.SetDependentsAsync(participant, exchangeVisitorUpdate);
+            tester();
+        }
+        #endregion
+
         #region GetUpdateExchangeVisitor
         [TestMethod]
         public async Task TestGetUpdateExchangeVisitorAsync_CheckExchangeVisitorUpdateProperty()
@@ -2610,6 +2663,77 @@ namespace ECA.Business.Test.Service.Persons
 
             var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
             tester(result);
+            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUpdateExchangeVisitorAsync_CheckSetDependents()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 20,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                Person = person,
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            project.Participants.Add(participant);
+            var user = new User(100);
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234"
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Locations.Add(cityOfBirth);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.Projects.Add(project);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+
+            Action<UpdateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNull(instance.ExchangeVisitor.Dependent);
+            };
+
+            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+
             var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
             tester(resultAsync);
         }

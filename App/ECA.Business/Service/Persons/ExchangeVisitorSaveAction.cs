@@ -108,6 +108,10 @@ namespace ECA.Business.Service.Persons
             participantEntityTypes.Add(typeof(ParticipantPerson));
             participantEntityTypes.Add(typeof(ParticipantExchangeVisitor));
             participantEntityTypes.Add(typeof(Person));
+            participantEntityTypes.Add(typeof(Address));
+            participantEntityTypes.Add(typeof(EmailAddress));
+            participantEntityTypes.Add(typeof(PhoneNumber));
+            participantEntityTypes.Add(typeof(Location));
             return participantEntityTypes;
         }
 
@@ -196,32 +200,44 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(objects != null, "The objects must not be null.");
             var ids = new List<int>();
+            Action<int?> addIfNotNull = (nullableId) =>
+            {
+                if (nullableId.HasValue)
+                {
+                    ids.Add(nullableId.Value);
+                }
+            };
             foreach (var obj in objects)
             {
                 var baseType = obj.GetType().BaseType;
                 if (baseType == typeof(Person))
                 {
-                    var person = (Person)obj;
-                    if (person.PersonTypeId == PersonType.Participant.Id)
-                    {
-                        var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
-                        if (dto != null && dto.ParticipantId.HasValue)
-                        {
-                            ids.Add(dto.ParticipantId.Value);
-                        }
-                    }
-                    else if (person.PersonTypeId == PersonType.Dependent.Id)
-                    {
-                        var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
-                        if (dto != null && dto.ParticipantId.HasValue)
-                        {
-                            ids.Add(dto.ParticipantId.Value);
-                        }
-                    }
-                    else
-                    {
-                        throw new NotSupportedException("The person by person type is not supported.");
-                    }
+                    var participantId = await GetParticipantIdAsync((Person)obj);
+                    addIfNotNull(participantId);
+                }
+                else if (baseType == typeof(PhoneNumber))
+                {
+                    var phoneNumber = (PhoneNumber)obj;
+                    var participantId = await GetParticipantIdAsync(phoneNumber);
+                    addIfNotNull(participantId);
+                }
+                else if (baseType == typeof(EmailAddress))
+                {
+                    var email = (EmailAddress)obj;
+                    var participantId = await GetParticipantIdAsync(email);
+                    addIfNotNull(participantId);
+                }
+                else if (baseType == typeof(Address))
+                {
+                    var address = (Address)obj;
+                    var participantId = await GetParticipantIdAsync(address);
+                    addIfNotNull(participantId);
+                }
+                else if (baseType == typeof(Location))
+                {
+                    var location = (Location)obj;
+                    var participantId = await GetParticipantIdAsync(location);
+                    addIfNotNull(participantId);
                 }
                 else
                 {
@@ -240,32 +256,44 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(objects != null, "The objects must not be null.");
             var ids = new List<int>();
+            Action<int?> addIfNotNull = (nullableId) =>
+            {
+                if (nullableId.HasValue)
+                {
+                    ids.Add(nullableId.Value);
+                }
+            };
             foreach (var obj in objects)
             {
                 var baseType = obj.GetType().BaseType;
                 if (baseType == typeof(Person))
                 {
-                    var person = (Person)obj;
-                    if (person.PersonTypeId == PersonType.Participant.Id)
-                    {
-                        var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
-                        if (dto != null && dto.ParticipantId.HasValue)
-                        {
-                            ids.Add(dto.ParticipantId.Value);
-                        }
-                    }
-                    else if (person.PersonTypeId == PersonType.Dependent.Id)
-                    {
-                        var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
-                        if (dto != null && dto.ParticipantId.HasValue)
-                        {
-                            ids.Add(dto.ParticipantId.Value);
-                        }
-                    }
-                    else
-                    {
-                        throw new NotSupportedException("The person by person type is not supported.");
-                    }
+                    var participantId = GetParticipantId((Person)obj);
+                    addIfNotNull(participantId);
+                }
+                else if (baseType == typeof(PhoneNumber))
+                {
+                    var phoneNumber = (PhoneNumber)obj;
+                    var participantId = GetParticipantId(phoneNumber);
+                    addIfNotNull(participantId);
+                }
+                else if(baseType == typeof(EmailAddress))
+                {
+                    var email = (EmailAddress)obj;
+                    var participantId = GetParticipantId(email);
+                    addIfNotNull(participantId);
+                }
+                else if (baseType == typeof(Address))
+                {
+                    var address = (Address)obj;
+                    var participantId = GetParticipantId(address);
+                    addIfNotNull(participantId);
+                }
+                else if(baseType == typeof(Location))
+                {
+                    var location = (Location)obj;
+                    var participantId = GetParticipantId(location);
+                    addIfNotNull(participantId);
                 }
                 else
                 {
@@ -273,6 +301,175 @@ namespace ECA.Business.Service.Persons
                 }
             }
             return ids.Distinct().ToList();
+        }
+
+        private IQueryable<Address> CreateGetAddressByLocationIdQuery(int locationId)
+        {
+            return Context.Addresses.Where(x => x.LocationId == locationId);
+        }
+
+        private async Task<int?> GetParticipantIdAsync(Location location)
+        {
+            int? participantId = null;
+            var address = await CreateGetAddressByLocationIdQuery(location.LocationId).FirstOrDefaultAsync();
+            if (address != null)
+            {
+                participantId = GetParticipantId(address);
+            }
+            return participantId;
+        }
+
+        private int? GetParticipantId(Location location)
+        {
+            int? participantId = null;
+            var address = CreateGetAddressByLocationIdQuery(location.LocationId).FirstOrDefault();
+            if (address != null)
+            {
+                participantId = GetParticipantId(address);
+            }
+            return participantId;
+        }
+
+        private async Task<int?> GetParticipantIdAsync(PhoneNumber phoneNumber)
+        {
+            int? participantId = null;
+            var personId = phoneNumber.PersonId;
+            if (personId.HasValue)
+            {
+                var person = await Context.People.FindAsync(personId.Value);
+                if (person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            return participantId;
+        }
+
+        private int? GetParticipantId(PhoneNumber phoneNumber)
+        {
+            int? participantId = null;
+            var personId = phoneNumber.PersonId;
+            if (personId.HasValue)
+            {
+                var person = Context.People.Find(personId.Value);
+                if (person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            return participantId;
+        }
+
+        private async Task<int?> GetParticipantIdAsync(Address address)
+        {
+            int? participantId = null;
+            var personId = address.PersonId;
+            if (personId.HasValue)
+            {
+                var person = await Context.People.FindAsync(personId.Value);
+                if (person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            return participantId;
+        }
+
+        private int? GetParticipantId(Address address)
+        {
+            int? participantId = null;
+            var personId = address.PersonId;
+            if (personId.HasValue)
+            {
+                var person = Context.People.Find(personId.Value);
+                if(person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            return participantId;
+        }
+
+        private async Task<int?> GetParticipantIdAsync(EmailAddress emailAddress)
+        {
+            int? participantId = null;
+            var personId = emailAddress.PersonId;
+            if (personId.HasValue)
+            {
+                var person = await Context.People.FindAsync(personId.Value);
+                if (person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            return participantId;
+        }
+
+        private int? GetParticipantId(EmailAddress emailAddress)
+        {
+            int? participantId = null;
+            var personId = emailAddress.PersonId;
+            if (personId.HasValue)
+            {
+                var person = Context.People.Find(personId.Value);
+                if (person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            return participantId;
+        }
+
+        private int? GetParticipantId(Person person)
+        {
+            int? participantId = null;
+            if (person.PersonTypeId == PersonType.Participant.Id)
+            {
+                var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
+                if (dto != null && dto.ParticipantId.HasValue)
+                {
+                    participantId = dto.ParticipantId.Value;
+                }
+            }
+            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            {
+                var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
+                if (dto != null && dto.ParticipantId.HasValue)
+                {
+                    participantId = dto.ParticipantId.Value;
+                }
+            }
+            else
+            {
+                throw new NotSupportedException("The person by person type is not supported.");
+            }
+            return participantId;
+        }
+
+        private async Task<int?> GetParticipantIdAsync(Person person)
+        {
+            int? participantId = null;
+            if (person.PersonTypeId == PersonType.Participant.Id)
+            {
+                var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
+                if (dto != null && dto.ParticipantId.HasValue)
+                {
+                    participantId = dto.ParticipantId.Value;
+                }
+            }
+            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            {
+                var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
+                if (dto != null && dto.ParticipantId.HasValue)
+                {
+                    participantId = dto.ParticipantId.Value;
+                }
+            }
+            else
+            {
+                throw new NotSupportedException("The person by person type is not supported.");
+            }
+            return participantId;
         }
 
         private int GetParticipantId(object obj, Type type)

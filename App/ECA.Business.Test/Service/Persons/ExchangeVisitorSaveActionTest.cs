@@ -40,6 +40,26 @@ namespace ECA.Business.Test.Service.Persons
 
     }
 
+    public class PhoneNumberProxyClass : ECA.Data.PhoneNumber
+    {
+
+    }
+
+    public class EmailAddressProxyClass : ECA.Data.EmailAddress
+    {
+
+    }
+
+    public class AddressProxyClass : ECA.Data.Address
+    {
+
+    }
+
+    public class LocationProxyClass : ECA.Data.Location
+    {
+
+    }
+
     [TestClass]
     public class ExchangeVisitorSaveActionTest
     {
@@ -332,11 +352,15 @@ namespace ECA.Business.Test.Service.Persons
         public void TestParticipantTypes()
         {
             var types = saveAction.GetParticipantTypes();
-            Assert.AreEqual(4, types.Count);
+            Assert.AreEqual(8, types.Count);
+            Assert.IsTrue(types.Contains(typeof(Location)));
             Assert.IsTrue(types.Contains(typeof(Participant)));
             Assert.IsTrue(types.Contains(typeof(Person)));
             Assert.IsTrue(types.Contains(typeof(ParticipantPerson)));
             Assert.IsTrue(types.Contains(typeof(ParticipantExchangeVisitor)));
+            Assert.IsTrue(types.Contains(typeof(PhoneNumber)));
+            Assert.IsTrue(types.Contains(typeof(EmailAddress)));
+            Assert.IsTrue(types.Contains(typeof(Address)));
         }
         #endregion
 
@@ -586,6 +610,320 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetParticipantIds_PhoneNumber()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var phoneNumber = new PhoneNumberProxyClass
+                {
+                    PhoneNumberId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId
+                };
+                list.Add(phoneNumber);
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = participatingPerson.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                context.People.Add(participatingPerson);
+                context.PhoneNumbers.Add(phoneNumber);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_PhoneNumberDoesNotBelongToPerson()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var phoneNumber = new PhoneNumberProxyClass
+                {
+                    PhoneNumberId = 3,
+                    Person = new Person(),
+                    PersonId = participatingPerson.PersonId + 1
+                };
+                list.Add(phoneNumber);
+                context.People.Add(participatingPerson);
+                context.PhoneNumbers.Add(phoneNumber);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(0, ids.Count);
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_EmailAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var email = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId
+                };
+                list.Add(email);
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = participatingPerson.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                context.People.Add(participatingPerson);
+                context.EmailAddresses.Add(email);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_EmailAddressDoesNotBelongToPerson()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var email = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 3,
+                    Person = new Person(),
+                    PersonId = participatingPerson.PersonId + 1
+                };
+                list.Add(email);
+                context.People.Add(participatingPerson);
+                context.EmailAddresses.Add(email);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(0, ids.Count);
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_Address()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var address = new AddressProxyClass
+                {
+                    AddressId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId
+                };
+                list.Add(address);
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = participatingPerson.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                context.People.Add(participatingPerson);
+                context.Addresses.Add(address);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_AddressDoesNotBelongToPerson()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var address = new AddressProxyClass
+                {
+                    AddressId = 3,
+                    Person = new Person(),
+                    PersonId = participatingPerson.PersonId + 1
+                };
+                list.Add(address);
+                context.People.Add(participatingPerson);
+                context.Addresses.Add(address);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(0, ids.Count);
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_LocationThatHasAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                
+                var location = new LocationProxyClass
+                {
+                    LocationId = 1,
+                };
+                var address = new AddressProxyClass
+                {
+                    AddressId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId,
+                    LocationId = location.LocationId,
+                    Location = location
+                };
+                list.Add(location);
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = participatingPerson.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                context.People.Add(participatingPerson);
+                context.Addresses.Add(address);
+                context.Locations.Add(location);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_LocationThatDoesNotHaveAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var location = new LocationProxyClass
+                {
+                    LocationId = 3,
+                };
+                list.Add(location);
+                context.People.Add(participatingPerson);
+                context.Locations.Add(location);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(0, ids.Count);
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
         public async Task TestGetParticipantIds_Person_PersonTypeIsNotSupported()
         {
             var list = new List<object>();
@@ -742,7 +1080,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(0, saveAction.ModifiedObjects.Count);
             saveAction.Context = context;
 
-            saveAction.AfterSaveChanges(context);            
+            saveAction.AfterSaveChanges(context);
             Assert.AreEqual(0, context.SaveChangesCalledCount);
 
             await saveAction.AfterSaveChangesAsync(context);

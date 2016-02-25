@@ -133,7 +133,7 @@ namespace ECA.Business.Service.Persons
             SetFinancialInfoUpdate(exchangeVisitorUpdate, participantExchangeVisitor);
             SetUSAddress(participant, exchangeVisitorUpdate, participantPerson);
             SetMailingAddress(participant, exchangeVisitorUpdate, participantPerson);
-
+            SetDependents(participant, exchangeVisitorUpdate);
             var updateVisitor = new UpdateExchVisitor
             {
                 ExchangeVisitor = exchangeVisitorUpdate
@@ -170,7 +170,7 @@ namespace ECA.Business.Service.Persons
             await SetFinancialInfoUpdateAsync(exchangeVisitorUpdate, participantExchangeVisitor);
             await SetUSAddressAsync(participant, exchangeVisitorUpdate, participantPerson);
             await SetMailingAddressAsync(participant, exchangeVisitorUpdate, participantPerson);
-
+            await SetDependentsAsync(participant, exchangeVisitorUpdate);
             var updateVisitor = new UpdateExchVisitor
             {
                 ExchangeVisitor = exchangeVisitorUpdate
@@ -828,6 +828,59 @@ namespace ECA.Business.Service.Persons
             visitor.SubjectField = subjectField;
         }
         #endregion
+
+        #region Dependents
+        /// <summary>
+        /// Sets the dependents of the participant to the exchange visitor.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        public void SetDependents(Participant participant, ExchangeVisitor exchangeVisitor)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            exchangeVisitor.CreateDependent = new List<CreateDependent>();
+        }
+
+        /// <summary>
+        /// Sets the dependents of the participant to the exchange visitor.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        public Task SetDependentsAsync(Participant participant, ExchangeVisitor exchangeVisitor)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            SetDependents(participant, exchangeVisitor);
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// Sets the dependents of the participant to the exchange visitor.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        public void SetDependents(Participant participant, ExchangeVisitorUpdate exchangeVisitor)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            exchangeVisitor.Dependent = null;
+        }
+
+        /// <summary>
+        /// Sets the dependents of the participant to the exchange visitor.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        public Task SetDependentsAsync(Participant participant, ExchangeVisitorUpdate exchangeVisitor)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            SetDependents(participant, exchangeVisitor);
+            return Task.FromResult<object>(null);
+        }
+        #endregion
+
 
         private IQueryable<ParticipantExchangeVisitor> CreateGetParticipantExchangeVisitorByParticipantIdQuery(int participantId)
         {
