@@ -19,7 +19,6 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ExchangeVisitorQueries
     {
-        #region Create Exchange Visitor
         /// <summary>
         /// Returns a query to get biographical information about a participant as it relates to sevis.
         /// </summary>
@@ -31,19 +30,22 @@ namespace ECA.Business.Queries.Persons
             var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
             var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
             var addressQuery = AddressQueries.CreateGetAddressDTOQuery(context);
+            var cityLocationTypeId = LocationType.City.Id;
+            var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
 
             var query = from participant in context.Participants
-                        let participantPerson = participant.ParticipantPerson
                         let person = participant.Person
 
                         let gender = person.Gender
+                        let sevisGender = (gender.SevisGenderCode == maleGenderCode || gender.SevisGenderCode == femaleGenderCode) ? gender.SevisGenderCode : null
 
-                        //right now assuming one country of citizenship, this should be checked by business layer
+                        let numberOfCitizenships = person.CountriesOfCitizenship.Count()
                         let countryOfCitizenship = person.CountriesOfCitizenship.FirstOrDefault()
                         let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.BirthCountry : null
                         let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
 
-                        let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
+                        let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue && person.PlaceOfBirth.LocationTypeId == cityLocationTypeId
                         let placeOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
 
                         let hasCountryOfBirth = hasPlaceOfBirth && placeOfBirth.CountryId.HasValue
@@ -67,12 +69,13 @@ namespace ECA.Business.Queries.Persons
                             .FirstOrDefault()
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
                         let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
-                        let residenceSevisCounryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
+                        let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
 
                         where participant.PersonId.HasValue
 
                         select new BiographicalDTO
                         {
+                            NumberOfCitizenships = numberOfCitizenships,
                             ParticipantId = participant.ParticipantId,
                             ProjectId = participant.ProjectId,
                             PersonId = person.PersonId,
@@ -87,14 +90,16 @@ namespace ECA.Business.Queries.Persons
                                 Suffix = person.NameSuffix,
                                 PreferredName = person.Alias,
                             },
-                            BirthDate = person.DateOfBirth,
-                            Gender = gender != null ? gender.SevisGenderCode : null,
+                            BirthDate = person.DateOfBirth.HasValue 
+                                && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value) 
+                                ? person.DateOfBirth : null,
+                            Gender = gender != null && sevisGender != null ? sevisGender : null,
                             BirthCity = hasPlaceOfBirth ? placeOfBirth.LocationName : null,
                             BirthCountryCode = hasCountryOfBirth ? sevisCountryOfBirth.CountryCode : null,
-                            CitizenshipCountryCode = sevisCountryOfCitizenshipCode,
+                            CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
                             BirthCountryReason = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
-                            PermanentResidenceCountryCode = residenceSevisCounryCode,
+                            PermanentResidenceCountryCode = residenceSevisCountryCode,
                             PhoneNumber = phoneNumber != null ? phoneNumber.Number : null
                         };
             return query;
@@ -220,63 +225,5 @@ namespace ECA.Business.Queries.Persons
 
             return query;
         }
-
-        /// <summary>
-        /// Returns a query to retrieve participants that can be sent through the sevis validation.  These person participants should have
-        /// a valid sevis gender, a birthdate, and a city of birth, and a single country of citizenship.  They should belong to a project that is an exchange visitor project and they should be
-        /// a traveling foreign participant.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static IQueryable<ValidatableExchangeVisitorParticipantDTO> CreateGetValidatableParticipantsQuery(EcaContext context)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            var exchangeVisitorTypeId = VisitorType.ExchangeVisitor.Id;
-            var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
-            var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
-            var foreignTravelingParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
-            var cityLocationTypeId = LocationType.City.Id;
-
-            var query = from participant in context.Participants
-                        let project = participant.Project
-                        let person = participant.Person
-                        let gender = person.Gender
-                        let countriesOfCitizenship = person.CountriesOfCitizenship
-                        let placeOfBirth = person.PlaceOfBirth != null ? person.PlaceOfBirth : null
-                        let placeOfBirthTypeId = placeOfBirth != null ? placeOfBirth.LocationTypeId : default(int?)
-
-                        where project.VisitorTypeId == exchangeVisitorTypeId
-                        && (gender.SevisGenderCode == maleGenderCode || gender.SevisGenderCode == femaleGenderCode)
-                        && participant.PersonId.HasValue
-                        && participant.ParticipantTypeId == foreignTravelingParticipantTypeId
-                        && person.DateOfBirth.HasValue
-                        && person.PlaceOfBirthId.HasValue
-                        && countriesOfCitizenship.Count() == 1
-                        && (placeOfBirthTypeId.HasValue && placeOfBirthTypeId.Value == cityLocationTypeId)
-                        select new ValidatableExchangeVisitorParticipantDTO
-                        {
-                            ParticipantId = participant.ParticipantId,
-                            ProjectId = project.ProjectId,
-                            PersonId = person.PersonId
-                        };
-            return query;
-        }
-
-        /// <summary>
-        /// Returns a query to retrieve participants that can be sent through the sevis validation.  These person participants should have
-        /// a valid sevis gender, a birthdate, and a city of birth, and a single country of citizenship.  They should belong to a project that is an exchange visitor project and they should be
-        /// a traveling foreign participant.
-        /// </summary>
-        /// <param name="participantIds">The participant ids to get validatable participants of.</param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static IQueryable<ValidatableExchangeVisitorParticipantDTO> CreateGetValidatableParticipantsByParticipantIdsQuery(EcaContext context, IEnumerable<int> participantIds)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            return CreateGetValidatableParticipantsQuery(context).Where(x => participantIds.Distinct().Contains(x.ParticipantId));
-        }
-
-
-        #endregion
     }
 }

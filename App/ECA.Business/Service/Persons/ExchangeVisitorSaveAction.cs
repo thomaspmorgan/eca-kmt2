@@ -1,41 +1,43 @@
-﻿using ECA.Business.Queries.Persons;
-using ECA.Business.Validation.Model;
+﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Persons;
 using ECA.Core.Service;
 using ECA.Data;
-using FluentValidation;
-using FluentValidation.Results;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
+    /// <summary>
+    /// The ExchangeVisitorSaveAction is responsible for detecting changes to participants and participant related entities
+    /// so that a sevis validation may be executed on that participant.
+    /// </summary>
     public class ExchangeVisitorSaveAction : ISaveAction
     {
-        private IExchangeVisitorService exchangeVisitorService;
+        private IExchangeVisitorValidationService validationService;
 
         /// <summary>
-        /// Creates a new save action with the document type id and the app settings.
+        /// Creates a new instance and initializes it with the given dependencies.
         /// </summary>
-        /// <param name="documentTypeId">The document type id.  This id should correspond to the same guid
-        /// as the document type in the document configuration.</param>
-        public ExchangeVisitorSaveAction(IExchangeVisitorService exchangeVisitorService)
+        /// <param name="validationService">The exchange visitor validation service.</param>
+        /// <param name="userProvider">The user provider delegate.</param>
+        public ExchangeVisitorSaveAction(IExchangeVisitorValidationService validationService, Func<User> userProvider)
         {
-            Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
-            this.exchangeVisitorService = exchangeVisitorService;
-
-            this.SystemUser = new User(1);//come back to this
+            Contract.Requires(validationService != null, "The validation service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            this.validationService = validationService;
+            this.User = userProvider();
+            this.CreatedObjects = new List<object>();
+            this.ModifiedObjects = new List<object>();
         }
 
         /// <summary>
-        /// Gets the system user.
+        /// Gets the current user.
         /// </summary>
-        public User SystemUser { get; private set; }
+        public User User { get; private set; }
 
         /// <summary>
         /// Gets the added entities.
@@ -47,22 +49,41 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         public List<object> ModifiedObjects { get; private set; }
 
+        /// <summary>
+        /// Gets the EcaContext instance.
+        /// </summary>
         public EcaContext Context { get; set; }
 
-        public IList<object> GetCreatedParticipants(DbContext context)
+        /// <summary>
+        /// Returns the list of created entities from the given context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The created entities.</returns>
+        public IList<object> GetCreatedEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var createdParticipants = GetParticipantEntities(context, EntityState.Added).ToList();
             return createdParticipants;
         }
 
-        public IList<object> GetModifiedDocumentEntities(DbContext context)
+        /// <summary>
+        /// Returns the list of modified entities from the given context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The modified entities.</returns>
+        public IList<object> GetModifiedEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var modifiedParticipants = GetParticipantEntities(context, EntityState.Modified).ToList();
             return modifiedParticipants;
         }
 
+        /// <summary>
+        /// Returns the list of objects whose entity type should be watched for potential participant changes.
+        /// </summary>
+        /// <param name="context">The context to get entities from.</param>
+        /// <param name="state">The entity state.</param>
+        /// <returns>The list of objects that relate to a participant.</returns>
         public IList<object> GetParticipantEntities(DbContext context, EntityState state)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -70,12 +91,16 @@ namespace ECA.Business.Service.Persons
 
             var participantEntityTypes = GetParticipantTypes();
             var changedParticipantEntities = changedEntities
-                .Where(x => participantEntityTypes.Contains(x.GetType()))
+                .Where(x => participantEntityTypes.Contains(x.Entity.GetType().BaseType))
                 .Select(x => x.Entity)
                 .ToList();
             return changedParticipantEntities;
         }
 
+        /// <summary>
+        /// Returns the list of object types that need to be watched for potential participant changes.
+        /// </summary>
+        /// <returns>The list of object types that need to be watched for potential participant changes.</returns>
         public List<Type> GetParticipantTypes()
         {
             var participantEntityTypes = new List<Type>();
@@ -90,172 +115,196 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(context is EcaContext, "The given context must be an EcaContext instance.");
             this.Context = (EcaContext)context;
-            this.CreatedObjects = GetCreatedParticipants(context).ToList();
-            this.ModifiedObjects = GetModifiedDocumentEntities(context).ToList();
+            this.CreatedObjects = GetCreatedEntities(context).ToList();
+            this.ModifiedObjects = GetModifiedEntities(context).ToList();
         }
 
         #region SaveAction
+
+        /// <summary>
+        /// Locates participant related entities that have been created or modified in the context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The task.</returns>
         public void BeforeSaveChanges(DbContext context)
         {
             OnBeforeSaveChanges(context);
         }
 
+        /// <summary>
+        /// Locates participant related entities that have been created or modified in the context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The task.</returns>
         public Task BeforeSaveChangesAsync(DbContext context)
         {
             OnBeforeSaveChanges(context);
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// Performs sevis validation on participant related entities if any were found.
+        /// </summary>
+        /// <param name="context">The context that has created or modified participant related entities.</param>
         public void AfterSaveChanges(DbContext context)
         {
-            throw new NotImplementedException();
+            var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
+            var ids = GetParticipantIds(allParticipantObjects);
+            if (ids.Count > 0)
+            {
+                foreach (var id in ids)
+                {
+                    var participant = this.Context.Participants.Find(id);
+                    Contract.Assert(participant != null, "The participant should be found.");
+                    validationService.RunParticipantSevisValidation(this.User, participant.ProjectId, participant.ParticipantId);
+                }
+                Context.SaveChanges();
+            }
         }
 
+        /// <summary>
+        /// Performs sevis validation on participant related entities if any were found.
+        /// </summary>
+        /// <param name="context">The context that has created or modified participant related entities.</param>
         public async Task AfterSaveChangesAsync(DbContext context)
         {
-            var addedParticipantIds = await GetParticipantIdsAsync(this.CreatedObjects);
-            var modifiedParticipantIds = await GetParticipantIdsAsync(this.ModifiedObjects);
-            var allParticipantIds = addedParticipantIds.Union(modifiedParticipantIds).Distinct().ToList();
-
-            var validatableParticipantIds = await ExchangeVisitorQueries.CreateGetValidatableParticipantsByParticipantIdsQuery(this.Context, allParticipantIds).ToListAsync();
-            var nonValidatableParticipantIds = allParticipantIds.Except(validatableParticipantIds.Select(x => x.ParticipantId).ToList());
-            if (validatableParticipantIds.Count > 0)
+            var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
+            var ids = await GetParticipantIdsAsync(allParticipantObjects);
+            if (ids.Count > 0)
             {
-                foreach(var validatableParticipants in validatableParticipantIds)
+                foreach (var id in ids)
                 {
-                    var participant = await this.Context.ParticipantPersons.FindAsync(validatableParticipants.ParticipantId);
-                    ValidationResult result;
-                    if (String.IsNullOrWhiteSpace(participant.SevisId))
-                    {
-                        var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(this.SystemUser, validatableParticipants.ProjectId, participant.ParticipantId);
-                        var validator = new CreateExchVisitorValidator();
-                        result = await validator.ValidateAsync(createExchangeVisitor);
-
-                    }
-                    else
-                    {
-                        var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(this.SystemUser, validatableParticipants.ProjectId, participant.ParticipantId);
-                        var validator = new UpdateExchVisitorValidator();
-                        result = await validator.ValidateAsync(updateExchangeVisitor);
-                    }
-                    await SaveParticipantPersonValidationResultsAsync(participant.ParticipantId, result);
-                    UpdateValidatedParticipantPersonSevisCommStatus(participant.ParticipantId, result);                    
-                };
+                    var participant = await this.Context.Participants.FindAsync(id);
+                    Contract.Assert(participant != null, "The participant should be found.");
+                    await validationService.RunParticipantSevisValidationAsync(this.User, participant.ProjectId, participant.ParticipantId);
+                }
+                await Context.SaveChangesAsync();
             }
         }
 
-        public async Task SaveParticipantPersonValidationResultsAsync(int participantId, ValidationResult result)
+        public List<object> GetUnionedCreatedAndModifiedObjects()
         {
-            if (!result.IsValid)
-            {
-                var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
-                participantPerson.SevisValidationResult = JsonConvert.SerializeObject(result);
-            }
+            return this.ModifiedObjects.Union(this.CreatedObjects).ToList();
         }
 
-        public ParticipantPersonSevisCommStatus UpdateValidatedParticipantPersonSevisCommStatus(int participantId, ValidationResult result)
-        {
-            if(result.IsValid && result.Errors.Count == 0)
-            {
-                return AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.QueuedToSubmit.Id);
-            }
-            else
-            {
-                return AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.InformationRequired.Id);
-            }
-        }
-
-        public List<ParticipantPersonSevisCommStatus> UpdateNonValidatableParticipantSevisCommStatus(List<int> participantIds)
-        {
-            var statuses = new List<ParticipantPersonSevisCommStatus>();
-            foreach (var participantId in participantIds)
-            {
-                statuses.Add(AddParticipantPersonSevisCommStatus(participantId, SevisCommStatus.InformationRequired.Id));
-            }
-            return statuses;
-        }
-
-        private ParticipantPersonSevisCommStatus AddParticipantPersonSevisCommStatus(int participantId, int commStatusId)
-        {
-            var status = new ParticipantPersonSevisCommStatus
-            {
-                AddedOn = DateTimeOffset.UtcNow,
-                ParticipantId = participantId,
-                SevisCommStatusId = commStatusId
-            };
-            this.Context.ParticipantPersonSevisCommStatuses.Add(status);
-            return status;
-        }
-
-
-
+        /// <summary>
+        /// Returns the participant ids of the created or modified entities that should have their validation rechecked.
+        /// </summary>
+        /// <param name="objects">The objects to retrieve the participant ids from.</param>
+        /// <returns>The list of participant ids.</returns>
         public async Task<List<int>> GetParticipantIdsAsync(List<object> objects)
         {
             Contract.Requires(objects != null, "The objects must not be null.");
             var ids = new List<int>();
             foreach (var obj in objects)
             {
-                var type = obj.GetType();
-                if (type == typeof(Participant))
+                var baseType = obj.GetType().BaseType;
+                if (baseType == typeof(Person))
                 {
-                    var participant = (Participant)obj;
-                    ids.Add(participant.ParticipantId);
-                }
-                else if (type == typeof(ParticipantPerson))
-                {
-                    var participantPerson = (ParticipantPerson)obj;
-                    ids.Add(participantPerson.ParticipantId);
-                }
-                else if (type == typeof(ParticipantExchangeVisitor))
-                {
-                    var visitor = (ParticipantExchangeVisitor)obj;
-                    ids.Add(visitor.ParticipantId);
-                }
-                else if (type == typeof(Person))
-                {
-                    throw new NotSupportedException();
+                    var person = (Person)obj;
+                    if (person.PersonTypeId == PersonType.Participant.Id)
+                    {
+                        var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
+                        if (dto != null && dto.ParticipantId.HasValue)
+                        {
+                            ids.Add(dto.ParticipantId.Value);
+                        }
+                    }
+                    else if (person.PersonTypeId == PersonType.Dependent.Id)
+                    {
+                        var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
+                        if (dto != null && dto.ParticipantId.HasValue)
+                        {
+                            ids.Add(dto.ParticipantId.Value);
+                        }
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("The person by person type is not supported.");
+                    }
                 }
                 else
                 {
-                    throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
+                    ids.Add(GetParticipantId(obj, baseType));
                 }
             }
-            return ids;
+            return ids.Distinct().ToList();
         }
 
+        /// <summary>
+        /// Returns the participant ids of the created or modified entities that should have their validation rechecked.
+        /// </summary>
+        /// <param name="objects">The objects to retrieve the participant ids from.</param>
+        /// <returns>The list of participant ids.</returns>
         public List<int> GetParticipantIds(List<object> objects)
         {
             Contract.Requires(objects != null, "The objects must not be null.");
             var ids = new List<int>();
             foreach (var obj in objects)
             {
-                var type = obj.GetType();
-                if (type == typeof(Participant))
+                var baseType = obj.GetType().BaseType;
+                if (baseType == typeof(Person))
                 {
-                    var participant = (Participant)obj;
-                    ids.Add(participant.ParticipantId);
-                }
-                else if (type == typeof(ParticipantPerson))
-                {
-                    var participantPerson = (ParticipantPerson)obj;
-                    ids.Add(participantPerson.ParticipantId);
-                }
-                else if (type == typeof(ParticipantExchangeVisitor))
-                {
-                    var visitor = (ParticipantExchangeVisitor)obj;
-                    ids.Add(visitor.ParticipantId);
-                }
-                else if (type == typeof(Person))
-                {
-                    throw new NotSupportedException();
+                    var person = (Person)obj;
+                    if (person.PersonTypeId == PersonType.Participant.Id)
+                    {
+                        var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
+                        if (dto != null && dto.ParticipantId.HasValue)
+                        {
+                            ids.Add(dto.ParticipantId.Value);
+                        }
+                    }
+                    else if (person.PersonTypeId == PersonType.Dependent.Id)
+                    {
+                        var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
+                        if (dto != null && dto.ParticipantId.HasValue)
+                        {
+                            ids.Add(dto.ParticipantId.Value);
+                        }
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("The person by person type is not supported.");
+                    }
                 }
                 else
                 {
-                    throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
+                    ids.Add(GetParticipantId(obj, baseType));
                 }
             }
-            return ids;
+            return ids.Distinct().ToList();
         }
+
+        private int GetParticipantId(object obj, Type type)
+        {
+            Contract.Requires(obj != null, "The object must not be null.");
+            Contract.Requires(type != null, "The type must not be null.");
+            if (type == typeof(Participant))
+            {
+                var participant = (Participant)obj;
+                return participant.ParticipantId;
+            }
+            else if (type == typeof(ParticipantPerson))
+            {
+                var participantPerson = (ParticipantPerson)obj;
+                return participantPerson.ParticipantId;
+            }
+            else if (type == typeof(ParticipantExchangeVisitor))
+            {
+                var visitor = (ParticipantExchangeVisitor)obj;
+                return visitor.ParticipantId;
+            }
+            else
+            {
+                throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
+            }
+        }
+
+        private IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOsByParticipantIdQuery(int personId)
+        {
+            return PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context).Where(x => x.PersonId == personId);
+        }
+
         #endregion
     }
 }

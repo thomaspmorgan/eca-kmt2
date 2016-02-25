@@ -20,6 +20,27 @@ namespace ECA.Business.Queries.Persons
         public const string UNKNOWN_PARTICIPANT_STATUS = "Unknown";
 
         /// <summary>
+        /// Creates a query to get the simple person dto's participating family member.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="dependentPersonId">The dependent person id.</param>
+        /// <returns>The simple person dto query of the participating family member.</returns>
+        public static IQueryable<SimplePersonDTO> CreateGetRelatedPersonByDependentFamilyMemberQuery(EcaContext context, int dependentPersonId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var dependentTypeId = PersonType.Dependent.Id;
+            var participantTypeId = PersonType.Participant.Id;
+            var personDTOQuery = CreateGetSimplePersonDTOsQuery(context);
+
+            var query = from person in context.People
+                        let participantFamilyMember = person.Family.Where(x => x.PersonTypeId == participantTypeId).FirstOrDefault()
+                        let participantFamilyMemberDTO = participantFamilyMember != null ? personDTOQuery.Where(x => x.PersonId == participantFamilyMember.PersonId).FirstOrDefault() : null
+                        where person.PersonTypeId == dependentTypeId && person.PersonId == dependentPersonId
+                        select participantFamilyMemberDTO;
+            return query;
+        }
+
+        /// <summary>
         /// Returns a query capable of retrieving people from the given context.  A FullName value is also calculated for the person.
         /// </summary>
         /// <param name="context">The context to query.</param>
@@ -65,6 +86,8 @@ namespace ECA.Business.Queries.Persons
                             Patronym = person.Patronym,
                             FullName = person.FullName,
                             CurrentStatus = hasCurrentParticipation ? currentParticipation.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
+                            ProjectId = hasCurrentParticipation ? currentParticipation.ProjectId : default(int?),
+                            ParticipantId = hasCurrentParticipation ? currentParticipation.ParticipantId : default(int?),
                             CountryOfBirth = countryOfBirthName,
                             DivisionOfBirth = divisionOfBirthName,
                             CityOfBirth = cityOfBirthName,

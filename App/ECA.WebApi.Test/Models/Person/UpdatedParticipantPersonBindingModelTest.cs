@@ -19,7 +19,7 @@ namespace ECA.WebApi.Test.Models.Person
             model.HostInstitutionId = 40;
             model.ParticipantId = 50;
             model.ParticipantStatusId = ParticipantStatus.Active.Id;
-            model.ParticipantTypeId = ParticipantType.ForeignGovernment.Id;
+            model.ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
 
             var user = new User(1);
             var projectId = 1000;

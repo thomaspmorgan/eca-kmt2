@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model;
+﻿using ECA.Business.Sevis.Model;
+using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using System;
@@ -103,6 +104,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets the number of cuntry citizenships.
+        /// </summary>
+        public int NumberOfCitizenships { get; set; }
+
+        /// <summary>
         /// Returns a sevis biographical model instance.
         /// </summary>
         /// <returns>The biographical model instance.</returns>
@@ -128,7 +134,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// Returns a sevis biographical update model instance.
         /// </summary>
         /// <returns>The biographical update instance.</returns>
-        public BiographicalUpdate GetBiographicalUpdate(USAddress mailingAddress, USAddress usAddress)
+        public BiographicalUpdate GetBiographicalUpdate()
         {
             Contract.Requires(this.FullName != null, "The full name must not be null.");
             return new BiographicalUpdate
@@ -141,16 +147,14 @@ namespace ECA.Business.Queries.Models.Persons
                 EmailAddress = this.EmailAddress,
                 FullName = this.FullName.GetFullName(),
                 Gender = this.Gender,
-                MailAddress = mailingAddress,
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
                 PhoneNumber = this.PhoneNumber,
                 PositionCode = this.PositionCode,
                 printForm = true,
                 Remarks = String.Empty,
                 ResidentialAddress = null,
-                USAddress = usAddress
             };
         }
-
+        //this relates to NonImgBioType in sevis xsd
     }
 }

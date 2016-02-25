@@ -124,5 +124,6 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// Residential address information
         /// </summary>
         public ResidentialAddress ResidentialAddress { get; set; }
+        
     }
 }

@@ -214,7 +214,7 @@ namespace ECA.Data
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Activity> Activities { get; set; }
         public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
-        public ICollection<Person> Family { get; set; }
+        public virtual ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
         public ICollection<Impact> Impacts { get; set; }
         public ICollection<Participant> Participations { get; set; }
@@ -223,6 +223,17 @@ namespace ECA.Data
 
         public History History { get; set; }
 
+        /// <summary>
+        /// Gets or sets the person type id.
+        /// </summary>
+        [Column("PersonTypeId")]
+        public int PersonTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person type.
+        /// </summary>
+        [ForeignKey("PersonTypeId")]
+        public virtual PersonType PersonType { get; set; }
 
         public int GetId()
         {

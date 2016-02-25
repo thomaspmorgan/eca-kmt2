@@ -51,6 +51,11 @@ namespace ECA.Data
         public DbSet<Actor> Actors { get; set; }
 
         /// <summary>
+        /// Gets or sets the person types.
+        /// </summary>
+        public DbSet<PersonType> PersonTypes { get; set; }
+
+        /// <summary>
         /// Gets or sets the addresses.
         /// </summary>
         public DbSet<Address> Addresses { get; set; }

@@ -1963,6 +1963,88 @@ namespace CAM.Business.Test.Service
         }
 
         [TestMethod]
+        public async Task TestOnUpdated_RemovingParent()
+        {
+            var childResourceId = 1;
+            var parentResourceId = 2;
+
+            var childForeignResourceId = 1;
+            var parentForeignResourceId = 3;
+            context.SetupActions.Add(() =>
+            {
+                var programType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Program.Id,
+                    ResourceTypeName = ResourceType.Program.Value
+                };
+                var projectType = new ResourceType
+                {
+                    ResourceTypeId = ResourceType.Project.Id,
+                    ResourceTypeName = ResourceType.Project.Value
+                };
+                var parentResource = new Resource
+                {
+                    ResourceId = parentResourceId,
+                    ResourceTypeId = programType.ResourceTypeId,
+                    ResourceType = programType,
+                    ForeignResourceId = parentForeignResourceId,
+                };
+                var resource = new Resource
+                {
+                    ResourceId = childResourceId,
+                    ResourceTypeId = projectType.ResourceTypeId,
+                    ResourceType = projectType,
+                    ForeignResourceId = childForeignResourceId,
+                    ParentResource = parentResource,
+                    ParentResourceId = parentResourceId
+                };
+                parentResource.ChildResources.Add(resource);
+
+                context.Resources.Add(parentResource);
+                context.Resources.Add(resource);
+                context.ResourceTypes.Add(programType);
+                context.ResourceTypes.Add(projectType);
+                cacheDictionary.Clear();
+                cacheDictionary.Add(service.GetKey(resource.ForeignResourceId, resource.ResourceTypeId), 1);
+                cacheDictionary.Add(service.GetKey(parentResource.ForeignResourceId, parentResource.ResourceTypeId), 1);
+
+                Assert.IsNotNull(resource.ParentResource);
+                Assert.IsTrue(resource.ParentResourceId.HasValue);
+            });
+            Action<bool> tester = (isAsync) =>
+            {
+                Assert.AreEqual(0, cacheDictionary.Count);
+                Assert.AreEqual(2, context.Resources.Count());
+                var updatedChildResource = context.Resources.Where(x => x.ResourceId == childResourceId).First();
+                Assert.IsNull(updatedChildResource.ParentResourceId);
+
+                if (isAsync)
+                {
+                    Assert.AreEqual(1, context.SaveChangesAsyncCount);
+                }
+                else
+                {
+                    Assert.AreEqual(1, context.SaveChangesCount);
+                }
+            };
+
+            var updatedEntity = new TestPermissableResource
+            {
+                Id = childForeignResourceId,
+                ParentId = null,
+                PermissableType = PermissableType.Project,
+                ParentPermissableType = PermissableType.Program
+            };
+            context.Revert();
+            service.OnUpdated(new List<IPermissable> { updatedEntity });
+            tester(false);
+
+            context.Revert();
+            await service.OnUpdatedAsync(new List<IPermissable> { updatedEntity });
+            tester(true);
+        }
+
+        [TestMethod]
         public async Task TestOnUpdated_ResourceDoesNotExist()
         {
             var updatedEntity = new TestPermissableResource

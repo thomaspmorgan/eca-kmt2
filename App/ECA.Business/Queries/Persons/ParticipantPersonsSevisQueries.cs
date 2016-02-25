@@ -180,25 +180,25 @@ namespace ECA.Business.Queries.Persons
             // biographical
             ExchVisitor.Biographical = GetBiographicalUpdate(personalPII, citizenship, personalEmail, participantExchangeVisitor);
 
-            if (mailingAddress != null)
-            {
-                ExchVisitor.Biographical.MailAddress = GetUSAddress(mailingAddress);
-            }
-            else
-            {
-                ExchVisitor.Biographical.MailAddress = null;
-            }
-            if (physicalAddress != null)
-            {
-                ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "";
-                ExchVisitor.Biographical.USAddress = GetUSAddress(physicalAddress);
-                ExchVisitor.Biographical.ResidentialAddress = GetResidentialAddress(physicalAddress);
-            }
-            else
-            {
-                ExchVisitor.Biographical.USAddress = null;
-                ExchVisitor.Biographical.ResidentialAddress = null;
-            }
+            //if (mailingAddress != null)
+            //{
+            //    ExchVisitor.Biographical.MailAddress = GetUSAddress(mailingAddress);
+            //}
+            //else
+            //{
+            //    ExchVisitor.Biographical.MailAddress = null;
+            //}
+            //if (physicalAddress != null)
+            //{
+            //    ExchVisitor.Biographical.PermanentResidenceCountryCode = physicalAddress.LocationIso2 != null ? physicalAddress.LocationIso2 : "";
+            //    ExchVisitor.Biographical.USAddress = GetUSAddress(physicalAddress);
+            //    ExchVisitor.Biographical.ResidentialAddress = GetResidentialAddress(physicalAddress);
+            //}
+            //else
+            //{
+            //    ExchVisitor.Biographical.USAddress = null;
+            //    ExchVisitor.Biographical.ResidentialAddress = null;
+            //}
 
             // financial
             ExchVisitor.FinancialInfo = GetFinancialInfoUpdate(participantExchangeVisitor);

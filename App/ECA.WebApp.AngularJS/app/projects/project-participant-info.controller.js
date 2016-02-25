@@ -104,7 +104,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onCancelButtonClick = function () {
-          return loadParticipantInfo($scope.participantid)
+          return loadParticipantInfo(projectId, $scope.participantid)
               .then(function (response) {
                   $scope.view.isInfoTabInEditMode = false;
               });
@@ -114,7 +114,7 @@ angular.module('staticApp')
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
-                return loadParticipantInfo($scope.participantid)
+                return loadParticipantInfo(projectId, $scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;

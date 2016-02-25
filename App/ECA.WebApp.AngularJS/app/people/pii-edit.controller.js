@@ -85,7 +85,13 @@ angular.module('staticApp')
                  });
                  // Convert from UTC to local date time
                  $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
-                 $scope.piiLoading = false;
+                 return loadCities(null)
+                 .then(function () {
+                     $scope.piiLoading = false;
+                 })
+                 .catch(function() {
+                     $scope.piiLoading = false;
+                 });
              });
       };
 
@@ -117,23 +123,25 @@ angular.module('staticApp')
       }
 
       function loadCities(search) {
-          var params = {
-              limit: 30,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
-              ]
-          };
-          if (search) {
-              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+          if (search || $scope.pii) {
+              var params = {
+                  limit: 30,
+                  filter: [
+                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
+                  ]
+              };
+              if (search) {
+                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              }
+              else if ($scope.pii.cityOfBirthId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.pii.cityOfBirthId });
+              }
+              return LocationService.get(params)
+                .then(function (data) {
+                    $scope.cities = data.results;
+                    return $scope.cities;
+                });
           }
-          else if ($scope.pii.cityOfBirthId) {
-              params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.pii.cityOfBirthId });
-          }
-          return LocationService.get(params)
-            .then(function (data) {
-                $scope.cities = data.results;
-                return $scope.cities;
-            });
       }
 
       LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
