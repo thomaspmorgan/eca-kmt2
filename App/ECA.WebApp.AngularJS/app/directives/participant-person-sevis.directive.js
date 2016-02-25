@@ -44,11 +44,13 @@
                     $scope.edit.isValidationLoading = true;
                     var params = {
                         participantId: sevisInfo.participantId,
+                        projectId: sevisInfo.projectId,
                         sevisId: sevisInfo.sevisId
                     };
                     SevisResultService.updateSevisVerificationResultsByParticipant(params)
                         .then(function (response) {
                             $scope.sevisinfo.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
+                            $scope.sevisinfo.sevisBatchResult = angular.fromJson(response.sevisBatchResult);
                         })
                         .catch(function (error) {
                             $log.error('Unable to update sevis validation results for participantId: ' + sevisInfo.participantId);
