@@ -86,11 +86,9 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
                 PositionCode = "position code",
                 ProjectId = 3
             };
+            
 
-            var mailingAddress = new USAddress();
-            var usAddress = new USAddress();
-
-            var biography = model.GetBiographicalUpdate(mailingAddress, usAddress);
+            var biography = model.GetBiographicalUpdate();
             Assert.IsNotNull(biography);
             Assert.AreEqual(model.BirthCity, biography.BirthCity);
             Assert.AreEqual(model.BirthCountryCode, biography.BirthCountryCode);
@@ -109,9 +107,7 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
             Assert.AreEqual(fullName.PassportName, biography.FullName.PassportName);
             Assert.AreEqual(fullName.PreferredName, biography.FullName.PreferredName);
             Assert.AreEqual(fullName.Suffix, biography.FullName.Suffix);
-
-            Assert.IsTrue(Object.ReferenceEquals(mailingAddress, biography.MailAddress));
-            Assert.IsTrue(Object.ReferenceEquals(usAddress, biography.USAddress));
+            
             Assert.IsNull(biography.ResidentialAddress);
             Assert.IsTrue(biography.printForm);
 

@@ -131,6 +131,8 @@ namespace ECA.Business.Service.Persons
             var exchangeVisitorUpdate = GetExchangeVisitorUpdate(participant, user, participantPerson);
             SetBiographyUpdate(participant, participantPerson, exchangeVisitorUpdate);
             SetFinancialInfoUpdate(exchangeVisitorUpdate, participantExchangeVisitor);
+            SetUSAddress(participant, exchangeVisitorUpdate, participantPerson);
+            SetMailingAddress(participant, exchangeVisitorUpdate, participantPerson);
 
             var updateVisitor = new UpdateExchVisitor
             {
@@ -166,6 +168,9 @@ namespace ECA.Business.Service.Persons
             var exchangeVisitorUpdate = GetExchangeVisitorUpdate(participant, user, participantPerson);
             await SetBiographyUpdateAsync(participant, participantPerson, exchangeVisitorUpdate);
             await SetFinancialInfoUpdateAsync(exchangeVisitorUpdate, participantExchangeVisitor);
+            await SetUSAddressAsync(participant, exchangeVisitorUpdate, participantPerson);
+            await SetMailingAddressAsync(participant, exchangeVisitorUpdate, participantPerson);
+
             var updateVisitor = new UpdateExchVisitor
             {
                 ExchangeVisitor = exchangeVisitorUpdate
@@ -464,6 +469,44 @@ namespace ECA.Business.Service.Persons
         #endregion
 
         #region US Address
+        /// <summary>
+        /// Sets the US address on the exchange visitor.  The us address is based on the host institution.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="visitor">The exchange visitor.</param>
+        /// <param name="participantPerson">The participant person.</param>
+        /// <returns>The task.</returns>
+        public async Task SetUSAddressAsync(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            USAddress usAddress = null;
+            if (participantPerson.HostInstitutionAddressId.HasValue)
+            {
+                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefaultAsync();
+            }
+            SetUSAddress(visitor, usAddress);
+        }
+
+        /// <summary>
+        /// Sets the US address on the exchange visitor.  The us address is based on the host institution.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="visitor">The exchange visitor.</param>
+        /// <param name="participantPerson">The participant person.</param>
+        public void SetUSAddress(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            USAddress usAddress = null;
+            if (participantPerson.HostInstitutionAddressId.HasValue)
+            {
+                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefault();
+            }
+            SetUSAddress(visitor, usAddress);
+        }
 
         /// <summary>
         /// Sets the US address on the exchange visitor.  The us address is based on the host institution.
@@ -516,9 +559,60 @@ namespace ECA.Business.Service.Persons
             }
         }
 
+        private void SetUSAddress(ExchangeVisitorUpdate visitor, USAddress usAddress)
+        {
+            if (usAddress != null)
+            {
+                visitor.USAddress = usAddress;
+            }
+            else
+            {
+                visitor.USAddress = null;
+            }
+        }
         #endregion
 
         #region Mailing Address
+
+
+        /// <summary>
+        /// Sets the mailing address on the exchange visitor.  The mailing address is based on the home instutition address.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="visitor">The visitor.</param>
+        /// <param name="participantPerson">The participant person.</param>
+        /// <returns>The task.</returns>
+        public async Task SetMailingAddressAsync(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            USAddress usAddress = null;
+            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            {
+                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefaultAsync();
+            }
+            SetMailingAddress(visitor, usAddress);
+        }
+
+        /// <summary>
+        /// Sets the mailing address on the exchange visitor.  The mailing address is based on the home instutition address.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="visitor">The visitor.</param>
+        /// <param name="participantPerson">The participant person.</param>
+        public void SetMailingAddress(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        {
+            Contract.Requires(visitor != null, "The visitor must not be null.");
+            Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            USAddress usAddress = null;
+            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            {
+                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefault();
+            }
+            SetMailingAddress(visitor, usAddress);
+        }
 
         /// <summary>
         /// Sets the mailing address on the exchange visitor.  The mailing address is based on the home instutition address.
@@ -560,6 +654,18 @@ namespace ECA.Business.Service.Persons
         }
 
         private void SetMailingAddress(ExchangeVisitor visitor, USAddress mailingAddress)
+        {
+            if (mailingAddress != null)
+            {
+                visitor.MailAddress = mailingAddress;
+            }
+            else
+            {
+                visitor.MailAddress = null;
+            }
+        }
+
+        private void SetMailingAddress(ExchangeVisitorUpdate visitor, USAddress mailingAddress)
         {
             if (mailingAddress != null)
             {
@@ -623,24 +729,22 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null; //host
-            USAddress mailingAddress = null; //home
+            //USAddress usAddress = null; //host
+            //USAddress mailingAddress = null; //home
 
-            if (participantPerson.HostInstitutionAddressId.HasValue)
-            {
-                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefaultAsync();
-            }
-            if (participantPerson.HomeInstitutionAddressId.HasValue)
-            {
-                mailingAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefaultAsync();
-            }
+            //if (participantPerson.HostInstitutionAddressId.HasValue)
+            //{
+            //    usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefaultAsync();
+            //}
+            //if (participantPerson.HomeInstitutionAddressId.HasValue)
+            //{
+            //    mailingAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefaultAsync();
+            //}
             var biography = await ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
             SetBiographyUpdate(
                 participant: participant, 
                 visitor: visitor, 
-                biography: biography, 
-                mailingAddress: mailingAddress, 
-                usAddress: usAddress);
+                biography: biography);
         }
 
         /// <summary>
@@ -653,27 +757,25 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
-            USAddress usAddress = null; //host
-            USAddress mailingAddress = null; //home
+            //USAddress usAddress = null; //host
+            //USAddress mailingAddress = null; //home
 
-            if (participantPerson.HostInstitutionAddressId.HasValue)
-            {
-                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefault();
-            }
-            if (participantPerson.HomeInstitutionAddressId.HasValue)
-            {
-                mailingAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefault();
-            }
+            //if (participantPerson.HostInstitutionAddressId.HasValue)
+            //{
+            //    usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefault();
+            //}
+            //if (participantPerson.HomeInstitutionAddressId.HasValue)
+            //{
+            //    mailingAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefault();
+            //}
             var biography = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefault();
             SetBiographyUpdate(
                 participant: participant,
                 visitor: visitor,
-                biography: biography,
-                mailingAddress: mailingAddress,
-                usAddress: usAddress);
+                biography: biography);
         }
 
-        private void SetBiographyUpdate(Participant participant, ExchangeVisitorUpdate visitor, BiographicalDTO biography, USAddress mailingAddress, USAddress usAddress)
+        private void SetBiographyUpdate(Participant participant, ExchangeVisitorUpdate visitor, BiographicalDTO biography)
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
@@ -681,7 +783,7 @@ namespace ECA.Business.Service.Persons
             {
                 throw new NotSupportedException(String.Format("The participant with id [{0}] must have biographical information.", participant.ParticipantId));
             }
-            visitor.Biographical = biography.GetBiographicalUpdate(mailingAddress, usAddress);
+            visitor.Biographical = biography.GetBiographicalUpdate();
         }
 
         #endregion

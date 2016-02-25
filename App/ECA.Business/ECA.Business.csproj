@@ -526,6 +526,7 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
+    <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
@@ -682,6 +683,16 @@
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
+    <None Include="Sevis\Model\common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Sevis\Model\Create-UpdateExchangeVisitor.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Sevis\Model\Generate.bat" />
+    <None Include="Sevis\Model\SEVISTable.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
