@@ -19,6 +19,7 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ExchangeVisitorQueries
     {
+
         /// <summary>
         /// Returns a query to get biographical information about a participant as it relates to sevis.
         /// </summary>
@@ -34,8 +35,7 @@ namespace ECA.Business.Queries.Persons
             var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
 
-            var query = from participant in context.Participants
-                        let person = participant.Person
+            var query = from person in context.People
 
                         let gender = person.Gender
                         let sevisGender = (gender.SevisGenderCode == maleGenderCode || gender.SevisGenderCode == femaleGenderCode) ? gender.SevisGenderCode : null
@@ -70,14 +70,10 @@ namespace ECA.Business.Queries.Persons
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
                         let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
-
-                        where participant.PersonId.HasValue
-
+                        
                         select new BiographicalDTO
                         {
                             NumberOfCitizenships = numberOfCitizenships,
-                            ParticipantId = participant.ParticipantId,
-                            ProjectId = participant.ProjectId,
                             PersonId = person.PersonId,
                             EmailAddressId = emailAddress != null ? emailAddress.Id : default(int?),
                             AddressId = residenceAddress != null ? residenceAddress.AddressId : default(int?),
@@ -114,7 +110,52 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<BiographicalDTO> CreateGetBiographicalDataByParticipantIdQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return CreateGetBiographicalDataQuery(context).Where(x => x.ParticipantId == participantId);
+            var query = from biography in CreateGetBiographicalDataQuery(context)
+                        join participant in context.Participants
+                        on biography.PersonId equals participant.PersonId
+                        where participant.ParticipantId == participantId
+                        && participant.PersonId.HasValue
+                        select biography;
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query to get biographical data for the dependents of the participant with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="participantId">The participant id.</param>
+        /// <returns>The query to get biographical data of a participant's dependents.</returns>
+        public static IQueryable<DependentBiographicalDTO> CreateGetParticipantDependentsBiographicalQuery(EcaContext context, int participantId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var biographyQuery = CreateGetBiographicalDataQuery(context);
+            var familyMemberIds = context.Participants
+                .Where(x => x.ParticipantId == participantId && x.PersonId.HasValue)
+                .SelectMany(x => x.Person.Family.Select(f => f.PersonId));
+
+            return biographyQuery.Where(x => familyMemberIds.Contains(x.PersonId))
+                .Select(b => new DependentBiographicalDTO
+                {
+                    AddressId = b.AddressId,
+                    BirthCity = b.BirthCity,
+                    BirthCountryCode = b.BirthCountryCode,
+                    BirthCountryReason = b.BirthCountryReason,
+                    BirthDate = b.BirthDate,
+                    CitizenshipCountryCode = b.CitizenshipCountryCode,
+                    EmailAddress = b.EmailAddress,
+                    EmailAddressId = b.EmailAddressId,
+                    FullName = b.FullName,
+                    Gender = b.Gender,
+                    GenderId = b.GenderId,
+                    NumberOfCitizenships = b.NumberOfCitizenships,
+                    PermanentResidenceCountryCode = b.PermanentResidenceCountryCode,
+                    PersonId = b.PersonId,
+                    PhoneNumber = b.PhoneNumber,
+                    PhoneNumberId = b.PhoneNumberId,
+                    PositionCode = b.PositionCode,
+                    Relationship = null //this will have to change
+                });
+
         }
 
         /// <summary>
