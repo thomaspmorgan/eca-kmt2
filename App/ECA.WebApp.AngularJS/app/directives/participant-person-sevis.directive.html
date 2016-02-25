@@ -23,7 +23,7 @@
                 </fieldset>                
             </div>
         </div>
-        <div ng-show="sevisinfo.sevisValidationResult.isValid == false && !edit.isValidationLoading">
+        <div ng-show="sevisinfo.sevisValidationResult.isValid == false && !edit.isValidationLoading && sevisinfo.sevisBatchResult.length > 0">
             <div class="col-md-8 col-md-offset-4" style="margin-top:6px">
                 <fieldset style="border:1px solid gray; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
