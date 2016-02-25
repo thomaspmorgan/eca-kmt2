@@ -166,7 +166,9 @@ namespace ECA.Business.Queries.Persons
                             IsPlaceOfBirthUnknown = person.IsPlaceOfBirthUnknown,
                             PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
-                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId
+                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
+                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
             return query;
         }
@@ -201,7 +203,9 @@ namespace ECA.Business.Queries.Persons
                             HasContactAgreement = person.HasContactAgreement,
                             PersonId = person.PersonId,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
-                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId
+                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
+                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
             return query;
         }
@@ -235,7 +239,9 @@ namespace ECA.Business.Queries.Persons
                             ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description }),
                             CurrentStatus = hasCurrentParticipation ? currentParticipant.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
-                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId
+                            ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
+                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
 
             return query;
