@@ -118,16 +118,28 @@ namespace ECA.Business.Service.Sevis
         /// <param name="batchId">Batch ID</param>
         public async Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
         {
+            string json = "";
             var batchLog = await GetByIdAsync(batchId);
             var xml = batchLog.TransactionLogXml;
             var doc = XDocument.Parse(xml.ToString());
+            XNamespace xmlns = "http://james.newtonking.com/projects/json";
             List<ParticipantSevisBatchProcessingResultDTO> results = new List<ParticipantSevisBatchProcessingResultDTO>();
 
             foreach (XElement record in doc.Descendants("Record"))
             {
                 var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
                 var status = record.Descendants("Result").First().Attribute("status").Value;
-                string json = JsonConvert.SerializeXNode(record);
+                var rows = record.Descendants("Result");
+
+                if (rows.Count() == 1)
+                {
+                    record.Add(new XElement("Result", ""));
+                    json = JsonConvert.SerializeXNode(record).Replace(",null]", "]");
+                }
+                else
+                {
+                    json = JsonConvert.SerializeXNode(record);
+                }
 
                 // update participant person batch result
                 results.Add(await UpdateParticipant(participantID, status, json));

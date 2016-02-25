@@ -33,7 +33,6 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
-        private IParticipantPersonsSevisService participantService;
         
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
@@ -51,15 +50,15 @@ namespace ECA.Business.Service.Persons
                 }
             };
             throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
-        {
+            {
                 if (participant != null && participant.ProjectId != projectId)
-        {
+                {
                     throw new BusinessSecurityException(
                         String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
                         userId,
                         participant.ParticipantId,
                         projectId));
-        }
+                }
             };
         }
 
