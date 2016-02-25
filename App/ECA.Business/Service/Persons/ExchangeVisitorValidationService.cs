@@ -141,18 +141,13 @@ namespace ECA.Business.Service.Persons
                 var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
                 validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
             }
-            return HandleValidationResult(participantPerson, validationResult);
+            return await HandleValidationResultAsync(participantPerson, validationResult);
 
         }
 
-        private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
+        private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
         {
-            if (result.IsValid)
-            {
-                person.SevisValidationResult = null;
-                return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
-            }
-            else
+            if (!result.IsValid)
             {
                 person.SevisValidationResult = JsonConvert.SerializeObject(
                     result,
@@ -160,8 +155,40 @@ namespace ECA.Business.Service.Persons
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     });
-                return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+                var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
+                return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+
             }
+            else
+            {
+                person.SevisValidationResult = null;
+                return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+            }
+        }
+
+        private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
+        {
+            if (!result.IsValid)
+            {
+                person.SevisValidationResult = JsonConvert.SerializeObject(
+                    result,
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    });
+                var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
+                return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
+            }
+            else
+            {
+                person.SevisValidationResult = null;
+                return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
+            }
+        }
+
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetLatestParticipantPersonSevisCommStatusQuery(int participantId)
+        {
+            return Context.ParticipantPersonSevisCommStatuses.Where(x => x.ParticipantId == participantId).OrderByDescending(x => x.AddedOn);
         }
 
         private ParticipantPersonSevisCommStatus AddParticipantPersonSevisCommStatus(int participantId, int commStatusId)
@@ -174,6 +201,26 @@ namespace ECA.Business.Service.Persons
             };
             this.Context.ParticipantPersonSevisCommStatuses.Add(status);
             return status;
+        }
+
+        private ParticipantPersonSevisCommStatus AddOrUpdateParticipantPersonSevisCommStatus(ParticipantPersonSevisCommStatus latestStatus, int participantId, int commStatusId)
+        {
+            if (latestStatus == null)
+            {
+                return AddParticipantPersonSevisCommStatus(participantId, commStatusId);
+            }
+            else
+            {
+                if (latestStatus.SevisCommStatusId == SevisCommStatus.InformationRequired.Id)
+                {
+                    latestStatus.AddedOn = DateTimeOffset.UtcNow;
+                    return latestStatus;
+                }
+                else
+                {
+                    return AddParticipantPersonSevisCommStatus(participantId, commStatusId);
+                }
+            }
         }
     }
 }
