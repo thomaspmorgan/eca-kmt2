@@ -708,12 +708,17 @@ namespace CAM.Business.Service
                     updatedEntity.GetParentId().Value,
                     updatedEntity.GetParentPermissableType().GetResourceTypeId()));
             }
-            if (resourceToUpdate.ResourceId != targetParentResource.ResourceId)
+            RemoveFromCache(resourceToUpdate);
+            RemoveFromCache(targetParentResource);
+            RemoveFromCache(updatedEntity);
+            RemoveFromCache(previousParentResource);
+            if (targetParentResource == null)
             {
-                RemoveFromCache(resourceToUpdate);
-                RemoveFromCache(targetParentResource);
-                RemoveFromCache(updatedEntity);
-                RemoveFromCache(previousParentResource);
+                resourceToUpdate.ParentResource = null;
+                resourceToUpdate.ParentResourceId = null;
+            }
+            else if (resourceToUpdate.ResourceId != targetParentResource.ResourceId)
+            {
                 resourceToUpdate.ParentResource = targetParentResource;
                 resourceToUpdate.ParentResourceId = targetParentResource.ResourceId;
             }
