@@ -548,101 +548,101 @@ namespace ECA.Business.Test.Service.Persons
         /// <summary>
         /// Validate that object is serialized to valid XML
         /// </summary>
-        [TestMethod]
-        public void TestCreateSevisValidator_ReturnValidXML()
-        {
-            var createEV = new CreateExchVisitor
-            {
-                ExchangeVisitor = new ExchangeVisitor
-                {
-                    requestID = "123456789",
-                    userID = "1",
-                    PositionCode = "100",
-                    PrgStartDate = new DateTime(1998, 4, 12),
-                    PrgEndDate = new DateTime(2001, 4, 12),
-                    CategoryCode = "05",
-                    OccupationCategoryCode = "99",
-                    Biographical = new Biographical
-                    {
-                        FullName = new FullName
-                        {
-                            LastName = "Doe"
-                        },
-                        BirthDate = new DateTime(1988, 2, 23),
-                        Gender = "1",
-                        BirthCity = "Arlington",
-                        BirthCountryCode = "US",
-                        CitizenshipCountryCode = "US",
-                        ResidentialAddress = null
-                    },
-                    SubjectField = new SubjectField
-                    {
-                        SubjectFieldCode = "100",
-                        ForeignDegreeLevel = "",
-                        ForeignFieldOfStudy = "",
-                        Remarks = "subject field"
-                    },
-                    USAddress = null,
-                    MailAddress = null,
-                    FinancialInfo = new FinancialInfo
-                    {
-                        ReceivedUSGovtFunds = false,
-                        ProgramSponsorFunds = "23000",
-                        OtherFunds = new OtherFunds
-                        { }
-                    },
-                    CreateDependent = null,
-                    AddTIPP = new AddTIPP
-                    {
-                        print7002 = false,
-                        TippExemptProgram = null,
-                        ParticipantInfo = null,
-                        TippSite = null
-                    },
-                    ResidentialAddress = null,
-                    AddSiteOfActivity = new AddSiteOfActivity
-                    {
-                        SiteOfActivitySOA = new SiteOfActivitySOA
-                        {
-                            printForm = false,
-                            Address1 = "2201 C St NW",
-                            City = "Washington",
-                            State = "DC",
-                            PostalCode = "20520",
-                            SiteName = "US Department of State",
-                            PrimarySite = true,
-                            Remarks = ""
-                        },
-                        SiteOfActivityExempt = new SiteOfActivityExempt
-                        {
-                            Remarks = ""
-                        }
-                    }
-                }
-            };
+        //[TestMethod]
+        //public void TestCreateSevisValidator_ReturnValidXML()
+        //{
+        //    var createEV = new CreateExchVisitor
+        //    {
+        //        ExchangeVisitor = new ExchangeVisitor
+        //        {
+        //            requestID = "123456789",
+        //            userID = "1",
+        //            PositionCode = "100",
+        //            PrgStartDate = new DateTime(1998, 4, 12),
+        //            PrgEndDate = new DateTime(2001, 4, 12),
+        //            CategoryCode = "05",
+        //            OccupationCategoryCode = "99",
+        //            Biographical = new Biographical
+        //            {
+        //                FullName = new FullName
+        //                {
+        //                    LastName = "Doe"
+        //                },
+        //                BirthDate = new DateTime(1988, 2, 23),
+        //                Gender = "1",
+        //                BirthCity = "Arlington",
+        //                BirthCountryCode = "US",
+        //                CitizenshipCountryCode = "US",
+        //                ResidentialAddress = null
+        //            },
+        //            SubjectField = new SubjectField
+        //            {
+        //                SubjectFieldCode = "100",
+        //                ForeignDegreeLevel = "",
+        //                ForeignFieldOfStudy = "",
+        //                Remarks = "subject field"
+        //            },
+        //            USAddress = null,
+        //            MailAddress = null,
+        //            FinancialInfo = new FinancialInfo
+        //            {
+        //                ReceivedUSGovtFunds = false,
+        //                ProgramSponsorFunds = "23000",
+        //                OtherFunds = new OtherFunds
+        //                { }
+        //            },
+        //            CreateDependent = null,
+        //            AddTIPP = new AddTIPP
+        //            {
+        //                print7002 = false,
+        //                TippExemptProgram = null,
+        //                ParticipantInfo = null,
+        //                TippSite = null
+        //            },
+        //            ResidentialAddress = null,
+        //            AddSiteOfActivity = new AddSiteOfActivity
+        //            {
+        //                SiteOfActivitySOA = new SiteOfActivitySOA
+        //                {
+        //                    printForm = false,
+        //                    Address1 = "2201 C St NW",
+        //                    City = "Washington",
+        //                    State = "DC",
+        //                    PostalCode = "20520",
+        //                    SiteName = "US Department of State",
+        //                    PrimarySite = true,
+        //                    Remarks = ""
+        //                },
+        //                SiteOfActivityExempt = new SiteOfActivityExempt
+        //                {
+        //                    Remarks = ""
+        //                }
+        //            }
+        //        }
+        //    };
             
-            List<CreateExchVisitor> createEVs = new List<CreateExchVisitor>();
-            createEVs.Add(createEV);
+        //    List<CreateExchVisitor> createEVs = new List<CreateExchVisitor>();
+        //    createEVs.Add(createEV);
 
-            // create batch header
-            var batchHeader = new BatchHeader
-            {
-                BatchID = DateTime.Today.ToString(),
-                OrgID = "453"
-            };
-            // create batch
-            var createEVBatch = new SEVISBatchCreateUpdateEV
-            {
-                userID = "1",
-                BatchHeader = batchHeader,
-                UpdateEV = null,
-                CreateEV = createEVs
-            };
+        //    // create batch header
+        //    var batchHeader = new BatchHeader
+        //    {
+        //        BatchID = DateTime.Today.ToString(),
+        //        OrgID = "453"
+        //    };
+        //    // create batch
+        //    var createEVBatch = new SEVISBatchCreateUpdateEV
+        //    {
+        //        userID = "1",
+        //        BatchHeader = batchHeader,
+        //        UpdateEV = null,
+        //        CreateEV = createEVs
+        //    };
 
-            var batchXML = GetSevisBatchXml(createEVBatch);
+        //    var batchXML = GetSevisBatchXml(createEVBatch);
             
-            Assert.IsTrue(CheckXml(batchXML));
-        }
+        //    Assert.IsTrue(CheckXml(batchXML));
+        //}
 
         /// <summary>
         /// Check that XMl is well-formed

@@ -24,7 +24,6 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         ProjectService,
-        SevisResultService,
         NotificationService,
         ParticipantService,
         ParticipantPersonsService

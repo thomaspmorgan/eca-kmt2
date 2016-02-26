@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using ECA.Data;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// The IExchangeVisitorValidationService is used to execute sevis validation on a participant and update the sevis comm status.
     /// </summary>
-    public interface IExchangeVisitorValidationService
+    public interface IExchangeVisitorValidationService : ISaveable
     {
         /// <summary>
         /// Performs sevis validation and returns the sevis comm status.

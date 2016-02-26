@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, SevisResultService, NotificationService, LookupService) {
+  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, NotificationService, LookupService) {
 
       $scope.general = [];
       $scope.editView = [];

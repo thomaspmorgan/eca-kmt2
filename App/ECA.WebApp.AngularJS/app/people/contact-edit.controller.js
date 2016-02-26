@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personContactEditCtrl', function ($scope, PersonService, SevisResultService, NotificationService, $stateParams, $log, $q) {
+  .controller('personContactEditCtrl', function ($scope, PersonService, NotificationService, $stateParams, $log, $q) {
 
       $scope.contactsLoading = true;
 

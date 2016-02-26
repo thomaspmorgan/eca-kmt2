@@ -30,12 +30,10 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
                 EmailAddress = "someone@ispl.com",
                 FullName = fullName,
                 Gender = "male",
-                ParticipantId = 1,
                 PermanentResidenceCountryCode = "perm resident country code",
                 PersonId = 2,
                 PhoneNumber = "123-456-7890",
                 PositionCode = "position code",
-                ProjectId = 3
             };
 
             var biography = model.GetBiographical();
@@ -79,12 +77,10 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
                 EmailAddress = "someone@ispl.com",
                 FullName = fullName,
                 Gender = "male",
-                ParticipantId = 1,
                 PermanentResidenceCountryCode = "perm resident country code",
                 PersonId = 2,
                 PhoneNumber = "123-456-7890",
                 PositionCode = "position code",
-                ProjectId = 3
             };
             
 

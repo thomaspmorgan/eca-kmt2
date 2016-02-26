@@ -182,7 +182,7 @@
     <Compile Include="Controllers\Itineraries\ItinerariesControllerTest.cs" />
     <Compile Include="Controllers\Itineraries\ItineraryStopsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
-    <Compile Include="Controllers\Persons\ParticipantPersonSevisControllerTest.cs" />
+    <Compile Include="Controllers\Persons\ParticipantPersonsSevisControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramStatusControllerTest.cs" />
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />

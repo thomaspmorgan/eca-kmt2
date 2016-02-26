@@ -25,21 +25,21 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonsSevisService participantService;
-        private ISevisValidationService validationService;
+        private IExchangeVisitorValidationService validationService;
         private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
         /// <param name="participantService">participant person sevis service.</param>
-        /// <param name="validationService">sevis validation service</param>
         /// <param name="userProvider">user provider</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, 
-            ISevisValidationService validationService, IUserProvider userProvider)
+        /// <param name="validationService">The exchange visitor validation service.</param>
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IExchangeVisitorValidationService validationService, IUserProvider userProvider)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
-            this.participantService = participantService;
+            Contract.Requires(validationService != null, "The validation service must not be null.");
             this.validationService = validationService;
+            this.participantService = participantService;
             this.userProvider = userProvider;
         }
 
@@ -51,7 +51,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The participantPersonSevis with the given id.</returns>
         [ResponseType(typeof(ParticipantPersonSevisDTO))]
         [Route("Project/{projectId:int}/ParticipantPersonsSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetParticipantPersonsSevisByIdAsync(int projectId, int participantId) 
+        public async Task<IHttpActionResult> GetParticipantPersonsSevisByIdAsync(int projectId, int participantId)
         {
             var participantPerson = await participantService.GetParticipantPersonsSevisByIdAsync(projectId, participantId);
             if (participantPerson != null)
@@ -81,8 +81,7 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await participantService.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
                 await participantService.SaveChangesAsync();
-                var participantPersonSevisDTO = await participantService.GetParticipantPersonsSevisByIdAsync(projectId, model.ParticipantId);
-                return Ok(participantPersonSevisDTO);
+                return Ok();
             }
             else
             {
@@ -113,58 +112,20 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves participant sevis CREATE record validation results.
+        /// Manually run the participant service verification.
         /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="projectId">The id of the project the participant belongs to.</param>
-        /// <returns>Validation results</returns>
-        [Route("Project/{projectId:int}/ParticipantPersonsSevis/ValidateCreateSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetValidateCreateSevisAsync(int projectId, int participantId)
+        /// <param name="projectId">The project id the participant is on.</param>
+        /// <param name="participantId">The participant to verify by id.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Project/{projectId:int}/Participant/{participantId:int}/Verify")]
+        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> PostVerifyExchangeVisitorAsync(int projectId, int participantId)
         {
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            var status = await validationService.PreCreateSevisValidationAsync(projectId, participantId, businessUser);
-            return Ok(status);
-        }
-
-        /// <summary>
-        /// Retrieves participant sevis UPDATE record validation results.
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="projectId">The id of the project the participant belongs to.</param>
-        /// <returns>Validation results</returns>
-        [Route("Project/{projectId:int}/ParticipantPersonsSevis/ValidateUpdateSevis/{participantId:int}")]
-        public async Task<IHttpActionResult> GetValidateUpdateSevisAsync(int projectId, int participantId)
-        {
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            var status = await validationService.PreUpdateSevisValidationAsync(projectId, participantId, businessUser);
-            if (status != null)
-            {
-                return Ok(status);
-            }
-            else
-            {
-                return NotFound();
-            }            
-        }
-
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="projectId">The project id.</param>
-        /// <param name="result">Validation result object</param>
-        [HttpPost]
-        [Route("Project/{projectId:int}/ParticipantPersonsSevis/{participantId:int}/CreateSevisCommStatus")]
-        public async Task<IHttpActionResult> PostParticipantSevisCommStatus(int projectId, int participantId, FluentValidation.Results.ValidationResult result)
-        {
-            var currentUser = userProvider.GetCurrentUser();
-            var businessUser = userProvider.GetBusinessUser(currentUser);
-            await participantService.UpdateParticipantPersonSevisCommStatusAsync(businessUser, projectId, participantId, result);
-            await participantService.SaveChangesAsync();
+            var user = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(user);
+            await validationService.RunParticipantSevisValidationAsync(businessUser, projectId, participantId);
+            await validationService.SaveChangesAsync();
             return Ok();
-        }
-                
+        } 
     }
 }

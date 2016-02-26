@@ -100,24 +100,5 @@ namespace ECA.Business.Service.Persons
         /// <returns>List of participant ids that were updated</returns>
         int[] SendToSevis(int projectId, int[] participantIds);
         
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="errorCount">Validation error count</param>
-        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        /// <param name="result">Validation result object</param>
-        ParticipantPersonSevisCommStatus UpdateParticipantPersonSevisCommStatus(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result);
-
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="projectId">The id of the project the participant belongs to.</param>
-        /// <param name="user">The user performing the update.</param>
-        /// <param name="result">Validation result object</param>
-        /// <returns>The new comm status.</returns>
-        Task<ParticipantPersonSevisCommStatus> UpdateParticipantPersonSevisCommStatusAsync(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result);
-
     }
 }

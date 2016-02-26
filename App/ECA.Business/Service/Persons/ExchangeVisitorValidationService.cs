@@ -1,20 +1,17 @@
-﻿using ECA.Business.Queries.Persons;
-using System.Data.Entity;
+﻿using ECA.Business.Validation.Model;
+using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
+using FluentValidation;
+using FluentValidation.Results;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
-using FluentValidation.Results;
-using ECA.Business.Validation.Model;
-using Newtonsoft.Json;
-using ECA.Core.Exceptions;
-using FluentValidation;
-using Newtonsoft.Json.Serialization;
 
 namespace ECA.Business.Service.Persons
 {
