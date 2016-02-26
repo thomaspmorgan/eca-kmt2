@@ -10,28 +10,29 @@ using ECA.WebApi.Security;
 namespace ECA.WebApi.Test.Controllers.Persons
 {
     [TestClass]
-    public class ParticipantPersonSevisControllerTest
+    public class ParticipantPersonsSevisControllerTest
     {
         private ParticipantPersonsSevisController controller;
-        private Mock<IParticipantPersonsSevisService> serviceMock;
-        private Mock<ISevisValidationService> validatorMock;
+        private Mock<IParticipantPersonsSevisService> participantPersonSevisService;
+        private Mock<IExchangeVisitorValidationService> validatorService;
         private Mock<IUserProvider> userProvider;
 
         [TestInitialize]
         public void TestInit()
         {
-            serviceMock = new Mock<IParticipantPersonsSevisService>();
-            validatorMock = new Mock<ISevisValidationService>();
+            participantPersonSevisService = new Mock<IParticipantPersonsSevisService>();
+            validatorService = new Mock<IExchangeVisitorValidationService>();
             userProvider = new Mock<IUserProvider>();
-            controller = new ParticipantPersonsSevisController(serviceMock.Object, validatorMock.Object, userProvider.Object);
+
+            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, validatorService.Object, userProvider.Object);
         }
 
         [TestMethod]
         public async Task TestPostSendToSevisAsync()
         {
-            serviceMock.Setup(x => x.SendToSevis(It.IsAny<int[]>())).ReturnsAsync(new int[] { });
-            var response = await controller.PostSendToSevisAsync(new int[] { 1, 2, 3 });
-            serviceMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            participantPersonSevisService.Setup(x => x.SendToSevisAsync(It.IsAny<int>(), It.IsAny<int[]>())).ReturnsAsync(new int[] { });
+            var response = await controller.PostSendToSevisAsync(1, new int[] { 1, 2, 3 });
+            participantPersonSevisService.Verify(x => x.SaveChangesAsync(), Times.Once);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<int []>));
         }
 
@@ -39,7 +40,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         public async Task TestPostSendToSevisAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostSendToSevisAsync(new int[] { 1, 2, 3 });
+            var response = await controller.PostSendToSevisAsync(1, new int[] { 1, 2, 3 });
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
     }

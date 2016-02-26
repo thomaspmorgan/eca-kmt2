@@ -122,5 +122,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the prominent categories
         /// </summary>
         public IEnumerable<String> ProminentCategories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project of this person, i.e. the latest project they are participating on, or null if they are not currently participating.
+        /// </summary>
+        public int? ProjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant id of this person, i.e. the latest project they are participating on, or null if they are not currently participating.
+        /// </summary>
+        public int? ParticipantId { get; set; }
     }
 }

@@ -9,74 +9,40 @@
 
     function participantPersonsSevisService($q, DragonBreath) {
         var service = {
-            getParticipantPersonsSevis: getParticipantPersonsSevis,
-            getParticipantPersonsSevisByProject: getParticipantPersonsSevisByProject,
             getParticipantPersonsSevisById: getParticipantPersonsSevisById,
-            getParticipantPersonsSevisCommStatusesById: getParticipantPersonsSevisCommStatusesById,
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
-            validateParticipantPersonsCreateSevis: validateParticipantPersonsCreateSevis,
-            validateParticipantPersonsUpdateSevis: validateParticipantPersonsUpdateSevis,
-            createParticipantSevisCommStatus: createParticipantSevisCommStatus,
-            processParticipantSevisBatchLog: processParticipantSevisBatchLog
+            processParticipantSevisBatchLog: processParticipantSevisBatchLog,
+            verifyExchangeVisitor: verifyExchangeVisitor
         };
 
         return service;
 
-        function getParticipantPersonsSevis(params) {
-            var defer = $q.defer();
-            DragonBreath.get(params, 'participantPersonsSevis')
-              .success(function (data) {
-                  defer.resolve(data);
-              });
-            return defer.promise;
+        function getParticipantPersonsSevisById(projectId, id) {
+            return DragonBreath.get('project/' + projectId + '/participantPersonsSevis', id)
+            .then(function (response) {
+                if (response.data.sevisValidationResult) {
+                    response.data.sevisValidationResult = angular.fromJson(response.data.sevisValidationResult);
+                }
+                if (response.data.sevisBatchResult) {
+                    response.data.sevisBatchResult = angular.fromJson(response.data.sevisBatchResult);
+                }
+                return response;
+            });
         };
 
-        function getParticipantPersonsSevisByProject(id, params) {
-            var defer = $q.defer();
-            var path = 'projects/' + id + "/participantPersonsSevis";
-            DragonBreath.get(params, path)
-              .success(function (data) {
-                  defer.resolve(data);
-              });
-            return defer.promise;
-        };
-
-        function getParticipantPersonsSevisById(id) {
-            return DragonBreath.get('participantPersonsSevis', id);
-        };
-
-        function getParticipantPersonsSevisCommStatusesById(id, params) {
-            var path = 'participantPersonsSevis/' + id + '/sevisCommStatuses';
-            return DragonBreath.get(params, path);
-        };
-
-        function updateParticipantPersonsSevis(sevisInfo) {
-            var path = 'participantPersonsSevis';
+        function updateParticipantPersonsSevis(projectId, sevisInfo) {
+            var path = 'project/' + projectId + '/participantPersonsSevis';
             return DragonBreath.save(sevisInfo, path);
         };
 
-        function sendToSevis(participantIds) {
-            return DragonBreath.create(participantIds, 'participantPersonsSevis/sendToSevis');
-        };
-        
-        // validate a sevis create object
-        function validateParticipantPersonsCreateSevis(id) {
-            var path = 'ParticipantPersonsSevis/ValidateCreateSevis';
-            return DragonBreath.get(path, id);
+        function sendToSevis(projectId, participantIds) {
+            return DragonBreath.create(participantIds, 'project/' + projectId + '/participantPersonsSevis/sendToSevis');
         };
 
-        // validate a sevis update object
-        function validateParticipantPersonsUpdateSevis(id) {
-            var path = 'ParticipantPersonsSevis/ValidateUpdateSevis';
-            return DragonBreath.get(path, id);
-        };
-
-        // create participant sevis status
-        function createParticipantSevisCommStatus(id, params) {
-            var path = 'ParticipantPersonsSevis/' + id + '/CreateSevisCommStatus';
-            return DragonBreath.create(params, path);
-        };
+        function verifyExchangeVisitor(projectId, participantId) {
+            return DragonBreath.create({}, 'project/' + projectId + '/participant/' + participantId + '/verify');
+        }
         
         // update participant sevis batch status
         function processParticipantSevisBatchLog(id) {

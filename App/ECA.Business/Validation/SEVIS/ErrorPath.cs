@@ -95,7 +95,6 @@ namespace ECA.Business.Validation.SEVIS
         public static readonly ElementCategorySectionTab PersonalInfo = new ElementCategorySectionTab(1, "personalinfo");
         public static readonly ElementCategorySectionTab Funding = new ElementCategorySectionTab(2, "funding");
         public static readonly ElementCategorySectionTab Sevis = new ElementCategorySectionTab(3, "sevis");
-        public static readonly ElementCategorySectionTab ExchVisitor = new ElementCategorySectionTab(4, "ev");
 
         private ElementCategorySectionTab(int value, string name)
         {

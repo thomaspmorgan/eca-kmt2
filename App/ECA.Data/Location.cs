@@ -157,6 +157,18 @@ namespace ECA.Data
         public virtual Location Division { get; set; }
 
         /// <summary>
+        /// Gets or sets the birth country id.
+        /// </summary>
+        [Column("SEVISCountryCodeId")]
+        public int? BirthCountryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country.
+        /// </summary>
+        [ForeignKey("BirthCountryId")]
+        public virtual BirthCountry BirthCountry { get; set; }
+
+        /// <summary>
         /// Gets or sets the birth place people
         /// </summary>
         public virtual ICollection<Person> BirthPlacePeople { get; set; }

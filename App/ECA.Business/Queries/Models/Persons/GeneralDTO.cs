@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
-
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -14,7 +9,6 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class GeneralDTO
     {
-
         public GeneralDTO ()
         {
             ProminentCategories = new List<SimpleLookupDTO>();
@@ -53,6 +47,16 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the date revised on.
         /// </summary>
         public DateTimeOffset RevisedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant id.
+        /// </summary>
+        public int ParticipantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProjectId of this participant.
+        /// </summary>
+        public int ProjectId { get; set; }
 
         /// <summary>
         /// Gets or sets the participant's sevis id

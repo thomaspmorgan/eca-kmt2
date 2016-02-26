@@ -1,12 +1,12 @@
 ﻿using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.SEVIS;
+using ECA.Data;
 using FluentValidation;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
     public class BiographicalValidator : AbstractValidator<Biographical>
     {
-        public const int GENDER_CODE_LENGTH = 1;
         public const int CITY_MAX_LENGTH = 50;
         public const int COUNTRY_CODE_LENGTH = 2;
         public const int VISA_TYPE_LENGTH = 2;
@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         {
             RuleFor(visitor => visitor.FullName).NotNull().WithMessage("EV Biographical Info: Full Name is required").SetValidator(new FullNameValidator()).When(visitor => visitor.FullName != null);
             RuleFor(visitor => visitor.BirthDate).NotNull().WithMessage("EV Biographical Info: Date of Birth is required").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
-            RuleFor(visitor => visitor.Gender).NotNull().WithMessage("EV Biographical Info: Gender is required").Length(GENDER_CODE_LENGTH).WithMessage("EV Biographical Info: Gender must be " + GENDER_CODE_LENGTH.ToString() + " character").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+            RuleFor(visitor => visitor.Gender).NotNull().WithMessage("EV Biographical Info: Gender is required").Matches(string.Format("({0}|{1})", Gender.SEVIS_MALE_GENDER_CODE_VALUE, Gender.SEVIS_FEMALE_GENDER_CODE_VALUE)).WithMessage("EV Biographical Info: Gender must be M or F").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
             RuleFor(visitor => visitor.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("EV Biographical Info: City of Birth is required and can be up to " + CITY_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
             RuleFor(visitor => visitor.BirthCountryCode).Length(COUNTRY_CODE_LENGTH).WithMessage("EV Biographical Info: Country of Birth is required and must be " + COUNTRY_CODE_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
             RuleFor(visitor => visitor.CitizenshipCountryCode).Length(COUNTRY_CODE_LENGTH).WithMessage("EV Biographical Info: Country of Citizenship is required and must be " + COUNTRY_CODE_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });

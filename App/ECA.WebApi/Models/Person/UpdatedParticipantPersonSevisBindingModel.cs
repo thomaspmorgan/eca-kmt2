@@ -58,17 +58,7 @@ namespace ECA.WebApi.Models.Person
         /// The end date of the visit
         /// </summary>
         public DateTimeOffset? EndDate { get; set; }
-
-        /// <summary>
-        /// The most recent participant Sevis valiation result
-        /// </summary>
-        public string SevisValidationResult { get; set; }
-
-        /// <summary>
-        /// The most recent participant Sevis batch submission result
-        /// </summary>
-        public string SevisBatchResult { get; set; }
-
+        
         /// <summary>
         /// Convert binding model to business model 
         /// </summary>
@@ -87,9 +77,7 @@ namespace ECA.WebApi.Models.Person
                 isNeedsUpdate: this.IsNeedsUpdate,
                 isDS2019SentToTraveler: this.IsDS2019SentToTraveler,
                 startDate: this.StartDate,
-                endDate: this.EndDate,
-                sevisValidationResult: this.SevisValidationResult,
-                sevisBatchResult: this.SevisBatchResult
+                endDate: this.EndDate
             );
         }
     }

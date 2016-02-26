@@ -21,7 +21,7 @@ namespace ECA.Business.Validation.Model
         /// Person first name.
         /// </summary>
         [XmlElement(IsNullable = true)]
-        public string FirsName { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Person passport name.

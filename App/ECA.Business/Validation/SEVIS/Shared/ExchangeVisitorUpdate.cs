@@ -106,5 +106,15 @@ namespace ECA.Business.Validation.Model.Shared
         /// Reprint DS-7002
         /// </summary>
         public Reprint7002 Reprint7002 { get; set; }
+
+        /// <summary>
+        /// US physical address
+        /// </summary>
+        public USAddress USAddress { get; set; }
+
+        /// <summary>
+        /// US mailing address
+        /// </summary>
+        public USAddress MailAddress { get; set; }
     }
 }

@@ -135,9 +135,11 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="BirthCountry.cs" />
     <Compile Include="Bookmark.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
+    <Compile Include="Configuration\BirthCountryConfiguration.cs" />
     <Compile Include="Configuration\BookmarkConfiguration.cs" />
     <Compile Include="Configuration\DataPointCategoryPropertyConfiguration.cs" />
     <Compile Include="Configuration\DataPointConfigurationConfiguration.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <Compile Include="PersonType.cs" />
     <Compile Include="SevisBatchProcessing.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />

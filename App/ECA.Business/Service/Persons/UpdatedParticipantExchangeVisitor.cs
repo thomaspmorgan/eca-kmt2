@@ -12,6 +12,7 @@ namespace ECA.Business.Service.Persons
         /// A class to update a Participant Persons SEVIS info
         /// </summary>
         /// <param name="updater"></param>
+        /// <param name="projectId">The id of the project.</param>
         /// <param name="participantId"></param>
         /// <param name="fieldOfStudyId"></param>
         /// <param name="positionId"></param>
@@ -28,6 +29,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="fundingTotal"></param>
         public UpdatedParticipantExchangeVisitor(
             User updater, 
+            int projectId,
             int participantId, 
             int? fieldOfStudyId,
             int? positionId,
@@ -76,6 +78,7 @@ namespace ECA.Business.Service.Persons
             this.FundingOther = fundingOther;
             this.OtherName = otherName;
             this.FundingTotal = fundingTotal;
+            this.ProjectId = projectId;
         }
 
         /// <summary>
@@ -197,5 +200,10 @@ namespace ECA.Business.Service.Persons
         /// Gets the update audit.
         /// </summary>
         public Audit Audit { get; private set; }
+
+        /// <summary>
+        /// Gets the project id of this participant.
+        /// </summary>
+        public int ProjectId { get; private set; }
     }
 }

@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.ice.gov/xmlschema/sevisbatch/Common" xmlns:table="http://www.ice.gov/xmlschema/sevisbatch/Table" targetNamespace="http://www.ice.gov/xmlschema/sevisbatch/Common" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="6.23">
+	<xs:import namespace="http://www.ice.gov/xmlschema/sevisbatch/Table" schemaLocation="SEVISTable.xsd"/>
+	<xs:simpleType name="BatchIDType">
+		<xs:annotation>
+			<xs:documentation>Unique 14-character Batch ID</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="14"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NameNullable">
+		<xs:union memberTypes="table:emptyStringType common:Name"/>
+	</xs:simpleType>
+	<xs:simpleType name="Name">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="60"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OrganizationIDType">
+		<xs:annotation>
+			<xs:documentation>SchoolCode or ProgramNumber</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="common:ProgramNumberType common:SchoolCodeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="ProgramNumberType">
+		<xs:annotation>
+			<xs:documentation>Global Program Number type</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(P-[1-4]-\d{5})|(G-[1-7]-\d{5})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RemarksNoWSType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RemarksNullableType">
+		<xs:union memberTypes="table:emptyStringType common:RemarksType"/>
+	</xs:simpleType>
+	<xs:simpleType name="RemarksType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="500"/>
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RemarksNullable250Type">
+		<xs:union memberTypes="table:emptyStringType common:Remarks250Type"/>
+	</xs:simpleType>
+	<xs:simpleType name="Remarks250Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="250"/>
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RequestID">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+			<xs:whiteSpace value="collapse"/>
+			<xs:pattern value="[^:/\\]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResultCodeType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="S\d{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchoolCodeType">
+		<xs:annotation>
+			<xs:documentation>Global School Code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{3}214F\d{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SevisIDType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="N\d{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UserDefinedAType">
+		<xs:annotation>
+			<xs:documentation>UserDefinedA</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UserDefinedBType">
+		<xs:annotation>
+			<xs:documentation>UserDefinedB</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="14"/>
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UserIdType">
+		<xs:annotation>
+			<xs:documentation>Global user ID</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UserNameType">
+		<xs:annotation>
+			<xs:documentation>Global username type (handles temp user and permanent user)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z0-9]{7,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StudentInternType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BatchHeaderType">
+		<xs:annotation>
+			<xs:documentation>Header information used by SEVIS system to identify Batch ID and Org ID (school or program)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BatchID" type="common:BatchIDType">
+				<xs:annotation>
+					<xs:documentation>Unique Batch ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrgID" type="common:OrganizationIDType">
+				<xs:annotation>
+					<xs:documentation>Unique school or program identifier assigned by SEVIS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DriverLicenseNullableType">
+		<xs:sequence>
+			<xs:element name="Number" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>maxLen = 30</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Two char state code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="table:emptyEnumerationType table:StateCodeType"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DriverLicenseType">
+		<xs:sequence>
+			<xs:element name="Number" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>maxLen = 30</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Two char state code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmptyType">
+		<xs:annotation>
+			<xs:documentation>EMPTY event tag</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="ForeignAddrNullableType">
+		<xs:annotation>
+			<xs:documentation>Global foreign address information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Province" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="30"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CountryCode" type="table:CntryCodeWithoutType"/>
+			<xs:element name="PostalCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ForeignAddrType">
+		<xs:annotation>
+			<xs:documentation>Global foreign address information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Province" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="30"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CountryCode" type="table:CntryCodeWithoutType"/>
+			<xs:element name="PostalCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameNullableType">
+		<xs:sequence>
+			<xs:element name="LastName">
+				<xs:annotation>
+					<xs:documentation>Family name</xs:documentation>
+					<xs:documentation>No number ( 0 ~ 9 ) allowed</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="40"/>
+						<xs:minLength value="1"/>
+						<xs:pattern value="\D+"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FirstName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="80"/>
+						<xs:minLength value="0"/>
+						<xs:pattern value="\D*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PassportName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="39"/>
+						<xs:whiteSpace value="preserve"/>
+						<xs:minLength value="0"/>
+						<xs:pattern value="\D*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PreferredName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="145"/>
+						<xs:whiteSpace value="preserve"/>
+						<xs:minLength value="0"/>
+						<xs:pattern value="\D*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Suffix" minOccurs="0">
+				<xs:simpleType>
+					<xs:union memberTypes="table:emptyEnumerationType table:NameSuffixCodeType"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameType">
+		<xs:sequence>
+			<xs:element name="LastName">
+				<xs:annotation>
+					<xs:documentation>Family name</xs:documentation>
+					<xs:documentation>No number ( 0 ~ 9 ) allowed</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="40"/>
+						<xs:minLength value="1"/>
+						<xs:pattern value="\D+"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FirstName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="80"/>
+						<xs:minLength value="1"/>
+						<xs:pattern value="\D+"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PassportName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="39"/>
+						<xs:whiteSpace value="preserve"/>
+						<xs:minLength value="0"/>
+						<xs:pattern value="\D*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PreferredName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="145"/>
+						<xs:whiteSpace value="preserve"/>
+						<xs:minLength value="0"/>
+						<xs:pattern value="\D*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Suffix" type="table:NameSuffixCodeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelNullableType">
+		<xs:annotation>
+			<xs:documentation>Travel information type Nullable</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PassportNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="25"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PassportIssuingCntry" type="table:CntryCodeWithCloseDateNullableType" minOccurs="0"/>
+			<xs:element name="PassportExpDate" type="table:DateNullableType" minOccurs="0"/>
+			<xs:element name="VisaNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="25"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="VisaIssuingCntry" type="table:VisaPostCodeNullableType" minOccurs="0"/>
+			<xs:element name="VisaIssueDate" type="table:DateNullableType" minOccurs="0"/>
+			<xs:element name="VisaExpDate" type="table:DateNullableType" minOccurs="0"/>
+			<xs:element name="PortOfEntry" type="table:PoeCodeNullableType" minOccurs="0"/>
+			<xs:element name="DateOfEntry" type="table:DateNullableType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TravelType">
+		<xs:annotation>
+			<xs:documentation>Travel information type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PassportNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="25"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PassportIssuingCntry" type="table:CntryCodeWithCloseDateType" minOccurs="0"/>
+			<xs:element name="PassportExpDate" type="table:DateType" minOccurs="0"/>
+			<xs:element name="VisaNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="25"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="VisaIssuingCntry" type="table:VisaPostCodeType" minOccurs="0"/>
+			<xs:element name="VisaIssueDate" type="table:DateType" minOccurs="0"/>
+			<xs:element name="VisaExpDate" type="table:DateType" minOccurs="0"/>
+			<xs:element name="PortOfEntry" type="table:PoeCodeType" minOccurs="0"/>
+			<xs:element name="DateOfEntry" type="table:DateType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SEVISResponse">
+		<xs:annotation>
+			<xs:documentation>Standard response for upload and download</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="orgID" type="common:OrganizationIDType" use="required"/>
+		<xs:attribute name="batchID" type="common:BatchIDType" use="required"/>
+		<xs:attribute name="resultCode" type="common:ResultCodeType" use="required"/>
+		<xs:attribute name="dateTimeStamp" type="table:DateTimeType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="USAddressNullableType">
+		<xs:sequence>
+			<xs:element name="Address1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType"/>
+			<xs:element name="PostalCode" type="table:USPostalType">
+				<xs:annotation>
+					<xs:documentation>5-digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalRoutingCode" type="table:USPostalRoutingNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>4-digit postal routing code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="USAddressCommuterNullableType">
+		<xs:sequence>
+			<xs:element name="Address1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeNullableType"/>
+			<xs:element name="PostalCode" type="table:USPostalTypeNullableType">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalRoutingCode" type="table:USPostalRoutingNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>4 digit postal routing code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="USAddressOptionalType">
+		<xs:annotation>
+			<xs:documentation>Edit individual address elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Address1" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeNullableType" minOccurs="0"/>
+			<xs:element name="PostalCode" type="table:USPostalTypeNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalRoutingCode" type="table:USPostalRoutingNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>4 digit postal routing code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="USAddressType">
+		<xs:sequence>
+			<xs:element name="Address1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType"/>
+			<xs:element name="PostalCode" type="table:USPostalType">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalRoutingCode" type="table:USPostalRoutingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>4 digit postal routing code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- SEVIS 686 Address Doctor validation for Batch -->
+	<xs:complexType name="USAddrDoctorType">
+		<xs:sequence>
+			<xs:element name="Address1" nillable="false" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType" nillable="true" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PostalCode" type="table:USPostalType" nillable="false" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExplanationCode" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:annotation>
+						<xs:documentation>
+							ExplanationCode is optional and the value can be one of {OB, OH, OM, ON, OO, OP}. If the value is OO, explanation is required
+						</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value=""/>
+						<xs:enumeration value="OB"/>
+						<xs:enumeration value="OH"/>
+						<xs:enumeration value="OM"/>
+						<xs:enumeration value="ON"/>
+						<xs:enumeration value="OO"/>
+						<xs:enumeration value="OP"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Explanation" nillable="false" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:annotation>
+						<xs:documentation>minLength = 5, maxLength = 200</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:minLength value="5"/>
+						<xs:maxLength value="200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- END SEVIS 686 Address Doctor validation for Batch -->
+	<xs:complexType name="USAddrDoctorResponseType">
+		<xs:sequence>
+			<xs:element name="Address1" nillable="false" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" nillable="true" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType" nillable="true" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PostalCode" nillable="false" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code or 5+4 digit postal code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{5}|\d{5}\-\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AddrDoctorMessage">
+		<xs:annotation>
+			<xs:documentation>Address Message are: Override Suggested, Override with valid CSZ, Valid, Not Validated</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SiteIdType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PhaseIdType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,22}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="YearsOfExperience">
+		<xs:annotation>
+			<xs:documentation>Years of experience in field</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TypeOfDegree">
+		<xs:annotation>
+			<xs:documentation>Type of degree or certificate</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FieldOfStudy">
+		<xs:annotation>
+			<xs:documentation>Field of study or profession</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EmployerID">
+		<xs:annotation>
+			<xs:documentation>Employer 9-digit federal ID / tax ID</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneTenDigits">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneExt">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Very generic types -->
+	<xs:simpleType name="USDollars">
+		<xs:annotation>
+			<xs:documentation>A generic type for US Dollars (max 9999999999.99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,7}(\.\d\d)?|\.\d\d"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToTwoDigits">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-6 digits</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToSixDigits">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-6 digits</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneNonNumeric">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1 character</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToFortyNonNumeric">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-40 non-numeric characters</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\D{1,40}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToOneHundredChars">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-100 characters</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToOneHundredTwentyChars">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-120 characters</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="120"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ZeroToOneThousandChars">
+		<xs:annotation>
+			<xs:documentation>A generic type for 0-1000 characters</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToOneThousandChars">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-1000 characters</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OneToThreeThousandChars">
+		<xs:annotation>
+			<xs:documentation>A generic type for 1-3000 characters</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="3000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="URL">
+		<xs:annotation>
+			<xs:documentation>An internet URL/address</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="250"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
