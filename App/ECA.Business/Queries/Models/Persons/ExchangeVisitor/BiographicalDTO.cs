@@ -12,17 +12,7 @@ using System.Threading.Tasks;
 namespace ECA.Business.Queries.Models.Persons
 {
     public class BiographicalDTO
-    {
-        /// <summary>
-        /// Gets or sets the participant id.
-        /// </summary>
-        public int ParticipantId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the project id.
-        /// </summary>
-        public int ProjectId { get; set; }
-
+    { 
         /// <summary>
         /// Gets or sets the person id.
         /// </summary>
@@ -156,5 +146,16 @@ namespace ECA.Business.Queries.Models.Persons
             };
         }
         //this relates to NonImgBioType in sevis xsd
+    }
+
+    /// <summary>
+    /// A DependentBiographicalDTO contains biography information for participating person's dependent.
+    /// </summary>
+    public class DependentBiographicalDTO : BiographicalDTO
+    {
+        /// <summary>
+        /// Gets or sets the relationship.
+        /// </summary>
+        public string Relationship { get; set; }
     }
 }

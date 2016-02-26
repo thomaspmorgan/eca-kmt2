@@ -22,7 +22,6 @@ angular.module('staticApp')
         StateService,
         OrganizationService,
         PersonService,
-        SevisResultService,
         ConstantsService,
         AuthService,
         BrowserService,
@@ -410,14 +409,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
               $scope.sevisInfo[participantId] = data.data;
-              $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
-              $scope.sevisInfo[participantId].sevisBatchResult = angular.fromJson(data.data.sevisBatchResult);
               $scope.sevisInfo[participantId].show = true;
-
-              //var errorCount = 0;
-              //if ($scope.sevisInfo[participantId].sevisValidationResult) {
-              //    errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length
-              //}
           })
           .catch(function (error) {
               if (error.status === 404) {

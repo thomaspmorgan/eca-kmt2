@@ -5,9 +5,9 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'SevisResultService', '$state'];
+    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService', '$state'];
     
-    function participantPersonSevis($log, LookupService, FilterService, NotificationService, SevisResultService, $state) {
+    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService, $state) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -42,22 +42,20 @@
                 // pre-sevis validation result update
                 $scope.validateSevisInfo = function (sevisInfo) {
                     $scope.edit.isValidationLoading = true;
-                    var params = {
-                        participantId: sevisInfo.participantId,
-                        projectId: sevisInfo.projectId,
-                        sevisId: sevisInfo.sevisId
-                    };
-                    SevisResultService.updateSevisVerificationResultsByParticipant(params)
-                        .then(function (response) {
-                            $scope.sevisinfo.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
-                            $scope.sevisinfo.sevisBatchResult = angular.fromJson(response.sevisBatchResult);
-                        })
-                        .catch(function (error) {
-                            $log.error('Unable to update sevis validation results for participantId: ' + sevisInfo.participantId);
-                        })
-                        .finally(function () {
+                    return ParticipantPersonsSevisService.verifyExchangeVisitor(sevisInfo.projectId, sevisInfo.participantId)
+                    .then(function (response) {
+                        return ParticipantPersonsSevisService.getParticipantPersonsSevisById(sevisInfo.projectId, sevisInfo.participantId)
+                        .then(function (participantPersonSevisResponse) {
+                            $scope.sevisinfo = participantPersonSevisResponse.data;
                             $scope.edit.isValidationLoading = false;
                         });
+                    })
+                    .catch(function (response) {
+                        $scope.edit.isValidationLoading = false;
+                        var message = "Unable to verify participant sevis info.";
+                        NotificationService.showErrorMessage(message);
+                        $log.error(message);
+                    });
                 }
 
                 // Navigate to a section where the validation error can be resolved
