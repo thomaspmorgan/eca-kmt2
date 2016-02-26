@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Persons;
 using Moq;
 using Microsoft.QualityTools.Testing.Fakes;
-using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using System.Collections.Generic;
 using ECA.Data;
 using ECA.Business.Service;

@@ -33,15 +33,18 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
+        private IExchangeVisitorService exchangeVisitorService;
         
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
+        public ParticipantPersonsSevisService(EcaContext context, IExchangeVisitorService exchangeVisitorService, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
+            this.exchangeVisitorService = exchangeVisitorService;
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -93,7 +96,7 @@ namespace ECA.Business.Service.Persons
         #endregion
 
         #region SEVIS validation
-        
+
         /// <summary>
         /// Retrieve SEVIS batch XML
         /// </summary>
@@ -152,16 +155,16 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis exchange visitor create objects (250 max)</returns>
         public List<CreateExchVisitor> GetSevisCreateEVs(User user)
         {
-            var participantIds = Context.ParticipantPersons
+            var participants = Context.ParticipantPersons
                                     .Where(x => x.ParticipantPersonSevisCommStatuses.Last().SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && x.SevisId == null)
-                                    .Select(x => x.ParticipantId).Take(250);
+                                    .Select(x => new { ParticipantId = x.ParticipantId, ProjectId = x.Participant.ProjectId }).Take(250);
 
             List<CreateExchVisitor> createEvs = new List<CreateExchVisitor>();
             CreateExchVisitor createEv = new CreateExchVisitor();
 
-            foreach (var pid in participantIds)
+            foreach (var participant in participants)
             {
-                createEv = ParticipantPersonsSevisQueries.GetCreateExchangeVisitor(pid, user, this.Context);
+                createEv = exchangeVisitorService.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
                 createEvs.Add(createEv);
             }
 
@@ -175,72 +178,20 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis exchange visitor update objects (250 max)</returns>
         public List<UpdateExchVisitor> GetSevisUpdateEVs(User user)
         {
-            var participantIds = Context.ParticipantPersons
+            var participants = Context.ParticipantPersons
                                     .Where(x => x.ParticipantPersonSevisCommStatuses.Last().SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && x.SevisId == null)
-                                    .Select(x => x.ParticipantId).Take(250);
+                                    .Select(x => new { ParticipantId = x.ParticipantId, ProjectId = x.Participant.ProjectId }).Take(250);
 
             List<UpdateExchVisitor> updateEvs = new List<UpdateExchVisitor>();
             UpdateExchVisitor updateEv = new UpdateExchVisitor();
 
-            foreach (var pid in participantIds)
+            foreach (var participant in participants)
             {
-                updateEv = ParticipantPersonsSevisQueries.GetUpdateExchangeVisitor(pid, user, this.Context);
+                updateEv = exchangeVisitorService.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
                 updateEvs.Add(updateEv);
             }
 
             return updateEvs;
-        }
-
-       
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="errorCount">Validation error count</param>
-        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        /// <param name="result">Validation result object</param>
-        public ParticipantPersonSevisCommStatus UpdateParticipantPersonSevisCommStatus(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result)
-        {
-            var participant = Context.Participants.Find(participantId);
-            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            return DoUpdateParticipantPersonSevisCommStatus(user, projectId, participant, result);
-        }
-
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="projectId">The id of the project the participant belongs to.</param>
-        /// <param name="user">The user performing the update.</param>
-        /// <param name="result">Validation result object</param>
-        /// <returns>The new comm status.</returns>
-        public async Task<ParticipantPersonSevisCommStatus> UpdateParticipantPersonSevisCommStatusAsync(User user, int projectId, int participantId, FluentValidation.Results.ValidationResult result)
-        {
-            var participant = await Context.Participants.FindAsync(participantId);
-            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            return DoUpdateParticipantPersonSevisCommStatus(user, projectId, participant, result);
-        }
-
-        private ParticipantPersonSevisCommStatus DoUpdateParticipantPersonSevisCommStatus(User user, int projectId, Participant participant, FluentValidation.Results.ValidationResult result)
-        {
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
-            var newStatus = new ParticipantPersonSevisCommStatus
-            {
-                ParticipantId = participant.ParticipantId,
-                AddedOn = DateTimeOffset.Now,
-            };
-
-            if (result.Errors.Count > 0 || !result.IsValid)
-            {
-                newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
-            }
-            else
-            {
-                newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
-            }
-
-            Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-            return newStatus;
         }
 
         /// <summary>

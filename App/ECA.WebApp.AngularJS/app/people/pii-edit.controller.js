@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];

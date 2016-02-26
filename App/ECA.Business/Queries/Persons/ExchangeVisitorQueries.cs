@@ -1,16 +1,10 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {

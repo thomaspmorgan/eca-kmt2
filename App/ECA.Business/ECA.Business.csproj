@@ -202,7 +202,6 @@
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
-    <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -324,8 +323,6 @@
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\IParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IParticipantPersonsSevisService.cs" />
-    <Compile Include="Service\Persons\IPersonSevisServiceValidator.cs" />
-    <Compile Include="Service\Persons\ISevisValidationService.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewParticipantExchangeVisitor.cs" />
@@ -335,8 +332,6 @@
     <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
-    <Compile Include="Service\Persons\PersonSevisServiceValidator.cs" />
-    <Compile Include="Service\Persons\SevisValidationService.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
