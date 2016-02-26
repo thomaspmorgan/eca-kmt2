@@ -325,6 +325,68 @@ namespace ECA.Business.Test.Service.Admin
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetOfficeById_NullParentOffice()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "office",
+                Description = "office desc"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(default(int?), dto.ParentOfficeId);
+                Assert.AreEqual(null, dto.ParentOfficeName);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeById_ParentOffice()
+        {
+            var parentOffice = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "parent office",
+                Description = "office desc"
+            };
+
+            var office = new Organization
+            {
+                OrganizationId = 2,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "office",
+                Description = "office desc",
+                ParentOrganizationId = parentOffice.OrganizationId,
+                ParentOrganization = parentOffice
+            };
+
+            context.Organizations.Add(parentOffice);
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(parentOffice.OrganizationId, dto.ParentOfficeId);
+                Assert.AreEqual(parentOffice.Name, dto.ParentOfficeName);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
         #endregion
 
         #region Get Child Programs
