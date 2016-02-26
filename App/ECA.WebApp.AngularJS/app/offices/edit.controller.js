@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, FilterService, LookupService, OfficeService, StateService) {
+  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, FilterService, LookupService, OfficeService, StateService, NotificationService) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
