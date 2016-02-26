@@ -15,7 +15,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             return new FinancialInfo
             {
                 ProgramSponsorFunds = "123",
-                OtherFunds = new OtherFunds(),
+                OtherFunds = null
             };
         }
 
@@ -48,19 +48,16 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
         }
 
         [TestMethod]
-        public void TestOtherFunds_Null()
+        public void TestOtherFunds_ShouldRunValidator()
         {
             var validator = new FinancialInfoValidator();
             var instance = GetValidFinancialInfo();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.OtherFunds = null;
+            instance.OtherFunds = new OtherFunds();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FinancialInfoValidator.OTHER_FUNDS_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
         }
-        
     }
 }
