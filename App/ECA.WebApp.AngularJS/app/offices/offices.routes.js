@@ -15,6 +15,12 @@ angular.module('staticApp')
            controller: 'OfficeOverviewCtrl',
            requireADLogin: true
        })
+       .state('offices.edit', {
+           url: '/edit',
+           templateUrl: 'app/offices/edit.html',
+           controller: 'OfficeEditCtrl',
+           requireADLogin: true
+       })
        .state('offices.branches', {
            url: '/branches',
            templateUrl: 'app/offices/branches.html',

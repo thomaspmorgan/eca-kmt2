@@ -34,7 +34,8 @@ angular.module('staticApp')
               },
               edit: {
                   project: projectPrefix + '.edit',
-                  program: programPrefix + '.edit'
+                  program: programPrefix + '.edit',
+                  office: officePrefix + '.edit'
               },
               moneyflow: {
                   organization: organizationPrefix + '.moneyflows',

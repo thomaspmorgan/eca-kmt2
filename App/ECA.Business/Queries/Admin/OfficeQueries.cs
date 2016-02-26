@@ -38,6 +38,7 @@ namespace ECA.Business.Queries.Admin
                         let programs = office.OwnerPrograms
                         let goals = programs.SelectMany(x => x.Goals).Distinct()
                         let themes = programs.SelectMany(x => x.Themes).Distinct()
+                        let parentOffice = office.ParentOrganization
 
                         where Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(office.OrganizationTypeId)
                         select new OfficeDTO
@@ -49,7 +50,9 @@ namespace ECA.Business.Queries.Admin
                             Name = office.Name,
                             RevisedOn = office.History.RevisedOn,
                             Themes = themes.OrderBy(x => x.ThemeName).Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            OfficeSymbol = office.OfficeSymbol
+                            OfficeSymbol = office.OfficeSymbol,
+                            ParentOfficeId = parentOffice == null ? default(int?) : parentOffice.OrganizationId,
+                            ParentOfficeName = parentOffice == null ? null : parentOffice.Name
                         };
             return query;
         }

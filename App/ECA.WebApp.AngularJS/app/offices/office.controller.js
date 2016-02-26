@@ -9,6 +9,7 @@
  */
 angular.module('staticApp')
   .controller('OfficeCtrl', function ($scope,
+      $state,
       $stateParams,
       $q,
       $log,
@@ -20,8 +21,6 @@ angular.module('staticApp')
 
       var officeId = $stateParams.officeId;
       $scope.office = {};
-      $scope.view = {};
-      $scope.view.permalink = '';
       $scope.tabs = {
           overview: {
               title: 'Overview',
@@ -58,12 +57,33 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadedOfficePromise = $q.defer();
 
+      var editStateName = StateService.stateNames.edit.office;
+      var overviewStateName = StateService.stateNames.overview.office;
+
+      $scope.isInEditState = $state.current.name === editStateName;
+
+      $scope.isEditButtonEnabled = false;
+
+      $scope.editButtonClicked = function () {
+          $state.go(editStateName);
+          $scope.isInEditState = true;
+      }
+
+      $scope.saveButtonClicked = function () {
+          $scope.$broadcast('saveOffice');
+      }
+
+      $scope.cancelButtonClicked = function () {
+          getOfficeById(officeId);
+          $state.go(overviewStateName);
+          $scope.isInEditState = false;
+      }
+
       function getOfficeById(id) {
           return OfficeService.get(id)
           .then(function (response) {
               $scope.office = response.data;
               $scope.data.loadedOfficePromise.resolve($scope.office);
-              $scope.view.permalink = StateService.getOfficeState(officeId, { absolute: true });
           })
           .catch(function (response) {
               var message = "Unable to load office by id.";
@@ -84,6 +104,16 @@ angular.module('staticApp')
               notAuthorized: function () {
                   $scope.tabs.moneyflows.active = false;
                   $log.info('User not authorized to view office in office.js controller.');
+              }
+          };
+          config[ConstantsService.permission.editOffice.value] = {
+              hasPermission: function () {
+                  $scope.hasEditOfficePermission = true;
+                  $log.info('User has edit office permission in office.js controller.');
+              },
+              notAuthorized: function () {
+                  $scope.hasEditOfficePermission = false;
+                  $log.info('User not authorized to edit office in office.js controller.');
               }
           };
           return AuthService.getResourcePermissions(resourceType, officeId, config)
