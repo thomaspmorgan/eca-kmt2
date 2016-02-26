@@ -557,6 +557,7 @@
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
     <Compile Include="Models\Admin\ParticipantOrganizationBindingModel.cs" />
+    <Compile Include="Models\Admin\UpdatedOfficeBindingModel.cs" />
     <Compile Include="Models\Itineraries\ItineraryStopParticipantsBindingModel.cs" />
     <Compile Include="Models\Itineraries\ItineraryParticipantsBindingModel.cs" />
     <Compile Include="Models\Itineraries\UpdatedEcaItineraryStopBindingModel.cs" />

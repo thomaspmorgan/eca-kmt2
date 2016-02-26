@@ -244,6 +244,7 @@
     <Compile Include="Service\Admin\NewEmailAddress.cs" />
     <Compile Include="Service\Admin\NewPersonEmailAddress.cs" />
     <Compile Include="Service\Admin\SnapshotService.cs" />
+    <Compile Include="Service\Admin\UpdatedOffice.cs" />
     <Compile Include="Service\Admin\UpdatedPhoneNumber.cs" />
     <Compile Include="Service\Admin\UpdatedEmailAddress.cs" />
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />

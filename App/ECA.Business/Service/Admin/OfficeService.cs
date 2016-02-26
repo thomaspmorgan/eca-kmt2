@@ -20,7 +20,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// An OfficeService is used to perform crud operations on an office given a DbContextService.
     /// </summary>
-    public class OfficeService : DbContextService<EcaContext>, ECA.Business.Service.Admin.IOfficeService
+    public class OfficeService : EcaService, ECA.Business.Service.Admin.IOfficeService
     {
         public static char[] OFFICE_HIERARCHY_SPLIT_CHARS = new char[] { '-' };
 
@@ -168,6 +168,22 @@ namespace ECA.Business.Service.Admin
         private DbRawSqlQuery<SimpleOfficeDTO> CreateGetOfficesSqlQuery()
         {
             return this.Context.Database.SqlQuery<SimpleOfficeDTO>(GET_OFFICES_SPROC_NAME);
+        }
+        #endregion
+
+        #region Update
+        public async Task UpdateOfficeAsync(UpdatedOffice updatedOffice)
+        {
+            var officeToUpdate = await Context.Organizations.Where(x => x.OrganizationId == updatedOffice.OfficeId)
+                .Include(x => x.Contacts)
+                .FirstOrDefaultAsync();
+            var organizationType = await Context.OrganizationTypes.FindAsync(OrganizationType.Office.Id);
+            officeToUpdate.OrganizationType = organizationType;
+            officeToUpdate.Name = updatedOffice.Name;
+            officeToUpdate.OfficeSymbol = updatedOffice.OfficeSymbol;
+            officeToUpdate.Description = updatedOffice.Description;
+            officeToUpdate.ParentOrganizationId = updatedOffice.ParentOfficeId;
+            SetPointOfContacts(updatedOffice.PointsOfContactIds.ToList(), officeToUpdate);
         }
         #endregion
 

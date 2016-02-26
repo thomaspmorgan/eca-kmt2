@@ -14,11 +14,11 @@ angular.module('staticApp')
           get: function (id) {
               return DragonBreath.get('offices', id);
           },
-          update: function (program, id) {
-              return DragonBreath.save(program, 'offices', id);
+          update: function (office, id) {
+              return DragonBreath.save(office, 'offices');
           },
-          create: function (program) {
-              return DragonBreath.create(program, 'offices');
+          create: function (office) {
+              return DragonBreath.create(office, 'offices');
           },
           getChildOffices: function (officeId) {
               var path = 'offices/' + officeId + '/ChildOffices';

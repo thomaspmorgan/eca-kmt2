@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, FilterService, LookupService, OfficeService) {
+  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, FilterService, LookupService, OfficeService, StateService) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
@@ -29,7 +29,28 @@ angular.module('staticApp')
       }
       
       $scope.view.saveOffice = function () {
-          console.log($scope.view.office);
+          var office = {
+              officeId: $scope.view.office.id,
+              name: $scope.view.office.name,
+              officeSymbol: $scope.view.office.officeSymbol,
+              description: $scope.view.office.description,
+          };
+
+          if ($scope.view.selectedPointsOfContact) {
+
+              office.pointsOfContactIds = $scope.view.selectedPointsOfContact.map(function (obj) { return obj.id })
+          }
+
+          if ($scope.view.selectedParentOffice) {
+              office.parentOfficeId = $scope.view.selectedParentOffice.organizationId;
+          }
+
+          OfficeService.update(office)
+            .then(function () {
+                StateService.goToOfficeState(office.officeId, { reload: true });
+            }, function () {
+                NotificationService.showErrorMessage('Unable to save office.');
+            });
       }
 
       var officesWithSameNameFilter = FilterService.add('officeedit_officeswithsamename');
