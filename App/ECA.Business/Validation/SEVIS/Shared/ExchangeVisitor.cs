@@ -109,7 +109,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Dependent information
         /// </summary>
-        public IEnumerable<CreateDependent> CreateDependent { get; set; }
+        public List<CreateDependent> CreateDependent { get; set; }
 
         /// <summary>
         /// Site of activity address
