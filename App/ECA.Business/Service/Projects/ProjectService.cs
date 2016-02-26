@@ -285,6 +285,7 @@ namespace ECA.Business.Service.Projects
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
+                VisitorTypeId = VisitorType.NotApplicable.Id
             };
             draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);

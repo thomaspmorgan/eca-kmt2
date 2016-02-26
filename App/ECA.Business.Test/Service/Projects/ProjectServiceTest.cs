@@ -104,6 +104,7 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(description, project.Description);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(project.StartDate, DbContextHelper.DATE_PRECISION);
                 Assert.AreEqual(program.ProgramId, project.ProgramId);
+                Assert.AreEqual(VisitorType.NotApplicable.Id, project.VisitorTypeId);
             };
 
             var createdProject = service.Create(draftProject);
