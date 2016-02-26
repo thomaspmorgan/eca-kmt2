@@ -152,20 +152,18 @@ namespace ECA.Business.Service.Sevis
         /// Update a participant record with sevis batch results
         /// </summary>
         /// <param name="participantID"></param>
+        /// <param name="status"></param>
         /// <param name="json"></param>
         /// <returns></returns>
         private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
         {
             var result = new ParticipantSevisBatchProcessingResultDTO();
-
-            var participantDTO = await participantService.GetParticipantByIdAsync(participantID);
-            var participantPersonSevisDTO = await sevisService.GetParticipantPersonsSevisByIdAsync(participantDTO.ProjectId, participantID);
-            participantPersonSevisDTO.SevisBatchResult = json;
-
-            await SaveChangesAsync();
-
+            
+            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
+            participantPersonDTO.SevisBatchResult = json;
+            
             result.ParticipantId = participantID;
-            result.ProjectId = participantPersonSevisDTO.ProjectId;
+            result.ProjectId = participantPersonDTO.Participant.ProjectId;
             if (status == "1")
             {
                 result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
