@@ -175,7 +175,6 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = 1,
                 GenderName = "genderName"
             };
-
             var person = new Person
             {
                 PersonId = 1,
@@ -204,14 +203,40 @@ namespace ECA.Business.Test.Service.Persons
             };
             var participant = new Participant
             {
+                ParticipantId = 1,
                 Status = status,
                 ParticipantStatusId = status.ParticipantStatusId,
                 Person = person,
-                ProjectId = 1
+                ProjectId = 1,
             };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus                                
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             context.ParticipantStatuses.Add(status);
             person.Participations.Add(participant);
-
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
 
@@ -234,6 +259,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
+                Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
+                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetPiiById(person.PersonId);
