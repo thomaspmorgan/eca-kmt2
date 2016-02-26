@@ -121,10 +121,35 @@ namespace ECA.Business.Test.Service.Persons
                 Person = person,
                 ProjectId = 1
             };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
             context.ParticipantTypes.Add(ptype);
             context.ParticipantStatuses.Add(status);
             person.Participations.Add(participant);
-
             context.Genders.Add(gender);
             context.Languages.Add(language1);
             languageProficiency1.Language = language1;
@@ -134,14 +159,14 @@ namespace ECA.Business.Test.Service.Persons
             context.Memberships.Add(membership1);
             context.People.Add(dependant1);
             context.Impacts.Add(impact1);
-
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
             person.ProminentCategories.Add(prominentCat1);
             person.Activities.Add(activity1);
             person.Memberships.Add(membership1);
             person.LanguageProficiencies.Add(languageProficiency1);
             person.Family.Add(dependant1);
             person.Impacts.Add(impact1);
-
             context.People.Add(person);
             
             Action<GeneralDTO> tester = (serviceResult) =>
@@ -154,6 +179,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
+                Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
+                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetGeneralById(person.PersonId);
