@@ -48,7 +48,6 @@ namespace ECA.Business.Validation.Model.CreateEV
                 .WithMessage(POSITION_CODE_LENGTH_ERROR_MESSAGE)
                 .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() });
 
-
             RuleFor(visitor => visitor.PrgStartDate)
                 .NotEqual(default(DateTime))
                 .WithMessage(PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE);
