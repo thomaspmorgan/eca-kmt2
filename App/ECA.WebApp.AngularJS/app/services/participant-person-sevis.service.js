@@ -13,7 +13,8 @@
             updateParticipantPersonsSevis: updateParticipantPersonsSevis,
             sendToSevis: sendToSevis,
             processParticipantSevisBatchLog: processParticipantSevisBatchLog,
-            verifyExchangeVisitor: verifyExchangeVisitor
+            verifyExchangeVisitor: verifyExchangeVisitor,
+            parseSevisProperties: parseSevisProperties
         };
 
         return service;
@@ -21,19 +22,16 @@
         function getParticipantPersonsSevisById(projectId, id) {
             return DragonBreath.get('project/' + projectId + '/participantPersonsSevis', id)
             .then(function (response) {
-                if (response.data.sevisValidationResult) {
-                    response.data.sevisValidationResult = angular.fromJson(response.data.sevisValidationResult);
-                }
-                if (response.data.sevisBatchResult) {
-                    response.data.sevisBatchResult = angular.fromJson(response.data.sevisBatchResult);
-                }
-                return response;
+                return service.parseSevisProperties(response);
             });
         };
 
         function updateParticipantPersonsSevis(projectId, sevisInfo) {
             var path = 'project/' + projectId + '/participantPersonsSevis';
-            return DragonBreath.save(sevisInfo, path);
+            return DragonBreath.save(sevisInfo, path)
+            .then(function (response) {
+                return service.parseSevisProperties(response);
+            });
         };
 
         function sendToSevis(projectId, participantIds) {
@@ -49,6 +47,15 @@
             var path = 'ParticipantPersonsSevis/UpdateSevisBatchStatus';
             return DragonBreath.get(path, id);
         };
-        
+
+        function parseSevisProperties(response) {
+            if (response.data.sevisValidationResult) {
+                response.data.sevisValidationResult = angular.fromJson(response.data.sevisValidationResult);
+            }
+            if (response.data.sevisBatchResult) {
+                response.data.sevisBatchResult = angular.fromJson(response.data.sevisBatchResult);
+            }
+            return response;
+        };
     }
 })();

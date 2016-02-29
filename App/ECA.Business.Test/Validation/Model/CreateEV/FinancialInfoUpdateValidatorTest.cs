@@ -26,8 +26,6 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             var instance = GetValidFinancialInfoUpdate();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
-            
         }
-        
     }
 }

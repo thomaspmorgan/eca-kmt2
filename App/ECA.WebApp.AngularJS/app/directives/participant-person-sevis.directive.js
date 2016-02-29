@@ -38,25 +38,6 @@
                     $event.stopPropagation();
                     $scope.edit.isEndDatePickerOpen = true
                 }
-                
-                // pre-sevis validation result update
-                $scope.validateSevisInfo = function (sevisInfo) {
-                    $scope.edit.isValidationLoading = true;
-                    return ParticipantPersonsSevisService.verifyExchangeVisitor(sevisInfo.projectId, sevisInfo.participantId)
-                    .then(function (response) {
-                        return ParticipantPersonsSevisService.getParticipantPersonsSevisById(sevisInfo.projectId, sevisInfo.participantId)
-                        .then(function (participantPersonSevisResponse) {
-                            $scope.sevisinfo = participantPersonSevisResponse.data;
-                            $scope.edit.isValidationLoading = false;
-                        });
-                    })
-                    .catch(function (response) {
-                        $scope.edit.isValidationLoading = false;
-                        var message = "Unable to verify participant sevis info.";
-                        NotificationService.showErrorMessage(message);
-                        $log.error(message);
-                    });
-                }
 
                 // Navigate to a section where the validation error can be resolved
                 $scope.goToErrorSection = function (customState) {                    

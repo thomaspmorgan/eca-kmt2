@@ -451,8 +451,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.updateParticipantPersonsSevis(projectId, sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
-              $scope.sevisInfo[participantId] = data.data;
-              $scope.sevisInfo[participantId].show = true;
+              return loadSevisInfo(participantId);
           })
           .catch(function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
@@ -471,6 +470,7 @@ angular.module('staticApp')
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
+              return loadSevisInfo(participantId);
           })
           .catch(function (error) {
               $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);

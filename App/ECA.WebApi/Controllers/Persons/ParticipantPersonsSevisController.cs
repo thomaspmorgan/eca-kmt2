@@ -73,6 +73,7 @@ namespace ECA.WebApi.Controllers.Persons
         [HttpPut]
         [Route("Project/{projectId:int}/ParticipantPersonsSevis")]
         [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        [ResponseType(typeof(ParticipantPersonSevisDTO))]
         public async Task<IHttpActionResult> PutParticipantPersonsSevisAsync(int projectId, [FromBody]UpdatedParticipantPersonSevisBindingModel model)
         {   
             if (ModelState.IsValid)
@@ -81,7 +82,8 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await participantService.UpdateAsync(model.ToUpdatedParticipantPersonSevis(businessUser));
                 await participantService.SaveChangesAsync();
-                return Ok();
+                var dto = await participantService.GetParticipantPersonsSevisByIdAsync(projectId, model.ParticipantId);
+                return Ok(dto);
             }
             else
             {
