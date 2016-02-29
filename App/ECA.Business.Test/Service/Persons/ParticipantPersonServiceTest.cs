@@ -32,72 +32,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         #region Get
-
-        [TestMethod]
-        public async Task TestGetParticipantPersons_CheckProperties()
-        {
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = 1,
-                SevisId = "N0000000001",
-            };
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = participantPerson.ParticipantId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            participantPerson.Participant = participant;
-            project.Participants.Add(participant);
-
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            Action<PagedQueryResults<SimpleParticipantPersonDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-                var participantPersonResult = results.Results.First();
-
-                Assert.AreEqual(participantPerson.SevisId, participantPersonResult.SevisId);
-                Assert.AreEqual(project.ProjectId, participantPersonResult.ProjectId);
-
-                Assert.IsNull(participantPersonResult.HostInstitution);
-                Assert.IsNull(participantPersonResult.HomeInstitution);
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantPersonDTO>(x => x.RevisedOn, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantPersonDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipantPersons(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantPersonsAsync(queryOperator);
-
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipantPersons_Empty()
-        {
-            Action<PagedQueryResults<SimpleParticipantPersonDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(0, results.Total);
-                Assert.AreEqual(0, results.Results.Count);
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantPersonDTO>(x => x.RevisedOn, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantPersonDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipantPersons(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantPersonsAsync(queryOperator);
-
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
-
+        
         [TestMethod]
         public async Task TestGetParticipantPersonsByProjectId_CheckProperties()
         {
@@ -212,26 +147,103 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(results.HomeInstitution);
             };
 
-            var serviceResults = service.GetParticipantPersonById(1);
-            var serviceResultsAsync = await service.GetParticipantPersonByIdAsync(1);
+            var serviceResults = service.GetParticipantPersonById(project.ProjectId, participant.ParticipantId);
+            var serviceResultsAsync = await service.GetParticipantPersonByIdAsync(project.ProjectId, participant.ParticipantId);
 
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetParticipantPersonDTOById_Empty()
+        public async Task TestGetParticipantPersonDTOById_ParticipantDoesNotExist()
         {
-            Action<SimpleParticipantPersonDTO> tester = (results) =>
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N0000000001",
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            project.Participants.Add(participant);
+
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            Action<SimpleParticipantPersonDTO> beforeTester = (results) =>
+            {
+                Assert.IsNotNull(results);
+            };
+
+            Action<SimpleParticipantPersonDTO> afterTester = (results) =>
             {
                 Assert.IsNull(results);
             };
 
-            var serviceResults = service.GetParticipantPersonById(1);
-            var serviceResultsAsync = await service.GetParticipantPersonByIdAsync(1);
+            var serviceResults = service.GetParticipantPersonById(project.ProjectId, participant.ParticipantId);
+            var serviceResultsAsync = await service.GetParticipantPersonByIdAsync(project.ProjectId, participant.ParticipantId);
+            beforeTester(serviceResults);
+            beforeTester(serviceResultsAsync);
 
-            tester(serviceResults);
-            tester(serviceResultsAsync);
+            serviceResults = service.GetParticipantPersonById(project.ProjectId, participant.ParticipantId + 1);
+            serviceResultsAsync = await service.GetParticipantPersonByIdAsync(project.ProjectId, participant.ParticipantId + 1);
+            afterTester(serviceResults);
+            afterTester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantPersonDTOById_ParticipantDoesNotBelongToProject()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N0000000001",
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            project.Participants.Add(participant);
+
+            context.Projects.Add(project);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            Action<SimpleParticipantPersonDTO> beforeTester = (results) =>
+            {
+                Assert.IsNotNull(results);
+            };
+
+            Action<SimpleParticipantPersonDTO> afterTester = (results) =>
+            {
+                Assert.IsNull(results);
+            };
+
+            var serviceResults = service.GetParticipantPersonById(project.ProjectId, participant.ParticipantId);
+            var serviceResultsAsync = await service.GetParticipantPersonByIdAsync(project.ProjectId, participant.ParticipantId);
+            beforeTester(serviceResults);
+            beforeTester(serviceResultsAsync);
+
+            serviceResults = service.GetParticipantPersonById(project.ProjectId + 1, participant.ParticipantId);
+            serviceResultsAsync = await service.GetParticipantPersonByIdAsync(project.ProjectId + 1, participant.ParticipantId);
+            afterTester(serviceResults);
+            afterTester(serviceResultsAsync);
         }
 
         #endregion
@@ -242,7 +254,9 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_ParticipantPersonDoesNotExists_CheckProperties()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
+            Project project = null;
             ParticipantType individual = new ParticipantType
             {
                 IsPerson = true,
@@ -281,9 +295,15 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -297,10 +317,12 @@ namespace ECA.Business.Test.Service.Persons
                 context.Organizations.Add(host);
                 context.Addresses.Add(hostAddress);
                 context.Addresses.Add(homeAddress);
+                context.Projects.Add(project);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: homeAddress.AddressId,
                 homeInstitutionId: home.OrganizationId,
                 hostInstitutionAddressId: hostAddress.AddressId,
@@ -335,12 +357,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(createrId, participant.History.CreatedBy);
                 Assert.AreEqual(updaterId, participant.History.RevisedBy);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(participant.History.RevisedOn, 20000);                
+                DateTimeOffset.UtcNow.Should().BeCloseTo(participant.History.RevisedOn, 20000);
 
                 Assert.AreEqual(updaterId, addedParticipantPerson.History.CreatedBy);
                 Assert.AreEqual(updaterId, addedParticipantPerson.History.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipantPerson.History.RevisedOn, 20000);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipantPerson.History.CreatedOn, 20000);                
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipantPerson.History.CreatedOn, 20000);
 
                 Assert.AreEqual(home.OrganizationId, addedParticipantPerson.HomeInstitutionId);
                 Assert.AreEqual(host.OrganizationId, addedParticipantPerson.HostInstitutionId);
@@ -372,7 +394,9 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_ParticipantPersonExists_CheckProperties()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
+            Project project = null;
             ParticipantPerson participantPerson = null;
             ParticipantType individual = new ParticipantType
             {
@@ -412,9 +436,15 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -439,10 +469,12 @@ namespace ECA.Business.Test.Service.Persons
                 context.Organizations.Add(host);
                 context.Addresses.Add(hostAddress);
                 context.Addresses.Add(homeAddress);
+                context.Projects.Add(project);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: homeAddress.AddressId,
                 homeInstitutionId: home.OrganizationId,
                 hostInstitutionAddressId: hostAddress.AddressId,
@@ -485,13 +517,13 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(createrId, participant.History.CreatedBy);
                 Assert.AreEqual(yesterday, participant.History.CreatedOn);
                 Assert.AreEqual(createrId, participantPerson.History.CreatedBy);
-                Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);                
-                
+                Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
+
 
                 DateTimeOffset.UtcNow.Should().BeCloseTo(participant.History.RevisedOn, 20000);
                 Assert.AreEqual(updaterId, participant.History.RevisedBy);
 
-                DateTimeOffset.UtcNow.Should().BeCloseTo(participantPerson.History.RevisedOn, 20000);              
+                DateTimeOffset.UtcNow.Should().BeCloseTo(participantPerson.History.RevisedOn, 20000);
                 Assert.AreEqual(updaterId, participantPerson.History.RevisedBy);
 
                 Assert.AreEqual(home.OrganizationId, participantPerson.HomeInstitutionId);
@@ -521,11 +553,13 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestCreateOrUpdate_DoesNotHaveHomeOrHostInstitutions()
+        public async Task TestCreateOrUpdate_ParticipantDoesNotBelongToProject()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
             ParticipantPerson participantPerson = null;
+            Project project = null;
             ParticipantType individual = new ParticipantType
             {
                 IsPerson = true,
@@ -544,9 +578,15 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -563,6 +603,7 @@ namespace ECA.Business.Test.Service.Persons
                 participantPerson.History.CreatedOn = yesterday;
                 participantPerson.History.RevisedOn = yesterday;
 
+                context.Projects.Add(project);
                 context.ParticipantPersons.Add(participantPerson);
                 context.Participants.Add(participant);
                 context.ParticipantStatuses.Add(status);
@@ -571,6 +612,87 @@ namespace ECA.Business.Test.Service.Persons
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId + 1,
+                homeInstitutionAddressId: null,
+                homeInstitutionId: null,
+                hostInstitutionAddressId: null,
+                hostInstitutionId: null,
+                participantId: participantId,
+                participantStatusId: status.ParticipantStatusId,
+                participantTypeId: individual.ParticipantTypeId
+                );
+            context.Revert();
+            var message = String.Format("The user with id [{0}] attempted to delete a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        updaterId,
+                        participant.ParticipantId,
+                        updatedPersonParticipant.ProjectId);
+            Action a = () => service.CreateOrUpdate(updatedPersonParticipant);
+            Func<Task> f = () => service.CreateOrUpdateAsync(updatedPersonParticipant);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public async Task TestCreateOrUpdate_DoesNotHaveHomeOrHostInstitutions()
+        {
+            var participantId = 1;
+            var projectId = 2;
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Project project = null;
+            ParticipantType individual = new ParticipantType
+            {
+                IsPerson = true,
+                Name = ParticipantType.Individual.Value,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            ParticipantStatus status = new ParticipantStatus
+            {
+                ParticipantStatusId = ParticipantStatus.Active.Id,
+                Status = ParticipantStatus.Active.Value
+            };
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var createrId = 1;
+            var updaterId = 2;
+            var updater = new User(updaterId);
+
+            context.SetupActions.Add(() =>
+            {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                participant.History.CreatedBy = createrId;
+                participant.History.RevisedBy = createrId;
+                participant.History.CreatedOn = yesterday;
+                participant.History.RevisedOn = yesterday;
+
+                participantPerson = new ParticipantPerson
+                {
+                    Participant = participant,
+                    ParticipantId = participantId,
+                };
+                participantPerson.History.CreatedBy = createrId;
+                participantPerson.History.RevisedBy = createrId;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedOn = yesterday;
+
+                context.Projects.Add(project);
+                context.ParticipantPersons.Add(participantPerson);
+                context.Participants.Add(participant);
+                context.ParticipantStatuses.Add(status);
+                context.ParticipantTypes.Add(individual);
+            });
+
+            var updatedPersonParticipant = new UpdatedParticipantPerson(
+                updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: null,
                 homeInstitutionId: null,
                 hostInstitutionAddressId: null,
@@ -600,6 +722,8 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_HasHomeAndHostNoAddresses()
         {
             var participantId = 1;
+            var projectId = 2;
+            Project project = null;
             Participant participant = null;
             ParticipantPerson participantPerson = null;
             ParticipantType individual = new ParticipantType
@@ -631,6 +755,12 @@ namespace ECA.Business.Test.Service.Persons
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
+                };
+                project = new Project
+                {
+                    ProjectId = projectId
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -657,6 +787,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: null,
                 homeInstitutionId: home.OrganizationId,
                 hostInstitutionAddressId: null,
@@ -667,13 +798,13 @@ namespace ECA.Business.Test.Service.Persons
                 );
 
             Action tester = () =>
-            {   
+            {
                 Assert.AreEqual(home.OrganizationId, participantPerson.HomeInstitutionId);
                 Assert.AreEqual(host.OrganizationId, participantPerson.HostInstitutionId);
                 Assert.IsFalse(participantPerson.HomeInstitutionAddressId.HasValue);
                 Assert.IsFalse(participantPerson.HostInstitutionAddressId.HasValue);
             };
-            
+
 
             context.Revert();
             service.CreateOrUpdate(updatedPersonParticipant);
@@ -694,11 +825,17 @@ namespace ECA.Business.Test.Service.Persons
                 Name = ParticipantType.Individual.Value,
                 ParticipantTypeId = ParticipantType.Individual.Id
             };
+            Project project = new Project
+            {
+                ProjectId = 1
+            };
             context.ParticipantTypes.Add(individual);
+            context.Projects.Add(project);
 
             var participantId = 1;
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: new User(1),
+                projectId: project.ProjectId,
                 homeInstitutionAddressId: null,
                 homeInstitutionId: null,
                 hostInstitutionAddressId: null,
@@ -723,8 +860,10 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_HomeInstitutionDoesNotExist()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
             ParticipantPerson participantPerson = null;
+            Project project;
             ParticipantType individual = new ParticipantType
             {
                 IsPerson = true,
@@ -753,10 +892,17 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
+                
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
                 participant.History.CreatedOn = yesterday;
@@ -778,10 +924,12 @@ namespace ECA.Business.Test.Service.Persons
                 context.ParticipantTypes.Add(individual);
                 context.Organizations.Add(host);
                 context.Addresses.Add(hostAddress);
+                context.Projects.Add(project);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: null,
                 homeInstitutionId: -1,
                 hostInstitutionAddressId: hostAddress.AddressId,
@@ -806,7 +954,9 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_HostInstitutionDoesNotExist()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
+            Project project = null;
             ParticipantPerson participantPerson = null;
             ParticipantType individual = new ParticipantType
             {
@@ -836,9 +986,15 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -861,10 +1017,12 @@ namespace ECA.Business.Test.Service.Persons
                 context.ParticipantTypes.Add(individual);
                 context.Organizations.Add(home);
                 context.Addresses.Add(homeAddress);
+                context.Projects.Add(project);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: homeAddress.AddressId,
                 homeInstitutionId: home.OrganizationId,
                 hostInstitutionAddressId: null,
@@ -889,7 +1047,9 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_HostInstitutionAddressDoesNotExist()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
+            Project project = null;
             ParticipantPerson participantPerson = null;
             ParticipantType individual = new ParticipantType
             {
@@ -923,9 +1083,15 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -953,6 +1119,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: homeAddress.AddressId,
                 homeInstitutionId: home.OrganizationId,
                 hostInstitutionAddressId: -1,
@@ -977,7 +1144,9 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateOrUpdate_HomeInstitutionAddressDoesNotExist()
         {
             var participantId = 1;
+            var projectId = 2;
             Participant participant = null;
+            Project project = null;
             ParticipantPerson participantPerson = null;
             ParticipantType individual = new ParticipantType
             {
@@ -1011,9 +1180,15 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                project = new Project
+                {
+                    ProjectId = projectId
+                };
                 participant = new Participant
                 {
                     ParticipantId = participantId,
+                    ProjectId = projectId,
+                    Project = project
                 };
                 participant.History.CreatedBy = createrId;
                 participant.History.RevisedBy = createrId;
@@ -1037,10 +1212,12 @@ namespace ECA.Business.Test.Service.Persons
                 context.Organizations.Add(home);
                 context.Organizations.Add(host);
                 context.Addresses.Add(hostAddress);
+                context.Projects.Add(project);
             });
 
             var updatedPersonParticipant = new UpdatedParticipantPerson(
                 updater: updater,
+                projectId: projectId,
                 homeInstitutionAddressId: -1,
                 homeInstitutionId: home.OrganizationId,
                 hostInstitutionAddressId: hostAddress.AddressId,
@@ -1060,7 +1237,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
-        
+
         #endregion
     }
 }

@@ -16,6 +16,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -317,6 +319,68 @@ namespace ECA.Business.Test.Service.Admin
             Action<OfficeDTO> tester = (dto) =>
             {
                 Assert.IsNotNull(dto);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeById_NullParentOffice()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "office",
+                Description = "office desc"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(default(int?), dto.ParentOfficeId);
+                Assert.AreEqual(null, dto.ParentOfficeName);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeById_ParentOffice()
+        {
+            var parentOffice = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "parent office",
+                Description = "office desc"
+            };
+
+            var office = new Organization
+            {
+                OrganizationId = 2,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "office",
+                Description = "office desc",
+                ParentOrganizationId = parentOffice.OrganizationId,
+                ParentOrganization = parentOffice
+            };
+
+            context.Organizations.Add(parentOffice);
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.AreEqual(parentOffice.OrganizationId, dto.ParentOfficeId);
+                Assert.AreEqual(parentOffice.Name, dto.ParentOfficeName);
             };
 
             var serviceResults = service.GetOfficeById(office.OrganizationId);
@@ -1223,6 +1287,115 @@ namespace ECA.Business.Test.Service.Admin
                 tester(serviceResults);
                 tester(serviceResultsAsync);
             }
+        }
+        #endregion
+
+        #region Update
+        [TestMethod]
+        [ExpectedException(typeof(ModelNotFoundException))]
+        public async Task TestUpdateOffice_OfficeDoesNotExist()
+        {
+            var user = new User(1);
+            var updatedOffice = new UpdatedOffice(user, 0, "name", "officeSymbol", "description", null, null);
+            await service.UpdateOfficeAsync(updatedOffice);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ModelNotFoundException))]
+        public async Task TestUpdateOffice_ParentOfficeDoesNotExist()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1
+            };
+            context.Organizations.Add(office);
+
+            var user = new User(1);
+            var updatedOffice = new UpdatedOffice(user, office.OrganizationId, "name", "officeSymbol", "description", 2, null);
+            await service.UpdateOfficeAsync(updatedOffice);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateOffice_CheckProperties()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "name",
+                OfficeSymbol = "officeSymbol",
+                Description = "description"
+            };
+            context.Organizations.Add(office);
+
+            var user = new User(1);
+            var updatedOffice = new UpdatedOffice(user, office.OrganizationId, "newName", "newOfficeSymbol", "newDescription", null, null);
+            await service.UpdateOfficeAsync(updatedOffice);
+
+            var officeFromContext = context.Organizations.Where(x => x.OrganizationId == office.OrganizationId).FirstOrDefault();
+
+            Assert.AreEqual(officeFromContext.OrganizationId, office.OrganizationId);
+            Assert.AreEqual(officeFromContext.Name, updatedOffice.Name);
+            Assert.AreEqual(officeFromContext.OfficeSymbol, updatedOffice.OfficeSymbol);
+            Assert.AreEqual(officeFromContext.Description, updatedOffice.Description);
+            Assert.IsNull(officeFromContext.ParentOrganization);
+            CollectionAssert.AreEquivalent(new List<Contact>(), officeFromContext.Contacts.ToList());
+        }
+
+        [TestMethod]
+        public async Task TestUpdateOffice_AddAndRemoveParentOffice()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1
+            };
+
+            var parentOffice = new Organization
+            {
+                OrganizationId = 2
+            };
+
+            context.Organizations.Add(office);
+            context.Organizations.Add(parentOffice);
+
+            var user = new User(1);
+            var updatedOffice = new UpdatedOffice(user, office.OrganizationId, "name", "officeSymbol", "description", 2, null);
+            await service.UpdateOfficeAsync(updatedOffice);
+
+            var officeFromContext = context.Organizations.Where(x => x.OrganizationId == office.OrganizationId).FirstOrDefault();
+
+            Assert.AreEqual(parentOffice.OrganizationId, officeFromContext.ParentOrganizationId);
+
+            updatedOffice = new UpdatedOffice(user, office.OrganizationId, "name", "officeSymbol", "description", null, null);
+            await service.UpdateOfficeAsync(updatedOffice);
+
+            officeFromContext = context.Organizations.Where(x => x.OrganizationId == office.OrganizationId).FirstOrDefault();
+
+            Assert.IsNull(officeFromContext.ParentOrganizationId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateOffice_CheckContacts()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1
+            };
+            context.Organizations.Add(office);
+
+            var contact = new Contact
+            {
+                ContactId = 1
+            };
+            context.Contacts.Add(contact);
+
+            var user = new User(1);
+            var updatedOffice = new UpdatedOffice(user, office.OrganizationId, "name", "officeSymbol", "description", null, new List<int> { 1 });
+            await service.UpdateOfficeAsync(updatedOffice);
+
+            var officeFromContext = context.Organizations.Where(x => x.OrganizationId == office.OrganizationId).FirstOrDefault();
+            var contactFromContext = officeFromContext.Contacts.FirstOrDefault();
+
+            Assert.AreEqual(contact.ContactId, contactFromContext.ContactId);
         }
         #endregion
 

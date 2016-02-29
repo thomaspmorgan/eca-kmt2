@@ -58,5 +58,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the Contacts.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent office id
+        /// </summary>
+        public int? ParentOfficeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent office name
+        /// </summary>
+        public string ParentOfficeName { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
+        private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
 
         /// <summary>
         /// Creates a new ParticipantExchangeVisitorService with the given context to operate against.
@@ -39,68 +40,28 @@ namespace ECA.Business.Service.Persons
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
                 }
             };
+            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
+            {
+                if (participant != null && participant.ProjectId != projectId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to delete a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        userId,
+                        participant.ParticipantId,
+                        projectId));
+                }
+            };
         }
 
         #region Get
-
-        /// <summary>
-        /// Returns the participantExchangeVisitors in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantExchangeVisitors.</returns>
-        public PagedQueryResults<ParticipantExchangeVisitorDTO> GetParticipantExchangeVisitors(QueryableOperator<ParticipantExchangeVisitorDTO> queryOperator)
-        {
-            var participantExchangeVisitors = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorsDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantExchangeVisitors with query operator [{0}].", queryOperator);
-            return participantExchangeVisitors;
-        }
-
-        /// <summary>
-        /// Returns the participantExchangeVisitors in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantExchangeVisitors.</returns>
-        public Task<PagedQueryResults<ParticipantExchangeVisitorDTO>> GetParticipantExchangeVisitorsAsync(QueryableOperator<ParticipantExchangeVisitorDTO> queryOperator)
-        {
-            var participantExchangeVisitors = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorsDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantExchangeVisitors with query operator [{0}].", queryOperator);
-            return participantExchangeVisitors;
-        }
-
-        /// <summary>
-        /// Returns the participantExchangeVisitors for the project with the given id in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The id of the project.</param>
-        /// <returns>The participantExchangeVisitors.</returns>
-        public PagedQueryResults<ParticipantExchangeVisitorDTO> GetParticipantExchangeVisitorsByProjectId(int projectId, QueryableOperator<ParticipantExchangeVisitorDTO> queryOperator)
-        {
-            var participantExchangeVisitors = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantExchangeVisitors by project id [{0}] and query operator [{1}].", projectId, queryOperator);
-            return participantExchangeVisitors;
-        }
-
-        /// <summary>
-        /// Returns the participantExchangeVisitors for the project with the given id in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The id of the project.</param>
-        /// <returns>The participantExchangeVisitors.</returns>
-        public Task<PagedQueryResults<ParticipantExchangeVisitorDTO>> GetParticipantExchangeVisitorsByProjectIdAsync(int projectId, QueryableOperator<ParticipantExchangeVisitorDTO> queryOperator)
-        {
-            var participantExchangeVisitors = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantExchangeVisitors by project id [{0}] and query operator [{1}].", projectId, queryOperator);
-            return participantExchangeVisitors;
-        }
-
         /// <summary>
         /// Returns a participantExchangeVisitors
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>
         /// <returns>The participantExchangeVisitors</returns>
-        public ParticipantExchangeVisitorDTO GetParticipantExchangeVisitorById(int participantId)
+        public ParticipantExchangeVisitorDTO GetParticipantExchangeVisitorById(int projectId, int participantId)
         {
-            var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(this.Context, projectId, participantId).FirstOrDefault();
             this.logger.Trace("Retrieved participantExchangeVisitors by id [{0}].", participantId);
             return participantExchangeVisitor;
         }
@@ -110,9 +71,9 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantExchangeVisitors</returns>
-        public Task<ParticipantExchangeVisitorDTO> GetParticipantExchangeVisitorByIdAsync(int participantId)
+        public Task<ParticipantExchangeVisitorDTO> GetParticipantExchangeVisitorByIdAsync(int projectId, int participantId)
         {
-            var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            var participantExchangeVisitor = ParticipantExchangeVisitorQueries.CreateGetParticipantExchangeVisitorDTOByIdQuery(this.Context, projectId, participantId).FirstOrDefaultAsync();
             this.logger.Trace("Retrieved participantExchangeVisitor by id [{0}].", participantId);
             return participantExchangeVisitor;
         }
@@ -124,13 +85,12 @@ namespace ECA.Business.Service.Persons
         /// Updates a participant person exchange visitor  info with given updated exchange visitor  information.
         /// </summary>
         /// <param name="updatedParticipantStudentVistor">The updated participant person exchange visitor  info.</param>
-        public ParticipantExchangeVisitorDTO Update(UpdatedParticipantExchangeVisitor updatedParticipantExchangeVisitor)
+        public void Update(UpdatedParticipantExchangeVisitor updatedParticipantExchangeVisitor)
         {
             var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByIdQuery(updatedParticipantExchangeVisitor.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedParticipantExchangeVisitor.ParticipantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(updatedParticipantExchangeVisitor.Audit.User.Id, updatedParticipantExchangeVisitor.ProjectId, participantExchangeVisitor.Participant);
             DoUpdate(participantExchangeVisitor, updatedParticipantExchangeVisitor);
-            return this.GetParticipantExchangeVisitorById(updatedParticipantExchangeVisitor.ParticipantId);
         }
 
         /// <summary>
@@ -138,14 +98,12 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedParticipantExchangeVisitor">The updated participant person exchange visitor  info.</param>
         /// <returns>The task.</returns>
-        public async Task<ParticipantExchangeVisitorDTO> UpdateAsync(UpdatedParticipantExchangeVisitor updatedParticipantExchangeVisitor)
+        public async Task UpdateAsync(UpdatedParticipantExchangeVisitor updatedParticipantExchangeVisitor)
         {
             var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByIdQuery(updatedParticipantExchangeVisitor.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedParticipantExchangeVisitor.ParticipantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(updatedParticipantExchangeVisitor.Audit.User.Id, updatedParticipantExchangeVisitor.ProjectId, participantExchangeVisitor.Participant);
             DoUpdate(participantExchangeVisitor, updatedParticipantExchangeVisitor);
-
-            return await this.GetParticipantExchangeVisitorByIdAsync(updatedParticipantExchangeVisitor.ParticipantId);
         }
 
         public async Task CreateParticipantExchangeVisitor(int participantId, User creator)
@@ -200,7 +158,7 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<ParticipantExchangeVisitor> CreateGetParticipantExchangeVisitorByIdQuery(int participantId)
         {
-            return Context.ParticipantExchangeVisitors.Where(x => x.ParticipantId == participantId);
+            return Context.ParticipantExchangeVisitors.Include(x => x.Participant).Where(x => x.ParticipantId == participantId);
         }
 
         #endregion

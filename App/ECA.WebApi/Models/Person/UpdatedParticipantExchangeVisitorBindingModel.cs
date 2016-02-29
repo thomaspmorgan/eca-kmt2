@@ -123,15 +123,18 @@ namespace ECA.WebApi.Models.Person
         /// Total funding
         /// </summary>
         public decimal? FundingTotal { get; set; }
+
         /// <summary>
         /// Convert binding model to business model 
         /// </summary>
         /// <param name="user">The user updating the exchange visitor</param>
+        /// <param name="projectId">The project id.</param>
         /// <returns>Update exchange visitor business model</returns>
-        public UpdatedParticipantExchangeVisitor ToUpdatedParticipantExchangeVisitor(User user)
+        public UpdatedParticipantExchangeVisitor ToUpdatedParticipantExchangeVisitor(User user, int projectId)
         {
             return new UpdatedParticipantExchangeVisitor(
                 updater: user,
+                projectId: projectId,
                 participantId: this.ParticipantId,
                 fieldOfStudyId: this.FieldOfStudyId,
                 positionId: this.PositionId,

@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model
             RuleFor(dependent => dependent.FullName).NotNull().WithMessage("Dependent: Full Name is required");
             RuleFor(dependent => dependent.FullName.LastName).NotNull().WithMessage("Dependent: Last Name is required");
             RuleFor(dependent => dependent.BirthDate).NotNull().WithMessage("Dependent: Date of birth is required");
-            RuleFor(dependent => dependent.Gender).NotNull().WithMessage("Dependent: Gender is required");
+            RuleFor(dependent => dependent.Gender).NotNull().WithMessage("Dependent: Gender is required").Matches("(1|2)").WithMessage("EV Biographical Info: Gender must be M or F");
             RuleFor(dependent => dependent.BirthCity).Length(1, CITY_MAX_LENGTH).WithMessage("Dependent: City of Birth is required and can be up to " + CITY_MAX_LENGTH.ToString() + " characters");
             RuleFor(dependent => dependent.BirthCountryCode).NotNull().WithMessage("Dependent: Country of birth is required").Length(2);
             RuleFor(dependent => dependent.CitizenshipCountryCode).Length(COUNTRY_CODE_LENGTH).WithMessage("Dependent: Country of citizenship is required and must be " + COUNTRY_CODE_LENGTH.ToString() + " characters");

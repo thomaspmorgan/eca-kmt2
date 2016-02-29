@@ -46,50 +46,41 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = 1,
                 GenderName = "Male"
             };
-
             var status = new ParticipantStatus
             {
                 ParticipantStatusId = 1,
                 Status = "New"
             };
-
             var ptype = new ParticipantType
             {
                 ParticipantTypeId = 1,
                 Name = "Person"
             };
-
             var participantOrigination = new Organization
             {
                 OrganizationId = 1,
                 Name = "partOrg",
-
             };
-
             var prominentCat1 = new ProminentCategory
             {
                 ProminentCategoryId = 1,
                 Name = "Cat1"
             };
-
             var activity1 = new Activity
             {
                 ActivityId = 1,
                 Title = "Event1"
             };
-
             var membership1 = new Membership
             {
                 MembershipId = 1,
                 Name = "member1"
             };
-
             var language1 = new Language
             {
                 LanguageId = 1,
                 LanguageName = "lang1"
             };
-
             var languageProficiency1 = new PersonLanguageProficiency
             {
                 LanguageId = 1,
@@ -98,7 +89,6 @@ namespace ECA.Business.Test.Service.Persons
                 ReadingProficiency = 5,
                 ComprehensionProficiency = 5,
             };
-
             var dependant1 = new Person
             {
                 PersonId = 2,
@@ -107,13 +97,11 @@ namespace ECA.Business.Test.Service.Persons
                 LastName = "lastName",
                 DateOfBirth = DateTime.Now,
             };
-
             var impact1 = new Impact
             {
                 ImpactId = 1,
                 Description = "desc1"
             };
-
             var person = new Person
             {
                 PersonId = 1,
@@ -125,7 +113,43 @@ namespace ECA.Business.Test.Service.Persons
                 NamePrefix = "namePrefix",
                 NameSuffix = "nameSuffix",
             };
-
+            var participant = new Participant
+            {
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                ParticipantType = ptype,
+                Person = person,
+                ProjectId = 1
+            };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.ParticipantTypes.Add(ptype);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
             context.Genders.Add(gender);
             context.Languages.Add(language1);
             languageProficiency1.Language = language1;
@@ -135,17 +159,16 @@ namespace ECA.Business.Test.Service.Persons
             context.Memberships.Add(membership1);
             context.People.Add(dependant1);
             context.Impacts.Add(impact1);
-
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
             person.ProminentCategories.Add(prominentCat1);
             person.Activities.Add(activity1);
             person.Memberships.Add(membership1);
             person.LanguageProficiencies.Add(languageProficiency1);
             person.Family.Add(dependant1);
             person.Impacts.Add(impact1);
-
             context.People.Add(person);
-
-
+            
             Action<GeneralDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
@@ -155,6 +178,9 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().Language.LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().LanguageName);
                 Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
+                Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
+                Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
+                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetGeneralById(person.PersonId);
@@ -163,11 +189,11 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
-
-
+        
         #endregion
 
         #region Get Pii By Id
+
         [TestMethod]
         public async Task TestGetPiiById_CheckProperties()
         {
@@ -176,7 +202,6 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = 1,
                 GenderName = "genderName"
             };
-
             var person = new Person
             {
                 PersonId = 1,
@@ -195,13 +220,50 @@ namespace ECA.Business.Test.Service.Persons
                 Alias = "alias",
                 Ethnicity = "ethnicity",
                 MedicalConditions = "medical conditions",
-
                 MaritalStatus = new MaritalStatus(),
                 PlaceOfBirth = new Location()
             };
-
-            person.PlaceOfBirth.Country = new Location();
-
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Person = person,
+                ProjectId = 1,
+            };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus                                
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
 
@@ -223,6 +285,9 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
+                Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
+                Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
+                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetPiiById(person.PersonId);

@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64\xsd.exe" ".\common.xsd" ".\sevistable.xsd" ".\create-updateexchangevisitor.xsd" /c /out:"." /namespace:"ECA.Business.Sevis.Model"

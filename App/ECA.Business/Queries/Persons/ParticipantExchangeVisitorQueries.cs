@@ -29,9 +29,9 @@ namespace ECA.Business.Queries.Persons
                              Position = p.Position != null ? p.Position.Description : string.Empty,
                              FieldOfStudyId = p.FieldOfStudyId,
                              ProgramCategoryId = p.ProgramCategoryId,
-                             ProgramCategoryCode = p.ProgramCategory.ProgramCategoryCode,
+                             ProgramCategoryCode = p.ProgramCategory != null ? p.ProgramCategory.ProgramCategoryCode : string.Empty,
                              PositionId = p.PositionId,
-                             PositionCode = p.Position.PositionCode,
+                             PositionCode = p.Position != null ? p.Position.PositionCode : string.Empty,
                              FundingGovtAgency1 = p.FundingGovtAgency1 ?? 0,
                              GovtAgency1Id = p.GovtAgency1Id ?? 0,
                              GovtAgency1Name = p.GovtAgency1 != null ? p.GovtAgency1.Description : string.Empty,
@@ -60,47 +60,16 @@ namespace ECA.Business.Queries.Persons
         }
 
         /// <summary>
-        /// Creates a query to return all participantExchangeVisitors in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The filtered and sorted query to retrieve participantExchangeVisitors.</returns>
-        public static IQueryable<ParticipantExchangeVisitorDTO> CreateGetParticipantExchangeVisitorsDTOQuery(EcaContext context, QueryableOperator<ParticipantExchangeVisitorDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantExchangeVisitorsDTOQuery(context);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
-        /// Creates a query to return all participantExchangeVisitors for the project with the given id in the context.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The project id.</param>
-        /// <returns>The filtered and sorted query to retrieve participantExchangeVisitors.</returns>
-        public static IQueryable<ParticipantExchangeVisitorDTO> CreateGetParticipantExchangeVisitorsDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<ParticipantExchangeVisitorDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetParticipantExchangeVisitorsDTOQuery(context).Where(x => x.ProjectId == projectId);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
         /// Returns the participantExchangeVisitors by participant id 
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participantExchangeVisitors</returns>
-        public static IQueryable<ParticipantExchangeVisitorDTO> CreateGetParticipantExchangeVisitorDTOByIdQuery(EcaContext context, int participantId)
+        public static IQueryable<ParticipantExchangeVisitorDTO> CreateGetParticipantExchangeVisitorDTOByIdQuery(EcaContext context, int projectId, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantExchangeVisitorsDTOQuery(context).
-                Where(p => p.ParticipantId == participantId);
+            var query = CreateGetParticipantExchangeVisitorsDTOQuery(context)
+                .Where(p => p.ParticipantId == participantId && p.ProjectId == projectId);
             return query;
         }
     }

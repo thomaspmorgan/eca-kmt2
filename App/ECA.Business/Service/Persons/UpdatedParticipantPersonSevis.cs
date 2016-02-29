@@ -22,7 +22,6 @@ namespace ECA.Business.Service.Persons
         /// <param name="isDS2019SentToTraveler"></param>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
-        /// <param name="sevisValidationResult"></param>
         public UpdatedParticipantPersonSevis(
             User updater, 
             int participantId, 
@@ -34,8 +33,7 @@ namespace ECA.Business.Service.Persons
             bool isNeedsUpdate,
             bool isDS2019SentToTraveler,
             DateTimeOffset? startDate,
-            DateTimeOffset? endDate,
-            string sevisValidationResult)
+            DateTimeOffset? endDate)
         {
             this.Audit = new Update(updater);
             this.ParticipantId = participantId;
@@ -48,7 +46,6 @@ namespace ECA.Business.Service.Persons
             this.IsDS2019SentToTraveler = isDS2019SentToTraveler;
             this.StartDate = startDate;
             this.EndDate = endDate;
-            this.SevisValidationResult = sevisValidationResult;
         }
 
         /// <summary>
@@ -100,11 +97,6 @@ namespace ECA.Business.Service.Persons
         /// The end date of the visit
         /// </summary>
         public DateTimeOffset? EndDate { get; set; }
-
-        /// <summary>
-        /// The most recent participant Sevis valiation result
-        /// </summary>
-        public string SevisValidationResult { get; set; }
 
         /// <summary>
         /// Gets the update audit.

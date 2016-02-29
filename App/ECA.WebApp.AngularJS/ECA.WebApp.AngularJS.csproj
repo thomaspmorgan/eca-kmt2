@@ -192,6 +192,8 @@
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\navigation.controller.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\offices\edit.controller.js" />
+    <Content Include="app\offices\edit.html" />
     <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
     <Content Include="app\points-of-contact\points-of-contact-modal.html" />
     <Content Include="app\programs\all-programs.controller.js" />
@@ -234,7 +236,6 @@
     <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
     <Content Include="app\services\datetime.service.js" />
-    <Content Include="app\services\sevis-result.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />

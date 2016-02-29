@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Admin
 {
@@ -13,7 +14,7 @@ namespace ECA.Business.Service.Admin
     /// An IOfficeService is capable of performing crud operations on an office.
     /// </summary>
     [ContractClass(typeof(OfficeServiceContract))]
-    public interface IOfficeService
+    public interface IOfficeService : ISaveable
     {
         /// <summary>
         /// Returns the office with the given id.
@@ -114,6 +115,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="officeId">The id of the office.</param>
         /// <returns>The settings of the office.</returns>
         Task<OfficeSettings> GetOfficeSettingsAsync(int officeId);
+
+        Task UpdateOfficeAsync(UpdatedOffice updatedOffice);
     }
 
     /// <summary>
@@ -266,6 +269,21 @@ namespace ECA.Business.Service.Admin
         public Task<OfficeSettings> GetOfficeSettingsAsync(int officeId)
         {
             return Task.FromResult<OfficeSettings>(null);
+        }
+
+        public int SaveChanges()
+        {
+            return 1;
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return Task.FromResult<int>(1);
+        }
+
+        public Task UpdateOfficeAsync(UpdatedOffice updatedOffice)
+        {
+            return Task.FromResult<object>(null);
         }
     }
 }

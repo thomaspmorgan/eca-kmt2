@@ -7,11 +7,14 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public const int SPONSOR_MAX_LENGTH = 8;
 
+        public static string PROGRAM_SPONSOR_FUNDS_ERROR_MESSAGE = string.Format("Financial Info: Program Sponsor Funds can be up to {0} characters", SPONSOR_MAX_LENGTH);
+
+        public const string OTHER_FUNDS_ERROR_MESSAGE = "Financial Info: Other Funds is required.";
+
         public FinancialInfoValidator()
         {
-            RuleFor(visitor => visitor.ReceivedUSGovtFunds).NotNull().WithMessage("Financial Info: Received US Govt Funds option is required").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Funding.ToString() });
-            RuleFor(visitor => visitor.ProgramSponsorFunds).Length(0, SPONSOR_MAX_LENGTH).WithMessage("Financial Info: Program Sponsor Funds can be up to " + SPONSOR_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Funding.ToString() });
-            RuleFor(visitor => visitor.OtherFunds).NotNull().WithMessage("Financial Info: Other Funds is required").WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Funding.ToString() });
+            RuleFor(visitor => visitor.ProgramSponsorFunds).Length(0, SPONSOR_MAX_LENGTH).WithMessage(PROGRAM_SPONSOR_FUNDS_ERROR_MESSAGE).WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Funding.ToString() });
+            RuleFor(visitor => visitor.OtherFunds).SetValidator(new OtherFundsValidator()).When(x => x.OtherFunds != null);
         }
     }
 }

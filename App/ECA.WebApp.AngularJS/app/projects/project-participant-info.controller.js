@@ -103,7 +103,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onCancelButtonClick = function () {
-          return loadParticipantInfo($scope.participantid)
+          return loadParticipantInfo(projectId, $scope.participantid)
               .then(function (response) {
                   $scope.view.isInfoTabInEditMode = false;
               });
@@ -113,8 +113,7 @@ angular.module('staticApp')
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
-                validateSevisInfo($scope.view.participantPerson);
-                return loadParticipantInfo($scope.participantid)
+                return loadParticipantInfo(projectId, $scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;
@@ -129,21 +128,6 @@ angular.module('staticApp')
             });
       }
       
-      // pre-sevis validation
-      function validateSevisInfo(participantPerson) {
-          var params = {
-              participantId: participantPerson.participantId,
-              sevisId: participantPerson.sevisId
-          };
-          SevisResultService.updateSevisVerificationResultsByParticipant(params)
-              .then(function (validationResults) {
-
-              })
-              .catch(function (error) {
-                  $log.error('Unable to update sevis validation results for participantId: ' + params.participantId);
-              });
-      }
-
       var projectId = $stateParams.projectId;
       var limit = 300;
       var searchLimit = 10;
@@ -235,7 +219,7 @@ angular.module('staticApp')
       }
 
       function saveParticipantPerson(participantPerson) {
-          return ParticipantPersonsService.updateParticipantPerson(participantPerson);
+          return ParticipantPersonsService.updateParticipantPerson(projectId, participantPerson);
       }
 
       function loadOrganizations(filter) {
@@ -342,9 +326,9 @@ angular.module('staticApp')
       var hasAttemptedToSaveNewParticipantPersonCount = 0;
       var maxAttemptedSaveNewParticipantPersonCount = 5;
 
-      function loadParticipantInfo(participantId) {
+      function loadParticipantInfo(projectId, participantId) {
           $scope.view.isLoadingInfo = true;
-          return ParticipantPersonsService.getParticipantPersonsById(participantId)
+          return ParticipantPersonsService.getParticipantPersonsById(projectId, participantId)
           .then(function (response) {
               if (response.data.homeInstitution) {
                   response.data.homeInstitutionId = response.data.homeInstitution.organizationId;
@@ -388,7 +372,7 @@ angular.module('staticApp')
                       return saveParticipantPerson(newParticipantPerson)
                       .then(function (response) {
                           $scope.view.isLoadingInfo = false;
-                          return loadParticipantInfo(participantId);
+                          return loadParticipantInfo(projectId, participantId);
                       })
                       .catch(function (response) {
                           $scope.view.isLoadingInfo = false;
@@ -416,7 +400,7 @@ angular.module('staticApp')
       $q.all([
           loadParticipantTypes(),
           loadParticipantStatii(),
-          loadParticipantInfo($scope.participantid)])
+          loadParticipantInfo(projectId, $scope.participantid)])
       .then(function (results) {
           $scope.view.isLoadingEditParticipantInfoRequiredData = false;
       })

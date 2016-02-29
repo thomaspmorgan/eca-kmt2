@@ -8,6 +8,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Offices;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
@@ -58,6 +59,7 @@ namespace ECA.WebApi.Controllers.Admin
         private IJustificationObjectiveService justificationObjectiveService;
         private IResourceService resourceService;
         private IResourceAuthorizationHandler authorizationHandler;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new controller instance.
@@ -65,18 +67,20 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         /// <param name="focusCategoryService">The focus category service.</param>
         /// <param name="justificationObjectiveService">The justification objective service.</param>
-        public OfficesController(IOfficeService service, IFocusCategoryService focusCategoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService, IResourceAuthorizationHandler authorizationHandler)
+        public OfficesController(IOfficeService service, IFocusCategoryService focusCategoryService, IJustificationObjectiveService justificationObjectiveService, IResourceService resourceService, IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The office service must not be null.");
             Contract.Requires(focusCategoryService != null, "The focus category service must not be null.");
             Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
             Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
+            Contract.Requires(userProvider != null, "The authorization handler must not be null.");
             this.service = service;
             this.focusCategoryService = focusCategoryService;
             this.justificationObjectiveService = justificationObjectiveService;
             this.resourceService = resourceService;
             this.authorizationHandler = authorizationHandler;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -223,6 +227,30 @@ namespace ECA.WebApi.Controllers.Admin
                         x => x.Name,
                         x => x.Description));
                 return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Updates the office
+        /// </summary>
+        /// <param name="model">The model to update</param>
+        /// <returns>The updated office</returns>
+        [ResponseType(typeof(OfficeDTO))]
+        [Route("Offices")]
+        public async Task<IHttpActionResult> PutOfficeAsync([FromBody]UpdatedOfficeBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await service.UpdateOfficeAsync(model.ToUpdatedOffice(businessUser));
+                await service.SaveChangesAsync();
+                var updatedOffice = await service.GetOfficeByIdAsync(model.OfficeId);
+                return Ok(updatedOffice);
             }
             else
             {

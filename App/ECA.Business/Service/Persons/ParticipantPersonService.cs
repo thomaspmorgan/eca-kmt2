@@ -25,6 +25,7 @@ namespace ECA.Business.Service.Persons
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
+        private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private IBusinessValidator<Object, UpdatedParticipantPersonValidationEntity> participantPersonValidator;
 
         /// <summary>
@@ -45,34 +46,20 @@ namespace ECA.Business.Service.Persons
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
                 }
             };
+            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
+            {
+                if (participant != null && participant.ProjectId != projectId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to delete a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        userId,
+                        participant.ParticipantId,
+                        projectId));
+                }
+            };
         }
 
         #region Get
-
-        /// <summary>
-        /// Returns the participantPersons in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersons.</returns>
-        public PagedQueryResults<SimpleParticipantPersonDTO> GetParticipantPersons(QueryableOperator<SimpleParticipantPersonDTO> queryOperator)
-        {
-            var participantPersons = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersons with query operator [{0}].", queryOperator);
-            return participantPersons;
-        }
-
-        /// <summary>
-        /// Returns the participantPersons in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersons.</returns>
-        public Task<PagedQueryResults<SimpleParticipantPersonDTO>> GetParticipantPersonsAsync(QueryableOperator<SimpleParticipantPersonDTO> queryOperator)
-        {
-            var participantPersons = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersons with query operator [{0}].", queryOperator);
-            return participantPersons;
-        }
-
         /// <summary>
         /// Returns the participantPersons for the project with the given id in the system.
         /// </summary>
@@ -103,10 +90,11 @@ namespace ECA.Business.Service.Persons
         /// Returns a participant Person
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPerson</returns>
-        public SimpleParticipantPersonDTO GetParticipantPersonById(int participantId)
+        public SimpleParticipantPersonDTO GetParticipantPersonById(int projectId, int participantId)
         {
-            var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantPerson = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, projectId, participantId).FirstOrDefault();
             this.logger.Trace("Retrieved participantPerson by id [{0}].", participantId);
             return participantPerson;
         }
@@ -115,10 +103,11 @@ namespace ECA.Business.Service.Persons
         /// Returns a participantPerson asyncronously
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPerson</returns>
-        public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int participantId)
+        public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int projectId, int participantId)
         {
-            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, projectId, participantId).FirstOrDefaultAsync();
             this.logger.Trace("Retrieved participantPerson by id [{0}].", participantId);
             return participant;
         }
@@ -145,6 +134,7 @@ namespace ECA.Business.Service.Persons
         {
             var participant = CreateGetParticipantByIdQuery(updatedPerson.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedPerson.ParticipantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(updatedPerson.Audit.User.Id, updatedPerson.ProjectId, participant);
 
             //should be loaded as part of the query
             var participantPerson = Context.ParticipantPersons.Find(updatedPerson.ParticipantId);
@@ -212,6 +202,7 @@ namespace ECA.Business.Service.Persons
         {
             var participant = await CreateGetParticipantByIdQuery(updatedPerson.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedPerson.ParticipantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(updatedPerson.Audit.User.Id, updatedPerson.ProjectId, participant);
 
             //should be loaded as part of the query
             var participantPerson = await Context.ParticipantPersons.FindAsync(updatedPerson.ParticipantId);
@@ -300,7 +291,6 @@ namespace ECA.Business.Service.Persons
         }
 
         #endregion
-
 
         private IQueryable<Participant> CreateGetParticipantByIdQuery(int participantId)
         {

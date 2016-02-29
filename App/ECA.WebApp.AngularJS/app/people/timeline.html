@@ -22,7 +22,7 @@
                     <p class="description">{{project.description}}</p>
                 </div>
                 <div class="col-md-1">
-                    <a ng-click="toggleParticipantInfo(project.participantId)">
+                    <a ng-click="toggleParticipantInfo(project.projectId, project.participantId)">
                         <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[project.participantId] === undefined || participantInfo[project.participantId].show === false">expand_less</i>
                         <i class="material-icons md-dark md-36 pull-right" ng-show="participantInfo[project.participantId].show">expand_more</i>
                     </a>
