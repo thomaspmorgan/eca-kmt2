@@ -373,6 +373,7 @@
     <Compile Include="Validation\Model\CreateEV\OtherFundsValidatorTest.cs" />
     <Compile Include="Validation\Model\CreateEV\InternationalValidatorTest.cs" />
     <Compile Include="Validation\Model\CreateEV\OtherValidatorTest.cs" />
+    <Compile Include="Validation\Model\CreateEV\ExchangeVisitorValidatorTest.cs" />
     <Compile Include="Validation\Model\CreateEV\USGovtValidatorTest.cs" />
     <Compile Include="Validation\Model\CreateEV\USAddressValidatorTest.cs" />
   </ItemGroup>
