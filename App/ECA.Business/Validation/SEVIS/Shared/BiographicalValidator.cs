@@ -69,7 +69,8 @@ namespace ECA.Business.Validation.Model.CreateEV
                 .Length(COUNTRY_CODE_LENGTH)
                 .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE)
                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
-            RuleFor(visitor => visitor.PermanentResidenceCountryCode).NotNull()
+            RuleFor(visitor => visitor.PermanentResidenceCountryCode)
+                .NotNull()
                 .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE)
                 .Length(COUNTRY_CODE_LENGTH)
                 .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE)

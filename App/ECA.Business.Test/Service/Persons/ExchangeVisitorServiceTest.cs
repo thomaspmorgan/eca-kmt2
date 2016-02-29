@@ -74,6 +74,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, instance.OccupationCategoryCode);
             Assert.AreEqual(position.PositionCode, instance.PositionCode);
             Assert.AreEqual(category.ProgramCategoryCode, instance.CategoryCode);
+            Assert.IsNull(instance.ResidentialAddress);
         }
 
         [TestMethod]
@@ -1035,15 +1036,17 @@ namespace ECA.Business.Test.Service.Persons
                 FundingSponsor = 2.2m,
                 FundingVisGovt = 3.3m,
                 FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
+                FundingPersonal = 5.5m,
+                FundingOther = 6.6m,
+                OtherName = "other name"
             };
             var orgFunding = new International
             {
-
+                Amount1 = "1"
             };
             var usGovFunding = new USGovt
             {
-
+                Amount1 = "2"
             };
             var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
@@ -1055,6 +1058,128 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual("3", instance.OtherFunds.EVGovt);
             Assert.AreEqual("4", instance.OtherFunds.BinationalCommission);
             Assert.AreEqual("5", instance.OtherFunds.Personal);
+            Assert.AreEqual("6", instance.OtherFunds.Other.Amount);
+            Assert.AreEqual(participantExchangeVisitor.OtherName, instance.OtherFunds.Other.Name);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingOtherDoesNotHaveAValue()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingOther = null
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.Other);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_InternationalFundingAmount1IsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = null
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.International);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_InternationalFundingAmount2IsNotNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = null,
+                Amount2 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var message = "The International Funding Amount1 must have a value if Amount2 has a value.";
+            Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGovernmentFundingAmount1IsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = null
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.USGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGoverntmentFundingAmount2IsNotNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "11",
+                Amount2 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = null,
+                Amount2 = "1"
+            };
+            var message = "The US Government Funding Amount1 must have a value if Amount2 has a value.";
+            Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -1112,6 +1237,36 @@ namespace ECA.Business.Test.Service.Persons
             var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsFalse(instance.ReceivedUSGovtFunds);
         }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_OrgFundingIsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "1"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.International);
+            Assert.IsNotNull(instance.OtherFunds.USGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGovtFundingIsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+            };
+            var international = new International
+            {
+                Amount1 = "1"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, international, null);
+            Assert.IsNotNull(instance.OtherFunds.International);
+            Assert.IsNull(instance.OtherFunds.USGovt);
+        }
         #endregion
 
         #region Site of Activity
@@ -1148,6 +1303,18 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, instance.SiteName);
             Assert.AreEqual(true, instance.PrimarySite);
             Assert.AreEqual(string.Empty, instance.Remarks);
+        }
+        #endregion
+
+        #region SetResidentialAddress
+        [TestMethod]
+        public void TestSetResidentialAddress()
+        {
+            var instance = new ExchangeVisitor();
+            instance.ResidentialAddress = new ResidentialAddress();
+
+            service.SetResidentialAddress(instance);
+            Assert.IsNull(instance.ResidentialAddress);
         }
         #endregion
 
@@ -1193,7 +1360,9 @@ namespace ECA.Business.Test.Service.Persons
                 FundingSponsor = 2.2m,
                 FundingVisGovt = 3.3m,
                 FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
+                FundingPersonal = 5.5m,
+                FundingOther = 6.6m,
+                OtherName = "other name"
 
             };
             context.People.Add(person);
@@ -1207,6 +1376,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual("3", instance.FinancialInfo.OtherFunds.EVGovt);
                 Assert.AreEqual("4", instance.FinancialInfo.OtherFunds.BinationalCommission);
                 Assert.AreEqual("5", instance.FinancialInfo.OtherFunds.Personal);
+                Assert.AreEqual("6", instance.FinancialInfo.OtherFunds.Other.Amount);
+                Assert.AreEqual(visitor.OtherName, instance.FinancialInfo.OtherFunds.Other.Name);
             };
             var exchangeVisitor = new ExchangeVisitor();
             var exchangeVisitorAsync = new ExchangeVisitor();
@@ -2102,7 +2273,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
-        
+
 
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesNotExist()
@@ -2273,7 +2444,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
-        
+
         #endregion
 
         #region GetExchangeVisitorUpdate

@@ -308,6 +308,7 @@ namespace ECA.Business.Service.Persons
             {
                 instance.CategoryCode = visitor.ProgramCategory.ProgramCategoryCode;
             }
+            SetResidentialAddress(instance);
             return instance;
         }
         #endregion
@@ -458,12 +459,44 @@ namespace ECA.Business.Service.Persons
             financialInfo.ProgramSponsorFunds = getFundingAsWholeDollarString(participantExchangeVisitor.FundingSponsor);
             financialInfo.OtherFunds = new OtherFunds
             {
-                International = orgFunding,
-                USGovt = usFunding,
+                International = orgFunding != null ? orgFunding : null,
+                USGovt = usFunding != null ? usFunding : null,
                 EVGovt = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisGovt),
                 BinationalCommission = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisBNC),
-                Personal = getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal)
+                Personal = getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal),
             };
+            if (participantExchangeVisitor.FundingOther.HasValue)
+            {
+                financialInfo.OtherFunds.Other = new Other
+                {
+                    Name = participantExchangeVisitor.OtherName,
+                    Amount = getFundingAsWholeDollarString(participantExchangeVisitor.FundingOther)
+                };
+            }
+            else
+            {
+                financialInfo.OtherFunds.Other = null;
+            }
+            
+            //these two null checks are to set the otherfunds.International and otherfund.USGovt to null
+            //if the amount1(s) are null since, the structures are optional and we don't want validation to run
+            //on optional structures.
+            if (orgFunding != null && String.IsNullOrWhiteSpace(orgFunding.Amount1))
+            {
+                if (!String.IsNullOrWhiteSpace(orgFunding.Amount2))
+                {
+                    throw new NotSupportedException("The International Funding Amount1 must have a value if Amount2 has a value.");
+                }
+                financialInfo.OtherFunds.International = null;
+            }
+            if (usFunding != null && String.IsNullOrWhiteSpace(usFunding.Amount1))
+            {
+                if (!String.IsNullOrWhiteSpace(usFunding.Amount2))
+                {
+                    throw new NotSupportedException("The US Government Funding Amount1 must have a value if Amount2 has a value.");
+                }
+                financialInfo.OtherFunds.USGovt = null;
+            }
             return financialInfo;
         }
         #endregion
@@ -881,7 +914,20 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
+        #region Residential Address
 
+        /// <summary>
+        /// Sets a null residential address on the given exchange visitor.
+        /// </summary>
+        /// <param name="exchangeVisitor">The exchange visitor to set a null value on the residential address.</param>
+
+        public void SetResidentialAddress(ExchangeVisitor exchangeVisitor)
+        {
+            Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            exchangeVisitor.ResidentialAddress = null;
+
+        }
+        #endregion
         private IQueryable<ParticipantExchangeVisitor> CreateGetParticipantExchangeVisitorByParticipantIdQuery(int participantId)
         {
             return Context.ParticipantExchangeVisitors

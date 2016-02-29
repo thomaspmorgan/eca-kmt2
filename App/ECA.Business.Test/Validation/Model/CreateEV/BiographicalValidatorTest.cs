@@ -38,7 +38,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
         #region Full Name
 
         [TestMethod]
-        public void TestFullName_LastNameNotSet()
+        public void TestFullName_ShouldRunFullNameValidator()
         {
             var validator = new BiographicalValidator();
             var instance = GetValidBiographical();

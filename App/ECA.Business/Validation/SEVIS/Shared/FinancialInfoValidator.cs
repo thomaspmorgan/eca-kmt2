@@ -13,8 +13,13 @@ namespace ECA.Business.Validation.Model.Shared
 
         public FinancialInfoValidator()
         {
-            RuleFor(visitor => visitor.ProgramSponsorFunds).Length(0, SPONSOR_MAX_LENGTH).WithMessage(PROGRAM_SPONSOR_FUNDS_ERROR_MESSAGE).WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Funding.ToString() });
-            RuleFor(visitor => visitor.OtherFunds).SetValidator(new OtherFundsValidator()).When(x => x.OtherFunds != null);
+            RuleFor(visitor => visitor.ProgramSponsorFunds)
+                .Length(0, SPONSOR_MAX_LENGTH)
+                .WithMessage(PROGRAM_SPONSOR_FUNDS_ERROR_MESSAGE)
+                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Funding.ToString() });
+            RuleFor(visitor => visitor.OtherFunds)
+                .SetValidator(new OtherFundsValidator())
+                .When(x => x.OtherFunds != null);
         }
     }
 }
