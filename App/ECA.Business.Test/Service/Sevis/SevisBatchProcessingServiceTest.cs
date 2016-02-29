@@ -339,8 +339,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sbpDTO = service.GetById(1);
 
             Assert.AreEqual(sbpDTO.BatchId, sbp1.BatchId);
-            Assert.AreEqual(sbpDTO.SendXml, sbp1.SendXml);
-
+            Assert.AreNotEqual(sbpDTO.SendXml, sbp1.SendXml);
         }
 
     }
