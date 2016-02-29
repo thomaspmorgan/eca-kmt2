@@ -8,7 +8,7 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public const int OTHER_ORG_NAME_MAX_LENGTH = 60;
 
-        public const int ORG_LENGTH = 3;
+        public const int ORG_LENGTH = 5;
 
         public const int AMOUNT_MAX_LENGTH = 8;
 
