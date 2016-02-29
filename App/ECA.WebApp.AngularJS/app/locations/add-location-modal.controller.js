@@ -15,6 +15,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        $timeout,
         $compile,
         $modalInstance,
         allowedLocationTypeIds,
@@ -438,8 +439,7 @@ angular.module('staticApp')
               $scope.view.isSavingNewLocation = false;
           });
       }
-
-
+      
       var existenceFilter = FilterService.add('addlocation_existencefilter');
       function checkNewLocationExistence() {
           $scope.view.locationExists = false;
@@ -479,6 +479,10 @@ angular.module('staticApp')
       $q.all([getLocationTypes(), loadCountries(), loadRegions()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
+            var element = angular.element('#locationTypeId');
+            $timeout(function () {
+                element.focus();
+            }, 800);
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;

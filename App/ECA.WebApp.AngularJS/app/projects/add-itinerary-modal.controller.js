@@ -13,6 +13,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        $timeout,
         $modal,
         $modalInstance,
         project,
@@ -175,7 +176,6 @@ angular.module('staticApp')
               $log.info('Finished adding locations.');
               addLocationModalInstance.close([addedLocation]);
               callback([addedLocation]);
-
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });

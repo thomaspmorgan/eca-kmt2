@@ -5,6 +5,7 @@ using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.WebApi.Controllers.Admin;
+using ECA.WebApi.Models.Admin;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,6 +26,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         private Mock<IJustificationObjectiveService> justificationObjectiveService;
         private Mock<IResourceService> resourceService;
         private Mock<IResourceAuthorizationHandler> authorizationHandler;
+        private Mock<IUserProvider> userProvider;
         private OfficesController controller;
 
         [TestInitialize]
@@ -35,12 +37,13 @@ namespace ECA.WebApi.Test.Controllers.Admin
             justificationObjectiveService = new Mock<IJustificationObjectiveService>();
             resourceService = new Mock<IResourceService>();
             authorizationHandler = new Mock<IResourceAuthorizationHandler>();
+            userProvider = new Mock<IUserProvider>();
             serviceMock.Setup(x => x.GetOfficeByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(new OfficeDTO());
             serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(0, new List<OrganizationProgramDTO>()));
             serviceMock.Setup(x => x.GetOfficeSettingsAsync(It.IsAny<int>())).ReturnsAsync(new OfficeSettings());
-            controller = new OfficesController(serviceMock.Object, focusCategoryService.Object, justificationObjectiveService.Object, resourceService.Object, authorizationHandler.Object);
+            controller = new OfficesController(serviceMock.Object, focusCategoryService.Object, justificationObjectiveService.Object, resourceService.Object, authorizationHandler.Object, userProvider.Object);
         }
 
         #region Get
@@ -139,6 +142,30 @@ namespace ECA.WebApi.Test.Controllers.Admin
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
+        #endregion
+
+        #region Update
+        [TestMethod]
+        public async Task TestPutOfficeAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+            var model = new UpdatedOfficeBindingModel();
+            var response = await controller.PutOfficeAsync(model);
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.GetBusinessUser(It.IsAny<IWebApiUser>()), Times.Once);
+            serviceMock.Verify(x => x.UpdateOfficeAsync(It.IsAny<UpdatedOffice>()), Times.Once);
+            serviceMock.Verify(x => x.SaveChangesAsync(), Times.Once());
+            serviceMock.Verify(x => x.GetOfficeByIdAsync(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPutOfficeAync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var model = new UpdatedOfficeBindingModel();
+            var response = await controller.PutOfficeAsync(model);
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
         #endregion
 
         #region Settings
