@@ -164,21 +164,6 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
         }
 
         [TestMethod]
-        public void TestRemarks_ExceedsMaxLength()
-        {
-            var instance = GetValidSubjectField();
-            var validator = new SubjectFieldValidator();
-            var results = validator.Validate(instance);
-            Assert.IsTrue(results.IsValid);
-
-            instance.Remarks = new string('c', SubjectFieldValidator.REMARKS_MAX_LENGTH + 1);
-            results = validator.Validate(instance);
-            Assert.IsFalse(results.IsValid);
-            Assert.AreEqual(1, results.Errors.Count);
-            Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-        }
-
-        [TestMethod]
         public void TestRemarks_EmptyString()
         {
             var instance = GetValidSubjectField();
