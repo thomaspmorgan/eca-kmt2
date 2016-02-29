@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using ECA.Business.Validation.SEVIS;
+using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -7,10 +9,27 @@ namespace ECA.Business.Validation.Model.Shared
         public const int NAME_MAX_LENGTH = 60;
         public const int AMOUNT_MAX_LENGTH = 8;
 
+        public const string AMOUNT_REGEX = @"^\d{1,8}$";
+
+        public static string OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE = string.Format("Other Funds: The other organization name is required and must be {0} characters.", NAME_MAX_LENGTH);
+
+        public static string AMOUNT_ERROR_MESSAGE = string.Format("Other Funds: The other fund amount is required and may be up to {0} digits.", AMOUNT_MAX_LENGTH);
+
         public OtherValidator()
         {
-            RuleFor(visitor => visitor.name).Length(1, NAME_MAX_LENGTH).WithMessage("U.S. Gov Funds: U.S. Government Org Code is required and must be " + NAME_MAX_LENGTH.ToString() + " characters");
-            RuleFor(visitor => visitor.amount).Length(1, AMOUNT_MAX_LENGTH).WithMessage("U.S. Gov Funds: U.S. Government Org Amount is required and can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters");
+            RuleFor(visitor => visitor.Name)
+                .NotNull()
+                .WithMessage(OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE)
+                .Length(1, NAME_MAX_LENGTH)
+                .WithMessage(OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE);
+
+            RuleFor(x => x.Amount)
+                .NotNull()
+                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .Matches(new Regex(AMOUNT_REGEX))
+                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+
         }
     }
 }

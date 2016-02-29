@@ -8,8 +8,8 @@ namespace ECA.Business.Validation.Model.Shared
         public Other()
         { }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string amount { get; set; }
+        public string Amount { get; set; }
     }
 }

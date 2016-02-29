@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Validation.SEVIS;
 using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Model.Shared
 {
@@ -7,12 +8,41 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public const int AMOUNT_MAX_LENGTH = 8;
 
+        public const string AMOUNT_REGEX = @"^\d{1,8}$";
+
+        public static string EV_GOVT_ERROR_MESSAGE = string.Format("Financial Info: Government funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+
+        public static string BINATIONAL_ERROR_MESSAGE = string.Format("Financial Info: Binational funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+
+        public static string PERSONAL_ERROR_MESSAGE = string.Format("Financial Info: Personal funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+
         public OtherFundsValidator()
         {
             RuleFor(visitor => visitor.Other).SetValidator(new OtherValidator()).When(visitor => visitor.Other != null);
-            RuleFor(visitor => visitor.EVGovt).Length(0, AMOUNT_MAX_LENGTH).WithMessage("Financial Info: Government funding can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
-            RuleFor(visitor => visitor.BinationalCommission).Length(0, AMOUNT_MAX_LENGTH).WithMessage("Financial Info: Binational Commission funding can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
-            RuleFor(visitor => visitor.Personal).Length(0, AMOUNT_MAX_LENGTH).WithMessage("Financial Info: Personal funding can be up to " + AMOUNT_MAX_LENGTH.ToString() + " characters").WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+            RuleFor(visitor => visitor.USGovt).SetValidator(new USGovtValidator()).When(visitor => visitor.USGovt != null);
+            RuleFor(visitor => visitor.International).SetValidator(new InternationalValidator()).When(visitor => visitor.International != null);
+            When(visitor => visitor.EVGovt != null, () =>
+            {
+                RuleFor(x => x.EVGovt)
+                 .Matches(new Regex(AMOUNT_REGEX))
+                 .WithMessage(EV_GOVT_ERROR_MESSAGE)
+                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+            });
+
+            When(visitor => visitor.BinationalCommission != null, () =>
+            {
+                RuleFor(x => x.BinationalCommission)
+                 .Matches(new Regex(AMOUNT_REGEX))
+                 .WithMessage(BINATIONAL_ERROR_MESSAGE)
+                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+            });
+            When(visitor => visitor.Personal != null, () =>
+            {
+                RuleFor(x => x.Personal)
+                 .Matches(new Regex(AMOUNT_REGEX))
+                 .WithMessage(PERSONAL_ERROR_MESSAGE)
+                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+            });
         }
     }
 }
