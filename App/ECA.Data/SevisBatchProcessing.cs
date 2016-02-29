@@ -49,7 +49,7 @@ namespace ECA.Data
         public XElement SendXml
         {
             get { return (SendString != null ? XElement.Parse(SendString) : null); }
-            set { SendString = value.ToString(); }
+            set { SendString = value == null ? null : value.ToString(); }
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace ECA.Data
         public XElement TransactionLogXml
         {
             get { return (TransactionLogString != null ? XElement.Parse(TransactionLogString) : null); }
-            set { TransactionLogString = value.ToString(); }
+            set { TransactionLogString = value == null ? null : value.ToString(); }
         }
 
         /// <summary>

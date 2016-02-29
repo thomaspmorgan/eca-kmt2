@@ -50,7 +50,7 @@ namespace ECA.Business.Test.Service.Sevis
             var sevisBatchProcessing = service.Create();
             var xml = sevisBatchProcessing.SendXml;
         }
-        
+
         [TestMethod]
         public void TestSevisBatchProcessing_XML_SetGet()
         {
@@ -324,6 +324,23 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsTrue(resultsDTO.Select(x => x.SevisCommStatus).FirstOrDefault() == SevisCommStatus.BatchRequestUnsuccessful.Value);
         }
 
+
+        [TestMethod]
+        public void TestSevisBatchProcessing_GetById_Null()
+        {
+            var sbp1 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 1,
+                SendXml = null
+            };
+
+            context.SevisBatchProcessings.Add(sbp1);
+
+            var sbpDTO = service.GetById(1);
+
+            Assert.AreEqual(sbpDTO.BatchId, sbp1.BatchId);
+            Assert.AreNotEqual(sbpDTO.SendXml, sbp1.SendXml);
+        }
 
     }
 }
