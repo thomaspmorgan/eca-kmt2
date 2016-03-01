@@ -310,8 +310,27 @@ namespace ECA.Business.Service.Persons
                 instance.CategoryCode = visitor.ProgramCategory.ProgramCategoryCode;
             }
             SetResidentialAddress(instance);
+            SetTIPP(instance);
             return instance;
         }
+        #endregion
+
+        #region TIPP
+
+        /// <summary>
+        /// Sets TIPP information on the exchange visitor and the dependents.
+        /// </summary>
+        /// <param name="visitor">The exchange visitor.</param>
+        public void SetTIPP(ExchangeVisitor visitor)
+        {
+            visitor.AddTIPP = new EcaAddTIPP();
+            foreach(var dependent in visitor.CreateDependent)
+            {
+                dependent.AddTIPP = new EcaAddTIPP();
+            }
+        }
+
+        
         #endregion
 
         #region Site Of Activity

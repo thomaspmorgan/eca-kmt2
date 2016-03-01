@@ -7,7 +7,7 @@ using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
 using ECA.Business.Service.Persons;
 
-namespace ECA.Business.Test.Validation.Model.CreateEV
+namespace ECA.Business.Test.Validation.Model.Shared
 {
     [TestClass]
     public class ExchangeVisitorValidatorTest
