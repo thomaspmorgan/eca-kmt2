@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.SEVIS;
 
 namespace ECA.Business.Test.Validation.Model.Shared
 {
@@ -36,6 +37,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.ADDRESS_1_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -51,6 +53,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.ADDRESS_1_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -79,6 +82,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.ADDRESS_2_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -94,6 +98,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -109,6 +114,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -124,6 +130,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -139,6 +146,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -167,6 +175,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.EXPLANATION_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -195,6 +204,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.EXPLAINATION_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -210,6 +220,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USAddressValidator.EXPLAINATION_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
     }
 }

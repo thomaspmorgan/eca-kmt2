@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.SEVIS;
 
 namespace ECA.Business.Test.Validation.Model.Shared
 {
@@ -86,6 +87,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(OtherFundsValidator.EV_GOVT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PersonMoneyFlowErrorPath));
         }
 
 
@@ -102,6 +104,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(OtherFundsValidator.EV_GOVT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PersonMoneyFlowErrorPath));
         }
 
         [TestMethod]
@@ -130,6 +133,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(OtherFundsValidator.BINATIONAL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PersonMoneyFlowErrorPath));
         }
 
 
@@ -146,6 +150,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(OtherFundsValidator.BINATIONAL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PersonMoneyFlowErrorPath));
         }
 
         [TestMethod]
@@ -174,6 +179,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(OtherFundsValidator.PERSONAL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PersonMoneyFlowErrorPath));
         }
 
 
@@ -190,6 +196,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(OtherFundsValidator.PERSONAL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PersonMoneyFlowErrorPath));
         }
     }
 }

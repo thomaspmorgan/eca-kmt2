@@ -35,25 +35,30 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(visitor => visitor.FirstName)
                 .Length(1, FIRST_NAME_MAX_LENGTH)
                 .WithMessage(FIRST_NAME_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+                .WithState(x => new PiiErrorPath());
+
             RuleFor(visitor => visitor.LastName)
                 .NotNull()
                 .WithMessage(LAST_NAME_ERROR_MESSAGE)
+                .WithState(x => new PiiErrorPath())
                 .Length(1, LAST_NAME_MAX_LENGTH)
                 .WithMessage(LAST_NAME_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+                .WithState(x => new PiiErrorPath());
+
             RuleFor(visitor => visitor.Suffix)
                 .Matches(SUFFIX_MATCHES_STRING)
                 .WithMessage(SUFFIX_VALUE_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+                .WithState(x => new PiiErrorPath());
+
             RuleFor(visitor => visitor.PassportName)
                 .Length(0, PASSPORT_NAME_MAX_LENGTH)
                 .WithMessage(PASSPORT_NAME_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+                .WithState(x => new PiiErrorPath());
+
             RuleFor(visitor => visitor.PreferredName)
                 .Length(0, PREFERRED_NAME_MAX_LENGTH)
                 .WithMessage(PREFFERED_NAME_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.PII.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+                .WithState(x => new PiiErrorPath());
         }
     }
 }

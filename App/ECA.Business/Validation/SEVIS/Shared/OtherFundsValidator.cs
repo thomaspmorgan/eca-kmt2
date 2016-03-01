@@ -26,7 +26,7 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.EVGovt)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(EV_GOVT_ERROR_MESSAGE)
-                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+                 .WithState(x => new PersonMoneyFlowErrorPath());
             });
 
             When(visitor => visitor.BinationalCommission != null, () =>
@@ -34,14 +34,14 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.BinationalCommission)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(BINATIONAL_ERROR_MESSAGE)
-                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+                 .WithState(x => new PersonMoneyFlowErrorPath());
             });
             When(visitor => visitor.Personal != null, () =>
             {
                 RuleFor(x => x.Personal)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(PERSONAL_ERROR_MESSAGE)
-                 .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+                 .WithState(x => new PersonMoneyFlowErrorPath());
             });
         }
     }

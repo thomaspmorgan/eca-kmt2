@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -28,7 +29,7 @@ namespace ECA.Business.Queries.Persons
             var cityLocationTypeId = LocationType.City.Id;
             var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
-
+            var cityMaxLength = BiographicalValidator.CITY_MAX_LENGTH;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -41,6 +42,11 @@ namespace ECA.Business.Queries.Persons
 
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue && person.PlaceOfBirth.LocationTypeId == cityLocationTypeId
                         let placeOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
+                        let birthCity = hasPlaceOfBirth && placeOfBirth.LocationName != null 
+                            ? placeOfBirth.LocationName.Length > cityMaxLength 
+                                ? placeOfBirth.LocationName.Substring(0, cityMaxLength) 
+                                : placeOfBirth.LocationName
+                            : null
 
                         let hasCountryOfBirth = hasPlaceOfBirth && placeOfBirth.CountryId.HasValue
                         let countryOfBirth = hasCountryOfBirth ? placeOfBirth.Country : null
@@ -84,7 +90,7 @@ namespace ECA.Business.Queries.Persons
                                 && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value)
                                 ? person.DateOfBirth : null,
                             Gender = gender != null && sevisGender != null ? sevisGender : null,
-                            BirthCity = hasPlaceOfBirth ? placeOfBirth.LocationName : null,
+                            BirthCity = birthCity,
                             BirthCountryCode = hasCountryOfBirth ? sevisCountryOfBirth.CountryCode : null,
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
                             BirthCountryReason = null,

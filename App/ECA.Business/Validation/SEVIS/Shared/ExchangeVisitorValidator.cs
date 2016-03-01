@@ -46,27 +46,33 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.PositionCode)
                 .NotNull()
                 .WithMessage(POSITION_CODE_REQUIRED_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Length(POSITION_CODE_LENGTH)
                 .WithMessage(POSITION_CODE_LENGTH_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() });
+                .WithState(x => new SevisErrorPath());
 
             RuleFor(visitor => visitor.PrgStartDate)
                 .NotEqual(default(DateTime))
+                .WithState(x => new SevisErrorPath())
                 .WithMessage(PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE);
             
             RuleFor(visitor => visitor.PrgEndDate)
                 .NotEqual(default(DateTime))
+                .WithState(x => new SevisErrorPath())
                 .WithMessage(PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE);
 
             RuleFor(visitor => visitor.PrgEndDate)
                  .GreaterThan(x => x.PrgStartDate)
-                 .WithMessage(PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR);
+                 .WithMessage(PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR)
+                 .WithState(x => new SevisErrorPath());
 
             RuleFor(visitor => visitor.CategoryCode)
                 .NotNull()
                 .WithMessage(CATEGORY_CODE_REQUIRED_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Length(CATEGORY_CODE_LENGTH)
-                .WithMessage(PROGRAM_CATEGORY_CODE_ERROR_MESSAGE);
+                .WithMessage(PROGRAM_CATEGORY_CODE_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath());
             
             When(x => x.OccupationCategoryCode != null, () =>
             {
@@ -78,30 +84,35 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.SubjectField)
                 .NotNull()
                 .WithMessage(SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() }).SetValidator(new SubjectFieldValidator()).When(visitor => visitor.requestID != null);
+                .WithState(x => new SevisErrorPath())
+                .SetValidator(new SubjectFieldValidator())
+                .When(visitor => visitor.requestID != null);
 
             RuleFor(visitor => visitor.USAddress)
                 .SetValidator(new USAddressValidator())
-                .When(visitor => visitor.USAddress != null)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.Contact.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
+                .When(visitor => visitor.USAddress != null);
+
 
             RuleFor(visitor => visitor.MailAddress)
                 .SetValidator(new USAddressValidator())
-                .When(visitor => visitor.MailAddress != null)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.PersonalInfo.ToString(), Section = ElementCategorySection.Contact.ToString(), Tab = ElementCategorySectionTab.PersonalInfo.ToString() });
-
+                .When(visitor => visitor.MailAddress != null);
+                
             RuleFor(visitor => visitor.FinancialInfo)
                 .NotNull()
                 .WithMessage(FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE)
-                .SetValidator(new FinancialInfoValidator()).When(visitor => visitor.requestID != null);
+                .WithState(x => new SevisErrorPath())
+                .SetValidator(new FinancialInfoValidator())
+                .When(visitor => visitor.requestID != null);
 
             RuleFor(visitor => visitor.CreateDependent)
-                .SetCollectionValidator(new CreateDependentValidator()).When(visitor => visitor.CreateDependent != null);
+                .SetCollectionValidator(new CreateDependentValidator())
+                .When(visitor => visitor.CreateDependent != null);
 
             RuleFor(visitor => visitor.AddSiteOfActivity)
                 .NotNull()
                 .WithMessage(SITE_OF_ACTIVITY_REQUIRED_ERROR_MESSAGE)
-                .SetValidator(new AddSiteOfActivityValidator()).When(visitor => visitor.requestID != null);
+                .SetValidator(new AddSiteOfActivityValidator())
+                .When(visitor => visitor.requestID != null);
         }
     }
 }

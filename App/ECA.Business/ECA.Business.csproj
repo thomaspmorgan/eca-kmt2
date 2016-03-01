@@ -524,10 +524,15 @@
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
     <None Include="Sevis\Model\create-updateexchangevisitor.csold" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
+    <Compile Include="Validation\SEVIS\ContactErrorPath.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
     <Compile Include="Validation\SEVIS\ErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ParticipantFundingErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\PersonMoneyFlowErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\PiiErrorPath.cs" />
     <Compile Include="Validation\SEVIS\SEVISBatchCreateUpdateEVValidator.cs" />
+    <Compile Include="Validation\SEVIS\SevisErrorPath.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddPhase.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddSiteOfActivity.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddSiteOfActivityValidator.cs" />
