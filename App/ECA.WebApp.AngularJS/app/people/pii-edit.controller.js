@@ -111,6 +111,10 @@ angular.module('staticApp')
           return loadCities(search);
       }
 
+      $scope.searchCountries = function (search) {
+          return loadCountries(search);
+      }
+
       $scope.onIsPlaceOfBirthUnknownChange = function () {
           if ($scope.pii.isPlaceOfBirthUnknown) {
               $scope.pii.cityOfBirthId = null;
@@ -144,10 +148,29 @@ angular.module('staticApp')
           }
       }
 
-      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
-        .then(function (data) {
-            $scope.countries = data.results;
-        });
+      function loadCountries(search) {
+          if (search) {
+              var params = {
+                  limit: 30,
+                  filter: [
+                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id }
+                  ]
+              };
+              if (search) {
+                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              }
+              return LocationService.get(params)
+                .then(function (data) {
+                    $scope.countries = data.results;
+                    return $scope.countries;
+                });
+          }
+      }
+
+      //LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+      //  .then(function (data) {
+      //      $scope.countries = data.results;
+      //  });
 
       function loadLocationById(id) {
           return LocationService.get({
