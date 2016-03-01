@@ -60,7 +60,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
                 MailAddress = null,
                 OccupationCategoryCode = null,
                 PositionCode = "aaa",
-                PrgEndDate = DateTime.Now,
+                PrgEndDate = DateTime.Now.AddDays(1.0),
                 PrgStartDate = DateTime.Now,
                 ResidentialAddress = null,
                 SubjectField = new SubjectField
@@ -162,22 +162,40 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
-            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.Last().ErrorMessage);
         }
 
         [TestMethod]
-        public void TestProgramEndDate_Null()
+        public void TestProgramEndDate_DefaultValue()
         {
             var instance = GetValidExchangeVisitor();
             var validator = new ExchangeVisitorValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.PrgEndDate = null;
+            instance.PrgEndDate = default(DateTime);
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(2, results.Errors.Count);
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR, results.Errors.Last().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void TestProgramEndDate_PrgEndDateIsBeforePrgStartDate()
+        {
+            var instance = GetValidExchangeVisitor();
+            var validator = new ExchangeVisitorValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            instance.PrgStartDate = DateTime.UtcNow;
+            instance.PrgEndDate = DateTime.UtcNow.AddDays(-1.0);
+
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
-            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR, results.Errors.First().ErrorMessage);
         }
 
         [TestMethod]

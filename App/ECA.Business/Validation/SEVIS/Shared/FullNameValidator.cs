@@ -11,13 +11,13 @@ namespace ECA.Business.Validation.Model.Shared
         public const int PASSPORT_NAME_MAX_LENGTH = 39;
         public const int PREFERRED_NAME_MAX_LENGTH = 145;
 
-        public static string FIRST_NAME_ERROR_MESSAGE = string.Format("Full Name: First Name is required and can be up to {0} characters", FIRST_NAME_MAX_LENGTH);
+        public static string FIRST_NAME_ERROR_MESSAGE = string.Format("Full Name: First Name can be up to {0} characters.", FIRST_NAME_MAX_LENGTH);
 
-        public static string LAST_NAME_ERROR_MESSAGE = string.Format("Full Name: Last Name can be up to {0} characters", LAST_NAME_MAX_LENGTH);
+        public static string LAST_NAME_ERROR_MESSAGE = string.Format("Full Name: Last Name can be up to {0} characters.", LAST_NAME_MAX_LENGTH);
 
-        public static string PASSPORT_NAME_ERROR_MESSAGE = string.Format("Full Name: Passport Name can be up to {0} characters", PASSPORT_NAME_MAX_LENGTH);
+        public static string PASSPORT_NAME_ERROR_MESSAGE = string.Format("Full Name: Passport Name can be up to {0} characters.", PASSPORT_NAME_MAX_LENGTH);
 
-        public static string PREFFERED_NAME_ERROR_MESSAGE = string.Format("Full Name: Preferred Name can be up to {0} characters", PREFERRED_NAME_MAX_LENGTH);
+        public static string PREFFERED_NAME_ERROR_MESSAGE = string.Format("Full Name: Preferred Name can be up to {0} characters.", PREFERRED_NAME_MAX_LENGTH);
 
         public const string JUNIOR_SUFFIX = "Jr.";
         public const string SENIOR_SUFFIX = "Sr.";
@@ -28,7 +28,7 @@ namespace ECA.Business.Validation.Model.Shared
 
 
         public static string SUFFIX_MATCHES_STRING = string.Format("{0}|{1}|{2}|{3}|{4}|{5}", JUNIOR_SUFFIX, SENIOR_SUFFIX, FIRST_SUFFIX, SECOND_SUFFIX, THIRD_SUFFIX, FOURTH_SUFFIX);
-        public static string SUFFIX_VALUE_ERROR_MESSAGE = string.Format("The name suffix must be one of the following values:  {0}", String.Join(JUNIOR_SUFFIX, SENIOR_SUFFIX, FIRST_SUFFIX, SECOND_SUFFIX, THIRD_SUFFIX, FOURTH_SUFFIX));
+        public static string SUFFIX_VALUE_ERROR_MESSAGE = string.Format("Full Name: The name suffix must be one of the following values:  {0}.", String.Join(JUNIOR_SUFFIX, SENIOR_SUFFIX, FIRST_SUFFIX, SECOND_SUFFIX, THIRD_SUFFIX, FOURTH_SUFFIX));
 
         public FullNameValidator()
         {

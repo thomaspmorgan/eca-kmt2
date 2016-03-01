@@ -5,6 +5,7 @@ using ECA.Data;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation.Model;
 using System.Collections.Generic;
+using ECA.Business.Validation.Model.Shared;
 
 namespace ECA.Business.Test.Queries.Persons
 {
@@ -2511,20 +2512,18 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetInternationalFundingQuery_HasInternationalOrgsWithoutCodes()
+        public void TestCreateGetInternationalFundingQuery_HasOtherInternationalOrgs()
         {
 
             var internationalFundingOrg1 = new InternationalOrganization
             {
                 OrganizationId = 2,
-                OrganizationCode = null,
-                Description = "org 1 desc"
+                OrganizationCode = InternationalValidator.OTHER_ORG_CODE,
             };
             var internationalFundingOrg2 = new InternationalOrganization
             {
                 OrganizationId = 3,
-                OrganizationCode = null,
-                Description = "org 2 desc"
+                OrganizationCode = InternationalValidator.OTHER_ORG_CODE,
             };
             var org1Amount = 2.2m;
             var org2Amount = 5.7m;
@@ -2534,9 +2533,11 @@ namespace ECA.Business.Test.Queries.Persons
                 FundingIntlOrg1 = org1Amount,
                 IntlOrg1 = internationalFundingOrg1,
                 IntlOrg1Id = internationalFundingOrg1.OrganizationId,
+                IntlOrg1OtherName = "other 1 name",
                 FundingIntlOrg2 = org2Amount,
                 IntlOrg2 = internationalFundingOrg2,
                 IntlOrg2Id = internationalFundingOrg2.OrganizationId,
+                IntlOrg2OtherName = "other 2 name"
             };
             context.InternationalOrganizations.Add(internationalFundingOrg1);
             context.InternationalOrganizations.Add(internationalFundingOrg2);
@@ -2557,12 +2558,12 @@ namespace ECA.Business.Test.Queries.Persons
             };
 
             Assert.AreEqual(getExpectedFundingStringValue(org1Amount), result.Amount1);
-            Assert.IsNull(result.Org1);
-            Assert.AreEqual(internationalFundingOrg1.Description, result.OtherName1);
+            Assert.AreEqual(InternationalValidator.OTHER_ORG_CODE, result.Org1);
+            Assert.AreEqual(visitor.IntlOrg1OtherName, result.OtherName1);
 
             Assert.AreEqual(getExpectedFundingStringValue(org2Amount), result.Amount2);
-            Assert.IsNull(result.Org2);
-            Assert.AreEqual(internationalFundingOrg2.Description, result.OtherName2);
+            Assert.AreEqual(InternationalValidator.OTHER_ORG_CODE, result.Org2);
+            Assert.AreEqual(visitor.IntlOrg2OtherName, result.OtherName2);
         }
 
         [TestMethod]
@@ -2662,20 +2663,18 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetUSFundingQuery_HasUSGovOrgsWithoutCodes()
+        public void TestCreateGetUSFundingQuery_HasOtherUSGovAgencies()
         {
 
             var govAgency1 = new USGovernmentAgency
             {
                 AgencyId = 2,
-                AgencyCode = null,
-                Description = "org 1 desc"
+                AgencyCode = USGovtValidator.OTHER_ORG_CODE,
             };
             var govAgency2 = new USGovernmentAgency
             {
                 AgencyId = 3,
-                AgencyCode = null,
-                Description = "org 2 desc"
+                AgencyCode = USGovtValidator.OTHER_ORG_CODE,
             };
             var org1Amount = 2.2m;
             var org2Amount = 5.7m;
@@ -2686,10 +2685,12 @@ namespace ECA.Business.Test.Queries.Persons
                 FundingGovtAgency1 = org1Amount,
                 GovtAgency1 = govAgency1,
                 GovtAgency1Id = govAgency1.AgencyId,
+                GovtAgency1OtherName = "gov agency 1 other",
 
                 FundingGovtAgency2 = org2Amount,
                 GovtAgency2 = govAgency2,
                 GovtAgency2Id = govAgency2.AgencyId,
+                GovtAgency2OtherName = "gov agency 2 other"
             };
             context.USGovernmentAgencies.Add(govAgency1);
             context.USGovernmentAgencies.Add(govAgency2);
@@ -2710,12 +2711,12 @@ namespace ECA.Business.Test.Queries.Persons
             };
 
             Assert.AreEqual(getExpectedFundingStringValue(org1Amount), result.Amount1);
-            Assert.IsNull(result.Org1);
-            Assert.AreEqual(govAgency1.Description, result.OtherName1);
+            Assert.AreEqual(USGovtValidator.OTHER_ORG_CODE, result.Org1);
+            Assert.AreEqual(visitor.GovtAgency1OtherName, result.OtherName1);
 
             Assert.AreEqual(getExpectedFundingStringValue(org2Amount), result.Amount2);
-            Assert.IsNull(result.Org2);
-            Assert.AreEqual(govAgency2.Description, result.OtherName2);
+            Assert.AreEqual(USGovtValidator.OTHER_ORG_CODE, result.Org2);
+            Assert.AreEqual(visitor.GovtAgency2OtherName, result.OtherName2);
 
         }
 

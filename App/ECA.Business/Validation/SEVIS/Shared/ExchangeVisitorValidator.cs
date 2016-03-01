@@ -11,27 +11,29 @@ namespace ECA.Business.Validation.Model.CreateEV
         public const int CATEGORY_CODE_LENGTH = 2;
         public const int OCCUPATION_CATEGORY_CODE_LENGTH = 2;
 
-        public const string SITE_OF_ACTIVITY_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Site of activity address is required";
+        public const string SITE_OF_ACTIVITY_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Site of activity address is required.";
 
-        public const string FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Financial Information is required";
+        public const string FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Financial Information is required.";
 
-        public const string SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Field of Study is required";
+        public const string SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Field of Study is require.d";
 
-        public const string CATEGORY_CODE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Program category is required";
+        public const string CATEGORY_CODE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Program category is required.";
 
-        public const string PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Program End Date is required";
+        public const string PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Participant end date is required.";
 
-        public const string PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Program Start Date is required";
+        public const string PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Participant start date is required.";
 
-        public const string POSITION_CODE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Position Code is required";
+        public const string POSITION_CODE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Participant position is required.";
 
-        public static string OCCUPATION_CATEGORY_CODE_ERROR_MESSAGE = string.Format("Exch. Visitor: Occupational Category Code must be {0} characters", OCCUPATION_CATEGORY_CODE_LENGTH);
+        public static string OCCUPATION_CATEGORY_CODE_ERROR_MESSAGE = string.Format("Exch. Visitor: Occupational Category Code must be {0} characters.", OCCUPATION_CATEGORY_CODE_LENGTH);
 
-        public static string PROGRAM_CATEGORY_CODE_ERROR_MESSAGE = string.Format("Exch. Visitor: Program category is required and can be up to {0} characters", CATEGORY_CODE_LENGTH);
+        public static string PROGRAM_CATEGORY_CODE_ERROR_MESSAGE = string.Format("Exch. Visitor: Program category is required and can be up to {0} characters.", CATEGORY_CODE_LENGTH);
 
-        public static string POSITION_CODE_LENGTH_ERROR_MESSAGE = string.Format("Exch. Visitor: Position Code is required and must be {0} characters", POSITION_CODE_LENGTH);
+        public static string POSITION_CODE_LENGTH_ERROR_MESSAGE = string.Format("Exch. Visitor: Position Code is required and must be {0} characters.", POSITION_CODE_LENGTH);
 
-        public const string BIOGRAPHICAL_INFORMATION_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Biographical Information is required";
+        public const string BIOGRAPHICAL_INFORMATION_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Biographical Information is required.";
+
+        public const string PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR = "Exch. Visitor: The participant end date must be after the start date.";
 
         public ExchangeVisitorValidator()
         {
@@ -51,10 +53,14 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.PrgStartDate)
                 .NotEqual(default(DateTime))
                 .WithMessage(PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE);
+            
+            RuleFor(visitor => visitor.PrgEndDate)
+                .NotEqual(default(DateTime))
+                .WithMessage(PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE);
 
             RuleFor(visitor => visitor.PrgEndDate)
-                .NotNull()
-                .WithMessage(PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE);
+                 .GreaterThan(x => x.PrgStartDate)
+                 .WithMessage(PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR);
 
             RuleFor(visitor => visitor.CategoryCode)
                 .NotNull()

@@ -69,7 +69,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(participant.ParticipantId.ToString(), instance.requestID);
             Assert.AreEqual(user.Id.ToString(), instance.userID);
             Assert.AreEqual(yesterday.UtcDateTime, instance.PrgStartDate);
-            Assert.AreEqual(endDate.UtcDateTime, instance.PrgEndDate.Value);
+            Assert.AreEqual(endDate.UtcDateTime, instance.PrgEndDate);
             Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, instance.OccupationCategoryCode);
             Assert.AreEqual(position.PositionCode, instance.PositionCode);
             Assert.AreEqual(category.ProgramCategoryCode, instance.CategoryCode);

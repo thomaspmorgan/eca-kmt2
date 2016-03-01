@@ -1,6 +1,7 @@
 ﻿using CAM.Data;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
+using ECA.Business.Validation.Model;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.WebApi.Models.Person;
@@ -25,7 +26,7 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonsSevisService participantService;
-        private IExchangeVisitorValidationService validationService;
+        private IExchangeVisitorService visitorService;
         private IUserProvider userProvider;
 
         /// <summary>
@@ -33,12 +34,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="participantService">participant person sevis service.</param>
         /// <param name="userProvider">user provider</param>
-        /// <param name="validationService">The exchange visitor validation service.</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IExchangeVisitorValidationService validationService, IUserProvider userProvider)
+        /// <param name="visitorService">The exchange visitor service.</param>
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IExchangeVisitorService visitorService, IUserProvider userProvider)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
-            Contract.Requires(validationService != null, "The validation service must not be null.");
-            this.validationService = validationService;
+            Contract.Requires(visitorService != null, "The visitor service must not be null.");
+            this.visitorService = visitorService;
             this.participantService = participantService;
             this.userProvider = userProvider;
         }
@@ -119,15 +120,15 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="projectId">The project id the participant is on.</param>
         /// <param name="participantId">The participant to verify by id.</param>
         /// <returns>An ok result.</returns>
-        [Route("Project/{projectId:int}/Participant/{participantId:int}/Verify")]
-        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
-        public async Task<IHttpActionResult> PostVerifyExchangeVisitorAsync(int projectId, int participantId)
+        [Route("Project/{projectId:int}/Participant/{participantId:int}/Profile")]
+        //[ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
+        [ResponseType(typeof(CreateExchVisitor))]
+        public async Task<IHttpActionResult> GetExchangeVisitorProfileAsync(int projectId, int participantId)
         {
             var user = this.userProvider.GetCurrentUser();
             var businessUser = this.userProvider.GetBusinessUser(user);
-            await validationService.RunParticipantSevisValidationAsync(businessUser, projectId, participantId);
-            await validationService.SaveChangesAsync();
-            return Ok();
+            var model = await visitorService.GetCreateExchangeVisitorAsync(businessUser, projectId, participantId);            
+            return Ok(model);
         } 
     }
 }

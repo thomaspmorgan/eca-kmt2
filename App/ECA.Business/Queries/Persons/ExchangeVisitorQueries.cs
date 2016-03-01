@@ -64,7 +64,7 @@ namespace ECA.Business.Queries.Persons
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
                         let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
-                        
+
                         select new BiographicalDTO
                         {
                             NumberOfCitizenships = numberOfCitizenships,
@@ -80,8 +80,8 @@ namespace ECA.Business.Queries.Persons
                                 Suffix = person.NameSuffix,
                                 PreferredName = person.Alias,
                             },
-                            BirthDate = person.DateOfBirth.HasValue 
-                                && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value) 
+                            BirthDate = person.DateOfBirth.HasValue
+                                && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value)
                                 ? person.DateOfBirth : null,
                             Gender = gender != null && sevisGender != null ? sevisGender : null,
                             BirthCity = hasPlaceOfBirth ? placeOfBirth.LocationName : null,
@@ -215,17 +215,25 @@ namespace ECA.Business.Queries.Persons
                         let firstInternationalFundingOrg = visitor.IntlOrg1
                         let secondIternationalFundingOrg = visitor.IntlOrg2
 
+                        let otherName1 = firstInternationalFundingOrg == null
+                            || (firstInternationalFundingOrg != null && firstInternationalFundingOrg.OrganizationCode == InternationalValidator.OTHER_ORG_CODE)
+                            ? visitor.IntlOrg1OtherName : null
+
+                        let otherName2 = secondIternationalFundingOrg == null
+                            || (secondIternationalFundingOrg != null && secondIternationalFundingOrg.OrganizationCode == InternationalValidator.OTHER_ORG_CODE)
+                            ? visitor.IntlOrg2OtherName : null
+
                         where visitor.ParticipantId == participantId
 
                         select new International
                         {
                             Amount1 = firstInternationalFundingOrg != null && visitor.FundingIntlOrg1.HasValue ? ((int)visitor.FundingIntlOrg1).ToString() : null,
                             Org1 = firstInternationalFundingOrg != null ? firstInternationalFundingOrg.OrganizationCode : null,
-                            OtherName1 = firstInternationalFundingOrg != null && firstInternationalFundingOrg.OrganizationCode == null ? firstInternationalFundingOrg.Description : null,
+                            OtherName1 = otherName1,
 
                             Amount2 = secondIternationalFundingOrg != null && visitor.FundingIntlOrg2.HasValue ? ((int)visitor.FundingIntlOrg2).ToString() : null,
                             Org2 = secondIternationalFundingOrg != null ? secondIternationalFundingOrg.OrganizationCode : null,
-                            OtherName2 = secondIternationalFundingOrg != null && secondIternationalFundingOrg.OrganizationCode == null ? secondIternationalFundingOrg.Description : null,
+                            OtherName2 = otherName2
                         };
 
             return query;
@@ -245,17 +253,25 @@ namespace ECA.Business.Queries.Persons
                         let firstUsGovFundingAgency = visitor.GovtAgency1
                         let secondUsGovFundingAgency = visitor.GovtAgency2
 
+                        let otherName1 = firstUsGovFundingAgency == null
+                            || (firstUsGovFundingAgency != null && firstUsGovFundingAgency.AgencyCode == USGovtValidator.OTHER_ORG_CODE)
+                            ? visitor.GovtAgency1OtherName : null
+
+                        let otherName2 = secondUsGovFundingAgency == null
+                            || (secondUsGovFundingAgency != null && secondUsGovFundingAgency.AgencyCode == USGovtValidator.OTHER_ORG_CODE)
+                            ? visitor.GovtAgency2OtherName : null
+
                         where visitor.ParticipantId == participantId
 
                         select new USGovt
                         {
                             Amount1 = firstUsGovFundingAgency != null && visitor.FundingGovtAgency1.HasValue ? ((int)visitor.FundingGovtAgency1).ToString() : null,
                             Org1 = firstUsGovFundingAgency != null ? firstUsGovFundingAgency.AgencyCode : null,
-                            OtherName1 = firstUsGovFundingAgency != null && firstUsGovFundingAgency.AgencyCode == null ? firstUsGovFundingAgency.Description : null,
+                            OtherName1 = otherName1,
 
                             Amount2 = secondUsGovFundingAgency != null && visitor.FundingGovtAgency2.HasValue ? ((int)visitor.FundingGovtAgency2).ToString() : null,
                             Org2 = secondUsGovFundingAgency != null ? secondUsGovFundingAgency.AgencyCode : null,
-                            OtherName2 = secondUsGovFundingAgency != null && secondUsGovFundingAgency.AgencyCode == null ? secondUsGovFundingAgency.Description : null,
+                            OtherName2 = otherName2
                         };
 
             return query;
