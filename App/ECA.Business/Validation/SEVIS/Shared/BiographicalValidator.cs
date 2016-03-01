@@ -25,7 +25,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public static string BIRTH_COUNTRY_CODE_ERROR_MESSAGE = string.Format("EV Biographical Info: Country of Birth is required and must be {0} characters", COUNTRY_CODE_LENGTH);
 
-        public static string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = string.Format("EV Biographical Info: Country of Citizenship is required and must be {0} characters", COUNTRY_CODE_LENGTH);
+        public static string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = string.Format("EV Biographical Info: One and only one country of citizenship is required and must be {0} characters", COUNTRY_CODE_LENGTH);
 
         public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = string.Format("EV Biographical Info: Permanent Residence Country is required and must be {0} characters", COUNTRY_CODE_LENGTH);
 

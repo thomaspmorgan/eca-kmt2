@@ -233,7 +233,7 @@ namespace ECA.Business.Service.Persons
             var visitor = GetCreateExchangeVisitor(
                 participant: participant,
                 user: user,
-                project: project,
+                participantPerson: participantPerson,
                 visitor: participantExchangeVisitor);
 
             SetBiography(participant, visitor);
@@ -274,7 +274,7 @@ namespace ECA.Business.Service.Persons
             var visitor = GetCreateExchangeVisitor(
                 participant: participant,
                 user: user,
-                project: project,
+                participantPerson: participantPerson,
                 visitor: participantExchangeVisitor);
 
             await SetBiographyAsync(participant, visitor);
@@ -289,16 +289,16 @@ namespace ECA.Business.Service.Persons
             };
         }
 
-        public ExchangeVisitor GetCreateExchangeVisitor(Participant participant, User user, Project project, ParticipantExchangeVisitor visitor)
+        public ExchangeVisitor GetCreateExchangeVisitor(Participant participant, User user, ParticipantPerson participantPerson,  ParticipantExchangeVisitor visitor)
         {
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(user != null, "The user must not be null.");
-            Contract.Requires(project != null, "The project must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
             var instance = new ExchangeVisitor();
             instance.requestID = participant.ParticipantId.ToString();
             instance.userID = user.Id.ToString();
-            instance.PrgStartDate = project.StartDate.UtcDateTime;
-            instance.PrgEndDate = project.EndDate.HasValue ? project.EndDate.Value.UtcDateTime : default(DateTime?);            
+            instance.PrgStartDate = participantPerson.StartDate.HasValue ? participantPerson.StartDate.Value.UtcDateTime : default(DateTime);
+            instance.PrgEndDate = participantPerson.EndDate.HasValue ? participantPerson.EndDate.Value.UtcDateTime : default(DateTime);
 
             instance.OccupationCategoryCode = EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
             if (visitor != null && visitor.Position != null)

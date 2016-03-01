@@ -406,9 +406,11 @@ angular.module('staticApp')
       };
 
       function updateSevisCommStatusView(participantId, participantPersonSevis) {
-          var participantIds = $scope.participants.map(function (p) { return p.participantId; });
-          var index = participantIds.indexOf(parseInt(participantId, 10));
-          $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
+              var participantIds = $scope.participants.map(function (p) { return p.participantId; });
+              var index = participantIds.indexOf(parseInt(participantId, 10));
+              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+          }
       }
 
       function loadSevisInfo(participantId) {
