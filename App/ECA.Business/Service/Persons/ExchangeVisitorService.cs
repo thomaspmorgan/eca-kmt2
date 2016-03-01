@@ -95,7 +95,7 @@ namespace ECA.Business.Service.Persons
             };
             throwIfProjectIsNotExchangeVisitorType = (participant, project) =>
             {
-                if(project.VisitorTypeId != VisitorType.ExchangeVisitor.Id)
+                if (project.VisitorTypeId != VisitorType.ExchangeVisitor.Id)
                 {
                     throw new NotSupportedException(String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId));
                 }
@@ -123,7 +123,7 @@ namespace ECA.Business.Service.Persons
 
             var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
             throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-            
+
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -160,7 +160,7 @@ namespace ECA.Business.Service.Persons
 
             var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(participantId, participantExchangeVisitor, typeof(ParticipantExchangeVisitor));
-            
+
             var project = await Context.Projects.FindAsync(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -200,7 +200,7 @@ namespace ECA.Business.Service.Persons
             {
                 print7002 = false
             };
-            
+
             return instance;
         }
 
@@ -225,7 +225,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
-            
+
             var project = Context.Projects.Find(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -266,7 +266,7 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
-            
+
             var project = await Context.Projects.FindAsync(participant.ProjectId);
             throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
             throwIfProjectIsNotExchangeVisitorType(participant, project);
@@ -298,7 +298,8 @@ namespace ECA.Business.Service.Persons
             instance.requestID = participant.ParticipantId.ToString();
             instance.userID = user.Id.ToString();
             instance.PrgStartDate = project.StartDate.UtcDateTime;
-            instance.PrgEndDate = project.EndDate.HasValue ? project.EndDate.Value.UtcDateTime : default(DateTime?);
+            instance.PrgEndDate = project.EndDate.HasValue ? project.EndDate.Value.UtcDateTime : default(DateTime?);            
+
             instance.OccupationCategoryCode = EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
             if (visitor != null && visitor.Position != null)
             {
@@ -438,7 +439,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(participantExchangeVisitor != null, "The participant exchange visitor must not be null.");
             Func<decimal?, string> getFundingAsWholeDollarString = (value) =>
             {
-                if (value.HasValue)
+                if (value.HasValue && value.Value > 0.0m)
                 {
                     return ((int)value.Value).ToString();
                 }
@@ -448,7 +449,8 @@ namespace ECA.Business.Service.Persons
                 }
             };
             var financialInfo = new FinancialInfo();
-            if (participantExchangeVisitor.FundingGovtAgency1 > 0.0m || participantExchangeVisitor.FundingGovtAgency2 > 0.0m)
+            if ((participantExchangeVisitor.FundingGovtAgency1.HasValue && participantExchangeVisitor.FundingGovtAgency1.Value > 0.0m)
+                || (participantExchangeVisitor.FundingGovtAgency2.HasValue && participantExchangeVisitor.FundingGovtAgency2.Value > 0.0m))
             {
                 financialInfo.ReceivedUSGovtFunds = true;
             }
@@ -465,7 +467,7 @@ namespace ECA.Business.Service.Persons
                 BinationalCommission = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisBNC),
                 Personal = getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal),
             };
-            if (participantExchangeVisitor.FundingOther.HasValue)
+            if (participantExchangeVisitor.FundingOther.HasValue && participantExchangeVisitor.FundingOther.Value > 0.0m)
             {
                 financialInfo.OtherFunds.Other = new Other
                 {
@@ -477,7 +479,6 @@ namespace ECA.Business.Service.Persons
             {
                 financialInfo.OtherFunds.Other = null;
             }
-            
             //these two null checks are to set the otherfunds.International and otherfund.USGovt to null
             //if the amount1(s) are null since, the structures are optional and we don't want validation to run
             //on optional structures.
@@ -775,8 +776,8 @@ namespace ECA.Business.Service.Persons
             //}
             var biography = await ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
             SetBiographyUpdate(
-                participant: participant, 
-                visitor: visitor, 
+                participant: participant,
+                visitor: visitor,
                 biography: biography);
         }
 

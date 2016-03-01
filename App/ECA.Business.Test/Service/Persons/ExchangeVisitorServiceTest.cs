@@ -1063,11 +1063,231 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public void TestGetFinancialInfo_FundingSponsorNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingSponsor = null
+            };
+            var orgFunding = new International
+            {
+                
+            };
+            var usGovFunding = new USGovt
+            {
+                
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.ProgramSponsorFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingSponsorZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingSponsor = 0m,
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.ProgramSponsorFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisGovtNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisGovt = null
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.EVGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisGovtZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisGovt = 0m,
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.EVGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisBNCNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisBNC = null
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.BinationalCommission);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisBNCZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisBNC = 0m,
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.BinationalCommission);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingPersonalNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingPersonal = null
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.Personal);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingPersonalZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingPersonal = 0m
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.Personal);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_ReceivedGovFundsFromUSGovAgency1()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingGovtAgency2 = 0.0m
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
+            Assert.IsTrue(instance.ReceivedUSGovtFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_ReceivedGovFundsFromUSGovAgency2()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 0.0m,
+                FundingGovtAgency2 = 1.0m,
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
+            Assert.IsTrue(instance.ReceivedUSGovtFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_ReceivedZeroFundsFromUSGovAgencies()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 0.0m,
+                FundingGovtAgency2 = 0.0m,
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
+            Assert.IsFalse(instance.ReceivedUSGovtFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGovAgenciesFundingsAreNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = null,
+                FundingGovtAgency2 = null,
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
+            Assert.IsFalse(instance.ReceivedUSGovtFunds);
+        }
+
+        [TestMethod]
         public void TestGetFinancialInfo_FundingOtherDoesNotHaveAValue()
         {
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
                 FundingOther = null
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.Other);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingOtherZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingOther = 0m
             };
             var orgFunding = new International
             {
@@ -1180,62 +1400,6 @@ namespace ECA.Business.Test.Service.Persons
             var message = "The US Government Funding Amount1 must have a value if Amount2 has a value.";
             Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_HasFundingGovtAgency1()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 1.0m,
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsTrue(instance.ReceivedUSGovtFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_HasFundingGovtAgency2()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency2 = 1.0m,
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsTrue(instance.ReceivedUSGovtFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_DoesNotHaveUsGovAgencyFunding()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsFalse(instance.ReceivedUSGovtFunds);
         }
 
         [TestMethod]
