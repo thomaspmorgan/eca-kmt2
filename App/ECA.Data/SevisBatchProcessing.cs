@@ -21,7 +21,6 @@ namespace ECA.Data
         /// <summary>
         /// Date of SEVIS Batch Submission
         /// </summary>
-        [Required]     
         public DateTimeOffset? SubmitDate { get; set; }
 
         /// <summary>
@@ -32,14 +31,13 @@ namespace ECA.Data
         /// <summary>
         /// Storage for SEVIS Submission XML
         /// </summary>
-        [Required]
-        [Column(TypeName = "xml")]
+        [Column("SendXml", TypeName = "xml")]
         public string SendString { get; set; }
         
         /// <summary>
         /// Storage for SEVIS Transaction Log XML
         /// </summary>
-        [Column(TypeName = "xml")]
+        [Column("TransactionLogXml",TypeName = "xml")]
         public string TransactionLogString { get; set; }
 
         /// <summary>
