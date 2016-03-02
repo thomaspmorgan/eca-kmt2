@@ -74,6 +74,11 @@ namespace ECA.WebApi.Models.Person
         public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
+        /// Gets or sets the person type id.
+        /// </summary>
+        public int PersonTypeId { get; set; }
+
+        /// <summary>
         /// Creates a new person business object
         /// </summary>
         /// <param name="user">The user that created the entity</param>
@@ -92,6 +97,7 @@ namespace ECA.WebApi.Models.Person
                 isDateOfBirthUnknown: this.IsDateOfBirthUnknown,
                 isDateOfBirthEstimated: this.IsDateOfBirthEstimated,
                 cityOfBirth: this.CityOfBirth,
+                personTypeId: this.PersonTypeId,
                 countriesOfCitizenship: this.CountriesOfCitizenship);
         }
     }

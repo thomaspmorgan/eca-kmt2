@@ -20,15 +20,18 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(visitor => visitor.Name)
                 .NotNull()
                 .WithMessage(OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Length(1, NAME_MAX_LENGTH)
-                .WithMessage(OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE);
+                .WithMessage(OTHER_ORGNAIZATION_FUNDING_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath()); 
 
             RuleFor(x => x.Amount)
                 .NotNull()
                 .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
                 .WithMessage(AMOUNT_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Person.ToString(), CategorySub = ElementCategorySub.MoneyFlows.ToString() });
+                .WithState(x => new SevisErrorPath());
 
         }
     }

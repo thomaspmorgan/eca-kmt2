@@ -4,6 +4,8 @@ using ECA.Business.Service;
 using ECA.Data;
 using System.Collections.Generic;
 using ECA.Business.Service.Persons;
+using FluentAssertions;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -25,8 +27,10 @@ namespace ECA.Business.Test.Service.Persons
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
             var countriesOfCitizenship = new List<int> { 1 };
+            var personTypeId = PersonType.Participant.Id;
 
-            var instance = new NewPerson(user, 
+            var instance = new NewPerson(
+                user, 
                 projectId, 
                 participantTypeId, 
                 firstName, 
@@ -36,7 +40,8 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthUnknown, 
                 isDateOfBirthEstimated, 
                 isPlaceOfBirthUnknown, 
-                cityOfBirth, 
+                cityOfBirth,
+                personTypeId,
                 countriesOfCitizenship);
             Assert.IsTrue(Object.ReferenceEquals(countriesOfCitizenship, instance.CountriesOfCitizenship));
             Assert.IsTrue(Object.ReferenceEquals(user, instance.Audit.User));
@@ -51,6 +56,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(isDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
             Assert.AreEqual(isPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
             Assert.AreEqual(cityOfBirth, instance.CityOfBirth);
+            Assert.AreEqual(personTypeId, instance.PersonTypeId);
             
         }
 
@@ -68,6 +74,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = false;
             var isPlaceOfBirthUnknown = false;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var instance = new NewPerson(user,
@@ -81,6 +88,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown,
                 cityOfBirth,
+                personTypeId,
                 countriesOfCitizenship);
             Assert.AreEqual(isDateOfBirthUnknown, instance.IsDateOfBirthUnknown);
 
@@ -101,6 +109,7 @@ namespace ECA.Business.Test.Service.Persons
             var isPlaceOfBirthUnknown = false;
             var cityOfBirth = 5;
             var countriesOfCitizenship = new List<int> { 1 };
+            var personTypeId = PersonType.Participant.Id;
 
             var instance = new NewPerson(user,
                 projectId,
@@ -113,6 +122,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown,
                 cityOfBirth,
+                personTypeId,
                 countriesOfCitizenship);
             Assert.AreEqual(isDateOfBirthEstimated, instance.IsDateOfBirthEstimated);
 
@@ -132,6 +142,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = false;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var instance = new NewPerson(user,
@@ -145,8 +156,43 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown,
                 cityOfBirth,
+                personTypeId,
                 countriesOfCitizenship);
             Assert.AreEqual(isPlaceOfBirthUnknown, instance.IsPlaceOfBirthUnknown);
+
+        }
+
+        [TestMethod]
+        public void TestConstructor_PersonTypeIdNotSupported()
+        {
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var projectId = 1;
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = false;
+            var isDateOfBirthEstimated = false;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var personTypeId = 0;
+            var countriesOfCitizenship = new List<int> { 1 };
+
+            Action a = () => new NewPerson(user,
+                projectId,
+                participantTypeId,
+                firstName,
+                lastName,
+                gender,
+                dateOfBirth,
+                isDateOfBirthUnknown,
+                isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown,
+                cityOfBirth,
+                personTypeId,
+                countriesOfCitizenship);
+            a.ShouldThrow<UnknownStaticLookupException>().WithMessage(String.Format("The person type id [{0}] is not recognized.", personTypeId));
 
         }
     }

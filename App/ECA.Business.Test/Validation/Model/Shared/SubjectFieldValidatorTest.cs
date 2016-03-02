@@ -2,8 +2,9 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.SEVIS;
 
-namespace ECA.Business.Test.Validation.Model.CreateEV
+namespace ECA.Business.Test.Validation.Model.Shared
 {
     [TestClass]
     public class SubjectFieldValidatorTest
@@ -32,6 +33,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -47,6 +49,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -62,6 +65,24 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+        }
+
+        [TestMethod]
+        public void TestSubjectFieldOfCode_ForeignDegreeLevelExceedsMaxLength()
+        {
+            var instance = GetValidSubjectField();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            var validator = new SubjectFieldValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            instance.ForeignDegreeLevel = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(1, results.Errors.Count);
+            Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_FOREIGN_DEGREE_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -149,6 +170,23 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
         }
 
         [TestMethod]
+        public void TestSubjectFieldOfCode_ForeignFieldOfStudyExceedsMaxLength()
+        {
+            var instance = GetValidSubjectField();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            var validator = new SubjectFieldValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            instance.ForeignFieldOfStudy = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(1, results.Errors.Count);
+            Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_OF_STUDY_MAX_LENGTH_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+        }
+
+        [TestMethod]
         public void TestRemarks_Null()
         {
             var instance = GetValidSubjectField();
@@ -161,6 +199,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -176,6 +215,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -191,6 +231,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -206,6 +247,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(SubjectFieldValidator.REMARKS_MAX_LENGTH_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
     }
 }

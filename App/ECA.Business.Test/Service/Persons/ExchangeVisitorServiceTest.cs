@@ -39,13 +39,6 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1
             };
             var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
             var position = new Position
             {
                 PositionId = 30,
@@ -65,12 +58,18 @@ namespace ECA.Business.Test.Service.Persons
                 ProgramCategory = category,
                 ProgramCategoryId = category.ProgramCategoryId
             };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
 
-            var instance = service.GetCreateExchangeVisitor(participant, user, project, visitor);
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
             Assert.AreEqual(participant.ParticipantId.ToString(), instance.requestID);
             Assert.AreEqual(user.Id.ToString(), instance.userID);
-            Assert.AreEqual(project.StartDate.UtcDateTime, instance.PrgStartDate);
-            Assert.AreEqual(project.EndDate.Value.UtcDateTime, instance.PrgEndDate.Value);
+            Assert.AreEqual(yesterday.UtcDateTime, instance.PrgStartDate);
+            Assert.AreEqual(endDate.UtcDateTime, instance.PrgEndDate);
             Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, instance.OccupationCategoryCode);
             Assert.AreEqual(position.PositionCode, instance.PositionCode);
             Assert.AreEqual(category.ProgramCategoryCode, instance.CategoryCode);
@@ -87,42 +86,67 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1
             };
             var user = new User(2);
-            var project = new Project
+            var participantPerson = new ParticipantPerson
             {
-                ProjectId = 3,
+                ParticipantId = participant.ParticipantId,
                 StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+                EndDate = endDate
             };
-            var instance = service.GetCreateExchangeVisitor(participant, user, project, null);
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, null);
             Assert.IsNull(instance.PositionCode);
             Assert.IsNull(instance.CategoryCode);
         }
 
         [TestMethod]
-        public void TestGetCreateExchangeVisitor_ProjectEndDateAndPositionAndCategoryAreNull()
+        public void TestGetCreateExchangeVisitor_PositionAndCategoryAreNull()
         {
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
             var participant = new Participant
             {
                 ParticipantId = 1
             };
             var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
             var visitor = new ParticipantExchangeVisitor
             {
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
             };
-            var instance = service.GetCreateExchangeVisitor(participant, user, project, visitor);
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
             Assert.IsNull(instance.PositionCode);
             Assert.IsNull(instance.CategoryCode);
-            Assert.IsFalse(instance.PrgEndDate.HasValue);
+        }
+
+        [TestMethod]
+        public void TestGetCreateExchangeVisitor_ParticipantPersonStartAndEndDatesAreNull()
+        {   
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var user = new User(2);
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                StartDate = null,
+                EndDate = null
+            };
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
+            Assert.AreEqual(default(DateTime), instance.PrgStartDate);
+            Assert.AreEqual(default(DateTime), instance.PrgEndDate);
         }
         #endregion
 
@@ -1621,6 +1645,21 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        #region SetTIPP
+        [TestMethod]
+        public void TestSetTIPP()
+        {
+            var instance = new ExchangeVisitor();
+            instance.AddTIPP = null;
+            service.SetTIPP(instance);
+            Assert.IsInstanceOfType(instance.AddTIPP, typeof(EcaAddTIPP));
+            foreach(var dependent in instance.CreateDependent)
+            {
+                Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
+            }
+        }
+        #endregion
+
         #region GetCreateExchVisitor
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_CheckExchangeVisitor()
@@ -1632,8 +1671,6 @@ namespace ECA.Business.Test.Service.Persons
             var project = new Project
             {
                 ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
                 VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
@@ -1675,7 +1712,9 @@ namespace ECA.Business.Test.Service.Persons
             var participantPerson = new ParticipantPerson
             {
                 Participant = participant,
-                ParticipantId = participant.ParticipantId
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
             };
             participant.ParticipantPerson = participantPerson;
             var visitor = new ParticipantExchangeVisitor
@@ -1701,7 +1740,80 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNotNull(instance.ExchangeVisitor.CreateDependent);
                 Assert.AreEqual(0, instance.ExchangeVisitor.CreateDependent.Count());
             };
+            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
 
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantExchangeVisitorIsNull_CheckFinancialInfoIsNull()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var position = new Position
+            {
+                PositionId = 30,
+                PositionCode = "posCode"
+            };
+            var category = new ProgramCategory
+            {
+                ProgramCategoryId = 20,
+                ProgramCategoryCode = "catCode"
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Genders.Add(gender);
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            Action<CreateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor);
+                Assert.IsNull(instance.ExchangeVisitor.FinancialInfo);
+            };
             var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
             var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
             tester(serviceResult);
@@ -1794,6 +1906,100 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.FirstName, instance.ExchangeVisitor.Biographical.FullName.FirstName);
                 Assert.AreEqual(person.LastName, instance.ExchangeVisitor.Biographical.FullName.LastName);
                 Assert.AreEqual(person.NameSuffix, instance.ExchangeVisitor.Biographical.FullName.Suffix);
+            };
+
+            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_CheckTIPP()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var position = new Position
+            {
+                PositionId = 30,
+                PositionCode = "posCode"
+            };
+            var category = new ProgramCategory
+            {
+                ProgramCategoryId = 20,
+                ProgramCategoryCode = "catCode"
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                Position = position,
+                PositionId = position.PositionId,
+                ProgramCategory = category,
+                ProgramCategoryId = category.ProgramCategoryId
+            };
+            context.Genders.Add(gender);
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+            Action<CreateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor);
+                Assert.IsNotNull(instance.ExchangeVisitor.AddTIPP);
+                Assert.IsInstanceOfType(instance.ExchangeVisitor.AddTIPP, typeof(EcaAddTIPP));
+                foreach(var dependent in instance.ExchangeVisitor.CreateDependent)
+                {
+                    Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
+                }
             };
 
             var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);

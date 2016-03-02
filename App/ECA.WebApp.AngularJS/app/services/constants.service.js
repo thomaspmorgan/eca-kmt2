@@ -56,7 +56,7 @@
 			branch: {id: 2, value: "Branch"},
 			division: {id: 3, value: "Division"},
 			foreignEducationalInstitution: {id: 4, value: "Foreign Educational Institution"},
-			foreignGovernment: {id: 5, value: "Foreign Government"},
+			foreignGovernmentNational: {id: 5, value: "Foreign Government (National)"},
 			foreignNgoPvo: {id: 6, value: "Foreign NGO/PVO"},
 			other: {id: 7, value: "Other"},
 			publicInternationalOrganizationPio: {id: 8, value: "Public International Organization (PIO)"},
@@ -64,26 +64,22 @@
 			uSNonProfitOrganization501C3: {id: 10, value: "U.S. Non-Profit Organization (501(c)(3))"},
 			uSFederalGovernment: {id: 11, value: "U.S. Federal Government"},
 			uSStateOrLocalGovernment: {id: 12, value: "U.S. State or Local Government"},
-			internationalOrganization: {id: 13, value: "International Organization"},
 			uSCompany: {id: 14, value: "U.S. Company"},
 			foreignCompany: {id: 15, value: "Foreign Company"},
 			bilateralCommission: {id: 16, value: "Bilateral Commission"},
-			uSEmbassyAmericanSpace: {id: 17, value: "U.S. Embassy/American Space"}
+			uSEmbassyAmericanSpace: {id: 17, value: "U.S. Embassy/American Space"},
+			foreignGovernmentSubNational: {id: 18, value: "Foreign Government (Sub-National)"}
 		},
 		participantType: {
 			organizationalParticipant: {id: 1, value: "Organizational Participant"},
-			foreignGovernment: {id: 2, value: "Foreign Government"},
-			uSEducationalInstitution: {id: 3, value: "U.S. Educational Institution"},
-			publicInternationalOrganizationPio: {id: 4, value: "Public International Organization (PIO)"},
-			uSNonProfitOrganization501C3: {id: 5, value: "U.S. Non-Profit Organization (501(c)(3))"},
 			individual: {id: 6, value: "Individual"},
-			foreignNgoPvo: {id: 7, value: "Foreign NGO/PVO"},
 			otherOrganization: {id: 8, value: "Other Organization"},
 			other: {id: 9, value: "Other"},
 			foreignNonTravelingParticipant: {id: 10, value: "Foreign Non Traveling Participant"},
 			uSNonTravelingParticipant: {id: 11, value: "U.S. Non Traveling Participant"},
 			foreignTravelingParticipant: {id: 12, value: "Foreign Traveling Participant"},
-			uSTravelingParticipant: {id: 13, value: "U.S. Traveling Participant"}
+			uSTravelingParticipant: {id: 13, value: "U.S. Traveling Participant"},
+			languageOfficer: {id: 14, value: "Language Officer"}
 		},
 		permission: {
 			viewOffice: {id: 1, value: "View Office"},
@@ -100,10 +96,17 @@
 			editSevis: {id: 13, value: "Edit Sevis"},
 			sendToSevis: {id: 14, value: "Send To Sevis"}
 		},
+		personType: {
+			participant: {id: 1, value: "Participant"},
+			spouse: {id: 2, value: "Spouse"},
+			child: {id: 3, value: "Child"}
+		},
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
 			work: {id: 2, value: "Work"},
-			cell: {id: 3, value: "Cell"}
+			cell: {id: 3, value: "Cell"},
+			visiting: {id: 4, value: "Visiting"},
+			undetermined: {id: 5, value: "Undetermined"}
 		},
 		programStatus: {
 			active: {id: 1, value: "Active"},

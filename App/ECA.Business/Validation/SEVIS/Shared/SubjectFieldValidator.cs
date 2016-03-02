@@ -27,26 +27,28 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(visitor => visitor.SubjectFieldCode)
                 .NotNull()
                 .WithMessage(SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Matches(new Regex(FIELD_OF_STUDY_CODE_REGEX))
                 .WithMessage(SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() });
+                .WithState(x => new SevisErrorPath());
 
             RuleFor(visitor => visitor.ForeignDegreeLevel)
                 .Length(0, FOREIGN_FIELD_MAX_LENGTH)
                 .WithMessage(SUBJECT_FIELD_FOREIGN_DEGREE_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() });
+                .WithState(x => new SevisErrorPath());
 
             RuleFor(visitor => visitor.ForeignFieldOfStudy)
                 .Length(0, FOREIGN_FIELD_MAX_LENGTH)
                 .WithMessage(SUBJECT_FIELD_OF_STUDY_MAX_LENGTH_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() });
+                .WithState(x => new SevisErrorPath());
 
             RuleFor(visitor => visitor.Remarks)
                 .NotEmpty()
                 .WithMessage(SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Length(0, REMARKS_MAX_LENGTH)
                 .WithMessage(REMARKS_MAX_LENGTH_ERROR_MESSAGE)
-                .WithState(x => new ErrorPath { Category = ElementCategory.Project.ToString(), CategorySub = ElementCategorySub.Participant.ToString(), Tab = ElementCategorySectionTab.Sevis.ToString() });
+                .WithState(x => new SevisErrorPath());
         }
     }
 }
