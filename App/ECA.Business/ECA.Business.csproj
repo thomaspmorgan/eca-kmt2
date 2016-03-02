@@ -528,8 +528,6 @@
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
     <Compile Include="Validation\SEVIS\ErrorPath.cs" />
-    <Compile Include="Validation\SEVIS\ParticipantFundingErrorPath.cs" />
-    <Compile Include="Validation\SEVIS\PersonMoneyFlowErrorPath.cs" />
     <Compile Include="Validation\SEVIS\PiiErrorPath.cs" />
     <Compile Include="Validation\SEVIS\SEVISBatchCreateUpdateEVValidator.cs" />
     <Compile Include="Validation\SEVIS\SevisErrorPath.cs" />

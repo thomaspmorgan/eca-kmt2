@@ -69,6 +69,23 @@ namespace ECA.Business.Test.Validation.Model.Shared
         }
 
         [TestMethod]
+        public void TestSubjectFieldOfCode_ForeignDegreeLevelExceedsMaxLength()
+        {
+            var instance = GetValidSubjectField();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            var validator = new SubjectFieldValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            instance.ForeignDegreeLevel = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(1, results.Errors.Count);
+            Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_FOREIGN_DEGREE_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+        }
+
+        [TestMethod]
         public void TestSubjectFieldOfCode_ForeignDegreeLevelIsNull()
         {
             var instance = GetValidSubjectField();
@@ -150,6 +167,23 @@ namespace ECA.Business.Test.Validation.Model.Shared
             instance.ForeignFieldOfStudy = " ";
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
+        }
+
+        [TestMethod]
+        public void TestSubjectFieldOfCode_ForeignFieldOfStudyExceedsMaxLength()
+        {
+            var instance = GetValidSubjectField();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            var validator = new SubjectFieldValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            instance.ForeignFieldOfStudy = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(1, results.Errors.Count);
+            Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_OF_STUDY_MAX_LENGTH_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]

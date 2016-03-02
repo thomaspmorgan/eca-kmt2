@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.SEVIS
 {
+    /// <summary>
+    /// A PiiErrorPath is used to direct a client to the pii section when sevis validation fails.
+    /// </summary>
     public class PiiErrorPath : ErrorPath
     {
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public PiiErrorPath()
         {
             Category = ElementCategory.Person.ToString();

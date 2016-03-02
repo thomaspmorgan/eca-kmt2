@@ -29,7 +29,6 @@ namespace ECA.Business.Validation.Model.Shared
 
         public USGovtValidator()
         {
-
             When(visitor => !String.Equals(visitor.Org1, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
             {
                 RuleFor(x => x.Org1)
@@ -55,12 +54,9 @@ namespace ECA.Business.Validation.Model.Shared
             When(visitor => visitor.Org2 != null && !String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
             {
                 RuleFor(x => x.Org2)
-                .NotNull()
-                .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
-                .Length(1, ORG_LENGTH)
-                .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath());
+                    .Length(1, ORG_LENGTH)
+                    .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
+                    .WithState(x => new SevisErrorPath());
             });
 
             When(visitor => visitor.Org2 != null && String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
@@ -93,9 +89,6 @@ namespace ECA.Business.Validation.Model.Shared
             When(visitor => visitor.Amount2 != null, () =>
             {
                 RuleFor(visitor => visitor.Amount2)
-                .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
                 .WithMessage(AMOUNT_ERROR_MESSAGE)
                 .WithState(x => new SevisErrorPath());

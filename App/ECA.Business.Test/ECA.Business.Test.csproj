@@ -378,6 +378,9 @@
     <Compile Include="Validation\Model\Shared\EcaAddTIPPTest.cs" />
     <Compile Include="Validation\Model\Shared\USGovtValidatorTest.cs" />
     <Compile Include="Validation\Model\Shared\USAddressValidatorTest.cs" />
+    <Compile Include="Validation\PiiErrorPathTest.cs" />
+    <Compile Include="Validation\ContactErrorPathTest.cs" />
+    <Compile Include="Validation\SevisErrorPathTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

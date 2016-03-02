@@ -55,12 +55,9 @@ namespace ECA.Business.Validation.Model.Shared
             When(visitor => visitor.Org2 != null && !String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
             {
                 RuleFor(x => x.Org2)
-                .NotNull()
-                .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
-                .Length(1, ORG_CODE_MAX_LENGTH)
-                .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath());
+                    .Length(1, ORG_CODE_MAX_LENGTH)
+                    .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
+                    .WithState(x => new SevisErrorPath());
             });
 
             When(visitor => visitor.Org2 != null && String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
