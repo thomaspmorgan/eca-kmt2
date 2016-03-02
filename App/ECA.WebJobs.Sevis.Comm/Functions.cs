@@ -22,11 +22,11 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <param name="service">The SEVIS batch services to get and update batches.</param>
         /// <param name="settings">The app settings.</param>
         [NoAutomaticTrigger]
-        public void ManualTrigger(ISevisBatchProcessingService service, AppSettings settings)
+        public async Task ManualTrigger(ISevisBatchProcessingService service, AppSettings settings)
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
-            var task = Process(service, settings);
+            await Process(service, settings);
         }
 
         /// <summary>

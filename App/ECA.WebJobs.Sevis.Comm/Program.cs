@@ -19,7 +19,7 @@ namespace ECA.WebJobs.Sevis.Comm
             var sevisService = unityContainer.Resolve<ISevisBatchProcessingService>();
             var host = new JobHost(config);
             // The following code ensures that the WebJob will be running continuously
-            host.Call(typeof(Functions).GetMethod("ManualTrigger"), new { service = sevisService, settings = new AppSettings() });
+            host.CallAsync(typeof(Functions).GetMethod("ManualTrigger"), new { service = sevisService, settings = new AppSettings() }).Wait();
         }
     }
 }
