@@ -31,6 +31,7 @@
 	types.Add(typeof(DataPointCategory));
 	types.Add(typeof(DataPointProperty));
 	types.Add(typeof(VisitorType));
+	types.Add(typeof(PersonType));
 
 	types = types.OrderBy(x => x.Name).ToList();
 	var otherConstants = new Dictionary<string, string>();

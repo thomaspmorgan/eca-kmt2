@@ -368,7 +368,7 @@ angular.module('staticApp')
               return ParticipantService.getParticipantById(participantId)
               .then(function (responseData) {
                   var newParticipantPerson = getNewParticipantPerson(participantId, responseData.statusId, responseData.participantTypeId);
-                  if (responseData.participantTypeId === 6) {
+                  if (responseData.isPersonParticipantType) {
                       return saveParticipantPerson(newParticipantPerson)
                       .then(function (response) {
                           $scope.view.isLoadingInfo = false;
@@ -380,6 +380,9 @@ angular.module('staticApp')
                           $log.error(message);
                           NotificationService.showErrorMessage(message);
                       });
+                  }
+                  else {
+                      $scope.view.isLoadingInfo = false;
                   }
               })
               .catch(function (response) {

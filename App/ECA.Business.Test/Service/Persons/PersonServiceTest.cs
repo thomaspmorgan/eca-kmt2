@@ -1386,6 +1386,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1400,6 +1401,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1415,6 +1417,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
                 Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
                 Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+                Assert.AreEqual(personTypeId, testPerson.PersonTypeId);
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
                 Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
@@ -1440,6 +1443,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = false;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1454,6 +1458,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1485,6 +1490,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = false;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1499,6 +1505,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1530,6 +1537,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1544,6 +1552,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1582,6 +1591,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = city.LocationId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1596,6 +1606,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             context.SetupActions.Add(() =>
             {
@@ -1629,6 +1640,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { country.LocationId };
 
             var newPerson = new NewPerson(
@@ -1643,6 +1655,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             context.SetupActions.Add(() =>
             {
@@ -1679,6 +1692,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1693,6 +1707,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             Action<Person> tester = (testPerson) =>
@@ -1723,6 +1738,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1737,6 +1753,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             var person = await service.GetExistingPersonAsync(newPerson);
@@ -1766,6 +1783,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1780,6 +1798,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             var person = await service.GetExistingPersonAsync(newPerson);
@@ -1809,6 +1828,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1823,6 +1843,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
@@ -1852,6 +1873,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1866,6 +1888,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);

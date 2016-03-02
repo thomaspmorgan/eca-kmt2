@@ -565,7 +565,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsDependent()
+        public async Task TestGetParticipantIds_Person_IsSpouseDependent()
         {
             using (ShimsContext.Create())
             {
@@ -580,7 +580,52 @@ namespace ECA.Business.Test.Service.Persons
                 var dependent = new PersonProxyClass
                 {
                     PersonId = 1,
-                    PersonTypeId = PersonType.Dependent.Id
+                    PersonTypeId = PersonType.Spouse.Id
+                };
+                list.Add(dependent);
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = participatingPerson.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_Person_IsChildDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var dependent = new PersonProxyClass
+                {
+                    PersonId = 1,
+                    PersonTypeId = PersonType.Child.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -967,7 +1012,7 @@ namespace ECA.Business.Test.Service.Persons
                 var dependent = new PersonProxyClass
                 {
                     PersonId = 1,
-                    PersonTypeId = PersonType.Dependent.Id
+                    PersonTypeId = PersonType.Spouse.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -1009,7 +1054,7 @@ namespace ECA.Business.Test.Service.Persons
                 var dependent = new PersonProxyClass
                 {
                     PersonId = 1,
-                    PersonTypeId = PersonType.Dependent.Id
+                    PersonTypeId = PersonType.Spouse.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -1043,6 +1088,13 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = 2
             };
+            var participantPerson = new ParticipantPersonProxyClass
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.ParticipantPersons.Add(participantPerson);
             context.Participants.Add(participant);
             saveAction.CreatedObjects.Add(participant);
             saveAction.Context = context;
@@ -1070,6 +1122,39 @@ namespace ECA.Business.Test.Service.Persons
 
             exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
             exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestAfterSaveChanges_ParticipantDoesNotHaveParticipantPerson()
+        {
+            Assert.AreEqual(0, context.SaveChangesCalledCount);
+            var participant = new ParticipantProxyClass
+            {
+                ParticipantId = 1,
+                ProjectId = 2
+            };
+
+            context.Participants.Add(participant);
+            saveAction.CreatedObjects.Add(participant);
+            saveAction.Context = context;
+            Assert.AreEqual(1, saveAction.CreatedObjects.Count);
+            Assert.AreEqual(0, saveAction.ModifiedObjects.Count);
+
+            Action<User, int, int> callback = (usr, projectId, participantId) =>
+            {
+                Assert.AreEqual(userProvider().Id, usr.Id);
+                Assert.AreEqual(participant.ProjectId, projectId);
+                Assert.AreEqual(participant.ParticipantId, participantId);
+            };
+
+            saveAction.AfterSaveChanges(context);
+            Assert.AreEqual(0, context.SaveChangesCalledCount);
+
+            await saveAction.AfterSaveChangesAsync(context);
+            Assert.AreEqual(0, context.SaveChangesCalledCount);
+
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
 
         [TestMethod]

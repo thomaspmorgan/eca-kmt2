@@ -28,14 +28,15 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<SimplePersonDTO> CreateGetRelatedPersonByDependentFamilyMemberQuery(EcaContext context, int dependentPersonId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var dependentTypeId = PersonType.Dependent.Id;
+            
             var participantTypeId = PersonType.Participant.Id;
             var personDTOQuery = CreateGetSimplePersonDTOsQuery(context);
 
             var query = from person in context.People
                         let participantFamilyMember = person.Family.Where(x => x.PersonTypeId == participantTypeId).FirstOrDefault()
                         let participantFamilyMemberDTO = participantFamilyMember != null ? personDTOQuery.Where(x => x.PersonId == participantFamilyMember.PersonId).FirstOrDefault() : null
-                        where person.PersonTypeId == dependentTypeId && person.PersonId == dependentPersonId
+                        where person.PersonType.IsDependentPersonType
+                        && person.PersonId == dependentPersonId
                         select participantFamilyMemberDTO;
             return query;
         }

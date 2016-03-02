@@ -154,15 +154,25 @@ namespace ECA.Business.Service.Persons
         {
             var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
             var ids = GetParticipantIds(allParticipantObjects);
+            var callSaveChanges = false;
             if (ids.Count > 0)
             {
                 foreach (var id in ids)
                 {
                     var participant = this.Context.Participants.Find(id);
                     Contract.Assert(participant != null, "The participant should be found.");
-                    validationService.RunParticipantSevisValidation(this.User, participant.ProjectId, participant.ParticipantId);
+                    var participantPerson = this.Context.ParticipantPersons.Find(id);
+                    if (participantPerson != null)
+                    {
+                        validationService.RunParticipantSevisValidation(this.User, participant.ProjectId, participant.ParticipantId);
+                        callSaveChanges = true;
+                    }
                 }
-                Context.SaveChanges();
+                if (callSaveChanges)
+                {
+                    Context.SaveChanges();
+                }
+                
             }
         }
 
@@ -174,15 +184,24 @@ namespace ECA.Business.Service.Persons
         {
             var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
             var ids = await GetParticipantIdsAsync(allParticipantObjects);
+            var callSaveChanges = false;
             if (ids.Count > 0)
             {
                 foreach (var id in ids)
                 {
                     var participant = await this.Context.Participants.FindAsync(id);
                     Contract.Assert(participant != null, "The participant should be found.");
-                    await validationService.RunParticipantSevisValidationAsync(this.User, participant.ProjectId, participant.ParticipantId);
+                    var participantPerson = await this.Context.ParticipantPersons.FindAsync(id);
+                    if(participantPerson != null)
+                    {
+                        await validationService.RunParticipantSevisValidationAsync(this.User, participant.ProjectId, participant.ParticipantId);
+                        callSaveChanges = true;
+                    }
                 }
-                await Context.SaveChangesAsync();
+                if (callSaveChanges)
+                {
+                    await Context.SaveChangesAsync();
+                }
             }
         }
 
@@ -431,7 +450,7 @@ namespace ECA.Business.Service.Persons
                     participantId = dto.ParticipantId.Value;
                 }
             }
-            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id)
             {
                 var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
                 if (dto != null && dto.ParticipantId.HasValue)
@@ -457,7 +476,7 @@ namespace ECA.Business.Service.Persons
                     participantId = dto.ParticipantId.Value;
                 }
             }
-            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id) //here
             {
                 var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
                 if (dto != null && dto.ParticipantId.HasValue)
