@@ -25,7 +25,8 @@ namespace ECA.WebApi.Test.Models.Person
                 IsPlaceOfBirthUnknown = true,
                 LastName = "last", 
                 ParticipantTypeId = ParticipantType.Individual.Id,
-                ProjectId = 5
+                ProjectId = 5,
+                PersonTypeId = PersonType.Child.Id
             };
             var user = new User(1);
             var instance = model.ToNewPerson(user);
@@ -36,6 +37,7 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.LastName, instance.LastName);
             Assert.AreEqual(model.ParticipantTypeId, instance.ParticipantTypeId);
             Assert.AreEqual(model.ProjectId, instance.ProjectId);
+            Assert.AreEqual(model.PersonTypeId, instance.PersonTypeId);
         }
 
         [TestMethod]
@@ -46,6 +48,7 @@ namespace ECA.WebApi.Test.Models.Person
                 IsDateOfBirthEstimated = true,
                 IsDateOfBirthUnknown = false,
                 IsPlaceOfBirthUnknown = false,
+                PersonTypeId = PersonType.Child.Id
             };
             var user = new User(1);
             var instance = model.ToNewPerson(user);
@@ -62,6 +65,7 @@ namespace ECA.WebApi.Test.Models.Person
                 IsDateOfBirthEstimated = false,
                 IsDateOfBirthUnknown = true,
                 IsPlaceOfBirthUnknown = false,
+                PersonTypeId = PersonType.Child.Id
             };
             var user = new User(1);
             var instance = model.ToNewPerson(user);
@@ -78,6 +82,7 @@ namespace ECA.WebApi.Test.Models.Person
                 IsDateOfBirthEstimated = false,
                 IsDateOfBirthUnknown = false,
                 IsPlaceOfBirthUnknown = true,
+                PersonTypeId = PersonType.Child.Id
             };
             var user = new User(1);
             var instance = model.ToNewPerson(user);

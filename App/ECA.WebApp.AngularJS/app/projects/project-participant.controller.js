@@ -405,9 +405,18 @@ angular.module('staticApp')
             });
       };
 
+      function updateSevisCommStatusView(participantId, participantPersonSevis) {
+          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
+              var participantIds = $scope.participants.map(function (p) { return p.participantId; });
+              var index = participantIds.indexOf(parseInt(participantId, 10));
+              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+          }
+      }
+
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
+              updateSevisCommStatusView(participantId, data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           })
@@ -451,8 +460,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.updateParticipantPersonsSevis(projectId, sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
-              $scope.sevisInfo[participantId] = data.data;
-              $scope.sevisInfo[participantId].show = true;
+              return loadSevisInfo(participantId);
           })
           .catch(function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
@@ -471,6 +479,7 @@ angular.module('staticApp')
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
+              return loadSevisInfo(participantId);
           })
           .catch(function (error) {
               $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);
@@ -503,7 +512,12 @@ angular.module('staticApp')
               templateUrl: '/app/projects/add-new-participant.html',
               controller: 'AddNewParticipantCtrl',
               backdrop: 'static',
-              size: 'lg'
+              size: 'lg',
+              resolve: {
+                  personTypeId: function () {
+                      return ConstantsService.personType.participant.id;
+                  }
+              }
           });
 
           modalInstance.result.then(function (participant) {

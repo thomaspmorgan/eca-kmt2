@@ -39,13 +39,6 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1
             };
             var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
             var position = new Position
             {
                 PositionId = 30,
@@ -65,15 +58,22 @@ namespace ECA.Business.Test.Service.Persons
                 ProgramCategory = category,
                 ProgramCategoryId = category.ProgramCategoryId
             };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
 
-            var instance = service.GetCreateExchangeVisitor(participant, user, project, visitor);
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
             Assert.AreEqual(participant.ParticipantId.ToString(), instance.requestID);
             Assert.AreEqual(user.Id.ToString(), instance.userID);
-            Assert.AreEqual(project.StartDate.UtcDateTime, instance.PrgStartDate);
-            Assert.AreEqual(project.EndDate.Value.UtcDateTime, instance.PrgEndDate.Value);
+            Assert.AreEqual(yesterday.UtcDateTime, instance.PrgStartDate);
+            Assert.AreEqual(endDate.UtcDateTime, instance.PrgEndDate);
             Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, instance.OccupationCategoryCode);
             Assert.AreEqual(position.PositionCode, instance.PositionCode);
             Assert.AreEqual(category.ProgramCategoryCode, instance.CategoryCode);
+            Assert.IsNull(instance.ResidentialAddress);
         }
 
         [TestMethod]
@@ -86,42 +86,67 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1
             };
             var user = new User(2);
-            var project = new Project
+            var participantPerson = new ParticipantPerson
             {
-                ProjectId = 3,
+                ParticipantId = participant.ParticipantId,
                 StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+                EndDate = endDate
             };
-            var instance = service.GetCreateExchangeVisitor(participant, user, project, null);
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, null);
             Assert.IsNull(instance.PositionCode);
             Assert.IsNull(instance.CategoryCode);
         }
 
         [TestMethod]
-        public void TestGetCreateExchangeVisitor_ProjectEndDateAndPositionAndCategoryAreNull()
+        public void TestGetCreateExchangeVisitor_PositionAndCategoryAreNull()
         {
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
             var participant = new Participant
             {
                 ParticipantId = 1
             };
             var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
             var visitor = new ParticipantExchangeVisitor
             {
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
             };
-            var instance = service.GetCreateExchangeVisitor(participant, user, project, visitor);
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
             Assert.IsNull(instance.PositionCode);
             Assert.IsNull(instance.CategoryCode);
-            Assert.IsFalse(instance.PrgEndDate.HasValue);
+        }
+
+        [TestMethod]
+        public void TestGetCreateExchangeVisitor_ParticipantPersonStartAndEndDatesAreNull()
+        {   
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var user = new User(2);
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                StartDate = null,
+                EndDate = null
+            };
+            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
+            Assert.AreEqual(default(DateTime), instance.PrgStartDate);
+            Assert.AreEqual(default(DateTime), instance.PrgEndDate);
         }
         #endregion
 
@@ -1035,15 +1060,17 @@ namespace ECA.Business.Test.Service.Persons
                 FundingSponsor = 2.2m,
                 FundingVisGovt = 3.3m,
                 FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
+                FundingPersonal = 5.5m,
+                FundingOther = 6.6m,
+                OtherName = "other name"
             };
             var orgFunding = new International
             {
-
+                Amount1 = "1"
             };
             var usGovFunding = new USGovt
             {
-
+                Amount1 = "2"
             };
             var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
@@ -1055,62 +1082,378 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual("3", instance.OtherFunds.EVGovt);
             Assert.AreEqual("4", instance.OtherFunds.BinationalCommission);
             Assert.AreEqual("5", instance.OtherFunds.Personal);
+            Assert.AreEqual("6", instance.OtherFunds.Other.Amount);
+            Assert.AreEqual(participantExchangeVisitor.OtherName, instance.OtherFunds.Other.Name);
         }
 
         [TestMethod]
-        public void TestGetFinancialInfo_HasFundingGovtAgency1()
+        public void TestGetFinancialInfo_FundingSponsorNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingSponsor = null
+            };
+            var orgFunding = new International
+            {
+                
+            };
+            var usGovFunding = new USGovt
+            {
+                
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.ProgramSponsorFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingSponsorZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingSponsor = 0m,
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.ProgramSponsorFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisGovtNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisGovt = null
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.EVGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisGovtZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisGovt = 0m,
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.EVGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisBNCNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisBNC = null
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.BinationalCommission);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingVisBNCZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingVisBNC = 0m,
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.BinationalCommission);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingPersonalNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingPersonal = null
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.Personal);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingPersonalZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingPersonal = 0m
+            };
+            var orgFunding = new International
+            {
+
+            };
+            var usGovFunding = new USGovt
+            {
+
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.Personal);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_ReceivedGovFundsFromUSGovAgency1()
         {
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
                 FundingGovtAgency1 = 1.0m,
+                FundingGovtAgency2 = 0.0m
             };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
         }
 
         [TestMethod]
-        public void TestGetFinancialInfo_HasFundingGovtAgency2()
+        public void TestGetFinancialInfo_ReceivedGovFundsFromUSGovAgency2()
         {
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
+                FundingGovtAgency1 = 0.0m,
                 FundingGovtAgency2 = 1.0m,
             };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
             Assert.IsTrue(instance.ReceivedUSGovtFunds);
         }
 
         [TestMethod]
-        public void TestGetFinancialInfo_DoesNotHaveUsGovAgencyFunding()
+        public void TestGetFinancialInfo_ReceivedZeroFundsFromUSGovAgencies()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 0.0m,
+                FundingGovtAgency2 = 0.0m,
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
+            Assert.IsFalse(instance.ReceivedUSGovtFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGovAgenciesFundingsAreNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = null,
+                FundingGovtAgency2 = null,
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
+            Assert.IsFalse(instance.ReceivedUSGovtFunds);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingOtherDoesNotHaveAValue()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingOther = null
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.Other);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_FundingOtherZero()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingOther = 0m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.Other);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_InternationalFundingAmount1IsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = null
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.International);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_InternationalFundingAmount2IsNotNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = null,
+                Amount2 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = "2"
+            };
+            var message = "The International Funding Amount1 must have a value if Amount2 has a value.";
+            Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGovernmentFundingAmount1IsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = null
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            Assert.IsNotNull(instance.OtherFunds);
+            Assert.IsNull(instance.OtherFunds.USGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGoverntmentFundingAmount2IsNotNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                FundingGovtAgency1 = 1.0m,
+                FundingSponsor = 2.2m,
+                FundingVisGovt = 3.3m,
+                FundingVisBNC = 4.4m,
+                FundingPersonal = 5.5m
+            };
+            var orgFunding = new International
+            {
+                Amount1 = "11",
+                Amount2 = "1"
+            };
+            var usGovFunding = new USGovt
+            {
+                Amount1 = null,
+                Amount2 = "1"
+            };
+            var message = "The US Government Funding Amount1 must have a value if Amount2 has a value.";
+            Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_OrgFundingIsNull()
         {
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
             };
-            var orgFunding = new International
-            {
-
-            };
             var usGovFunding = new USGovt
             {
-
+                Amount1 = "1"
             };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsFalse(instance.ReceivedUSGovtFunds);
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, usGovFunding);
+            Assert.IsNull(instance.OtherFunds.International);
+            Assert.IsNotNull(instance.OtherFunds.USGovt);
+        }
+
+        [TestMethod]
+        public void TestGetFinancialInfo_USGovtFundingIsNull()
+        {
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+            };
+            var international = new International
+            {
+                Amount1 = "1"
+            };
+            var instance = service.GetFinancialInfo(participantExchangeVisitor, international, null);
+            Assert.IsNotNull(instance.OtherFunds.International);
+            Assert.IsNull(instance.OtherFunds.USGovt);
         }
         #endregion
 
@@ -1148,6 +1491,18 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, instance.SiteName);
             Assert.AreEqual(true, instance.PrimarySite);
             Assert.AreEqual(string.Empty, instance.Remarks);
+        }
+        #endregion
+
+        #region SetResidentialAddress
+        [TestMethod]
+        public void TestSetResidentialAddress()
+        {
+            var instance = new ExchangeVisitor();
+            instance.ResidentialAddress = new ResidentialAddress();
+
+            service.SetResidentialAddress(instance);
+            Assert.IsNull(instance.ResidentialAddress);
         }
         #endregion
 
@@ -1193,7 +1548,9 @@ namespace ECA.Business.Test.Service.Persons
                 FundingSponsor = 2.2m,
                 FundingVisGovt = 3.3m,
                 FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
+                FundingPersonal = 5.5m,
+                FundingOther = 6.6m,
+                OtherName = "other name"
 
             };
             context.People.Add(person);
@@ -1207,6 +1564,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual("3", instance.FinancialInfo.OtherFunds.EVGovt);
                 Assert.AreEqual("4", instance.FinancialInfo.OtherFunds.BinationalCommission);
                 Assert.AreEqual("5", instance.FinancialInfo.OtherFunds.Personal);
+                Assert.AreEqual("6", instance.FinancialInfo.OtherFunds.Other.Amount);
+                Assert.AreEqual(visitor.OtherName, instance.FinancialInfo.OtherFunds.Other.Name);
             };
             var exchangeVisitor = new ExchangeVisitor();
             var exchangeVisitorAsync = new ExchangeVisitor();
@@ -1286,6 +1645,21 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        #region SetTIPP
+        [TestMethod]
+        public void TestSetTIPP()
+        {
+            var instance = new ExchangeVisitor();
+            instance.AddTIPP = null;
+            service.SetTIPP(instance);
+            Assert.IsInstanceOfType(instance.AddTIPP, typeof(EcaAddTIPP));
+            foreach(var dependent in instance.CreateDependent)
+            {
+                Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
+            }
+        }
+        #endregion
+
         #region GetCreateExchVisitor
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_CheckExchangeVisitor()
@@ -1297,8 +1671,6 @@ namespace ECA.Business.Test.Service.Persons
             var project = new Project
             {
                 ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
                 VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var cityOfBirth = new Location
@@ -1340,7 +1712,9 @@ namespace ECA.Business.Test.Service.Persons
             var participantPerson = new ParticipantPerson
             {
                 Participant = participant,
-                ParticipantId = participant.ParticipantId
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
             };
             participant.ParticipantPerson = participantPerson;
             var visitor = new ParticipantExchangeVisitor
@@ -1366,7 +1740,80 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNotNull(instance.ExchangeVisitor.CreateDependent);
                 Assert.AreEqual(0, instance.ExchangeVisitor.CreateDependent.Count());
             };
+            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
 
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantExchangeVisitorIsNull_CheckFinancialInfoIsNull()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var position = new Position
+            {
+                PositionId = 30,
+                PositionCode = "posCode"
+            };
+            var category = new ProgramCategory
+            {
+                ProgramCategoryId = 20,
+                ProgramCategoryCode = "catCode"
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Genders.Add(gender);
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            Action<CreateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor);
+                Assert.IsNull(instance.ExchangeVisitor.FinancialInfo);
+            };
             var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
             var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
             tester(serviceResult);
@@ -1459,6 +1906,100 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.FirstName, instance.ExchangeVisitor.Biographical.FullName.FirstName);
                 Assert.AreEqual(person.LastName, instance.ExchangeVisitor.Biographical.FullName.LastName);
                 Assert.AreEqual(person.NameSuffix, instance.ExchangeVisitor.Biographical.FullName.Suffix);
+            };
+
+            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_CheckTIPP()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var project = new Project
+            {
+                ProjectId = 3,
+                StartDate = yesterday,
+                EndDate = endDate,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PlaceOfBirth = cityOfBirth,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var position = new Position
+            {
+                PositionId = 30,
+                PositionCode = "posCode"
+            };
+            var category = new ProgramCategory
+            {
+                ProgramCategoryId = 20,
+                ProgramCategoryCode = "catCode"
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId
+            };
+            participant.ParticipantPerson = participantPerson;
+            var visitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                Position = position,
+                PositionId = position.PositionId,
+                ProgramCategory = category,
+                ProgramCategoryId = category.ProgramCategoryId
+            };
+            context.Genders.Add(gender);
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantExchangeVisitors.Add(visitor);
+            Action<CreateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor);
+                Assert.IsNotNull(instance.ExchangeVisitor.AddTIPP);
+                Assert.IsInstanceOfType(instance.ExchangeVisitor.AddTIPP, typeof(EcaAddTIPP));
+                foreach(var dependent in instance.ExchangeVisitor.CreateDependent)
+                {
+                    Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
+                }
             };
 
             var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
@@ -2102,7 +2643,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
-        
+
 
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesNotExist()
@@ -2273,7 +2814,7 @@ namespace ECA.Business.Test.Service.Persons
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
-        
+
         #endregion
 
         #region GetExchangeVisitorUpdate

@@ -1,5 +1,5 @@
 <div class="row row2">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div ng-show="edit.isValidationLoading">
             <div class="spinner">
                 <div class="bounce1"></div>
@@ -7,7 +7,7 @@
                 <div class="bounce3"></div>
             </div>
         </div>
-        <div ng-show="sevisinfo.sevisValidationResult.isValid == false && !edit.isValidationLoading">
+        <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid && !edit.isValidationLoading">
             <div class="col-md-4">
                 <p class="title-label" style="color:red; display:inline-flex;">
                     <i class="icon material-icons md-24">warning</i> verification failed
@@ -17,7 +17,7 @@
                 <fieldset style="border:1px solid red; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
                         <li ng-repeat="error in sevisinfo.sevisValidationResult.errors track by $index">
-                            <a ng-href="" ng-click="goToErrorSection(error.customState)">{{error.errorMessage}}</a>
+                            <a ng-href="" ng-click="goToErrorSection(error)">{{error.errorMessage}}</a>
                         </li>
                     </ul>
                 </fieldset>                
@@ -41,9 +41,6 @@
                 </p>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <button ng-click="validateSevisInfo(sevisinfo)" ng-disabled="edit.isValidationLoading" class="btn btn-success">VERIFY PARTICIPANT</button>
     </div>
 </div>
 <div class="row row2">

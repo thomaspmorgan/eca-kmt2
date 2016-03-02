@@ -269,7 +269,7 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///EducationLevelId
 			return Task.FromResult<ECA.Data.EducationLevel>(this.SingleOrDefault(x => x.EducationLevelId.Equals(keyValues.First())));
-		}
+	}
 	}
 	public class EmailAddressTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.EmailAddress>
 	{
@@ -734,7 +734,7 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ParticipantId
 			return Task.FromResult<ECA.Data.ParticipantExchangeVisitor>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
-		}
+	}
 	}
 	public class ParticipantPersonTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantPerson>
 	{
@@ -764,7 +764,7 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///Id
 			return Task.FromResult<ECA.Data.ParticipantPersonSevisCommStatus>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
-		}
+	}
 	}
 	public class ParticipantTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Participant>
 	{
@@ -1079,7 +1079,7 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///SevisCommStatusId
 			return Task.FromResult<ECA.Data.SevisCommStatus>(this.SingleOrDefault(x => x.SevisCommStatusId.Equals(keyValues.First())));
-		}
+	}
 	}
 	public class SocialMediaTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SocialMedia>
 	{
@@ -1139,7 +1139,7 @@ namespace ECA.Data.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///StudentCreationId
 			return Task.FromResult<ECA.Data.StudentCreation>(this.SingleOrDefault(x => x.StudentCreationId.Equals(keyValues.First())));
-		}
+	}
 	}
 	public class ThemeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Theme>
 	{

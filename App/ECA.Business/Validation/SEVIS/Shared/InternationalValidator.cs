@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ECA.Business.Validation.SEVIS;
+using FluentValidation;
 using System;
 using System.Text.RegularExpressions;
 
@@ -16,15 +17,15 @@ namespace ECA.Business.Validation.Model.Shared
 
         public const string OTHER_ORG_CODE = "OTHER";
 
-        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("International Funds: The International Organization 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("International Funds: The International Organization 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
+        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("International Funds: The International Organization 1 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("U.S. Gov Funds: The U.S. Government Agency 2 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
+        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("International Funds: The International Organization 2 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string AMOUNT_ERROR_MESSAGE = String.Format("U.S. Gov Funds: U.S. Government Org Amount is required and can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+        public static string AMOUNT_ERROR_MESSAGE = String.Format("International Funds: An International Organization Amount is required and can be up to {0} digits.", AMOUNT_MAX_LENGTH);
 
 
         public InternationalValidator()
@@ -34,8 +35,10 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.Org1)
                 .NotNull()
                 .WithMessage(ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Length(1, ORG_CODE_MAX_LENGTH)
-                .WithMessage(ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE);
+                .WithMessage(ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath());
             });
 
             When(visitor => String.Equals(visitor.Org1, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
@@ -43,17 +46,18 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.OtherName1)
                     .NotNull()
                     .WithMessage(OTHER_ORG_1_NAME_REQUIRED)
+                    .WithState(x => new SevisErrorPath())
                     .Length(1, OTHER_ORG_NAME_MAX_LENGTH)
-                    .WithMessage(OTHER_ORG_1_NAME_REQUIRED);
+                    .WithMessage(OTHER_ORG_1_NAME_REQUIRED)
+                    .WithState(x => new SevisErrorPath());
             });
 
             When(visitor => visitor.Org2 != null && !String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
             {
                 RuleFor(x => x.Org2)
-                .NotNull()
-                .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
-                .Length(1, ORG_CODE_MAX_LENGTH)
-                .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE);
+                    .Length(1, ORG_CODE_MAX_LENGTH)
+                    .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
+                    .WithState(x => new SevisErrorPath());
             });
 
             When(visitor => visitor.Org2 != null && String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
@@ -61,30 +65,37 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.OtherName2)
                     .NotNull()
                     .WithMessage(OTHER_ORG_2_NAME_REQUIRED)
+                    .WithState(x => new SevisErrorPath())
                     .Length(1, OTHER_ORG_NAME_MAX_LENGTH)
-                    .WithMessage(OTHER_ORG_2_NAME_REQUIRED);
+                    .WithMessage(OTHER_ORG_2_NAME_REQUIRED)
+                    .WithState(x => new SevisErrorPath());
             });
 
             When(visitor => !String.IsNullOrWhiteSpace(visitor.Org2) || !String.IsNullOrWhiteSpace(visitor.OtherName2), () =>
             {
                 RuleFor(x => x.Amount2)
                 .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE);
+                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath());
             });
 
             RuleFor(visitor => visitor.Amount1)
                 .NotNull()
                 .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
-                .WithMessage(AMOUNT_ERROR_MESSAGE);
+                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath());
 
             When(visitor => visitor.Amount2 != null, () =>
             {
                 RuleFor(visitor => visitor.Amount2)
                 .NotNull()
                 .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
-                .WithMessage(AMOUNT_ERROR_MESSAGE);
+                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithState(x => new SevisErrorPath());
             });
         }
     }

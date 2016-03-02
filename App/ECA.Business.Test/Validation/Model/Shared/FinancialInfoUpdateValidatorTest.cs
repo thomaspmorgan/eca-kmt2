@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
 
-namespace ECA.Business.Test.Validation.Model.CreateEV
+namespace ECA.Business.Test.Validation.Model.Shared
 {
     [TestClass]
     public class FinancialInfoUpdateValidatorTest
@@ -26,8 +26,6 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             var instance = GetValidFinancialInfoUpdate();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
-            
         }
-        
     }
 }

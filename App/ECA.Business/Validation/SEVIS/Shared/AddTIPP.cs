@@ -37,4 +37,18 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// </summary>
         public TippSite TippSite { get; set; }
     }
+
+    /// <summary>
+    /// An EcaAddTIPP class is used when the ECA ignores TIPP information.
+    /// </summary>
+    public class EcaAddTIPP : AddTIPP
+    {
+        public EcaAddTIPP()
+        {
+            this.print7002 = false;
+            this.TippExemptProgram = null;
+            this.ParticipantInfo = null;
+            this.TippSite = null;
+        }
+    }
 }

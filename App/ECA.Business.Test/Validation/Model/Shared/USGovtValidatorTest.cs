@@ -2,8 +2,9 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.SEVIS;
 
-namespace ECA.Business.Test.Validation.Model.CreateEV
+namespace ECA.Business.Test.Validation.Model.Shared
 {
     [TestClass]
     public class USGovtValidatorTest
@@ -30,12 +31,14 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
 
             instance.Org1 = new string('a', USGovtValidator.ORG_LENGTH + 1);
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -55,6 +58,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.OTHER_ORG_1_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -74,6 +78,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.OTHER_ORG_1_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -91,6 +96,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -108,6 +114,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
 
@@ -126,6 +133,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -160,6 +168,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -178,6 +187,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -198,6 +208,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -219,6 +230,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
 
@@ -241,12 +253,14 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
 
             instance.Org2 = new string('a', USGovtValidator.ORG_LENGTH + 1);
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -271,6 +285,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.OTHER_ORG_2_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
 
         [TestMethod]
@@ -296,6 +311,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.OTHER_ORG_2_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(SevisErrorPath));
         }
     }
 }

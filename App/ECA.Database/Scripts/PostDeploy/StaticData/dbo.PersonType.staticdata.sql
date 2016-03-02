@@ -23,7 +23,9 @@ SET @DeleteMissingRecords = 0
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
 [PersonTypeId] int,
-[Name] nvarchar(150)
+[Name] nvarchar(150),
+[SevisDependentTypeCode] NVARCHAR(2) NULL,
+[IsDependentPersonType] BIT NOT NULL 
 )
 
 -- 2: Populate the table variable with data
@@ -33,14 +35,15 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([PersonTypeId], [Name]) VALUES ('1', 'Participant')
-INSERT INTO @tblTempTable ([PersonTypeId], [Name]) VALUES ('2', 'Dependent')
+INSERT INTO @tblTempTable ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType]) VALUES ('1', 'Participant', null, 'False')
+INSERT INTO @tblTempTable ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType]) VALUES ('2', 'Spouse', '01', 'True')
+INSERT INTO @tblTempTable ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType]) VALUES ('3', 'Child', '02', 'True')
 
 
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[PersonType] ON
-INSERT INTO [dbo].[PersonType] ([PersonTypeId], [Name])
-SELECT tmp.[PersonTypeId], tmp.[Name]
+INSERT INTO [dbo].[PersonType] ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType])
+SELECT tmp.[PersonTypeId], tmp.[Name], tmp.[SevisDependentTypeCode], tmp.[IsDependentPersonType]
 FROM @tblTempTable tmp
 LEFT JOIN [dbo].[PersonType] tbl ON tbl.[PersonTypeId] = tmp.[PersonTypeId]
 WHERE tbl.[PersonTypeId] IS NULL
@@ -48,7 +51,9 @@ SET IDENTITY_INSERT [dbo].[PersonType] OFF
 
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
-LiveTable.[Name] = tmp.[Name]
+LiveTable.[Name] = tmp.[Name],
+LiveTable.[SevisDependentTypeCode] = tmp.[SevisDependentTypeCode],
+LiveTable.[IsDependentPersonType] = tmp.[IsDependentPersonType]
 FROM [dbo].[PersonType] LiveTable 
 INNER JOIN @tblTempTable tmp ON LiveTable.[PersonTypeId] = tmp.[PersonTypeId]
 

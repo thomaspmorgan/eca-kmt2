@@ -491,6 +491,7 @@ namespace ECA.Business.Service.Persons
                 IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated,
                 IsDateOfBirthUnknown = newPerson.IsDateOfBirthUnknown,
                 IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown,
+                PersonTypeId = newPerson.PersonTypeId
             };
 
             newPerson.Audit.SetHistory(person);
