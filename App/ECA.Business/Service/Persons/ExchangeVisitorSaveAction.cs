@@ -431,7 +431,7 @@ namespace ECA.Business.Service.Persons
                     participantId = dto.ParticipantId.Value;
                 }
             }
-            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id)
             {
                 var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
                 if (dto != null && dto.ParticipantId.HasValue)
@@ -457,7 +457,7 @@ namespace ECA.Business.Service.Persons
                     participantId = dto.ParticipantId.Value;
                 }
             }
-            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id) //here
             {
                 var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
                 if (dto != null && dto.ParticipantId.HasValue)

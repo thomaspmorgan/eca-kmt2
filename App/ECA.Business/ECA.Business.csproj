@@ -275,6 +275,9 @@
     <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryStop.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Lookup\IPersonTypeService.cs" />
+    <Compile Include="Service\Lookup\PersonTypeDTO.cs" />
+    <Compile Include="Service\Lookup\PersonTypeService.cs" />
     <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
     <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />

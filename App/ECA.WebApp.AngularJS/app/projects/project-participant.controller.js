@@ -512,7 +512,12 @@ angular.module('staticApp')
               templateUrl: '/app/projects/add-new-participant.html',
               controller: 'AddNewParticipantCtrl',
               backdrop: 'static',
-              size: 'lg'
+              size: 'lg',
+              resolve: {
+                  personTypeId: function () {
+                      return ConstantsService.personType.participant.id;
+                  }
+              }
           });
 
           modalInstance.result.then(function (participant) {

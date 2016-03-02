@@ -1747,6 +1747,80 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetCreateExchangeVisitor_ParticipantExchangeVisitorIsNull_CheckFinancialInfoIsNull()
+        {
+            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
+            var endDate = DateTimeOffset.Now.AddDays(20.0);
+
+            var user = new User(2);
+            var project = new Project
+            {
+                ProjectId = 3,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.City.Id,
+            };
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+            var person = new Person
+            {
+                PersonId = 10,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                Gender = gender,
+                GenderId = gender.GenderId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var position = new Position
+            {
+                PositionId = 30,
+                PositionCode = "posCode"
+            };
+            var category = new ProgramCategory
+            {
+                ProgramCategoryId = 20,
+                ProgramCategoryCode = "catCode"
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = yesterday,
+                EndDate = endDate
+            };
+            participant.ParticipantPerson = participantPerson;
+            context.Genders.Add(gender);
+            context.Locations.Add(cityOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantPersons.Add(participantPerson);
+            Action<CreateExchVisitor> tester = (instance) =>
+            {
+                Assert.IsNotNull(instance);
+                Assert.IsNotNull(instance.ExchangeVisitor);
+                Assert.IsNull(instance.ExchangeVisitor.FinancialInfo);
+            };
+            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
+            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
         public async Task TestGetCreateExchangeVisitor_CheckBiography()
         {
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);

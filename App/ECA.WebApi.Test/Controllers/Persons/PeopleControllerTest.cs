@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -25,8 +26,9 @@ namespace ECA.WebApi.Test.Controllers.Persons
         private Mock<ISocialMediaPresenceModelHandler> socialMediaHandler;
         private Mock<IEmailAddressHandler> emailAddressHandler;
         private Mock<IPhoneNumberHandler> phoneNumberHandler;
+        private Mock<IPersonTypeService> personTypeService;
         private PeopleController controller;
-        
+
         [TestInitialize]
         public void TestInit()
         {
@@ -36,7 +38,8 @@ namespace ECA.WebApi.Test.Controllers.Persons
             socialMediaHandler = new Mock<ISocialMediaPresenceModelHandler>();
             emailAddressHandler = new Mock<IEmailAddressHandler>();
             phoneNumberHandler = new Mock<IPhoneNumberHandler>();
-            controller = new PeopleController(personService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, phoneNumberHandler.Object, emailAddressHandler.Object);
+            personTypeService = new Mock<IPersonTypeService>();
+            controller = new PeopleController(personService.Object, personTypeService.Object, userProvider.Object, addressHandler.Object, socialMediaHandler.Object, phoneNumberHandler.Object, emailAddressHandler.Object);
         }
 
         #region Get Pii By Id
@@ -87,7 +90,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             personService.Setup(x => x.CreateAsync(It.IsAny<NewPerson>()))
                 .ReturnsAsync(new Person());
             personService.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-            var response = await controller.PostPersonAsync(new PersonBindingModel());
+            var response = await controller.PostPersonAsync(new PersonBindingModel { PersonTypeId = PersonType.Child.Id });
             personService.Verify(x => x.SaveChangesAsync(), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkResult));
         }
@@ -98,6 +101,25 @@ namespace ECA.WebApi.Test.Controllers.Persons
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.PostPersonAsync(new PersonBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+
+        #region Person Types
+        [TestMethod]
+        public async Task TestGetPersonTypesAsync()
+        {
+            var response = await controller.GetPersonTypesAsync(new PagingQueryBindingModel<PersonTypeDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<PersonTypeDTO>>));
+            personTypeService.Verify(x => x.GetAsync(It.IsAny<QueryableOperator<PersonTypeDTO>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonTypesAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetPersonTypesAsync(new PagingQueryBindingModel<PersonTypeDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+            personTypeService.Verify(x => x.GetAsync(It.IsAny<QueryableOperator<PersonTypeDTO>>()), Times.Never());
         }
         #endregion
 
@@ -143,7 +165,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
             addressHandler.Verify(x => x.HandleDeleteAddressAsync(It.IsAny<int>(), It.IsAny<ApiController>()), Times.Once());
         }
         #endregion
-        
+
         #region Social Media
         [TestMethod]
         public async Task TestPostSocialMediaAsync()

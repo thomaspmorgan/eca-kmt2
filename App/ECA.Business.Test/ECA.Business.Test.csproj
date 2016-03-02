@@ -295,6 +295,7 @@
     <Compile Include="Service\Itineraries\ItineraryStopValidatorTest.cs" />
     <Compile Include="Service\Itineraries\EcaItineraryStopTest.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryTest.cs" />
+    <Compile Include="Service\Lookup\PersonTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantStatusServiceTest.cs" />

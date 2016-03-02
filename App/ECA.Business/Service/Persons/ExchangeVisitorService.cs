@@ -240,7 +240,16 @@ namespace ECA.Business.Service.Persons
             SetSubjectField(participant, visitor);
             SetMailingAddress(participant, visitor, participantPerson);
             SetUSAddress(participant, visitor, participantPerson);
-            SetFinancialInfo(visitor, participantExchangeVisitor);
+            
+            if (participantExchangeVisitor != null)
+            {
+                SetFinancialInfo(visitor, participantExchangeVisitor);
+            }
+            else
+            {
+                visitor.FinancialInfo = null;
+            }
+
             SetAddSiteOfActivity(visitor);
             return new CreateExchVisitor
             {
@@ -281,7 +290,15 @@ namespace ECA.Business.Service.Persons
             await SetSubjectFieldAsync(participant, visitor);
             await SetMailingAddressAsync(participant, visitor, participantPerson);
             await SetUSAddressAsync(participant, visitor, participantPerson);
-            await SetFinancialInfoAsync(visitor, participantExchangeVisitor);
+            if(participantExchangeVisitor != null)
+            {
+                await SetFinancialInfoAsync(visitor, participantExchangeVisitor);
+            }
+            else
+            {
+                visitor.FinancialInfo = null;
+            }
+            
             SetAddSiteOfActivity(visitor);
             return new CreateExchVisitor
             {
