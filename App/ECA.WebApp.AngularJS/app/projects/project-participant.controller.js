@@ -112,7 +112,7 @@ angular.module('staticApp')
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({
               title: 'Confirm',
-              message: 'Are you sure you wish to delete the participant named ' + participant.name + '.',
+              message: 'Are you sure you wish to delete the participant named ' + participant.name + '?',
               okText: 'Yes',
               cancelText: 'No',
               okCallback: function () {
