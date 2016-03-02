@@ -15,7 +15,7 @@ namespace ECA.Business.Validation.Model.CreateEV
 
         public const string FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Financial Information is required.";
 
-        public const string SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Field of Study is require.d";
+        public const string SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Field of Study is required.";
 
         public const string CATEGORY_CODE_REQUIRED_ERROR_MESSAGE = "Exch. Visitor: Program category is required.";
 

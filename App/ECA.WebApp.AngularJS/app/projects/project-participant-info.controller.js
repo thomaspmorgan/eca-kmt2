@@ -127,7 +127,7 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage(message);
             });
       }
-      
+
       var projectId = $stateParams.projectId;
       var limit = 300;
       var searchLimit = 10;
@@ -323,9 +323,6 @@ angular.module('staticApp')
           return address;
       }
 
-      var hasAttemptedToSaveNewParticipantPersonCount = 0;
-      var maxAttemptedSaveNewParticipantPersonCount = 5;
-
       function loadParticipantInfo(projectId, participantId) {
           $scope.view.isLoadingInfo = true;
           return ParticipantPersonsService.getParticipantPersonsById(projectId, participantId)
@@ -348,56 +345,11 @@ angular.module('staticApp')
               });
           })
           .catch(function (response) {
-              if (response.status === 404) {
-                  $log.info('The participant person was not found, creating a new participant person automatically.');
-                  $scope.view.isLoadingInfo = false;
-                  return saveNewParticipantPerson(participantId);
-              }
-              else {
-                  $scope.view.isLoadingInfo = false;
-                  $log.error('Unable to load participant info for ' + participantId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
-              }
+              $scope.view.isLoadingInfo = false;
+              $log.error('Unable to load participant info for ' + participantId + '.');
+              NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
           });
       };
-
-      function saveNewParticipantPerson(participantId) {
-          $scope.view.isLoadingInfo = true;
-          hasAttemptedToSaveNewParticipantPersonCount++;
-          if (hasAttemptedToSaveNewParticipantPersonCount < maxAttemptedSaveNewParticipantPersonCount) {
-              return ParticipantService.getParticipantById(participantId)
-              .then(function (responseData) {
-                  var newParticipantPerson = getNewParticipantPerson(participantId, responseData.statusId, responseData.participantTypeId);
-                  if (responseData.isPersonParticipantType) {
-                      return saveParticipantPerson(newParticipantPerson)
-                      .then(function (response) {
-                          $scope.view.isLoadingInfo = false;
-                          return loadParticipantInfo(projectId, participantId);
-                      })
-                      .catch(function (response) {
-                          $scope.view.isLoadingInfo = false;
-                          var message = "Unable to save participant person.";
-                          $log.error(message);
-                          NotificationService.showErrorMessage(message);
-                      });
-                  }
-                  else {
-                      $scope.view.isLoadingInfo = false;
-                  }
-              })
-              .catch(function (response) {
-                  $scope.view.isLoadingInfo = false;
-                  var message = "Unable to load participant with id " + participantId;
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
-              });
-          }
-          else {
-              var message = "Several attempts have been made to save a new participant person and they have failed.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          }
-      }
 
       $scope.view.isLoadingEditParticipantInfoRequiredData = true;
       $q.all([

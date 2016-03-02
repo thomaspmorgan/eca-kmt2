@@ -222,6 +222,32 @@ namespace ECA.Business.Test.Service.Persons
         {
             using (ShimsContext.Create())
             {
+                var entity = new Participant
+                {
+                    ParticipantId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.Participants.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedParticipants_ParticipantProxy()
+        {
+            using (ShimsContext.Create())
+            {
                 var entity = new ParticipantProxyClass
                 {
                     ParticipantId = 1,
@@ -245,6 +271,32 @@ namespace ECA.Business.Test.Service.Persons
 
         [TestMethod]
         public void TestGetCreatedParticipants_Person()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new Person
+                {
+                    PersonId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.People.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedParticipants_PersonProxy()
         {
             using (ShimsContext.Create())
             {
@@ -274,6 +326,32 @@ namespace ECA.Business.Test.Service.Persons
         {
             using (ShimsContext.Create())
             {
+                var entity = new ParticipantPerson
+                {
+                    ParticipantId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.ParticipantPersons.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedParticipants_ParticipantPersonProxy()
+        {
+            using (ShimsContext.Create())
+            {
                 var entity = new ParticipantPersonProxyClass
                 {
                     ParticipantId = 1,
@@ -297,6 +375,32 @@ namespace ECA.Business.Test.Service.Persons
 
         [TestMethod]
         public void TestGetCreatedParticipants_ParticipantPersonExchangeVisitor()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new ParticipantExchangeVisitor
+                {
+                    ParticipantId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.ParticipantExchangeVisitors.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedParticipants_ParticipantPersonExchangeVisitorProxy()
         {
             using (ShimsContext.Create())
             {
@@ -989,9 +1093,9 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestGetParticipantIds_TheObjectTypeIsNotSupported()
         {
             var list = new List<object>();
-            var project = new ProjectProxyClass();
-            list.Add(project);
-            var message = String.Format("The object type [{0}] is not supported.", project.GetType().BaseType.Name);
+            var moneyFlow = new MoneyFlow();
+            list.Add(moneyFlow);
+            var message = String.Format("The object type [{0}] is not supported.", moneyFlow.GetType().Name);
             Action a = () => saveAction.GetParticipantIds(list);
             Func<Task> f = () => saveAction.GetParticipantIdsAsync(list);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
