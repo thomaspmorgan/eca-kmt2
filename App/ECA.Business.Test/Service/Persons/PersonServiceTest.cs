@@ -2426,6 +2426,11 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person = new Person
             {
                 Alias = "alias",
@@ -2441,6 +2446,7 @@ namespace ECA.Business.Test.Service.Persons
                 NameSuffix = "name suffix",
                 Patronym = "patronym",
                 PersonId = 1,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person);
@@ -2451,7 +2457,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, results.Results.Count);
                 var firstResult = results.Results.First();
                 Assert.AreEqual(gender.GenderName, firstResult.Gender);
-
                 Assert.AreEqual(person.Alias, firstResult.Alias);
                 Assert.AreEqual(person.DateOfBirth, firstResult.DateOfBirth);
                 Assert.AreEqual(person.FamilyName, firstResult.FamilyName);
@@ -2480,17 +2485,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
@@ -2520,17 +2532,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
@@ -2559,17 +2578,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
