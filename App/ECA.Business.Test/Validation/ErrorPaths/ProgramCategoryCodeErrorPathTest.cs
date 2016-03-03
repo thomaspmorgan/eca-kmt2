@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Validation.SEVIS;
 
 namespace ECA.Business.Test.Validation.ErrorPaths
 {

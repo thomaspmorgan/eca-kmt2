@@ -537,7 +537,7 @@
     <Compile Include="Validation\SEVIS\ErrorPaths\FieldOfStudyErrorPath.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
-    <Compile Include="Validation\SEVIS\ErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\ErrorPath.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\FullNameErrorPath.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\FundingErrorPath.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\GenderErrorPath.cs" />

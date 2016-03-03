@@ -382,6 +382,7 @@
     <Compile Include="Validation\ErrorPaths\PositionCodeErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ProgramCategoryCodeErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
     <Compile Include="Validation\Shared\BiographicalValidatorTest.cs" />
     <Compile Include="Validation\Shared\FinancialInfoUpdateValidatorTest.cs" />
     <Compile Include="Validation\Shared\FullNameValidatorTest.cs" />

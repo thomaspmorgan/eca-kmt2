@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
 {
+    /// <summary>
+    /// An CitizenshipErrorPath is used to denote a country of citizenship error and where it might be located.
+    /// </summary>
     public class CitizenshipErrorPath : ErrorPath
     {
+        /// <summary>
+        /// Creates a default instance.
+        /// </summary>
         public CitizenshipErrorPath()
         {
             SetByStaticLookup(SevisErrorType.Citizenship);

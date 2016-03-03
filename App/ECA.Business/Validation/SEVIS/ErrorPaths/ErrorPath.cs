@@ -2,11 +2,16 @@
 using ECA.Core.Generation;
 using System.Diagnostics.Contracts;
 
-namespace ECA.Business.Validation.SEVIS
+namespace ECA.Business.Validation.SEVIS.ErrorPaths
 {
-
-    public class SevisErrorType
+    /// <summary>
+    /// The SevisErrorType class contains lookups for different sevis validation errro types.
+    /// </summary>
+    public sealed class SevisErrorType
     {
+        /// <summary>
+        /// Gets the email error type.
+        /// </summary>
         public static StaticLookup Email
         {
             get
@@ -15,6 +20,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the phone number error type.
+        /// </summary>
         public static StaticLookup PhoneNumber
         {
             get
@@ -23,6 +31,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the address error type.
+        /// </summary>
         public static StaticLookup Address
         {
             get
@@ -31,6 +42,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the start date error type.
+        /// </summary>
         public static StaticLookup StartDate
         {
             get
@@ -39,6 +53,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the end date error type.
+        /// </summary>
         public static StaticLookup EndDate
         {
             get
@@ -47,6 +64,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the position code error type.
+        /// </summary>
         public static StaticLookup PositionCode
         {
             get
@@ -55,6 +75,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the program category code error type.
+        /// </summary>
         public static StaticLookup ProgramCategoryCode
         {
             get
@@ -63,6 +86,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the field of study error type.
+        /// </summary>
         public static StaticLookup FieldOfStudy
         {
             get
@@ -71,6 +97,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the sevis funding error type.
+        /// </summary>
         public static StaticLookup Funding
         {
             get
@@ -79,6 +108,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the full name error type.
+        /// </summary>
         public static StaticLookup FullName
         {
             get
@@ -87,6 +119,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the birth date error type.
+        /// </summary>
         public static StaticLookup BirthDate
         {
             get
@@ -95,6 +130,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the gender error type.
+        /// </summary>
         public static StaticLookup Gender
         {
             get
@@ -103,6 +141,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the city of birth error type.
+        /// </summary>
         public static StaticLookup CityOfBirth
         {
             get
@@ -111,6 +152,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the country of birth error type.
+        /// </summary>
         public static StaticLookup CountryOfBirth
         {
             get
@@ -119,6 +163,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the countries of citizenship error type.
+        /// </summary>
         public static StaticLookup Citizenship
         {
             get
@@ -127,6 +174,9 @@ namespace ECA.Business.Validation.SEVIS
             }
         }
 
+        /// <summary>
+        /// Gets the permanent residence country error type.
+        /// </summary>
         public static StaticLookup PermanentResidenceCountry
         {
             get
@@ -137,14 +187,24 @@ namespace ECA.Business.Validation.SEVIS
     }
 
     /// <summary>
-    /// Routing path
+    /// An ErrorPath class is used to detail a sevis validation error and where it might be located.
     /// </summary>
     public class ErrorPath
     {
+        /// <summary>
+        /// Gets or sets the sevis error type id.
+        /// </summary>
         public int SevisErrorTypeId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sevis error type name.
+        /// </summary>
         public string SevisErrorTypeName { get; set; }
 
+        /// <summary>
+        /// Initializes this error path with the given values from the lookup.
+        /// </summary>
+        /// <param name="lookup">The static lookup.</param>
         public void SetByStaticLookup(StaticLookup lookup)
         {
             Contract.Requires(lookup != null, "The lookup must not be null.");
@@ -152,5 +212,4 @@ namespace ECA.Business.Validation.SEVIS
             this.SevisErrorTypeName = lookup.Value;
         }
     }
-    
 }

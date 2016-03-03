@@ -17,7 +17,7 @@
                 <fieldset style="border:1px solid red; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
                         <li ng-repeat="error in sevisinfo.sevisValidationResult.errors track by $index">
-                            <a ng-href="{{getErrorSectionHref(error)}}">{{error.errorMessage}}</a>
+                            <a ng-click="onErrorClick(error)">{{error.errorMessage}}</a>
                         </li>
                     </ul>
                 </fieldset>                
@@ -108,7 +108,7 @@
     </div>
 </div>
 <div class="form-group row row2">
-    <h5 class="col-md-2">Start Date</h5>
+    <h5 class="col-md-2" id="{{getSevisStartDateDivId(participantid)}}">Start Date</h5>
     <div class="col-md-3">
         <p class="input-group">
             <input type="text"

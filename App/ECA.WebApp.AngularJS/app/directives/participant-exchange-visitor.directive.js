@@ -124,11 +124,6 @@
                     }
                     return LookupService.getSevisFieldOfStudies(fieldOfStudiesFilter.toParams())
                     .then(function (response) {
-                        //if (response.data.total > limit) {
-                        //    var message = "The number of fieldOfStudies loaded is less than the total number.  Some fieldOfStudies may not be shown."
-                        //    NotificationService.showErrorMessage(message);
-                        //    $log.error(message);
-                        //}
                         $scope.edit.fieldOfStudies = response.data.results;
                         return $scope.edit.fieldOfStudies;
                     })
@@ -202,8 +197,7 @@
                 loadPositions();
                 loadProgramCategories();
                 loadUSGovernmentAgencies();
-                loadInternationalOrganizations();
-                //loadFieldOfStudies();                
+                loadInternationalOrganizations();      
             }
         };
 

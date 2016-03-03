@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
 {
+    /// <summary>
+    /// An CountryOfBirthErrorPath is used to denote a country of birth error and where it might be located.
+    /// </summary>
     public class CountryOfBirthErrorPath : ErrorPath
     {
+        /// <summary>
+        /// Creates a default instance.
+        /// </summary>
         public CountryOfBirthErrorPath()
         {
             SetByStaticLookup(SevisErrorType.CountryOfBirth);

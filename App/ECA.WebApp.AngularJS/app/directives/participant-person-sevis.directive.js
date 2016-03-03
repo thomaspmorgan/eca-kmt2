@@ -5,9 +5,27 @@
         .module('staticApp')
         .directive('participantPersonSevis', participantPersonSevis);
 
-    participantPersonSevis.$inject = ['$log', 'LookupService', 'FilterService', 'NotificationService', 'ParticipantPersonsSevisService', 'StateService', 'ConstantsService', '$state'];
+    participantPersonSevis.$inject = [
+        '$log',
+        'LookupService',
+        'FilterService',
+        'NotificationService',
+        'ParticipantPersonsSevisService',
+        'StateService',
+        'ConstantsService',
+        'smoothScroll',
+        '$state'];
 
-    function participantPersonSevis($log, LookupService, FilterService, NotificationService, ParticipantPersonsSevisService, StateService, ConstantsService, $state) {
+    function participantPersonSevis(
+        $log,
+        LookupService,
+        FilterService,
+        NotificationService,
+        ParticipantPersonsSevisService,
+        StateService,
+        ConstantsService,
+        smoothScroll,
+        $state) {
         // Usage:
         //     <participant_person_sevis participantId={{id}} active=activevariable, update=updatefunction></participant_person_sevis>
         // Creates:
@@ -38,13 +56,17 @@
                     $scope.edit.isEndDatePickerOpen = true
                 }
 
-                $scope.getErrorSectionHref = function (error) {
+                $scope.getSevisStartDateDivId = function (participantId) {
+                    return 'sevisStartDate' + participantId;
+                }
+
+                $scope.onErrorClick = function (error) {
                     var personId = $scope.personid;
                     var participantId = $scope.participantid;
                     var errorTypeId = error.customState.sevisErrorTypeId;
                     if (errorTypeId == ConstantsService.sevisErrorType.email.id
                         || errorTypeId == ConstantsService.sevisErrorType.phoneNumber.id) {
-                        return StateService.getPersonContactInformationState(personId);
+                        return StateService.goToPersonContactInformationState(personId);
                     }
                     else if (errorTypeId == ConstantsService.sevisErrorType.fullName.id
                         || errorTypeId == ConstantsService.sevisErrorType.gender.id
@@ -55,12 +77,12 @@
                         || errorTypeId == ConstantsService.sevisErrorType.address.id
                         || errorTypeId == ConstantsService.sevisErrorType.permanentCountryOfResidence.id
                         ) {
-                        return StateService.getPiiState(personId);
+                        return StateService.goToPiiState(personId);
                     }
                     else if (errorTypeId == ConstantsService.sevisErrorType.startDate.id
                         || errorTypeId == ConstantsService.sevisErrorType.endDate.id
                         ) {
-                        return null;
+                        scrollToSevisTabElement($scope.getSevisStartDateDivId($scope.participantid));
                     }
                     else if (errorTypeId == ConstantsService.sevisErrorType.position.id
                         || errorTypeId == ConstantsService.sevisErrorType.programCategory.id
@@ -75,6 +97,20 @@
                         throw Error('The error type id ' + errorTypeId + ' is not supported.');
                     }
                 };
+
+                function scrollToSevisTabElement(id, callbackBefore, callbackAfter) {
+                    callbackBefore = callbackBefore || function () { };
+                    callbackAfter = callbackAfter || function () { };
+                    var section = document.getElementById(id);
+                    var options = {
+                        duration: 500,
+                        easing: 'easeIn',
+                        offset: 165,
+                        callbackBefore: callbackBefore,
+                        callbackAfter: callbackAfter
+                    }
+                    smoothScroll(section, options);
+                }
             }
         };
 
