@@ -67,18 +67,41 @@ angular.module('staticApp')
               $rootScope.currentUser.isBusy = false;
           });
 
-          $rootScope.$on('$routeChangeSuccess', function () {
-              $location.hash('top');
-              $anchorScroll();
+          var loginSuccess = false;
+
+          $rootScope.$on('$locationChangeStart', function (event) {
+              if ($location.path() === "") {
+                  event.preventDefault();
+                  $location.path('/');
+              } else if (loginSuccess && $location.path() === '/') {
+                  var savedPath = localStorage.getItem('savedPath');
+                  localStorage.removeItem('savedPath');
+                  loginSuccess = false;
+                  event.preventDefault();
+                  $location.path(savedPath || '/');
+              }
           });
 
-          $rootScope.$on('$routeChangeError', function (event, current, previous, eventObj) {
+          $rootScope.$on('$stateChangeStart', function(event, toState, toParams){ 
+              var authenticated = AuthService.isAuthenticated();
+              if(!authenticated && toState.name !== 'consent') {
+                  // Need to remove the hash
+                  var savedPath = $state.href(toState.name, toParams).slice(1);
+                  console.log(savedPath);
+                  localStorage.setItem('savedPath', savedPath);
+                  event.preventDefault();
+                  $state.go('consent');
+              }
           });
+
+          $rootScope.$on("adal:loginSuccess", function () {
+              loginSuccess = true;
+          });
+
 
           $rootScope.$on('$stateChangeSuccess', function () {
-              $location.hash('top');
+              //$location.hash('top');
               closeMenus();
-              // $anchorScroll();
           });
 
           function closeMenus() {
@@ -113,7 +136,7 @@ angular.module('staticApp')
 
           var modalInstance;
 
-          $rootScope.$on('IdleStart', function () { /* Display modal warning */
+          $rootScope.$on('IdleStart', function () {
               var modalInstance = $modal.open({
                   controller: 'LogoutCtrl',
                   templateUrl: '/app/auth/logout-warning.html',
@@ -121,7 +144,7 @@ angular.module('staticApp')
                   size: 'lg'
               });
           });
-          $rootScope.$on('IdleTimeout', function () { /* Logout user */
+          $rootScope.$on('IdleTimeout', function () {
               AuthService.logOut();
           });
       });

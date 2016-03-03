@@ -31,85 +31,87 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
     <!-- Add your site or application content here -->
-    <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 5000}"></toaster-container>
-    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-        <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
-        <a class="foot" ui-sref="settings"><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
-    </nav>
-    <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-        <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
-    </nav>
-    <div class="navbar navbar-default navbar-fixed-top" ng-controller="NavigationCtrl">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="row navbar-header">
-                <button ng-click="pushMenu($event)" type="button" class="navbar-toggle collapsed">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div style="margin-right: 50px;margin-top:14px;cursor: pointer;"
-                     class="navbar-right right"
-                     ng-controller="SpotlightCtrl">
-                    <a ng-click="view.onSpotlightSearchClick()"
-                       ng-if="view.isSpotlightIconVisible"
-                       tooltip-placement="bottom"
-                       tooltip="Click to Search ECA KMT or press Ctrl + Shift + F.">
-                        <i class="material-icons md-18 col-sd-1">search</i>
-                    </a>
-                </div>
-                <div ng-show="userInfo.isAuthenticated">
-                    <span style="margin-right:25px;margin-top:14px;"
-                          class="dropdown pull-right user"
-                          dropdown on-toggle="currentUser.userMenuToggled(open)"
-                          data-ng-model="userInfo">
-                        <div class="pull-left">
-                            <i class="material-icons md-18" style="margin-right:10px;">account_circle</i>
-                        </div>
-                        <a href="#" class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
+    <div ng-if="userInfo.isAuthenticated">
+        <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 5000}"></toaster-container>
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+            <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
+            <a class="foot" ui-sref="settings"><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
+        </nav>
+        <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+            <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
+        </nav>
+        <div class="navbar navbar-default navbar-fixed-top" ng-controller="NavigationCtrl">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="row navbar-header">
+                    <button ng-click="pushMenu($event)" type="button" class="navbar-toggle collapsed">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div style="margin-right: 50px;margin-top:14px;cursor: pointer;"
+                         class="navbar-right right"
+                         ng-controller="SpotlightCtrl">
+                        <a ng-click="view.onSpotlightSearchClick()"
+                           ng-if="view.isSpotlightIconVisible"
+                           tooltip-placement="bottom"
+                           tooltip="Click to Search ECA KMT or press Ctrl + Shift + F.">
+                            <i class="material-icons md-18 col-sd-1">search</i>
                         </a>
-                        <ul class="dropdown-menu user">
-                            <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
-                        </ul>
-                    </span>
-                </div>
-                <div ng-show="currentUser.isBusy" class="pull-right" style="margin-top:14px;">
-                    <i class="material-icons md-18 material-icons-spin">autorenew</i>
-                </div>
-                <div ng-cloak
-                     class="breadcrumbs"
-                     style="max-width:800px;"
-                     ng-show="!view.isLoadingBreadcrumbs">
-                    <span ng-if="view.breadcrumbs.length > view.maxBreadcrumbs">
-                        &hellip;
-                        &bull;
-                    </span>
-                    <span ng-repeat="breadcrumb in view.breadcrumbs">
-                        <span ng-if="$index >= view.breadcrumbs.length - view.maxBreadcrumbs && !$last">
-                            <a href="{{breadcrumb.href}}"
-                               tooltip-placement="bottom"
-                               tooltip="{{breadcrumb.name}}">
-                                {{breadcrumb.name.length > view.maxTruncatedBreadcrumbNameLength ? ((breadcrumb.name | limitTo: view.maxTruncatedBreadcrumbNameLength) + '&hellip;') : breadcrumb.name}}
+                    </div>
+                    <div ng-show="userInfo.isAuthenticated">
+                        <span style="margin-right:25px;margin-top:14px;"
+                              class="dropdown pull-right user"
+                              dropdown on-toggle="currentUser.userMenuToggled(open)"
+                              data-ng-model="userInfo">
+                            <div class="pull-left">
+                                <i class="material-icons md-18" style="margin-right:10px;">account_circle</i>
+                            </div>
+                            <a href="#" class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
                             </a>
+                            <ul class="dropdown-menu user">
+                                <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <div ng-show="currentUser.isBusy" class="pull-right" style="margin-top:14px;">
+                        <i class="material-icons md-18 material-icons-spin">autorenew</i>
+                    </div>
+                    <div ng-cloak
+                         class="breadcrumbs"
+                         style="max-width:800px;"
+                         ng-show="!view.isLoadingBreadcrumbs">
+                        <span ng-if="view.breadcrumbs.length > view.maxBreadcrumbs">
+                            &hellip;
                             &bull;
                         </span>
-                        <span ng-if="$last && view.maxBreadcrumbs > 0">
-                            <a 
-                               href="#" 
-                               scroll-to="top"
-                               tooltip-placement="bottom"
-                               tooltip="{{breadcrumb.name}}">
-                                {{breadcrumb.name}}
-                            </a>
+                        <span ng-repeat="breadcrumb in view.breadcrumbs">
+                            <span ng-if="$index >= view.breadcrumbs.length - view.maxBreadcrumbs && !$last">
+                                <a href="{{breadcrumb.href}}"
+                                   tooltip-placement="bottom"
+                                   tooltip="{{breadcrumb.name}}">
+                                    {{breadcrumb.name.length > view.maxTruncatedBreadcrumbNameLength ? ((breadcrumb.name | limitTo: view.maxTruncatedBreadcrumbNameLength) + '&hellip;') : breadcrumb.name}}
+                                </a>
+                                &bull;
+                            </span>
+                            <span ng-if="$last && view.maxBreadcrumbs > 0">
+                                <a 
+                                   href="#" 
+                                   scroll-to="top"
+                                   tooltip-placement="bottom"
+                                   tooltip="{{breadcrumb.name}}">
+                                    {{breadcrumb.name}}
+                                </a>
+                            </span>
                         </span>
-                    </span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div ui-view id="top" autoscroll="true"></div>
-    <div class="footer">
+    <div class="footer" ng-if="userInfo.isAuthenticated">
         <div class="top">
             <p>
                 <a href="">About ECA KMT</a>   |
@@ -208,6 +210,7 @@
     <script src="app/home/navigation.controller.js"></script>
     <script src="app/activities/activities.routes.js"></script>
     <script src="app/auth/auth.routes.js"></script>
+    <script src="app/auth/consent.controller.js"></script>
     <script src="app/auth/logout.controller.js"></script>
     <script src="app/errors/error.routes.js"></script>
     <script src="app/reports/archive.controller.js"></script>

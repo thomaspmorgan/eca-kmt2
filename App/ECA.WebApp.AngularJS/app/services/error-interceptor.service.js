@@ -16,7 +16,7 @@ angular.module('staticApp')
             var AuthService = $injector.get('AuthService');
             var notificationService = $injector.get('NotificationService');
             if (response && response.status === 401) {
-                AuthService.login();
+                //AuthService.login();
             }
             else if (response && response.status === 403) {
                 StateService.goToForbiddenState();
