@@ -155,6 +155,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <label class="col-md-4 title-label">Dependants</label>
+                <div class="col-md-8">
+                    <ul>
+                        <li ng-repeat="dependant in pii.dependants">{{dependant.value}}</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

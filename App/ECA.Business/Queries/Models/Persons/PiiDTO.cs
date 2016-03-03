@@ -15,8 +15,9 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public PiiDTO ()
         {
-            this.CountriesOfCitizenship = new List<SimpleLookupDTO>();
-            this.Addresses = new List<AddressDTO>();
+            CountriesOfCitizenship = new List<SimpleLookupDTO>();
+            Addresses = new List<AddressDTO>();
+            Dependants = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -48,6 +49,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and sets countries of citizenship
         /// </summary>
         public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship {get; set;}
+
+        /// <summary>
+        /// Gets and sets dependants
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> Dependants { get; set; }
 
         /// <summary>
         /// Gets and sets first name

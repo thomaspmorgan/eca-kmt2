@@ -5,7 +5,7 @@ using ECA.Business.Service.Lookup;
 namespace ECA.Business.Queries.Models.Persons
 {
     /// <summary>
-    /// A SimplePersonGeneralDTO is used to represent a person/participant's general info in the ECA system.
+    /// A GeneralDTO is used to represent a person/participant's general info in the ECA system.
     /// </summary>
     public class GeneralDTO
     {
@@ -15,7 +15,6 @@ namespace ECA.Business.Queries.Models.Persons
             Activities = new List<SimpleLookupDTO>();
             Memberships = new List<MembershipDTO>();
             LanguageProficiencies = new List<LanguageProficiencyDTO>();
-            Dependants = new List<SimpleLookupDTO>();
             RelatedReports = new List<SimpleLookupDTO>();
             ImpactStories = new List<SimpleLookupDTO>();
         }
@@ -34,9 +33,7 @@ namespace ECA.Business.Queries.Models.Persons
         public IEnumerable<MembershipDTO> Memberships { get; set; }
 
         public IEnumerable<LanguageProficiencyDTO> LanguageProficiencies { get; set; }
-
-        public IEnumerable<SimpleLookupDTO> Dependants { get; set; }
-
+        
         public IEnumerable<SimpleLookupDTO> RelatedReports { get; set; }
 
         public IEnumerable<SimpleLookupDTO> ImpactStories { get; set; }

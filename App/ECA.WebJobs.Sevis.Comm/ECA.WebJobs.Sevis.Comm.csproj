@@ -137,9 +137,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.SevisBatch.csproj">
+    <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.Sevis.csproj">
       <Project>{53336ba0-47cd-4692-9864-ab2a0e649d1f}</Project>
-      <Name>ECA.Business.SevisBatch</Name>
+      <Name>ECA.Business.Sevis</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
