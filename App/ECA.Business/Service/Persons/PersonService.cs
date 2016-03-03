@@ -159,8 +159,7 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved general person info by id {0}.", personId);
             return general;
         }
-
-
+        
         /// <summary>
         /// Update general
         /// </summary>
@@ -175,8 +174,12 @@ namespace ECA.Business.Service.Persons
             return personToUpdate;
         }
 
-        // Update General (list of prominent categories
-
+        /// <summary>
+        /// Update General list of prominent categories
+        /// </summary>
+        /// <param name="general"></param>
+        /// <param name="person"></param>
+        /// <param name="prominentCategories"></param>
         private void DoUpdate(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
         {
             SetProminentCategories(person, prominentCategories);
