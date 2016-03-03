@@ -4,8 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 
-namespace ECA.Business.Test.Validation.Model.Shared
+namespace ECA.Business.Test.Validation.Shared
 {
     [TestClass]
     public class FullNameValidatorTest
@@ -49,7 +50,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
@@ -65,7 +66,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(FullNameValidator.LAST_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
@@ -81,7 +82,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(FullNameValidator.LAST_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
@@ -195,7 +196,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
@@ -224,7 +225,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(FullNameValidator.PASSPORT_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
@@ -253,7 +254,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(FullNameValidator.PREFFERED_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
     }
 }

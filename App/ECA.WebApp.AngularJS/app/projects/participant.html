@@ -77,8 +77,8 @@
                         <th class="col-md-1">&nbsp;</th>
                     </tr>
                 </thead>
-                <tbody class="list2">
-                    <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading">
+                <tbody class="list2" id="participantTableBody">
+                    <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading" id="{{view.getParticipantTableRowDivId(participant.participantId)}}">
                         <td>
                             <!-- Fix for row height difference -->
                             <span ng-show="!selectedAction">&nbsp;</span>
@@ -123,7 +123,7 @@
                             </a>
                         </td>
                     </tr>
-                    <tr id="participantInfo" class="details" ng-if="participant.personId && participantInfo[participant.participantId].show">
+                    <tr id="participantInfo{{participant.participantId}}" class="details" ng-if="participant.personId && participantInfo[participant.participantId].show">
                         <td colspan="7">
                             <tabset>
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" active="view.tabInfo" deselect="view.tabInfo=false">

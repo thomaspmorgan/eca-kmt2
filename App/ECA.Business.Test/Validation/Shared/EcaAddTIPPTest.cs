@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Model.CreateEV;
 
-namespace ECA.Business.Test.Validation.Model.Shared
+namespace ECA.Business.Test.Validation.Shared
 {
     [TestClass]
     public class EcaAddTIPPTest

@@ -6,8 +6,9 @@ using ECA.Business.Validation.Model;
 using ECA.Data;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 
-namespace ECA.Business.Test.Validation.Model.Shared
+namespace ECA.Business.Test.Validation.Shared
 {
     [TestClass]
     public class BiographicalValidatorTest
@@ -69,7 +70,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_DATE_NULL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(BirthDateErrorPath));
         }
 
         #endregion
@@ -107,7 +108,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(GenderErrorPath));
         }
 
         [TestMethod]
@@ -153,7 +154,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CityOfBirthErrorPath));
         }
 
         [TestMethod]
@@ -169,7 +170,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CityOfBirthErrorPath));
         }
 
         [TestMethod]
@@ -185,7 +186,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CityOfBirthErrorPath));
         }
 
         #endregion
@@ -205,7 +206,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         [TestMethod]
@@ -221,7 +222,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         [TestMethod]
@@ -237,7 +238,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         #endregion
@@ -257,7 +258,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
         }
 
         [TestMethod]
@@ -273,7 +274,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
         }
 
         [TestMethod]
@@ -289,7 +290,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
         }
 
         #endregion
@@ -309,7 +310,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         [TestMethod]
@@ -325,7 +326,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         [TestMethod]
@@ -341,7 +342,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         #endregion
@@ -389,7 +390,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_REASON_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         #endregion
@@ -423,7 +424,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.INVALID_EMAIL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(ContactErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(EmailErrorPath));
         }
 
         [TestMethod]
@@ -439,7 +440,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.EMAIL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(ContactErrorPath));
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(EmailErrorPath));
         }
 
         #endregion

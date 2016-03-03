@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
 using System.Text.RegularExpressions;
 
@@ -34,38 +35,38 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(visitor => visitor.Address1)
                 .NotNull()
                 .WithMessage(ADDRESS_1_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath())
+                .WithState(x => new AddressErrorPath())
                 .Length(1, ADDRESS_MAX_LENGTH)
                 .WithMessage(ADDRESS_1_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new AddressErrorPath());
 
             RuleFor(visitor => visitor.Address2)
                 .Length(0, ADDRESS_MAX_LENGTH)
                 .WithMessage(ADDRESS_2_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new AddressErrorPath());
 
             RuleFor(visitor => visitor.City)
                 .Length(0, CITY_MAX_LENGTH)
                 .WithMessage(CITY_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new AddressErrorPath());
 
             RuleFor(visitor => visitor.PostalCode)
                 .NotNull()
                 .WithMessage(POSTAL_CODE_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath())
+                .WithState(x => new AddressErrorPath())
                 .Matches(new Regex(POSTAL_CODE_REGEX))
                 .WithMessage(POSTAL_CODE_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new AddressErrorPath());
 
             RuleFor(visitor => visitor.ExplanationCode)
                 .Length(EXPLANATION_CODE_LENGTH)
                 .WithMessage(EXPLANATION_CODE_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new AddressErrorPath());
 
             RuleFor(visitor => visitor.Explanation)
                 .Length(EXPLANATION_MIN_LENGTH, EXPLANATION_MAX_LENGTH)
                 .WithMessage(EXPLAINATION_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new AddressErrorPath());
         }
     }
 }

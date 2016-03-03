@@ -7,8 +7,9 @@ using ECA.Business.Validation.Model.Shared;
 using ECA.Data;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 
-namespace ECA.Business.Test.Validation.Model.Shared
+namespace ECA.Business.Test.Validation.Shared
 {
     [TestClass]
     public class ExchangeVisitorValidatorTest
@@ -119,7 +120,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.POSITION_CODE_LENGTH_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PositionCodeErrorPath));
         }
 
         [TestMethod]
@@ -135,7 +136,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.POSITION_CODE_LENGTH_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PositionCodeErrorPath));
         }
 
         [TestMethod]
@@ -151,7 +152,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.POSITION_CODE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PositionCodeErrorPath));
         }
 
         [TestMethod]
@@ -167,7 +168,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.Last().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(StartDateErrorPath));
         }
 
         [TestMethod]
@@ -184,8 +185,8 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.AreEqual(2, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
             Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR, results.Errors.Last().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
-            Assert.IsInstanceOfType(results.Errors.Last().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(EndDateErrorPath));
+            Assert.IsInstanceOfType(results.Errors.Last().CustomState, typeof(EndDateErrorPath));
         }
 
         [TestMethod]
@@ -203,7 +204,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(EndDateErrorPath));
         }
 
         [TestMethod]
@@ -219,7 +220,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.CATEGORY_CODE_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(ProgramCategoryCodeErrorPath));
         }
 
         [TestMethod]
@@ -235,7 +236,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_CATEGORY_CODE_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(ProgramCategoryCodeErrorPath));
         }
 
         [TestMethod]
@@ -312,7 +313,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(FieldOfStudyErrorPath));
         }
 
 
@@ -327,7 +328,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             instance.USAddress = new USAddress();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
@@ -341,7 +342,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             instance.MailAddress = new USAddress();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(PiiErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
@@ -357,7 +358,7 @@ namespace ECA.Business.Test.Validation.Model.Shared
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(SevisErrorPath));
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
         [TestMethod]

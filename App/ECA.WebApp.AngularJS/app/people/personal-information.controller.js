@@ -4,7 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, $q, smoothScroll, MessageBox) {
+  .controller('PersonInformationCtrl', function ($scope, $state, $stateParams, $timeout, $q, smoothScroll, MessageBox, StateService) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -16,7 +16,7 @@ angular.module('staticApp')
       $scope.edit.Pii = false;
       $scope.edit.Contact = false;
       $scope.edit.EduEmp = false;
-      $scope.sevisStatus = {statusName: ""};
+      $scope.sevisStatus = { statusName: "" };
 
       // TODO: use constant service
       var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Ready To Submit", "Validated", "SEVIS Received"];
@@ -69,40 +69,52 @@ angular.module('staticApp')
 
           return defer.promise;
       }
-      
-      // SEVIS validation: expand section and set active tab where error is located.
-      $scope.$on('$viewContentLoaded', function () {
 
-          var section = $stateParams.section;
+      function handleSectionState() {
 
-          if (section)
-          {
-              switch (section) {
-                  case "general":
-                      $scope.showGeneral = true;
-                      break;
-                  case "pii":
+          if ($state.current.name === StateService.stateNames.people.section.pii) {
+              scrollToSection('pii',
+                  collapseAllSections,
+                  function (element) {
                       $scope.showPii = true;
-                      break;
-                  case "contact":
-                      $scope.showContact = true;
-                      break;
-                  case "eduemp":
-                      $scope.showEduEmp = true;
-                      break;
-              }
-
-              $timeout(function () {
-                  var options = {
-                      duration: 500,
-                      easing: 'easeIn',
-                      offset: 150,
-                      callbackBefore: function (element) { },
-                      callbackAfter: function (element) { }
-                  }
-                  smoothScroll(section, options);
-              });
+                  });
           }
-      });
+          else if ($state.current.name === StateService.stateNames.people.section.general) {
+              scrollToSection('general',
+                  collapseAllSections,
+                  function (element) {
+                      $scope.showGeneral = true;
+                  });
+          }
+          else if ($state.current.name === StateService.stateNames.people.section.contact) {
+              scrollToSection('contact',
+                  collapseAllSections,
+                  function (element) {
+                      $scope.showContact = true;
+                  });
+          }
+      }
 
+      function collapseAllSections() {
+          $scope.showGeneral = false;
+          $scope.showPii = false;
+          $scope.showContact = false;
+          $scope.showEduEmp = false;
+          $scope.showEvalNotes = false;
+      }
+
+      function scrollToSection(sectionId, callbackBefore, callbackAfter) {
+          $timeout(function () {
+              var section = document.getElementById(sectionId);
+              var options = {
+                  duration: 500,
+                  easing: 'easeIn',
+                  offset: 175,
+                  callbackBefore: callbackBefore,
+                  callbackAfter: callbackAfter
+              }
+              smoothScroll(section, options);
+          });
+      }
+      handleSectionState();
   });

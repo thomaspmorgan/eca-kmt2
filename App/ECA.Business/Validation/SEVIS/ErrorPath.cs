@@ -1,110 +1,156 @@
 ﻿
+using ECA.Core.Generation;
+using System.Diagnostics.Contracts;
+
 namespace ECA.Business.Validation.SEVIS
 {
+
+    public class SevisErrorType
+    {
+        public static StaticLookup Email
+        {
+            get
+            {
+                return new StaticLookup("Email", 1);
+            }
+        }
+
+        public static StaticLookup PhoneNumber
+        {
+            get
+            {
+                return new StaticLookup("Phone Number", 2);
+            }
+        }
+
+        public static StaticLookup Address
+        {
+            get
+            {
+                return new StaticLookup("Address", 3);
+            }
+        }
+
+        public static StaticLookup StartDate
+        {
+            get
+            {
+                return new StaticLookup("Start Date", 4);
+            }
+        }
+
+        public static StaticLookup EndDate
+        {
+            get
+            {
+                return new StaticLookup("End Date", 5);
+            }
+        }
+
+        public static StaticLookup PositionCode
+        {
+            get
+            {
+                return new StaticLookup("Position", 6);
+            }
+        }
+
+        public static StaticLookup ProgramCategoryCode
+        {
+            get
+            {
+                return new StaticLookup("Program Category", 7);
+            }
+        }
+
+        public static StaticLookup FieldOfStudy
+        {
+            get
+            {
+                return new StaticLookup("Field Of Study", 8);
+            }
+        }
+
+        public static StaticLookup Funding
+        {
+            get
+            {
+                return new StaticLookup("Funding", 9);
+            }
+        }
+
+        public static StaticLookup FullName
+        {
+            get
+            {
+                return new StaticLookup("Full Name", 10);
+            }
+        }
+
+        public static StaticLookup BirthDate
+        {
+            get
+            {
+                return new StaticLookup("Birth Date", 11);
+            }
+        }
+
+        public static StaticLookup Gender
+        {
+            get
+            {
+                return new StaticLookup("Gender", 12);
+            }
+        }
+
+        public static StaticLookup CityOfBirth
+        {
+            get
+            {
+                return new StaticLookup("City of Birth", 13);
+            }
+        }
+
+        public static StaticLookup CountryOfBirth
+        {
+            get
+            {
+                return new StaticLookup("Country of Birth", 14);
+            }
+        }
+
+        public static StaticLookup Citizenship
+        {
+            get
+            {
+                return new StaticLookup("Citizenship", 15);
+            }
+        }
+
+        public static StaticLookup PermanentResidenceCountry
+        {
+            get
+            {
+                return new StaticLookup("Permanent Country of Residence", 16);
+            }
+        }
+    }
+
     /// <summary>
     /// Routing path
     /// </summary>
     public class ErrorPath
     {
-        public string Category { get; set; }
-        public string CategorySub { get; set; }
-        public string Section { get; set; }
-        public string Tab { get; set; }
-    }
+        public int SevisErrorTypeId { get; set; }
 
-    /// <summary>
-    /// Routing category
-    /// </summary>
-    public sealed class ElementCategory
-    {
-        private readonly string name;
-        private readonly int value;
+        public string SevisErrorTypeName { get; set; }
 
-        public static readonly ElementCategory Person = new ElementCategory(1, "people");
-        public static readonly ElementCategory Project = new ElementCategory(2, "projects");
-
-        private ElementCategory(int value, string name)
+        public void SetByStaticLookup(StaticLookup lookup)
         {
-            this.name = name;
-            this.value = value;
-        }
-
-        public override string ToString()
-        {
-            return name;
-        }
-    }
-
-    /// <summary>
-    /// Routing sub category
-    /// </summary>
-    public sealed class ElementCategorySub
-    {
-        private readonly string name;
-        private readonly int value;
-
-        public static readonly ElementCategorySub PersonalInfo = new ElementCategorySub(1, "personalinformation");
-        public static readonly ElementCategorySub Participant = new ElementCategorySub(2, "participants");
-        public static readonly ElementCategorySub MoneyFlows = new ElementCategorySub(3, "moneyflows");
-
-        private ElementCategorySub(int value, string name)
-        {
-            this.name = name;
-            this.value = value;
-        }
-
-        public override string ToString()
-        {
-            return name;
-        }
-    }
-
-    /// <summary>
-    /// Page section id of bookmark
-    /// </summary>
-    public sealed class ElementCategorySection
-    {
-        private readonly string name;
-        private readonly int value;
-
-        public static readonly ElementCategorySection General = new ElementCategorySection(1, "general");
-        public static readonly ElementCategorySection PII = new ElementCategorySection(2, "pii");
-        public static readonly ElementCategorySection Contact = new ElementCategorySection(3, "contact");
-        public static readonly ElementCategorySection EducationEmployment = new ElementCategorySection(4, "eduemp");
-
-        private ElementCategorySection(int value, string name)
-        {
-            this.name = name;
-            this.value = value;
-        }
-
-        public override string ToString()
-        {
-            return name;
+            Contract.Requires(lookup != null, "The lookup must not be null.");
+            this.SevisErrorTypeId = lookup.Id;
+            this.SevisErrorTypeName = lookup.Value;
         }
     }
     
-    /// <summary>
-    /// Optional tab id to navigate to a tab inside a section
-    /// </summary>
-    public sealed class ElementCategorySectionTab
-    {
-        private readonly string name;
-        private readonly int value;
-
-        public static readonly ElementCategorySectionTab PersonalInfo = new ElementCategorySectionTab(1, "personalinfo");
-        public static readonly ElementCategorySectionTab Funding = new ElementCategorySectionTab(2, "funding");
-        public static readonly ElementCategorySectionTab Sevis = new ElementCategorySectionTab(3, "sevis");
-
-        private ElementCategorySectionTab(int value, string name)
-        {
-            this.name = name;
-            this.value = value;
-        }
-
-        public override string ToString()
-        {
-            return name;
-        }
-    }
 }
