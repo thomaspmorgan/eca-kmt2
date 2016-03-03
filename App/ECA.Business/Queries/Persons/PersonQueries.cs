@@ -67,6 +67,8 @@ namespace ECA.Business.Queries.Persons
                         let hasDivisionOfBirth = hasPlaceOfBirth && cityOfBirth.Division != null
                         let divisionOfBirthName = hasDivisionOfBirth ? cityOfBirth.Division.LocationName : null
 
+                        where person.PersonType.IsDependentPersonType == false
+
                         select new SimplePersonDTO
                         {
                             Alias = person.Alias,
