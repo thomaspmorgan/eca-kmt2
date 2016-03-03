@@ -15,6 +15,7 @@ using ECA.Data;
 using ECA.Business.Queries.Models.Admin;
 using ECA.WebApi.Models.Admin;
 using System.Web.Http.Results;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.WebApi.Controllers.Persons
 {
@@ -27,7 +28,10 @@ namespace ECA.WebApi.Controllers.Persons
     {
         private static ExpressionSorter<SimplePersonDTO> DEFAULT_PEOPLE_SORTER = new ExpressionSorter<SimplePersonDTO>(x => x.LastName, SortDirection.Ascending);
 
+        private static ExpressionSorter<PersonTypeDTO> DEFAULT_PERSON_TYPE_SORTER = new ExpressionSorter<PersonTypeDTO>(x => x.Name, SortDirection.Ascending);
+
         private IPersonService service;
+        private IPersonTypeService personTypeService;
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
         private IEmailAddressHandler emailAddressHandler;
@@ -39,12 +43,14 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="service">The service to inject</param>
         /// <param name="userProvider">The user provider.</param>
+        /// <param name="personTypeService">The person type service.</param>
         /// <param name="addressHandler">The address handler.</param>
         /// <param name="emailAddressHandler">The Email Address handler.</param>
         /// <param name="phoneNumberHandler">The phone number handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
         public PeopleController(
             IPersonService service, 
+            IPersonTypeService personTypeService,
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
             ISocialMediaPresenceModelHandler socialMediaHandler,
@@ -59,10 +65,30 @@ namespace ECA.WebApi.Controllers.Persons
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
+            this.personTypeService = personTypeService;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
             this.emailAddressHandler = emailAddressHandler;
             this.phoneNumberHandler = phoneNumberHandler;
+        }
+
+        /// <summary>
+        /// Returns the person types in the system.
+        /// </summary>
+        /// <returns>The person types.</returns>
+        [ResponseType(typeof(PagingQueryBindingModel<PersonTypeDTO>))]
+        [Route("People/Types")]
+        public async Task<IHttpActionResult> GetPersonTypesAsync([FromUri]PagingQueryBindingModel<PersonTypeDTO> model)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.personTypeService.GetAsync(model.ToQueryableOperator(DEFAULT_PERSON_TYPE_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         /// <summary>

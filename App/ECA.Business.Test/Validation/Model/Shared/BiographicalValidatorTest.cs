@@ -5,8 +5,9 @@ using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model;
 using ECA.Data;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.SEVIS;
 
-namespace ECA.Business.Test.Validation.Model.CreateEV
+namespace ECA.Business.Test.Validation.Model.Shared
 {
     [TestClass]
     public class BiographicalValidatorTest
@@ -68,11 +69,12 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_DATE_NULL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         #endregion
 
-        #region Birthdate
+        #region Gender
         [TestMethod]
         public void TestGender_IsNull()
         {
@@ -105,6 +107,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -150,6 +153,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -165,6 +169,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -180,6 +185,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         #endregion
@@ -199,6 +205,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -214,6 +221,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -229,6 +237,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         #endregion
@@ -248,6 +257,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -263,6 +273,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -278,6 +289,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         #endregion
@@ -297,6 +309,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -312,6 +325,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         [TestMethod]
@@ -327,6 +341,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         #endregion
@@ -374,6 +389,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.BIRTH_COUNTRY_REASON_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PiiErrorPath));
         }
 
         #endregion
@@ -407,6 +423,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.INVALID_EMAIL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(ContactErrorPath));
         }
 
         [TestMethod]
@@ -422,6 +439,7 @@ namespace ECA.Business.Test.Validation.Model.CreateEV
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator.EMAIL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(ContactErrorPath));
         }
 
         #endregion

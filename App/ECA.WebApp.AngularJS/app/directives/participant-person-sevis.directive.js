@@ -40,10 +40,16 @@
                 }
 
                 // Navigate to a section where the validation error can be resolved
-                $scope.goToErrorSection = function (customState) {                    
-                    if (customState)
+                $scope.goToErrorSection = function (error) {
+                    if (error && error.customState)
                     {
-                        $state.go(customState.category + '.' + customState.categorySub, { 'section': customState.section, 'tab': customState.tab, 'personId': $scope.personid, 'participantId': $scope.participantid }, { reload: true });
+                        $state.go(error.customState.category + '.' + error.customState.categorySub,
+                            {
+                                'section': error.customState.section,
+                                'tab': error.customState.tab,
+                                'personId': $scope.personid,
+                                'participantId': $scope.participantid
+                            }, { reload: true });
                     }
                 };
             }

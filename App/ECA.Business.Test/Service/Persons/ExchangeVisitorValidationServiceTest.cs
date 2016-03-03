@@ -58,7 +58,8 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             context.Projects.Add(project);
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, 1);
@@ -81,7 +82,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -102,18 +104,124 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantHasASevisId_ValidationSucceeds()
+        public async Task TestRunParticipantSevisValidation_ParticipantTypeIsNotForeignTravelingParticipant()
         {
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                SevisValidationResult = "some string"
+            };
+
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNull(commStatus);
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Never());
+
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Never());
+        }
+
+        [TestMethod]
+        public async Task TestRunParticipantSevisValidation_ProjectIsNotExchangeVisitor()
+        {
+            var user = new User(1);
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                SevisValidationResult = "some string"
+            };
+
+            var updateExchVisitor = new UpdateExchVisitor();
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
+            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNull(commStatus);
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Never());
+
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            updateExchVisitorValidator.Verify(x => x.Validate(It.IsAny<UpdateExchVisitor>()), Times.Never());
+        }
+
+        [TestMethod]
+        public async Task TestRunParticipantSevisValidation_ParticipantHasASevisId_ValidationSucceeds()
+        {
+            var user = new User(1);
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -164,13 +272,15 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -225,13 +335,15 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -281,13 +393,15 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -341,13 +455,15 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -409,13 +525,15 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -478,13 +596,15 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -531,17 +651,18 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_SevisIdIsWhitespace()
         {
-
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -583,19 +704,22 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             createExchVisitorValidator.Verify(x => x.Validate(It.IsAny<CreateExchVisitor>()), Times.Exactly(2));
         }
+
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_SevisIdIsEmpty()
         {
             var user = new User(1);
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
-                Project = project
+                Project = project,
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
             };
             var participantPerson = new ParticipantPerson
             {

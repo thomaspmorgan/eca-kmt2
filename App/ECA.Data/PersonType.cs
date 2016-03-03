@@ -30,6 +30,16 @@ namespace ECA.Data
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the sevis dependent type code i.e. child = 02, spouse = 01.
+        /// </summary>
+        public string SevisDependentTypeCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether this person type is a dependent type.
+        /// </summary>
+        public bool IsDependentPersonType { get; set; }
+
+        /// <summary>
         /// Gets or sets the people of this person type.
         /// </summary>
         public virtual ICollection<Person> People { get; set; }

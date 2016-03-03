@@ -13,6 +13,8 @@ namespace ECA.Business.Queries.Sevis
     /// </summary>
     public static class SevisBatchProcessingQueries
     {
+
+        private const string successCode = "S0000";
         /// <summary>
         /// Returns a query to get SEVIS batch processing dtos from the given context.
         /// </summary>
@@ -60,6 +62,76 @@ namespace ECA.Business.Queries.Sevis
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetSevisBatchProcessingDTOQuery(context);
+        }
+
+        /// <summary>
+        /// Returns a query to get the sevis batch dtos for upload.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The SEVIS batch processing dtos.</returns>
+        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForUpload(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var forUpload = context.SevisBatchProcessings.Where(x => x.SubmitDate == null && x.SendString != null);
+
+            return forUpload.Select(x => new SevisBatchProcessingDTO
+            {
+                BatchId = x.BatchId,
+                SubmitDate = x.SubmitDate,
+                RetrieveDate = x.RetrieveDate,
+                SendString = x.SendString,
+                TransactionLogString = x.TransactionLogString,
+                UploadDispositionCode = x.UploadDispositionCode,
+                ProcessDispositionCode = x.ProcessDispositionCode,
+                DownloadDispositionCode = x.DownloadDispositionCode
+            }).AsEnumerable();
+        }
+
+        /// <summary>
+        /// Returns a query to get the sevis batch dtos for download.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The SEVIS batch processing dtos.</returns>
+        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForDownload(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var forUpload = context.SevisBatchProcessings.Where(x => x.RetrieveDate != null && x.TransactionLogString != null 
+                                                                && x.UploadDispositionCode == successCode);
+
+            return forUpload.Select(x => new SevisBatchProcessingDTO
+            {
+                BatchId = x.BatchId,
+                SubmitDate = x.SubmitDate,
+                RetrieveDate = x.RetrieveDate,
+                SendString = x.SendString,
+                TransactionLogString = x.TransactionLogString,
+                UploadDispositionCode = x.UploadDispositionCode,
+                ProcessDispositionCode = x.ProcessDispositionCode,
+                DownloadDispositionCode = x.DownloadDispositionCode
+            }).AsEnumerable();
+        }
+
+        /// <summary>
+        /// Returns a query to get the sevis batch dtos for processing.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The SEVIS batch processing dtos.</returns>
+        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsToProcess(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var forUpload = context.SevisBatchProcessings.Where(x => x.DownloadDispositionCode == successCode &&
+                                                                     x.ProcessDispositionCode == null);
+            return forUpload.Select(x => new SevisBatchProcessingDTO
+            {
+                BatchId = x.BatchId,
+                SubmitDate = x.SubmitDate,
+                RetrieveDate = x.RetrieveDate,
+                SendString = x.SendString,
+                TransactionLogString = x.TransactionLogString,
+                UploadDispositionCode = x.UploadDispositionCode,
+                ProcessDispositionCode = x.ProcessDispositionCode,
+                DownloadDispositionCode = x.DownloadDispositionCode
+            }).AsEnumerable();
         }
 
         /// <summary>

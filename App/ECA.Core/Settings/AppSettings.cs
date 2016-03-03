@@ -68,21 +68,18 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string SEVIS_PREFIX = "sevis.";
 
-        /// <summary>
-        /// The azure sevis api key.
-        /// </summary>
-        public const string SEVIS_API_KEY = SEVIS_PREFIX + "ApiKey";
+        public const string SEVIS_UPLOAD_URI_KEY = SEVIS_PREFIX + "UploadUri";
 
-        /// <summary>
-        /// The azure sevis post service name key (post to SEVIS).
-        /// </summary>
-        public const string SEVIS_POST_SERVICE_NAME_KEY = SEVIS_PREFIX + "PostServiceName";
+        public const string SEVIS_DOWNLOAD_URI_KEY = SEVIS_PREFIX + "DownloadUri";
 
-        /// <summary>
-        /// The azure sevis get service name key (get results from SEVIS).
-        /// </summary>
-        public const string SEVIS_GET_SERVICE_NAME_KEY = SEVIS_PREFIX + "GetServiceName";
-        
+        public const string SEVIS_USERID_KEY = SEVIS_PREFIX + "UserId";
+
+        public const string SEVIS_ORGID_KEY = SEVIS_PREFIX + "OrgId";
+
+        public const string SEVIS_THUMBPRINT = SEVIS_PREFIX + "Thumbprint";
+
+        public const string SEVIS_PASSPHRASE = SEVIS_PREFIX + "Passphrase";
+
         #endregion
 
         #region Database Constants
@@ -209,20 +206,35 @@ namespace ECA.Core.Settings
         public string SearchIndexName { get { return GetAppSetting(SEARCH_INDEX_NAME_KEY); } }
 
         /// <summary>
-        /// Gets the azure SEVIS api key.
+        /// Gets the azure SEVIS Upload Uri.
         /// </summary>
-        public string SevisApiKey { get { return GetAppSetting(SEVIS_API_KEY); } }
+        public string SevisUploadUri { get { return GetAppSetting(SEVIS_UPLOAD_URI_KEY); } }
 
         /// <summary>
-        /// Gets the azure SEVIS POST service name.
+        /// Gets the azure SEVIS Download Uri.
         /// </summary>
-        public string SevisPostServiceName { get { return GetAppSetting(SEVIS_POST_SERVICE_NAME_KEY); } }
+        public string SevisDownloadUri { get { return GetAppSetting(SEVIS_DOWNLOAD_URI_KEY); } }
 
         /// <summary>
-        /// Gets the azure SEVIS GET service name.
+        /// Gets the azure SEVIS User Id.
         /// </summary>
-        public string SevisGetServiceName { get { return GetAppSetting(SEVIS_GET_SERVICE_NAME_KEY); } }
-        
+        public string SevisUserId { get { return GetAppSetting(SEVIS_USERID_KEY); } }
+
+        /// <summary>
+        /// Gets the azure SEVIS Org Id
+        /// </summary>
+        public string SevisOrgId { get { return GetAppSetting(SEVIS_ORGID_KEY); } }
+
+        /// <summary>
+        /// Gets the azure SEVIS Client Certificate Thumbprint
+        /// </summary>
+        public string SevisThumbprint { get { return GetAppSetting(SEVIS_THUMBPRINT); } }
+
+        /// <summary>
+        /// Gets the azure SEVIS Client Certificate Passphrase
+        /// </summary>
+        public string SevisPassphrase { get { return GetAppSetting(SEVIS_PASSPHRASE); } }
+
         /// <summary>
         /// Gets the active directory client id.
         /// </summary>

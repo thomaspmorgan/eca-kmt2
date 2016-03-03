@@ -21,15 +21,27 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_CheckProperties()
         {
+            var participantPersonType = new PersonType
+            {
+                PersonTypeId = PersonType.Participant.Id,
+                IsDependentPersonType = false
+            };
+            var spousePersonType = new PersonType
+            {
+                PersonTypeId = PersonType.Spouse.Id,
+                IsDependentPersonType = true
+            };
             var dependent = new Person
             {
                 PersonId = 10,
-                PersonTypeId = PersonType.Dependent.Id
+                PersonTypeId = spousePersonType.PersonTypeId,
+                PersonType = spousePersonType
             };
-
+            
             var person = new Person
             {
-                PersonTypeId = PersonType.Participant.Id,
+                PersonTypeId = participantPersonType.PersonTypeId,
+                PersonType = participantPersonType,
                 PersonId = 1,
                 Alias = "alias",
                 FamilyName = "family",
@@ -64,6 +76,8 @@ namespace ECA.Business.Test.Queries.Persons
             context.People.Add(person);
             context.People.Add(dependent);
             context.Genders.Add(person.Gender);
+            context.PersonTypes.Add(spousePersonType);
+            context.PersonTypes.Add(participantPersonType);
 
             var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
             Assert.IsNotNull(result);
@@ -73,15 +87,22 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DependentDoesNotHaveParticipantFamilyMember()
         {
+            var spousePersonType = new PersonType
+            {
+                PersonTypeId = PersonType.Spouse.Id,
+                IsDependentPersonType = true
+            };
             var dependent = new Person
             {
                 PersonId = 10,
-                PersonTypeId = PersonType.Dependent.Id
+                PersonTypeId = spousePersonType.PersonTypeId,
+                PersonType = spousePersonType
             };
 
             var person = new Person
             {
-                PersonTypeId = PersonType.Dependent.Id,
+                PersonTypeId = spousePersonType.PersonTypeId,
+                PersonType = spousePersonType,
                 PersonId = 1,
                 Alias = "alias",
                 FamilyName = "family",
@@ -116,6 +137,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.People.Add(person);
             context.People.Add(dependent);
             context.Genders.Add(person.Gender);
+            context.PersonTypes.Add(spousePersonType);
 
             var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
             Assert.IsNull(result);
@@ -124,12 +146,19 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DepdendentDoesNotHaveFmaily()
         {
+            var spousePersonType = new PersonType
+            {
+                PersonTypeId = PersonType.Spouse.Id,
+                IsDependentPersonType = true
+            };
             var dependent = new Person
             {
                 PersonId = 10,
-                PersonTypeId = PersonType.Dependent.Id
+                PersonTypeId = spousePersonType.PersonTypeId,
+                PersonType = spousePersonType
             };
             context.People.Add(dependent);
+            context.PersonTypes.Add(spousePersonType);
 
             var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
             Assert.IsNull(result);

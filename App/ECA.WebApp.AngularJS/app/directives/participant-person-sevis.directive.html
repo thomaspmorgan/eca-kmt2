@@ -17,7 +17,7 @@
                 <fieldset style="border:1px solid red; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
                         <li ng-repeat="error in sevisinfo.sevisValidationResult.errors track by $index">
-                            <a ng-href="" ng-click="goToErrorSection(error.customState)">{{error.errorMessage}}</a>
+                            <a ng-href="" ng-click="goToErrorSection(error)">{{error.errorMessage}}</a>
                         </li>
                     </ul>
                 </fieldset>                

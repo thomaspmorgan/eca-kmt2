@@ -1349,9 +1349,13 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Participant { get { return new StaticLookup("Participant", 1); } }
 		/// <summary>
-		/// Returns the Dependent lookup with id 2.
+		/// Returns the Spouse lookup with id 2.
 		/// </summary>
-		public static StaticLookup Dependent { get { return new StaticLookup("Dependent", 2); } }
+		public static StaticLookup Spouse { get { return new StaticLookup("Spouse", 2); } }
+		/// <summary>
+		/// Returns the Child lookup with id 3.
+		/// </summary>
+		public static StaticLookup Child { get { return new StaticLookup("Child", 3); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1360,7 +1364,8 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(int id)
 		{
 			if (1 == id) return PersonType.Participant;
-			if (2 == id) return PersonType.Dependent;
+			if (2 == id) return PersonType.Spouse;
+			if (3 == id) return PersonType.Child;
 			return null;
 		}
 		///<summary>
@@ -1371,7 +1376,8 @@ namespace ECA.Data
 		public static StaticLookup GetStaticLookup(string value)
 		{
 			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Participant;
-			if ("Dependent".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Dependent;
+			if ("Spouse".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Spouse;
+			if ("Child".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Child;
 			return null;
 		}
 

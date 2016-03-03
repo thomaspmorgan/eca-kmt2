@@ -87,14 +87,17 @@ namespace ECA.Business.Service.Persons
         public IList<object> GetParticipantEntities(DbContext context, EntityState state)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var changedEntities = context.ChangeTracker.Entries().Where(x => x.State == state).ToList();
-
             var participantEntityTypes = GetParticipantTypes();
-            var changedParticipantEntities = changedEntities
-                .Where(x => participantEntityTypes.Contains(x.Entity.GetType().BaseType))
-                .Select(x => x.Entity)
-                .ToList();
-            return changedParticipantEntities;
+
+            var changedParticipantEntities = from changedEntity in context.ChangeTracker.Entries().Where(x => x.State == state)
+                                             let type = changedEntity.Entity.GetType()
+                                             let baseType = type.BaseType
+
+                                             where participantEntityTypes.Contains(type)
+                                             || (baseType != typeof(Object) && participantEntityTypes.Contains(baseType))
+                                             select changedEntity.Entity;
+
+            return changedParticipantEntities.ToList();
         }
 
         /// <summary>
@@ -154,15 +157,25 @@ namespace ECA.Business.Service.Persons
         {
             var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
             var ids = GetParticipantIds(allParticipantObjects);
+            var callSaveChanges = false;
             if (ids.Count > 0)
             {
                 foreach (var id in ids)
                 {
                     var participant = this.Context.Participants.Find(id);
                     Contract.Assert(participant != null, "The participant should be found.");
-                    validationService.RunParticipantSevisValidation(this.User, participant.ProjectId, participant.ParticipantId);
+                    var participantPerson = this.Context.ParticipantPersons.Find(id);
+                    if (participantPerson != null)
+                    {
+                        validationService.RunParticipantSevisValidation(this.User, participant.ProjectId, participant.ParticipantId);
+                        callSaveChanges = true;
+                    }
                 }
-                Context.SaveChanges();
+                if (callSaveChanges)
+                {
+                    Context.SaveChanges();
+                }
+
             }
         }
 
@@ -174,15 +187,24 @@ namespace ECA.Business.Service.Persons
         {
             var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
             var ids = await GetParticipantIdsAsync(allParticipantObjects);
+            var callSaveChanges = false;
             if (ids.Count > 0)
             {
                 foreach (var id in ids)
                 {
                     var participant = await this.Context.Participants.FindAsync(id);
                     Contract.Assert(participant != null, "The participant should be found.");
-                    await validationService.RunParticipantSevisValidationAsync(this.User, participant.ProjectId, participant.ParticipantId);
+                    var participantPerson = await this.Context.ParticipantPersons.FindAsync(id);
+                    if (participantPerson != null)
+                    {
+                        await validationService.RunParticipantSevisValidationAsync(this.User, participant.ProjectId, participant.ParticipantId);
+                        callSaveChanges = true;
+                    }
                 }
-                await Context.SaveChangesAsync();
+                if (callSaveChanges)
+                {
+                    await Context.SaveChangesAsync();
+                }
             }
         }
 
@@ -209,31 +231,31 @@ namespace ECA.Business.Service.Persons
             };
             foreach (var obj in objects)
             {
-                var baseType = obj.GetType().BaseType;
-                if (baseType == typeof(Person))
+                var type = obj.GetType();
+                if (typeof(Person).IsAssignableFrom(type))
                 {
                     var participantId = await GetParticipantIdAsync((Person)obj);
                     addIfNotNull(participantId);
                 }
-                else if (baseType == typeof(PhoneNumber))
+                else if (typeof(PhoneNumber).IsAssignableFrom(type))
                 {
                     var phoneNumber = (PhoneNumber)obj;
                     var participantId = await GetParticipantIdAsync(phoneNumber);
                     addIfNotNull(participantId);
                 }
-                else if (baseType == typeof(EmailAddress))
+                else if (typeof(EmailAddress).IsAssignableFrom(type))
                 {
                     var email = (EmailAddress)obj;
                     var participantId = await GetParticipantIdAsync(email);
                     addIfNotNull(participantId);
                 }
-                else if (baseType == typeof(Address))
+                else if (typeof(Address).IsAssignableFrom(type))
                 {
                     var address = (Address)obj;
                     var participantId = await GetParticipantIdAsync(address);
                     addIfNotNull(participantId);
                 }
-                else if (baseType == typeof(Location))
+                else if (typeof(Location).IsAssignableFrom(type))
                 {
                     var location = (Location)obj;
                     var participantId = await GetParticipantIdAsync(location);
@@ -241,7 +263,7 @@ namespace ECA.Business.Service.Persons
                 }
                 else
                 {
-                    ids.Add(GetParticipantId(obj, baseType));
+                    ids.Add(GetParticipantId(obj, type));
                 }
             }
             return ids.Distinct().ToList();
@@ -265,31 +287,31 @@ namespace ECA.Business.Service.Persons
             };
             foreach (var obj in objects)
             {
-                var baseType = obj.GetType().BaseType;
-                if (baseType == typeof(Person))
+                var type = obj.GetType();
+                if (typeof(Person).IsAssignableFrom(type))
                 {
                     var participantId = GetParticipantId((Person)obj);
                     addIfNotNull(participantId);
                 }
-                else if (baseType == typeof(PhoneNumber))
+                else if (typeof(PhoneNumber).IsAssignableFrom(type))
                 {
                     var phoneNumber = (PhoneNumber)obj;
                     var participantId = GetParticipantId(phoneNumber);
                     addIfNotNull(participantId);
                 }
-                else if(baseType == typeof(EmailAddress))
+                else if (typeof(EmailAddress).IsAssignableFrom(type))
                 {
                     var email = (EmailAddress)obj;
                     var participantId = GetParticipantId(email);
                     addIfNotNull(participantId);
                 }
-                else if (baseType == typeof(Address))
+                else if (typeof(Address).IsAssignableFrom(type))
                 {
                     var address = (Address)obj;
                     var participantId = GetParticipantId(address);
                     addIfNotNull(participantId);
                 }
-                else if(baseType == typeof(Location))
+                else if (typeof(Location).IsAssignableFrom(type))
                 {
                     var location = (Location)obj;
                     var participantId = GetParticipantId(location);
@@ -297,7 +319,7 @@ namespace ECA.Business.Service.Persons
                 }
                 else
                 {
-                    ids.Add(GetParticipantId(obj, baseType));
+                    ids.Add(GetParticipantId(obj, type));
                 }
             }
             return ids.Distinct().ToList();
@@ -382,7 +404,7 @@ namespace ECA.Business.Service.Persons
             if (personId.HasValue)
             {
                 var person = Context.People.Find(personId.Value);
-                if(person != null)
+                if (person != null)
                 {
                     participantId = GetParticipantId(person);
                 }
@@ -431,7 +453,7 @@ namespace ECA.Business.Service.Persons
                     participantId = dto.ParticipantId.Value;
                 }
             }
-            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id)
             {
                 var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
                 if (dto != null && dto.ParticipantId.HasValue)
@@ -457,7 +479,7 @@ namespace ECA.Business.Service.Persons
                     participantId = dto.ParticipantId.Value;
                 }
             }
-            else if (person.PersonTypeId == PersonType.Dependent.Id)
+            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id) //here
             {
                 var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
                 if (dto != null && dto.ParticipantId.HasValue)
@@ -476,17 +498,17 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(obj != null, "The object must not be null.");
             Contract.Requires(type != null, "The type must not be null.");
-            if (type == typeof(Participant))
+            if (typeof(Participant).IsAssignableFrom(type))
             {
                 var participant = (Participant)obj;
                 return participant.ParticipantId;
             }
-            else if (type == typeof(ParticipantPerson))
+            else if (typeof(ParticipantPerson).IsAssignableFrom(type))
             {
                 var participantPerson = (ParticipantPerson)obj;
                 return participantPerson.ParticipantId;
             }
-            else if (type == typeof(ParticipantExchangeVisitor))
+            else if (typeof(ParticipantExchangeVisitor).IsAssignableFrom(type))
             {
                 var visitor = (ParticipantExchangeVisitor)obj;
                 return visitor.ParticipantId;

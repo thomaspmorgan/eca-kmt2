@@ -73,7 +73,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Program end date
         /// </summary>
-        public DateTime? PrgEndDate { get; set; }
+        public DateTime PrgEndDate { get; set; }
 
         /// <summary>
         /// Program category

@@ -406,9 +406,11 @@ angular.module('staticApp')
       };
 
       function updateSevisCommStatusView(participantId, participantPersonSevis) {
-          var participantIds = $scope.participants.map(function (p) { return p.participantId; });
-          var index = participantIds.indexOf(parseInt(participantId, 10));
-          $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;//participantPersonSevis
+          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
+              var participantIds = $scope.participants.map(function (p) { return p.participantId; });
+              var index = participantIds.indexOf(parseInt(participantId, 10));
+              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+          }
       }
 
       function loadSevisInfo(participantId) {
@@ -510,7 +512,12 @@ angular.module('staticApp')
               templateUrl: '/app/projects/add-new-participant.html',
               controller: 'AddNewParticipantCtrl',
               backdrop: 'static',
-              size: 'lg'
+              size: 'lg',
+              resolve: {
+                  personTypeId: function () {
+                      return ConstantsService.personType.participant.id;
+                  }
+              }
           });
 
           modalInstance.result.then(function (participant) {

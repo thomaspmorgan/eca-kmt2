@@ -164,7 +164,7 @@
                                 
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="division">Division<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="division">Division<span ng-show="address.country === 'United States'" class="asterisk"> *</span></label>
                                 <div class="col-md-9">
                                     <input type="search"
                                            id="division"
@@ -183,7 +183,7 @@
                                            typeahead-on-select="view.onSelectDivision($item, $model, $label)"
                                            typeahead-template-url="selectLocationTemplate.html"
                                            typeahead-editable="false"
-                                           required />
+                                           ng-required="address.country === 'United States'" />
                                     <i class="material-icons md-18 contextual" ng-show="!view.isLoadingDivisions">search</i>
                                     <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingDivisions">autorenew</i>
                                     <div ng-show="form.addressForm.division.$dirty || form.addressForm.division.$error.required">

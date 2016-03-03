@@ -94,18 +94,27 @@ namespace ECA.Business.Service.Persons
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            ValidationResult validationResult;
-            if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
+            var project = Context.Projects.Find(projectId);
+            throwIfModelDoesNotExist(participantId, project, typeof(Project));
+            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
             {
-                var updateExchangeVisitor = exchangeVisitorService.GetUpdateExchangeVisitor(user, projectId, participantId);
-                validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
+                ValidationResult validationResult;
+                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
+                {
+                    var updateExchangeVisitor = exchangeVisitorService.GetUpdateExchangeVisitor(user, projectId, participantId);
+                    validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
+                }
+                else
+                {
+                    var createExchangeVisitor = exchangeVisitorService.GetCreateExchangeVisitor(user, projectId, participantId);
+                    validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
+                }
+                return HandleValidationResult(participantPerson, validationResult);
             }
             else
             {
-                var createExchangeVisitor = exchangeVisitorService.GetCreateExchangeVisitor(user, projectId, participantId);
-                validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
+                return null;
             }
-            return HandleValidationResult(participantPerson, validationResult);
 
         }
 
@@ -127,19 +136,27 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            ValidationResult validationResult;
-            if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
+            var project = Context.Projects.Find(projectId);
+            throwIfModelDoesNotExist(participantId, project, typeof(Project));
+            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
             {
-                var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(user, projectId, participantId);
-                validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
+                ValidationResult validationResult;
+                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
+                {
+                    var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(user, projectId, participantId);
+                    validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
+                }
+                else
+                {
+                    var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
+                    validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
+                }
+                return await HandleValidationResultAsync(participantPerson, validationResult);
             }
             else
             {
-                var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
-                validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
+                return null;
             }
-            return await HandleValidationResultAsync(participantPerson, validationResult);
-
         }
 
         private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
