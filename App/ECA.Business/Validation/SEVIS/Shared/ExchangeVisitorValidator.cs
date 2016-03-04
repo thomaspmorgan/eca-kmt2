@@ -90,12 +90,12 @@ namespace ECA.Business.Validation.Model.CreateEV
                 .When(visitor => visitor.requestID != null);
 
             RuleFor(visitor => visitor.USAddress)
-                .SetValidator(new USAddressValidator())
+                .SetValidator(new USAddressValidator(USAddressValidator.HOST_INSTITUTION_ADDRESS_NAME))
                 .When(visitor => visitor.USAddress != null);
 
 
             RuleFor(visitor => visitor.MailAddress)
-                .SetValidator(new USAddressValidator())
+                .SetValidator(new USAddressValidator(USAddressValidator.HOME_INSTITUTION_ADDRESS_NAME))
                 .When(visitor => visitor.MailAddress != null);
                 
             RuleFor(visitor => visitor.FinancialInfo)

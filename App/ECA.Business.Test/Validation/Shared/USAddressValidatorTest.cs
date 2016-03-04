@@ -28,7 +28,8 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestAddress1_Null()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -37,14 +38,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.ADDRESS_1_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(USAddressValidator.ADDRESS_1_ERROR_MESSAGE, name, USAddressValidator.ADDRESS_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestAddress1_ExceedsMaxLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -53,14 +55,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.ADDRESS_1_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(USAddressValidator.ADDRESS_1_ERROR_MESSAGE, name, USAddressValidator.ADDRESS_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestAddress2_Null()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -73,7 +76,8 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestAddress2_ExceedsMaxLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -82,14 +86,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.ADDRESS_2_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(USAddressValidator.ADDRESS_2_ERROR_MESSAGE, name, USAddressValidator.ADDRESS_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestPostalCode_Null()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -98,14 +103,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, name, USAddressValidator.POSTAL_CODE_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestPostalCode_AllDigitsExceedsLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -114,14 +120,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, name, USAddressValidator.POSTAL_CODE_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestPostalCode_DoesNotContainDigits()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -130,14 +137,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, name, USAddressValidator.POSTAL_CODE_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestPostalCode_DoesNotHaveRequiredNumberOfDigits()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -146,14 +154,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USAddressValidator.POSTAL_CODE_ERROR_MESSAGE, name, USAddressValidator.POSTAL_CODE_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestExplanationCode_Null()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -166,7 +175,8 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestExplanationCode_ExceedsMaxLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -175,14 +185,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.EXPLANATION_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(USAddressValidator.EXPLANATION_CODE_ERROR_MESSAGE, name, USAddressValidator.EXPLANATION_CODE_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestExplanation_Null()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -195,7 +206,8 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestExplanation_ExceedsMaxLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -204,14 +216,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.EXPLAINATION_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USAddressValidator.EXPLANATION_ERROR_MESSAGE, name, USAddressValidator.EXPLANATION_MIN_LENGTH, USAddressValidator.EXPLANATION_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestExplanation_DoesNotMeetMinLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -220,14 +233,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.EXPLAINATION_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USAddressValidator.EXPLANATION_ERROR_MESSAGE, name, USAddressValidator.EXPLANATION_MIN_LENGTH, USAddressValidator.EXPLANATION_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestCity_ExceedsMaxLength()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -236,14 +250,15 @@ namespace ECA.Business.Test.Validation.Shared
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USAddressValidator.CITY_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(USAddressValidator.CITY_ERROR_MESSAGE, name, USAddressValidator.CITY_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(AddressErrorPath));
         }
 
         [TestMethod]
         public void TestCity_IsEmpty()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -256,7 +271,8 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestCity_IsNull()
         {
-            var validator = new USAddressValidator();
+            var name = "address name";
+            var validator = new USAddressValidator(name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
