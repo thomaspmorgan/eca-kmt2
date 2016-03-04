@@ -517,9 +517,21 @@ namespace ECA.Business.Service.Persons
                 PersonId = person.PersonId,
                 ParticipantTypeId = participantTypeId
             };
-
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
             participant.Project = project;
+            person.Participations.Add(participant);
             this.Context.Participants.Add(participant);
+            this.Context.ParticipantPersons.Add(participantPerson);
+            this.Context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             this.logger.Trace("Creating new participant {0}.", person);
             return participant;
         }

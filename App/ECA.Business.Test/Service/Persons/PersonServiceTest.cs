@@ -1422,6 +1422,19 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
+
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(1, context.ParticipantExchangeVisitors.Count());
+                Assert.AreEqual(1, testPerson.Participations.Count);
+
+                var participant = testPerson.Participations.First();
+                Assert.IsTrue(Object.ReferenceEquals(participant, context.Participants.First()));
+                Assert.IsNotNull(participant.ParticipantPerson);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantPerson, context.ParticipantPersons.First()));
+
+                Assert.IsNotNull(participant.ParticipantExchangeVisitor);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantExchangeVisitor, context.ParticipantExchangeVisitors.First()));
             };
             context.Revert();
             var person = await service.CreateAsync(newPerson);

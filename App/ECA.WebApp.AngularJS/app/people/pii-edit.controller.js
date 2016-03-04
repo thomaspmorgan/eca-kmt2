@@ -84,7 +84,10 @@ angular.module('staticApp')
                      return location;
                  });
                  // Convert from UTC to local date time
-                 $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
+                 if ($scope.pii.dateOfBirth) {
+                     $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
+                 }
+                 
                  return loadCities(null)
                  .then(function () {
                      $scope.piiLoading = false;
