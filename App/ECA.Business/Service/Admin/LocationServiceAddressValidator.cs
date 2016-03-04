@@ -72,7 +72,7 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.CountryId, string.Format(INACTIVE_COUNTRY_FORMAT_ERROR_MESSAGE, validationEntity.Country.LocationName));
             }
-            if (!validationEntity.Division.IsActive)
+            if (validationEntity.Division != null && !validationEntity.Division.IsActive)
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.DivisionId, string.Format(INACTIVE_DIVISION_FORMAT_ERROR_MESSAGE, validationEntity.Division.LocationName));
             }
