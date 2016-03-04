@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Admin;
 
 namespace ECA.Business.Service.Persons
 {
@@ -386,7 +388,30 @@ namespace ECA.Business.Service.Persons
                 Remarks = String.Empty
             };
         }
+
         #endregion
+
+        #region State Dept Address
+
+        /// <summary>
+        /// Returns a USAddress instance of the US State Department C Street location.
+        /// </summary>
+        /// <returns>A USAddress instance of the US State Department C Street location.</returns>
+        public USAddress GetStateDepartmentCStreetAddress()
+        {
+            return new USAddress
+            {
+                Address1 = SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1,
+                City = SITE_OF_ACTIVITY_STATE_DEPT_CITY,
+                State = SITE_OF_ACTIVITY_STATE_DEPT_STATE,
+                PostalCode = SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE,
+                Address2 = null,
+                Explanation = null,
+                ExplanationCode = null
+            };
+        }
+        #endregion
+
 
         #region Financial Info
 
@@ -546,17 +571,13 @@ namespace ECA.Business.Service.Persons
         /// <param name="visitor">The exchange visitor.</param>
         /// <param name="participantPerson">The participant person.</param>
         /// <returns>The task.</returns>
-        public async Task SetUSAddressAsync(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        public Task SetUSAddressAsync(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HostInstitutionAddressId.HasValue)
-            {
-                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefaultAsync();
-            }
-            SetUSAddress(visitor, usAddress);
+            SetUSAddress(participant, visitor, participantPerson);
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -570,11 +591,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HostInstitutionAddressId.HasValue)
-            {
-                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefault();
-            }
+            USAddress usAddress = GetStateDepartmentCStreetAddress();
             SetUSAddress(visitor, usAddress);
         }
 
@@ -585,17 +602,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="visitor">The exchange visitor.</param>
         /// <param name="participantPerson">The participant person.</param>
         /// <returns>The task.</returns>
-        public async Task SetUSAddressAsync(Participant participant, ExchangeVisitor visitor, ParticipantPerson participantPerson)
+        public Task SetUSAddressAsync(Participant participant, ExchangeVisitor visitor, ParticipantPerson participantPerson)
         {
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HostInstitutionAddressId.HasValue)
-            {
-                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefaultAsync();
-            }
+            USAddress usAddress = GetStateDepartmentCStreetAddress();
             SetUSAddress(visitor, usAddress);
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -609,41 +623,22 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HostInstitutionAddressId.HasValue)
-            {
-                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HostInstitutionAddressId.Value).FirstOrDefault();
-            }
+            USAddress usAddress = GetStateDepartmentCStreetAddress();
             SetUSAddress(visitor, usAddress);
         }
 
         private void SetUSAddress(ExchangeVisitor visitor, USAddress usAddress)
         {
-            if (usAddress != null)
-            {
-                visitor.USAddress = usAddress;
-            }
-            else
-            {
-                visitor.USAddress = null;
-            }
+            visitor.USAddress = usAddress;
         }
 
         private void SetUSAddress(ExchangeVisitorUpdate visitor, USAddress usAddress)
         {
-            if (usAddress != null)
-            {
-                visitor.USAddress = usAddress;
-            }
-            else
-            {
-                visitor.USAddress = null;
-            }
+            visitor.USAddress = usAddress;
         }
         #endregion
 
         #region Mailing Address
-
 
         /// <summary>
         /// Sets the mailing address on the exchange visitor.  The mailing address is based on the home instutition address.
@@ -657,12 +652,14 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            Contract.Requires(participant.PersonId.HasValue, "The participant shoudld be a person participant.");
+            USAddress mailingAddress = null;
+            var address = await CreateGetUSHostAddressByPersonIdQuery(participant.PersonId.Value).FirstOrDefaultAsync();
+            if (address != null)
             {
-                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefaultAsync();
+                mailingAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, address.AddressId).FirstOrDefaultAsync();
             }
-            SetMailingAddress(visitor, usAddress);
+            SetMailingAddress(visitor, mailingAddress);
         }
 
         /// <summary>
@@ -676,12 +673,14 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            Contract.Requires(participant.PersonId.HasValue, "The participant shoudld be a person participant.");
+            USAddress mailingAddress = null;
+            var address = CreateGetUSHostAddressByPersonIdQuery(participant.PersonId.Value).FirstOrDefault();
+            if (address != null)
             {
-                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefault();
+                mailingAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, address.AddressId).FirstOrDefault();
             }
-            SetMailingAddress(visitor, usAddress);
+            SetMailingAddress(visitor, mailingAddress);
         }
 
         /// <summary>
@@ -696,12 +695,14 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            Contract.Requires(participant.PersonId.HasValue, "The participant shoudld be a person participant.");
+            USAddress mailingAddress = null;
+            var address = await CreateGetUSHostAddressByPersonIdQuery(participant.PersonId.Value).FirstOrDefaultAsync();
+            if (address != null)
             {
-                usAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefaultAsync();
+                mailingAddress = await ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, address.AddressId).FirstOrDefaultAsync();
             }
-            SetMailingAddress(visitor, usAddress);
+            SetMailingAddress(visitor, mailingAddress);
         }
 
         /// <summary>
@@ -715,12 +716,24 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(visitor != null, "The visitor must not be null.");
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = null;
-            if (participantPerson.HomeInstitutionAddressId.HasValue)
+            Contract.Requires(participant.PersonId.HasValue, "The participant shoudld be a person participant.");
+            USAddress mailingAddress = null;
+            var address = CreateGetUSHostAddressByPersonIdQuery(participant.PersonId.Value).FirstOrDefault();
+            if (address != null)
             {
-                usAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, participantPerson.HomeInstitutionAddressId.Value).FirstOrDefault();
+                mailingAddress = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(this.Context, address.AddressId).FirstOrDefault();
             }
-            SetMailingAddress(visitor, usAddress);
+            SetMailingAddress(visitor, mailingAddress);
+        }
+        
+        private IQueryable<AddressDTO> CreateGetUSHostAddressByPersonIdQuery(int personId)
+        {
+            var hostAddressTypeId = AddressType.Host.Id;
+            var unitedStatesCountryName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            return AddressQueries.CreateGetAddressDTOQuery(this.Context)
+                .Where(x => x.PersonId == personId
+                && x.AddressTypeId == hostAddressTypeId
+                && x.Country == unitedStatesCountryName);
         }
 
         private void SetMailingAddress(ExchangeVisitor visitor, USAddress mailingAddress)

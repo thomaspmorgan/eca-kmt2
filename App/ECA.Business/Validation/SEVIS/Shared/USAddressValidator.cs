@@ -31,10 +31,9 @@ namespace ECA.Business.Validation.Model.Shared
 
         public const string EXPLANATION_ERROR_MESSAGE = "{0}: Explanation must be between {1} and {2} characters.";
 
-        public const string HOST_INSTITUTION_ADDRESS_NAME = "Host Institution";
+        public const string PERSON_HOST_ADDRESS = "Person Host Address";
 
-        public const string HOME_INSTITUTION_ADDRESS_NAME = "Home Institution";
-
+        public const string C_STREET_ADDRESS = "US State Dept Address";
         
         public USAddressValidator(string addressName)
         {

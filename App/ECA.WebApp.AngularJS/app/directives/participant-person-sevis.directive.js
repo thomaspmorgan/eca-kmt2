@@ -51,8 +51,8 @@
                 $scope.view.Funding = false;
                 $scope.view.FundingEdit = false;
 
-                $scope.positionAndFieldElementId = 'positionAndField';
-                $scope.fundingElementId = 'funding';
+                $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
+                $scope.fundingElementId = 'funding' + $scope.participantid;
 
                 $scope.edit.openStartDatePicker = function ($event) {
                     $event.preventDefault();

@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
@@ -30,6 +31,7 @@ namespace ECA.Business.Queries.Persons
             var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
             var cityMaxLength = BiographicalValidator.CITY_MAX_LENGTH;
+            var unitedStatesCountryName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -65,6 +67,7 @@ namespace ECA.Business.Queries.Persons
 
                         let residenceAddress = addressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.Country != unitedStatesCountryName)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
