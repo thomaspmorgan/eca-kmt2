@@ -16,7 +16,7 @@ angular.module('staticApp')
           requireADLogin: true
       })
       .state('people.personalinformation', {
-          url: '/personalinformation/',
+          url: '/personalinformation',
           templateUrl: 'app/people/personal-information.html',
           controller: 'PersonInformationCtrl',
           requireADLogin: true
