@@ -19,7 +19,7 @@
     "datamaps": "0.3.6",
     "bower": "*",
     "ngSticky": "1.7.9",
-    "adal-angular": "1.0.5",
+    "adal-angular": "1.0.8",
     "angular-smart-table": "2.0.3",
     "ui-bootstrap": "0.13.3",
     "angular-ui-validate": "1.1.1",

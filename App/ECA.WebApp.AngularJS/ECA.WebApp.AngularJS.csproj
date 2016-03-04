@@ -175,6 +175,8 @@
     <Content Include="app\app.config.js" />
     <Content Include="app\application-insights\appinsightsinit.js" />
     <Content Include="app\auth\auth.routes.js" />
+    <Content Include="app\auth\consent.controller.js" />
+    <Content Include="app\auth\consent.html" />
     <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />

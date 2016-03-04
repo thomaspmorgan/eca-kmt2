@@ -4,11 +4,13 @@ angular.module('staticApp')
   .config(function ($httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider, insightsProvider, $locationProvider, IdleProvider) {
 
       adalAuthenticationServiceProvider.init({
-          base: '',
           tenant: 'statedept.us',
           clientId: 'e0356e55-e124-452c-837d-aeb7504185ff',
-          resource: 'https://ecaserver.state.gov',
-          postLogoutRedirectUri: window.location.origin + '/logout.html'
+          localLoginUrl: '/consent',
+          postLogoutRedirectUri: window.location.origin + '/logout.html',
+          endpoints: {
+              '/api' : 'e0356e55-e124-452c-837d-aeb7504185ff'
+          }
       }, $httpProvider
       );
 
