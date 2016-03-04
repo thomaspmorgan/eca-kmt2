@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
 using System.Text.RegularExpressions;
 
@@ -26,7 +27,7 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.EVGovt)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(EV_GOVT_ERROR_MESSAGE)
-                 .WithState(x => new SevisErrorPath());
+                 .WithState(x => new FundingErrorPath());
             });
 
             When(visitor => visitor.BinationalCommission != null, () =>
@@ -34,14 +35,14 @@ namespace ECA.Business.Validation.Model.Shared
                 RuleFor(x => x.BinationalCommission)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(BINATIONAL_ERROR_MESSAGE)
-                 .WithState(x => new SevisErrorPath());
+                 .WithState(x => new FundingErrorPath());
             });
             When(visitor => visitor.Personal != null, () =>
             {
                 RuleFor(x => x.Personal)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(PERSONAL_ERROR_MESSAGE)
-                 .WithState(x => new SevisErrorPath());
+                 .WithState(x => new FundingErrorPath());
             });
         }
     }

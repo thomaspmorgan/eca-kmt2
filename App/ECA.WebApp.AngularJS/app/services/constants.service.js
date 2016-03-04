@@ -137,6 +137,24 @@
 			program: {id: 3, value: "Program"},
 			project: {id: 4, value: "Project"}
 		},
+		sevisErrorType: {
+			email: {id: 1, value: "Email"},
+			phoneNumber: {id: 2, value: "Phone Number"},
+			address: {id: 3, value: "Address"},
+			startDate: {id: 4, value: "Start Date"},
+			endDate: {id: 5, value: "End Date"},
+			position: {id: 6, value: "Position"},
+			programCategory: {id: 7, value: "Program Category"},
+			fieldOfStudy: {id: 8, value: "Field Of Study"},
+			funding: {id: 9, value: "Funding"},
+			fullName: {id: 10, value: "Full Name"},
+			birthDate: {id: 11, value: "Birth Date"},
+			gender: {id: 12, value: "Gender"},
+			cityOfBirth: {id: 13, value: "City of Birth"},
+			countryOfBirth: {id: 14, value: "Country of Birth"},
+			citizenship: {id: 15, value: "Citizenship"},
+			permanentCountryOfResidence: {id: 16, value: "Permanent Country of Residence"}
+		},
 		socialMediaType: {
 			facebook: {id: 1, value: "Facebook"},
 			linkedin: {id: 2, value: "LinkedIn"},

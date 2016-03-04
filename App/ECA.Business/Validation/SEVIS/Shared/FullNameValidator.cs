@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
 using System;
 
@@ -35,30 +36,30 @@ namespace ECA.Business.Validation.Model.Shared
             RuleFor(visitor => visitor.FirstName)
                 .Length(1, FIRST_NAME_MAX_LENGTH)
                 .WithMessage(FIRST_NAME_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new FullNameErrorPath());
 
             RuleFor(visitor => visitor.LastName)
                 .NotNull()
                 .WithMessage(LAST_NAME_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath())
+                .WithState(x => new FullNameErrorPath())
                 .Length(1, LAST_NAME_MAX_LENGTH)
                 .WithMessage(LAST_NAME_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new FullNameErrorPath());
 
             RuleFor(visitor => visitor.Suffix)
                 .Matches(SUFFIX_MATCHES_STRING)
                 .WithMessage(SUFFIX_VALUE_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new FullNameErrorPath());
 
             RuleFor(visitor => visitor.PassportName)
                 .Length(0, PASSPORT_NAME_MAX_LENGTH)
                 .WithMessage(PASSPORT_NAME_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new FullNameErrorPath());
 
             RuleFor(visitor => visitor.PreferredName)
                 .Length(0, PREFERRED_NAME_MAX_LENGTH)
                 .WithMessage(PREFFERED_NAME_ERROR_MESSAGE)
-                .WithState(x => new PiiErrorPath());
+                .WithState(x => new FullNameErrorPath());
         }
     }
 }

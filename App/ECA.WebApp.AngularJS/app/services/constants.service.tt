@@ -9,9 +9,11 @@
 <#@ assembly name="$(SolutionDir)ECA.Core.DynamicLinq/bin/Debug/ECA.Core.DynamicLinq.dll" #>
 <#@ assembly name="$(SolutionDir)ECA.Data/bin/Debug/ECA.Data.dll" #>
 <#@ assembly name="$(SolutionDir)CAM.Data/bin/Debug/CAM.Data.dll" #>
+<#@ assembly name="$(SolutionDir)ECA.Business/bin/Debug/ECA.Business.dll" #>
 <#@ import namespace="ECA.Core" #>
 <#@ import namespace="ECA.Data" #>
 <#@ import namespace="CAM.Data" #>
+<#@ import namespace="ECA.Business.Validation.SEVIS" #>
 <#@ import namespace="ECA.Core.DynamicLinq" #>
 <#@ import namespace="ECA.Core.Generation" #>
 <#@ output extension=".js" #>
@@ -32,6 +34,7 @@
 	types.Add(typeof(DataPointProperty));
 	types.Add(typeof(VisitorType));
 	types.Add(typeof(PersonType));
+	types.Add(typeof(ECA.Business.Validation.SEVIS.SevisErrorType));
 
 	types = types.OrderBy(x => x.Name).ToList();
 	var otherConstants = new Dictionary<string, string>();

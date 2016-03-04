@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
 using System;
 
@@ -46,33 +47,33 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.PositionCode)
                 .NotNull()
                 .WithMessage(POSITION_CODE_REQUIRED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
+                .WithState(x => new PositionCodeErrorPath())
                 .Length(POSITION_CODE_LENGTH)
                 .WithMessage(POSITION_CODE_LENGTH_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath());
+                .WithState(x => new PositionCodeErrorPath());
 
             RuleFor(visitor => visitor.PrgStartDate)
                 .NotEqual(default(DateTime))
-                .WithState(x => new SevisErrorPath())
+                .WithState(x => new StartDateErrorPath())
                 .WithMessage(PROGRAM_START_DATE_REQUIRED_ERROR_MESSAGE);
             
             RuleFor(visitor => visitor.PrgEndDate)
                 .NotEqual(default(DateTime))
-                .WithState(x => new SevisErrorPath())
+                .WithState(x => new EndDateErrorPath())
                 .WithMessage(PROGRAM_END_DATE_REQUIRED_ERROR_MESSAGE);
 
             RuleFor(visitor => visitor.PrgEndDate)
                  .GreaterThan(x => x.PrgStartDate)
                  .WithMessage(PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR)
-                 .WithState(x => new SevisErrorPath());
+                 .WithState(x => new EndDateErrorPath());
 
             RuleFor(visitor => visitor.CategoryCode)
                 .NotNull()
                 .WithMessage(CATEGORY_CODE_REQUIRED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
+                .WithState(x => new ProgramCategoryCodeErrorPath())
                 .Length(CATEGORY_CODE_LENGTH)
                 .WithMessage(PROGRAM_CATEGORY_CODE_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath());
+                .WithState(x => new ProgramCategoryCodeErrorPath());
             
             When(x => x.OccupationCategoryCode != null, () =>
             {
@@ -84,23 +85,23 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.SubjectField)
                 .NotNull()
                 .WithMessage(SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
+                .WithState(x => new FieldOfStudyErrorPath())
                 .SetValidator(new SubjectFieldValidator())
                 .When(visitor => visitor.requestID != null);
 
             RuleFor(visitor => visitor.USAddress)
-                .SetValidator(new USAddressValidator())
+                .SetValidator(new USAddressValidator(USAddressValidator.HOST_INSTITUTION_ADDRESS_NAME))
                 .When(visitor => visitor.USAddress != null);
 
 
             RuleFor(visitor => visitor.MailAddress)
-                .SetValidator(new USAddressValidator())
+                .SetValidator(new USAddressValidator(USAddressValidator.HOME_INSTITUTION_ADDRESS_NAME))
                 .When(visitor => visitor.MailAddress != null);
                 
             RuleFor(visitor => visitor.FinancialInfo)
                 .NotNull()
                 .WithMessage(FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE)
-                .WithState(x => new SevisErrorPath())
+                .WithState(x => new FundingErrorPath())
                 .SetValidator(new FinancialInfoValidator())
                 .When(visitor => visitor.requestID != null);
 
