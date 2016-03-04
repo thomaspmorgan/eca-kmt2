@@ -42,7 +42,7 @@ namespace ECA.Business.Service.Admin
             string locationName,
             int countryId,
             int cityId,
-            int divisionId
+            int? divisionId
             )
             : base(addressTypeId, isPrimary, street1, street2, street3, postalCode, locationName, countryId, cityId, divisionId)
         {

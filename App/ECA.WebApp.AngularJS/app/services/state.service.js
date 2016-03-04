@@ -95,27 +95,27 @@ angular.module('staticApp')
 
           getProjectState: function (projectId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
+              return $state.href(service.stateNames.overview.project, { projectId: projectId }, options);
           },
 
           getProgramState: function (programId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.program, { programId: programId }, options) + '#top';
+              return $state.href(service.stateNames.overview.program, { programId: programId }, options);
           },
 
           getOfficeState: function (officeId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.office, { officeId: officeId }, options) + '#top';
+              return $state.href(service.stateNames.overview.office, { officeId: officeId }, options);
           },
 
           getOrganizationState: function (organizationId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options) + '#top';
+              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options);
           },
 
           getPersonState: function (personId, options) {
               options = options || {};
-              return $state.href(service.stateNames.people.personalInfomation, { personId: personId }, options) + '#top';
+              return $state.href(service.stateNames.people.personalInfomation, { personId: personId }, options);
           },
 
           getPiiState: function (personId, options) {
@@ -219,7 +219,7 @@ angular.module('staticApp')
 
           goToEditProgramState: function (programId, options) {
               options = options || {};
-              return $state.go(service.stateNames.edit.program, { programId: programId }, options) + '#top';
+              return $state.go(service.stateNames.edit.program, { programId: programId }, options);
           },
 
           isProjectState: function (stateName) {
