@@ -71,6 +71,72 @@ namespace ECA.Business.Service.Sevis
             logger.Info("Retrieved the Sevis Batch Processing dto with the given id [{0}].", batchId);
             return dto;
         }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload()
+        {
+            var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForUpload(this.Context);
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to upload");
+            return dtos;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync()
+        {
+            var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForUpload(this.Context));
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to upload");
+            return dtos;
+        }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been downloaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToDownload()
+        {
+            var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForDownload(this.Context);
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been downloaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToDownloadAsync()
+        {
+            var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForDownload(this.Context));
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been processed yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToProcess()
+        {
+            var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToProcess(this.Context);
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been processed yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToProcessAsync()
+        {
+            var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToProcess(this.Context));
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
         #endregion
 
         #region Create

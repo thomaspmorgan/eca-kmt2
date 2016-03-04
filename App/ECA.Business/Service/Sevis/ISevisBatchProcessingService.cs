@@ -59,6 +59,18 @@ namespace ECA.Business.Service.Sevis
         Task<SevisBatchProcessingDTO> GetByIdAsync(int id);
 
         /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload();
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync();
+
+        /// <summary>
         /// Deletes the SevisBatchProcessing entry with the given id.
         /// </summary>
         /// <param name="batchId">The id of the SevisBatchProcessing to delete.</param>
@@ -167,6 +179,25 @@ namespace ECA.Business.Service.Sevis
         {
             return Task.FromResult<SevisBatchProcessingDTO>(null);
         }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync()
+        {
+            return Task.FromResult<IEnumerable<SevisBatchProcessingDTO>>(null);
+        }
+
 
         /// <summary>
         /// 

@@ -89,14 +89,6 @@ namespace ECA.Business.Test.Service.Persons
                 ReadingProficiency = 5,
                 ComprehensionProficiency = 5,
             };
-            var dependant1 = new Person
-            {
-                PersonId = 2,
-                Gender = gender,
-                FirstName = "firstName",
-                LastName = "lastName",
-                DateOfBirth = DateTime.Now,
-            };
             var impact1 = new Impact
             {
                 ImpactId = 1,
@@ -157,7 +149,6 @@ namespace ECA.Business.Test.Service.Persons
             context.ProminentCategories.Add(prominentCat1);
             context.Activities.Add(activity1);
             context.Memberships.Add(membership1);
-            context.People.Add(dependant1);
             context.Impacts.Add(impact1);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
@@ -165,7 +156,6 @@ namespace ECA.Business.Test.Service.Persons
             person.Activities.Add(activity1);
             person.Memberships.Add(membership1);
             person.LanguageProficiencies.Add(languageProficiency1);
-            person.Family.Add(dependant1);
             person.Impacts.Add(impact1);
             context.People.Add(person);
             
@@ -176,7 +166,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.Activities.FirstOrDefault().Title, serviceResult.Activities.FirstOrDefault().Value);
                 Assert.AreEqual(person.Memberships.FirstOrDefault().Name, serviceResult.Memberships.FirstOrDefault().Name);
                 Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().Language.LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().LanguageName);
-                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
@@ -223,6 +212,14 @@ namespace ECA.Business.Test.Service.Persons
                 MaritalStatus = new MaritalStatus(),
                 PlaceOfBirth = new Location()
             };
+            var dependant1 = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                FirstName = "firstName",
+                LastName = "lastName",
+                DateOfBirth = DateTime.Now,
+            };
             var status = new ParticipantStatus
             {
                 ParticipantStatusId = 1,
@@ -266,6 +263,8 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
+            context.People.Add(dependant1);
+            person.Family.Add(dependant1);
 
             Action<PiiDTO> tester = (serviceResult) =>
             {
@@ -285,6 +284,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
+                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
                 Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
@@ -2426,6 +2426,11 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person = new Person
             {
                 Alias = "alias",
@@ -2441,6 +2446,7 @@ namespace ECA.Business.Test.Service.Persons
                 NameSuffix = "name suffix",
                 Patronym = "patronym",
                 PersonId = 1,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person);
@@ -2451,7 +2457,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, results.Results.Count);
                 var firstResult = results.Results.First();
                 Assert.AreEqual(gender.GenderName, firstResult.Gender);
-
                 Assert.AreEqual(person.Alias, firstResult.Alias);
                 Assert.AreEqual(person.DateOfBirth, firstResult.DateOfBirth);
                 Assert.AreEqual(person.FamilyName, firstResult.FamilyName);
@@ -2480,17 +2485,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
@@ -2520,17 +2532,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
@@ -2559,17 +2578,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);

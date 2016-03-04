@@ -163,12 +163,13 @@
                         <div class="form-group">
                             <label class="col-md-4 title-label"></label>
                             <div class="col-md-8">
-                                <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" theme="select2" title="Choose a country" style="min-width: 200px;">
+                                <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" 
+                                           theme="select2" style="min-width: 200px;" 
+                                           title="Choose a country">
                                     <ui-select-match placeholder="Select countries...">
                                         <div>{{$item.name}}</div>
                                     </ui-select-match>
-
-                                    <ui-select-choices repeat="country in countries | filter: $select.search">
+                                    <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country in countries">
                                         <div ng-bind-html="country.name | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
@@ -209,6 +210,14 @@
                                 </ui-select>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Dependants</label>
+                    <div class="col-md-8">
+                        <ul>
+                            <li ng-repeat="dependant in pii.dependants">{{dependant.value}}</li>
+                        </ul>
                     </div>
                 </div>
             </div>

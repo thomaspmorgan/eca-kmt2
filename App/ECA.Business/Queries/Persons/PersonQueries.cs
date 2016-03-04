@@ -67,6 +67,8 @@ namespace ECA.Business.Queries.Persons
                         let hasDivisionOfBirth = hasPlaceOfBirth && cityOfBirth.Division != null
                         let divisionOfBirthName = hasDivisionOfBirth ? cityOfBirth.Division.LocationName : null
 
+                        where person.PersonType.IsDependentPersonType == false
+
                         select new SimplePersonDTO
                         {
                             Alias = person.Alias,
@@ -138,6 +140,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
+                            Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,
@@ -258,7 +261,6 @@ namespace ECA.Business.Queries.Persons
                             Activities = person.Activities.Select(x => new SimpleLookupDTO() { Id = x.ActivityId, Value = x.Title }),
                             Memberships = person.Memberships.Select(x => new ECA.Business.Queries.Models.Persons.MembershipDTO() { Id = x.MembershipId, Name = x.Name }),
                             LanguageProficiencies = person.LanguageProficiencies.Select(x => new LanguageProficiencyDTO() { LanguageId = x.LanguageId, PersonId = x.PersonId, LanguageName = x.Language.LanguageName, IsNativeLanguage = x.IsNativeLanguage, ComprehensionProficiency = x.ComprehensionProficiency, ReadingProficiency = x.ReadingProficiency, SpeakingProficiency = x.SpeakingProficiency }),
-                            Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
                             // RelatedReports TBD
                             ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description }),
                             CurrentStatus = hasCurrentParticipation ? currentParticipant.Status.Status : UNKNOWN_PARTICIPANT_STATUS,

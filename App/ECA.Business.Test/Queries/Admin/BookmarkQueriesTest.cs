@@ -231,7 +231,11 @@ namespace ECA.Business.Test.Queries.Admin
                 ParticipantStatusId = status.ParticipantStatusId,
                 Status = status
             };
-
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person = new Person
             {
                 PersonId = 1,
@@ -249,7 +253,8 @@ namespace ECA.Business.Test.Queries.Admin
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                }
+                },
+                PersonType = ptype
             };
 
             person.Participations.Add(participation);
