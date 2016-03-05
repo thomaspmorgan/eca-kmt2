@@ -252,7 +252,7 @@ namespace ECA.Data
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
         public DbSet<PersonEvaluationNote> PersonEvaluationNotes { get; set; }
-
+        
         /// <summary>
         /// Gets or sets Language Proficiencies for a Person
         /// </summary>

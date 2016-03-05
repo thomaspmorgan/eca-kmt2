@@ -4,7 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, $q, smoothScroll, MessageBox) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, $q, $filter, smoothScroll, MessageBox) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -19,7 +19,7 @@ angular.module('staticApp')
       $scope.sevisStatus = {statusName: ""};
 
       // TODO: use constant service
-      var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Ready To Submit", "Validated", "SEVIS Received"];
+      var notifyStatuses = ["SENT TO DHS", "QUEUED TO SUBMIT", "READY TO SUBMIT", "VALIDATED", "SEVIS RECEIVED"];
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.edit.General)
@@ -51,7 +51,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.sevisStatus.statusName) !== -1) {
+          if (notifyStatuses.indexOf($filter('uppercase')($scope.sevisStatus.statusName)) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.sevisStatus.statusName + '. Are you sure you want to edit?',

@@ -30,7 +30,6 @@
                         <select class="form-control"
                                 ng-options="participantStatus.id as participantStatus.name for participantStatus in view.participantStatii"
                                 ng-model="view.participantPerson.participantStatusId" />
-
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -134,7 +133,6 @@
                                 <div ng-bind-html="org.name | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-
                         <ui-select multiple
                                    ng-model="view.selectedHostInstitutionAddresses"
                                    on-select="view.onSelectHostInstitutionAddress($item, $model)"
@@ -201,7 +199,7 @@
                 <h5>General</h5>
             </div>
             <div class="col-md-4 text-right">
-                <a ng-click="view.isInfoTabInEditMode = !view.isInfoTabInEditMode">
+                <a ng-click="editGeneral()">
                     <i class="material-icons md-dark md-24">edit</i>
                 </a>
             </div>

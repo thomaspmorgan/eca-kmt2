@@ -561,6 +561,47 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
+        
+        //[TestMethod]
+        //public async Task TestDeletePersonDependentById_CheckDependentDeleted()
+        //{
+        //    var person = new Person
+        //    {
+        //        PersonId = 1,
+        //        Gender = new Gender(),
+        //        PlaceOfBirth = new Location(),
+        //        PersonTypeId = PersonType.Participant.Id,
+        //    };
+        //    person.PlaceOfBirth.Country = new Location();
+
+        //    var dependant1 = new Person
+        //    {
+        //        PersonId = 2,
+        //        Gender = new Gender(),
+        //        DateOfBirth = DateTime.Now,
+        //        PersonTypeId = PersonType.Spouse.Id
+        //    };
+        //    dependant1.PlaceOfBirth.Country = new Location();
+            
+        //    context.People.Add(person);
+        //    context.People.Add(dependant1);
+
+        //    var delete = await service.DeletePersonDependentByIdAsync(person.PersonId, dependant1.PersonId);
+
+        //    Action<PiiDTO> tester = (serviceResult) =>
+        //    {
+                
+        //    };
+
+            
+        //    var result = this.service.GetPiiById(person.PersonId);
+        //    var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
+
+        //    tester(result);
+        //    tester(resultAsync);
+        //}
+
+
         #endregion
 
         #region Get Contact Info By Id

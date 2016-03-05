@@ -159,7 +159,19 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved general person info by id {0}.", personId);
             return general;
         }
-        
+
+        /// <summary>
+        /// Deletes a dependent from the person
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="dependentId"></param>
+        /// <returns></returns>
+        public Task DeletePersonDependentByIdAsync(int personId, int dependentId)
+        {
+            throw new NotImplementedException("DeletePersonDependentByIdAsync not implemented");
+        }
+
+
         /// <summary>
         /// Update general
         /// </summary>

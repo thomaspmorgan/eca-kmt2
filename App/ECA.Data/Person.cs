@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -194,6 +190,18 @@ namespace ECA.Data
         /// </summary>
         public bool HasContactAgreement { get; set; }
 
+        /// <summary>
+        /// Gets or sets the person type id.
+        /// </summary>
+        [Column("PersonTypeId")]
+        public int PersonTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person type.
+        /// </summary>
+        [ForeignKey("PersonTypeId")]
+        public virtual PersonType PersonType { get; set; }
+
         [InverseProperty("CitizensOfCountry")]
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }
@@ -220,20 +228,7 @@ namespace ECA.Data
         public ICollection<Participant> Participations { get; set; }
         public int? MaritalStatusId { get; set; }
         public MaritalStatus MaritalStatus { get; set; }
-
         public History History { get; set; }
-
-        /// <summary>
-        /// Gets or sets the person type id.
-        /// </summary>
-        [Column("PersonTypeId")]
-        public int PersonTypeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the person type.
-        /// </summary>
-        [ForeignKey("PersonTypeId")]
-        public virtual PersonType PersonType { get; set; }
 
         public int GetId()
         {
