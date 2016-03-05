@@ -8,9 +8,9 @@ SELECT @systemAdminPermissionId = PermissionId FROM cam.Permission WHERE Permiss
 SELECT @kmtSuperUserRoleId = RoleId FROM cam.Role WHERE RoleName = 'KMT Super User';
 
 DECLARE @systemUserAdGuid UNIQUEIDENTIFIER = convert(uniqueidentifier, 'E6F49140-877B-4819-9E92-1427AF1F06AB');
-DECLARE @thomasMorganAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, '8111908E-EFF7-4DE2-AEA2-F7BA54107008');
-DECLARE @brianGibowskiAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, 'D56E313C-187E-462F-9171-0A6287F909FA');
-DECLARE @brandonTuckerAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, '8735C8F8-949B-4342-A5AE-EE08CF99403F');
+DECLARE @thomasMorganAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, '178C83B3-1061-436E-89FE-59073312950F');
+DECLARE @brianGibowskiAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, '86101ACC-10B0-4E10-AEEA-FFCC7B42BBC5');
+DECLARE @brandonTuckerAdGuid UNIQUEIDENTIFIER  = convert(uniqueidentifier, 'E8FEAB56-B7EC-409A-BAF2-0F9F780027DD');
 
 DECLARE @systemUserId INT = 0;
 DECLARE @thomasMorganUserId INT = 0;
@@ -37,7 +37,7 @@ BEGIN
 	SET @thomasMorganUserId = @@IDENTITY;
 	PRINT 'Inserting thomas morgan user with id ' + cast(@@IDENTITY as varchar(100));
 	INSERT INTO cam.UserAccount(PrincipalId, AdGuid, CreatedOn, RevisedOn, RevisedBy, CreatedBy, AccountStatusId, LastName, FirstName, DisplayName, EmailAddress)
-	VALUES (@thomasMorganUserId, @thomasMorganAdGuid, sysdatetimeoffset(), sysdatetimeoffset(), 1, 1, 1, 'Morgan', 'Thomas', 'Thomas Morgan', 'thomas.morgan@buchanan-edwards.com')
+	VALUES (@thomasMorganUserId, @thomasMorganAdGuid, sysdatetimeoffset(), sysdatetimeoffset(), 1, 1, 1, 'Morgan', 'Thomas', 'Thomas Morgan', 'morgant@statedept.us')
 
 END
 ELSE
@@ -51,7 +51,7 @@ BEGIN
 	SET @brianGibowskiUserId = @@IDENTITY;
 	PRINT 'Inserting brian gibowski user with id ' + cast(@@IDENTITY as varchar(100));
 	INSERT INTO cam.UserAccount(PrincipalId, AdGuid, CreatedOn, RevisedOn, RevisedBy, CreatedBy, AccountStatusId, LastName, FirstName, DisplayName, EmailAddress)
-	VALUES (@brianGibowskiUserId, @brianGibowskiAdGuid, sysdatetimeoffset(), sysdatetimeoffset(), 1, 1, 1, 'Gibowski', 'Brian', 'Brian Gibowski', 'brian.gibowski@buchanan-edwards.com')
+	VALUES (@brianGibowskiUserId, @brianGibowskiAdGuid, sysdatetimeoffset(), sysdatetimeoffset(), 1, 1, 1, 'Gibowski', 'Brian', 'Brian Gibowski', 'gibowskibr@statedept.us')
 
 END
 ELSE
@@ -64,7 +64,7 @@ BEGIN
 	SET @brandonTuckerUserId = @@IDENTITY;
 	PRINT 'Inserting brandon tucker user with id ' + cast(@@IDENTITY as varchar(100));
 	INSERT INTO cam.UserAccount(PrincipalId, AdGuid, CreatedOn, RevisedOn, RevisedBy, CreatedBy, AccountStatusId, LastName, FirstName, DisplayName, EmailAddress)
-	VALUES (@brandonTuckerUserId, @brandonTuckerAdGuid, sysdatetimeoffset(), sysdatetimeoffset(), 1, 1, 1, 'Tucker', 'Brandon', 'Brandon Tucker', 'brandon.tucker@buchanan-edwards.com')
+	VALUES (@brandonTuckerUserId, @brandonTuckerAdGuid, sysdatetimeoffset(), sysdatetimeoffset(), 1, 1, 1, 'Tucker', 'Brandon', 'Brandon Tucker', 'tuckerb@statedept.us')
 
 END
 ELSE

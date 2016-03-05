@@ -253,8 +253,12 @@ namespace ECA.Business.Service.Admin
             var country = Context.Locations.Find(additionalAddress.CountryId);
             throwIfLocationNotFound(additionalAddress.CountryId, country, "Country");
 
-            var division = Context.Locations.Find(additionalAddress.DivisionId);
-            throwIfLocationNotFound(additionalAddress.DivisionId, division, "Division");
+            Location division = null;
+            if(additionalAddress.DivisionId.HasValue)
+            {
+                division = Context.Locations.Find(additionalAddress.DivisionId.Value);
+                throwIfLocationNotFound(additionalAddress.DivisionId.Value, division, "Division");
+            }
 
             var existingAddresses = additionalAddress.CreateGetAddressesQuery(this.Context).ToList();
 
@@ -287,8 +291,12 @@ namespace ECA.Business.Service.Admin
             var country = await Context.Locations.FindAsync(additionalAddress.CountryId);
             throwIfLocationNotFound(additionalAddress.CountryId, country, "Country");
 
-            var division = await Context.Locations.FindAsync(additionalAddress.DivisionId);
-            throwIfLocationNotFound(additionalAddress.DivisionId, division, "Division");
+            Location division = null;
+            if(additionalAddress.DivisionId.HasValue)
+            {
+                division = await Context.Locations.FindAsync(additionalAddress.DivisionId.Value);
+                throwIfLocationNotFound(additionalAddress.DivisionId.Value, division, "Division");
+            }
 
             var existingAddresses = await additionalAddress.CreateGetAddressesQuery(this.Context).ToListAsync();
 
@@ -344,9 +352,12 @@ namespace ECA.Business.Service.Admin
             var country = Context.Locations.Find(updatedAddress.CountryId);
             throwIfLocationNotFound(updatedAddress.CountryId, country, "Country");
 
-            var division = Context.Locations.Find(updatedAddress.DivisionId);
-            throwIfLocationNotFound(updatedAddress.DivisionId, division, "Division");
-
+            Location division = null;
+            if (updatedAddress.DivisionId.HasValue)
+            {
+                division = Context.Locations.Find(updatedAddress.DivisionId.Value);
+                throwIfLocationNotFound(updatedAddress.DivisionId.Value, division, "Division");
+            }
             var otherAddresses = CreateGetOtherEntityAddressesQuery(address).ToList();
 
             DoUpdate(updatedAddress: updatedAddress,
@@ -376,8 +387,12 @@ namespace ECA.Business.Service.Admin
             var country = await Context.Locations.FindAsync(updatedAddress.CountryId);
             throwIfLocationNotFound(updatedAddress.CountryId, country, "Country");
 
-            var division = await Context.Locations.FindAsync(updatedAddress.DivisionId);
-            throwIfLocationNotFound(updatedAddress.DivisionId, division, "Division");
+            Location division = null;
+            if (updatedAddress.DivisionId.HasValue)
+            {
+                division = await Context.Locations.FindAsync(updatedAddress.DivisionId.Value);
+                throwIfLocationNotFound(updatedAddress.DivisionId.Value, division, "Division");
+            }
 
             var otherAddresses = await CreateGetOtherEntityAddressesQuery(address).ToListAsync();
 

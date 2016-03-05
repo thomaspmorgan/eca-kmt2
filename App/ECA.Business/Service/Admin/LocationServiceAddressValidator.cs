@@ -37,6 +37,12 @@ namespace ECA.Business.Service.Admin
         /// The error message to add when post code is invalid.
         /// </summary>
         public const string INVALID_POSTAL_CODE_MESSAGE = "The postal code must be specified for the United States.";
+
+        /// <summary>
+        /// The name of the united states country.
+        /// </summary>
+        public const string UNITED_STATES_COUNTRY_NAME = "United States";
+
         /// <summary>
         /// 
         /// </summary>
@@ -72,7 +78,7 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.CountryId, string.Format(INACTIVE_COUNTRY_FORMAT_ERROR_MESSAGE, validationEntity.Country.LocationName));
             }
-            if (!validationEntity.Division.IsActive)
+            if (validationEntity.Division != null && !validationEntity.Division.IsActive)
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.DivisionId, string.Format(INACTIVE_DIVISION_FORMAT_ERROR_MESSAGE, validationEntity.Division.LocationName));
             }
@@ -80,7 +86,7 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.CityId, string.Format(INACTIVE_CITY_FORMAT_ERROR_MESSAGE, validationEntity.City.LocationName));
             }
-            if (validationEntity.Country.LocationName == "United States" && String.IsNullOrEmpty(validationEntity.PostalCode))
+            if (validationEntity.Country.LocationName == UNITED_STATES_COUNTRY_NAME && String.IsNullOrEmpty(validationEntity.PostalCode))
             {
                 yield return new BusinessValidationResult<EcaAddress>(x => x.PostalCode, INVALID_POSTAL_CODE_MESSAGE);
             }

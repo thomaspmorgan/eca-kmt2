@@ -11,6 +11,7 @@ using ECA.Business.Queries.Persons;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Core.Exceptions;
+using ECA.Business.Service.Admin;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -20,11 +21,23 @@ namespace ECA.Business.Test.Service.Persons
         private TestEcaContext context;
         private ExchangeVisitorService service;
 
+        private Action<USAddress> usStateDeptAddressTester;
+
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
             service = new ExchangeVisitorService(context);
+            usStateDeptAddressTester = (address) =>
+            {
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, address.Address1);
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, address.City);
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, address.State);
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, address.PostalCode);
+                Assert.IsNull(address.Address2);
+                Assert.IsNull(address.Explanation);
+                Assert.IsNull(address.ExplanationCode);
+            };
         }
 
         #region GetCreateExchangeVisitor
@@ -126,7 +139,7 @@ namespace ECA.Business.Test.Service.Persons
 
         [TestMethod]
         public void TestGetCreateExchangeVisitor_ParticipantPersonStartAndEndDatesAreNull()
-        {   
+        {
             var participant = new Participant
             {
                 ParticipantId = 1
@@ -410,6 +423,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestSetMailingAddress_ExchangeVisitor_CheckProperties()
         {
+            var personId = 1000;
             var addressLocationType = new LocationType
             {
                 LocationTypeId = LocationType.Address.Id,
@@ -423,7 +437,7 @@ namespace ECA.Business.Test.Service.Persons
             var country = new Location
             {
                 LocationId = 2,
-                LocationName = "US",
+                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
             };
             var city = new Location
             {
@@ -449,8 +463,8 @@ namespace ECA.Business.Test.Service.Persons
             };
             var addressType = new AddressType
             {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
             };
             var address = new Address
             {
@@ -460,10 +474,12 @@ namespace ECA.Business.Test.Service.Persons
                 IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
+                PersonId = personId
             };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = 1,
+                PersonId = personId
             };
             ExchangeVisitor exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
@@ -504,21 +520,84 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitor_HomeInstitutionAddressNotSet()
+        public async Task TestSetMailingAddress_ExchangeVisitor_AddressIsNotInUS()
         {
+            var personId = 1000;
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "Not United states"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                PersonId = personId
+            };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = 1,
+                PersonId = personId
             };
             ExchangeVisitor exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                HomeInstitutionAddressId = null
+                HomeInstitutionAddressId = address.AddressId
             };
 
             context.SetupActions.Add(() =>
             {
                 exchangeVisitor = new ExchangeVisitor();
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.AddressTypes.Add(addressType);
+                context.Locations.Add(division);
+                context.Locations.Add(country);
+                context.Locations.Add(city);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.LocationTypes.Add(addressLocationType);
             });
 
             Action<ExchangeVisitor> tester = (testInstance) =>
@@ -535,16 +614,70 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitor_AddressDoesNotExist()
+        public async Task TestSetMailingAddress_ExchangeVisitor_AddressIsNotHostAddress()
         {
+            var personId = 1000;
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "Not United states"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Home.Value,
+                AddressTypeId = AddressType.Home.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                PersonId = personId
+            };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = 1,
+                PersonId = personId
             };
             ExchangeVisitor exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                HomeInstitutionAddressId = 1
+                HomeInstitutionAddressId = address.AddressId
             };
 
             context.SetupActions.Add(() =>
@@ -552,6 +685,46 @@ namespace ECA.Business.Test.Service.Persons
                 exchangeVisitor = new ExchangeVisitor();
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
+                context.AddressTypes.Add(addressType);
+                context.Locations.Add(division);
+                context.Locations.Add(country);
+                context.Locations.Add(city);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.LocationTypes.Add(addressLocationType);
+            });
+
+            Action<ExchangeVisitor> tester = (testInstance) =>
+            {
+                Assert.IsNull(testInstance.MailAddress);
+            };
+            context.Revert();
+            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
+            tester(exchangeVisitor);
+
+            context.Revert();
+            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
+            tester(exchangeVisitor);
+        }
+
+        [TestMethod]
+        public async Task TestSetMailingAddress_ExchangeVisitor_PersonDoesNotHaveAHostAddress()
+        {
+            var personId = 1000;
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = personId
+            };
+            ExchangeVisitor exchangeVisitor = null;
+            var participantPerson = new ParticipantPerson
+            {
+                
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                exchangeVisitor = new ExchangeVisitor();
             });
 
             Action<ExchangeVisitor> tester = (testInstance) =>
@@ -570,6 +743,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestSetMailingAddress_ExchangeVisitorUpdate_CheckProperties()
         {
+            var personId = 1000;
             var addressLocationType = new LocationType
             {
                 LocationTypeId = LocationType.Address.Id,
@@ -583,7 +757,199 @@ namespace ECA.Business.Test.Service.Persons
             var country = new Location
             {
                 LocationId = 2,
-                LocationName = "US",
+                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                PersonId = personId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = personId
+            };
+            ExchangeVisitorUpdate exchangeVisitor = null;
+            var participantPerson = new ParticipantPerson
+            {
+                
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                exchangeVisitor = new ExchangeVisitorUpdate();
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.AddressTypes.Add(addressType);
+                context.Locations.Add(division);
+                context.Locations.Add(country);
+                context.Locations.Add(city);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.LocationTypes.Add(addressLocationType);
+            });
+
+            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
+            {
+                Assert.IsNotNull(testInstance.MailAddress);
+                Assert.AreEqual(addressLocation.Street1, testInstance.MailAddress.Address1);
+                Assert.AreEqual(addressLocation.Street2, testInstance.MailAddress.Address2);
+                Assert.AreEqual(city.LocationName, testInstance.MailAddress.City);
+                Assert.AreEqual(division.LocationName, testInstance.MailAddress.State);
+                Assert.AreEqual(addressLocation.PostalCode, testInstance.MailAddress.PostalCode);
+            };
+            context.Revert();
+            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
+            tester(exchangeVisitor);
+
+            context.Revert();
+            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
+            tester(exchangeVisitor);
+        }
+
+        [TestMethod]
+        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_AddressIsNotInUS()
+        {
+            var personId = 1000;
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "Not United states"
+            };
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 4,
+                City = city,
+                CityId = city.LocationId,
+                Country = country,
+                CountryId = country.LocationId,
+                Division = division,
+                DivisionId = division.LocationId,
+                LocationName = "address",
+                LocationType = addressLocationType,
+                LocationTypeId = addressLocationType.LocationTypeId,
+                PostalCode = "12345",
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+            };
+            var addressType = new AddressType
+            {
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
+            };
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressType = addressType,
+                AddressTypeId = addressType.AddressTypeId,
+                IsPrimary = true,
+                Location = addressLocation,
+                LocationId = addressLocation.LocationId,
+                PersonId = personId
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = personId
+            };
+            ExchangeVisitorUpdate exchangeVisitor = null;
+            var participantPerson = new ParticipantPerson
+            {
+            };
+
+            context.SetupActions.Add(() =>
+            {
+                exchangeVisitor = new ExchangeVisitorUpdate();
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.AddressTypes.Add(addressType);
+                context.Locations.Add(division);
+                context.Locations.Add(country);
+                context.Locations.Add(city);
+                context.Locations.Add(addressLocation);
+                context.Addresses.Add(address);
+                context.LocationTypes.Add(addressLocationType);
+            });
+
+            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
+            {
+                Assert.IsNull(testInstance.MailAddress);
+            };
+            context.Revert();
+            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
+            tester(exchangeVisitor);
+
+            context.Revert();
+            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
+            tester(exchangeVisitor);
+        }
+
+        [TestMethod]
+        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_AddressIsNotHostAddress()
+        {
+            var personId = 1000;
+            var addressLocationType = new LocationType
+            {
+                LocationTypeId = LocationType.Address.Id,
+                LocationTypeName = LocationType.Address.Value
+            };
+            var division = new Location
+            {
+                LocationId = 1,
+                LocationName = "TN"
+            };
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "Not United states"
             };
             var city = new Location
             {
@@ -620,15 +986,16 @@ namespace ECA.Business.Test.Service.Persons
                 IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
+                PersonId = personId
             };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = 1,
+                PersonId = personId
             };
             ExchangeVisitorUpdate exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                HomeInstitutionAddressId = address.AddressId
             };
 
             context.SetupActions.Add(() =>
@@ -647,42 +1014,6 @@ namespace ECA.Business.Test.Service.Persons
 
             Action<ExchangeVisitorUpdate> tester = (testInstance) =>
             {
-                Assert.IsNotNull(testInstance.MailAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.MailAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.MailAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.MailAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.MailAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.MailAddress.PostalCode);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_HomeInstitutionAddressNotSet()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HomeInstitutionAddressId = null
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
                 Assert.IsNull(testInstance.MailAddress);
             };
             context.Revert();
@@ -695,23 +1026,23 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_AddressDoesNotExist()
+        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_PersonDoesNotHaveAHostAddress()
         {
+            var personId = 1000;
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = 1,
+                PersonId = personId
             };
             ExchangeVisitorUpdate exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                HomeInstitutionAddressId = 1
+
             };
 
             context.SetupActions.Add(() =>
             {
                 exchangeVisitor = new ExchangeVisitorUpdate();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
             });
 
             Action<ExchangeVisitorUpdate> tester = (testInstance) =>
@@ -732,153 +1063,23 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestSetUSAddress_ExchangeVisitor_CheckProperties()
         {
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
             var participant = new Participant
             {
                 ParticipantId = 1
             };
             ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HostInstitutionAddressId = address.AddressId
-            };
-
+            var participantPerson = new ParticipantPerson();
             context.SetupActions.Add(() =>
             {
                 exchangeVisitor = new ExchangeVisitor();
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
             });
 
             Action<ExchangeVisitor> tester = (testInstance) =>
             {
                 Assert.IsNotNull(testInstance.USAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.USAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.USAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.USAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.USAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.USAddress.PostalCode);
-            };
-            context.Revert();
-            service.SetUSAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetUSAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetUSAddress_ExchangeVisitor_HostInstitutionAddressNotSet()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HostInstitutionAddressId = null
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.USAddress);
-            };
-            context.Revert();
-            service.SetUSAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetUSAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetUSAddress_ExchangeVisitor_AddressDoesNotExist()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HostInstitutionAddressId = 1
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.USAddress);
+                usStateDeptAddressTester(testInstance.USAddress);
             };
             context.Revert();
             service.SetUSAddress(participant, exchangeVisitor, participantPerson);
@@ -892,57 +1093,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestSetUSAddress_ExchangeVisitorUpdate_CheckProperties()
         {
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
             var participant = new Participant
             {
                 ParticipantId = 1
@@ -950,7 +1100,7 @@ namespace ECA.Business.Test.Service.Persons
             ExchangeVisitorUpdate exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                HostInstitutionAddressId = address.AddressId
+                ParticipantId = participant.ParticipantId
             };
 
             context.SetupActions.Add(() =>
@@ -958,87 +1108,12 @@ namespace ECA.Business.Test.Service.Persons
                 exchangeVisitor = new ExchangeVisitorUpdate();
                 context.Participants.Add(participant);
                 context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
             });
 
             Action<ExchangeVisitorUpdate> tester = (testInstance) =>
             {
                 Assert.IsNotNull(testInstance.USAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.USAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.USAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.USAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.USAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.USAddress.PostalCode);
-            };
-            context.Revert();
-            service.SetUSAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetUSAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetUSAddress_ExchangeVisitorUpdate_HostInstitutionAddressNotSet()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HostInstitutionAddressId = null
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.USAddress);
-            };
-            context.Revert();
-            service.SetUSAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetUSAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetUSAddress_ExchangeVisitorUpdate_AddressDoesNotExist()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HostInstitutionAddressId = 1
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.USAddress);
+                usStateDeptAddressTester(testInstance.USAddress);
             };
             context.Revert();
             service.SetUSAddress(participant, exchangeVisitor, participantPerson);
@@ -1095,11 +1170,11 @@ namespace ECA.Business.Test.Service.Persons
             };
             var orgFunding = new International
             {
-                
+
             };
             var usGovFunding = new USGovt
             {
-                
+
             };
             var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
             Assert.IsNull(instance.ProgramSponsorFunds);
@@ -1457,6 +1532,15 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
+        #region State Dept US Address
+        [TestMethod]
+        public void TestGetStateDepartmentCStreetAddress()
+        {
+            var address = service.GetStateDepartmentCStreetAddress();
+            usStateDeptAddressTester(address);
+        }
+        #endregion
+
         #region Site of Activity
         [TestMethod]
         public void TestSetAddSiteOfActivity_CheckProperties()
@@ -1653,7 +1737,7 @@ namespace ECA.Business.Test.Service.Persons
             instance.AddTIPP = null;
             service.SetTIPP(instance);
             Assert.IsInstanceOfType(instance.AddTIPP, typeof(EcaAddTIPP));
-            foreach(var dependent in instance.CreateDependent)
+            foreach (var dependent in instance.CreateDependent)
             {
                 Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
             }
@@ -1996,7 +2080,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNotNull(instance.ExchangeVisitor);
                 Assert.IsNotNull(instance.ExchangeVisitor.AddTIPP);
                 Assert.IsInstanceOfType(instance.ExchangeVisitor.AddTIPP, typeof(EcaAddTIPP));
-                foreach(var dependent in instance.ExchangeVisitor.CreateDependent)
+                foreach (var dependent in instance.ExchangeVisitor.CreateDependent)
                 {
                     Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
                 }
@@ -2092,6 +2176,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetCreateExchangeVisitor_CheckingMailingAddress()
         {
+            var personId = 1000;
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);
             var endDate = DateTimeOffset.Now.AddDays(20.0);
 
@@ -2108,7 +2193,7 @@ namespace ECA.Business.Test.Service.Persons
             var country = new Location
             {
                 LocationId = 2,
-                LocationName = "US",
+                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
             };
             var city = new Location
             {
@@ -2134,8 +2219,8 @@ namespace ECA.Business.Test.Service.Persons
             };
             var addressType = new AddressType
             {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
             };
             var address = new Address
             {
@@ -2145,6 +2230,7 @@ namespace ECA.Business.Test.Service.Persons
                 IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
+                PersonId = personId
             };
 
             var user = new User(2);
@@ -2167,7 +2253,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var person = new Person
             {
-                PersonId = 10,
+                PersonId = personId,
                 Alias = "alias",
                 FirstName = "first name",
                 LastName = "last name",
@@ -2189,7 +2275,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
-                HomeInstitutionAddressId = address.AddressId
             };
             participant.ParticipantPerson = participantPerson;
             var visitor = new ParticipantExchangeVisitor
@@ -2232,59 +2317,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             var yesterday = DateTimeOffset.Now.AddDays(-1.0);
             var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
-
             var user = new User(2);
             var project = new Project
             {
@@ -2327,7 +2359,6 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
-                HostInstitutionAddressId = address.AddressId
             };
             participant.ParticipantPerson = participantPerson;
             var visitor = new ParticipantExchangeVisitor
@@ -2338,13 +2369,6 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(cityOfBirth);
             context.Participants.Add(participant);
             context.ParticipantPersons.Add(participantPerson);
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
             context.ParticipantExchangeVisitors.Add(visitor);
             context.Projects.Add(project);
             context.People.Add(person);
@@ -2353,11 +2377,7 @@ namespace ECA.Business.Test.Service.Persons
             Action<CreateExchVisitor> tester = (testInstance) =>
             {
                 Assert.IsNotNull(testInstance.ExchangeVisitor.USAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.ExchangeVisitor.USAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.ExchangeVisitor.USAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.ExchangeVisitor.USAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.ExchangeVisitor.USAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.ExchangeVisitor.USAddress.PostalCode);
+                usStateDeptAddressTester(testInstance.ExchangeVisitor.USAddress);
             };
             var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
             var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
@@ -3353,6 +3373,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetUpdateExchangeVisitorAsync_CheckMailingAddressProperty()
         {
+            var personId = 1000;
             var project = new Project
             {
                 ProjectId = 1,
@@ -3370,7 +3391,7 @@ namespace ECA.Business.Test.Service.Persons
             var country = new Location
             {
                 LocationId = 2,
-                LocationName = "US",
+                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
             };
             var city = new Location
             {
@@ -3396,8 +3417,8 @@ namespace ECA.Business.Test.Service.Persons
             };
             var addressType = new AddressType
             {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
             };
             var address = new Address
             {
@@ -3407,6 +3428,7 @@ namespace ECA.Business.Test.Service.Persons
                 IsPrimary = true,
                 Location = addressLocation,
                 LocationId = addressLocation.LocationId,
+                PersonId = personId
             };
             var gender = new Gender
             {
@@ -3415,7 +3437,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var person = new Person
             {
-                PersonId = 20,
+                PersonId = personId,
                 FirstName = "firstName",
                 Gender = gender,
                 GenderId = gender.GenderId
@@ -3435,7 +3457,6 @@ namespace ECA.Business.Test.Service.Persons
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
                 SevisId = "N1234",
-                HomeInstitutionAddressId = address.AddressId
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -3482,57 +3503,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1,
                 VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            }; var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
+            }; 
             var gender = new Gender
             {
                 GenderId = Gender.Male.Id,
@@ -3560,7 +3531,6 @@ namespace ECA.Business.Test.Service.Persons
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
                 SevisId = "N1234",
-                HostInstitutionAddressId = address.AddressId
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -3570,13 +3540,6 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             participant.ParticipantPerson = participantPerson;
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
             context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             context.Projects.Add(project);
             context.People.Add(person);
@@ -3587,11 +3550,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.IsNotNull(instance);
                 Assert.IsNotNull(instance.ExchangeVisitor.USAddress);
-                Assert.AreEqual(addressLocation.Street1, instance.ExchangeVisitor.USAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, instance.ExchangeVisitor.USAddress.Address2);
-                Assert.AreEqual(city.LocationName, instance.ExchangeVisitor.USAddress.City);
-                Assert.AreEqual(division.LocationName, instance.ExchangeVisitor.USAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, instance.ExchangeVisitor.USAddress.PostalCode);
+                usStateDeptAddressTester(instance.ExchangeVisitor.USAddress);
             };
 
             var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);

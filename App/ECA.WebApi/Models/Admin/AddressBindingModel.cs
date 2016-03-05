@@ -61,7 +61,7 @@ namespace ECA.WebApi.Models.Admin
         /// <summary>
         /// Gets or sets the division id
         /// </summary>
-        public int DivisionId { get; set; }
+        public int? DivisionId { get; set; }
     }
 
     /// <summary>

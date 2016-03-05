@@ -31,7 +31,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
     <!-- Add your site or application content here -->
-    <div ng-if="userInfo.isAuthenticated">
+    <div ng-if="userInfo.isAuthenticated" ng-cloak>
         <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 5000}"></toaster-container>
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
             <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
@@ -111,7 +111,7 @@
         </div>
     </div>
     <div ui-view id="top" autoscroll="true"></div>
-    <div class="footer" ng-if="userInfo.isAuthenticated">
+    <div class="footer" ng-if="userInfo.isAuthenticated" ng-cloak>
         <div class="top">
             <p>
                 <a href="">About ECA KMT</a>   |
@@ -306,7 +306,6 @@
     <script src="app/directives/moneyflow.controller.js"></script>
     <script src="app/directives/moneyflows.directive.js"></script>
     <script src="app/directives/moneyflows.controller.js"></script>
-    <script src="app/directives/participant-exchange-visitor.directive.js"></script>
     <script src="app/directives/participant-person-info.directive.js"></script>
     <script src="app/directives/participant-person-sevis.directive.js"></script>
     <script src="app/directives/phone-numbers.controller.js"></script>
