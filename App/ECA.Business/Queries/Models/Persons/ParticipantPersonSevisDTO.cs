@@ -111,5 +111,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// The most recent participant Sevis batch submission result
         /// </summary>
         public string SevisBatchResult { get; set; }
+
+        /// <summary>
+        /// Sevis Status (person participants only)
+        /// </summary>
+        public string SevisStatus { get; set; }
     }
 }
