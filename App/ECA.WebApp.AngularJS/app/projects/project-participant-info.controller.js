@@ -46,7 +46,7 @@ angular.module('staticApp')
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
       
-      var notifyStatuses = ["SENT TO DHS", "QUEUED TO SUBMIT", "READY TO SUBMIT", "VALIDATED", "SEVIS RECEIVED"];
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.view.isInfoTabInEditMode)

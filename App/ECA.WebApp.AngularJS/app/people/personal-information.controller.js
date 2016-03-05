@@ -4,7 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, $q, $filter, smoothScroll, MessageBox) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $state, $timeout, $q, $filter, smoothScroll, MessageBox, StateService, ConstantsService) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -18,8 +18,7 @@ angular.module('staticApp')
       $scope.edit.EduEmp = false;
       $scope.sevisStatus = { statusName: "" };
 
-      // TODO: use constant service
-      var notifyStatuses = ["SENT TO DHS", "QUEUED TO SUBMIT", "READY TO SUBMIT", "VALIDATED", "SEVIS RECEIVED"];
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.edit.General)
