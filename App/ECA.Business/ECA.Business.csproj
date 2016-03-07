@@ -525,7 +525,6 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
-    <Compile Include="Validation\SEVIS\Shared\DependentBase.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
     <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
