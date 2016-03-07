@@ -54,6 +54,8 @@
                 $scope.view = {};
                 $scope.view.PositionAndField = false;
                 $scope.view.PositionAndFieldEdit = false;
+                $scope.edit.isStartDatePickerOpen = false;
+                $scope.edit.isEndDatePickerOpen = false;
                 $scope.view.Funding = false;
                 $scope.view.FundingEdit = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
@@ -62,15 +64,23 @@
                 var notifyStatuses = ConstantsService.sevisStatuses;
                 
                 $scope.edit.openStartDatePicker = function ($event) {
+                    return CreateMessageBox($scope.edit.isStartDatePickerOpen)
+                    .then(function (response) {
+                        $scope.edit.isStartDatePickerOpen = response;
+                    });
+
                     $event.preventDefault();
                     $event.stopPropagation();
-                    $scope.edit.isStartDatePickerOpen = true
                 }
 
                 $scope.edit.openEndDatePicker = function ($event) {
+                    return CreateMessageBox($scope.edit.isEndDatePickerOpen)
+                    .then(function (response) {
+                        $scope.edit.isEndDatePickerOpen = response;
+                    });
+
                     $event.preventDefault();
                     $event.stopPropagation();
-                    $scope.edit.isEndDatePickerOpen = true
                 }
 
                 $scope.getSevisStartDateDivId = function (participantId) {
@@ -172,7 +182,7 @@
 
                     return defer.promise;
                 }
-                
+
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")
