@@ -7,22 +7,28 @@
 
     participantPersonSevis.$inject = [
         '$log',
+        '$q',
+        '$filter',
         'LookupService',
         'FilterService',
         'NotificationService',
         'ParticipantPersonsSevisService',
         'StateService',
+        'MessageBox',
         'ConstantsService',
         'smoothScroll',
         '$state'];
 
     function participantPersonSevis(
         $log,
+        $q,
+        $filter,
         LookupService,
         FilterService,
         NotificationService,
         ParticipantPersonsSevisService,
         StateService,
+        MessageBox,
         ConstantsService,
         smoothScroll,
         $state) {
@@ -50,10 +56,11 @@
                 $scope.view.PositionAndFieldEdit = false;
                 $scope.view.Funding = false;
                 $scope.view.FundingEdit = false;
-
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.fundingElementId = 'funding' + $scope.participantid;
-
+                
+                var notifyStatuses = ConstantsService.sevisStatuses;
+                
                 $scope.edit.openStartDatePicker = function ($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
@@ -123,7 +130,11 @@
                 };
 
                 $scope.edit.onFundingEditChange = function () {
-                    $scope.view.FundingEdit = !$scope.view.FundingEdit;
+                    return CreateMessageBox($scope.view.PositionAndFieldEdit)
+                    .then(function (response) {
+                        $scope.view.FundingEdit = response;
+                    });
+
                     if ($scope.view.FundingEdit) {
                         $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == 22);
                         $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == 22);
@@ -133,11 +144,35 @@
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
-                    $scope.view.PositionAndFieldEdit = !$scope.view.PositionAndFieldEdit;
+                    return CreateMessageBox($scope.view.PositionAndFieldEdit)
+                    .then(function (response) {
+                        $scope.view.PositionAndFieldEdit = response;
+                    });
                     if ($scope.view.PositionAndFieldEdit)
                         loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
                 }
+                
+                function CreateMessageBox(userSection) {
+                    var defer = $q.defer();
+                    if (notifyStatuses.indexOf($filter('uppercase')($scope.sevisinfo.sevisStatus)) !== -1) {
+                        MessageBox.confirm({
+                            title: 'Confirm Edit',
+                            message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',
+                            okText: 'Yes',
+                            cancelText: 'No',
+                            okCallback: function () {
+                                userSection = true
+                                defer.resolve(userSection);
+                            }
+                        });
+                    } else {
+                        userSection = !userSection
+                        defer.resolve(userSection);
+                    }
 
+                    return defer.promise;
+                }
+                
                 $scope.onGovtAgency1Select = function (item) {
                     if (item.description != null)
                         if (item.description == "OTHER")
