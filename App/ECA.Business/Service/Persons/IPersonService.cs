@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace ECA.Business.Service.Persons
 {
@@ -58,7 +59,6 @@ namespace ECA.Business.Service.Persons
         /// <returns>General information for person</returns>
         Task<GeneralDTO> GetGeneralByIdAsync(int personId);
 
-
         /// <summary>
         /// Returns educations information for a user 
         /// </summary>
@@ -86,8 +86,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="personId">The person id to lookup</param>
         /// <returns>Professional employment information for person</returns>
         Task<IList<EducationEmploymentDTO>> GetEmploymentsByPersonIdAsync(int personId);
-
-
+        
         /// <summary>
         /// Returns evaluation-notes information for a user 
         /// </summary>
@@ -149,5 +148,13 @@ namespace ECA.Business.Service.Persons
         /// <param name="personId"></param>
         /// <returns></returns>
         Task<SimplePersonDTO> GetPersonByIdAsync(int personId);
+
+        /// <summary>
+        /// Deletes a dependent from the person
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="dependentId"></param>
+        /// <returns></returns>
+        Task DeletePersonDependentByIdAsync(int personId, int dependentId);
     }
 }

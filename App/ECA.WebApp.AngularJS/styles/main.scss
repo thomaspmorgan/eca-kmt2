@@ -981,3 +981,6 @@ input::-ms-clear {
     opacity: 0;
     transition: visibility 0s 1s, opacity 1s linear;
 }
+
+[ng\:cloak], [ng-cloak], .ng-cloak { display: none; 
+}

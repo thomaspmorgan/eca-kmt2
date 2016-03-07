@@ -25,9 +25,11 @@ namespace ECA.Business.Service.Persons
         /// <param name="gender">The gender</param>
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="isDateOfBirthUnknown">Denotes date of birth is unknown</param>
+        /// <param name="isDateOfBirthEstimated">Denotes date of birth estimated.</param>
+        /// <param name="isPlaceOfBirthUnknown">Denotes place of birth unknown.</param>
         /// <param name="cityOfBirth">The city of birth</param>
+        /// <param name="personTypeId">The person type id</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        /// <param name="isDateOfBirthEstimated">Is the date of birth estimated.</param>
         public NewPerson(
             User createdBy,
             int projectId,

@@ -17,6 +17,7 @@ angular.module('staticApp')
         $state,
         $location,
         $timeout,
+        $filter,
         $anchorScroll,
         smoothScroll,
         MessageBox,
@@ -72,6 +73,7 @@ angular.module('staticApp')
       $scope.permissions.editProject = false;
       $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({

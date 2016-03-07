@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        $filter,
         orderByFilter,
 		FilterService,
 		LookupService,
@@ -24,6 +25,7 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         ProjectService,
+        MessageBox,
         NotificationService,
         ParticipantService,
         ParticipantPersonsService
@@ -43,7 +45,36 @@ angular.module('staticApp')
       $scope.view.isSavingUpdate = false;
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
+      
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
+      $scope.editGeneral = function () {
+          return CreateMessageBox($scope.view.isInfoTabInEditMode)
+          .then(function (response) {
+              $scope.view.isInfoTabInEditMode = response;
+          });
+      }
+
+      function CreateMessageBox(userSection) {
+          var defer = $q.defer();
+          if (notifyStatuses.indexOf($filter('uppercase')($scope.view.participantPerson.sevisStatus)) !== -1) {
+              MessageBox.confirm({
+                  title: 'Confirm Edit',
+                  message: 'The SEVIS participant status of this person is ' + $scope.view.participantPerson.sevisStatus + '. Are you sure you want to edit?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      userSection = true
+                      defer.resolve(userSection);
+                  }
+              });
+          } else {
+              userSection = !userSection
+              defer.resolve(userSection);
+          }
+
+          return defer.promise;
+      }
 
       $scope.view.loadHomeInstitutions = function ($search) {
           return loadHomeInstitutions($search);

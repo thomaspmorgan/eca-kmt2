@@ -4,7 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $state, $stateParams, $timeout, $q, smoothScroll, MessageBox, StateService) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $state, $timeout, $q, $filter, smoothScroll, MessageBox, StateService, ConstantsService) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -18,8 +18,7 @@ angular.module('staticApp')
       $scope.edit.EduEmp = false;
       $scope.sevisStatus = { statusName: "" };
 
-      // TODO: use constant service
-      var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Ready To Submit", "Validated", "SEVIS Received"];
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.edit.General)
@@ -51,7 +50,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.sevisStatus.statusName) !== -1) {
+          if (notifyStatuses.indexOf($filter('uppercase')($scope.sevisStatus.statusName)) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.sevisStatus.statusName + '. Are you sure you want to edit?',
@@ -69,7 +68,7 @@ angular.module('staticApp')
 
           return defer.promise;
       }
-
+      
       function handleSectionState() {
 
           if ($state.current.name === StateService.stateNames.people.section.pii) {
@@ -101,20 +100,20 @@ angular.module('staticApp')
           $scope.showContact = false;
           $scope.showEduEmp = false;
           $scope.showEvalNotes = false;
-      }
+              }
 
       function scrollToSection(sectionId, callbackBefore, callbackAfter) {
-          $timeout(function () {
+              $timeout(function () {
               var section = document.getElementById(sectionId);
-              var options = {
-                  duration: 500,
-                  easing: 'easeIn',
+                  var options = {
+                      duration: 500,
+                      easing: 'easeIn',
                   offset: 175,
                   callbackBefore: callbackBefore,
                   callbackAfter: callbackAfter
-              }
-              smoothScroll(section, options);
-          });
-      }
+                  }
+                  smoothScroll(section, options);
+              });
+          }
       handleSectionState();
   });

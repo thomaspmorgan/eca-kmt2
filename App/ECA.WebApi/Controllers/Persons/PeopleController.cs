@@ -42,12 +42,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
-        /// <param name="userProvider">The user provider.</param>
         /// <param name="personTypeService">The person type service.</param>
+        /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
-        /// <param name="emailAddressHandler">The Email Address handler.</param>
-        /// <param name="phoneNumberHandler">The phone number handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
+        /// <param name="phoneNumberHandler">The phone number handler.</param>
+        /// <param name="emailAddressHandler">The Email Address handler.</param>
         public PeopleController(
             IPersonService service, 
             IPersonTypeService personTypeService,
@@ -71,6 +71,8 @@ namespace ECA.WebApi.Controllers.Persons
             this.emailAddressHandler = emailAddressHandler;
             this.phoneNumberHandler = phoneNumberHandler;
         }
+
+        #region Get
 
         /// <summary>
         /// Returns the person types in the system.
@@ -211,6 +213,10 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        #endregion
+
+        #region Post
+
         /// <summary>
         /// Post method to create a person
         /// </summary>
@@ -232,6 +238,10 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        #endregion
+
+        #region Update
 
         /// <summary>
         /// Put method to update a person
@@ -298,6 +308,27 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        #endregion
+
+        #region Delete
+
+        /// <summary>
+        /// Deletes a dependent from the person.
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="dependentId"></param>
+        /// <returns></returns>
+        [Route("People/{personId:int}/Dependent/{dependentId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> DeleteDependentAsync(int personId, int dependentId)
+        {
+            await service.DeletePersonDependentByIdAsync(personId, dependentId);
+            await service.SaveChangesAsync();
+            return Ok();
+        }
+
+        #endregion
 
         #region Address
         /// <summary>
