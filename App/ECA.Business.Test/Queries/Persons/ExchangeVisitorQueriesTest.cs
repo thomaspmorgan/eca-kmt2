@@ -26,6 +26,13 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery()
         {
+            var spousePersonType = new PersonType
+            {
+                PersonTypeId = 150,
+                IsDependentPersonType = true,
+                SevisDependentTypeCode = "spouse dependent code",
+                Name = "spouse"
+            };
             var sevisCountryOfCitizenship = new BirthCountry
             {
                 BirthCountryId = 1000978,
@@ -75,10 +82,11 @@ namespace ECA.Business.Test.Queries.Persons
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
+                PlaceOfBirthId = cityOfBirth.LocationId,
+                PersonTypeId = spousePersonType.PersonTypeId,
+                PersonType = spousePersonType
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
-            
 
             var sevisResidenceCountry = new BirthCountry
             {
@@ -165,8 +173,8 @@ namespace ECA.Business.Test.Queries.Persons
             };
             participant.ParticipantPerson = participantPerson;
 
-
             dependent.PhoneNumbers.Add(phoneNumber);
+            context.PersonTypes.Add(spousePersonType);
             context.AddressTypes.Add(residenceAddressType);
             context.BirthCountries.Add(sevisResidenceCountry);
             context.PhoneNumbers.Add(phoneNumber);
@@ -202,6 +210,8 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
             Assert.AreEqual(phoneNumber.PhoneNumberId, biography.PhoneNumberId);
             Assert.AreEqual(phoneNumber.Number, biography.PhoneNumber);
+            Assert.AreEqual(spousePersonType.PersonTypeId, biography.PersonTypeId);
+            Assert.AreEqual(spousePersonType.SevisDependentTypeCode, biography.Relationship);
 
             Assert.AreEqual(email.Address, biography.EmailAddress);
 
@@ -211,7 +221,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(sevisBirthCountry.CountryCode, biography.BirthCountryCode);
             Assert.AreEqual(sevisResidenceCountry.CountryCode, biography.PermanentResidenceCountryCode);
             Assert.IsNull(biography.BirthCountryReason);
-            Assert.IsNull(biography.Relationship);
+            Assert.IsNull(biography.SevisId);
         }
 
         [TestMethod]
@@ -345,7 +355,6 @@ namespace ECA.Business.Test.Queries.Persons
                 Number = "123-456-7890",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
-
             };
             person.PhoneNumbers.Add(phoneNumber);
             context.AddressTypes.Add(residenceAddressType);

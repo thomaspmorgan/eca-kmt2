@@ -18,7 +18,7 @@ namespace ECA.Business.Validation.Model
 
         public FullName FullName { get; set; }
         
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         
         public string Gender { get; set; }
 

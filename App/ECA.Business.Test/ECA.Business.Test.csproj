@@ -227,6 +227,7 @@
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\BiographicalDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\DependentBiographicalDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />

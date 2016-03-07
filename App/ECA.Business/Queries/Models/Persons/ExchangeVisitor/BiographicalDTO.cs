@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model.CreateEV;
+﻿using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using System;
 using System.Diagnostics.Contracts;
@@ -110,7 +111,6 @@ namespace ECA.Business.Queries.Models.Persons
                 FullName = this.FullName.GetFullName(),
                 Gender = this.Gender,
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-                ResidentialAddress = null,
             };
         }
 
@@ -136,7 +136,6 @@ namespace ECA.Business.Queries.Models.Persons
                 PositionCode = this.PositionCode,
                 printForm = true,
                 Remarks = String.Empty,
-                ResidentialAddress = null,
             };
         }
         //this relates to NonImgBioType in sevis xsd
@@ -151,5 +150,58 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the relationship.
         /// </summary>
         public string Relationship { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person type id.
+        /// </summary>
+        public int PersonTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis id.
+        /// </summary>
+        public string SevisId { get; set; }
+
+        /// <summary>
+        /// Returns an AddDependent instance from this biographical dependent dto.  The sevis id must be null.
+        /// </summary>
+        /// <returns>An AddDependent instance.</returns>
+        public AddDependent GetAddDependent()
+        {
+            Contract.Requires(this.SevisId == null, "The sevis id should be null for an add dependent.");
+            return new AddDependent
+            {
+                BirthCity = this.BirthCity,
+                BirthCountryCode = this.BirthCountryCode,
+                BirthCountryReason = this.BirthCountryReason,
+                BirthDate = this.BirthDate,
+                CitizenshipCountryCode = this.CitizenshipCountryCode,
+                EmailAddress = this.EmailAddress,
+                FullName = this.FullName.GetFullName(),
+                Gender = this.Gender,
+                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
+                printForm = false,
+                Relationship = this.Relationship,
+                UserDefinedA = null,
+                UserDefinedB = null
+            };
+        }
+
+        //public DependentBase GetDependent()
+        //{
+
+        //}
+
+        /// <summary>
+        /// Returns a CreateDependent instance from this dependent dto.
+        /// </summary>
+        /// <returns>A CreateDependent instance.</returns>
+        public CreateDependent GetCreateDependent()
+        {
+            return new CreateDependent
+            {
+                AddTIPP = new EcaAddTIPP(),
+                Dependent = GetAddDependent()
+            };
+        }
     }
 }

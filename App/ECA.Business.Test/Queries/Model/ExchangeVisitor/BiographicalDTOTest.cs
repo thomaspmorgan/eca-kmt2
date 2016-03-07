@@ -82,7 +82,7 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
                 PhoneNumber = "123-456-7890",
                 PositionCode = "position code",
             };
-            
+
 
             var biography = model.GetBiographicalUpdate();
             Assert.IsNotNull(biography);
@@ -103,8 +103,7 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
             Assert.AreEqual(fullName.PassportName, biography.FullName.PassportName);
             Assert.AreEqual(fullName.PreferredName, biography.FullName.PreferredName);
             Assert.AreEqual(fullName.Suffix, biography.FullName.Suffix);
-            
-            Assert.IsNull(biography.ResidentialAddress);
+
             Assert.IsTrue(biography.printForm);
 
         }
