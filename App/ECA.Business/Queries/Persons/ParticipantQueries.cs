@@ -47,6 +47,7 @@ namespace ECA.Business.Queries.Persons
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
                             SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            SevisStatusId = participantPerson == null ? 0 : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId,
                             StatusId = participant.ParticipantStatusId
                         };
             return query;
@@ -89,6 +90,7 @@ namespace ECA.Business.Queries.Persons
                             RevisedOn = participant.History.RevisedOn,
                             ParticipantStatus = participant.Status == null ? null : participant.Status.Status,
                             SevisStatus = participantPerson == null ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                            SevisStatusId = participantPerson == null ? 0 : participantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : participantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId,
                             StatusId = participant.ParticipantStatusId
                         };
 

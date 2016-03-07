@@ -16,7 +16,7 @@ angular.module('staticApp')
       $scope.edit.Pii = false;
       $scope.edit.Contact = false;
       $scope.edit.EduEmp = false;
-      $scope.sevisStatus = { statusName: "" };
+      $scope.sevisStatus = { statusName: "", statusNameId: 0 };
 
       var notifyStatuses = ConstantsService.sevisStatuses;
 
@@ -50,7 +50,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($filter('uppercase')($scope.sevisStatus.statusName)) !== -1) {
+          if (notifyStatuses.indexOf($scope.sevisStatus.statusNameId) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.sevisStatus.statusName + '. Are you sure you want to edit?',

@@ -1,13 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Queries.Persons
@@ -41,7 +36,8 @@ namespace ECA.Business.Queries.Persons
                              ParticipantStatusId = p.Participant.ParticipantStatusId,
                              HomeInstitution = organizationQuery.Where(x => x.OrganizationId == p.HomeInstitutionId).FirstOrDefault(),
                              HostInstitution = organizationQuery.Where(x => x.OrganizationId == p.HostInstitutionId).FirstOrDefault(),
-                             SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                             SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                             SevisStatusId = p.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId
                          });
             return query;
         }

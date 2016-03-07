@@ -155,7 +155,7 @@
 			citizenship: {id: 15, value: "Citizenship"},
 			permanentCountryOfResidence: {id: 16, value: "Permanent Country of Residence"}
 		},
-		sevisStatuses: ["SENT TO DHS", "QUEUED TO SUBMIT", "READY TO SUBMIT", "VALIDATED", "SEVIS RECEIVED"],
+		sevisStatuses: [2, 3, 4, 5],
 		socialMediaType: {
 			facebook: {id: 1, value: "Facebook"},
 			linkedin: {id: 2, value: "LinkedIn"},
