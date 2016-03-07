@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7ABECF2-7270-4BE3-A5F4-A4283323010F}</ProjectGuid>
+    <ProjectGuid>{53336BA0-47CD-4692-9864-AB2A0E649D1F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Business.Sevis</RootNamespace>

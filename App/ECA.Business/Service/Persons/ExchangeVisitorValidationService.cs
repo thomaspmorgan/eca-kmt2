@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model;
+﻿using ECA.Business.Validation;
+using ECA.Business.Validation.Model;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -164,7 +165,7 @@ namespace ECA.Business.Service.Persons
             if (!result.IsValid)
             {
                 person.SevisValidationResult = JsonConvert.SerializeObject(
-                    result,
+                    new SimpleValidationResult(result),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -185,7 +186,7 @@ namespace ECA.Business.Service.Persons
             if (!result.IsValid)
             {
                 person.SevisValidationResult = JsonConvert.SerializeObject(
-                    result,
+                    new SimpleValidationResult(result),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()

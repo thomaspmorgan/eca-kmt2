@@ -395,6 +395,8 @@
     <Compile Include="Validation\Shared\EcaAddTIPPTest.cs" />
     <Compile Include="Validation\Shared\USGovtValidatorTest.cs" />
     <Compile Include="Validation\Shared\USAddressValidatorTest.cs" />
+    <Compile Include="Validation\SimpleValidationFailureTest.cs" />
+    <Compile Include="Validation\SimpleValidationResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
