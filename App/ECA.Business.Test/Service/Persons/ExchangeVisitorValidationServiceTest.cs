@@ -15,6 +15,7 @@ using FluentValidation.Results;
 using Newtonsoft.Json;
 using ECA.Core.Exceptions;
 using Newtonsoft.Json.Serialization;
+using ECA.Business.Validation;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -312,7 +313,7 @@ namespace ECA.Business.Test.Service.Persons
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
                 Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
-                    validationResult,
+                    new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -431,7 +432,7 @@ namespace ECA.Business.Test.Service.Persons
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
                 Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
-                    validationResult,
+                    new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -501,7 +502,7 @@ namespace ECA.Business.Test.Service.Persons
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
                 Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
-                    validationResult,
+                    new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -573,7 +574,7 @@ namespace ECA.Business.Test.Service.Persons
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
                 Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
-                    validationResult,
+                    new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()

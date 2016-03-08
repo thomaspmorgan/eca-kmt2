@@ -525,7 +525,9 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
-    <None Include="Sevis\Model\create-updateexchangevisitor.csold" />
+    <Compile Include="Validation\SimpleValidationFailure.cs" />
+    <Compile Include="Validation\SimpleValidationResult.cs" />
+    <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\AddressErrorPath.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\BirthDateErrorPath.cs" />
@@ -694,6 +696,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="SevisXSD.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />

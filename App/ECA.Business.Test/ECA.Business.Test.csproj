@@ -227,6 +227,7 @@
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\BiographicalDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\DependentBiographicalDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
@@ -395,6 +396,8 @@
     <Compile Include="Validation\Shared\EcaAddTIPPTest.cs" />
     <Compile Include="Validation\Shared\USGovtValidatorTest.cs" />
     <Compile Include="Validation\Shared\USAddressValidatorTest.cs" />
+    <Compile Include="Validation\SimpleValidationFailureTest.cs" />
+    <Compile Include="Validation\SimpleValidationResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -44,9 +44,9 @@ namespace ECA.Business.Queries.Persons
 
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue && person.PlaceOfBirth.LocationTypeId == cityLocationTypeId
                         let placeOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
-                        let birthCity = hasPlaceOfBirth && placeOfBirth.LocationName != null 
-                            ? placeOfBirth.LocationName.Length > cityMaxLength 
-                                ? placeOfBirth.LocationName.Substring(0, cityMaxLength) 
+                        let birthCity = hasPlaceOfBirth && placeOfBirth.LocationName != null
+                            ? placeOfBirth.LocationName.Length > cityMaxLength
+                                ? placeOfBirth.LocationName.Substring(0, cityMaxLength)
                                 : placeOfBirth.LocationName
                             : null
 
@@ -131,33 +131,43 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<DependentBiographicalDTO> CreateGetParticipantDependentsBiographicalQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var biographyQuery = CreateGetBiographicalDataQuery(context);
+            var biographies = CreateGetBiographicalDataQuery(context);
             var familyMemberIds = context.Participants
                 .Where(x => x.ParticipantId == participantId && x.PersonId.HasValue)
                 .SelectMany(x => x.Person.Family.Select(f => f.PersonId));
 
-            return biographyQuery.Where(x => familyMemberIds.Contains(x.PersonId))
-                .Select(b => new DependentBiographicalDTO
-                {
-                    AddressId = b.AddressId,
-                    BirthCity = b.BirthCity,
-                    BirthCountryCode = b.BirthCountryCode,
-                    BirthCountryReason = b.BirthCountryReason,
-                    BirthDate = b.BirthDate,
-                    CitizenshipCountryCode = b.CitizenshipCountryCode,
-                    EmailAddress = b.EmailAddress,
-                    EmailAddressId = b.EmailAddressId,
-                    FullName = b.FullName,
-                    Gender = b.Gender,
-                    GenderId = b.GenderId,
-                    NumberOfCitizenships = b.NumberOfCitizenships,
-                    PermanentResidenceCountryCode = b.PermanentResidenceCountryCode,
-                    PersonId = b.PersonId,
-                    PhoneNumber = b.PhoneNumber,
-                    PhoneNumberId = b.PhoneNumberId,
-                    PositionCode = b.PositionCode,
-                    Relationship = null //this will have to change
-                });
+            var query = from biography in biographies
+
+                        join person in context.People
+                        on biography.PersonId equals person.PersonId
+
+                        let personType = person.PersonType
+
+                        where familyMemberIds.Contains(biography.PersonId)
+                        select new DependentBiographicalDTO
+                        {
+                            AddressId = biography.AddressId,
+                            BirthCity = biography.BirthCity,
+                            BirthCountryCode = biography.BirthCountryCode,
+                            BirthCountryReason = biography.BirthCountryReason,
+                            BirthDate = biography.BirthDate,
+                            CitizenshipCountryCode = biography.CitizenshipCountryCode,
+                            EmailAddress = biography.EmailAddress,
+                            EmailAddressId = biography.EmailAddressId,
+                            FullName = biography.FullName,
+                            Gender = biography.Gender,
+                            GenderId = biography.GenderId,
+                            NumberOfCitizenships = biography.NumberOfCitizenships,
+                            PermanentResidenceCountryCode = biography.PermanentResidenceCountryCode,
+                            PersonId = biography.PersonId,
+                            PhoneNumber = biography.PhoneNumber,
+                            PhoneNumberId = biography.PhoneNumberId,
+                            PositionCode = biography.PositionCode,
+                            Relationship = personType.SevisDependentTypeCode,
+                            PersonTypeId = personType.PersonTypeId,
+                            SevisId = null //this will change when the dependents are storing their sevis ids
+                        };
+            return query;
 
         }
 
