@@ -128,7 +128,8 @@
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
                                     <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
                                 </tab>
-                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false" ng-if="showSevisTab(participant.participantTypeId) && permissions.hasEditSevisPermission">
+                                <!--ng-if="showSevisTab(participant.participantTypeId) && permissions.hasEditSevisPermission"-->
+                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
                                     <div>
                                         <participant-person-sevis participantid="{{participant.participantId}}"
                                                                   personid="{{participant.personId}}"
@@ -145,7 +146,6 @@
                             </tabset>
                         </td>
                     </tr>
-                    <tr id="parti
                     <tr id="participantMoreInfo" class="details" ng-repeat-end ng-show="participant.organizationId && participantInfo[participant.participantId].show">
                         <td colspan="7">
                             <div class="col-md-12 text-center">
@@ -176,7 +176,6 @@
             <div ng-show="match.model.location" style="margin-left:30px;">
                 <span bind-html-unsafe="match.model.location | typeaheadHighlight:query"></span>
             </div>
-
             <!--Person search results-->
             <div ng-show="match.model.fullName">
                 <span bind-html-unsafe="match.model.fullName | typeaheadHighlight:query"></span>
