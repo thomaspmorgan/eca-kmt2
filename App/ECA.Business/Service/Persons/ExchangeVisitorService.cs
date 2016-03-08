@@ -922,7 +922,8 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
-            exchangeVisitor.CreateDependent = new List<CreateDependent>();
+            var dependents = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participant.ParticipantId).ToList();
+            SetDependents(exchangeVisitor, dependents);
         }
 
         /// <summary>
@@ -930,12 +931,25 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participant">The participant.</param>
         /// <param name="exchangeVisitor">The exchange visitor.</param>
-        public Task SetDependentsAsync(Participant participant, ExchangeVisitor exchangeVisitor)
+        public async Task SetDependentsAsync(Participant participant, ExchangeVisitor exchangeVisitor)
         {
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
-            SetDependents(participant, exchangeVisitor);
-            return Task.FromResult<object>(null);
+            var dependents = await ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participant.ParticipantId).ToListAsync();
+            SetDependents(exchangeVisitor, dependents);
+        }
+
+        /// <summary>
+        /// Sets the CreateDepends on the given exchange visitor.
+        /// </summary>
+        /// <param name="exchangeVisitor">The exchange visitor.</param>
+        /// <param name="dependents">The dependents.</param>
+        public void SetDependents(ExchangeVisitor exchangeVisitor, List<DependentBiographicalDTO> dependents)
+        {
+            Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            Contract.Requires(dependents != null, "The list of dependents must not be null.");
+            exchangeVisitor.CreateDependent = new List<CreateDependent>();
+            dependents.ForEach(x => exchangeVisitor.CreateDependent.Add(x.GetCreateDependent()));
         }
 
         /// <summary>

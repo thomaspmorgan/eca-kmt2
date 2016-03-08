@@ -142,7 +142,6 @@ namespace ECA.Business.Test.Service.Sevis
                         BirthCity = "Arlington",
                         BirthCountryCode = "US",
                         CitizenshipCountryCode = "US",
-                        ResidentialAddress = null
                     },
                     SubjectField = new SubjectField
                     {

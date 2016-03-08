@@ -59,7 +59,18 @@
 			<xs:whiteSpace value="preserve"/>
 			<xs:minLength value="1"/>
 		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="RemarksNullable300Type">
+		<xs:union memberTypes="table:emptyStringType common:Remarks300Type"/>
 	</xs:simpleType>
+	<xs:simpleType name="Remarks300Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="300"/>
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="RequestID">
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
@@ -813,6 +824,11 @@
 	<xs:simpleType name="PhoneExt">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="\d{1,4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneExtEightDigits">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,8}"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- Very generic types -->

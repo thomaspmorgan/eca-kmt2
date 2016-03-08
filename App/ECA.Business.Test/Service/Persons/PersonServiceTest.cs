@@ -561,7 +561,7 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
-
+        
         [TestMethod]
         public async Task TestDeletePersonDependentById_CheckDependentDeleted()
         {
@@ -644,7 +644,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(person);
             context.People.Add(dependant1);
             person.Family.Add(dependant1);
-
+                
             await service.DeletePersonDependentByIdAsync(person.PersonId, dependant1.PersonId);
             await service.SaveChangesAsync();
 

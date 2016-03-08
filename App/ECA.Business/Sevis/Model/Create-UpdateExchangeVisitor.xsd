@@ -26,7 +26,17 @@
 					<xs:documentation>14 character</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Biographical" type="NonImgBioType"/>
+			<xs:element name="Biographical">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="NonImgBioType">
+							<xs:sequence>
+								<xs:element name="PhoneNumber" type="common:PhoneTenDigits" minOccurs="0"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="PositionCode" type="table:EVPositionCodeType"/>
 			<xs:element name="PrgStartDate" type="table:DateType"/>
 			<xs:element name="PrgEndDate" type="table:DateType"/>
@@ -36,8 +46,6 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="SubjectFieldCode" type="table:ProgSubjectCodeType"/>
-						<xs:element name="ForeignDegreeLevel" type="common:StudentInternType" minOccurs="0"/>
-						<xs:element name="ForeignFieldOfStudy" type="common:StudentInternType" minOccurs="0"/>
 						<xs:element name="Remarks" type="common:RemarksType"/>
 					</xs:sequence>
 				</xs:complexType>
@@ -502,8 +510,6 @@
 															<xs:sequence>
 																<xs:element name="SubjectFieldCode" type="table:ProgSubjectCodeType"/>
 																<xs:element name="SubjectFieldRemarks" type="common:RemarksType"/>
-																<xs:element name="ForeignDegreeLevel" type="common:StudentInternType" minOccurs="0"/>
-																<xs:element name="ForeignFieldOfStudy" type="common:StudentInternType" minOccurs="0"/>
 																<xs:element name="Remarks" type="common:RemarksType"/>
 															</xs:sequence>
 															<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
@@ -768,7 +774,6 @@
 															<xs:documentation>US physical address information</xs:documentation>
 														</xs:annotation>
 													</xs:element>
-													<xs:element name="TravelInfo" type="common:TravelNullableType" minOccurs="0"/>
 													<xs:element name="EmailAddress" type="table:EmailType" minOccurs="0"/>
 													<xs:element name="PhoneNumber" type="common:PhoneTenDigits" minOccurs="0"/>
 													<xs:element name="TippSignatureDates" type="TippSignatureDates" minOccurs="0" maxOccurs="1"/>
@@ -801,16 +806,61 @@
 			<xs:documentation>Secondary Student and Au Pair categories residential address</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="LCCoordinator" type="ContactNameType" minOccurs="0"/>
+			<xs:element name="LCCoordinator" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LastName" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1"/>
+											<xs:maxLength value="40"/>
+											<xs:whiteSpace value="preserve"/>
+											<xs:pattern value="\D+"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="FirstName" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1"/>
+											<xs:maxLength value="40"/>
+											<xs:whiteSpace value="preserve"/>
+											<xs:pattern value="\D+"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PostalCode" type="table:USPostalTypeNullableType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="ResidentialType" minOccurs="0">
 				<xs:simpleType>
 					<xs:union memberTypes="table:EVResidentialType table:emptyStringType"/>
 				</xs:simpleType>
 			</xs:element>
+			<xs:element name="PContact" type="ContactNameType" minOccurs="0"/>
 			<xs:element name="HostFamily" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="PContact" type="ContactNameType" minOccurs="0"/>
+						<xs:element name="HostFamilyInd" minOccurs="0">
+							<xs:simpleType>
+								<xs:union memberTypes="table:EVHostFamilyIndicator table:emptyStringType"/>
+							</xs:simpleType>
+						</xs:element>
 						<xs:element name="SContact" type="ContactNameType" minOccurs="0"/>
 						<xs:element name="Phone" minOccurs="0">
 							<xs:simpleType>
@@ -848,6 +898,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="Name" type="common:NameNullable" minOccurs="0"/>
+						<xs:element name="PCTitle" minOccurs="0"/>
 						<xs:element name="Phone" minOccurs="0">
 							<xs:simpleType>
 								<xs:union>

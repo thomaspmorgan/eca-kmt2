@@ -33,7 +33,6 @@ namespace ECA.Business.Test.Validation.Shared
                 },
                 Gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE,
                 PermanentResidenceCountryCode = "FR",
-                ResidentialAddress = new ResidentialAddress()
             };
         }
 
