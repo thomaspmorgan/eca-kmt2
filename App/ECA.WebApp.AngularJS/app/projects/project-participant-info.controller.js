@@ -57,7 +57,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($filter('uppercase')($scope.view.participantPerson.sevisStatus)) !== -1) {
+          if (notifyStatuses.indexOf($scope.view.participantPerson.sevisStatusId) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.view.participantPerson.sevisStatus + '. Are you sure you want to edit?',
@@ -93,7 +93,6 @@ angular.module('staticApp')
               .then(function (org) {
                   $scope.view.hostInstitutionAddresses = org.addresses;
               });
-
           }
           else {
               $scope.view.participantPerson.hostInstitutionId = null;

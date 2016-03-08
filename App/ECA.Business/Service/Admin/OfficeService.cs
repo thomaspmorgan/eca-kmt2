@@ -187,7 +187,7 @@ namespace ECA.Business.Service.Admin
                 SetPointOfContacts(updatedOffice.PointsOfContactIds.ToList(), officeToUpdate);
                 if (updatedOffice.ParentOfficeId.HasValue)
                 {
-                    var parentOffice = Context.Organizations.Find(updatedOffice.ParentOfficeId);
+                    var parentOffice = await Context.Organizations.FindAsync(updatedOffice.ParentOfficeId);
                     if (parentOffice != null)
                     {
                         officeToUpdate.ParentOrganizationId = parentOffice.OrganizationId;

@@ -22,6 +22,7 @@ angular.module('staticApp')
           .then(function (data) {
               $scope.general = data;
               $scope.sevisStatus.statusName = data.sevisStatus;
+              $scope.sevisStatus.statusNameId = data.sevisStatusId;
               $scope.generalLoading = false;
           });
       };
