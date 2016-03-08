@@ -90,6 +90,8 @@
                     <div class="col-md-9">
                         <ui-select ng-model="view.selectedParentOffice"
                                    theme="select2"
+                                   on-select="view.searchParentOffices('')"
+                                   on-remove="view.searchParentOffices('')"
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select a parent office..." allow-clear="true">
                                 {{$select.selected.name}}
@@ -115,6 +117,8 @@
                                    close-on-select="true"
                                    ng-model="view.selectedPointsOfContact"
                                    theme="select2"
+                                   on-select="view.searchPointsOfContact('')"
+                                   on-remove="view.searchPointsOfContact('')"
                                    title="Choose a point of contact."
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select points of contact...">
