@@ -33,8 +33,8 @@ namespace ECA.Business.Test.Service.Sevis
             context = new TestEcaContext();
             participantService = new ParticipantService(context, null);
             exchangeVisitorService = new Mock<IExchangeVisitorService>();
-            participantPersonService = new ParticipantPersonsSevisService(context, exchangeVisitorService.Object, null);
-            service = new SevisBatchProcessingService(context, participantService, participantPersonService, null);
+            participantPersonService = new ParticipantPersonsSevisService(context, null);
+            service = new SevisBatchProcessingService(context, exchangeVisitorService.Object, participantService, participantPersonService, null);
         }
 
         [TestMethod]
