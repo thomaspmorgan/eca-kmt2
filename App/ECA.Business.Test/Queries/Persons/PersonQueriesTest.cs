@@ -144,7 +144,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DepdendentDoesNotHaveFmaily()
+        public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DepdendentDoesNotHaveFamily()
         {
             var spousePersonType = new PersonType
             {
@@ -643,7 +643,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipantion_StatusIsNull()
+        public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipation_StatusIsNull()
         {
             var ptype = new PersonType
             {

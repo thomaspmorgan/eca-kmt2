@@ -161,16 +161,26 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Deletes a dependent from the person
+        /// Deletes a dependent from a person family
         /// </summary>
         /// <param name="personId"></param>
         /// <param name="dependentId"></param>
         /// <returns></returns>
-        public Task DeletePersonDependentByIdAsync(int personId, int dependentId)
+        public async Task DeletePersonDependentByIdAsync(int personId, int dependentId)
         {
-            throw new NotImplementedException("DeletePersonDependentByIdAsync not implemented");
+            var person = await Context.People.FindAsync(personId);
+            var dependent = await Context.People.FindAsync(dependentId);
+            person.Family.Remove(dependent);
+            DoDelete(dependent);
         }
 
+        private void DoDelete(Person personToDelete)
+        {
+            if (personToDelete != null)
+            {
+                Context.People.Remove(personToDelete);
+            }
+        }
 
         /// <summary>
         /// Update general

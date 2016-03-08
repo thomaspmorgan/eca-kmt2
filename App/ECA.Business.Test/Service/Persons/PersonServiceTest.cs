@@ -561,45 +561,104 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
-        
-        //[TestMethod]
-        //public async Task TestDeletePersonDependentById_CheckDependentDeleted()
-        //{
-        //    var person = new Person
-        //    {
-        //        PersonId = 1,
-        //        Gender = new Gender(),
-        //        PlaceOfBirth = new Location(),
-        //        PersonTypeId = PersonType.Participant.Id,
-        //    };
-        //    person.PlaceOfBirth.Country = new Location();
 
-        //    var dependant1 = new Person
-        //    {
-        //        PersonId = 2,
-        //        Gender = new Gender(),
-        //        DateOfBirth = DateTime.Now,
-        //        PersonTypeId = PersonType.Spouse.Id
-        //    };
-        //    dependant1.PlaceOfBirth.Country = new Location();
+        [TestMethod]
+        public async Task TestDeletePersonDependentById_CheckDependentDeleted()
+        {
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "genderName"
+            };
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                DateOfBirth = DateTime.Now,
+                IsDateOfBirthUnknown = true,
+                IsDateOfBirthEstimated = true,
+                FirstName = "firstName",
+                LastName = "lastName",
+                NamePrefix = "namePrefix",
+                NameSuffix = "nameSuffix",
+                GivenName = "givenName",
+                FamilyName = "familyName",
+                MiddleName = "middleName",
+                Patronym = "patronym",
+                Alias = "alias",
+                Ethnicity = "ethnicity",
+                MedicalConditions = "medical conditions",
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
+            };
+            var dependant1 = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                FirstName = "firstName",
+                LastName = "lastName",
+                DateOfBirth = DateTime.Now,
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Person = person,
+                ProjectId = 1,
+            };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.People.Add(dependant1);
+            person.Family.Add(dependant1);
+
+            await service.DeletePersonDependentByIdAsync(person.PersonId, dependant1.PersonId);
+            await service.SaveChangesAsync();
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.IsTrue(serviceResult.Dependants.Count() == 0);
+            };
             
-        //    context.People.Add(person);
-        //    context.People.Add(dependant1);
+            var result = this.service.GetPiiById(person.PersonId);
+            var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
 
-        //    var delete = await service.DeletePersonDependentByIdAsync(person.PersonId, dependant1.PersonId);
-
-        //    Action<PiiDTO> tester = (serviceResult) =>
-        //    {
-                
-        //    };
-
-            
-        //    var result = this.service.GetPiiById(person.PersonId);
-        //    var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
-
-        //    tester(result);
-        //    tester(resultAsync);
-        //}
+            tester(result);
+            tester(resultAsync);
+        }
 
 
         #endregion
