@@ -186,10 +186,7 @@ namespace ECA.Business.Queries.Models.Persons
             };
         }
 
-        //public DependentBase GetDependent()
-        //{
-
-        //}
+        
 
         /// <summary>
         /// Returns a CreateDependent instance from this dependent dto.
