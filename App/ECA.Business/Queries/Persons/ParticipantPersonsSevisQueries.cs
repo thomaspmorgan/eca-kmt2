@@ -52,7 +52,8 @@ namespace ECA.Business.Queries.Persons
                              LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn),
                              SevisValidationResult = p.SevisValidationResult,
                              SevisBatchResult = p.SevisBatchResult,
-                             SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName
+                             SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
+                             SevisStatusId = p.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId
                          });
             return query;
         }

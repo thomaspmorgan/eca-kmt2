@@ -17,6 +17,8 @@ angular.module('staticApp')
                 loadThemes()])
           .then(function (results) {
               setAllUiSelectValues();
+              loadParentOffices('');
+              loadPointsOfContact('');
           })
         });
 
@@ -199,9 +201,11 @@ angular.module('staticApp')
       function loadPointsOfContact(search) {
           pocFilter.reset();
           pocFilter = pocFilter.skip(0).take(maxLimit);
+          if ($scope.view.selectedPointsOfContact && $scope.view.selectedPointsOfContact.length > 0) {
+              pocFilter = pocFilter.notIn('id', $scope.view.selectedPointsOfContact.map(function (obj) { return obj.id }));
+          }
           if (search) {
               pocFilter = pocFilter.like('fullName', search);
-              pocFilter = pocFilter.notIn('id', $scope.selectedPointsOfContact.map(function (obj) { return obj.id }));
           }
           return LookupService.getAllContacts(pocFilter.toParams())
               .then(function (response) {
@@ -223,12 +227,14 @@ angular.module('staticApp')
       function loadParentOffices(search) {
           parentOfficeFilter.reset();
           parentOfficeFilter = parentOfficeFilter.skip(0).take(maxLimit);
+          if ($scope.view.office) {
+              parentOfficeFilter = parentOfficeFilter.notEqual('organizationId', $scope.view.office.id);
+              if ($scope.view.selectedParentOffice && $scope.view.selectedParentOffice.organizationId) {
+                  parentOfficeFilter = parentOfficeFilter.notEqual('organizationId', $scope.view.selectedParentOffice.organizationId);
+              }
+          }
           if (search) {
               parentOfficeFilter = parentOfficeFilter.like('name', search);
-              parentOfficeFilter = parentOfficeFilter.notIn('organizationId', [$scope.view.office.id]);
-              if ($scope.view.selectedParentOffice.organizationId) {
-                  parentOfficeFilter = parentOfficeFilter.notIn('organizationId', [$scope.view.selectedParentOffice.organizationId]);
-              }
           }
           OfficeService.getAll(parentOfficeFilter.toParams())
             .then(function (response) {

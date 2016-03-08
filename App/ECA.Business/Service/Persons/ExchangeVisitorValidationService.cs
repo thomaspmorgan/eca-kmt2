@@ -137,7 +137,7 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var project = Context.Projects.Find(projectId);
+            var project = await Context.Projects.FindAsync(projectId);
             throwIfModelDoesNotExist(participantId, project, typeof(Project));
             if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
             {

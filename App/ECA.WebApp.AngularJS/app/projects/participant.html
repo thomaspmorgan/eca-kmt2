@@ -128,8 +128,7 @@
                                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
                                     <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
                                 </tab>
-                                <!--ng-if="showSevisTab(participant.participantTypeId) && permissions.hasEditSevisPermission"-->
-                                <tab heading="SEVIS Information" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
+                                <tab heading="SEVIS Information" ng-if="showSevisTab(participant.participantTypeId) && permissions.hasEditSevisPermission" class="tab" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
                                     <div>
                                         <participant-person-sevis participantid="{{participant.participantId}}"
                                                                   personid="{{participant.personId}}"
@@ -139,9 +138,6 @@
                                                                   updatesevisinfo="saveSevisInfo(participantId)"
                                                                   updateexchangevisitorinfo="saveExchangeVisitorInfo(participantId)" />
                                     </div>
-                                    <!--<div>
-                                        <participant-exchange-visitor participantid="{{participant.participantId}}" exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]" update="saveExchangeVisitorInfo(participantId)" />
-                                    </div>-->
                                 </tab>
                             </tabset>
                         </td>
