@@ -47,12 +47,13 @@ angular.module('staticApp')
         requireADLogin: true
     })
     .state('projects.participants', {
-        url: '/participant?section&tab&participantId',
-        params: {
-            section: null,
-            tab: null,
-            participantId: null
-        },
+        url: '/participant',
+        templateUrl: 'app/projects/participant.html',
+        controller: 'ProjectParticipantCtrl',
+        requireADLogin: true
+    })
+    .state('projects.participants.sevis', {
+        url: '/:participantId',
         templateUrl: 'app/projects/participant.html',
         controller: 'ProjectParticipantCtrl',
         requireADLogin: true

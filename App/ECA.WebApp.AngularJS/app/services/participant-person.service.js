@@ -11,28 +11,20 @@ angular.module('staticApp')
   .factory('ParticipantPersonsService', function ($q, DragonBreath) {
 
       return {
-          updateParticipantPerson: function(params){
-              return DragonBreath.save(params, 'ParticipantPersons');
-          },
-          getParticipantPersons: function (params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'participantPersons')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
-          },
+          updateParticipantPerson: function(projectId, params){
+              return DragonBreath.save(params, 'project/' + projectId + '/ParticipantPersons');
+          },          
           getParticipantsByProject: function (id, params) {
               var defer = $q.defer();
-              var path = 'projects/' + id + "/participantPersons";
+              var path = 'project/' + id + "/participantPersons";
               DragonBreath.get(params, path)
                 .success(function (data) {
                     defer.resolve(data);
                 });
               return defer.promise;
           },
-          getParticipantPersonsById: function (id) {
-              return DragonBreath.get('participantPersons', id);
+          getParticipantPersonsById: function (projectId, id) {
+              return DragonBreath.get('project/' + projectId, '/participantPersons', id);
           }
       };
   });

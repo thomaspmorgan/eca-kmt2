@@ -1,14 +1,16 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
-using ECA.Business.Service.Sevis;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using Newtonsoft.Json;
+using FluentValidation.Results;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -16,10 +18,8 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ECA.Business.Service.Persons
@@ -32,16 +32,19 @@ namespace ECA.Business.Service.Persons
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-        private IParticipantPersonsSevisService participantService;
-
+        private Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
+        private IExchangeVisitorService exchangeVisitorService;
+        
         /// <summary>
         /// Creates a new ParticipantPersonService with the given context to operate against.
         /// </summary>
         /// <param name="saveActions">The save actions.</param>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantPersonsSevisService(EcaContext context, List<ISaveAction> saveActions = null) : base(context, saveActions)
+        public ParticipantPersonsSevisService(EcaContext context, IExchangeVisitorService exchangeVisitorService, List<ISaveAction> saveActions = null) : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
+            this.exchangeVisitorService = exchangeVisitorService;
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -49,68 +52,30 @@ namespace ECA.Business.Service.Persons
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
                 }
             };
+            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
+            {
+                if (participant != null && participant.ProjectId != projectId)
+                {
+                    throw new BusinessSecurityException(
+                        String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        userId,
+                        participant.ParticipantId,
+                        projectId));
+                }
+            };
         }
 
         #region Get
 
         /// <summary>
-        /// Returns the participantPersonSevises in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        public PagedQueryResults<ParticipantPersonSevisDTO> GetParticipantPersonsSevis(QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            var participantPersonSevises = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersons with query operator [{0}].", queryOperator);
-            return participantPersonSevises;
-        }
-
-        /// <summary>
-        /// Returns the participantPersonSevises in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        public Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetParticipantPersonsSevisAsync(QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            var participantPersonSevises = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersons with query operator [{0}].", queryOperator);
-            return participantPersonSevises;
-        }
-
-        /// <summary>
-        /// Returns the participantPersonSevises for the project with the given id in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The id of the project.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        public PagedQueryResults<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByProjectId(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            var participantPersonSevises = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersons by project id [{0}] and query operator [{1}].", projectId, queryOperator);
-            return participantPersonSevises;
-        }
-
-        /// <summary>
-        /// Returns the participantPersonSevises for the project with the given id in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <param name="projectId">The id of the project.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        public Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetParticipantPersonsSevisByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
-        {
-            var participantPersonSevises = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersons by project id [{0}] and query operator [{1}].", projectId, queryOperator);
-            return participantPersonSevises;
-        }
-
-        /// <summary>
         /// Returns a participantPersonSevis
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPersonSevis</returns>
-        public ParticipantPersonSevisDTO GetParticipantPersonsSevisById(int participantId)
+        public ParticipantPersonSevisDTO GetParticipantPersonsSevisById(int projectId, int participantId)
         {
-            var participantPersonSevis = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participantPersonSevis = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOByIdQuery(this.Context, projectId, participantId).FirstOrDefault();
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevis;
         }
@@ -119,10 +84,11 @@ namespace ECA.Business.Service.Persons
         /// Returns a participantPersonSevis asyncronously
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPersonSevis</returns>
-        public Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int participantId)
+        public Task<ParticipantPersonSevisDTO> GetParticipantPersonsSevisByIdAsync(int projectId, int participantId)
         {
-            var participantPersonSevis = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            var participantPersonSevis = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOByIdQuery(this.Context, projectId, participantId).FirstOrDefaultAsync();
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevis;
         }
@@ -130,7 +96,7 @@ namespace ECA.Business.Service.Persons
         #endregion
 
         #region SEVIS validation
-        
+
         /// <summary>
         /// Retrieve SEVIS batch XML
         /// </summary>
@@ -189,16 +155,16 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis exchange visitor create objects (250 max)</returns>
         public List<CreateExchVisitor> GetSevisCreateEVs(User user)
         {
-            var participantIds = Context.ParticipantPersons
+            var participants = Context.ParticipantPersons
                                     .Where(x => x.ParticipantPersonSevisCommStatuses.Last().SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && x.SevisId == null)
-                                    .Select(x => x.ParticipantId).Take(250);
+                                    .Select(x => new { ParticipantId = x.ParticipantId, ProjectId = x.Participant.ProjectId }).Take(250);
 
             List<CreateExchVisitor> createEvs = new List<CreateExchVisitor>();
             CreateExchVisitor createEv = new CreateExchVisitor();
 
-            foreach (var pid in participantIds)
+            foreach (var participant in participants)
             {
-                createEv = ParticipantPersonsSevisQueries.GetCreateExchangeVisitor(pid, user, this.Context);
+                createEv = exchangeVisitorService.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
                 createEvs.Add(createEv);
             }
 
@@ -212,81 +178,20 @@ namespace ECA.Business.Service.Persons
         /// <returns>Sevis exchange visitor update objects (250 max)</returns>
         public List<UpdateExchVisitor> GetSevisUpdateEVs(User user)
         {
-            var participantIds = Context.ParticipantPersons
+            var participants = Context.ParticipantPersons
                                     .Where(x => x.ParticipantPersonSevisCommStatuses.Last().SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && x.SevisId == null)
-                                    .Select(x => x.ParticipantId).Take(250);
+                                    .Select(x => new { ParticipantId = x.ParticipantId, ProjectId = x.Participant.ProjectId }).Take(250);
 
             List<UpdateExchVisitor> updateEvs = new List<UpdateExchVisitor>();
             UpdateExchVisitor updateEv = new UpdateExchVisitor();
 
-            foreach (var pid in participantIds)
+            foreach (var participant in participants)
             {
-                updateEv = ParticipantPersonsSevisQueries.GetUpdateExchangeVisitor(pid, user, this.Context);
+                updateEv = exchangeVisitorService.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
                 updateEvs.Add(updateEv);
             }
 
             return updateEvs;
-        }
-
-        /// <summary>
-        /// Update a participant SEVIS pre-validation status
-        /// </summary>
-        /// <param name="participantId">Participant ID</param>
-        /// <param name="errorCount">Validation error count</param>
-        /// <param name="isValid">Indicates if SEVIS object passed validation</param>
-        /// <param name="result">Validation result object</param>
-        public void UpdateParticipantPersonSevisCommStatus(int participantId, FluentValidation.Results.ValidationResult result)
-        {
-            var newStatus = new ParticipantPersonSevisCommStatus
-            {
-                ParticipantId = participantId,
-                AddedOn = DateTimeOffset.Now
-            };
-
-            if (result.Errors.Count > 0 || !result.IsValid)
-            {
-                newStatus.SevisCommStatusId = SevisCommStatus.InformationRequired.Id;
-            }
-            else
-            {
-                newStatus.SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
-            }
-
-            Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-            Context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Process SEVIS batch transaction log
-        /// </summary>
-        /// <param name="batchId">Batch ID</param>
-        public async void UpdateParticipantPersonSevisBatchStatus(int batchId)
-        {
-            var service = new SevisBatchProcessingService(this.Context);
-            var batchLog = await service.GetByIdAsync(batchId);
-            User user = new User(50);
-
-            StringBuilder sb = new StringBuilder();
-
-            //sb.Append(@"<root><Process><Record sevisID=N0012309439 requestID=1179 userID=50>");
-            //sb.Append(@"<Result><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result>");
-            //sb.Append(@"</Record></Process></root>");
-            
-            var root = XElement.Parse(batchLog.TransactionLogXml.Value);
-
-            IEnumerable<XElement> participants =
-                from el in root.Descendants("Process")
-                where
-                    (from record in el.Elements("Record")
-                     select record).Any()
-                select el;
-
-            foreach (XElement record in participants)
-            {
-                var updatedParticipantPersonSevis = new UpdatedParticipantPersonSevis(user, (int)record.Attribute("UserID"), "", false, false, false, false, false, false, (DateTimeOffset?)record.Attribute("StartDate"), (DateTimeOffset?)record.Attribute("StartDate"), "");
-                await participantService.UpdateAsync(updatedParticipantPersonSevis);
-                await participantService.SaveChangesAsync();
-            }
         }
 
         /// <summary>
@@ -315,89 +220,44 @@ namespace ECA.Business.Service.Persons
 
         #endregion
 
-        #region ParticipantPersonSevisStatus
-
-        /// Sevis Comm Status
-
-        /// <summary>
-        /// Returns the participantPersonSevisCommStatus in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatuses(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
-        {
-            var participantPersonSevisCommStatuses = ParticipantPersonsSevisCommStatusQueries.CreateGetParticipantPersonsSevisCommStatusDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersonSevisCommStatuses with query operator [{0}].", queryOperator);
-            return participantPersonSevisCommStatuses;
-        }
-
-        /// <summary>
-        /// Returns the participantPersonSevisCommStatus in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The participantPersonSevises.</returns>
-        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesAsync(QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
-        {
-            var participantPersonSevisCommStatuses = ParticipantPersonsSevisCommStatusQueries.CreateGetParticipantPersonsSevisCommStatusDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersonSevisCommStatuses with query operator [{0}].", queryOperator);
-            return participantPersonSevisCommStatuses;
-        }
-
-        /// <summary>
-        /// Returns a participantPersonSevis
-        /// </summary>
-        /// <param name="participantId">The participantId to lookup</param>
-        /// <returns>The participantPersonSevis</returns>
-        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesById(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
-        {
-            var participantPersonSevisCommStatuses = ParticipantPersonsSevisCommStatusQueries.CreateGetParticipantPersonsSevisCommStatusDTOByIdQuery(this.Context, participantId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
-            return participantPersonSevisCommStatuses;
-        }
-
-        /// <summary>
-        /// Returns a participantPersonSevisCommStatus asyncronously
-        /// </summary>
-        /// <param name="participantId">The participant id to lookup</param>
-        /// <returns>The participantPersonSevis</returns>
-        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetParticipantPersonsSevisCommStatusesByIdAsync(int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
-        {
-            var participantPersonSevisCommStatuses = ParticipantPersonsSevisCommStatusQueries.CreateGetParticipantPersonsSevisCommStatusDTOByIdQuery(this.Context, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
-            return participantPersonSevisCommStatuses;
-        }
-
-        /// <summary>
-        /// Returns a participantPersonSevisCommStatus asyncronously
-        /// </summary>
-        /// <param name="participantIds">The participant ids to lookup</param>
-        /// <returns></returns>
-        public IQueryable<ParticipantPersonSevisCommStatusDTO> GetParticipantPersonsSevisCommStatusesByParticipantIds(int[] participantIds)
-        {
-            var results = ParticipantPersonsSevisCommStatusQueries.CreateParticipantPersonsSevisCommStatusesDTOsByParticipantIdsQuery(Context, participantIds);
-            logger.Trace("Retrieved participantPersonSevises by array of participant Ids");
-            return results;
-        }
-
-        #endregion
-
         #region update
+
+        private IQueryable<ParticipantPersonSevisCommStatus> CreateGetCommStatusesThatAreReadyToSubmitQuery(int projectId, IEnumerable<int> participantIds)
+        {
+            var statuses = Context.ParticipantPersonSevisCommStatuses
+                .Where(x => x.ParticipantPerson.Participant.ProjectId == projectId)
+                .GroupBy(x => x.ParticipantId)
+                .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
+                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId));
+            return statuses;
+        }
 
         /// <summary>
         /// Sets sevis communication status for participant ids to queued
         /// </summary>
         /// <param name="participantIds">The participant ids to update communcation status</param>
         /// <returns>List of participant ids that were updated</returns>
-        public async Task<int[]> SendToSevis(int[] participantIds)
+        public async Task<int[]> SendToSevisAsync(int projectId, int[] participantIds)
         {
-            var statuses = await Context.ParticipantPersonSevisCommStatuses.GroupBy(x => x.ParticipantId)
-                .Select(s => s.OrderByDescending(x => x.AddedOn).FirstOrDefault())
-                .Where(w => w.SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && participantIds.Contains(w.ParticipantId))
-                .ToListAsync();
+            var statuses = await CreateGetCommStatusesThatAreReadyToSubmitQuery(projectId, participantIds).ToListAsync();
+            return DoSendToSevis(statuses).Select(x => x.ParticipantId).ToArray();
+        }
 
-            var participantsUpdated = new List<int>();
+        /// <summary>
+        /// Sets sevis communication status for participant ids to queued
+        /// </summary>
+        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <returns>List of participant ids that were updated</returns>
+        public int[] SendToSevis(int projectId, int[] participantIds)
+        {
+            var statuses = CreateGetCommStatusesThatAreReadyToSubmitQuery(projectId, participantIds).ToList();
+            return DoSendToSevis(statuses).Select(x => x.ParticipantId).ToArray();
+        }
 
-            foreach (var status in statuses)
+        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(IEnumerable<ParticipantPersonSevisCommStatus> readyToSubmitStatuses)
+        {
+            var addedParticipantStatuses = new List<ParticipantPersonSevisCommStatus>();
+            foreach (var status in readyToSubmitStatuses)
             {
                 var newStatus = new ParticipantPersonSevisCommStatus
                 {
@@ -407,23 +267,21 @@ namespace ECA.Business.Service.Persons
                 };
 
                 Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
-                participantsUpdated.Add(status.ParticipantId);
+                addedParticipantStatuses.Add(status);
             }
-
-            return participantsUpdated.ToArray();
+            return addedParticipantStatuses.ToList();
         }
 
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.
         /// </summary>
         /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
-        public ParticipantPersonSevisDTO Update(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        public void Update(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
         {
             var participantPerson = CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefault();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
-            return this.GetParticipantPersonsSevisById(updatedParticipantPersonSevis.ParticipantId);
         }
 
         /// <summary>
@@ -431,14 +289,12 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
         /// <returns>The task.</returns>
-        public async Task<ParticipantPersonSevisDTO> UpdateAsync(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
+        public async Task UpdateAsync(UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
         {
             var participantPerson = await CreateGetParticipantPersonsByIdQuery(updatedParticipantPersonSevis.ParticipantId).FirstOrDefaultAsync();
             throwIfModelDoesNotExist(updatedParticipantPersonSevis.ParticipantId, participantPerson, typeof(ParticipantPerson));
 
             DoUpdate(participantPerson, updatedParticipantPersonSevis);
-
-            return await this.GetParticipantPersonsSevisByIdAsync(updatedParticipantPersonSevis.ParticipantId);
         }
 
         private void DoUpdate(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis updatedParticipantPersonSevis)
@@ -454,7 +310,6 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;
-            participantPerson.SevisValidationResult = updatedParticipantPersonSevis.SevisValidationResult;
         }
 
         private UpdatedParticipantPersonSevisValidationEntity GetUpdatedParticipantPersonSevisValidationEntity(ParticipantPerson participantPerson, UpdatedParticipantPersonSevis participantPersonSevis)

@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $modal,
         $state,
+        $filter,
         orderByFilter,
 		FilterService,
 		LookupService,
@@ -24,6 +25,7 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         ProjectService,
+        MessageBox,
         NotificationService,
         ParticipantService,
         ParticipantPersonsService
@@ -43,7 +45,36 @@ angular.module('staticApp')
       $scope.view.isSavingUpdate = false;
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
+      
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
+      $scope.editGeneral = function () {
+          return CreateMessageBox($scope.view.isInfoTabInEditMode)
+          .then(function (response) {
+              $scope.view.isInfoTabInEditMode = response;
+          });
+      }
+
+      function CreateMessageBox(userSection) {
+          var defer = $q.defer();
+          if (notifyStatuses.indexOf($scope.view.participantPerson.sevisStatusId) !== -1) {
+              MessageBox.confirm({
+                  title: 'Confirm Edit',
+                  message: 'The SEVIS participant status of this person is ' + $scope.view.participantPerson.sevisStatus + '. Are you sure you want to edit?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  okCallback: function () {
+                      userSection = true
+                      defer.resolve(userSection);
+                  }
+              });
+          } else {
+              userSection = !userSection
+              defer.resolve(userSection);
+          }
+
+          return defer.promise;
+      }
 
       $scope.view.loadHomeInstitutions = function ($search) {
           return loadHomeInstitutions($search);
@@ -62,7 +93,6 @@ angular.module('staticApp')
               .then(function (org) {
                   $scope.view.hostInstitutionAddresses = org.addresses;
               });
-
           }
           else {
               $scope.view.participantPerson.hostInstitutionId = null;
@@ -103,7 +133,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onCancelButtonClick = function () {
-          return loadParticipantInfo($scope.participantid)
+          return loadParticipantInfo(projectId, $scope.participantid)
               .then(function (response) {
                   $scope.view.isInfoTabInEditMode = false;
               });
@@ -113,8 +143,7 @@ angular.module('staticApp')
           $scope.view.isSavingUpdate = true;
           return saveParticipantPerson($scope.view.participantPerson)
             .then(function (response) {
-                validateSevisInfo($scope.view.participantPerson);
-                return loadParticipantInfo($scope.participantid)
+                return loadParticipantInfo(projectId, $scope.participantid)
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;
@@ -127,21 +156,6 @@ angular.module('staticApp')
                 $log.error(message);
                 NotificationService.showErrorMessage(message);
             });
-      }
-      
-      // pre-sevis validation
-      function validateSevisInfo(participantPerson) {
-          var params = {
-              participantId: participantPerson.participantId,
-              sevisId: participantPerson.sevisId
-          };
-          SevisResultService.updateSevisVerificationResultsByParticipant(params)
-              .then(function (validationResults) {
-
-              })
-              .catch(function (error) {
-                  $log.error('Unable to update sevis validation results for participantId: ' + params.participantId);
-              });
       }
 
       var projectId = $stateParams.projectId;
@@ -235,7 +249,7 @@ angular.module('staticApp')
       }
 
       function saveParticipantPerson(participantPerson) {
-          return ParticipantPersonsService.updateParticipantPerson(participantPerson);
+          return ParticipantPersonsService.updateParticipantPerson(projectId, participantPerson);
       }
 
       function loadOrganizations(filter) {
@@ -339,12 +353,9 @@ angular.module('staticApp')
           return address;
       }
 
-      var hasAttemptedToSaveNewParticipantPersonCount = 0;
-      var maxAttemptedSaveNewParticipantPersonCount = 5;
-
-      function loadParticipantInfo(participantId) {
+      function loadParticipantInfo(projectId, participantId) {
           $scope.view.isLoadingInfo = true;
-          return ParticipantPersonsService.getParticipantPersonsById(participantId)
+          return ParticipantPersonsService.getParticipantPersonsById(projectId, participantId)
           .then(function (response) {
               if (response.data.homeInstitution) {
                   response.data.homeInstitutionId = response.data.homeInstitution.organizationId;
@@ -364,59 +375,17 @@ angular.module('staticApp')
               });
           })
           .catch(function (response) {
-              if (response.status === 404) {
-                  $log.info('The participant person was not found, creating a new participant person automatically.');
-                  $scope.view.isLoadingInfo = false;
-                  return saveNewParticipantPerson(participantId);
-              }
-              else {
-                  $scope.view.isLoadingInfo = false;
-                  $log.error('Unable to load participant info for ' + participantId + '.');
-                  NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
-              }
+              $scope.view.isLoadingInfo = false;
+              $log.error('Unable to load participant info for ' + participantId + '.');
+              NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
           });
       };
-
-      function saveNewParticipantPerson(participantId) {
-          $scope.view.isLoadingInfo = true;
-          hasAttemptedToSaveNewParticipantPersonCount++;
-          if (hasAttemptedToSaveNewParticipantPersonCount < maxAttemptedSaveNewParticipantPersonCount) {
-              return ParticipantService.getParticipantById(participantId)
-              .then(function (responseData) {
-                  var newParticipantPerson = getNewParticipantPerson(participantId, responseData.statusId, responseData.participantTypeId);
-                  if (responseData.participantTypeId === 6) {
-                      return saveParticipantPerson(newParticipantPerson)
-                      .then(function (response) {
-                          $scope.view.isLoadingInfo = false;
-                          return loadParticipantInfo(participantId);
-                      })
-                      .catch(function (response) {
-                          $scope.view.isLoadingInfo = false;
-                          var message = "Unable to save participant person.";
-                          $log.error(message);
-                          NotificationService.showErrorMessage(message);
-                      });
-                  }
-              })
-              .catch(function (response) {
-                  $scope.view.isLoadingInfo = false;
-                  var message = "Unable to load participant with id " + participantId;
-                  NotificationService.showErrorMessage(message);
-                  $log.error(message);
-              });
-          }
-          else {
-              var message = "Several attempts have been made to save a new participant person and they have failed.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
-          }
-      }
 
       $scope.view.isLoadingEditParticipantInfoRequiredData = true;
       $q.all([
           loadParticipantTypes(),
           loadParticipantStatii(),
-          loadParticipantInfo($scope.participantid)])
+          loadParticipantInfo(projectId, $scope.participantid)])
       .then(function (results) {
           $scope.view.isLoadingEditParticipantInfoRequiredData = false;
       })

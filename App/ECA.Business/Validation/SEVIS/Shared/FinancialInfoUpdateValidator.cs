@@ -6,7 +6,7 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public FinancialInfoUpdateValidator()
         {
-            RuleFor(visitor => visitor.printForm).NotNull().WithMessage("Financial Info: Print request indicator is required");
+            
         }
     }
 }

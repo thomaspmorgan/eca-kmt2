@@ -175,13 +175,13 @@
     <Content Include="app\app.config.js" />
     <Content Include="app\application-insights\appinsightsinit.js" />
     <Content Include="app\auth\auth.routes.js" />
+    <Content Include="app\auth\consent.controller.js" />
+    <Content Include="app\auth\consent.html" />
     <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />
     <Content Include="app\directives\participant-person-info.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.js" />
-    <Content Include="app\directives\participant-exchange-visitor.directive.html" />
-    <Content Include="app\directives\participant-exchange-visitor.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
     <Content Include="app\directives\programs.directive.js" />
     <Content Include="app\directives\snapshots-graphs.controller.js" />
@@ -192,6 +192,8 @@
     <Content Include="app\filters\newline.filter.js" />
     <Content Include="app\home\navigation.controller.js" />
     <Content Include="app\home\home.routes.js" />
+    <Content Include="app\offices\edit.controller.js" />
+    <Content Include="app\offices\edit.html" />
     <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
     <Content Include="app\points-of-contact\points-of-contact-modal.html" />
     <Content Include="app\programs\all-programs.controller.js" />
@@ -234,7 +236,6 @@
     <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
     <Content Include="app\services\datetime.service.js" />
-    <Content Include="app\services\sevis-result.service.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
@@ -706,16 +707,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>5556</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5556</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

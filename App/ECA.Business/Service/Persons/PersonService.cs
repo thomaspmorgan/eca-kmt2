@@ -160,6 +160,27 @@ namespace ECA.Business.Service.Persons
             return general;
         }
 
+        /// <summary>
+        /// Deletes a dependent from a person family
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="dependentId"></param>
+        /// <returns></returns>
+        public async Task DeletePersonDependentByIdAsync(int personId, int dependentId)
+        {
+            var person = await Context.People.FindAsync(personId);
+            var dependent = await Context.People.FindAsync(dependentId);
+            person.Family.Remove(dependent);
+            DoDelete(dependent);
+        }
+
+        private void DoDelete(Person personToDelete)
+        {
+            if (personToDelete != null)
+            {
+                Context.People.Remove(personToDelete);
+            }
+        }
 
         /// <summary>
         /// Update general
@@ -175,8 +196,12 @@ namespace ECA.Business.Service.Persons
             return personToUpdate;
         }
 
-        // Update General (list of prominent categories
-
+        /// <summary>
+        /// Update General list of prominent categories
+        /// </summary>
+        /// <param name="general"></param>
+        /// <param name="person"></param>
+        /// <param name="prominentCategories"></param>
         private void DoUpdate(UpdateGeneral general, Person person, List<ProminentCategory> prominentCategories)
         {
             SetProminentCategories(person, prominentCategories);
@@ -491,6 +516,7 @@ namespace ECA.Business.Service.Persons
                 IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated,
                 IsDateOfBirthUnknown = newPerson.IsDateOfBirthUnknown,
                 IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown,
+                PersonTypeId = newPerson.PersonTypeId
             };
 
             newPerson.Audit.SetHistory(person);
@@ -513,9 +539,21 @@ namespace ECA.Business.Service.Persons
                 PersonId = person.PersonId,
                 ParticipantTypeId = participantTypeId
             };
-
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant
+            };
+            participant.ParticipantPerson = participantPerson;
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
             participant.Project = project;
+            person.Participations.Add(participant);
             this.Context.Participants.Add(participant);
+            this.Context.ParticipantPersons.Add(participantPerson);
+            this.Context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             this.logger.Trace("Creating new participant {0}.", person);
             return participant;
         }

@@ -30,5 +30,20 @@ namespace ECA.Business.Validation.Model
         /// Other financial support
         /// </summary>
         public OtherFunds OtherFunds { get; set; }
+
+        /// <summary>
+        /// Returns a financial info update instance from this financial info.
+        /// </summary>
+        /// <returns>A Financial Info update instance.</returns>
+        public FinancialInfoUpdate GetFinancialInfoUpdate()
+        {
+            //need a unit test here
+            var instance = new FinancialInfoUpdate();
+            instance.OtherFunds = this.OtherFunds;
+            instance.printForm = true;
+            instance.ProgramSponsorFunds = this.ProgramSponsorFunds;
+            instance.ReceivedUSGovtFunds = this.ReceivedUSGovtFunds;
+            return instance;
+        }
     }
 }

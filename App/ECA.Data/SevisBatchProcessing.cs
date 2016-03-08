@@ -21,7 +21,6 @@ namespace ECA.Data
         /// <summary>
         /// Date of SEVIS Batch Submission
         /// </summary>
-        [Required]     
         public DateTimeOffset? SubmitDate { get; set; }
 
         /// <summary>
@@ -32,14 +31,13 @@ namespace ECA.Data
         /// <summary>
         /// Storage for SEVIS Submission XML
         /// </summary>
-        [Required]
-        [Column(TypeName = "xml")]
+        [Column("SendXml", TypeName = "xml")]
         public string SendString { get; set; }
         
         /// <summary>
         /// Storage for SEVIS Transaction Log XML
         /// </summary>
-        [Column(TypeName = "xml")]
+        [Column("TransactionLogXml",TypeName = "xml")]
         public string TransactionLogString { get; set; }
 
         /// <summary>
@@ -49,7 +47,7 @@ namespace ECA.Data
         public XElement SendXml
         {
             get { return (SendString != null ? XElement.Parse(SendString) : null); }
-            set { SendString = value.ToString(); }
+            set { SendString = value == null ? null : value.ToString(); }
         }
 
         /// <summary>
@@ -59,7 +57,7 @@ namespace ECA.Data
         public XElement TransactionLogXml
         {
             get { return (TransactionLogString != null ? XElement.Parse(TransactionLogString) : null); }
-            set { TransactionLogString = value.ToString(); }
+            set { TransactionLogString = value == null ? null : value.ToString(); }
         }
 
         /// <summary>
@@ -80,4 +78,5 @@ namespace ECA.Data
         [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
         public string DownloadDispositionCode { get; set; }
     }
+    
 }

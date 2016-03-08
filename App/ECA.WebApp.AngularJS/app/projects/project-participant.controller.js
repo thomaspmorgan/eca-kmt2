@@ -17,12 +17,13 @@ angular.module('staticApp')
         $state,
         $location,
         $timeout,
+        $filter,
         $anchorScroll,
+        smoothScroll,
         MessageBox,
         StateService,
         OrganizationService,
         PersonService,
-        SevisResultService,
         ConstantsService,
         AuthService,
         BrowserService,
@@ -64,59 +65,20 @@ angular.module('staticApp')
       $scope.participantInfo = {};
 
       $scope.actions = {
-          "Select Action": undefined,
-          "Send To SEVIS": 1
+          "Select Action": undefined
       };
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
+      $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
-
-      // SEVIS validation: expand participant and set active tab where error is located.
-      $scope.$on('$viewContentLoaded', function () {
-
-          var participantid = $stateParams.participantId;
-          var tab = $stateParams.tab;
-
-          if (participantid) {
-              $timeout(function () {
-                  $scope.toggleParticipantInfo(participantid);
-              }, 500);
-
-              $timeout(function () {
-                  if (tab) {
-                      switch (tab) {
-                          case "personalinfo":
-                              $scope.onInfoTabSelected(participantid);
-                              break;
-                          case "sevis":
-                              $scope.onSevisTabSelected(participantid);
-                              break;
-                          case "ev":
-                              $scope.onExchangeVisitorTabSelected(participantid);
-                              break;
-                      }
-                  }
-              }, 800);
-              
-              $timeout(function () {
-                  var options = {
-                      duration: 500,
-                      easing: 'easeIn',
-                      offset: 150,
-                      callbackBefore: function (element) { },
-                      callbackAfter: function (element) { }
-                  }
-                  smoothScroll(section, options);
-              }, 1100);
-          }
-      });
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({
               title: 'Confirm',
-              message: 'Are you sure you wish to delete the participant named ' + participant.name + '.',
+              message: 'Are you sure you wish to delete the participant named ' + participant.name + '?',
               okText: 'Yes',
               cancelText: 'No',
               okCallback: function () {
@@ -137,6 +99,44 @@ angular.module('staticApp')
               clientModel.organizationId = $item.organizationId;
           }
           addParticipant(clientModel);
+      }
+
+      function handleParticipantState() {
+          var me = this;
+          var s = $scope;
+          if ($state.current.name === StateService.stateNames.participant.sevis) {
+              $timeout(function () {
+                  var participantId = $state.params.participantId;
+                  console.assert(participantId, "The participant id must be defined in this state.");
+                  scrollToParticipant(participantId,
+                      function (element) {
+                      },
+                      function (element) {
+                          $scope.toggleParticipantInfo(participantId);
+                          $scope.onSevisTabSelected(participantId);
+                      });
+              });
+          }
+      }
+
+      function scrollToParticipant(participantId, callbackBefore, callbackAfter) {
+          var el = document.getElementById($scope.view.getParticipantTableRowDivId(participantId));
+          var options = {
+              duration: 500,
+              easing: 'easeIn',
+              offset: 175,
+              callbackBefore: callbackBefore,
+              callbackAfter: callbackAfter
+          }
+          smoothScroll(el, options);
+      }
+
+      function getParticipantTableRowDivIdPrefix() {
+          return 'participant';
+      }
+
+      $scope.view.getParticipantTableRowDivId = function (participantId) {
+          return getParticipantTableRowDivIdPrefix() + participantId;
       }
 
       function deleteParticipant(participant, projectId) {
@@ -224,7 +224,7 @@ angular.module('staticApp')
 
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           BrowserService.setDocumentTitleByProject(project, 'Participants');
-          
+
       });
 
       function reloadParticipantTable() {
@@ -248,7 +248,7 @@ angular.module('staticApp')
           }
           $scope.view.isLoadingAvailableParticipants = true;
           var dfd = null;
-          
+
           if (participantType === $scope.view.addPersonFilterValue) {
               dfd = PersonService.getPeople(params);
           }
@@ -307,6 +307,27 @@ angular.module('staticApp')
                   $log.info('User not authorized to edit project in project-participant.controller.js.');
               }
           };
+          config[ConstantsService.permission.editSevis.value] = {
+              hasPermission: function () {
+                  $scope.permissions.hasEditSevisPermission = true;
+                  $log.info('User has edit sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $scope.permissions.hasEditSevisPermission = false;
+                  $log.info('User not authorized to edit sevis in project-participant.controller.js.');
+              }
+          };
+          config[ConstantsService.permission.sendToSevis.value] = {
+              hasPermission: function () {
+                  addSendToSevisAction();
+                  $log.info('User has send to sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $log.info('User not authorized to send to sevis in project-participant.controller.js.');
+              }
+          };
+
+
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
             }, function () {
@@ -353,7 +374,7 @@ angular.module('staticApp')
           };
 
           // Get the total number or participants
-          ParticipantService.getParticipantsByProject($stateParams.projectId, { start: 0, limit: 1 })
+          ParticipantService.getParticipantsByProject(projectId, { start: 0, limit: 1 })
             .then(function (data) {
                 $scope.view.totalParticipants = data.total;
             })
@@ -362,7 +383,7 @@ angular.module('staticApp')
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
 
-          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+          ParticipantService.getParticipantsByProject(projectId, params)
             .then(function (data) {
                 angular.forEach(data.results, function (result, index) {
                     if (result.personId) {
@@ -381,6 +402,7 @@ angular.module('staticApp')
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
                 $scope.participantsLoading = false;
+                handleParticipantState();
             })
             .catch(function (error) {
                 $log.error('Unable to load project participants.');
@@ -388,17 +410,20 @@ angular.module('staticApp')
             });
       };
 
-      function loadSevisInfo(participantId) {
-          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(participantId)
-          .then(function (data) {
-              $scope.sevisInfo[participantId] = data.data;
-              $scope.sevisInfo[participantId].sevisValidationResult = angular.fromJson(data.data.sevisValidationResult);
-              $scope.sevisInfo[participantId].show = true;
+      function updateSevisCommStatusView(participantId, participantPersonSevis) {
+          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
+              var participantIds = $scope.participants.map(function (p) { return p.participantId; });
+              var index = participantIds.indexOf(parseInt(participantId, 10));
+              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+          }
+      }
 
-              var errorCount = 0;
-              if ($scope.sevisInfo[participantId].sevisValidationResult) {
-                  errorCount = $scope.sevisInfo[participantId].sevisValidationResult.errors.length
-              }
+      function loadSevisInfo(participantId) {
+          return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
+          .then(function (data) {
+              updateSevisCommStatusView(participantId, data.data);
+              $scope.sevisInfo[participantId] = data.data;
+              $scope.sevisInfo[participantId].show = true;
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -411,16 +436,18 @@ angular.module('staticApp')
           });
       };
 
+      function addSendToSevisAction() {
+          $scope.actions["Send To SEVIS"] = 1;
+      }
+
       function loadExchangeVisitorInfo(participantId) {
-          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(participantId)
+          return ParticipantExchangeVisitorService.getParticipantExchangeVisitorById(projectId, participantId)
           .then(function (data) {
               $scope.exchangeVisitorInfo[participantId] = data.data;
-              //$scope.exchangeVisitorInfo[participantId].show = true;
           })
           .catch(function (error) {
               if (error.status === 404) {
                   $scope.exchangeVisitorInfo[participantId] = {};
-                  //$scope.exchangeVisitorInfo[participantId].show = true;
               } else {
                   $log.error('Unable to load participant exchange visitor info for ' + participantId + '.');
                   NotificationService.showErrorMessage('Unable to load participant exchange visitor info for ' + participantId + '.');
@@ -435,12 +462,10 @@ angular.module('staticApp')
 
       function saveSevisInfoById(participantId) {
           var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(sevisInfo)
+          return ParticipantPersonsSevisService.updateParticipantPersonsSevis(projectId, sevisInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant SEVIS info saved successfully.');
-              $scope.sevisInfo[participantId] = data.data;
-              $scope.sevisInfo[participantId].show = true;
-              validateSevisInfo(sevisInfo ? sevisInfo.sevisId : null, participantId);
+              return loadSevisInfo(participantId);
           })
           .catch(function (error) {
               $log.error('Unable to save participant SEVIS info for participantId: ' + participantId);
@@ -455,11 +480,11 @@ angular.module('staticApp')
       function saveExchangeVisitorById(participantId) {
           var exchangeVisitorInfo = $scope.exchangeVisitorInfo[participantId];
           var sevisInfo = $scope.sevisInfo[participantId];
-          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(exchangeVisitorInfo)
+          return ParticipantExchangeVisitorService.updateParticipantExchangeVisitor(projectId, exchangeVisitorInfo)
           .then(function (data) {
               NotificationService.showSuccessMessage('Participant exchange visitor info saved successfully.');
               $scope.exchangeVisitorInfo[participantId] = data.data;
-              validateSevisInfo(sevisInfo ? sevisInfo.sevisId : null, participantId);
+              return loadSevisInfo(participantId);
           })
           .catch(function (error) {
               $log.error('Unable to save participant exchange visitor info for participantId: ' + participantId);
@@ -470,22 +495,7 @@ angular.module('staticApp')
       $scope.saveExchangeVisitorInfo = function (participantId) {
           saveExchangeVisitorById(participantId);
       };
-      
-      // pre-sevis validation result update
-      function validateSevisInfo(sevisId, participantId) {
-          var params = {
-              participantId: participantId,
-              sevisId: sevisId
-          };
-          SevisResultService.updateSevisVerificationResultsByParticipant(params)
-            .then(function (validationResults) {
-                $scope.sevisInfo[participantId].sevisValidationResult = validationResults;
-            })
-            .catch(function (error) {
-                $log.error('Unable to update sevis validation results for participantId: ' + participantId);
-            });
-      }
-      
+
       $scope.onSevisTabSelected = function (participantId) {
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
@@ -494,11 +504,11 @@ angular.module('staticApp')
       };
 
       $scope.toggleParticipantInfo = function (participantId) {
-          var defaultParticipantInfo = {show: false};
+          var defaultParticipantInfo = { show: false };
           $scope.participantInfo[participantId] = $scope.participantInfo[participantId] || defaultParticipantInfo;
           $scope.participantInfo[participantId].show = !$scope.participantInfo[participantId].show;
           if ($scope.participantInfo[participantId].show) {
-                $scope.view.tabInfo = true;
+              $scope.view.tabInfo = true;
           }
       };
 
@@ -507,7 +517,12 @@ angular.module('staticApp')
               templateUrl: '/app/projects/add-new-participant.html',
               controller: 'AddNewParticipantCtrl',
               backdrop: 'static',
-              size: 'lg'
+              size: 'lg',
+              resolve: {
+                  personTypeId: function () {
+                      return ConstantsService.personType.participant.id;
+                  }
+              }
           });
 
           modalInstance.result.then(function (participant) {
@@ -548,11 +563,11 @@ angular.module('staticApp')
       $scope.applyAction = function () {
           if ($scope.selectedAction === 1) {
               var participants = Object.keys($scope.selectedParticipants).map(Number);
-              ParticipantPersonsSevisService.sendToSevis(participants)
+              ParticipantPersonsSevisService.sendToSevis(projectId, participants)
               .then(function (results) {
                   $scope.selectAll = false;
                   $scope.selectedParticipants = {};
-                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length  + " participants.");
+                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length + " participants.");
                   reloadParticipantTable();
               }, function () {
                   NotificationService.showErrorMessage("Failed to queue participants.");
@@ -569,7 +584,7 @@ angular.module('staticApp')
       $scope.view.isLoading = true;
       $q.all([loadPermissions(), loadCollaboratorDetails()])
       .then(function (results) {
-
+          
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');
       })
@@ -579,18 +594,18 @@ angular.module('staticApp')
 
       $scope.showSevisTab = function (participantTypeId) {
           return (!($scope.project.visitorTypeId == ConstantsService.visitorType.notApplicable.id)
-               && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id || 
+               && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id ||
                    participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id || 
+                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id ||
                    participantTypeId == ConstantsService.participantType.organizationalParticipant.id ||
                    participantTypeId == ConstantsService.participantType.otherOrganization.id));
       };
 
       $scope.visitorTypeExchangeVisitor = function (participantTypeId) {
           return ($scope.project.visitorTypeId == ConstantsService.visitorType.exchangeVisitor.id)
-              && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id || 
+              && !(participantTypeId == ConstantsService.participantType.foreignNonTravelingParticipant.id ||
                    participantTypeId == ConstantsService.participantType.uSNonTravelingParticipant.id ||
-                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id || 
+                   participantTypeId == ConstantsService.participantType.uSTravelingParticipant.id ||
                    participantTypeId == ConstantsService.participantType.organizationalParticipant.id ||
                    participantTypeId == ConstantsService.participantType.otherOrganization.id);
       };

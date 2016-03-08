@@ -4,7 +4,7 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $timeout, $q, smoothScroll, MessageBox) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $state, $timeout, $q, $filter, smoothScroll, MessageBox, StateService, ConstantsService) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -16,10 +16,9 @@ angular.module('staticApp')
       $scope.edit.Pii = false;
       $scope.edit.Contact = false;
       $scope.edit.EduEmp = false;
-      $scope.sevisStatus = {statusName: ""};
+      $scope.sevisStatus = { statusName: "", statusNameId: 0 };
 
-      // TODO: use constant service
-      var notifyStatuses = ["Sent To DHS", "Queued To Submit", "Ready To Submit", "Validated", "SEVIS Received"];
+      var notifyStatuses = ConstantsService.sevisStatuses;
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.edit.General)
@@ -51,7 +50,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.sevisStatus.statusName) !== -1) {
+          if (notifyStatuses.indexOf($scope.sevisStatus.statusNameId) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.sevisStatus.statusName + '. Are you sure you want to edit?',
@@ -70,39 +69,51 @@ angular.module('staticApp')
           return defer.promise;
       }
       
-      // SEVIS validation: expand section and set active tab where error is located.
-      $scope.$on('$viewContentLoaded', function () {
+      function handleSectionState() {
 
-          var section = $stateParams.section;
-
-          if (section)
-          {
-              switch (section) {
-                  case "general":
-                      $scope.showGeneral = true;
-                      break;
-                  case "pii":
+          if ($state.current.name === StateService.stateNames.people.section.pii) {
+              scrollToSection('pii',
+                  collapseAllSections,
+                  function (element) {
                       $scope.showPii = true;
-                      break;
-                  case "contact":
+                  });
+          }
+          else if ($state.current.name === StateService.stateNames.people.section.general) {
+              scrollToSection('general',
+                  collapseAllSections,
+                  function (element) {
+                      $scope.showGeneral = true;
+                  });
+          }
+          else if ($state.current.name === StateService.stateNames.people.section.contact) {
+              scrollToSection('contact',
+                  collapseAllSections,
+                  function (element) {
                       $scope.showContact = true;
-                      break;
-                  case "eduemp":
-                      $scope.showEduEmp = true;
-                      break;
+                  });
+          }
+      }
+
+      function collapseAllSections() {
+          $scope.showGeneral = false;
+          $scope.showPii = false;
+          $scope.showContact = false;
+          $scope.showEduEmp = false;
+          $scope.showEvalNotes = false;
               }
 
+      function scrollToSection(sectionId, callbackBefore, callbackAfter) {
               $timeout(function () {
+              var section = document.getElementById(sectionId);
                   var options = {
                       duration: 500,
                       easing: 'easeIn',
-                      offset: 150,
-                      callbackBefore: function (element) { },
-                      callbackAfter: function (element) { }
+                  offset: 175,
+                  callbackBefore: callbackBefore,
+                  callbackAfter: callbackAfter
                   }
                   smoothScroll(section, options);
               });
           }
-      });
-
+      handleSectionState();
   });

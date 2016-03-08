@@ -89,6 +89,12 @@ namespace ECA.WebApi.App_Start
                 list.Add(new OfficeDocumentSaveAction(new AppSettings()));
                 list.Add(new OrganizationDocumentSaveAction(new AppSettings()));
                 list.Add(new AddressToEntityDocumentSaveAction(new AppSettings()));
+                list.Add(new ExchangeVisitorSaveAction(c.Resolve<IExchangeVisitorValidationService>(), () =>
+                {
+                    var provider = c.Resolve<IUserProvider>();
+                    var user = provider.GetCurrentUser();
+                    return provider.GetBusinessUser(user);
+                }));
                 return list;
             }));
         }
@@ -146,6 +152,7 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantTypeService, ParticipantTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPersonTypeService, PersonTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEduEmpService, EduEmpService>(new HierarchicalLifetimeManager());
             container.RegisterType<IEvaluationNoteService, EvaluationNoteService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
@@ -159,8 +166,6 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISevisValidationService, SevisValidationService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IPersonSevisServiceValidator, PersonSevisServiceValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IProminentCategoryService, ProminentCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IBookmarkService, BookmarkService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMembershipService, MembershipService>(new HierarchicalLifetimeManager());
@@ -187,6 +192,14 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IVisitorTypeService, VisitorTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IDataPointConfigurationService, DataPointConfigurationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IItineraryStopService, ItineraryStopService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IExchangeVisitorService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new ExchangeVisitorService(c.Resolve<EcaContext>(), null);
+            }));
+            container.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), null, null, null);
+            }));
         }
 
         /// <summary>

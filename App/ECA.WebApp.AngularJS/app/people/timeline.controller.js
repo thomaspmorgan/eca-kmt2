@@ -29,10 +29,9 @@ angular.module('staticApp')
           });
       };
 
-      function loadParticipantInfo(participantId) {
-          return ParticipantPersonsService.getParticipantPersonsById(participantId)
+      function loadParticipantInfo(projectId, participantId) {
+          return ParticipantPersonsService.getParticipantPersonsById(projectId, participantId)         
           .then(function (data) {
-              console.log(data.data);
               $scope.participantInfo[participantId] = data.data;
               $scope.participantInfo[participantId].show = true;
           }, function (error) {
@@ -47,7 +46,7 @@ angular.module('staticApp')
       };
 
       $scope.participantInfo = {};
-      $scope.toggleParticipantInfo = function (participantId) {
+      $scope.toggleParticipantInfo = function (projectId, participantId) {
           if ($scope.participantInfo[participantId]) {
               if ($scope.participantInfo[participantId].show === true) {
                   $scope.participantInfo[participantId].show = false;
@@ -55,7 +54,7 @@ angular.module('staticApp')
                   $scope.participantInfo[participantId].show = true;
               }
           } else {
-              loadParticipantInfo(participantId);
+              loadParticipantInfo(projectId, participantId);
           }
       };
   });

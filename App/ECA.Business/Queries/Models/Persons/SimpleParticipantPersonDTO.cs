@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Queries.Models.Persons
@@ -96,5 +92,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant status id.
         /// </summary>
         public int? ParticipantStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant Sevis Status
+        /// </summary>
+        public string SevisStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant Sevis Status id
+        /// </summary>
+        public int? SevisStatusId { get; set; }
     }
 }

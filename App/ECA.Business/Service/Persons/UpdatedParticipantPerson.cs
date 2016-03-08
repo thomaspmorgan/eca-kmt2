@@ -18,6 +18,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="updater">The user performing the update.</param>
         /// <param name="participantId">The participant id.</param>
+        /// <param name="projectId">The project id.</param>
         /// <param name="hostInstitutionId">The host institution id.</param>
         /// <param name="homeInstitutionId">The home institution id.</param>
         /// <param name="hostInstitutionAddressId">The host instutition address id.</param>
@@ -27,6 +28,7 @@ namespace ECA.Business.Service.Persons
         public UpdatedParticipantPerson(
             User updater, 
             int participantId, 
+            int projectId,
             int? hostInstitutionId,
             int? homeInstitutionId,
             int? hostInstitutionAddressId,
@@ -43,6 +45,7 @@ namespace ECA.Business.Service.Persons
                 throw new UnknownStaticLookupException(String.Format("The participant status id [{0}] is not recognized.", participantStatusId));
             }
             this.Audit = new Update(updater);
+            this.ProjectId = projectId;
             this.ParticipantId = participantId;
             this.HostInstitutionId = hostInstitutionId;
             this.HostInstitutionAddressId = hostInstitutionAddressId;
@@ -51,6 +54,11 @@ namespace ECA.Business.Service.Persons
             this.ParticipantTypeId = participantTypeId;
             this.ParticipantStatusId = participantStatusId;
         }
+
+        /// <summary>
+        /// Gets the project id.
+        /// </summary>
+        public int ProjectId { get; private set; }
 
         /// <summary>
         /// Gets the participant id.

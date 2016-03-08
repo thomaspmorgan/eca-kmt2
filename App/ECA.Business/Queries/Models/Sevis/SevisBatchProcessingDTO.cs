@@ -24,15 +24,33 @@ namespace ECA.Business.Queries.Models.Sevis
         public DateTimeOffset? RetrieveDate { get; set; }
 
         /// <summary>
+        /// Storage for SEVIS Submission XML
+        /// </summary>
+        public string SendString { get; set; }
+
+        /// <summary>
         /// Property to save/retrieve XML submission string as an XElement
         /// </summary>
-        public XElement SendXml { get;  set; }
+        public XElement SendXml
+        {
+            get { return (SendString != null ? XElement.Parse(SendString) : null); }
+            set { SendString = value != null ? value.ToString() : "<root></root>"; }
+        }
+
+        /// <summary>
+        /// Storage for SEVIS Transaction Log XML
+        /// </summary>
+        public string TransactionLogString { get; set; }
 
         /// <summary>
         /// Property to save/retrieve XML transaction log string as an XElement
         /// </summary>
-        public XElement TransactionLogXml { get; set; }
-
+        public XElement TransactionLogXml
+        {
+            get { return (TransactionLogString != null ? XElement.Parse(TransactionLogString) : null); }
+            set { TransactionLogString = value != null ? value.ToString() : "<root></root>"; }
+        }
+        
         /// <summary>
         /// Error code for SEVIS Upload (submission)
         /// </summary>

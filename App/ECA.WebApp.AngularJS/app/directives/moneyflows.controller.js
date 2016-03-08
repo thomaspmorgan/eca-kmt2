@@ -64,25 +64,6 @@ angular.module('staticApp')
           reloadFiscalYearSummaries();
       }
 
-      // SEVIS validation: expand section and set active tab where error is located.
-      $scope.$on('$viewContentLoaded', function () {
-
-            var section = $stateParams.section;
-
-            $timeout(function () {
-                if (section) {
-                    switch (section) {
-                        case "fundingitems":
-                            $scope.isFundingItems = true;
-                            break;
-                        case "fundingsummary":
-                            $scope.isSummary = true;
-                            break;
-                    }
-                }
-            });
-      });
-
       $scope.view.filterFiscalYearSummaries = function (fiscalYearSummary) {
           if ($scope.view.showEmptyFiscalYearSummaries) {
               return true;
@@ -691,6 +672,4 @@ angular.module('staticApp')
           $log.error(message);
           NotificationService.showErrorMessage(message);
       });
-
-
   });

@@ -1,8 +1,10 @@
 ﻿using ECA.Business.Queries.Models.Sevis;
 using ECA.Core.Service;
 using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+
 namespace ECA.Business.Service.Sevis
 {
     /// <summary>
@@ -36,6 +38,13 @@ namespace ECA.Business.Service.Sevis
         Task UpdateAsync(UpdatedSevisBatchProcessing updatedSevisBatchProcessing);
 
         /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        /// <param name="user">User</param>
+        Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId);
+        
+        /// <summary>
         /// Retrieves the  SevisBatchProcessing dto with the given id.
         /// </summary>
         /// <param name="id">The id of the SevisBatchProcessing.</param>
@@ -48,6 +57,18 @@ namespace ECA.Business.Service.Sevis
         /// <param name="id">The id of the SevisBatchProcessing record.</param>
         /// <returns>The SevisBatchProcessing dto.</returns>
         Task<SevisBatchProcessingDTO> GetByIdAsync(int id);
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload();
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync();
 
         /// <summary>
         /// Deletes the SevisBatchProcessing entry with the given id.
@@ -112,6 +133,18 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <param name="batchId"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            return Task.FromResult<IEnumerable<ParticipantSevisBatchProcessingResultDTO>>(null);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public int SaveChanges()
         {
@@ -146,6 +179,25 @@ namespace ECA.Business.Service.Sevis
         {
             return Task.FromResult<SevisBatchProcessingDTO>(null);
         }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync()
+        {
+            return Task.FromResult<IEnumerable<SevisBatchProcessingDTO>>(null);
+        }
+
 
         /// <summary>
         /// 

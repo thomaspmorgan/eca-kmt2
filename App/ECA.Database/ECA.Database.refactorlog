@@ -1106,4 +1106,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="CE_ComponentId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="ebb05087-df2d-487c-860e-abf2395f6a14" ChangeDateTime="03/02/2016 13:51:36">
+    <Property Name="ElementName" Value="[dbo].[PersonType].[SevisRelationshipCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SevisDependentTypeCode" />
+  </Operation>
 </Operations>

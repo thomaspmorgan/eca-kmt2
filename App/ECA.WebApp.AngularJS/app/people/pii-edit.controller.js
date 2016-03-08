@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, SevisResultService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -84,8 +84,17 @@ angular.module('staticApp')
                      return location;
                  });
                  // Convert from UTC to local date time
-                 $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
-                 $scope.piiLoading = false;
+                 if ($scope.pii.dateOfBirth) {
+                     $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
+                 }
+                 
+                 return loadCities(null)
+                 .then(function () {
+                     $scope.piiLoading = false;
+                 })
+                 .catch(function() {
+                     $scope.piiLoading = false;
+                 });
              });
       };
 
@@ -105,6 +114,10 @@ angular.module('staticApp')
           return loadCities(search);
       }
 
+      $scope.searchCountries = function (search) {
+          return loadCountries(search);
+      }
+
       $scope.onIsPlaceOfBirthUnknownChange = function () {
           if ($scope.pii.isPlaceOfBirthUnknown) {
               $scope.pii.cityOfBirthId = null;
@@ -117,29 +130,50 @@ angular.module('staticApp')
       }
 
       function loadCities(search) {
-          var params = {
-              limit: 30,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
-              ]
-          };
-          if (search) {
-              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+          if (search || $scope.pii) {
+              var params = {
+                  limit: 30,
+                  filter: [
+                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
+                  ]
+              };
+              if (search) {
+                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              }
+              else if ($scope.pii.cityOfBirthId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.pii.cityOfBirthId });
+              }
+              return LocationService.get(params)
+                .then(function (data) {
+                    $scope.cities = data.results;
+                    return $scope.cities;
+                });
           }
-          else if ($scope.pii.cityOfBirthId) {
-              params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.pii.cityOfBirthId });
-          }
-          return LocationService.get(params)
-            .then(function (data) {
-                $scope.cities = data.results;
-                return $scope.cities;
-            });
       }
 
-      LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
-        .then(function (data) {
-            $scope.countries = data.results;
-        });
+      function loadCountries(search) {
+          if (search) {
+              var params = {
+                  limit: 30,
+                  filter: [
+                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id }
+                  ]
+              };
+              if (search) {
+                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              }
+              return LocationService.get(params)
+                .then(function (data) {
+                    $scope.countries = data.results;
+                    return $scope.countries;
+                });
+          }
+      }
+
+      //LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
+      //  .then(function (data) {
+      //      $scope.countries = data.results;
+      //  });
 
       function loadLocationById(id) {
           return LocationService.get({
@@ -173,15 +207,6 @@ angular.module('staticApp')
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
                   $scope.edit.Pii = false;
-                  SevisResultService.updateSevisVerificationResultsByPersonId($scope.person.personId)
-                    .then(function (response) {
-                        if (response) {
-                        $scope.person.sevisValidationResult = angular.fromJson(response.sevisValidationResult);
-                        }
-                    })
-                    .catch(function (error) {
-                        $log.error('Unable to update sevis validation results for participantId: ' + participantId);
-                    });
               },
               function (error) {
                   if (error.status == 400) {
@@ -196,6 +221,10 @@ angular.module('staticApp')
                           }
                       } else {
                           NotificationService.showErrorMessage(error.data);
+                      }
+                  } else {
+                      if (error) {
+                          NotificationService.showErrorMessage(error.status + ': ' + error.statusText);
                       }
                   }
               });

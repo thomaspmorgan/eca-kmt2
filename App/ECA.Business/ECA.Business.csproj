@@ -207,14 +207,17 @@
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantExchangeVisitorDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\BiographicalDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
+    <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
     <Compile Include="Queries\Persons\MembershipQueries.cs" />
-    <Compile Include="Queries\Persons\ParticipantPersonsSevisCommStatusQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
@@ -244,6 +247,7 @@
     <Compile Include="Service\Admin\NewEmailAddress.cs" />
     <Compile Include="Service\Admin\NewPersonEmailAddress.cs" />
     <Compile Include="Service\Admin\SnapshotService.cs" />
+    <Compile Include="Service\Admin\UpdatedOffice.cs" />
     <Compile Include="Service\Admin\UpdatedPhoneNumber.cs" />
     <Compile Include="Service\Admin\UpdatedEmailAddress.cs" />
     <Compile Include="Service\Fundings\EditedMoneyFlow.cs" />
@@ -271,6 +275,9 @@
     <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryStop.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Lookup\IPersonTypeService.cs" />
+    <Compile Include="Service\Lookup\PersonTypeDTO.cs" />
+    <Compile Include="Service\Lookup\PersonTypeService.cs" />
     <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
     <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
@@ -309,14 +316,17 @@
     <Compile Include="Service\Persons\DeletedParticipant.cs" />
     <Compile Include="Service\Persons\EduEmpService.cs" />
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorSaveAction.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorValidationService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
+    <Compile Include="Service\Persons\IExchangeVisitorService.cs" />
+    <Compile Include="Service\Persons\IExchangeVisitorValidationService.cs" />
     <Compile Include="Service\Persons\ILanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\IMembershipService.cs" />
     <Compile Include="Service\Persons\IParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\IParticipantPersonsSevisService.cs" />
-    <Compile Include="Service\Persons\IPersonSevisServiceValidator.cs" />
-    <Compile Include="Service\Persons\ISevisValidationService.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewParticipantExchangeVisitor.cs" />
@@ -326,8 +336,6 @@
     <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
-    <Compile Include="Service\Persons\PersonSevisServiceValidator.cs" />
-    <Compile Include="Service\Persons\SevisValidationService.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
@@ -517,10 +525,29 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
+    <Compile Include="Validation\SimpleValidationFailure.cs" />
+    <Compile Include="Validation\SimpleValidationResult.cs" />
+    <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\AddressErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\BirthDateErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\CitizenshipErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\CityOfBirthErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\CountryOfBirthErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\EmailErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\EndDateErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\FieldOfStudyErrorPath.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitor.cs" />
     <Compile Include="Validation\SEVIS\CreateEV\CreateExchVisitorValidator.cs" />
-    <Compile Include="Validation\SEVIS\ErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\ErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\FullNameErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\FundingErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\GenderErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\PermanentResidenceCountryErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\PhoneNumberErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\StartDateErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\PositionCodeErrorPath.cs" />
+    <Compile Include="Validation\SEVIS\ErrorPaths\ProgramCategoryCodeErrorPath.cs" />
     <Compile Include="Validation\SEVIS\SEVISBatchCreateUpdateEVValidator.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddPhase.cs" />
     <Compile Include="Validation\SEVIS\Shared\AddSiteOfActivity.cs" />
@@ -669,10 +696,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="SevisXSD.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
+    <None Include="Sevis\Model\common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Sevis\Model\Create-UpdateExchangeVisitor.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Sevis\Model\Generate.bat" />
+    <None Include="Sevis\Model\SEVISTable.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">

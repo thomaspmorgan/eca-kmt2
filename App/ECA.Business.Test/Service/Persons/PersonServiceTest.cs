@@ -46,50 +46,41 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = 1,
                 GenderName = "Male"
             };
-
             var status = new ParticipantStatus
             {
                 ParticipantStatusId = 1,
                 Status = "New"
             };
-
             var ptype = new ParticipantType
             {
                 ParticipantTypeId = 1,
                 Name = "Person"
             };
-
             var participantOrigination = new Organization
             {
                 OrganizationId = 1,
                 Name = "partOrg",
-
             };
-
             var prominentCat1 = new ProminentCategory
             {
                 ProminentCategoryId = 1,
                 Name = "Cat1"
             };
-
             var activity1 = new Activity
             {
                 ActivityId = 1,
                 Title = "Event1"
             };
-
             var membership1 = new Membership
             {
                 MembershipId = 1,
                 Name = "member1"
             };
-
             var language1 = new Language
             {
                 LanguageId = 1,
                 LanguageName = "lang1"
             };
-
             var languageProficiency1 = new PersonLanguageProficiency
             {
                 LanguageId = 1,
@@ -98,22 +89,11 @@ namespace ECA.Business.Test.Service.Persons
                 ReadingProficiency = 5,
                 ComprehensionProficiency = 5,
             };
-
-            var dependant1 = new Person
-            {
-                PersonId = 2,
-                Gender = gender,
-                FirstName = "firstName",
-                LastName = "lastName",
-                DateOfBirth = DateTime.Now,
-            };
-
             var impact1 = new Impact
             {
                 ImpactId = 1,
                 Description = "desc1"
             };
-
             var person = new Person
             {
                 PersonId = 1,
@@ -125,7 +105,43 @@ namespace ECA.Business.Test.Service.Persons
                 NamePrefix = "namePrefix",
                 NameSuffix = "nameSuffix",
             };
-
+            var participant = new Participant
+            {
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                ParticipantType = ptype,
+                Person = person,
+                ProjectId = 1
+            };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.ParticipantTypes.Add(ptype);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
             context.Genders.Add(gender);
             context.Languages.Add(language1);
             languageProficiency1.Language = language1;
@@ -133,19 +149,16 @@ namespace ECA.Business.Test.Service.Persons
             context.ProminentCategories.Add(prominentCat1);
             context.Activities.Add(activity1);
             context.Memberships.Add(membership1);
-            context.People.Add(dependant1);
             context.Impacts.Add(impact1);
-
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
             person.ProminentCategories.Add(prominentCat1);
             person.Activities.Add(activity1);
             person.Memberships.Add(membership1);
             person.LanguageProficiencies.Add(languageProficiency1);
-            person.Family.Add(dependant1);
             person.Impacts.Add(impact1);
-
             context.People.Add(person);
-
-
+            
             Action<GeneralDTO> tester = (serviceResult) =>
             {
                 Assert.IsNotNull(serviceResult);
@@ -153,8 +166,10 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.Activities.FirstOrDefault().Title, serviceResult.Activities.FirstOrDefault().Value);
                 Assert.AreEqual(person.Memberships.FirstOrDefault().Name, serviceResult.Memberships.FirstOrDefault().Name);
                 Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().Language.LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().LanguageName);
-                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
+                Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
+                Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
+                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetGeneralById(person.PersonId);
@@ -163,11 +178,11 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
-
-
+        
         #endregion
 
         #region Get Pii By Id
+
         [TestMethod]
         public async Task TestGetPiiById_CheckProperties()
         {
@@ -176,7 +191,6 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = 1,
                 GenderName = "genderName"
             };
-
             var person = new Person
             {
                 PersonId = 1,
@@ -195,15 +209,62 @@ namespace ECA.Business.Test.Service.Persons
                 Alias = "alias",
                 Ethnicity = "ethnicity",
                 MedicalConditions = "medical conditions",
-
                 MaritalStatus = new MaritalStatus(),
                 PlaceOfBirth = new Location()
             };
-
-            person.PlaceOfBirth.Country = new Location();
-
+            var dependant1 = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                FirstName = "firstName",
+                LastName = "lastName",
+                DateOfBirth = DateTime.Now,
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Person = person,
+                ProjectId = 1,
+            };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus                                
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
+            context.People.Add(dependant1);
+            person.Family.Add(dependant1);
 
             Action<PiiDTO> tester = (serviceResult) =>
             {
@@ -223,6 +284,10 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
+                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
+                Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
+                Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
+                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetPiiById(person.PersonId);
@@ -496,6 +561,106 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
+        
+        [TestMethod]
+        public async Task TestDeletePersonDependentById_CheckDependentDeleted()
+        {
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "genderName"
+            };
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                DateOfBirth = DateTime.Now,
+                IsDateOfBirthUnknown = true,
+                IsDateOfBirthEstimated = true,
+                FirstName = "firstName",
+                LastName = "lastName",
+                NamePrefix = "namePrefix",
+                NameSuffix = "nameSuffix",
+                GivenName = "givenName",
+                FamilyName = "familyName",
+                MiddleName = "middleName",
+                Patronym = "patronym",
+                Alias = "alias",
+                Ethnicity = "ethnicity",
+                MedicalConditions = "medical conditions",
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
+            };
+            var dependant1 = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                FirstName = "firstName",
+                LastName = "lastName",
+                DateOfBirth = DateTime.Now,
+            };
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status"
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                Person = person,
+                ProjectId = 1,
+            };
+            var commStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                ParticipantId = participant.ParticipantId,
+                SevisCommStatusId = commStatus.SevisCommStatusId,
+                SevisCommStatus = commStatus
+            };
+            List<ParticipantPersonSevisCommStatus> sevisCommStatuses = new List<ParticipantPersonSevisCommStatus>();
+            sevisCommStatuses.Add(sevisCommStatus);
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisId = "N0000000001",
+                ParticipantPersonSevisCommStatuses = sevisCommStatuses
+            };
+            sevisCommStatus.ParticipantPerson = participantPerson;
+            participant.ParticipantPerson = participantPerson;
+            context.SevisCommStatuses.Add(commStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            context.ParticipantStatuses.Add(status);
+            person.Participations.Add(participant);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.People.Add(dependant1);
+            person.Family.Add(dependant1);
+                
+            await service.DeletePersonDependentByIdAsync(person.PersonId, dependant1.PersonId);
+            await service.SaveChangesAsync();
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.IsTrue(serviceResult.Dependants.Count() == 0);
+            };
+            
+            var result = this.service.GetPiiById(person.PersonId);
+            var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+
         #endregion
 
         #region Get Contact Info By Id
@@ -1321,6 +1486,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1335,6 +1501,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1350,10 +1517,24 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
                 Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
                 Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+                Assert.AreEqual(personTypeId, testPerson.PersonTypeId);
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
                 Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
+
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(1, context.ParticipantExchangeVisitors.Count());
+                Assert.AreEqual(1, testPerson.Participations.Count);
+
+                var participant = testPerson.Participations.First();
+                Assert.IsTrue(Object.ReferenceEquals(participant, context.Participants.First()));
+                Assert.IsNotNull(participant.ParticipantPerson);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantPerson, context.ParticipantPersons.First()));
+
+                Assert.IsNotNull(participant.ParticipantExchangeVisitor);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantExchangeVisitor, context.ParticipantExchangeVisitors.First()));
             };
             context.Revert();
             var person = await service.CreateAsync(newPerson);
@@ -1375,6 +1556,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = false;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1389,6 +1571,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1420,6 +1603,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = false;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1434,6 +1618,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1465,6 +1650,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1479,6 +1665,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             context.SetupActions.Add(() =>
@@ -1517,6 +1704,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = city.LocationId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
             var newPerson = new NewPerson(
@@ -1531,6 +1719,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             context.SetupActions.Add(() =>
             {
@@ -1564,6 +1753,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { country.LocationId };
 
             var newPerson = new NewPerson(
@@ -1578,6 +1768,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             context.SetupActions.Add(() =>
             {
@@ -1614,6 +1805,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1628,6 +1820,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             Action<Person> tester = (testPerson) =>
@@ -1658,6 +1851,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1672,6 +1866,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             var person = await service.GetExistingPersonAsync(newPerson);
@@ -1701,6 +1896,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1715,6 +1911,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
 
             var person = await service.GetExistingPersonAsync(newPerson);
@@ -1744,6 +1941,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1758,6 +1956,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
@@ -1787,6 +1986,7 @@ namespace ECA.Business.Test.Service.Persons
             var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = existingPerson.PlaceOfBirthId;
+            var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { 1 };
 
             var newPerson = new NewPerson(
@@ -1801,6 +2001,7 @@ namespace ECA.Business.Test.Service.Persons
                 isDateOfBirthEstimated: isDateOfBirthEstimated,
                 isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
                 cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
                 countriesOfCitizenship: countriesOfCitizenship);
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
@@ -2338,6 +2539,11 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person = new Person
             {
                 Alias = "alias",
@@ -2353,6 +2559,7 @@ namespace ECA.Business.Test.Service.Persons
                 NameSuffix = "name suffix",
                 Patronym = "patronym",
                 PersonId = 1,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person);
@@ -2363,7 +2570,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, results.Results.Count);
                 var firstResult = results.Results.First();
                 Assert.AreEqual(gender.GenderName, firstResult.Gender);
-
                 Assert.AreEqual(person.Alias, firstResult.Alias);
                 Assert.AreEqual(person.DateOfBirth, firstResult.DateOfBirth);
                 Assert.AreEqual(person.FamilyName, firstResult.FamilyName);
@@ -2392,17 +2598,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
@@ -2432,17 +2645,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);
@@ -2471,17 +2691,24 @@ namespace ECA.Business.Test.Service.Persons
                 GenderId = Gender.Female.Id,
                 GenderName = Gender.Female.Value
             };
+            var ptype = new PersonType
+            {
+                IsDependentPersonType = false,
+                PersonTypeId = PersonType.Participant.Id
+            };
             var person1 = new Person
             {
                 PersonId = 1,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             var person2 = new Person
             {
                 PersonId = 2,
                 GenderId = gender.GenderId,
-                Gender = gender
+                Gender = gender,
+                PersonType = ptype
             };
             context.Genders.Add(gender);
             context.People.Add(person1);

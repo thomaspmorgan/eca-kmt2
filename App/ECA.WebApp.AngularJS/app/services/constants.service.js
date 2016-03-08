@@ -56,7 +56,7 @@
 			branch: {id: 2, value: "Branch"},
 			division: {id: 3, value: "Division"},
 			foreignEducationalInstitution: {id: 4, value: "Foreign Educational Institution"},
-			foreignGovernment: {id: 5, value: "Foreign Government"},
+			foreignGovernmentNational: {id: 5, value: "Foreign Government (National)"},
 			foreignNgoPvo: {id: 6, value: "Foreign NGO/PVO"},
 			other: {id: 7, value: "Other"},
 			publicInternationalOrganizationPio: {id: 8, value: "Public International Organization (PIO)"},
@@ -64,26 +64,22 @@
 			uSNonProfitOrganization501C3: {id: 10, value: "U.S. Non-Profit Organization (501(c)(3))"},
 			uSFederalGovernment: {id: 11, value: "U.S. Federal Government"},
 			uSStateOrLocalGovernment: {id: 12, value: "U.S. State or Local Government"},
-			internationalOrganization: {id: 13, value: "International Organization"},
 			uSCompany: {id: 14, value: "U.S. Company"},
 			foreignCompany: {id: 15, value: "Foreign Company"},
 			bilateralCommission: {id: 16, value: "Bilateral Commission"},
-			uSEmbassyAmericanSpace: {id: 17, value: "U.S. Embassy/American Space"}
+			uSEmbassyAmericanSpace: {id: 17, value: "U.S. Embassy/American Space"},
+			foreignGovernmentSubNational: {id: 18, value: "Foreign Government (Sub-National)"}
 		},
 		participantType: {
 			organizationalParticipant: {id: 1, value: "Organizational Participant"},
-			foreignGovernment: {id: 2, value: "Foreign Government"},
-			uSEducationalInstitution: {id: 3, value: "U.S. Educational Institution"},
-			publicInternationalOrganizationPio: {id: 4, value: "Public International Organization (PIO)"},
-			uSNonProfitOrganization501C3: {id: 5, value: "U.S. Non-Profit Organization (501(c)(3))"},
 			individual: {id: 6, value: "Individual"},
-			foreignNgoPvo: {id: 7, value: "Foreign NGO/PVO"},
 			otherOrganization: {id: 8, value: "Other Organization"},
 			other: {id: 9, value: "Other"},
 			foreignNonTravelingParticipant: {id: 10, value: "Foreign Non Traveling Participant"},
 			uSNonTravelingParticipant: {id: 11, value: "U.S. Non Traveling Participant"},
 			foreignTravelingParticipant: {id: 12, value: "Foreign Traveling Participant"},
-			uSTravelingParticipant: {id: 13, value: "U.S. Traveling Participant"}
+			uSTravelingParticipant: {id: 13, value: "U.S. Traveling Participant"},
+			languageOfficer: {id: 14, value: "Language Officer"}
 		},
 		permission: {
 			viewOffice: {id: 1, value: "View Office"},
@@ -96,12 +92,21 @@
 			programOwner: {id: 9, value: "Program Owner"},
 			officeOwner: {id: 10, value: "Office Owner"},
 			administrator: {id: 11, value: "Administrator"},
-			search: {id: 12, value: "Search"}
+			search: {id: 12, value: "Search"},
+			editSevis: {id: 13, value: "Edit Sevis"},
+			sendToSevis: {id: 14, value: "Send To Sevis"}
+		},
+		personType: {
+			participant: {id: 1, value: "Participant"},
+			spouse: {id: 2, value: "Spouse"},
+			child: {id: 3, value: "Child"}
 		},
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
 			work: {id: 2, value: "Work"},
-			cell: {id: 3, value: "Cell"}
+			cell: {id: 3, value: "Cell"},
+			visiting: {id: 4, value: "Visiting"},
+			undetermined: {id: 5, value: "Undetermined"}
 		},
 		programStatus: {
 			active: {id: 1, value: "Active"},
@@ -132,6 +137,25 @@
 			program: {id: 3, value: "Program"},
 			project: {id: 4, value: "Project"}
 		},
+		sevisErrorType: {
+			email: {id: 1, value: "Email"},
+			phoneNumber: {id: 2, value: "Phone Number"},
+			address: {id: 3, value: "Address"},
+			startDate: {id: 4, value: "Start Date"},
+			endDate: {id: 5, value: "End Date"},
+			position: {id: 6, value: "Position"},
+			programCategory: {id: 7, value: "Program Category"},
+			fieldOfStudy: {id: 8, value: "Field Of Study"},
+			funding: {id: 9, value: "Funding"},
+			fullName: {id: 10, value: "Full Name"},
+			birthDate: {id: 11, value: "Birth Date"},
+			gender: {id: 12, value: "Gender"},
+			cityOfBirth: {id: 13, value: "City of Birth"},
+			countryOfBirth: {id: 14, value: "Country of Birth"},
+			citizenship: {id: 15, value: "Citizenship"},
+			permanentCountryOfResidence: {id: 16, value: "Permanent Country of Residence"}
+		},
+		sevisStatuses: [2, 3, 4, 5],
 		socialMediaType: {
 			facebook: {id: 1, value: "Facebook"},
 			linkedin: {id: 2, value: "LinkedIn"},
@@ -152,7 +176,7 @@
 		cancelProjectEventName: 'cancelProjectEdit',
 		containsAnyComparisonType: 'containsany',
 		descending: 'DESC',
-		emailRegex: '^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$',
+		emailRegex: '^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
 		greaterThanComparisonType: 'gt',

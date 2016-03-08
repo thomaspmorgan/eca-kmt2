@@ -2,6 +2,7 @@
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Office;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -20,7 +21,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// An OfficeService is used to perform crud operations on an office given a DbContextService.
     /// </summary>
-    public class OfficeService : DbContextService<EcaContext>, ECA.Business.Service.Admin.IOfficeService
+    public class OfficeService : EcaService, ECA.Business.Service.Admin.IOfficeService
     {
         public static char[] OFFICE_HIERARCHY_SPLIT_CHARS = new char[] { '-' };
 
@@ -168,6 +169,44 @@ namespace ECA.Business.Service.Admin
         private DbRawSqlQuery<SimpleOfficeDTO> CreateGetOfficesSqlQuery()
         {
             return this.Context.Database.SqlQuery<SimpleOfficeDTO>(GET_OFFICES_SPROC_NAME);
+        }
+        #endregion
+
+        #region Update
+        public async Task UpdateOfficeAsync(UpdatedOffice updatedOffice)
+        {
+            var officeToUpdate = await Context.Organizations.Where(x => x.OrganizationId == updatedOffice.OfficeId)
+                .Include(x => x.Contacts)
+                .Include(x => x.OrganizationType)
+                .FirstOrDefaultAsync();
+            if (officeToUpdate != null)
+            {
+                officeToUpdate.Name = updatedOffice.Name;
+                officeToUpdate.OfficeSymbol = updatedOffice.OfficeSymbol;
+                officeToUpdate.Description = updatedOffice.Description;
+                SetPointOfContacts(updatedOffice.PointsOfContactIds.ToList(), officeToUpdate);
+                if (updatedOffice.ParentOfficeId.HasValue)
+                {
+                    var parentOffice = await Context.Organizations.FindAsync(updatedOffice.ParentOfficeId);
+                    if (parentOffice != null)
+                    {
+                        officeToUpdate.ParentOrganizationId = parentOffice.OrganizationId;
+                        officeToUpdate.ParentOrganization = parentOffice;
+                    }
+                    else
+                    {
+                        throw new ModelNotFoundException("The office with the id [{0}] was not found.", updatedOffice.ParentOfficeId);
+                    }
+                }
+                else
+                {
+                    officeToUpdate.ParentOrganizationId = null;
+                    officeToUpdate.ParentOrganization = null;
+                }
+            } else
+            {
+                throw new ModelNotFoundException("The office with the id [{0}] was not found.", updatedOffice.OfficeId);
+            }
         }
         #endregion
 

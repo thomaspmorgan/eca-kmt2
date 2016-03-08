@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using CAM.Data;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -26,6 +27,7 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<SimpleParticipantPersonDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleParticipantPersonDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonService service;
+        private IParticipantService participantService;
         private IUserProvider userProvider;
 
         /// <summary>
@@ -33,34 +35,17 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="userProvider">The user provider.</param>
-        public ParticipantPersonsController(IParticipantPersonService service, IUserProvider userProvider)
+        /// <param name="participantService">The participant service.</param>
+        public ParticipantPersonsController(IParticipantPersonService service, IParticipantService participantService, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(participantService != null, "The user provider must not be null.");
             this.userProvider = userProvider;
             this.service = service;
-        }
+            this.participantService = participantService;
 
-        /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of participantPersons.
-        /// </summary>
-        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of participantPersons.</returns>
-        [ResponseType(typeof(PagedQueryResults<SimpleParticipantPersonDTO>))]
-        [Route("ParticipantPersons")]
-        public async Task<IHttpActionResult> GetParticipantPersonsAsync([FromUri]PagingQueryBindingModel<SimpleParticipantPersonDTO> queryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var results = await this.service.GetParticipantPersonsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
-                return Ok(results);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
         }
-
 
         /// <summary>
         /// Retrieves a listing of the paged, sorted, and filtered list of participants by project id.
@@ -69,7 +54,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="projectId">The id of the project to get participants for.</param>
         /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantPersonDTO>))]
-        [Route("Projects/{projectId:int}/ParticipantPersons")]
+        [Route("Project/{projectId:int}/ParticipantPersons")]
         public async Task<IHttpActionResult> GetParticipantPersonsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<SimpleParticipantPersonDTO> queryModel)
         {
             if (ModelState.IsValid)
@@ -84,47 +69,74 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves the participantPerson with the given id.
+        /// Retrieves the participantPerson with the given id, or creates a new participant person and then returns the participant person if it does not yet exist.
         /// </summary>
         /// <param name="participantId">The id of the participant.</param>
+        /// <param name="projectId">The project id of the participant.</param>
         /// <returns>The participantPerson with the given id.</returns>
         [ResponseType(typeof(SimpleParticipantPersonDTO))]
-        [Route("ParticipantPersons/{participantId:int}")]
-        public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int participantId) 
+        [Route("Project/{projectId:int}/ParticipantPersons/{participantId:int}")]
+        public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int projectId, int participantId) 
         {
-            var participantPerson = await this.service.GetParticipantPersonByIdAsync(participantId);
+            var participantPerson = await this.service.GetParticipantPersonByIdAsync(projectId, participantId);
             if (participantPerson != null)
             {
                 return Ok(participantPerson);
             }
             else
             {
-                return NotFound();
+                var participant = await this.participantService.GetParticipantByIdAsync(participantId);
+                participantPerson = await DoCreateOrUpdateParticipantPersonAsync(projectId, participant);
+                return Ok(participantPerson);
             }
         }
+
+
 
         /// <summary>
         /// Updates a project's participant person details with the given client information.
         /// </summary>
         /// <param name="model">The updated participant person.</param>
+        /// <param name="projectId">The id of the project.</param>
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(SimpleParticipantPersonDTO))]
-        [Route("ParticipantPersons/")]
-        public async Task<IHttpActionResult> PutCreateOrUpdateParticipantPersonAsync([FromBody]UpdatedParticipantPersonBindingModel model)
+        [Route("Project/{projectId:int}/ParticipantPersons/")]
+        public async Task<IHttpActionResult> PutCreateOrUpdateParticipantPersonAsync(int projectId, [FromBody]UpdatedParticipantPersonBindingModel model)
         {
             if (ModelState.IsValid)
             {
-                var currentUser = this.userProvider.GetCurrentUser();
-                var businessUser = this.userProvider.GetBusinessUser(currentUser);
-                await this.service.CreateOrUpdateAsync(model.ToUpdatedParticipantPerson(businessUser));
-                await this.service.SaveChangesAsync();
-                var participantPerson = await this.service.GetParticipantPersonByIdAsync(model.ParticipantId);
+                var participantPerson = await DoCreateOrUpdateParticipantPersonAsync(projectId, model);
                 return Ok(participantPerson);
             }
             else
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        private Task<SimpleParticipantPersonDTO> DoCreateOrUpdateParticipantPersonAsync(int projectId, ParticipantDTO participant)
+        {
+            var model = new UpdatedParticipantPersonBindingModel
+            {
+                HomeInstitutionAddressId = null,
+                HomeInstitutionId = null,
+                HostInstitutionAddressId = null,
+                HostInstitutionId = null,
+                ParticipantStatusId = participant.StatusId,
+                ParticipantId = participant.ParticipantId,
+                ParticipantTypeId = participant.ParticipantTypeId,
+            };
+            return DoCreateOrUpdateParticipantPersonAsync(projectId, model);
+        }
+
+        private async Task<SimpleParticipantPersonDTO> DoCreateOrUpdateParticipantPersonAsync(int projectId, UpdatedParticipantPersonBindingModel model)
+        {
+            var currentUser = this.userProvider.GetCurrentUser();
+            var businessUser = this.userProvider.GetBusinessUser(currentUser);
+            await this.service.CreateOrUpdateAsync(model.ToUpdatedParticipantPerson(businessUser, projectId));
+            await this.service.SaveChangesAsync();
+            var participantPerson = await this.service.GetParticipantPersonByIdAsync(projectId, model.ParticipantId);
+            return participantPerson;
         }
     }
 }

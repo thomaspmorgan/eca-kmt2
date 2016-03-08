@@ -4,6 +4,9 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using ECA.Business.Service.Sevis;
+using ECA.Business.Service.Persons;
+using ECA.Business.Validation;
 
 namespace ECA.WebJobs.Sevis.Core
 {
@@ -12,6 +15,8 @@ namespace ECA.WebJobs.Sevis.Core
     /// </summary>
     public class SevisUnityContainer : UnityContainer
     {
+        private IBusinessValidator<Object, UpdatedParticipantPersonValidationEntity> participantPersonValidator;
+
         /// <summary>
         /// Creates a new instance.
         /// </summary>
@@ -19,50 +24,43 @@ namespace ECA.WebJobs.Sevis.Core
         public SevisUnityContainer(AppSettings appSettings)
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
-            var apiKey = GetAzureSevisApiKey(appSettings);
-            var postServiceName = GetSevisPostServiceName(appSettings);
-            var getServiceName = GetSevisGetServiceName(appSettings);
             var connectionString = GetConnectionString(appSettings);
             
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
-        }
 
-        /// <summary>
-        /// Returns the azure sevis api key.
-        /// </summary>
-        /// <param name="appSettings">The app settings.</param>
-        /// <returns>The azure sevis api key.</returns>
-        private object GetAzureSevisApiKey(AppSettings appSettings)
-        {
-            var apiKey = appSettings.SevisApiKey;
-            LogMessage(String.Format("The azure sevis api key is [{0}].", apiKey));
-            return apiKey;
-        }
+            this.RegisterType<ParticipantService>(new InjectionFactory((c) =>
+            {
+                var context = c.Resolve<EcaContext>();
+                var service = new ParticipantService(context, null);
+                return service;
+            }));
 
-        /// <summary>
-        /// Returns the name of the azure sevis post service.
-        /// </summary>
-        /// <param name="appSettings">The app settings.</param>
-        /// <returns>The azure sevis post service name.</returns>
-        private object GetSevisPostServiceName(AppSettings appSettings)
-        {
-            var postServiceName = appSettings.SevisPostServiceName;
-            LogMessage(String.Format("The azure sevis POST service name is [{0}].", postServiceName));
-            return postServiceName;
-        }
+            this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
+            {
+                var context = c.Resolve<EcaContext>();
+                var service = new ExchangeVisitorService(context, null);
+                return service;
+            }));
 
-        /// <summary>
-        /// Returns the name of the azure sevis get service.
-        /// </summary>
-        /// <param name="appSettings">The app settings.</param>
-        /// <returns>The azure sevis get service name.</returns>
-        private object GetSevisGetServiceName(AppSettings appSettings)
-        {
-            var getServiceName = appSettings.SevisGetServiceName;
-            LogMessage(String.Format("The azure sevis GET service name is [{0}].", getServiceName));
-            return getServiceName;
+            this.RegisterType<ParticipantPersonsSevisService>(new InjectionFactory((c) =>
+            {
+                var context = c.Resolve<EcaContext>();
+                var exchangeVisitorService = c.Resolve<IExchangeVisitorService>();
+                var service = new ParticipantPersonsSevisService(context, exchangeVisitorService, null);
+                return service;
+            }));
+
+            //Register the SEVIS Batch Processing service
+            this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
+            {
+                var context = c.Resolve<EcaContext>();
+                var participantService = c.Resolve<ParticipantService>();
+                var participantPersonSevisService = c.Resolve<ParticipantPersonsSevisService>();
+                var service = new SevisBatchProcessingService(context, participantService, participantPersonSevisService, null);
+                return service;
+            }));
         }
 
         /// <summary>

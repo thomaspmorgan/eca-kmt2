@@ -36,7 +36,7 @@ namespace ECA.Business.Service.Admin
             string locationName,
             int countryId,
             int cityId,
-            int divisionId
+            int? divisionId
             )
         {
             if (AddressType.GetStaticLookup(addressTypeId) == null)
@@ -109,6 +109,6 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets or sets the division id
         /// </summary>
-        public int DivisionId { get; private set; }
+        public int? DivisionId { get; private set; }
     }
 }

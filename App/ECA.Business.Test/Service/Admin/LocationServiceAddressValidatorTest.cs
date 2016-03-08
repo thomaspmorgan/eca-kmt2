@@ -170,7 +170,7 @@ namespace ECA.Business.Test.Service.Admin
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
-            country.LocationName = "United States";
+            country.LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateCreate(entity);
             Assert.AreEqual(1, results.Count());
@@ -204,7 +204,7 @@ namespace ECA.Business.Test.Service.Admin
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
-            country.LocationName = "United States";
+            country.LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateCreate(entity);
             Assert.AreEqual(1, results.Count());
@@ -375,7 +375,7 @@ namespace ECA.Business.Test.Service.Admin
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
-            country.LocationName = "United States";
+            country.LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateUpdate(entity);
             Assert.AreEqual(1, results.Count());
@@ -409,7 +409,7 @@ namespace ECA.Business.Test.Service.Admin
             var validator = new LocationServiceAddressValidator();
             Assert.AreEqual(0, validator.ValidateCreate(entity).Count());
 
-            country.LocationName = "United States";
+            country.LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             entity = new EcaAddressValidationEntity(addressTypeId: addressTypeId, country: country, division: division, city: city, postalCode: postalCode);
             var results = validator.DoValidateUpdate(entity);
             Assert.AreEqual(1, results.Count());

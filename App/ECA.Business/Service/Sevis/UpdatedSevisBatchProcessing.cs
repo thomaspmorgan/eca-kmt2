@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -23,6 +24,18 @@ namespace ECA.Business.Service.Sevis
             this.DownloadDispositionCode = downloadDispositionCode;
         }
 
+        public UpdatedSevisBatchProcessing(SevisBatchProcessingDTO batchProcessing)
+        {
+            this.BatchId = batchProcessing.BatchId;
+            this.SubmitDate = batchProcessing.SubmitDate;
+            this.RetrieveDate = batchProcessing.RetrieveDate;
+            this.SendXml = batchProcessing.SendXml;
+            this.TransactionLogXml = batchProcessing.TransactionLogXml;
+            this.UploadDispositionCode = batchProcessing.UploadDispositionCode;
+            this.ProcessDispositionCode = batchProcessing.ProcessDispositionCode;
+            this.DownloadDispositionCode = batchProcessing.DownloadDispositionCode;
+        }
+
         /// <summary>
         /// Gets or sets the batch Id.
         /// </summary>
@@ -31,7 +44,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Date of SEVIS Batch Submission
         /// </summary>
-        public DateTimeOffset SubmitDate { get; set; }
+        public DateTimeOffset? SubmitDate { get; set; }
 
         /// <summary>
         /// Date SEVIS Batch was retrieved after processing

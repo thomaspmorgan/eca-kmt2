@@ -2,6 +2,7 @@
 using FluentValidation.Attributes;
 using ECA.Business.Validation.Model.Shared;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
@@ -18,7 +19,7 @@ namespace ECA.Business.Validation.Model.CreateEV
             USAddress = new USAddress();
             MailAddress = new USAddress();
             FinancialInfo = new FinancialInfo();
-            CreateDependent = new CreateDependent();
+            CreateDependent = new List<CreateDependent>();
             AddSiteOfActivity = new AddSiteOfActivity();
             AddTIPP = new AddTIPP();
             ResidentialAddress = new ResidentialAddress();
@@ -72,7 +73,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Program end date
         /// </summary>
-        public DateTime? PrgEndDate { get; set; }
+        public DateTime PrgEndDate { get; set; }
 
         /// <summary>
         /// Program category
@@ -108,7 +109,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Dependent information
         /// </summary>
-        public CreateDependent CreateDependent { get; set; }
+        public List<CreateDependent> CreateDependent { get; set; }
 
         /// <summary>
         /// Site of activity address
@@ -124,5 +125,6 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// Residential address information
         /// </summary>
         public ResidentialAddress ResidentialAddress { get; set; }
+        
     }
 }

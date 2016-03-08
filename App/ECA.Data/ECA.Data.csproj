@@ -118,6 +118,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -135,9 +139,11 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="BirthCountry.cs" />
     <Compile Include="Bookmark.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
+    <Compile Include="Configuration\BirthCountryConfiguration.cs" />
     <Compile Include="Configuration\BookmarkConfiguration.cs" />
     <Compile Include="Configuration\DataPointCategoryPropertyConfiguration.cs" />
     <Compile Include="Configuration\DataPointConfigurationConfiguration.cs" />
@@ -177,6 +183,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
+    <Compile Include="PersonType.cs" />
     <Compile Include="SevisBatchProcessing.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />
@@ -267,6 +274,9 @@
     <None Include="ECA-KMTStaticDataGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ECA-KMTStaticDataGenerator.generated.cs</LastGenOutput>
+    </None>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

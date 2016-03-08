@@ -14,7 +14,10 @@ angular.module('staticApp')
       var programPrefix = 'programs';
       var officePrefix = 'offices';
       var organizationPrefix = 'organizations';
-      var personPrefix = 'people'
+      var personPrefix = 'people';
+      var personalInformationPrefix = 'personalinformation';
+
+      var participantProjectPrefix = projectPrefix + '.participants';
 
       var service = {
           stateNames: {
@@ -32,9 +35,18 @@ angular.module('staticApp')
                   organization: organizationPrefix + '.overview',
                   person: personPrefix + '.personalinformation'
               },
+              people: {
+                  personalInfomation: personPrefix + '.' + personalInformationPrefix,
+                  section: {
+                      general: personPrefix + '.' + personalInformationPrefix + '.' + 'general',
+                      pii: personPrefix + '.' + personalInformationPrefix + '.' + 'pii',
+                      contact: personPrefix + '.' + personalInformationPrefix + '.' + 'contact',
+                  }
+              },
               edit: {
                   project: projectPrefix + '.edit',
-                  program: programPrefix + '.edit'
+                  program: programPrefix + '.edit',
+                  office: officePrefix + '.edit'
               },
               moneyflow: {
                   organization: organizationPrefix + '.moneyflows',
@@ -42,6 +54,9 @@ angular.module('staticApp')
                   office: officePrefix + '.moneyflows',
                   project: projectPrefix + '.moneyflows',
                   program: programPrefix + '.moneyflows'
+              },
+              participant: {
+                  sevis: participantProjectPrefix + '.sevis'
               }
           },
 
@@ -80,30 +95,45 @@ angular.module('staticApp')
 
           getProjectState: function (projectId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.project, { projectId: projectId }, options) + '#top';
+              return $state.href(service.stateNames.overview.project, { projectId: projectId }, options);
           },
 
           getProgramState: function (programId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.program, { programId: programId }, options) + '#top';
+              return $state.href(service.stateNames.overview.program, { programId: programId }, options);
           },
 
           getOfficeState: function (officeId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.office, { officeId: officeId }, options) + '#top';
+              return $state.href(service.stateNames.overview.office, { officeId: officeId }, options);
           },
 
           getOrganizationState: function (organizationId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options) + '#top';
+              return $state.href(service.stateNames.overview.organization, { organizationId: organizationId }, options);
           },
 
           getPersonState: function (personId, options) {
               options = options || {};
-              return $state.href(service.stateNames.overview.person, { personId: personId }, options) + '#top';
+              return $state.href(service.stateNames.people.personalInfomation, { personId: personId }, options);
           },
 
-          getParticipantState: function(participantId, options){
+          getPiiState: function (personId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.people.section.pii, { personId: personId }, options);
+          },
+
+          getPersonGeneralInformationState: function (personId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.people.section.general, { personId: personId }, options);
+          },
+
+          getPersonContactInformationState: function (personId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.people.section.contact, { personId: personId }, options);
+          },
+
+          getParticipantState: function (participantId, options) {
               options = options || {};
               return ParticipantService.getParticipantById(participantId)
               .then(function (data) {
@@ -114,6 +144,16 @@ angular.module('staticApp')
                       return service.getOrganizationState(data.organizationId, options);
                   }
               });
+          },
+
+          getParticipantSevisState: function (projectId, participantId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.participant.sevis, { participantId: participantId, projectId: projectId }, options);
+          },
+
+          goToParticipantSevisState: function (projectId, participantId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.participant.sevis, { participantId: participantId, projectId: projectId }, options);
           },
 
           goToOfficeState: function (officeId, options) {
@@ -128,7 +168,22 @@ angular.module('staticApp')
 
           goToPersonState: function (personId, options) {
               options = options || {};
-              return $state.go(service.stateNames.overview.person, { personId: personId }, options);
+              return $state.go(service.stateNames.people.personalInfomation, { personId: personId }, options);
+          },
+
+          goToPiiState: function (personId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.people.section.pii, { personId: personId }, options);
+          },
+
+          goToPersonGeneralInformationState: function (personId, options) {
+              options = options || {};
+              return $state.go(service.stateNames.people.section.general, { personId: personId }, options);
+          },
+
+          goToPersonContactInformationState: function (personId, options) {
+              options = options || {};
+              return $state.href(service.stateNames.people.section.contact, { personId: personId }, options);
           },
 
           goToProgramState: function (programId, options) {
@@ -164,7 +219,7 @@ angular.module('staticApp')
 
           goToEditProgramState: function (programId, options) {
               options = options || {};
-              return $state.go(service.stateNames.edit.program, { programId: programId }, options) + '#top';
+              return $state.go(service.stateNames.edit.program, { programId: programId }, options);
           },
 
           isProjectState: function (stateName) {

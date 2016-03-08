@@ -12,8 +12,6 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public BiographicalUpdate()
         {
-            USAddress = new USAddress();
-            MailAddress = new USAddress();
         }
 
         /// <summary>
@@ -32,16 +30,6 @@ namespace ECA.Business.Validation.Model.Shared
         /// Position held in home country
         /// </summary>
         public string PositionCode { get; set; }
-
-        /// <summary>
-        /// US physical address
-        /// </summary>
-        public USAddress USAddress { get; set; }
-
-        /// <summary>
-        /// US mailing address
-        /// </summary>
-        public USAddress MailAddress { get; set; }
 
         /// <summary>
         /// Remarks

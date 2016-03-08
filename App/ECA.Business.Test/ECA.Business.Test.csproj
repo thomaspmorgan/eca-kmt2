@@ -225,9 +225,14 @@
     <Compile Include="Queries\Itineraries\ItineraryQueriesTest.cs" />
     <Compile Include="Queries\Itineraries\ItineraryStopQueriesTest.cs" />
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\BiographicalDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\DependentBiographicalDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
     <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
@@ -291,6 +296,7 @@
     <Compile Include="Service\Itineraries\ItineraryStopValidatorTest.cs" />
     <Compile Include="Service\Itineraries\EcaItineraryStopTest.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryTest.cs" />
+    <Compile Include="Service\Lookup\PersonTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\EmailAddressTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\LocationTypeServiceTest.cs" />
     <Compile Include="Service\Lookup\ParticipantStatusServiceTest.cs" />
@@ -305,6 +311,10 @@
     <Compile Include="Service\Persons\DeletedParticipantTest.cs" />
     <Compile Include="Service\Persons\NewPersonTest.cs" />
     <Compile Include="Service\Persons\LanguageProficiencyServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantExchangeVisitorServiceTest.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorValidationServiceTest.cs" />
+    <Compile Include="Service\Persons\ExchangeVisitorSaveActionTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />
@@ -358,6 +368,36 @@
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />
+    <Compile Include="Validation\ErrorPaths\BirthDateErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\AddressErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\CitizenshipErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\CountryOfBirthErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\EmailErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\EndDateErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\FieldOfStudyErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\FullNameErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\FundingErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\GenderErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\PermanentResidenceCountryErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\PhoneNumberErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\PositionCodeErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\ProgramCategoryCodeErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
+    <Compile Include="Validation\Shared\BiographicalValidatorTest.cs" />
+    <Compile Include="Validation\Shared\FinancialInfoUpdateValidatorTest.cs" />
+    <Compile Include="Validation\Shared\FullNameValidatorTest.cs" />
+    <Compile Include="Validation\Shared\FinancialInfoValidatorTest.cs" />
+    <Compile Include="Validation\Shared\OtherFundsValidatorTest.cs" />
+    <Compile Include="Validation\Shared\InternationalValidatorTest.cs" />
+    <Compile Include="Validation\Shared\OtherValidatorTest.cs" />
+    <Compile Include="Validation\Shared\ExchangeVisitorValidatorTest.cs" />
+    <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
+    <Compile Include="Validation\Shared\EcaAddTIPPTest.cs" />
+    <Compile Include="Validation\Shared\USGovtValidatorTest.cs" />
+    <Compile Include="Validation\Shared\USAddressValidatorTest.cs" />
+    <Compile Include="Validation\SimpleValidationFailureTest.cs" />
+    <Compile Include="Validation\SimpleValidationResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -396,7 +436,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Validation\CreateEV\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

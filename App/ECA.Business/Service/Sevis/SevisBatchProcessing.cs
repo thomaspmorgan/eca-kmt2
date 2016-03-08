@@ -11,6 +11,8 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+using ECA.Business.Service.Persons;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -22,13 +24,15 @@ namespace ECA.Business.Service.Sevis
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<SevisBatchProcessing, int> throwIfSevisBatchProcessingNotFound;
+        private ParticipantService participantService;
+        private ParticipantPersonsSevisService sevisService;
 
         /// <summary>
         /// Creates a new instance and initializes the context..
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="saveActions">The save actions.</param>
-        public SevisBatchProcessingService(EcaContext context, List<ISaveAction> saveActions = null)
+        public SevisBatchProcessingService(EcaContext context, ParticipantService participantService, ParticipantPersonsSevisService sevisService, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -39,6 +43,8 @@ namespace ECA.Business.Service.Sevis
                     throw new ModelNotFoundException(String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId));
                 }
             };
+            this.participantService = participantService;
+            this.sevisService = sevisService;
         }
 
         #region Get
@@ -49,7 +55,7 @@ namespace ECA.Business.Service.Sevis
         /// <returns>The phone number dto.</returns>
         public SevisBatchProcessingDTO GetById(int batchId)
         {
-            var dto = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId).FirstOrDefault();
+            var dto = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingByIdQuery(this.Context, batchId);
             logger.Info("Retrieved the Sevis Batch Processing dto with the given id [{0}].", batchId);
             return dto;
         }
@@ -59,11 +65,77 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="batchId">The id of the SevisBatchProcessing record.</param>
         /// <returns>The SevisBatchProcessing  dto.</returns>
-        public async Task<SevisBatchProcessingDTO> GetByIdAsync(int batchId)
+        public Task<SevisBatchProcessingDTO> GetByIdAsync(int batchId)
         {
-            var dto = await SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId).FirstOrDefaultAsync();
+            var dto = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOByIdQuery(this.Context, batchId));
             logger.Info("Retrieved the Sevis Batch Processing dto with the given id [{0}].", batchId);
             return dto;
+        }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload()
+        {
+            var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForUpload(this.Context);
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to upload");
+            return dtos;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync()
+        {
+            var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForUpload(this.Context));
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to upload");
+            return dtos;
+        }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been downloaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToDownload()
+        {
+            var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForDownload(this.Context);
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been downloaded yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToDownloadAsync()
+        {
+            var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForDownload(this.Context));
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
+
+        /// <summary>
+        ///  Retrieves the list of SEVIS Batch DTOs that have not been processed yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToProcess()
+        {
+            var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToProcess(this.Context);
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
+        }
+
+        /// <summary>
+        /// Retrieves the list of SEVIS Batch DTOs that have not been processed yet.
+        /// </summary>
+        /// <returns>The list of SevisBatchProcessing dtos.</returns>
+        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToProcessAsync()
+        {
+            var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToProcess(this.Context));
+            logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
+            return dtos;
         }
         #endregion
 
@@ -105,6 +177,70 @@ namespace ECA.Business.Service.Sevis
         #endregion
 
         #region Update
+        
+        /// <summary>
+        /// Process SEVIS batch transaction log
+        /// </summary>
+        /// <param name="batchId">Batch ID</param>
+        public async Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
+        {
+            string json = "";
+            var batchLog = await GetByIdAsync(batchId);
+            var xml = batchLog.TransactionLogXml;
+            var doc = XDocument.Parse(xml.ToString());
+            XNamespace xmlns = "http://james.newtonking.com/projects/json";
+            List<ParticipantSevisBatchProcessingResultDTO> results = new List<ParticipantSevisBatchProcessingResultDTO>();
+
+            foreach (XElement record in doc.Descendants("Record"))
+            {
+                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
+                var status = record.Descendants("Result").First().Attribute("status").Value;
+                var rows = record.Descendants("Result");
+
+                if (rows.Count() == 1)
+                {
+                    record.Add(new XElement("Result", ""));
+                    json = JsonConvert.SerializeXNode(record).Replace(",null]", "]");
+                }
+                else
+                {
+                    json = JsonConvert.SerializeXNode(record);
+                }
+
+                // update participant person batch result
+                results.Add(await UpdateParticipant(participantID, status, json));
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// Update a participant record with sevis batch results
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <param name="status"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
+        {
+            var result = new ParticipantSevisBatchProcessingResultDTO();
+            
+            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
+            participantPersonDTO.SevisBatchResult = json;
+            
+            result.ParticipantId = participantID;
+            result.ProjectId = participantPersonDTO.Participant.ProjectId;
+            if (status == "1")
+            {
+                result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
+            }
+            else
+            {
+                result.SevisCommStatus = SevisCommStatus.BatchRequestUnsuccessful.Value;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Updates the ECA system's SEVIS Batch Processing record with the given updated SEVIS Batch Processing record.
@@ -138,6 +274,7 @@ namespace ECA.Business.Service.Sevis
             modelToUpdate.ProcessDispositionCode = updatedSevisBatchProcessing.ProcessDispositionCode;
             modelToUpdate.UploadDispositionCode = updatedSevisBatchProcessing.UploadDispositionCode;
         }
+
         #endregion
 
         #region Delete

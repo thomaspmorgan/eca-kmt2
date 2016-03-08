@@ -15,14 +15,6 @@ angular.module('staticApp')
               var path = 'projects/' + projectId + '/participants/' + participantId;
               return DragonBreath.delete({}, path);
           },
-          getParticipants: function (params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'participants')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
-          },
           getParticipantsByProject: function (id, params) {
               var defer = $q.defer();
               var path = 'projects/' + id + "/participants";

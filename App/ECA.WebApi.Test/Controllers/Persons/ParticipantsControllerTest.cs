@@ -36,22 +36,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
 
         #region Get
         [TestMethod]
-        public async Task TestGetParticipantsAsync()
-        {
-            var response = await controller.GetParticipantsAsync(new PagingQueryBindingModel<SimpleParticipantDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleParticipantDTO>>));
-            serviceMock.Verify(x => x.GetParticipantsAsync(It.IsAny<QueryableOperator<SimpleParticipantDTO>>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipantsAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetParticipantsAsync(new PagingQueryBindingModel<SimpleParticipantDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
         public async Task TestGetParticipantsByProjectIdAsync()
         {
             var response = await controller.GetParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<SimpleParticipantDTO>());

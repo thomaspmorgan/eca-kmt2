@@ -295,15 +295,7 @@ angular.module('staticApp')
       function getEmploymentFormDivIdPrefix() {
           return 'employmentForm';
       }
-
-      //function getEducationFormDivId() {
-      //    return getEducationFormDivIdPrefix() + $scope.education.professionEducationId;
-      //}
-
-      //function getEmploymentFormDivId() {
-      //    return getEmploymentFormDivIdPrefix() + $scope.employment.professionEducationId;
-      //}
-
+      
       function getEduEmpFormDivElement(id) {
           return document.getElementById(id);
       }

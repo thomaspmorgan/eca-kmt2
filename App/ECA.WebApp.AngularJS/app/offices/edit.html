@@ -1,0 +1,137 @@
+﻿<div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-success" ng-disabled="form.officeForm.$invalid" ng-click="view.saveOffice()">Save</button>
+        <button type="button" class="btn btn-cancel cancel" ng-click="$parent.cancelButtonClicked()">Cancel</button>
+    </div>
+    <h2 class="office-color tab-header">Overview</h2>
+    <form name="form.officeForm" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-2 title-label">Office Name <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <input name="name"
+                       class="form-control" 
+                       ng-model="view.office.name"
+                       ng-model-options="{debounce: 500}"
+                       ui-validate-async="{unique: 'view.validateUniqueOfficeName($value)'}"
+                       placeholder="Enter office name..."
+                       maxlength="600"
+                       required/>
+                <div ng-show="form.officeForm.name.$dirty">
+                    <div class="error" ng-show="form.officeForm.name.$error.required">Please enter an office name.</div>
+                    <div class="error" ng-show="form.officeForm.name.$error.unique">The office already exists.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 title-label">Office Symbol <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <input name="officeSymbol"
+                       class="form-control" 
+                       ng-model="view.office.officeSymbol" 
+                       ng-model-options="{debounce: 500}"
+                       ui-validate-async="{unique: 'view.validateUniqueOfficeSymbol($value)'}"
+                       placeholder="Enter office symbol..."
+                       maxlength="128"
+                       required/>
+                <div ng-show="form.officeForm.officeSymbol.$dirty">
+                    <div class="error" ng-show="form.officeForm.officeSymbol.$error.required">Please enter an office symbol.</div>
+                    <div class="error" ng-show="form.officeForm.officeSymbol.$error.unique">The office symbol already exists.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 title-label">Description <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <textarea name="description"
+                          class="form-control" 
+                          ng-model="view.office.description"
+                          placeholder="Enter office description..."
+                          maxlength="3000"
+                          required>
+                </textarea>
+                <div ng-show="form.officeForm.description.$dirty">
+                    <div class="error" ng-show="form.officeForm.description.$error.required">Please enter an office description.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row table">
+            <h4 class="tab-subheader">Details</h4>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="status">Themes</label>
+                    <div class="col-md-9">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedThemes" theme="select2" title="Choose a theme." style="min-width: 200px;" ng-disabled="true">
+                            <ui-select-match placeholder="Select themes...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="theme in view.themes | filter: $select.search track by theme.value">
+                                <div ng-bind-html="theme.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="status">Goals</label>
+                    <div class="col-md-9">
+                        <ui-select multiple close-on-select="true" ng-model="view.selectedGoals" theme="select2" title="Choose a theme." style="min-width: 200px;" ng-disabled="true">
+                            <ui-select-match placeholder="Select themes...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="goal in view.goals | filter: $select.search track by goal.value">
+                                <div ng-bind-html="goal.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="status">Parent Office</label>
+                    <div class="col-md-9">
+                        <ui-select ng-model="view.selectedParentOffice"
+                                   theme="select2"
+                                   on-select="view.searchParentOffices('')"
+                                   on-remove="view.searchParentOffices('')"
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select a parent office..." allow-clear="true">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices refresh="view.searchParentOffices($select.search)"
+                                               refresh-delay="250"
+                                               repeat="office in view.parentOffices">
+                                <div>
+                                    <span ng-bind-html="office.name | highlight: $select.search"></span>
+                                </div>
+                                <div class="small" style="margin-left:10px;">
+                                    {{office.officeSymbol}}
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="status">Points Of Contact</label>
+                    <div class="col-md-9">
+                        <ui-select multiple
+                                   name="pointsOfContact"
+                                   close-on-select="true"
+                                   ng-model="view.selectedPointsOfContact"
+                                   theme="select2"
+                                   on-select="view.searchPointsOfContact('')"
+                                   on-remove="view.searchPointsOfContact('')"
+                                   title="Choose a point of contact."
+                                   style="min-width: 200px;">
+                            <ui-select-match placeholder="Select points of contact...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices refresh="view.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in view.pointsOfContact | filter: $select.search">
+                                <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                                <div class="small">{{person.position}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

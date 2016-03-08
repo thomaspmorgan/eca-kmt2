@@ -51,6 +51,11 @@ namespace ECA.Data
         public DbSet<Actor> Actors { get; set; }
 
         /// <summary>
+        /// Gets or sets the person types.
+        /// </summary>
+        public DbSet<PersonType> PersonTypes { get; set; }
+
+        /// <summary>
         /// Gets or sets the addresses.
         /// </summary>
         public DbSet<Address> Addresses { get; set; }
@@ -247,7 +252,7 @@ namespace ECA.Data
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
         public DbSet<PersonEvaluationNote> PersonEvaluationNotes { get; set; }
-
+        
         /// <summary>
         /// Gets or sets Language Proficiencies for a Person
         /// </summary>
@@ -426,6 +431,10 @@ namespace ECA.Data
         /// </summary>
         public DbSet<USGovernmentAgency> USGovernmentAgencies { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sevis birth countries.
+        /// </summary>
+        public DbSet<BirthCountry> BirthCountries { get; set; }
 
         /// <summary>
         /// Overrides the DbContext OnModelCreating method.
