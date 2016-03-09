@@ -3127,54 +3127,6 @@ namespace ECA.Business.Test.Service.Persons
             tester();
         }
 
-        //[TestMethod]
-        //public async Task TestSetDependents_ExchangeVisitorUpdate_HasDependent()
-        //{
-        //    using (ShimsContext.Create())
-        //    {
-        //        var dependents = new List<DependentBiographicalDTO>();
-        //        var dependent = new DependentBiographicalDTO
-        //        {
-        //            FullName = new FullNameDTO()
-        //        };
-        //        dependents.Add(dependent);
-        //        ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, participantId) =>
-        //        {
-        //            return dependents.AsQueryable();
-        //        };
-        //        System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
-        //        {
-        //            return Task<List<SimplePersonDTO>>.FromResult(src.ToList());
-        //        });
-        //        var participant = new Participant
-        //        {
-        //            ParticipantId = 1,
-        //        };
-        //        ExchangeVisitorUpdate exchangeVisitor = null;
-        //        context.SetupActions.Add(() =>
-        //        {
-        //            exchangeVisitor = new ExchangeVisitorUpdate
-        //            {
-
-        //            };
-        //        });
-        //        Action tester = () =>
-        //        {
-        //            Assert.IsNotNull(exchangeVisitor.);
-        //            Assert.AreEqual(1, exchangeVisitor.CreateDependent.Count());
-        //            var firstDto = exchangeVisitor.CreateDependent.First();
-        //        };
-        //        context.Revert();
-        //        service.SetDependents(participant, exchangeVisitor);
-        //        tester();
-
-        //        context.Revert();
-        //        await service.SetDependentsAsync(participant, exchangeVisitor);
-        //        tester();
-        //    }
-
-        //}
-
         [TestMethod]
         public async Task TestSetDependents_ExchangeVisitor_NoDependents()
         {

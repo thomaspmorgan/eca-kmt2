@@ -324,6 +324,7 @@ namespace ECA.Business.Service.Sevis
             var xml = batchLog.TransactionLogXml;
             var doc = XDocument.Parse(xml.ToString());
             List<ParticipantSevisBatchProcessingResultDTO> results = new List<ParticipantSevisBatchProcessingResultDTO>();
+            List<ParticipantSevisBatchResultDTO> recordResults = new List<ParticipantSevisBatchResultDTO>();
 
             foreach (XElement recordElement in doc.Descendants("Record"))
             {
@@ -342,10 +343,10 @@ namespace ECA.Business.Service.Sevis
                         errorCode = resultElement.Descendants("ErrorCode").First().Value,
                         errorMessage = resultElement.Descendants("ErrorMessage").First().Value
                     };
-                    record.sevisResults.Add(result);
+                    recordResults.Add(result);
                 }
-                
-                // update participant person batch result
+
+                record.sevisResults = recordResults;
                 results.Add(await UpdateParticipant(record));
             }
 
