@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, $modal, FilterService, LookupService, OfficeService, StateService, NotificationService) {
+  .controller('OfficeEditCtrl', function ($scope, $state, $stateParams, $q, $log, $modal, FilterService, LookupService, OfficeService, StateService, NotificationService) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
@@ -48,6 +48,34 @@ angular.module('staticApp')
             }, function () {
                 NotificationService.showErrorMessage('Unable to save office.');
             });
+      }
+
+      var overviewStateName = StateService.stateNames.overview.office;
+      $scope.view.cancelSaveOffice = function () {
+          if ($scope.form.officeForm.$dirty) {
+              var modalInstance = $modal.open({
+                  templateUrl: '/app/projects/unsaved-changes.html',
+                  controller: 'UnsavedChangesCtrl',
+                  windowClass: 'modal-center-small',
+                  backdrop: 'static',
+                  resolve: {},
+                  size: 'lg'
+              });
+              modalInstance.result.then(function () {
+                  $log.info('Cancelling changes...');
+                  goToOfficeOverview();
+              }, function () {
+                  $log.info('Dismiss warning dialog and allow save changes...');
+              });
+          }
+          else {
+              goToOfficeOverview();
+          }
+      }
+
+      function goToOfficeOverview() {
+          $scope.$parent.isInEditState = false;
+          $state.go(overviewStateName);
       }
 
       var officesWithSameNameFilter = FilterService.add('officeedit_officeswithsamename');
@@ -97,6 +125,10 @@ angular.module('staticApp')
       $scope.$on('saveOffice', function () {
           $scope.view.saveOffice();
       });
+
+      $scope.$on('cancelSaveOffice', function () {
+          $scope.view.cancelSaveOffice();
+      })
 
       $scope.view.onAddPointsOfContactClick = function () {
           var modalInstance = $modal.open({
