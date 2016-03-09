@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, FilterService, LookupService, OfficeService, StateService, NotificationService) {
+  .controller('OfficeEditCtrl', function ($scope, $stateParams, $q, $log, $modal, FilterService, LookupService, OfficeService, StateService, NotificationService) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
@@ -12,14 +12,9 @@ angular.module('staticApp')
       $scope.data.loadedOfficePromise.promise
         .then(function (office) {
             $scope.view.office = angular.copy(office);
-            $q.all([
-                loadGoals(),
-                loadThemes()])
-          .then(function (results) {
-              setAllUiSelectValues();
-              loadParentOffices('');
-              loadPointsOfContact('');
-          })
+            setAllUiSelectValues();
+            loadParentOffices('');
+            loadPointsOfContact('');
         });
 
       $scope.view.searchPointsOfContact = function (search) {
@@ -103,21 +98,32 @@ angular.module('staticApp')
           $scope.view.saveOffice();
       });
 
+      $scope.view.onAddPointsOfContactClick = function () {
+          var modalInstance = $modal.open({
+              animation: true,
+              backdrop: 'static',
+              templateUrl: 'app/points-of-contact/points-of-contact-modal.html',
+              controller: 'PointsOfContactModalCtrl',
+              windowClass: 'full-screen-modal',
+              resolve: {}
+          });
+
+          modalInstance.result.then(function (pointOfContact) {
+              pointOfContact.value = pointOfContact.fullName;
+              if (pointOfContact.position) {
+                  pointOfContact.value += ' (' + pointOfContact.position + ')';
+              }
+              $scope.view.office.contacts.push(pointOfContact);
+              $scope.view.selectedPointsOfContact.push(pointOfContact);
+              setSelectedPointsOfContact();
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      }
+
       function setAllUiSelectValues() {
-          setSelectedGoals();
-          setSelectedThemes();
           setSelectedPointsOfContact();
           setSelectedParentOffice();
-      }
-
-      function setSelectedGoals() {
-          normalizeLookupProperties($scope.office.goals);
-          setSelectedItems('goals', 'selectedGoals');
-      }
-
-      function setSelectedThemes() {
-          normalizeLookupProperties($scope.office.themes);
-          setSelectedItems('themes', 'selectedThemes');
       }
 
       function setSelectedPointsOfContact() {
@@ -161,40 +167,6 @@ angular.module('staticApp')
                   throw Error('Unable to normalize lookup.');
               }
           }
-      }
-
-      var maxLimit = 300;
-
-      function loadGoals() {
-          return LookupService.getAllGoals({ limit: maxLimit })
-            .then(function (data) {
-                normalizeLookupProperties(data.results);
-                $scope.view.goals = data.results;
-                if (data.total > maxLimit) {
-                    NotificationService.showWarningMessage("There are more goals than can be loaded in one time, some categories may be available.");
-                }
-            })
-          .catch(function () {
-              var message = "Unable to load goals.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
-      }
-
-      function loadThemes() {
-          return LookupService.getAllThemes({ limit: maxLimit })
-            .then(function (data) {
-                normalizeLookupProperties(data.results);
-                $scope.view.themes = data.results;
-                if (data.total > maxLimit) {
-                    NotificationService.showWarningMessage("There are more themes than can be loaded in one time, some categories may be available.");
-                }
-            })
-          .catch(function () {
-              var message = "Unable to load themes.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
       }
 
       var pocFilter = FilterService.add('officeedit_pocfilter');
