@@ -1,9 +1,4 @@
-﻿using ECA.Business.Validation.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ECA.Business.Validation.Sevis.Bio;
 
 namespace ECA.Business.Queries.Models.Persons
 {

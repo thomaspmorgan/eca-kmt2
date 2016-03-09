@@ -1,4 +1,6 @@
 ﻿using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.Finance;
 using ECA.Business.Validation.SEVIS;
 using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
@@ -41,7 +43,7 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.Biographical)
                 .NotNull()
                 .WithMessage(BIOGRAPHICAL_INFORMATION_REQUIRED_ERROR_MESSAGE)
-                .SetValidator(new BiographicalValidator())
+                .SetValidator(new PersonBiographyValidator())
                 .When(visitor => visitor.requestID != null);
 
             RuleFor(visitor => visitor.PositionCode)
@@ -97,16 +99,16 @@ namespace ECA.Business.Validation.Model.CreateEV
                 .SetValidator(new USAddressValidator(USAddressValidator.PERSON_HOST_ADDRESS))
                 .When(visitor => visitor.MailAddress != null);
                 
-            RuleFor(visitor => visitor.FinancialInfo)
-                .NotNull()
-                .WithMessage(FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE)
-                .WithState(x => new FundingErrorPath())
-                .SetValidator(new FinancialInfoValidator())
-                .When(visitor => visitor.requestID != null);
+            //RuleFor(visitor => visitor.FinancialInfo)
+            //    .NotNull()
+            //    .WithMessage(FINANCIAL_INFO_REQUIRED_ERROR_MESSAGE)
+            //    .WithState(x => new FundingErrorPath())
+            //    .SetValidator(new FinancialInfoValidator())
+            //    .When(visitor => visitor.requestID != null);
 
-            RuleFor(visitor => visitor.CreateDependent)
-                .SetCollectionValidator(new CreateDependentValidator())
-                .When(visitor => visitor.CreateDependent != null);
+            //RuleFor(visitor => visitor.CreateDependent)
+            //    .SetCollectionValidator(new CreateDependentValidator())
+            //    .When(visitor => visitor.CreateDependent != null);
 
             RuleFor(visitor => visitor.AddSiteOfActivity)
                 .NotNull()

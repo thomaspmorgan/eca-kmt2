@@ -187,7 +187,7 @@ namespace ECA.Business.Service.Persons
 
             foreach (var participant in participants)
             {
-                updateEv = exchangeVisitorService.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+                updateEv = new UpdateExchVisitor();//exchangeVisitorService.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
                 updateEvs.Add(updateEv);
             }
 

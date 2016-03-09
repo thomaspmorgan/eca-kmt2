@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Validation.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -153,6 +154,11 @@ namespace ECA.Business.Queries.Models.Admin
                 }
             }
             return sb.ToString();
+        }
+
+        public USAddress GetUSAddress()
+        {
+            return null;
         }
     }
 }

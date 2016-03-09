@@ -1,20 +1,21 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Service.Sevis;
-using System.Xml.Linq;
-using ECA.Data;
+﻿using ECA.Business.Service;
 using ECA.Business.Service.Persons;
-using ECA.Business.Service;
-using System.Collections.Generic;
-using System.Linq;
+using ECA.Business.Service.Sevis;
+using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation;
-using System.Xml;
-using System.IO;
-using System.Xml.Serialization;
+using ECA.Business.Validation.Sevis.Finance;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -131,18 +132,18 @@ namespace ECA.Business.Test.Service.Sevis
                     PrgEndDate = new DateTime(2001, 4, 12),
                     CategoryCode = "05",
                     OccupationCategoryCode = "99",
-                    Biographical = new Biographical
-                    {
-                        FullName = new FullName
-                        {
-                            LastName = "Doe"
-                        },
-                        BirthDate = new DateTime(1988, 2, 23),
-                        Gender = "1",
-                        BirthCity = "Arlington",
-                        BirthCountryCode = "US",
-                        CitizenshipCountryCode = "US",
-                    },
+                    //Biographical = new Biographical
+                    //{
+                    //    FullName = new FullName
+                    //    {
+                    //        LastName = "Doe"
+                    //    },
+                    //    BirthDate = new DateTime(1988, 2, 23),
+                    //    Gender = "1",
+                    //    BirthCity = "Arlington",
+                    //    BirthCountryCode = "US",
+                    //    CitizenshipCountryCode = "US",
+                    //},
                     SubjectField = new SubjectField
                     {
                         SubjectFieldCode = "100",
@@ -152,14 +153,14 @@ namespace ECA.Business.Test.Service.Sevis
                     },
                     USAddress = null,
                     MailAddress = null,
-                    FinancialInfo = new FinancialInfo
-                    {
-                        ReceivedUSGovtFunds = false,
-                        ProgramSponsorFunds = "23000",
-                        OtherFunds = new OtherFunds
-                        { }
-                    },
-                    CreateDependent = null,
+                    //FinancialInfo = new FinancialInfo
+                    //{
+                    //    ReceivedUSGovtFunds = false,
+                    //    ProgramSponsorFunds = "23000",
+                    //    OtherFunds = new OtherFunds
+                    //    { }
+                    //},
+                    //CreateDependent = null,
                     AddTIPP = new AddTIPP
                     {
                         print7002 = false,
@@ -167,7 +168,6 @@ namespace ECA.Business.Test.Service.Sevis
                         ParticipantInfo = null,
                         TippSite = null
                     },
-                    ResidentialAddress = null,
                     AddSiteOfActivity = new AddSiteOfActivity
                     {
                         SiteOfActivitySOA = new SiteOfActivitySOA

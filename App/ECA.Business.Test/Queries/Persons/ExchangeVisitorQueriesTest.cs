@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Data;
-using ECA.Business.Queries.Persons;
-using ECA.Business.Validation.Model;
-using System.Collections.Generic;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Model.CreateEV;
+﻿using ECA.Business.Queries.Persons;
 using ECA.Business.Service.Admin;
+using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.Finance;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Test.Queries.Persons
 {
@@ -204,7 +203,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
             Assert.IsNull(biography.FullName.PassportName);
             Assert.AreEqual(dependent.PersonId, biography.PersonId);
-            Assert.AreEqual(residenceAddress.AddressId, biography.AddressId);
+            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
             Assert.AreEqual(gender.GenderId, biography.GenderId);
             Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
@@ -787,7 +786,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(person.NameSuffix, biography.FullName.Suffix);
             Assert.IsNull(biography.FullName.PassportName);
             Assert.AreEqual(person.PersonId, biography.PersonId);
-            Assert.AreEqual(residenceAddress.AddressId, biography.AddressId);
+            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
             Assert.AreEqual(gender.GenderId, biography.GenderId);
             Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
@@ -834,7 +833,7 @@ namespace ECA.Business.Test.Queries.Persons
             var cityOfBirth = new Location
             {
                 LocationId = 55,
-                LocationName = new string('a', BiographicalValidator.CITY_MAX_LENGTH + 1),
+                LocationName = new string('a', BiographyValidator.CITY_MAX_LENGTH + 1),
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
@@ -961,7 +960,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
 
-            Assert.AreEqual(cityOfBirth.LocationName.Substring(0, BiographicalValidator.CITY_MAX_LENGTH), biography.BirthCity);
+            Assert.AreEqual(cityOfBirth.LocationName.Substring(0, BiographyValidator.CITY_MAX_LENGTH), biography.BirthCity);
         }
 
         [TestMethod]
@@ -2222,7 +2221,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
-            Assert.AreEqual(residenceAddress.AddressId, biography.AddressId);
+            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
         }
 
         [TestMethod]
@@ -2354,7 +2353,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
             Assert.IsNull(biography.PermanentResidenceCountryCode);
-            Assert.IsNull(biography.AddressId);
+            Assert.IsNull(biography.PermanentResidenceAddressId);
         }
 
         [TestMethod]
@@ -2431,7 +2430,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
-            Assert.IsFalse(biography.AddressId.HasValue);
+            Assert.IsFalse(biography.PermanentResidenceAddressId.HasValue);
             Assert.IsNull(biography.PermanentResidenceCountryCode);
         }
 
@@ -2630,7 +2629,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(biography.PermanentResidenceCountryCode);
             Assert.IsFalse(biography.PhoneNumberId.HasValue);
             Assert.IsFalse(biography.EmailAddressId.HasValue);
-            Assert.IsFalse(biography.AddressId.HasValue);
+            Assert.IsFalse(biography.PermanentResidenceAddressId.HasValue);
         }
 
         #endregion
@@ -2770,151 +2769,6 @@ namespace ECA.Business.Test.Queries.Persons
             exchangeVisitor.ParticipantId = participant.ParticipantId + 1;
             result = ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(context, participant.ParticipantId).FirstOrDefault();
             Assert.IsNull(result);
-        }
-        #endregion
-
-        #region CreateGetUsAddressByAddressId
-        [TestMethod]
-        public void TestCreateGetUsAddressByAddressIdQuery_CheckProperties()
-        {
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
-
-            Action<USAddress> tester = (usAddress) =>
-            {
-                Assert.AreEqual(addressLocation.Street1, usAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, usAddress.Address2);
-                Assert.AreEqual(city.LocationName, usAddress.City);
-                Assert.AreEqual(division.LocationName, usAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, usAddress.PostalCode);
-            };
-            var serviceResult = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(context, address.AddressId).FirstOrDefault();
-            tester(serviceResult);
-        }
-
-        [TestMethod]
-        public void TestCreateGetUsAddressByAddressIdQuery_AddressDoesNotExist()
-        {
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
-
-            var serviceResult = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(context, address.AddressId).FirstOrDefault();
-            Assert.IsNotNull(serviceResult);
-
-            serviceResult = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(context, address.AddressId + 1).FirstOrDefault();
-            Assert.IsNull(serviceResult);
         }
         #endregion
 

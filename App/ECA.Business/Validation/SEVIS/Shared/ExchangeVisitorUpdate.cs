@@ -9,9 +9,9 @@ namespace ECA.Business.Validation.Model.Shared
     {
         public ExchangeVisitorUpdate()
         {
-            Biographical = new BiographicalUpdate();
-            Dependent = new UpdatedDependent();
-            FinancialInfo = new FinancialInfoUpdate();
+            //Biographical = new BiographicalUpdate();
+            //Dependent = new UpdatedDependent();
+            //FinancialInfo = new FinancialInfoUpdate();
             Program = new Program();
             Reprint = new ReprintFormUpdate();
             SiteOfActivity = new SiteOfActivityUpdate();
@@ -56,21 +56,16 @@ namespace ECA.Business.Validation.Model.Shared
         /// </summary>
         [XmlElement(IsNullable = true)]
         public string UserDefinedB { get; set; }
-
-        /// <summary>
-        /// Biographical information
-        /// </summary>
-        public BiographicalUpdate Biographical { get; set; }
         
         /// <summary>
         /// Edit dependent
         /// </summary>
-        public UpdatedDependent Dependent { get; set; }
+        //public UpdatedDependent Dependent { get; set; }
 
         /// <summary>
         /// Update financial info
         /// </summary>
-        public FinancialInfoUpdate FinancialInfo { get; set; }
+        //public FinancialInfoUpdate FinancialInfo { get; set; }
 
         /// <summary>
         /// Program events
