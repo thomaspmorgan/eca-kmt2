@@ -33,8 +33,8 @@ namespace ECA.Business.Test.Service.Sevis
             context = new TestEcaContext();
             participantService = new ParticipantService(context, null);
             exchangeVisitorService = new Mock<IExchangeVisitorService>();
-            participantPersonService = new ParticipantPersonsSevisService(context, exchangeVisitorService.Object, null);
-            service = new SevisBatchProcessingService(context, participantService, participantPersonService, null);
+            participantPersonService = new ParticipantPersonsSevisService(context, null);
+            service = new SevisBatchProcessingService(context, exchangeVisitorService.Object, participantService, participantPersonService, null);
         }
 
         [TestMethod]
@@ -268,7 +268,17 @@ namespace ECA.Business.Test.Service.Sevis
                 SubmitDate = DateTimeOffset.Now,
                 RetrieveDate = DateTimeOffset.Now,
                 SendXml = XElement.Parse(@"<root></root>"),
-                TransactionLogXml = XElement.Parse(@"<Root><Process><Record sevisID='N0000000001' requestID='123' userID='1'><Result status='0'><ErrorCode>S1056</ErrorCode><ErrorMessage>Invalid student visa type for this action</ErrorMessage></Result><Result status='0'><ErrorCode>S1048</ErrorCode><ErrorMessage>School Code is missing</ErrorMessage></Result></Record></Process></Root>")
+                TransactionLogXml = XElement.Parse(@"<Root><Process>
+                                                      <Record sevisID='N0000000001' requestID='123' userID='1'>
+                                                        <Result status='0'>
+                                                            <ErrorCode>S1056</ErrorCode>
+                                                            <ErrorMessage>Invalid student visa type for this action</ErrorMessage>
+                                                        </Result>
+                                                        <Result status='0'>
+                                                            <ErrorCode>S1048</ErrorCode>
+                                                            <ErrorMessage>School Code is missing</ErrorMessage>
+                                                        </Result>
+                                                    </Record></Process></Root>")
             };
             ParticipantType participantType = new ParticipantType
             {
