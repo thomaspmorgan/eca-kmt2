@@ -41,7 +41,12 @@ namespace ECA.Business.Sevis
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
-                var content = new StringContent(String.Format("batchid={0}&orgid={1}&userid={2}&xml={3}", batchId, OrgId, UserId, xml.ToString()));
+                var nameValueCollection = new Dictionary<string, string>();
+                nameValueCollection.Add("batchid", batchId.ToString());
+                nameValueCollection.Add("orgid", OrgId.ToString());
+                nameValueCollection.Add("userid", UserId.ToString());
+                nameValueCollection.Add("xml", xml.ToString());
+                var content = new FormUrlEncodedContent(nameValueCollection);
 
                 var response = await httpClient.PostAsync(UploadUri, content);
 
