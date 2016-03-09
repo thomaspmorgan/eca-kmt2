@@ -7,7 +7,7 @@ using ECA.Business.Validation.Model.Shared;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
-using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -316,34 +316,37 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Process SEVIS batch transaction log
         /// </summary>
+        /// <param name="user">User</param>
         /// <param name="batchId">Batch ID</param>
         public async Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
         {
-            string json = "";
             var batchLog = await GetByIdAsync(batchId);
             var xml = batchLog.TransactionLogXml;
             var doc = XDocument.Parse(xml.ToString());
-            XNamespace xmlns = "http://james.newtonking.com/projects/json";
             List<ParticipantSevisBatchProcessingResultDTO> results = new List<ParticipantSevisBatchProcessingResultDTO>();
 
-            foreach (XElement record in doc.Descendants("Record"))
+            foreach (XElement recordElement in doc.Descendants("Record"))
             {
-                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
-                var status = record.Descendants("Result").First().Attribute("status").Value;
-                var rows = record.Descendants("Result");
-
-                if (rows.Count() == 1)
+                var record = new ParticipantSevisBatchResultRecordDTO
                 {
-                    record.Add(new XElement("Result", ""));
-                    json = JsonConvert.SerializeXNode(record).Replace(",null]", "]");
-                }
-                else
-                {
-                    json = JsonConvert.SerializeXNode(record);
-                }
+                    participantId = Convert.ToInt32(recordElement.Attribute("requestID").Value),
+                    sevisId = recordElement.Attribute("sevisID").Value,
+                    userId = Convert.ToInt32(recordElement.Attribute("userID").Value)
+                };
 
+                foreach (XElement resultElement in recordElement.Descendants("Result"))
+                {
+                    var result = new ParticipantSevisBatchResultDTO
+                    {
+                        statusCode = Convert.ToInt32(resultElement.Attribute("status").Value),
+                        errorCode = resultElement.Descendants("ErrorCode").First().Value,
+                        errorMessage = resultElement.Descendants("ErrorMessage").First().Value
+                    };
+                    record.sevisResults.Add(result);
+                }
+                
                 // update participant person batch result
-                results.Add(await UpdateParticipant(participantID, status, json));
+                results.Add(await UpdateParticipant(record));
             }
 
             return results;
@@ -352,20 +355,17 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Update a participant record with sevis batch results
         /// </summary>
-        /// <param name="participantID"></param>
-        /// <param name="status"></param>
-        /// <param name="json"></param>
         /// <returns></returns>
-        private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
+        private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(ParticipantSevisBatchResultRecordDTO record)
         {
             var result = new ParticipantSevisBatchProcessingResultDTO();
-            
-            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
+            var json = new JavaScriptSerializer().Serialize(record);
+            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(record.participantId);
             participantPersonDTO.SevisBatchResult = json;
             
-            result.ParticipantId = participantID;
+            result.ParticipantId = record.participantId;
             result.ProjectId = participantPersonDTO.Participant.ProjectId;
-            if (status == "1")
+            if (record.sevisResults.First().statusCode == 1)
             {
                 result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
             }
