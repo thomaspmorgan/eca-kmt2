@@ -43,6 +43,9 @@ namespace ECA.Business.Validation.Model.CreateEV
     /// </summary>
     public class EcaAddTIPP : AddTIPP
     {
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public EcaAddTIPP()
         {
             this.print7002 = false;

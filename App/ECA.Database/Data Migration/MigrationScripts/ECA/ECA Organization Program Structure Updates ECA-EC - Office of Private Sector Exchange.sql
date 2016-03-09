@@ -1,6 +1,6 @@
 /* This script will update existing programs for a selected office or insert the ones that don't exist */
 
-/* Office Of Citizen Exchanges - Office of Private Sector Exchange ECA/EC */
+/* Office of Private Sector Exchange ECA/EC */
 
 /* Get the OrganizationId for the office */
 DECLARE @OfficeId int
@@ -107,7 +107,7 @@ while @i <= @max begin
       SET ProgramStatusId = @ActiveStatusId,
           Owner_OrganizationId = @Owner_OrganizationId,
           ParentProgram_ProgramId = @ParentProgramId,
-	  History_RevisedOn = CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
+	  History_RevisedOn = GETDATE(),
 	  History_RevisedBy = 1
       WHERE programid = @existingprogramid
     ELSE
@@ -117,8 +117,7 @@ while @i <= @max begin
            History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,
            ParentProgram_ProgramId,Owner_OrganizationId) 
       VALUES (@ActiveStatusId,@ProgramName,@ProgramName,CAST(N'2015-01-01T00:00:00.0000000-00:00' AS DateTimeOffset),
-              NULL,1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
-              1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),@ParentProgramId,@OfficeId)
+              NULL,1,GETDATE(),1,GETDATE(),@ParentProgramId,@OfficeId)
 
     set @i = @i + 1
 end

@@ -147,6 +147,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -213,6 +214,8 @@
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
@@ -525,7 +528,9 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
-    <None Include="Sevis\Model\create-updateexchangevisitor.csold" />
+    <Compile Include="Validation\SimpleValidationFailure.cs" />
+    <Compile Include="Validation\SimpleValidationResult.cs" />
+    <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
     <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\AddressErrorPath.cs" />
     <Compile Include="Validation\SEVIS\ErrorPaths\BirthDateErrorPath.cs" />
@@ -694,6 +699,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="SevisXSD.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />

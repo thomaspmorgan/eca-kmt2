@@ -2298,9 +2298,11 @@ namespace ECA.Business.Sevis.Model {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ResidentialAddressType {
         
-        private ContactNameType lCCoordinatorField;
+        private ResidentialAddressTypeLCCoordinator lCCoordinatorField;
         
         private string residentialTypeField;
+        
+        private ContactNameType pContactField;
         
         private ResidentialAddressTypeHostFamily hostFamilyField;
         
@@ -2308,7 +2310,7 @@ namespace ECA.Business.Sevis.Model {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ContactNameType LCCoordinator {
+        public ResidentialAddressTypeLCCoordinator LCCoordinator {
             get {
                 return this.lCCoordinatorField;
             }
@@ -2325,6 +2327,17 @@ namespace ECA.Business.Sevis.Model {
             }
             set {
                 this.residentialTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ContactNameType PContact {
+            get {
+                return this.pContactField;
+            }
+            set {
+                this.pContactField = value;
             }
         }
         
@@ -2357,9 +2370,57 @@ namespace ECA.Business.Sevis.Model {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+    public partial class ResidentialAddressTypeLCCoordinator {
+        
+        private string lastNameField;
+        
+        private string firstNameField;
+        
+        private string postalCodeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string LastName {
+            get {
+                return this.lastNameField;
+            }
+            set {
+                this.lastNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string FirstName {
+            get {
+                return this.firstNameField;
+            }
+            set {
+                this.firstNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string PostalCode {
+            get {
+                return this.postalCodeField;
+            }
+            set {
+                this.postalCodeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     public partial class ResidentialAddressTypeHostFamily {
         
-        private ContactNameType pContactField;
+        private string hostFamilyIndField;
         
         private ContactNameType sContactField;
         
@@ -2369,12 +2430,12 @@ namespace ECA.Business.Sevis.Model {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ContactNameType PContact {
+        public string HostFamilyInd {
             get {
-                return this.pContactField;
+                return this.hostFamilyIndField;
             }
             set {
-                this.pContactField = value;
+                this.hostFamilyIndField = value;
             }
         }
         
@@ -2422,6 +2483,8 @@ namespace ECA.Business.Sevis.Model {
         
         private string nameField;
         
+        private object pCTitleField;
+        
         private string phoneField;
         
         private string phoneExtField;
@@ -2434,6 +2497,17 @@ namespace ECA.Business.Sevis.Model {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public object PCTitle {
+            get {
+                return this.pCTitleField;
+            }
+            set {
+                this.pCTitleField = value;
             }
         }
         
@@ -10299,7 +10373,7 @@ namespace ECA.Business.Sevis.Model {
         
         private string userDefinedBField;
         
-        private NonImgBioType biographicalField;
+        private EVPersonTypeBiographical biographicalField;
         
         private short positionCodeField;
         
@@ -10351,7 +10425,7 @@ namespace ECA.Business.Sevis.Model {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public NonImgBioType Biographical {
+        public EVPersonTypeBiographical Biographical {
             get {
                 return this.biographicalField;
             }
@@ -10502,6 +10576,28 @@ namespace ECA.Business.Sevis.Model {
             }
             set {
                 this.residentialAddressField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+    public partial class EVPersonTypeBiographical : NonImgBioType {
+        
+        private string phoneNumberField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string PhoneNumber {
+            get {
+                return this.phoneNumberField;
+            }
+            set {
+                this.phoneNumberField = value;
             }
         }
     }
@@ -10670,10 +10766,6 @@ namespace ECA.Business.Sevis.Model {
         
         private ProgSubjectCodeType subjectFieldCodeField;
         
-        private string foreignDegreeLevelField;
-        
-        private string foreignFieldOfStudyField;
-        
         private string remarksField;
         
         /// <remarks/>
@@ -10684,28 +10776,6 @@ namespace ECA.Business.Sevis.Model {
             }
             set {
                 this.subjectFieldCodeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ForeignDegreeLevel {
-            get {
-                return this.foreignDegreeLevelField;
-            }
-            set {
-                this.foreignDegreeLevelField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ForeignFieldOfStudy {
-            get {
-                return this.foreignFieldOfStudyField;
-            }
-            set {
-                this.foreignFieldOfStudyField = value;
             }
         }
         
@@ -18631,10 +18701,6 @@ namespace ECA.Business.Sevis.Model {
         
         private string subjectFieldRemarksField;
         
-        private string foreignDegreeLevelField;
-        
-        private string foreignFieldOfStudyField;
-        
         private string remarksField;
         
         private bool printFormField;
@@ -18658,28 +18724,6 @@ namespace ECA.Business.Sevis.Model {
             }
             set {
                 this.subjectFieldRemarksField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ForeignDegreeLevel {
-            get {
-                return this.foreignDegreeLevelField;
-            }
-            set {
-                this.foreignDegreeLevelField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ForeignFieldOfStudy {
-            get {
-                return this.foreignFieldOfStudyField;
-            }
-            set {
-                this.foreignFieldOfStudyField = value;
             }
         }
         
@@ -19730,8 +19774,6 @@ namespace ECA.Business.Sevis.Model {
         
         private USAddrDoctorType uSAddressField;
         
-        private TravelNullableType travelInfoField;
-        
         private string emailAddressField;
         
         private string phoneNumberField;
@@ -19746,17 +19788,6 @@ namespace ECA.Business.Sevis.Model {
             }
             set {
                 this.uSAddressField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public TravelNullableType TravelInfo {
-            get {
-                return this.travelInfoField;
-            }
-            set {
-                this.travelInfoField = value;
             }
         }
         

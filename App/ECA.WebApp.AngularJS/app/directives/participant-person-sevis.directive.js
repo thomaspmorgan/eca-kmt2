@@ -63,6 +63,20 @@
                 
                 var notifyStatuses = ConstantsService.sevisStatuses;
                 
+                $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
+                    return CreateMessageBox(checked)
+                    .then(function (response) {
+                        if (response === checked) {
+                            $scope.updatesevisinfo({ participantId: $scope.participantid });
+                        } else {
+                            $scope.sevisinfo[checkboxId] = response;
+                        }
+                    });
+                    
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                }
+                
                 $scope.edit.openStartDatePicker = function ($event) {
                     return CreateMessageBox($scope.edit.isStartDatePickerOpen)
                     .then(function (response) {
@@ -172,6 +186,10 @@
                             cancelText: 'No',
                             okCallback: function () {
                                 userSection = true
+                                defer.resolve(userSection);
+                            },
+                            cancelCallback: function () {
+                                userSection = !userSection
                                 defer.resolve(userSection);
                             }
                         });

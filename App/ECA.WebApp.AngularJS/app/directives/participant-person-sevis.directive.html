@@ -87,24 +87,24 @@
 <div class="row row2" ng-show="view.DoSStatus">
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-change="updatesevisinfo({participantId: participantid})"/> Sent to DHS via RTI
+        <input type="checkbox" ng-model="sevisinfo.isSentToSevisViaRTI" ng-click="edit.onDosStatusChange($event, 'isSentToSevisViaRTI', sevisinfo.isSentToSevisViaRTI)" /> Sent to DHS via RTI
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-change="updatesevisinfo({participantId: participantid})"/> Cancelled
+        <input type="checkbox" ng-model="sevisinfo.isCancelled" ng-click="edit.onDosStatusChange($event, 'isCancelled', sevisinfo.isCancelled)" /> Cancelled
     </div>
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-change="updatesevisinfo({participantId: participantid})" /> Validated via RTI
+        <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" ng-change="updatesevisinfo({participantId: participantid})"/> Needs Update
+        <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" ng-click="edit.onDosStatusChange($event, 'isNeedsUpdate', sevisinfo.isNeedsUpdate)" /> Needs Update
     </div>
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
-        <input type="checkbox" ng-model="sevisinfo.isdS2019Printed" ng-change="updatesevisinfo({participantId: participantid})"/> DS 2019 Printed
+        <input type="checkbox" ng-model="sevisinfo.isdS2019Printed" ng-click="edit.onDosStatusChange($event, 'isdS2019Printed', sevisinfo.isdS2019Printed)" /> DS 2019 Printed
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isdS2019SentToTraveler" ng-change="updatesevisinfo({participantId: participantid})"/> DS 2019 Sent to Traveler
+        <input type="checkbox" ng-model="sevisinfo.isdS2019SentToTraveler" ng-click="edit.onDosStatusChange($event, 'isdS2019SentToTraveler', sevisinfo.isdS2019SentToTraveler)" /> DS 2019 Sent to Traveler
     </div>
 </div>
 <div class="form-group row row2">

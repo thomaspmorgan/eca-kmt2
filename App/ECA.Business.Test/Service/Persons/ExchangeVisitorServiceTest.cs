@@ -12,6 +12,9 @@ using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Core.Exceptions;
 using ECA.Business.Service.Admin;
+using Microsoft.QualityTools.Testing.Fakes;
+using ECA.Business.Queries.Models.Persons;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -719,7 +722,7 @@ namespace ECA.Business.Test.Service.Persons
             ExchangeVisitor exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                
+
             };
 
             context.SetupActions.Add(() =>
@@ -804,7 +807,7 @@ namespace ECA.Business.Test.Service.Persons
             ExchangeVisitorUpdate exchangeVisitor = null;
             var participantPerson = new ParticipantPerson
             {
-                
+
             };
 
             context.SetupActions.Add(() =>
@@ -3125,32 +3128,80 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestSetDependents_ExchangeVisitor()
+        public async Task TestSetDependents_ExchangeVisitor_NoDependents()
         {
             var participant = new Participant
             {
                 ParticipantId = 1,
             };
-            ExchangeVisitor exchangeVisitorUpdate = null;
+            ExchangeVisitor exchangeVisitor = null;
             context.SetupActions.Add(() =>
             {
-                exchangeVisitorUpdate = new ExchangeVisitor
+                exchangeVisitor = new ExchangeVisitor
                 {
 
                 };
             });
             Action tester = () =>
             {
-                Assert.IsNotNull(exchangeVisitorUpdate.CreateDependent);
-                Assert.AreEqual(0, exchangeVisitorUpdate.CreateDependent.Count());
+                Assert.IsNotNull(exchangeVisitor.CreateDependent);
+                Assert.AreEqual(0, exchangeVisitor.CreateDependent.Count());
             };
             context.Revert();
-            service.SetDependents(participant, exchangeVisitorUpdate);
+            service.SetDependents(participant, exchangeVisitor);
             tester();
 
             context.Revert();
-            await service.SetDependentsAsync(participant, exchangeVisitorUpdate);
+            await service.SetDependentsAsync(participant, exchangeVisitor);
             tester();
+        }
+
+        [TestMethod]
+        public async Task TestSetDependents_ExchangeVisitor_HasDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var dependents = new List<DependentBiographicalDTO>();
+                var dependent = new DependentBiographicalDTO
+                {
+                    FullName = new FullNameDTO()
+                };
+                dependents.Add(dependent);
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, participantId) =>
+                {
+                    return dependents.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
+                {
+                    return Task<List<SimplePersonDTO>>.FromResult(src.ToList());
+                });
+                var participant = new Participant
+                {
+                    ParticipantId = 1,
+                };
+                ExchangeVisitor exchangeVisitor = null;
+                context.SetupActions.Add(() =>
+                {
+                    exchangeVisitor = new ExchangeVisitor
+                    {
+
+                    };
+                });
+                Action tester = () =>
+                {
+                    Assert.IsNotNull(exchangeVisitor.CreateDependent);
+                    Assert.AreEqual(1, exchangeVisitor.CreateDependent.Count());
+                    var firstDto = exchangeVisitor.CreateDependent.First();
+                };
+                context.Revert();
+                service.SetDependents(participant, exchangeVisitor);
+                tester();
+
+                context.Revert();
+                await service.SetDependentsAsync(participant, exchangeVisitor);
+                tester();
+            }
+
         }
         #endregion
 
@@ -3503,7 +3554,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 ProjectId = 1,
                 VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            }; 
+            };
             var gender = new Gender
             {
                 GenderId = Gender.Male.Id,

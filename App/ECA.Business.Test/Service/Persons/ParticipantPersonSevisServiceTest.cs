@@ -23,8 +23,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestInit()
         {
             context = new TestEcaContext();
-            exchangeVisitorService = new Mock<IExchangeVisitorService>();
-            sevisService = new ParticipantPersonsSevisService(context, exchangeVisitorService.Object);
+            sevisService = new ParticipantPersonsSevisService(context, null);
         }
 
         [TestMethod]

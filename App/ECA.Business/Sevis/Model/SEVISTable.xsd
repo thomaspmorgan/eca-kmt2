@@ -4129,4 +4129,23 @@
 			<!-- Year -->
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="EVHostFamilyIndicator">
+		<xs:annotation>
+			<xs:documentation>Secondary Student Host Family Indicator:  ARRV - Arival, PERM - Permanent, TEMP - Temporary</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ARRV"/>
+			<xs:enumeration value="PERM"/>
+			<xs:enumeration value="TEMP"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CitizenshipStatusType">
+		<xs:annotation>
+			<xs:documentation>Citizenship Status type</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="03"/>
+			<xs:enumeration value="04"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>
