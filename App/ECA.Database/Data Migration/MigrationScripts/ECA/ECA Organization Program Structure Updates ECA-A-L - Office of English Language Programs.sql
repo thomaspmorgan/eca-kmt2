@@ -32,17 +32,17 @@ VALUES
 ,('English Language Fellows/Specialists',NULL,@OfficeId)
 ,('E-Teacher',NULL,@OfficeId)
 ,('English Teaching Forum',NULL,@OfficeId)
-,('American English website',NULL,@OfficeId)
-,('American English social media',NULL,@OfficeId)
-,('Print materials',NULL,@OfficeId)
+,('American English Website',NULL,@OfficeId)
+,('American English Social Media',NULL,@OfficeId)
+,('Print Materials',NULL,@OfficeId)
 
 
 --Program/Subprogram
-,('Learner scholarships','Access',@OfficeId)
-,('Teacher training','Access',@OfficeId)
-,('U.S.-based exchanges','Access',@OfficeId)
-,('Content for learners','Access',@OfficeId)
-,('Alumni programming','Access',@OfficeId)
+,('Learner Scholarships','Access',@OfficeId)
+,('Teacher Training','Access',@OfficeId)
+,('U.S.-Based Exchanges','Access',@OfficeId)
+,('Content for Learners','Access',@OfficeId)
+,('Alumni Programming','Access',@OfficeId)
 ,('EL Fellows','English Language Fellows/Specialists',@OfficeId)
 ,('EL Specialists','English Language Fellows/Specialists',@OfficeId)
 ,('Webinars','English Language Fellows/Specialists',@OfficeId)
@@ -51,7 +51,7 @@ VALUES
 ,('Open Educational Resources','E-Teacher',@OfficeId)
 ,('Print','English Teaching Forum',@OfficeId)
 ,('Digital','English Teaching Forum',@OfficeId)
-,('Facebook','American English social media',@OfficeId)
+,('Facebook','American English Social Media',@OfficeId)
 
 
 

@@ -12,7 +12,7 @@ SELECT @ActiveStatusId = programstatusid FROM dbo.programstatus WHERE status = '
 
 /* Get the 'Completed' program status ID */
 DECLARE @CompletedStatusId int
-SELECT @CompletedStatusId = programstatusid FROM dbo.programstatus WHERE status = 'Active'
+SELECT @CompletedStatusId = programstatusid FROM dbo.programstatus WHERE status = 'Completed'
 
 /* Get the 'Other' program status ID */
 DECLARE @OtherStatusId int
@@ -21,7 +21,7 @@ SELECT @OtherStatusId = programstatusid FROM dbo.programstatus WHERE status = 'O
 /* Set the Program status to 'Other' for all existing ACTIVE programs in this office - this will be changed to Active with update or insert */
 UPDATE dbo.program
 SET ProgramStatusId = @OtherStatusId
-WHERE owner_organizationid = @OfficeId AND programstatusid = @ActiveStatusId 
+WHERE owner_organizationid = @OfficeId --AND programstatusid = @ActiveStatusId 
 
 /* Create a temp table and store the program list */
 DECLARE @Programs TABLE(RowID int not null identity(1,1) primary key,
@@ -161,43 +161,34 @@ while @i <= @max begin
     /* Get the existing ProgramId */
     SET @existingprogramid = NULL
     /* Need to see if program exists */
-    IF @ParentProgramId IS NULL
-      SELECT @existingProgramId = programid 
-        FROM dbo.Program 
-       WHERE name = @ProgramName AND ParentProgram_ProgramId IS NULL AND owner_organizationid = @Owner_OrganizationId
-    ELSE
-      SELECT @existingProgramId = programid 
-        FROM dbo.Program 
-       WHERE name = @ProgramName AND ParentProgram_ProgramId = @ParentProgramId AND owner_organizationid = @Owner_OrganizationId
+    --IF @ParentProgramId IS NULL
+    SELECT @existingProgramId = programid 
+      FROM dbo.Program 
+     WHERE name = @ProgramName 
+       AND (ParentProgram_ProgramId IS NULL AND @ParentProgramId IS NULL OR ParentProgram_ProgramId = @ParentProgramId) 
+       AND owner_organizationid = @Owner_OrganizationId
+    --ELSE
+    --  SELECT @existingProgramId = programid 
+    --    FROM dbo.Program 
+    --   WHERE name = @ProgramName AND ParentProgram_ProgramId = @ParentProgramId AND owner_organizationid = @Owner_OrganizationId
 
     IF @existingprogramid IS NOT NULL
       /* Update the existing program - if active assign null enddate if enddate was previously generated */
       UPDATE dbo.program 
-      SET ProgramStatusId = CASE 
-                               WHEN ProgramStatusId = @OtherStatusId THEN @ActiveStatusId
-                               WHEN CAST(enddate AS DATE) <= CONVERT (date, GETDATE()) THEN @CompletedStatusId
-                               ELSE ProgramStatusId
-                            END,
-          EndDate = CASE 
-                      WHEN CAST(enddate AS Date) = '2016-01-01' THEN NULL
-		      WHEN CAST(enddate AS Date) < CAST(startdate AS Date) THEN NULL
-                      ELSE enddate
-                    END,
+      SET ProgramStatusId = @ActiveStatusId,
           Owner_OrganizationId = @Owner_OrganizationId,
           ParentProgram_ProgramId = @ParentProgramId,
-	  History_RevisedOn = CAST(N'2015-09-24T00:00:00.0000000-00:00' AS DateTimeOffset),
+	  History_RevisedOn = GETDATE(),
 	  History_RevisedBy = 1
       WHERE programid = @existingprogramid
-    ELSE
-      /* Add the new program as an Active Program */
+    ELSE      
+     /* Add the new program as an Active Program */
       INSERT 
       INTO dbo.program
           (ProgramStatusId,Name,Description,StartDate,EndDate,
-           History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,
-           ParentProgram_ProgramId,Owner_OrganizationId) 
+           History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,ParentProgram_ProgramId,Owner_OrganizationId) 
       VALUES (@ActiveStatusId,@ProgramName,@ProgramName,CAST(N'2015-01-01T00:00:00.0000000-00:00' AS DateTimeOffset),
-              NULL,1,CAST(N'2015-09-24T00:00:00.0000000-00:00' AS DateTimeOffset),
-              1,CAST(N'2015-09-24T00:00:00.0000000-00:00' AS DateTimeOffset),@ParentProgramId,@OfficeId)
+              NULL,1,GETDATE(),1,GETDATE(),@ParentProgramId,@OfficeId)
 
     set @i = @i + 1
 end

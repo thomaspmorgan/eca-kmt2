@@ -29,13 +29,13 @@ INSERT INTO @Programs (ProgramName,ParentProgramName,Owner_OrganizationId)
 VALUES 
 --Program
 
-('Arts Envoy',NULL,@OfficeId)
+('Arts Envoys',NULL,@OfficeId)
 ,('American Film Showcase',NULL,@OfficeId)
 ,('American Music Abroad',NULL,@OfficeId)
 ,('DanceMotion USA',NULL,@OfficeId)
 ,('Next Level',NULL,@OfficeId) 
 ,('American Arts Incubator',NULL,@OfficeId)
-,('Community Engagement through Mural Arts',NULL,@OfficeId)
+,('Community Engagement Through Mural Arts',NULL,@OfficeId)
 ,('One Beat',NULL,@OfficeId) 
 ,('Center Stage',NULL,@OfficeId)
 ,('International Writing Program',NULL,@OfficeId)
@@ -44,29 +44,8 @@ VALUES
 ,('U.S. Architecture Biennale',NULL,@OfficeId)
 ,('Biennale - U.S. Pavilion Support',NULL,@OfficeId)
 
-
-
 --Program/Subprogram
-,('American Film Showcase FY13','American Film Showcase',@OfficeId)
-,('American Music Abroad FY13','American Music Abroad',@OfficeId)
-,('DanceMotion USA FY13','DanceMotion USA',@OfficeId)
-,('Next Level FY13','Next Level',@OfficeId)
-,('American Arts Incubator','American Arts Incubator',@OfficeId)
-,('Community Engagement through Mural Arts','Community Engagement through Mural Arts',@OfficeId)
-,('One Beat FY13','One Beat',@OfficeId)
-,('Center Stage FY12','Center Stage',@OfficeId)
-,('International Writing Program FY13','International Writing Program',@OfficeId)
-,('Museums Connect FY13','Museums Connect',@OfficeId)
-,('U.S. Art Biennale FY12','U.S. Art Biennale',@OfficeId)
-,('U.S. Architecture Biennale FY13','U.S. Architecture Biennale',@OfficeId)
-,('Biennale - U.S. Pavilion Support FY13','Biennale - U.S. Pavilion Support',@OfficeId)
-
-
-
 --Program/Subprogram
-
-
-
 
 /*  PROCESS STARTS HERE */
 
@@ -114,7 +93,7 @@ while @i <= @max begin
       SET ProgramStatusId = @ActiveStatusId,
           Owner_OrganizationId = @Owner_OrganizationId,
           ParentProgram_ProgramId = @ParentProgramId,
-	  History_RevisedOn = CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
+	  History_RevisedOn = GETDATE(),
 	  History_RevisedBy = 1
       WHERE programid = @existingprogramid
     ELSE
@@ -124,8 +103,8 @@ while @i <= @max begin
            History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,
            ParentProgram_ProgramId,Owner_OrganizationId) 
       VALUES (@ActiveStatusId,@ProgramName,@ProgramName,CAST(N'2015-01-01T00:00:00.0000000-00:00' AS DateTimeOffset),
-              NULL,1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
-              1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),@ParentProgramId,@OfficeId)
+              NULL,1,GETDATE(),
+              1,GETDATE(),@ParentProgramId,@OfficeId)
 
     set @i = @i + 1
 end
