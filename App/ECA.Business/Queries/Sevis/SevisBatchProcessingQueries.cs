@@ -95,7 +95,7 @@ namespace ECA.Business.Queries.Sevis
         public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForDownload(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var forUpload = context.SevisBatchProcessings.Where(x => x.RetrieveDate != null && x.TransactionLogString != null 
+            var forUpload = context.SevisBatchProcessings.Where(x => x.RetrieveDate == null && x.TransactionLogString == null 
                                                                 && x.UploadDispositionCode == successCode);
 
             return forUpload.Select(x => new SevisBatchProcessingDTO

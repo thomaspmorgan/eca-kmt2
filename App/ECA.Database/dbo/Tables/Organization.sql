@@ -4,6 +4,7 @@
 	[OfficeSymbol]                      NVARCHAR (128)     NULL,
     [Description]                       NVARCHAR (3000)     NOT NULL,
     [Status]                            NVARCHAR (20)     NOT NULL,
+	[OrganizationStatusId]				INT					NULL,
     [Name]                              NVARCHAR (600)     NOT NULL,
     [Website]                           NVARCHAR (2000)     NULL,
     [History_CreatedBy]                 INT                NOT NULL,
@@ -13,7 +14,8 @@
     [ParentOrganization_OrganizationId] INT                NULL,
     CONSTRAINT [PK_dbo.Organization] PRIMARY KEY CLUSTERED ([OrganizationId] ASC),
     CONSTRAINT [FK_dbo.Organization_dbo.Organization_ParentOrganization_OrganizationId] FOREIGN KEY ([ParentOrganization_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
-    CONSTRAINT [FK_dbo.Organization_dbo.OrganizationType_OrganizationTypeId] FOREIGN KEY ([OrganizationTypeId]) REFERENCES [dbo].[OrganizationType] ([OrganizationTypeId]) ON DELETE CASCADE
+    CONSTRAINT [FK_dbo.Organization_dbo.OrganizationType_OrganizationTypeId] FOREIGN KEY ([OrganizationTypeId]) REFERENCES [dbo].[OrganizationType] ([OrganizationTypeId]) ON DELETE CASCADE, 
+    CONSTRAINT [FK_dbo.Organization_dbo.OrganizationStatus_OrganizationStatusId] FOREIGN KEY ([OrganizationStatusId]) REFERENCES [dbo].[OrganizationStatus]([OrganizationStatusId])
 );
 
 

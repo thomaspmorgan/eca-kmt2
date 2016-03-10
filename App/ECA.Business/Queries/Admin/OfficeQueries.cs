@@ -43,7 +43,7 @@ namespace ECA.Business.Queries.Admin
                         where Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(office.OrganizationTypeId)
                         select new OfficeDTO
                         {
-                            Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
+                            Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.Position == null ? x.FullName : x.FullName + " (" + x.Position + ")" }),
                             Description = office.Description,
                             Goals = goals.OrderBy(x => x.GoalName).Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = office.OrganizationId,

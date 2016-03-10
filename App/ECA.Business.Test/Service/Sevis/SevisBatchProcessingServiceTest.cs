@@ -114,6 +114,83 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(sbpDTOs.ElementAt(1).BatchId, sbp2.BatchId);
         }
 
+
+        [TestMethod]
+        public void TestSevisBatchProcessing_GetSevisBatchProcessingDTOsForDownload()
+        {
+            var sbp1 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 1,
+                SendXml = XElement.Parse("<root><e1>teste1</e1></root>")
+            };
+
+            var sbp2 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 2,
+                SendXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                SubmitDate = new DateTime(2012, 12, 31),
+                UploadDispositionCode = "S0000"
+            };
+
+            var sbp3 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 3,
+                SendXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                SubmitDate = new DateTime(2012, 12, 31),
+                UploadDispositionCode = "S0000"
+            };
+            context.SevisBatchProcessings.Add(sbp1);
+            context.SevisBatchProcessings.Add(sbp2);
+            context.SevisBatchProcessings.Add(sbp3);
+
+            var sbpDTOs = service.GetSevisBatchesToDownload();
+
+            Assert.IsTrue(sbpDTOs.Count() == 2);
+            Assert.AreEqual(sbpDTOs.ElementAt(0).BatchId, sbp2.BatchId);
+            Assert.AreEqual(sbpDTOs.ElementAt(1).BatchId, sbp3.BatchId);
+        }
+
+
+        [TestMethod]
+        public void TestSevisBatchProcessing_GetSevisBatchProcessingDTOsForProcessing()
+        {
+            var sbp1 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 1,
+                SendXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                TransactionLogXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                SubmitDate = new DateTime(2012, 12, 1),
+                RetrieveDate = new DateTime(2012, 12, 2),
+                DownloadDispositionCode = "S0000"
+            };
+
+            var sbp2 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 2,
+                SendXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                TransactionLogXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                SubmitDate = new DateTime(2012, 12, 1),
+                RetrieveDate = new DateTime(2012, 12, 2),
+                DownloadDispositionCode = "S0000"
+            };
+
+            var sbp3 = new ECA.Data.SevisBatchProcessing
+            {
+                BatchId = 3,
+                SendXml = XElement.Parse("<root><e1>teste1</e1></root>"),
+                SubmitDate = new DateTime(2012, 12, 31)
+            };
+            context.SevisBatchProcessings.Add(sbp1);
+            context.SevisBatchProcessings.Add(sbp2);
+            context.SevisBatchProcessings.Add(sbp3);
+
+            var sbpDTOs = service.GetSevisBatchesToProcess();
+
+            Assert.IsTrue(sbpDTOs.Count() == 2);
+            Assert.AreEqual(sbpDTOs.ElementAt(0).BatchId, sbp1.BatchId);
+            Assert.AreEqual(sbpDTOs.ElementAt(1).BatchId, sbp2.BatchId);
+        }
+
         /// <summary>
         /// Validate that object is serialized to valid XML
         /// </summary>
