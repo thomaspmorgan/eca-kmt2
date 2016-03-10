@@ -47,6 +47,21 @@ namespace ECA.Business.Validation
         }
 
         /// <summary>
+        /// Returns the EVCategoryCodeType for the given string value.
+        /// </summary>
+        /// <returns>The EVCategoryCodeType for the given string value.</returns>
+        public static EVCategoryCodeType GetEVCategoryCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            var itemKey = "Item";
+            if (!value.StartsWith(itemKey))
+            {
+                value = itemKey + value;
+            }
+            return GetCodeType<EVCategoryCodeType>(value);
+        }
+
+        /// <summary>
         /// Returns the CntryCodeWithoutType for the given string value.
         /// </summary>
         /// <returns>The CntryCodeWithoutType for the given string value.</returns>
@@ -84,6 +99,16 @@ namespace ECA.Business.Validation
         {
             Contract.Requires(value != null, "The string value must not be null.");
             return GetCodeType<InternationalOrgCodeType>(value);
+        }
+
+        /// <summary>
+        /// Returns the NameSuffixCodeType for the given string value.
+        /// </summary>
+        /// <returns>The NameSuffixCodeType for the given string value.</returns>
+        public static NameSuffixCodeType GetNameSuffixCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<NameSuffixCodeType>(value.Replace(".", String.Empty));
         }
 
         /// <summary>

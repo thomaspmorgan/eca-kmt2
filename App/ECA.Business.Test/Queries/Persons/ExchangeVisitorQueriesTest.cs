@@ -2836,7 +2836,6 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(biography.EmailAddress);
             Assert.IsNull(biography.PermanentResidenceCountryCode);
             Assert.IsNull(biography.MailAddress);
-            Assert.IsNull(biography.USAddress);
 
             Assert.IsFalse(biography.PhoneNumberId.HasValue);
             Assert.IsFalse(biography.EmailAddressId.HasValue);

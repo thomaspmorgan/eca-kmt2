@@ -49,7 +49,6 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
                 NumberOfCitizenships = 2000,
                 PermanentResidenceAddressId = residenceAddress.AddressId,
                 PhoneNumberId = 5,
-                USAddress = usAddress
             };
 
             var person = model.GetPerson();

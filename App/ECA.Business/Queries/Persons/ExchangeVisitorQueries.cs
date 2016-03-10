@@ -171,7 +171,6 @@ namespace ECA.Business.Queries.Persons
                             PersonId = biography.PersonId,
                             ParticipantId = participantId,
                             MailAddress = biography.MailAddress,
-                            USAddress = biography.USAddress,
                             PhoneNumber = biography.PhoneNumber,
                             PhoneNumberId = biography.PhoneNumberId,
                             PositionCode = biography.PositionCode,
