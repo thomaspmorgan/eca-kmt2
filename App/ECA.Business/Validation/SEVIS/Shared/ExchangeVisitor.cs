@@ -4,13 +4,15 @@ using ECA.Business.Validation.Model.Shared;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
     /// <summary>
     /// Exchange visitor information
     /// </summary>
-    [Validator(typeof(ExchangeVisitorValidator))]
+    //[Validator(typeof(ExchangeVisitorValidator))]
     public class ExchangeVisitor
     {
         public ExchangeVisitor()

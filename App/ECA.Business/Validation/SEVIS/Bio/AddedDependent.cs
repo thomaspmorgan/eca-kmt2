@@ -11,7 +11,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// <summary>
     /// The AddedDependentBiography is used when an exchange visitor has received a sevis id and a dependent must be added to that participant.
     /// </summary>
-    public class AddedDependent : Dependent, IFormPrintable, IUserDefinable
+    public class AddedDependent : Dependent, IFormPrintable
     {
         /// <summary>
         /// Gets or sets the print form flag.

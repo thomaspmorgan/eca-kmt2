@@ -132,15 +132,15 @@ namespace ECA.Business.Service.Persons
             List<UpdateExchVisitor> updateEVs, int programId, User user)
         {
             // create batch header
-            var batchHeader = new BatchHeader
-            {
-                BatchID = DateTime.Today.ToString(),
-                OrgID = programId.ToString()
-            };
+            //var batchHeader = new BatchHeader
+            //{
+            //    BatchID = DateTime.Today.ToString(),
+            //    OrgID = programId.ToString()
+            //};
             var createEVBatch = new SEVISBatchCreateUpdateEV
             {
                 userID = user.Id.ToString(),
-                BatchHeader = batchHeader,
+                //BatchHeader = batchHeader,
                 UpdateEV = updateEVs,
                 CreateEV = createEVs
             };

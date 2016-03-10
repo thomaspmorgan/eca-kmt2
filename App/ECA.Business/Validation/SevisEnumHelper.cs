@@ -57,6 +57,36 @@ namespace ECA.Business.Validation
         }
 
         /// <summary>
+        /// Returns the StateCodeType for the given string value.
+        /// </summary>
+        /// <returns>The StateCodeType for the given string value.</returns>
+        public static StateCodeType GetStateCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<StateCodeType>(value);
+        }
+
+        /// <summary>
+        /// Returns the GovAgencyCodeType for the given string value.
+        /// </summary>
+        /// <returns>The GovAgencyCodeType for the given string value.</returns>
+        public static GovAgencyCodeType GetGovAgencyCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<GovAgencyCodeType>(value);
+        }
+
+        /// <summary>
+        /// Returns the InternationalOrgCodeType for the given string value.
+        /// </summary>
+        /// <returns>The InternationalOrgCodeType for the given string value.</returns>
+        public static InternationalOrgCodeType GetInternationalOrgCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<InternationalOrgCodeType>(value);
+        }
+
+        /// <summary>
         /// Returns the DependentCodeType for the given string value.
         /// </summary>
         /// <returns>The DependentCodeType for the given string value.</returns>

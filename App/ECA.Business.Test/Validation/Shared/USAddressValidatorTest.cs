@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.SEVIS;
+﻿using ECA.Business.Validation.Model.Sevis;
+using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.SEVIS.ErrorPaths;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Test.Validation.Shared
 {

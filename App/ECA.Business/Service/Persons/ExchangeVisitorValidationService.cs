@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
@@ -181,7 +182,7 @@ namespace ECA.Business.Service.Persons
 		public ValidationResult DoGetParticipantBiographicalValidationResult(BiographicalDTO biography, ParticipantPerson person)
         {
             Contract.Requires(biography != null, "The biography should not be null here.");
-            var result = this.PersonBiographyValidator.Validate(biography.GetPersonBiography());
+            var result = this.PersonBiographyValidator.Validate(biography.GetPerson());
             return result;
         }
         #endregion

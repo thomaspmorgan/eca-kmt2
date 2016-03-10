@@ -1,12 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
-using ECA.Business.Validation.Model;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -86,7 +80,8 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
             Contract.Requires(this.USAddress != null, "The us address should be specified.");
-            return new SEVISEVBatchTypeExchangeVisitorBiographical
+
+            var instance = new SEVISEVBatchTypeExchangeVisitorBiographical
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
@@ -100,18 +95,32 @@ namespace ECA.Business.Validation.Sevis.Bio
                 Remarks = this.Remarks,
                 BirthCountryCodeSpecified = this.BirthCountryCodeSpecified,
                 BirthDateSpecified = this.BirthDateSpecified,
-                USAddress = this.USAddress.GetUSAddressDoctorType(),
                 CitizenshipCountryCodeSpecified = this.CitizenshipCountryCodeSpecified,
                 GenderSpecified = this.GenderSpecified,
-                MailAddress = this.MailAddress != null ? this.MailAddress.GetUSAddressDoctorType() : null,
                 PermanentResidenceCountryCodeSpecified = this.PermanentResidenceCountryCodeSpecified,
                 PhoneNumber = this.PhoneNumber,
                 PositionCode = (short)this.PositionCode,
                 PositionCodeSpecified = this.PositionCodeSpecified,
                 ResidentialAddress = null,
                 BirthCountryReason = null,
-                
+
+                USAddress = null,
+                MailAddress = null
             };
+
+            if (this.USAddress != null)
+            {
+                var address = this.USAddress.GetUSAddress();
+                var usAddress = address.GetUSAddressDoctorType();
+                instance.USAddress = usAddress;
+            }
+            if (this.MailAddress != null)
+            {
+                var address = this.MailAddress.GetUSAddress();
+                var usAddress = address.GetUSAddressDoctorType();
+                instance.MailAddress = usAddress;
+            }
+            return instance;
         }
 
         /// <summary>

@@ -1,5 +1,8 @@
-﻿using ECA.Business.Sevis.Model;
+﻿using ECA.Business.Service.Admin;
+using ECA.Business.Sevis.Model;
+using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Sevis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +16,22 @@ namespace ECA.Business.Queries.Models.Admin
     /// </summary>
     public class AddressDTO
     {
+        private Action throwIfCountryIsNotUnitedStates;
+
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
+        public AddressDTO()
+        {
+            throwIfCountryIsNotUnitedStates = () =>
+            {
+                if(String.IsNullOrWhiteSpace(this.Country) || this.Country != LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
+                {
+                    throw new NotSupportedException(String.Format("The address with id [{0}] is not in the united states.", this.AddressId));
+                }
+            };
+        }
+
         /// <summary>
         /// Gets or sets the address id.
         /// </summary>
@@ -157,14 +176,21 @@ namespace ECA.Business.Queries.Models.Admin
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Returns a Sevis USAddress instance from this address.
+        /// </summary>
+        /// <returns>A Sevis USAddress instance from this address.</returns>
         public USAddress GetUSAddress()
         {
-            throw new NotImplementedException();
-        }
-
-        public USAddrDoctorType GetUSAddressDoctorType()
-        {
-            throw new NotImplementedException();
+            throwIfCountryIsNotUnitedStates();
+            return new USAddress
+            {
+                Address1 = this.Street1,
+                Address2 = this.Street2,
+                City = this.City,
+                PostalCode = this.PostalCode,
+                State = this.Division
+            };
         }
     }
 }

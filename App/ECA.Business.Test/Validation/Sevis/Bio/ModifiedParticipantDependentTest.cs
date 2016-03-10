@@ -32,8 +32,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = "FR",
                 PrintForm = true,
                 Relationship = "01",
-                UserDefinedA = "defined a",
-                UserDefinedB = "defined b"
             };
 
             var modifiedParticipantDependent = new ModifiedParticipantDependent();
@@ -71,8 +69,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = "FR",
                 PrintForm = true,
                 Relationship = "01",
-                UserDefinedA = "defined a",
-                UserDefinedB = "defined b"
             };
 
             var modifiedParticipantDependent = new ModifiedParticipantDependent();

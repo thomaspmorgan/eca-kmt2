@@ -96,20 +96,21 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public int NumberOfCitizenships { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public AddressDTO USAddress { get; set; }
         
         /// <summary>
         /// Gets or sets the mailing address i.e. the person's host address in the united states.
         /// </summary>
         public AddressDTO MailAddress { get; set; }
-
+        
         /// <summary>
-        /// Gets or sets the mailing address id.
+        /// Returns a person instance from this biography.
         /// </summary>
-        public int? MailAddressId { get; set; }
-
-
-        public Person GetPersonBiography()
+        /// <returns>A person instance.</returns>
+        public Person GetPerson()
         {
             return new Person
             {
@@ -122,76 +123,8 @@ namespace ECA.Business.Queries.Models.Persons
                 FullName = this.FullName.GetFullName(),
                 Gender = this.Gender,
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-                PhoneNumber = this.PhoneNumber
+                PhoneNumber = this.PhoneNumber,                
             };
         }
-
-        /// <summary>
-        /// Returns a sevis biographical model instance.
-        /// </summary>
-        /// <returns>The biographical model instance.</returns>
-        //public Biographical GetBiographical()
-        //{
-        //    Contract.Requires(this.FullName != null, "The full name must not be null.");
-        //    return new Biographical
-        //    {
-        //        BirthCity = this.BirthCity,
-        //        BirthCountryCode = this.BirthCountryCode,
-        //        BirthCountryReason = this.BirthCountryReason,
-        //        BirthDate = this.BirthDate,
-        //        CitizenshipCountryCode = this.CitizenshipCountryCode,
-        //        EmailAddress = this.EmailAddress,
-        //        FullName = this.FullName.GetFullName(),
-        //        Gender = this.Gender,
-        //        PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-        //    };
-        //}
-
-        /// <summary>
-        /// Returns a sevis biographical update model instance.
-        /// </summary>
-        /// <returns>The biographical update instance.</returns>
-        //public BiographicalUpdate GetBiographicalUpdate()
-        //{
-        //    Contract.Requires(this.FullName != null, "The full name must not be null.");
-        //    return new BiographicalUpdate
-        //    {
-        //        BirthCity = this.BirthCity,
-        //        BirthCountryCode = this.BirthCountryCode,
-        //        BirthCountryReason = this.BirthCountryReason,
-        //        BirthDate = this.BirthDate,
-        //        CitizenshipCountryCode = this.CitizenshipCountryCode,
-        //        EmailAddress = this.EmailAddress,
-        //        FullName = this.FullName.GetFullName(),
-        //        Gender = this.Gender,
-        //        PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-        //        PhoneNumber = this.PhoneNumber,
-        //        PositionCode = this.PositionCode,
-        //        printForm = true,
-        //        Remarks = String.Empty,
-        //    };
-        //}
-        //this relates to NonImgBioType in sevis xsd
-    }
-
-    /// <summary>
-    /// A DependentBiographicalDTO contains biography information for participating person's dependent.
-    /// </summary>
-    public class DependentBiographicalDTO : BiographicalDTO
-    {
-        /// <summary>
-        /// Gets or sets the relationship.
-        /// </summary>
-        public string Relationship { get; set; }
-
-        /// <summary>
-        /// Gets or sets the person type id.
-        /// </summary>
-        public int PersonTypeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sevis id.
-        /// </summary>
-        public string SevisId { get; set; }
-    }
+    }    
 }

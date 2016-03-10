@@ -8,8 +8,8 @@ namespace ECA.Business.Validation.Sevis
 {
     public interface IUserDefinable
     {
-        string UserDefinedA { get; set; }
+        string UserDefinedA { get; }
 
-        string UserDefinedB { get; set; }
+        string UserDefinedB { get; }
     }
 }

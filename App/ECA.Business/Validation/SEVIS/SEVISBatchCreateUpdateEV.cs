@@ -10,13 +10,12 @@ namespace ECA.Business.Validation
     /// <summary>
     /// SEVIS batch create or update exchange visitors
     /// </summary>
-    [Validator(typeof(SEVISBatchCreateUpdateEVValidator))]
     [Serializable]
     public class SEVISBatchCreateUpdateEV
     {
         public SEVISBatchCreateUpdateEV()
         {
-            BatchHeader = new BatchHeader();
+            //BatchHeader = new BatchHeader();
             CreateEV = new List<CreateExchVisitor>();
             UpdateEV = new List<UpdateExchVisitor>();
         }
@@ -30,7 +29,7 @@ namespace ECA.Business.Validation
         /// <summary>
         /// Sevis batch header
         /// </summary>
-        public BatchHeader BatchHeader { get; set; }
+        //public BatchHeader BatchHeader { get; set; }
 
         /// <summary>
         /// Create an exchange visitor record (250 max)

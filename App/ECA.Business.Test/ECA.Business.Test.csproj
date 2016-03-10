@@ -149,52 +149,6 @@
     <Reference Include="System.Core.4.0.0.0.Fakes">
       <HintPath>FakesAssemblies\System.Core.4.0.0.0.Fakes.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.Entity.4.0.0.0.Fakes">
-      <HintPath>FakesAssemblies\System.Data.Entity.4.0.0.0.Fakes.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.0\lib\net45\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.0\lib\net45\System.Web.Razor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -227,6 +181,7 @@
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\BiographicalDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\DependentBiographicalDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
@@ -383,6 +338,7 @@
     <Compile Include="Validation\ErrorPaths\ProgramCategoryCodeErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedPersonTest.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\BiographyValidatorTest.cs" />
@@ -397,9 +353,13 @@
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\InternationalValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherValidatorTest.cs" />
-    <None Include="Validation\Shared\ExchangeVisitorValidatorTest.csold" />
+    <None Include="Validation\Sevis\ExchangeVisitorValidatorTest.csold" />
+    <Compile Include="Validation\Sevis\Finance\OtherTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovtTest.cs" />
+    <Compile Include="Validation\Sevis\USAddressTest.cs" />
     <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
-    <Compile Include="Validation\Shared\EcaAddTIPPTest.cs" />
+    <None Include="Validation\Shared\EcaAddTIPPTest.csold" />
     <Compile Include="Validation\Sevis\Finance\USGovtValidatorTest.cs" />
     <Compile Include="Validation\Shared\USAddressValidatorTest.cs" />
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
@@ -408,9 +368,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
-    <Fakes Include="Fakes\System.Data.Entity.fakes" />
-    <Fakes Include="Fakes\System.Core.fakes" />
-    <Fakes Include="Fakes\ECA.Business.fakes" />
+    <Fakes Include="Fakes\System.Core.fakes">
+      <SubType>Designer</SubType>
+    </Fakes>
+    <Fakes Include="Fakes\ECA.Business.fakes">
+      <SubType>Designer</SubType>
+    </Fakes>
     <None Include="InMemoryEcaDbContextGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>

@@ -23,12 +23,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
-    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
-    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
     <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
     <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
     <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
@@ -202,6 +202,7 @@
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -568,127 +569,46 @@
     <Compile Include="Validation\Sevis\ErrorPaths\StartDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\PositionCodeErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\ProgramCategoryCodeErrorPath.cs" />
-    <Compile Include="Validation\Sevis\SEVISBatchCreateUpdateEVValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddPhase.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddSiteOfActivity.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddSiteOfActivityValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddTIPP.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddTIPPUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddTIPPUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\AddTippValidator.cs" />
-    <None Include="Validation\Sevis\Shared\AddUpdatedDependent.csold" />
-    <None Include="Validation\Sevis\Shared\AddUpdateDependentValidator.csold" />
-    <Compile Include="Validation\Sevis\Shared\AmendProgram.cs" />
-    <Compile Include="Validation\Sevis\Shared\AmendProgramValidator.cs" />
+    <None Include="Validation\Sevis\SEVISBatchCreateUpdateEVValidator.csold" />
+    <None Include="Validation\Sevis\Shared\AddSiteOfActivity.csold" />
+    <None Include="Validation\Sevis\Shared\AddSiteOfActivityValidator.csold" />
     <Compile Include="Validation\Sevis\Bio\Person.cs" />
     <None Include="Validation\Sevis\Bio\BiographicalUpdate.csold" />
     <None Include="Validation\Sevis\Bio\BiographicalUpdateValidator.csold" />
     <Compile Include="Validation\Sevis\Bio\BiographyValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\BoardingSchool.cs" />
-    <Compile Include="Validation\Sevis\Shared\BoardingSchoolValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\CorrectInfraction.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeleteDependent.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeletePhase.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeletePhaseValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeleteSiteOfActivity.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeleteSiteOfActivityValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeleteTippSite.cs" />
-    <Compile Include="Validation\Sevis\Shared\DeleteTippSiteValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\EditPhase.cs" />
-    <Compile Include="Validation\Sevis\Shared\EditSiteOfActivity.cs" />
-    <Compile Include="Validation\Sevis\Shared\EditTippSite.cs" />
-    <Compile Include="Validation\Sevis\Shared\EditTippSiteValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\EndDependentStatus.cs" />
-    <Compile Include="Validation\Sevis\Shared\EndProgram.cs" />
     <Compile Include="Validation\Sevis\Shared\ExchangeVisitor.cs" />
     <None Include="Validation\Sevis\Shared\AddDependentValidator.csold" />
-    <Compile Include="Validation\Sevis\Shared\BatchHeaderValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\CancelDependentValidator.cs" />
-    <None Include="Validation\Sevis\Shared\CreateDependentValidator.csold" />
-    <None Include="Validation\Sevis\Shared\EditDependentValidator.csold" />
-    <Compile Include="Validation\Sevis\Shared\ExchangeVisitorUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\ExchangeVisitorUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ExchangeVisitorValidator.cs" />
-    <None Include="Validation\Sevis\Finance\FinancialInfoUpdate.csold" />
-    <None Include="Validation\Sevis\Finance\FinancialInfoUpdateValidator.csold" />
+    <None Include="Validation\Sevis\Shared\ExchangeVisitorUpdate.csold" />
+    <None Include="Validation\Sevis\Shared\ExchangeVisitorUpdateValidator.csold" />
+    <Compile Include="Validation\Sevis\NewExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\HostFamily.cs" />
-    <Compile Include="Validation\Sevis\Shared\HostFamilyValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\International.cs" />
-    <Compile Include="Validation\Sevis\Shared\InternationalValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\InvalidStatus.cs" />
-    <Compile Include="Validation\Sevis\Shared\LCCoordinator.cs" />
-    <Compile Include="Validation\Sevis\Shared\LCCoordinatorValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\MatriculateProgram.cs" />
-    <Compile Include="Validation\Sevis\Shared\MatriculateProgramValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\NoShowStatus.cs" />
-    <Compile Include="Validation\Sevis\Shared\Other.cs" />
+    <Compile Include="Validation\Sevis\Finance\International.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalValidator.cs" />
+    <Compile Include="Validation\Sevis\Finance\Other.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFunds.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\OtherValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ParticipantInfo.cs" />
-    <Compile Include="Validation\Sevis\Shared\ParticipantInfoUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\ParticipantInfoUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ParticipantInfoValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\PContact.cs" />
-    <Compile Include="Validation\Sevis\Shared\PContactValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ProgramOfficial.cs" />
-    <Compile Include="Validation\Sevis\Shared\Reprint7002.cs" />
-    <Compile Include="Validation\Sevis\Shared\ReprintFormUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\ReprintFormUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ReprintFormValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ResidentialAddress.cs" />
-    <Compile Include="Validation\Sevis\Shared\ResidentialAddressValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SContact.cs" />
-    <Compile Include="Validation\Sevis\Shared\SContactValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ShortenProgramUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\SignatureDatesUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityAddOnTravel.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityAddOnTravelValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityExempt.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityExemptValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivitySeekingGemp.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivitySeekingGempValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivitySOA.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivitySOAValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SiteOfActivityUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\StatusUpdate.cs" />
+    <Compile Include="Validation\Sevis\Finance\OtherValidator.cs" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivityExempt.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdate.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdateValidator.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptValidator.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivitySeekingGemp.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivitySeekingGempValidator.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivitySOA.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivitySOAValidator.csold" />
+    <None Include="Validation\Sevis\Shared\SiteOfActivityUpdate.csold" />
     <Compile Include="Validation\Sevis\Shared\SubjectField.cs" />
     <Compile Include="Validation\Sevis\Shared\SubjectFieldUpdate.cs" />
     <Compile Include="Validation\Sevis\Shared\SubjectFieldUpdateValidator.cs" />
     <Compile Include="Validation\Sevis\Shared\SubjectFieldValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SupervisorsUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TerminateVisitor.cs" />
-    <Compile Include="Validation\Sevis\Shared\TerminateVisitorValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippExemptProgram.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippPhase.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippPhaseDates.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippPhaseDatesUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippPhaseTippPhaseUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippPhaseUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippPhaseValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippSite.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippSiteUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippSiteValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippSupervisorPhaseUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippSupervisorsUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TippUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\TravelInfoValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\UpdateSignatureDates.cs" />
-    <Compile Include="Validation\Sevis\Shared\USAddressValidator.cs" />
+    <Compile Include="Validation\Sevis\USAddressValidator.cs" />
     <None Include="Validation\Sevis\Shared\AddDependent.csold" />
-    <Compile Include="Validation\Sevis\Shared\BatchHeader.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
-    <Compile Include="Validation\Sevis\Shared\CancelDependent.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovt.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovtValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ValidateParticipant.cs" />
     <Compile Include="Validation\Sevis\UpdateEV\UpdateExchVisitor.cs" />
     <Compile Include="Validation\Sevis\UpdateEV\UpdateExchVisitorValidator.cs" />
-    <None Include="Validation\Sevis\Shared\CreateDependent.csold" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfo.cs" />
     <Compile Include="Validation\Sevis\Bio\FullName.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
@@ -699,20 +619,8 @@
     <Compile Include="Service\Update.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
-    <Compile Include="Validation\Sevis\Shared\Program.cs" />
-    <Compile Include="Validation\Sevis\Shared\ProgramExtension.cs" />
-    <Compile Include="Validation\Sevis\Shared\ReprintForm.cs" />
     <Compile Include="Validation\Sevis\SEVISBatchCreateUpdateEV.cs" />
-    <Compile Include="Validation\Sevis\Shared\ProgramExtensionValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ProgramValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ShortenProgramValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\TerminateDependent.cs" />
-    <Compile Include="Validation\Sevis\Shared\TravelInfo.cs" />
-    <None Include="Validation\Sevis\Shared\UpdatedDependent.csold" />
-    <None Include="Validation\Sevis\Shared\EditDependent.csold" />
-    <None Include="Validation\Sevis\Shared\UpdatedDependentValidator.csold" />
-    <Compile Include="Validation\Sevis\Shared\USAddress.cs" />
-    <Compile Include="Validation\Sevis\Shared\ShortenProgram.cs" />
+    <Compile Include="Validation\Sevis\USAddress.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

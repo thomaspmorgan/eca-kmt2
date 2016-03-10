@@ -7,7 +7,7 @@ namespace ECA.Business.Validation.Model
     {
         public UpdateExchVisitorValidator()
         {
-            RuleFor(visitor => visitor.ExchangeVisitor).SetValidator(new ExchangeVisitorUpdateValidator()).When(update => update.ExchangeVisitor != null);
+            //RuleFor(visitor => visitor.ExchangeVisitor).SetValidator(new ExchangeVisitorUpdateValidator()).When(update => update.ExchangeVisitor != null);
         }
     }
 }

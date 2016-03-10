@@ -3,6 +3,7 @@ using ECA.Business.Queries.Persons;
 using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Model.CreateEV;
 using ECA.Business.Validation.Model.Shared;
+using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
@@ -145,7 +146,7 @@ namespace ECA.Business.Service.Persons
             //    visitor.FinancialInfo = null;
             //}
 
-            SetAddSiteOfActivity(visitor);
+            //SetAddSiteOfActivity(visitor);
             return new CreateExchVisitor
             {
                 ExchangeVisitor = visitor
@@ -194,7 +195,7 @@ namespace ECA.Business.Service.Persons
             //    visitor.FinancialInfo = null;
             //}
             
-            SetAddSiteOfActivity(visitor);
+            //SetAddSiteOfActivity(visitor);
             return new CreateExchVisitor
             {
                 ExchangeVisitor = visitor
@@ -250,36 +251,36 @@ namespace ECA.Business.Service.Persons
         /// Sets the site of activity on the exchange visitor.
         /// </summary>
         /// <param name="visitor">The exchange visitor.</param>
-        public void SetAddSiteOfActivity(ExchangeVisitor visitor)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            visitor.AddSiteOfActivity = new AddSiteOfActivity
-            {
-                SiteOfActivitySOA = GetStateDepartmentSiteOfActivity(),
-                SiteOfActivityExempt = new SiteOfActivityExempt
-                {
-                    Remarks = String.Empty
-                }
-            };
-        }
+        //public void SetAddSiteOfActivity(ExchangeVisitor visitor)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    visitor.AddSiteOfActivity = new AddSiteOfActivity
+        //    {
+        //        SiteOfActivitySOA = GetStateDepartmentSiteOfActivity(),
+        //        SiteOfActivityExempt = new SiteOfActivityExempt
+        //        {
+        //            Remarks = String.Empty
+        //        }
+        //    };
+        //}
 
         /// <summary>
         /// Returns the state of department site of activity.
         /// </summary>
         /// <returns>The state department site of activity.</returns>
-        public SiteOfActivitySOA GetStateDepartmentSiteOfActivity()
-        {
-            return new SiteOfActivitySOA
-            {
-                Address1 = SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1,
-                City = SITE_OF_ACTIVITY_STATE_DEPT_CITY,
-                State = SITE_OF_ACTIVITY_STATE_DEPT_STATE,
-                PostalCode = SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE,
-                SiteName = SITE_OF_ACTIVITY_STATE_DEPT_NAME,
-                PrimarySite = true,
-                Remarks = String.Empty
-            };
-        }
+        //public SiteOfActivitySOA GetStateDepartmentSiteOfActivity()
+        //{
+        //    return new SiteOfActivitySOA
+        //    {
+        //        Address1 = SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1,
+        //        City = SITE_OF_ACTIVITY_STATE_DEPT_CITY,
+        //        State = SITE_OF_ACTIVITY_STATE_DEPT_STATE,
+        //        PostalCode = SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE,
+        //        SiteName = SITE_OF_ACTIVITY_STATE_DEPT_NAME,
+        //        PrimarySite = true,
+        //        Remarks = String.Empty
+        //    };
+        //}
 
         #endregion
 
@@ -463,14 +464,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="visitor">The exchange visitor.</param>
         /// <param name="participantPerson">The participant person.</param>
         /// <returns>The task.</returns>
-        public Task SetUSAddressAsync(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            SetUSAddress(participant, visitor, participantPerson);
-            return Task.FromResult<object>(null);
-        }
+        //public Task SetUSAddressAsync(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    Contract.Requires(participantPerson != null, "The participant person must not be null.");
+        //    SetUSAddress(participant, visitor, participantPerson);
+        //    return Task.FromResult<object>(null);
+        //}
 
         /// <summary>
         /// Sets the US address on the exchange visitor.  The us address is based on the host institution.
@@ -478,14 +479,14 @@ namespace ECA.Business.Service.Persons
         /// <param name="participant">The participant.</param>
         /// <param name="visitor">The exchange visitor.</param>
         /// <param name="participantPerson">The participant person.</param>
-        public void SetUSAddress(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = GetStateDepartmentCStreetAddress();
-            SetUSAddress(visitor, usAddress);
-        }
+        //public void SetUSAddress(Participant participant, ExchangeVisitorUpdate visitor, ParticipantPerson participantPerson)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    Contract.Requires(participantPerson != null, "The participant person must not be null.");
+        //    USAddress usAddress = GetStateDepartmentCStreetAddress();
+        //    SetUSAddress(visitor, usAddress);
+        //}
 
         /// <summary>
         /// Sets the US address on the exchange visitor.  The us address is based on the host institution.
@@ -524,10 +525,10 @@ namespace ECA.Business.Service.Persons
             visitor.USAddress = usAddress;
         }
 
-        private void SetUSAddress(ExchangeVisitorUpdate visitor, USAddress usAddress)
-        {
-            visitor.USAddress = usAddress;
-        }
+        //private void SetUSAddress(ExchangeVisitorUpdate visitor, USAddress usAddress)
+        //{
+        //    visitor.USAddress = usAddress;
+        //}
         #endregion
 
         //#region Mailing Address

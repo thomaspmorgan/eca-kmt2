@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.Sevis.Bio;
@@ -107,8 +108,7 @@ namespace ECA.Business.Queries.Persons
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
                             PhoneNumber = phoneNumber != null ? phoneNumber.Number : null,
-                            MailAddress = mailAddress,
-                            MailAddressId = mailAddress != null ? mailAddress.AddressId : default(int?)
+                            MailAddress = mailAddress
                         };
             return query;
         }
@@ -169,6 +169,9 @@ namespace ECA.Business.Queries.Persons
                             NumberOfCitizenships = biography.NumberOfCitizenships,
                             PermanentResidenceCountryCode = biography.PermanentResidenceCountryCode,
                             PersonId = biography.PersonId,
+                            ParticipantId = participantId,
+                            MailAddress = biography.MailAddress,
+                            USAddress = biography.USAddress,
                             PhoneNumber = biography.PhoneNumber,
                             PhoneNumberId = biography.PhoneNumberId,
                             PositionCode = biography.PositionCode,

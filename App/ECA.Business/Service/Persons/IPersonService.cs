@@ -3,12 +3,8 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace ECA.Business.Service.Persons
 {

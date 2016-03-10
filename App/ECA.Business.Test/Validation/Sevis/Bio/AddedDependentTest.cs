@@ -10,9 +10,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
     [TestClass]
     public class AddedDependentTest
     {
+
         [TestMethod]
         public void TestGetSevisExhangeVisitorDependentInstance()
         {
+            var personId = 10;
+            var participantId = 20;
             var dependent = new AddedDependent
             {
                 BirthCity = "birth city",
@@ -33,9 +36,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = "FR",
                 PrintForm = true,
                 Relationship = "01",
-                UserDefinedA = "defined a",
-                UserDefinedB = "defined b"
             };
+            dependent.SetPersonId(personId);
+            dependent.SetParticipantId(participantId);
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
             Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentAdd));
@@ -57,6 +60,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestGetEVPersonTypeDependent()
         {
+            var personId = 10;
+            var participantId = 20;
             var dependent = new AddedDependent
             {
                 BirthCity = "birth city",
@@ -77,11 +82,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = "FR",
                 PrintForm = true,
                 Relationship = "01",
-                UserDefinedA = "defined a",
-                UserDefinedB = "defined b"
             };
+            dependent.SetPersonId(personId);
+            dependent.SetParticipantId(participantId);
 
             var instance = dependent.GetEVPersonTypeDependent();
+            Assert.AreEqual(participantId.ToString(), instance.UserDefinedA);
+            Assert.AreEqual(personId.ToString(), instance.UserDefinedB);
             
             Assert.AreEqual(dependent.BirthCity, instance.BirthCity);
             Assert.AreEqual(dependent.BirthCountryCode.GetBirthCntryCodeType(), instance.BirthCountryCode);

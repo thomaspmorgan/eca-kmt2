@@ -33,8 +33,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = "FR",
                 PrintForm = true,
                 Relationship = "01",
-                UserDefinedA = "defined a",
-                UserDefinedB = "defined b",
                 Remarks = "remarks",
                 IsRelationshipFieldSpecified = true,
                 SevisId = "sevis id"
@@ -83,8 +81,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = "FR",
                 PrintForm = true,
                 Relationship = "01",
-                UserDefinedA = "defined a",
-                UserDefinedB = "defined b",
                 Remarks = "remarks",
                 IsRelationshipFieldSpecified = true,
                 SevisId = "sevis id"

@@ -16,12 +16,63 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets or sets the user defined a field.
         /// </summary>
-        public string UserDefinedA { get; set; }
+        public string UserDefinedA { get; private set; }
 
         /// <summary>
         /// Gets or sets the user defined b field.
         /// </summary>
-        public string UserDefinedB { get; set; }
+        public string UserDefinedB { get; private set; }
+
+        /// <summary>
+        /// Sets the UserDefinedA field to the participant ic.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        public void SetParticipantId(int participantId)
+        {
+            this.UserDefinedA = participantId.ToString();
+        }
+
+        /// <summary>
+        /// Sets the UserDefinedB field to the person id.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        public void SetPersonId(int personId)
+        {
+            this.UserDefinedB = personId.ToString();
+        }
+
+        /// <summary>
+        /// Returns the person id of this dependent.
+        /// </summary>
+        /// <returns>The person id of this dependent.</returns>
+        public int? GetPersonId()
+        {
+            if (!String.IsNullOrWhiteSpace(this.UserDefinedB))
+            {
+                return Int32.Parse(this.UserDefinedB);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the participant id i.e. the participant id of the person that is participating in the project and who this person
+        /// is a dependent of.
+        /// </summary>
+        /// <returns>The participant id.</returns>
+        public int? GetParticipantId()
+        {
+            if (!String.IsNullOrWhiteSpace(this.UserDefinedA))
+            {
+                return Int32.Parse(this.UserDefinedA);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the relationship.
