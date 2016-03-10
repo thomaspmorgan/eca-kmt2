@@ -15,8 +15,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         : Dependent,
         ISevisIdentifable,
         IFormPrintable,
-        IRemarkable,
-        ISevisExchangeVisitorUpdatableComponent
+        IRemarkable
     {
         /// <summary>
         /// Gets or sets the sevis id.
@@ -70,17 +69,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                 RelationshipSpecified = this.IsRelationshipFieldSpecified,
                 Remarks = this.Remarks
             };
-        }
-
-        /// <summary>
-        /// Returns a SEVISEVBatchTypeExchangeVisitorDependentEdit instance for when a sevis registered exchange visitor
-        /// must have a dependent updated in sevis.
-        /// </summary>
-        /// <returns>A SEVISEVBatchTypeExchangeVisitorDependentEdit instance for when a sevis registered exchange visitor
-        /// must have a dependent updated in sevis.</returns>
-        public object GetSevisEvBatchTypeExchangeVisitorUpdateComponent()
-        {
-            return GetSevisExhangeVisitorDependentInstance();
         }
     }
 }

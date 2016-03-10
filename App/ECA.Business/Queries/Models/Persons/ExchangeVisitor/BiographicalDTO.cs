@@ -1,10 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
-using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.Sevis.Bio;
 using System;
-using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -100,19 +96,19 @@ namespace ECA.Business.Queries.Models.Persons
         /// 
         /// </summary>
         public AddressDTO USAddress { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the mailing address i.e. the person's host address in the united states.
         /// </summary>
         public AddressDTO MailAddress { get; set; }
-        
+
         /// <summary>
         /// Returns a person instance from this biography.
         /// </summary>
         /// <returns>A person instance.</returns>
         public Person GetPerson()
         {
-            return new Person
+            var instance = new Person
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode,
@@ -120,11 +116,15 @@ namespace ECA.Business.Queries.Models.Persons
                 BirthDate = this.BirthDate,
                 CitizenshipCountryCode = this.CitizenshipCountryCode,
                 EmailAddress = this.EmailAddress,
-                FullName = this.FullName.GetFullName(),
                 Gender = this.Gender,
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-                PhoneNumber = this.PhoneNumber,                
+                PhoneNumber = this.PhoneNumber,
             };
+            if (this.FullName != null)
+            {
+                instance.FullName = this.FullName.GetFullName();
+            }
+            return instance;
         }
-    }    
+    }
 }

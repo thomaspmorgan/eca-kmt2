@@ -13,7 +13,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// A ModifiedParticipantDependent is used to represent a change that must be made to a sevis registered exchange visitor.  More specifically,
     /// this class will be used to return a SEVISEVBatchTypeExchangeVisitorDependent which has the added, modified, etc dependent payload.
     /// </summary>
-    public class ModifiedParticipantDependent : ISevisExchangeVisitorUpdatableComponent, IUserDefinable
+    public class ModifiedParticipantDependent : IUserDefinable
     {
         /// <summary>
         /// Gets or sets the dependent that has been modified.
@@ -44,15 +44,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                 UserDefinedA = this.UserDefinedA,
                 UserDefinedB = this.UserDefinedB
             };
-        }
-
-        /// <summary>
-        /// Returns the SEVISEVBatchTypeExchangeVisitorDependent instance. 
-        /// </summary>
-        /// <returns>Returns the SEVISEVBatchTypeExchangeVisitorDependent instance.</returns>
-        public object GetSevisEvBatchTypeExchangeVisitorUpdateComponent()
-        {
-            return GetSEVISEVBatchTypeExchangeVisitorDependent();
-        }
+        }       
     }
 }

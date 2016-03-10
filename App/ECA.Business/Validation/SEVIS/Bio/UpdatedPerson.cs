@@ -7,8 +7,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     public class UpdatedPerson 
         : Person, 
         IFormPrintable, 
-        IRemarkable,
-        ISevisExchangeVisitorUpdatableComponent
+        IRemarkable
     {
         /// <summary>
         /// Gets or sets the birth country specified flag.
@@ -121,17 +120,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                 instance.MailAddress = usAddress;
             }
             return instance;
-        }
-
-        /// <summary>
-        /// Returns a registered sevis exchange visitor's updated biographical information model to be used
-        /// to update an exchange visitor's biography.
-        /// </summary>
-        /// <returns>A registered sevis exchange visitor's updated biographical information model to be used
-        /// to update an exchange visitor's biography.</returns>
-        public object GetSevisEvBatchTypeExchangeVisitorUpdateComponent()
-        {
-            return GetSEVISEVBatchTypeExchangeVisitorBiographical();
         }
     }
 }

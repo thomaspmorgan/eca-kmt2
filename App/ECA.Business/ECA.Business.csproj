@@ -544,6 +544,7 @@
     <Compile Include="Validation\Sevis\ISevisIdentifable.cs" />
     <Compile Include="Validation\Sevis\IUserDefinable.cs" />
     <Compile Include="Validation\Sevis\IUserIdentifiable.cs" />
+    <Compile Include="Validation\Sevis\ExchangeVisitorBase.cs" />
     <Compile Include="Validation\Sevis\NewExchangeVisitor.cs" />
     <Compile Include="Validation\Sevis\UpdatedExchangeVisitor.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />

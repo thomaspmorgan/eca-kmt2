@@ -63,11 +63,34 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
             Assert.AreEqual(model.Gender, person.Gender);
             Assert.AreEqual(model.PermanentResidenceCountryCode, person.PermanentResidenceCountryCode);
 
+            Assert.IsNotNull(model.FullName);
             Assert.AreEqual(fullName.FirstName, person.FullName.FirstName);
             Assert.AreEqual(fullName.LastName, person.FullName.LastName);
             Assert.AreEqual(fullName.PassportName, person.FullName.PassportName);
             Assert.AreEqual(fullName.PreferredName, person.FullName.PreferredName);
             Assert.AreEqual(fullName.Suffix, person.FullName.Suffix);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_FullNameIsNull()
+        {
+            
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new BiographicalDTO
+            {
+                FullName = null,
+            };
+
+            var person = model.GetPerson();
+            Assert.IsNull(person.FullName);
         }
     }
 }
