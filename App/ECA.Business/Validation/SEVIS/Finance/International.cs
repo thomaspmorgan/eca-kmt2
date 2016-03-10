@@ -11,11 +11,6 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(InternationalValidator))]
     public class International
     {
-        public International()
-        {
-
-        }
-
         /// <summary>
         /// International organization 1
         /// </summary>
@@ -78,6 +73,24 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 instance.Org2Specified = true;
             }
+            return instance;
+        }
+
+        /// <summary>
+        /// Returns a OtherFundsNullableTypeInternational instance from this USGovt funding instance.
+        /// </summary>
+        /// <returns>A OtherFundsNullableTypeInternational instance from this USGovt funding instance.</returns>
+        public OtherFundsNullableTypeInternational GetOtherFundsNullableTypeInternational()
+        {
+            var instance = new OtherFundsNullableTypeInternational
+            {
+                Amount1 = this.Amount1,
+                Amount2 = this.Amount2,
+                OtherName1 = this.OtherName1,
+                OtherName2 = this.OtherName2,
+                Org1 = this.Org1,
+                Org2 = this.Org2,
+            };
             return instance;
         }
     }

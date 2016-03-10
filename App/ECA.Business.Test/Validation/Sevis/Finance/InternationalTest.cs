@@ -96,5 +96,27 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(international.OtherName2, instance.OtherName2);
             Assert.IsTrue(instance.Org2Specified);
         }
+
+        [TestMethod]
+        public void TestGetOtherFundsNullableTypeUSGovt()
+        {
+            var international = new International
+            {
+                Amount1 = "amount 1",
+                Org1 = "DOE",
+                OtherName1 = "other 1 name",
+
+                Amount2 = "amount 2",
+                Org2 = "USDA",
+                OtherName2 = "other 2 name"
+            };
+            var instance = international.GetOtherFundsNullableTypeInternational();
+            Assert.AreEqual(international.Amount1, instance.Amount1);
+            Assert.AreEqual(international.Org1, instance.Org1);
+            Assert.AreEqual(international.OtherName1, instance.OtherName1);
+            Assert.AreEqual(international.Amount2, instance.Amount2);
+            Assert.AreEqual(international.Org2, instance.Org2);
+            Assert.AreEqual(international.OtherName2, instance.OtherName2);
+        }
     }
 }

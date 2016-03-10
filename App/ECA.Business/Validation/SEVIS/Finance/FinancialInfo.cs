@@ -9,13 +9,13 @@ namespace ECA.Business.Validation.Sevis.Finance
     /// Financial support information
     /// </summary>
     [Validator(typeof(FinancialInfoValidator))]
-    public class FinancialInfo
+    public class FinancialInfo : IFormPrintable
     {
-        public FinancialInfo()
-        {
-            OtherFunds = new OtherFunds();
-        }
-        
+        /// <summary>
+        /// Gets or sets print form.
+        /// </summary>
+        public bool PrintForm { get; set; }
+
         /// <summary>
         /// Indicates receipt of US govt funds
         /// </summary>
@@ -37,10 +37,16 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <returns>The new exchange visitor financial info.</returns>
         public EVPersonTypeFinancialInfo GetEVPersonTypeFinancialInfo()
         {
-            return new EVPersonTypeFinancialInfo
+            var instance = new EVPersonTypeFinancialInfo
             {
-
+                ProgramSponsorFunds = this.ProgramSponsorFunds,
+                ReceivedUSGovtFunds = this.ReceivedUSGovtFunds
             };
+            if (this.OtherFunds != null)
+            {
+                instance.OtherFunds = this.OtherFunds.GetOtherFundsType();
+            }
+            return instance;
         }
 
         /// <summary>
@@ -49,10 +55,18 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <returns>An updated sevis exchange visitor's financial information.</returns>
         public SEVISEVBatchTypeExchangeVisitorFinancialInfo GetSEVISEVBatchTypeExchangeVisitorFinancialInfo()
         {
-            return new SEVISEVBatchTypeExchangeVisitorFinancialInfo
+            var instance = new SEVISEVBatchTypeExchangeVisitorFinancialInfo
             {
-
+                printForm = this.PrintForm,
+                ProgramSponsorFunds = this.ProgramSponsorFunds,
+                ReceivedUSGovtFunds = this.ReceivedUSGovtFunds,
+                ReceivedUSGovtFundsSpecified = true
             };
+            if (this.OtherFunds != null)
+            {
+                instance.OtherFunds = this.OtherFunds.GetOtherFundsNullableType();
+            }
+            return instance;
         }
     }
 }

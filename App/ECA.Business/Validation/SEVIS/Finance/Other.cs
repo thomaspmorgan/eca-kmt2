@@ -32,5 +32,18 @@ namespace ECA.Business.Validation.Sevis.Finance
                 Name = this.Name
             };
         }
+
+        /// <summary>
+        /// Returns a OtherFundsNullableTypeOther sevis exchange visitor model.
+        /// </summary>
+        /// <returns>Returns a OtherFundsNullableTypeOther sevis exchange visitor model.</returns>
+        public OtherFundsNullableTypeOther GetOtherFundsNullableTypeInternational()
+        {
+            return new OtherFundsNullableTypeOther
+            {
+                Amount = this.Amount,
+                Name = this.Name
+            };
+        }
     }
 }

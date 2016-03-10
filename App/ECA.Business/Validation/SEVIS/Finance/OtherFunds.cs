@@ -49,15 +49,58 @@ namespace ECA.Business.Validation.Sevis.Finance
         public string Personal { get; set; }
 
         /// <summary>
-        /// Returns a new sevis exchange visitor's other funds financial info.
+        /// Returns the sevis exchange visitor OtherFundsType instance.
         /// </summary>
-        /// <returns>A new sevis exchange visitor's other fund financial info.</returns>
-        public OtherFundsTypeUSGovt GetOtherFundsTypeUSGovt()
+        /// <returns>Returns the sevis exchange visitor OtherFundsType instance.</returns>
+        public OtherFundsType GetOtherFundsType()
         {
-            return new OtherFundsTypeUSGovt
+            var instance = new OtherFundsType
             {
-
+                BinationalCommission = this.BinationalCommission,
+                Personal = this.Personal,
+                EVGovt = this.EVGovt,
             };
+            if (this.USGovt != null)
+            {
+                instance.USGovt = this.USGovt.GetOtherFundsTypeUSGovt();
+            }
+            if (this.International != null)
+            {
+                instance.International = this.International.GetOtherFundsTypeInternational();
+            }
+            if(this.Other != null)
+            {
+                instance.Other = this.Other.GetOtherFundsTypeOther();
+            }
+            return instance;
         }
+
+        /// <summary>
+        /// Returns the sevis exchange visitor OtherFundsNullableType instance.
+        /// </summary>
+        /// <returns>Returns the sevis exchange visitor OtherFundsNullableType instance.</returns>
+        public OtherFundsNullableType GetOtherFundsNullableType()
+        {
+            var instance = new OtherFundsNullableType
+            {
+                BinationalCommission = this.BinationalCommission,
+                Personal = this.Personal,
+                EVGovt = this.EVGovt,
+            };
+            if (this.USGovt != null)
+            {
+                instance.USGovt = this.USGovt.GetOtherFundsNullableTypeUSGovt();
+            }
+            if (this.International != null)
+            {
+                instance.International = this.International.GetOtherFundsNullableTypeInternational();
+            }
+            if (this.Other != null)
+            {
+                instance.Other = this.Other.GetOtherFundsNullableTypeInternational();
+            }
+            return instance;
+        }
+        
     }
 }

@@ -10,8 +10,6 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(USGovtValidator))]
     public class USGovt
     {
-        public USGovt()
-        { }
 
         /// <summary>
         /// US government organization 1
@@ -78,5 +76,22 @@ namespace ECA.Business.Validation.Sevis.Finance
             return instance;
         }
 
+        /// <summary>
+        /// Returns a OtherFundsNullableTypeUSGovt instance from this USGovt funding instance.
+        /// </summary>
+        /// <returns>A OtherFundsNullableTypeUSGovt instance from this USGovt funding instance.</returns>
+        public OtherFundsNullableTypeUSGovt GetOtherFundsNullableTypeUSGovt()
+        {
+            var instance = new OtherFundsNullableTypeUSGovt
+            {
+                Amount1 = this.Amount1,
+                Amount2 = this.Amount2,
+                OtherName1 = this.OtherName1,
+                OtherName2 = this.OtherName2,
+                Org1 = this.Org1,
+                Org2 = this.Org2,
+            };
+            return instance;
+        }
     }
 }
