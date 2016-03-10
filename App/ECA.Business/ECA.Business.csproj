@@ -211,6 +211,7 @@
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\BiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimplePersonDependentDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />
+    <Compile Include="Service\Persons\UpdatedPersonDependent.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEduEmp.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\UpdatedPersonLanguageProficiency.cs" />

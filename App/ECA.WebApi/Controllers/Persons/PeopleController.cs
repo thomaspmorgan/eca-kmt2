@@ -194,6 +194,26 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Returns data associated with person dependent
+        /// </summary>
+        /// <param name="personId">The person id to find</param>
+        /// <returns></returns>
+        [ResponseType(typeof(SimplePersonDependentDTO))]
+        [Route("Person/{personId:int}/Dependent")]
+        public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int personId)
+        {
+            var person = await service.GetPersonByIdAsync(personId);
+            if (person != null)
+            {
+                return Ok(person);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Returns sorted, filtered, and paged people in the eca system.
         /// </summary>
         /// <param name="model">The filters, paging, and sorting details.</param>
