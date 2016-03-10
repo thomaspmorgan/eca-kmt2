@@ -62,5 +62,21 @@ namespace ECA.Business.Validation.Sevis.Bio
             }
             return instance;
         }
+
+        /// <summary>
+        /// Returns a sevis NameNullableType instance.
+        /// </summary>
+        /// <returns>Returns a sevis NameNullableType instance.</returns>
+        public NameNullableType GetNameNullableType()
+        {
+            return new NameNullableType
+            {
+                FirstName = this.FirstName,
+                LastName= this.LastName,
+                PassportName = this.PassportName,
+                PreferredName = this.PreferredName,
+                Suffix = this.Suffix
+            };
+        }
     }
 }

@@ -33,8 +33,8 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Relationship != null, "The relationship should be specified.");
+            Contract.Requires(this.Gender != null, "The Gender should be specified.");
 
-            //don't forgot the FormPurpose enum value.
             return new SEVISEVBatchTypeExchangeVisitorDependentAdd
             {
                 BirthCity = this.BirthCity,
@@ -45,7 +45,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 EmailAddress = this.EmailAddress,
                 FormPurpose = EVPrintReasonType.Item06,
                 FullName = this.FullName.GetNameType(),
-                Gender = this.Gender.GetGenderCodeType(),
+                Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
                 printForm = this.PrintForm
@@ -63,6 +63,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.BirthCountryCode != null, "The BirthCountryCode should be specified.");
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
+            Contract.Requires(this.Gender != null, "The Gender should be specified.");
 
             return new EVPersonTypeDependent
             {
@@ -73,7 +74,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                 EmailAddress = this.EmailAddress,
                 FullName = this.FullName.GetNameType(),
-                Gender = this.Gender.GetGenderCodeType(),
+                Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
                 UserDefinedA = this.UserDefinedA,

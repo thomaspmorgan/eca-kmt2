@@ -49,5 +49,24 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var instance = fullName.GetNameType();
             Assert.IsFalse(instance.SuffixSpecified);
         }
+
+        [TestMethod]
+        public void TestGetNameNullableType()
+        {
+            var fullName = new FullName
+            {
+                FirstName = "first",
+                LastName = "Last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "Jr."
+            };
+            var instance = fullName.GetNameNullableType();
+            Assert.AreEqual(fullName.FirstName, instance.FirstName);
+            Assert.AreEqual(fullName.LastName, instance.LastName);
+            Assert.AreEqual(fullName.PassportName, instance.PassportName);
+            Assert.AreEqual(fullName.PreferredName, instance.PreferredName);
+            Assert.AreEqual(fullName.Suffix, instance.Suffix);
+        }
     }
 }

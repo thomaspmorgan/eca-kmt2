@@ -27,13 +27,23 @@ namespace ECA.Business.Validation
         }
 
         /// <summary>
-        /// Returns the GenderCodeType for the given string value.
+        /// Returns the EVGenderCodeType for the given string value.
         /// </summary>
-        /// <returns>The GenderCodeType for the given string value.</returns>
-        public static EVGenderCodeType GetGenderCodeType(this string value)
+        /// <returns>The EVGenderCodeType for the given string value.</returns>
+        public static EVGenderCodeType GetEVGenderCodeType(this string value)
         {
             Contract.Requires(value != null, "The string value must not be null.");
             return GetCodeType<EVGenderCodeType>(value);
+        }
+
+        /// <summary>
+        /// Returns the GenderCodeType for the given string value.
+        /// </summary>
+        /// <returns>The GenderCodeType for the given string value.</returns>
+        public static GenderCodeType GetGenderCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<GenderCodeType>(value);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Model;
+﻿using ECA.Business.Sevis.Model;
+using ECA.Business.Validation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -158,7 +159,12 @@ namespace ECA.Business.Queries.Models.Admin
 
         public USAddress GetUSAddress()
         {
-            return null;
+            throw new NotImplementedException();
+        }
+
+        public USAddrDoctorType GetUSAddressDoctorType()
+        {
+            throw new NotImplementedException();
         }
     }
 }

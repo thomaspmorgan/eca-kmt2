@@ -530,8 +530,7 @@
     <Compile Include="Validation\Sevis\Bio\Biography.cs" />
     <Compile Include="Validation\Sevis\Bio\ModifiedParticipantDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\Dependent.cs" />
-    <None Include="Validation\Sevis\Bio\NewExchangeVisitorDependent.csold" />
-    <Compile Include="Validation\Sevis\Bio\PersonBiographyValidator.cs" />
+    <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedPerson.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedPersonValidator.cs" />
@@ -581,7 +580,7 @@
     <None Include="Validation\Sevis\Shared\AddUpdateDependentValidator.csold" />
     <Compile Include="Validation\Sevis\Shared\AmendProgram.cs" />
     <Compile Include="Validation\Sevis\Shared\AmendProgramValidator.cs" />
-    <Compile Include="Validation\Sevis\Bio\PersonBiography.cs" />
+    <Compile Include="Validation\Sevis\Bio\Person.cs" />
     <None Include="Validation\Sevis\Bio\BiographicalUpdate.csold" />
     <None Include="Validation\Sevis\Bio\BiographicalUpdateValidator.csold" />
     <Compile Include="Validation\Sevis\Bio\BiographyValidator.cs" />

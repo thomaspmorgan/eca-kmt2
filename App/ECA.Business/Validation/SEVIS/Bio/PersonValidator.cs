@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
-    public class PersonBiographyValidator : BiographyValidator
+    public class PersonValidator : BiographyValidator
     {
-        public PersonBiographyValidator()
+        public PersonValidator()
             : base()
         {
 

@@ -43,7 +43,7 @@ namespace ECA.Business.Validation.Model.CreateEV
             RuleFor(visitor => visitor.Biographical)
                 .NotNull()
                 .WithMessage(BIOGRAPHICAL_INFORMATION_REQUIRED_ERROR_MESSAGE)
-                .SetValidator(new PersonBiographyValidator())
+                .SetValidator(new PersonValidator())
                 .When(visitor => visitor.requestID != null);
 
             RuleFor(visitor => visitor.PositionCode)

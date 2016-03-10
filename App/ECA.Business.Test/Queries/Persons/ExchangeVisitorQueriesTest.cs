@@ -70,7 +70,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var dependent = new Person
+            var dependent = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -153,7 +153,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
             };
 
-            var participatingPerson = new Person
+            var participatingPerson = new Data.Person
             {
                 PersonId = dependent.PersonId + 1,
             };
@@ -264,7 +264,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -420,7 +420,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -504,7 +504,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -664,7 +664,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -844,7 +844,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1004,7 +1004,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1164,7 +1164,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1324,7 +1324,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "U"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1484,7 +1484,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1642,7 +1642,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1767,7 +1767,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1885,7 +1885,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2008,7 +2008,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2127,7 +2127,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2258,7 +2258,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2390,7 +2390,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2468,7 +2468,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2586,7 +2586,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderId = Gender.Male.Id,
                 GenderName = Gender.Male.Value
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",

@@ -109,9 +109,9 @@ namespace ECA.Business.Queries.Models.Persons
         public int? MailAddressId { get; set; }
 
 
-        public PersonBiography GetPersonBiography()
+        public Person GetPersonBiography()
         {
-            return new PersonBiography
+            return new Person
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode,

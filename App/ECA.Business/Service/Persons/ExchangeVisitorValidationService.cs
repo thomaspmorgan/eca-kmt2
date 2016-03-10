@@ -80,7 +80,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         public AbstractValidator<CreateExchVisitor> CreateExchangeVisitorValidator { get; private set; }
 
-		public AbstractValidator<PersonBiography> PersonBiographyValidator { get; private set; }
+		public AbstractValidator<Validation.Sevis.Bio.Person> PersonBiographyValidator { get; private set; }
 
         /// <summary>
         /// Runs a validation on sevis information for the participant with the given id and updates the sevis comm
