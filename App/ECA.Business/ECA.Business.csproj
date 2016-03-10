@@ -333,6 +333,7 @@
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewParticipantExchangeVisitor.cs" />
+    <Compile Include="Service\Persons\NewPersonDependent.cs" />
     <Compile Include="Service\Persons\NewPersonEduEmp.cs" />
     <Compile Include="Service\Persons\NewPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />

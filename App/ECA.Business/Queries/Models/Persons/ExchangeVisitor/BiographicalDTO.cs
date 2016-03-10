@@ -185,9 +185,7 @@ namespace ECA.Business.Queries.Models.Persons
                 UserDefinedB = null
             };
         }
-
         
-
         /// <summary>
         /// Returns a CreateDependent instance from this dependent dto.
         /// </summary>

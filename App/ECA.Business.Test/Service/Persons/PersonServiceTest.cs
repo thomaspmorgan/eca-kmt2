@@ -1,22 +1,21 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using System.Linq;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service;
 using ECA.Business.Service.Persons;
+using ECA.Business.Validation;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Exceptions;
+using ECA.Core.Query;
 using ECA.Data;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
-using ECA.Business.Service;
-using System.Data.Entity;
-using ECA.Business.Exceptions;
-using ECA.Business.Validation;
-using Moq;
-using ECA.Core.Query;
-using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.DynamicLinq.Filter;
-using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -26,8 +25,7 @@ namespace ECA.Business.Test.Service.Persons
         private TestEcaContext context;
         private PersonService service;
         private Mock<IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity>> validator;
-
-
+        
         [TestInitialize]
         public void TestInit()
         {
@@ -1684,6 +1682,56 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestCreateDependentAsync_CheckProperties()
+        {
+            var user = new User(1);
+            var fullName = new FullNameDTO
+            {
+                FirstName = "Jon",
+                LastName = "Doe",
+                Suffix = "Jr",
+                PassportName = "Jon Doe",
+                PreferredName = "Jonny"
+            };
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var cityOfBirth = 5;
+            var countryOfBirth = 32;
+            var permanentResidenceCountry = 55;
+            var personTypeId = PersonType.Spouse.Id;
+            var countriesOfCitizenship = new List<Location>();
+
+            var newPerson = new NewPersonDependent(
+                createdBy: user, fullName: fullName, dateOfBirth: dateOfBirth, gender: gender,
+                cityOfBirth: cityOfBirth, countryOfBirth: countryOfBirth, 
+                countriesOfCitizenship: countriesOfCitizenship, permanentResidenceCountryCode: permanentResidenceCountry, 
+                birthCountryReason: "", emailAddress: "", personTypeId: personTypeId);
+
+            context.SetupActions.Add(() =>
+            {
+
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.FullName.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.FullName.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
+                Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
+                Assert.AreEqual(newPerson.CityOfBirth, testPerson.PlaceOfBirthId);
+                Assert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship);
+                Assert.AreEqual(newPerson.PersonTypeId, testPerson.PersonTypeId);
+                Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
+                Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
+            };
+            context.Revert();
+            var person = await service.CreateDependentAsync(newPerson);
+            tester(person);
+            //validator.Verify(x => x.ValidateCreate(It.IsAny<PersonServiceValidationEntity>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestCreateAsync_CityOfBirth()
         {
             var city = new Location
@@ -2249,11 +2297,9 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 FirstName = "",
                 LastName = "",
-                GenderId = Gender.Male.Id,
-                
+                GenderId = Gender.Male.Id                
             };
-
-
+            
             context.Locations.Add(placeOfBirth);
             context.People.Add(person);
 
@@ -2297,8 +2343,7 @@ namespace ECA.Business.Test.Service.Persons
                 LastName = "",
                 GenderId = Gender.Male.Id,
             };
-
-
+            
             context.Locations.Add(country);
             context.People.Add(person);
 
@@ -2390,8 +2435,7 @@ namespace ECA.Business.Test.Service.Persons
                 LastName = "",
                 GenderId = Gender.Male.Id,
             };
-
-
+            
             context.MaritalStatuses.Add(maritalStatus);
             context.People.Add(person);
 
@@ -2527,6 +2571,10 @@ namespace ECA.Business.Test.Service.Persons
             };
             f.ShouldThrow<EcaBusinessException>().WithMessage("The person already exists.");
         }
+        
+        
+
+
         #endregion
 
         #region Get People

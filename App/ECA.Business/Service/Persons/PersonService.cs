@@ -411,6 +411,16 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Create a person dependent
+        /// </summary>
+        /// <param name="newPersonDependent">The person dependent to create</param>
+        /// <returns>The person create</returns>
+        public Task<Person> CreateDependentAsync(NewPersonDependent newPersonDependent)
+        {
+            return Task.Run(() => CreatePersonDependent(newPersonDependent, newPersonDependent.CountriesOfCitizenship));
+        }
+        
+        /// <summary>
         /// Get existing person
         /// </summary>
         /// <param name="newPerson">The person to lookup</param>
@@ -525,6 +535,36 @@ namespace ECA.Business.Service.Persons
             return person;
         }
 
+        /// <summary>
+        /// Creates a person dependent
+        /// </summary>
+        /// <param name="newPerson"></param>
+        /// <param name="countriesOfCitizenship"></param>
+        /// <returns></returns>
+        private Person CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
+        {
+            HashSet<EmailAddress> emails = new HashSet<EmailAddress>();
+            EmailAddress email = new EmailAddress { Address = newPerson.EmailAddress };
+            emails.Add(email);
+
+            var person = new Person
+            {
+                FirstName = newPerson.FullName.FirstName,
+                LastName = newPerson.FullName.LastName,
+                GenderId = newPerson.Gender,
+                DateOfBirth = newPerson.DateOfBirth,
+                PlaceOfBirthId = newPerson.CityOfBirth,
+                CountriesOfCitizenship = countriesOfCitizenship,
+                EmailAddresses = emails,
+                PersonTypeId = newPerson.PersonTypeId
+            };
+
+            newPerson.Audit.SetHistory(person);
+            this.Context.People.Add(person);
+            this.logger.Trace("Creating new person dependent {0}.", newPerson);
+            return person;
+        }
+        
         /// <summary>
         /// Create a participant
         /// </summary>
