@@ -1113,4 +1113,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SevisDependentTypeCode" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="64cc2872-3958-456b-9d6e-98a1008b1661" ChangeDateTime="03/10/2016 19:32:33">
+    <Property Name="ElementName" Value="[dbo].[DefaultProjectExchangeVisitiorFunding].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DefaultProjectExchangeVisitiorFunding]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProjectId" />
+  </Operation>
 </Operations>
