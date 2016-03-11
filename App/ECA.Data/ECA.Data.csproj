@@ -172,6 +172,7 @@
     <Compile Include="DataPointCategoryProperty.cs" />
     <Compile Include="DataPointConfiguration.cs" />
     <Compile Include="DataPointProperty.cs" />
+    <Compile Include="DefaultExchangeVisitorFunding.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
