@@ -12,11 +12,14 @@ using System.Diagnostics.Contracts;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Business.Service;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Admin;
 
 namespace ECA.Business.Validation.Sevis
 {
     public class ExchangeVisitor
     {
+
+
         public ExchangeVisitor(
             User user,
             Bio.Person person,
@@ -24,6 +27,7 @@ namespace ECA.Business.Validation.Sevis
             string occupationCategoryCode,
             DateTime programEndDate,
             DateTime programStartDate,
+            AddressDTO siteOfActivity,
             IEnumerable<Dependent> dependents
             )
         {
@@ -34,8 +38,15 @@ namespace ECA.Business.Validation.Sevis
             this.ProgramEndDate = programEndDate;
             this.ProgramStartDate = programStartDate;
             this.Dependents = dependents ?? new List<Dependent>();
-        
+            this.SiteOfActivity = siteOfActivity;
+
         }
+
+        /// <summary>
+        /// Gets the site of activity, i.e. State Dept at the C Street address.
+        /// </summary>
+        public AddressDTO SiteOfActivity { get; private set; }
+
         /// <summary>
         /// Gets the person.
         /// </summary>
@@ -61,7 +72,7 @@ namespace ECA.Business.Validation.Sevis
         /// </summary>
         public DateTime ProgramStartDate { get; private set; }
 
-                /// <summary>
+        /// <summary>
         /// Gets the user.
         /// </summary>
         public User User { get; private set; }
@@ -78,11 +89,64 @@ namespace ECA.Business.Validation.Sevis
             //will fall into the items of the sevis class
         }
 
-
-        public void SetAddTIPP()
+        /// <summary>
+        /// Returns the AddTipp model to send with the exchange visitor.
+        /// </summary>
+        /// <returns>The AddTIPP instance.</returns>
+        public AddTIPP GetAddTipp()
         {
-            throw new NotImplementedException();
-            //will fall into the items of the sevis class
+            return new AddTIPP
+            {
+                Items = new List<object>().ToArray(),
+                print7002 = false
+            };
+        }
+
+        /// <summary>
+        /// Returns the SOA (site of activity) instance for this exchange visitor's site of activity.
+        /// </summary>
+        /// <returns>The SOA i.e. site of activity for this exchange visitor.</returns>
+        public SOA GetSOA()
+        {
+            Contract.Requires(this.SiteOfActivity != null, "The site of activity must not be null.");
+            Contract.Requires(this.SiteOfActivity.Street1 != null, "The site of activity street 1 must not be null.");
+            Contract.Requires(this.SiteOfActivity.Street2 != null, "The site of activity street 2 must not be null.");
+            Contract.Requires(this.SiteOfActivity.City != null, "The site of activity city must not be null.");
+            Contract.Requires(this.SiteOfActivity.Division != null, "The site of activity division must not be null.");
+            Contract.Requires(this.SiteOfActivity.Country == LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME, "The site of activity country must be the united states.");
+            Contract.Requires(this.SiteOfActivity.LocationName != null, "The site of activity location name must be defined.");
+            Contract.Requires(this.SiteOfActivity.PostalCode != null, "The site of activity postal code must be defined.");
+
+            var soa = new SOA
+            {
+                Address1 = this.SiteOfActivity.Street1,
+                Address2 = this.SiteOfActivity.Street2,
+                City = this.SiteOfActivity.City,
+                Explanation = null,
+                ExplanationCode = null,
+                ExplanationCodeSpecified = false,
+                PostalCode = this.SiteOfActivity.PostalCode,
+                PrimarySite = true,
+                Remarks = null,
+                State = this.SiteOfActivity.Division.GetStateCodeType(),
+                StateSpecified = true,
+                SiteName = this.SiteOfActivity.LocationName
+            };
+            return soa;
+        }
+
+        /// <summary>
+        /// Returns the AddSiteOfActivity instance for this exchange visitor.
+        /// </summary>
+        /// <returns>The AddSiteOfActivity instance.</returns>
+        public AddSiteOfActivity GetAddSiteOfActivity()
+        {
+            var sitesOfActivity = new List<AbstractSiteOfActivity>();
+            sitesOfActivity.Add(GetSOA());
+            return new AddSiteOfActivity
+            {
+                SiteOfActivity = sitesOfActivity.ToArray()
+            };
         }
 
         public ValidationResult Validate()
@@ -98,14 +162,37 @@ namespace ECA.Business.Validation.Sevis
         {
             Contract.Requires(this.Person != null, "The person must not be null.");
             Contract.Requires(this.Person.FullName != null, "The person full name must not be null.");
-            
+            Contract.Requires(this.Person.ProgramCategoryCode != null, "The program category code must not be null.");
+            Contract.Requires(this.FinancialInfo != null, "The financial info code must not be null.");
+            Contract.Requires(this.OccupationCategoryCode != null, "The occupation category code must not be null.");
+
             var instance = new SEVISEVBatchTypeExchangeVisitor();
-            //instance.Biographical = this.Person.GetEVPersonTypeBiographical();
-            //instance.CategoryCode = this.CategoryCode.GetEVCategoryCodeType();
-            //SetDependents(instance);
-
-
-
+            instance.Biographical = this.Person.GetEVPersonTypeBiographical();
+            instance.CategoryCode = this.Person.ProgramCategoryCode.GetEVCategoryCodeType();
+            instance.FinancialInfo = this.FinancialInfo.GetEVPersonTypeFinancialInfo();
+            instance.Items = new List<object> { GetAddTipp(), GetAddSiteOfActivity() }.ToArray();
+            if (this.Person.MailAddress != null)
+            {
+                var address = this.Person.MailAddress.GetUSAddress();
+                var addressDoctor = address.GetUSAddressDoctorType();
+                instance.MailAddress = addressDoctor;
+            }
+            if (this.Person.USAddress != null)
+            {
+                var address = this.Person.USAddress.GetUSAddress();
+                var addressDoctor = address.GetUSAddressDoctorType();
+                instance.USAddress = addressDoctor;
+            }
+            instance.ResidentialAddress = null;
+            instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
+            instance.OccupationCategoryCodeSpecified = true;
+            instance.PositionCode = (short)Int32.Parse(this.Person.PositionCode);
+            instance.PrgEndDate = this.ProgramEndDate;
+            instance.PrgStartDate = this.ProgramStartDate;
+            instance.printForm = true;
+            instance.requestID = this.Person.ParticipantId.ToString();
+            
+            SetDependents(instance);
             return instance;
         }
 

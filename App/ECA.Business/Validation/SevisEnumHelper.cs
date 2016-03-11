@@ -82,6 +82,20 @@ namespace ECA.Business.Validation
         }
 
         /// <summary>
+        /// Returns the EVOccupationCategoryCodeType for the given string value.
+        /// </summary>
+        /// <returns>The EVOccupationCategoryCodeType for the given string value.</returns>
+        public static EVOccupationCategoryCodeType GetEVOccupationCategoryCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            if (!Enum.IsDefined(typeof(EVOccupationCategoryCodeType), value))
+            {
+                value = "Item" + value;
+            }
+            return GetCodeType<EVOccupationCategoryCodeType>(value);
+        }
+
+        /// <summary>
         /// Returns the GovAgencyCodeType for the given string value.
         /// </summary>
         /// <returns>The GovAgencyCodeType for the given string value.</returns>
