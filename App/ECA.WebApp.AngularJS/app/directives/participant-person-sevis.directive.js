@@ -60,7 +60,8 @@
                 $scope.view.FundingEdit = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.fundingElementId = 'funding' + $scope.participantid;
-                
+                $scope.editMode = false;
+                                
                 var notifyStatuses = ConstantsService.sevisStatuses;
                 
                 $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
@@ -77,6 +78,25 @@
                     $event.stopPropagation();
                 }
                 
+                $scope.edit.onStartDateChange = function () {
+                    if (!$scope.editMode) {
+                        return CreateMessageBox(false)
+                        .then(function (response) {
+                            if (response === false) {
+                                $scope.sevisinfo.startDate = $scope.$parent.oldStartDate;
+                            } else {
+                                if (!isNaN(Date.parse($scope.sevisinfo.startDate))) {
+                                    $scope.updatesevisinfo({ participantId: $scope.participantid });
+                                }
+                            }
+                        });
+                    } else {
+                        if (!isNaN(Date.parse($scope.sevisinfo.startDate))) {
+                            $scope.updatesevisinfo({ participantId: $scope.participantid });
+                        }
+                    }
+                }
+
                 $scope.edit.openStartDatePicker = function ($event) {
                     return CreateMessageBox($scope.edit.isStartDatePickerOpen)
                     .then(function (response) {
@@ -85,6 +105,25 @@
 
                     $event.preventDefault();
                     $event.stopPropagation();
+                }
+
+                $scope.edit.onEndDateChange = function () {
+                    if (!$scope.editMode) {
+                        return CreateMessageBox(false)
+                        .then(function (response) {
+                            if (response === false) {
+                                $scope.sevisinfo.endDate = $scope.$parent.oldEndDate;
+                            } else {
+                                if (!isNaN(Date.parse($scope.sevisinfo.endDate))) {
+                                    $scope.updatesevisinfo({ participantId: $scope.participantid });
+                                }
+                            }
+                        });
+                    } else {
+                        if (!isNaN(Date.parse($scope.sevisinfo.endDate))) {
+                            $scope.updatesevisinfo({ participantId: $scope.participantid });
+                        }
+                    }
                 }
 
                 $scope.edit.openEndDatePicker = function ($event) {
@@ -185,16 +224,19 @@
                             okText: 'Yes',
                             cancelText: 'No',
                             okCallback: function () {
-                                userSection = true
+                                userSection = true;
+                                $scope.editMode = true;
                                 defer.resolve(userSection);
                             },
                             cancelCallback: function () {
                                 userSection = !userSection
+                                $scope.editMode = false;
                                 defer.resolve(userSection);
                             }
                         });
                     } else {
-                        userSection = !userSection
+                        userSection = !userSection;
+                        $scope.editMode = userSection;
                         defer.resolve(userSection);
                     }
 

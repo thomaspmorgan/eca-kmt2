@@ -147,6 +147,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -213,9 +214,12 @@
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\BiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimplePersonDependentDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
@@ -333,6 +337,7 @@
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewParticipantExchangeVisitor.cs" />
+    <Compile Include="Service\Persons\NewPersonDependent.cs" />
     <Compile Include="Service\Persons\NewPersonEduEmp.cs" />
     <Compile Include="Service\Persons\NewPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
@@ -343,6 +348,7 @@
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />
+    <Compile Include="Service\Persons\UpdatedPersonDependent.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEduEmp.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\UpdatedPersonLanguageProficiency.cs" />

@@ -7,12 +7,12 @@
   DTS:CreatorName="BE00003308\Marc Setien"
   DTS:DTSID="{F742F4B9-3FC8-419D-A2D1-7CADD8D861D5}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
   DTS:LocaleID="1033"
   DTS:ObjectName="Populate Domestic MRD City Locations"
   DTS:PackageType="5"
-  DTS:VersionBuild="15"
-  DTS:VersionGUID="{EFDE1597-E726-4153-86F1-C2BE110F3780}">
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{0683C565-69E7-4386-8993-F316BE41EB88}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACBytTGoDxCOSnYiS8SXyfi+zTqNyhRGNB6zOoOI/S2wAAAAAAOgAAAAAIAACAAAAArRK5AUaGfT9+R65ancYfVNuclwV06zFUf1PhjYMXiHiAAAAAUUnTwniFlVMhXjoqUCGpS2mg3/Lhl4HMEOO0opT+1ZEAAAABvXnZmaaKXhKSPHWzO1w5qrwe5o+dUupQXv2wNiQVYCJTzyB2s4VLWaeZOd+xLKaVdWZ7SV7IM+OkxJEEWYUNT</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAm0WpQEFCqB2Xe8eMgL226GEmZ59YQ44JzlEiVnk+0zQAAAAAOgAAAAAIAACAAAABjUydDlVZe/CAN9ym04tcXUrWaZwVr5+tlL3+3p2CgYSAAAAC3o45Y0rYfJEBQKcqjUvc+DBuSL1m6Zi7ffkiRJ6ruw0AAAACrhBOEYpM+fuWa+leRp8L8z1UnqTo5fwX1TtjAKgz/F05QxbH5W/6rDbOHwrWcSpgVh5LZCLdZQFTm8q5Mk63z</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -52,7 +52,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACxHnoXlfRSBzVvvzwhK2din6hZiFy4R2iIJuFgpzHNuwAAAAAOgAAAAAIAACAAAACWNWdO9My5XdvLjat/wPOTcyR1UcUokD93FV7VGZP9GCAAAAAkiqFTrbeVoMl5hEdId0cOGpHfGPAQBhqupnxzYQu1AkAAAAAGMYyvCENcW8RFwZRR/c7EDQ5mKytubpj7F27H1EiS4v7O4LUX6G8tcfe5POW995zjzngTZ2bC4JNXMp63PXWp</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACeIvyklvNzhe3GJ6s2JNq1eK8yJ32mcTAvDW15B6BVIgAAAAAOgAAAAAIAACAAAAB5rKDEoCrVW87kUKuPBH4RRRRJsySwAEi5x+JVWnQcrSAAAAClO8jdbgpkE5XH82qXCluNtz84hUbd7ZjLQI3sqzF8j0AAAADNO8cLXo/3LvvVrZ3zCGnN6x7k53uFNmmX/FbnnZWywbN/EW1IFV1yyx/zU1xVI4sJtAGetOPlZepJOQVoYsjB</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -67,7 +67,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA55mnuwACTEKTimrfNq0VVwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAUxkK/aNJceHNnGXDXDMnM72hIbtjbz93rkCjJ3C3jqQAAAAAOgAAAAAIAACAAAACa6lDif/TqOzqR0QZD8VevXb2pnHFxQgiowA2+XRNjtSAAAAB0bYlVlpI3SWIaGyjjy6RUv2AIvwBnsB9tK887CeGlAEAAAABHNXvqossNxUBCIrSSUBfmOt4dZfaUxkGo3Vaf2o+1bs5vvlNuTvfPIB7cPdiCF75K2PmIQN9INYbZK7b1SqZW</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8MR5hR5Z1kS1jJde+/l2ggAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC7gjUHg6iTwpsCtYXDRtpPH0jpunHTj7bOZfllsYydeQAAAAAOgAAAAAIAACAAAAC/iun+MsayKW4J3Kphwt2lM0JWanbFTMH1UKXe8qfA8iAAAACfbfDGWYMk3AOe81ygXoZFZryrc8Im4aIxG0G9ozMKhEAAAAAOMAFgj+EcEu1E/D9bYQAtPSwHQuqK7+3IYsrEpoHJjgYdnfgZoLzMdVdcYqI+GXYW6nmAXqHGH3WqvSD6Sx5h</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -341,6 +341,28 @@
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
                           name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Populate Domestic MRD City Locations\Add Required Columns.Outputs[Derived Column Output].Columns[IsActive]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Populate Domestic MRD City Locations\Add Required Columns.Outputs[Derived Column Output].Columns[IsActive]"
+                      name="IsActive"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -667,8 +689,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Lookup City LocationType ID.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -808,7 +830,7 @@ where UPPER( [refTable].[LocationName]) = UPPER(?) and [refTable].[LocationTypeI
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsDivisionUnknown" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsActive" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SEVISCountryCodeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -826,8 +848,8 @@ where UPPER( [refTable].[LocationName]) = UPPER(?) and [refTable].[LocationTypeI
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Lookup Country (US).Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1015,8 +1037,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Lookup Country LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1156,7 +1178,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and [refTable].[LocationType
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsDivisionUnknown" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsActive" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SEVISCountryCodeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -1174,8 +1196,8 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and [refTable].[LocationType
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Lookup Division ID.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1349,8 +1371,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Lookup Division LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1489,8 +1511,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\MRD City Data.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerID="{10258656-65F3-4691-94F9-F2D256749F96}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.ECA_Data_Migration]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1783,7 +1805,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsDivisionUnknown" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsActive" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SEVISCountryCodeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -1801,8 +1823,8 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Remove existing Cities.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2115,8 +2137,8 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
               <connections>
                 <connection
                   refId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerID="{9ADA9E08-9BED-4C84-813B-772412CD6E50}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2190,6 +2212,12 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
                       cachedName="Division_LocationId"
                       externalMetadataColumnId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
                       lineageId="Package\Populate Domestic MRD City Locations\Lookup Division ID.Outputs[Lookup Match Output].Columns[Division_LocationId]" />
+                    <inputColumn
+                      refId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].Columns[IsActive]"
+                      cachedDataType="i4"
+                      cachedName="IsActive"
+                      externalMetadataColumnId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].ExternalColumns[IsActive]"
+                      lineageId="Package\Populate Domestic MRD City Locations\Add Required Columns.Outputs[Derived Column Output].Columns[IsActive]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2288,6 +2316,18 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
                       refId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
                       dataType="i4"
                       name="Division_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].ExternalColumns[IsDivisionUnknown]"
+                      dataType="bool"
+                      name="IsDivisionUnknown" />
+                    <externalMetadataColumn
+                      refId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].ExternalColumns[IsActive]"
+                      dataType="bool"
+                      name="IsActive" />
+                    <externalMetadataColumn
+                      refId="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table.Inputs[OLE DB Destination Input].ExternalColumns[SEVISCountryCodeId]"
+                      dataType="i4"
+                      name="SEVISCountryCodeId" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -2405,65 +2445,77 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
         <NodeLayout
           Size="228,42"
           Id="Package\Populate Domestic MRD City Locations\Lookup Division LocationTypeId"
-          TopLeft="809.5,13.5" />
+          TopLeft="28.5,453.5" />
         <NodeLayout
           Size="178,42"
           Id="Package\Populate Domestic MRD City Locations\Lookup Country (US)"
-          TopLeft="343.5,118.5" />
+          TopLeft="373.5,556.5" />
         <NodeLayout
           Size="147,42"
           Id="Package\Populate Domestic MRD City Locations\MRD City Data"
-          TopLeft="18.5,5.5" />
+          TopLeft="21.5,5.5" />
         <NodeLayout
           Size="229,42"
           Id="Package\Populate Domestic MRD City Locations\Lookup Country LocationTypeId"
-          TopLeft="539.5,10.5" />
+          TopLeft="27.5,368.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Populate Domestic MRD City Locations\Add Required Columns"
-          TopLeft="595.5,234.5" />
+          TopLeft="367.5,217.5" />
         <NodeLayout
           Size="255,42"
           Id="Package\Populate Domestic MRD City Locations\Write Missing Cities to Location Table"
-          TopLeft="574.5,313.5" />
+          TopLeft="340.5,121.5" />
         <NodeLayout
           Size="167,42"
           Id="Package\Populate Domestic MRD City Locations\Lookup Division ID"
-          TopLeft="579.5,122.5" />
+          TopLeft="375.5,444.5" />
         <NodeLayout
           Size="214,42"
           Id="Package\Populate Domestic MRD City Locations\Lookup City LocationType ID"
-          TopLeft="1071.5,18.5" />
+          TopLeft="41.5,554.5" />
         <NodeLayout
           Size="185,42"
           Id="Package\Populate Domestic MRD City Locations\Remove existing Cities"
-          TopLeft="891.5,123.5" />
+          TopLeft="359.5,335.5" />
         <NodeLayout
           Size="234,42"
           Id="Package\Populate Domestic MRD City Locations\Add LocationType Lookup Values"
-          TopLeft="244.5,10.5" />
+          TopLeft="21.5,277.5" />
         <NodeLayout
           Size="127,42"
           Id="Package\Populate Domestic MRD City Locations\Aggregate"
-          TopLeft="150.5,92.5" />
+          TopLeft="55.5,180.5" />
         <NodeLayout
           Size="230,42"
           Id="Package\Populate Domestic MRD City Locations\Split Domestic and Foreign Data"
-          TopLeft="7.5,218.5" />
+          TopLeft="17.5,91.5" />
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[OLE DB Source Output]"
-          TopLeft="88.75,47.5">
+          TopLeft="95,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,171"
+              EndConnector="37.5,44"
               Start="0,0"
-              End="0,163.5">
+              End="37.5,36.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,163.5" />
+                    End="0,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18"
+                    Point2="0,22"
+                    Point3="4,22" />
+                  <mssgle:LineSegment
+                    End="33.5,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33.5,22"
+                    Point2="37.5,22"
+                    Point3="37.5,26" />
+                  <mssgle:LineSegment
+                    End="37.5,36.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2474,234 +2526,222 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Lookup No Match Output]"
-          TopLeft="984,165.5">
+          TopLeft="448.916666666667,335.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-295.5,69"
+              EndConnector="0,-76"
               Start="0,0"
-              End="-295.5,61.5">
+              End="0,-68.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,30.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,30.5"
-                    Point2="0,34.5"
-                    Point3="-4,34.5" />
-                  <mssgle:LineSegment
-                    End="-291.5,34.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-291.5,34.5"
-                    Point2="-295.5,34.5"
-                    Point3="-295.5,38.5" />
-                  <mssgle:LineSegment
-                    End="-295.5,61.5" />
+                    End="0,-68.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-203.55638671875,39.5,111.6127734375,11.609375"
+              BoundingBox="-55.80638671875,-40.0546875,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Lookup Match Output4]"
-          TopLeft="1178.5,60.5">
+          TopLeft="255.5,576.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-746,58"
+              EndConnector="118,0"
               Start="0,0"
-              End="-746,50.5">
+              End="110.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25"
-                    Point2="0,29"
-                    Point3="-4,29" />
-                  <mssgle:LineSegment
-                    End="-742,29" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-742,29"
-                    Point2="-746,29"
-                    Point3="-746,33" />
-                  <mssgle:LineSegment
-                    End="-746,50.5" />
+                    End="110.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-421.19138671875,34,96.3827734375,11.609375"
+              BoundingBox="7.05861328125,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Lookup Match Output3]"
-          TopLeft="521.5,141.5">
+          TopLeft="460.75,556.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="58,0"
+              EndConnector="0,-70"
               Start="0,0"
-              End="50.5,0">
+              End="0,-62.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="50.5,0" />
+                    End="0,-62.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-22.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,-37.0546875,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Lookup Match Output2]"
-          TopLeft="1037.5,37">
+          TopLeft="142.5,495.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="34,0"
+              EndConnector="-28.3333333333333,59"
               Start="0,0"
-              End="26.5,0">
+              End="-28.3333333333333,51.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="26.5,0" />
+                    End="0,31.1372912801484" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.1372912801484"
+                    Point2="0,35.1372912801484"
+                    Point3="-4,35.1372912801484" />
+                  <mssgle:LineSegment
+                    End="-24.3333333333333,35.1372912801484" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-24.3333333333333,35.1372912801484"
+                    Point2="-28.3333333333333,35.1372912801484"
+                    Point3="-28.3333333333333,39.1372912801484" />
+                  <mssgle:LineSegment
+                    End="-28.3333333333333,51.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-34.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="-62.3580533854167,40.1372912801484,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Lookup Match Output1]"
-          TopLeft="746.5,144">
+          TopLeft="455.5,444.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="145,0"
+              EndConnector="0,-67"
               Start="0,0"
-              End="137.5,0">
+              End="0,-59.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="137.5,0" />
+                    End="0,-59.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="20.55861328125,5,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,-35.5546875,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Lookup Match Output]"
-          TopLeft="768.5,33">
+          TopLeft="142,410.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="41,0"
+              EndConnector="-36.1666666666667,43"
               Start="0,0"
-              End="33.5,0">
+              End="-36.1666666666667,35.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="33.5,0" />
+                    End="0,21.6202090592334" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.6202090592334"
+                    Point2="0,25.6202090592334"
+                    Point3="-4,25.6202090592334" />
+                  <mssgle:LineSegment
+                    End="-32.1666666666667,25.6202090592334" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-32.1666666666667,25.6202090592334"
+                    Point2="-36.1666666666667,25.6202090592334"
+                    Point3="-36.1666666666667,29.6202090592334" />
+                  <mssgle:LineSegment
+                    End="-36.1666666666667,35.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-31.44138671875,5,96.3827734375,11.609375"
+              BoundingBox="-66.2747200520833,30.6202090592334,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[DomesticLocations]"
-          TopLeft="159.5,218.5">
+          TopLeft="132.5,133.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="54.5,-84"
+              EndConnector="-33.3333333333333,47"
               Start="0,0"
-              End="54.5,-76.5">
+              End="-33.3333333333333,39.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-29.9481865284974" />
+                    End="0,23.8491446345257" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,-29.9481865284974"
-                    Point2="0,-33.9481865284974"
-                    Point3="4,-33.9481865284974" />
+                    Point1="0,23.8491446345257"
+                    Point2="0,27.8491446345257"
+                    Point3="-4,27.8491446345257" />
                   <mssgle:LineSegment
-                    End="50.5,-33.9481865284974" />
+                    End="-29.3333333333333,27.8491446345257" />
                   <mssgle:CubicBezierSegment
-                    Point1="50.5,-33.9481865284974"
-                    Point2="54.5,-33.9481865284974"
-                    Point3="54.5,-37.9481865284974" />
+                    Point1="-29.3333333333333,27.8491446345257"
+                    Point2="-33.3333333333333,27.8491446345257"
+                    Point3="-33.3333333333333,31.8491446345257" />
                   <mssgle:LineSegment
-                    End="54.5,-76.5" />
+                    End="-33.3333333333333,39.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-14.257578125,-28.9481865284974,83.01515625,9.470703125"
+              BoundingBox="-58.1742447916667,32.8491446345257,83.01515625,9.470703125"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Derived Column Output1]"
-          TopLeft="688.5,276.5">
+          TopLeft="464.25,217.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="13.5,37"
+              EndConnector="0,-54"
               Start="0,0"
-              End="13.5,29.5">
+              End="0,-46.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,14.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,14.5"
-                    Point2="0,18.5"
-                    Point3="4,18.5" />
-                  <mssgle:LineSegment
-                    End="9.5,18.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="9.5,18.5"
-                    Point2="13.5,18.5"
-                    Point3="13.5,22.5" />
-                  <mssgle:LineSegment
-                    End="13.5,29.5" />
+                    End="0,-46.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2712,18 +2752,30 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Derived Column Output]"
-          TopLeft="478.5,31.5">
+          TopLeft="138.5,319.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="61,0"
+              EndConnector="-33.3333333333333,49"
               Start="0,0"
-              End="53.5,0">
+              End="-33.3333333333333,41.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="53.5,0" />
+                    End="0,25.1960104076323" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.1960104076323"
+                    Point2="0,29.1960104076323"
+                    Point3="-4,29.1960104076323" />
+                  <mssgle:LineSegment
+                    End="-29.3333333333333,29.1960104076323" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-29.3333333333333,29.1960104076323"
+                    Point2="-33.3333333333333,29.1960104076323"
+                    Point3="-33.3333333333333,33.1960104076323" />
+                  <mssgle:LineSegment
+                    End="-33.3333333333333,41.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2734,30 +2786,30 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Populate Domestic MRD City Locations.Paths[Aggregate Output 1]"
-          TopLeft="214,92.5">
+          TopLeft="119,222.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="147.5,-40"
+              EndConnector="-18.1666666666667,55"
               Start="0,0"
-              End="147.5,-32.5">
+              End="-18.1666666666667,47.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-16" />
+                    End="0,28.7758913412564" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,-16"
-                    Point2="0,-20"
-                    Point3="4,-20" />
+                    Point1="0,28.7758913412564"
+                    Point2="0,32.7758913412564"
+                    Point3="-4,32.7758913412564" />
                   <mssgle:LineSegment
-                    End="143.5,-20" />
+                    End="-14.1666666666667,32.7758913412564" />
                   <mssgle:CubicBezierSegment
-                    Point1="143.5,-20"
-                    Point2="147.5,-20"
-                    Point3="147.5,-24" />
+                    Point1="-14.1666666666667,32.7758913412564"
+                    Point2="-18.1666666666667,32.7758913412564"
+                    Point3="-18.1666666666667,36.7758913412564" />
                   <mssgle:LineSegment
-                    End="147.5,-32.5" />
+                    End="-18.1666666666667,47.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2775,7 +2827,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2785,7 +2837,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2798,7 +2850,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2808,7 +2860,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2831,7 +2883,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2844,7 +2896,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2854,7 +2906,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2903,7 +2955,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -2926,7 +2978,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and UPPER( [refTable].[Divis
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

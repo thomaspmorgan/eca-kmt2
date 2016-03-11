@@ -5,7 +5,7 @@ using System;
 namespace ECA.Business.Queries.Models.Persons
 {
     public class BiographicalDTO
-    {
+    { 
         /// <summary>
         /// Gets or sets the person id.
         /// </summary>
@@ -90,7 +90,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the number of cuntry citizenships.
         /// </summary>
-        public int NumberOfCitizenships { get; set; }        
+        public int NumberOfCitizenships { get; set; }
 
         /// <summary>
         /// Gets or sets the mailing address i.e. the person's host address in the united states.

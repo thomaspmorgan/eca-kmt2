@@ -194,6 +194,26 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Returns data associated with person dependent
+        /// </summary>
+        /// <param name="personId">The person id to find</param>
+        /// <returns></returns>
+        [ResponseType(typeof(SimplePersonDependentDTO))]
+        [Route("Person/{personId:int}/Dependent")]
+        public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int personId)
+        {
+            var person = await service.GetPersonByIdAsync(personId);
+            if (person != null)
+            {
+                return Ok(person);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Returns sorted, filtered, and paged people in the eca system.
         /// </summary>
         /// <param name="model">The filters, paging, and sorting details.</param>
@@ -239,6 +259,28 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Post method to create a person dependent
+        /// </summary>
+        /// <param name="model">The model to create</param>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
         #endregion
 
         #region Update
@@ -278,6 +320,27 @@ namespace ECA.WebApi.Controllers.Persons
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var person = await service.UpdateGeneralAsync(model.ToUpdateGeneral(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> PutDependentAsync(UpdatedPersonDependentBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdatePersonDependentAsync(model.ToUpdatedPersonDependent(businessUser));
                 await service.SaveChangesAsync();
                 return Ok();
             }

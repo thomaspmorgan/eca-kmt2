@@ -38,15 +38,6 @@ VALUES
 
 
 --Program/Subprogram
-,('National Ability Center','International Sports Programming Initiative',@OfficeId)
-,('Empowering Women and Girls Through Sports FY15','Global Sports Mentoring Program',@OfficeId)
-,('Sport for Community FY15','Global Sports Mentoring Program',@OfficeId)
-,('Visitors','Empowering Women & Girls through Sports Initiative',@OfficeId)
-,('Envoys','Empowering Women & Girls through Sports Initiative',@OfficeId)
-,('Global Sports Mentoring FY13','Empowering Women & Girls through Sports Initiative',@OfficeId)
-,('Sport for Community FY14','Sports for Community',@OfficeId)
-,('Sports Visitors FY13','Sports Visitor',@OfficeId)
-,('Sports Envoys FY13','Sports Envoys',@OfficeId)
 
 
 
@@ -101,7 +92,7 @@ while @i <= @max begin
       SET ProgramStatusId = @ActiveStatusId,
           Owner_OrganizationId = @Owner_OrganizationId,
           ParentProgram_ProgramId = @ParentProgramId,
-	  History_RevisedOn = CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
+	  History_RevisedOn = GETDATE(),
 	  History_RevisedBy = 1
       WHERE programid = @existingprogramid
     ELSE
@@ -111,8 +102,7 @@ while @i <= @max begin
            History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,
            ParentProgram_ProgramId,Owner_OrganizationId) 
       VALUES (@ActiveStatusId,@ProgramName,@ProgramName,CAST(N'2015-01-01T00:00:00.0000000-00:00' AS DateTimeOffset),
-              NULL,1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
-              1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),@ParentProgramId,@OfficeId)
+              NULL,1,GETDATE(),1,GETDATE(),@ParentProgramId,@OfficeId)
 
     set @i = @i + 1
 end

@@ -424,6 +424,8 @@ angular.module('staticApp')
               updateSevisCommStatusView(participantId, data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
+              $scope.oldStartDate = $scope.sevisInfo[participantId].startDate;
+              $scope.oldEndDate = $scope.sevisInfo[participantId].endDate;
           })
           .catch(function (error) {
               if (error.status === 404) {
@@ -500,7 +502,7 @@ angular.module('staticApp')
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
           loadSevisInfo(participantId);
-          loadExchangeVisitorInfo(participantId);
+          loadExchangeVisitorInfo(participantId);          
       };
 
       $scope.toggleParticipantInfo = function (participantId) {

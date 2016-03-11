@@ -194,6 +194,9 @@
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\edit.controller.js" />
     <Content Include="app\offices\edit.html" />
+    <Content Include="app\people\dependent-modal.html" />
+    <Content Include="app\people\dependent-edit.html" />
+    <Content Include="app\people\dependent.html" />
     <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
     <Content Include="app\points-of-contact\points-of-contact-modal.html" />
     <Content Include="app\programs\all-programs.controller.js" />
@@ -423,6 +426,7 @@
     </Content>
     <Content Include="app\projects\project-participant-info.controller.js" />
     <Content Include="app\directives\participantLocations.json" />
+    <Content Include="app\directives\dependents.directive" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />

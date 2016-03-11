@@ -306,6 +306,7 @@ angular.module('staticApp')
           .skip(0)
           .take(300)
           .equal('locationTypeId', ConstantsService.locationType.country.id)
+          .isTrue('isActive')
           .sortBy('name')
           .toParams();
       function loadCountries() {

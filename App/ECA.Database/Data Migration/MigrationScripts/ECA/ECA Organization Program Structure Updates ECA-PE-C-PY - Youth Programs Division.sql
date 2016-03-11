@@ -47,25 +47,8 @@ VALUES
 ,('CBYX - High School program','CBYX',@OfficeId)
 ,('CBYX - Young Professionals program','CBYX',@OfficeId)
 ,('CBYX - Vocational program','CBYX',@OfficeId)
-,('General','Short Term Youth Leadership Programs',@OfficeId)
-,('On Demand','Youth Leadership On Demand',@OfficeId)
-,('AYLP','American Youth Leadership Program',@OfficeId)
-,('YAP','Youth Ambassadors Program',@OfficeId)
-
 
 --Program/Subprogram
-,('FLEX FY13','FLEX',@OfficeId)
-,('A-SMYLE FY 13','A-SMYLE',@OfficeId)
-,('YES FY13','YES',@OfficeId)
-,('CBYX - High School program FY13','CBYX - High School program',@OfficeId)
-,('CBYX - Young Professionals program FY13','CBYX - Young Professionals program',@OfficeId)
-,('CBYX - Vocational program FY13','CBYX - Vocational program',@OfficeId)
-,('Workshop FY13','English Language Workshops for Alumni',@OfficeId)
-,('TechGirls FY13','Tech Girls',@OfficeId)
-,('NSLI-Y FY13','National Security Language Initiative for Youth (NSLI-Y)',@OfficeId)
-,('On Demand FY13','On Demand',@OfficeId)
-,('GAPP FY13','German-American Partnership Program (GAPP)',@OfficeId)
-
 
 
 /*  PROCESS STARTS HERE */
@@ -114,7 +97,7 @@ while @i <= @max begin
       SET ProgramStatusId = @ActiveStatusId,
           Owner_OrganizationId = @Owner_OrganizationId,
           ParentProgram_ProgramId = @ParentProgramId,
-	  History_RevisedOn = CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
+	  History_RevisedOn = GETDATE(),
 	  History_RevisedBy = 1
       WHERE programid = @existingprogramid
     ELSE
@@ -124,8 +107,7 @@ while @i <= @max begin
            History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,
            ParentProgram_ProgramId,Owner_OrganizationId) 
       VALUES (@ActiveStatusId,@ProgramName,@ProgramName,CAST(N'2015-01-01T00:00:00.0000000-00:00' AS DateTimeOffset),
-              NULL,1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
-              1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),@ParentProgramId,@OfficeId)
+              NULL,1,GETDATE(),1,GETDATE(),@ParentProgramId,@OfficeId)
 
     set @i = @i + 1
 end
