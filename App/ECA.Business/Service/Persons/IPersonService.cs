@@ -156,6 +156,13 @@ namespace ECA.Business.Service.Persons
         Task<SimplePersonDTO> GetPersonByIdAsync(int personId);
 
         /// <summary>
+        /// Update a person dependent
+        /// </summary>
+        /// <param name="person">The dependent to update</param>
+        /// <returns></returns>
+        Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person);
+
+        /// <summary>
         /// Deletes a dependent from the person
         /// </summary>
         /// <param name="personId"></param>

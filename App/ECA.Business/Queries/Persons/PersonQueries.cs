@@ -4,6 +4,7 @@ using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -96,6 +97,51 @@ namespace ECA.Business.Queries.Persons
                             CityOfBirth = cityOfBirthName,
                             CityOfBirthId = hasPlaceOfBirth ? cityOfBirth.LocationId : default(int?),
                             ProminentCategories = person.ProminentCategories.Select(x => x.Name)
+                        };
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query capable of retrieving dependents from the given context. A FullName value is also calculated for the dependent.
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <returns>The query to retrieve dependents from the context</returns>
+        public static IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependentDTOsQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from person in context.People
+                        let gender = person.Gender
+
+                        let hasPlaceOfBirth = person.PlaceOfBirth != null
+                        let cityOfBirth = person.PlaceOfBirth
+
+                        let cityOfBirthName = hasPlaceOfBirth ? cityOfBirth.LocationName : null
+
+                        let hasCountryOfBirth = hasPlaceOfBirth && cityOfBirth.Country != null
+                        let countryOfBirthId = hasCountryOfBirth ? cityOfBirth.Country.CountryId : 0
+
+                        where person.PersonType.IsDependentPersonType == true
+
+                        select new SimplePersonDependentDTO
+                        {
+                            PersonId = person.PersonId,
+                            FullName = new FullNameDTO
+                                            {
+                                                FirstName = person.FirstName,
+                                                LastName = person.LastName,
+                                                Suffix = person.NameSuffix,
+                                                PassportName = "",
+                                                PreferredName = ""
+                                            },
+                            DateOfBirth = (DateTime)person.DateOfBirth,
+                            Gender = gender.GenderId,
+                            CityOfBirth = hasPlaceOfBirth ? cityOfBirth.LocationId : 0,
+                            CountryOfBirth = (int)countryOfBirthId,
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new Location { LocationId = x.LocationId, LocationName = x.LocationName }).ToList(),
+                            PermanentResidenceCountryCode = 0,
+                            BirthCountryReason = "",
+                            EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
+                            PersonTypeId = person.PersonTypeId
                         };
             return query;
         }

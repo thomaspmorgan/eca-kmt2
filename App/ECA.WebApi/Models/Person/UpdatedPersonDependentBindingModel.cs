@@ -13,6 +13,11 @@ namespace ECA.WebApi.Models.Person
     public class UpdatedPersonDependentBindingModel
     {
         /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        public int PersonId { get; set; }
+
+        /// <summary>
         /// Gets and sets the first name
         /// </summary>
         public FullNameDTO FullName { get; set; }
@@ -71,6 +76,7 @@ namespace ECA.WebApi.Models.Person
         {
             var model = new UpdatedPersonDependent(
                 updater: user,
+                personId: PersonId,
                 fullName: FullName,
                 dateOfBirth: DateOfBirth,
                 gender: Gender,
@@ -83,6 +89,5 @@ namespace ECA.WebApi.Models.Person
                 personTypeId: PersonTypeId);
             return model;
         }
-
     }
 }

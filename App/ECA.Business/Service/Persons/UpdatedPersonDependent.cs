@@ -11,6 +11,7 @@ namespace ECA.Business.Service.Persons
         /// Creates a new instance.
         /// </summary>
         /// <param name="updater">The user performing the update</param>
+        /// <param name="personId">The person id</param>
         /// <param name="fullName">The person full name</param>
         /// <param name="dateOfBirth">The person date of birth</param>
         /// <param name="gender">The person gender</param>
@@ -23,6 +24,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="personTypeId">The person type</param>
         public UpdatedPersonDependent(
             User updater,
+            int personId,
             FullNameDTO fullName,
             DateTime dateOfBirth,
             int gender,
@@ -35,6 +37,7 @@ namespace ECA.Business.Service.Persons
             int personTypeId)
         {
             this.Audit = new Update(updater);
+            this.PersonId = personId;
             this.FullName = fullName;
             this.DateOfBirth = dateOfBirth;
             this.Gender = gender;
@@ -46,6 +49,11 @@ namespace ECA.Business.Service.Persons
             this.EmailAddress = emailAddress;
             this.PersonTypeId = personTypeId;
         }
+
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        public int PersonId { get; set; }
         
         /// <summary>
         /// Gets and sets the first name

@@ -330,6 +330,27 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<IHttpActionResult> PutDependentAsync(UpdatedPersonDependentBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdatePersonDependentAsync(model.ToUpdatedPersonDependent(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Put method to update a person's General Info
         /// </summary>
         /// <param name="model">The model to update</param>
