@@ -1,0 +1,108 @@
+﻿<div ng-controller="personDependentViewCtrl">
+    <div ng-show="dependentLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div ng-show="!dependentLoading">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="form-group row" ng-show="pii.firstName">
+                            <label class="col-md-4 title-label">First name</label>
+                            <div class="col-md-8">
+                                {{pii.firstName}}
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-show="pii.lastName">
+                            <label class="col-md-4 title-label">Last name</label>
+                            <div class="col-md-8">
+                                {{pii.lastName}}
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-show="pii.nameSuffix">
+                            <label class="col-md-4 title-label">Name suffix</label>
+                            <div class="col-md-8">
+                                {{pii.nameSuffix}}
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-show="pii.givenName">
+                            <label class="col-md-4 title-label">Passport name</label>
+                            <div class="col-md-8">
+                                {{pii.givenName}}
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-show="pii.familyName">
+                            <label class="col-md-4 title-label">Preferred name</label>
+                            <div class="col-md-8">
+                                {{pii.familyName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Gender</div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{pii.gender}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">City of Birth</div>
+                <div class="col-md-8">
+                    <div>{{pii.placeOfBirth.name}}</div>
+                    <div>{{pii.placeOfBirth.division}}</div>
+                    <div>{{pii.placeOfBirth.country}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Date of Birth</div>
+                <div class="col-md-8" ng-show="pii.dateOfBirth">
+                    {{pii.dateOfBirth | date : 'longDate' : 'utc'}}
+                </div>
+                <div class="col-md-8" ng-show="!pii.dateOfBirth">
+                    No Data
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 title-label">Countries of Citizenship</div>
+                <div class="col-md-8">
+                    <div class="form-group" ng-repeat="country in pii.countriesOfCitizenship">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{country.value}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Permanent Residence Country</div>
+                <div class="col-md-8">
+                    <div>{{pii.residenceCountry}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Birth Country Reason</div>
+                <div class="col-md-8">
+                    <div>{{pii.birthCountryReason}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Email Address</div>
+                <div class="col-md-8">
+                    <div>{{pii.emailAddress}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

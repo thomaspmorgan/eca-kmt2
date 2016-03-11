@@ -118,8 +118,8 @@
                    ng-model="sevisinfo.startDate"
                    is-open="edit.isStartDatePickerOpen"
                    ng-required="true"
-                   close-text="Close"
-                   ng-change="updatesevisinfo({participantId: participantid})" />
+                   ng-change="edit.onStartDateChange()"
+                   close-text="Close" />
             <span class="input-group-btn">
                 <button type="button"
                         class="btn"
@@ -141,7 +141,7 @@
                    is-open="edit.isEndDatePickerOpen"
                    ng-required="true"
                    close-text="Close" 
-                   ng-change="updatesevisinfo({participantId: participantid})" />
+                   ng-change="edit.onEndDateChange()" />
             <span class="input-group-btn">
                 <button type="button"
                         class="btn"
