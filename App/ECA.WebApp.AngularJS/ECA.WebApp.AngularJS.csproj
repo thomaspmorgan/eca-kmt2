@@ -426,7 +426,7 @@
     </Content>
     <Content Include="app\projects\project-participant-info.controller.js" />
     <Content Include="app\directives\participantLocations.json" />
-    <Content Include="app\directives\dependents.directive" />
+    <Content Include="app\directives\dependents.directive.html" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
