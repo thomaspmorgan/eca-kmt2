@@ -10,7 +10,7 @@ namespace ECA.Business.Validation.Sevis.Finance
     {
         public const int OTHER_ORG_NAME_MAX_LENGTH = 60;
 
-        public const int ORG_LENGTH = 5;
+        public const int ORG_CODE_MAX_LENGTH = 5;
 
         public const int AMOUNT_MAX_LENGTH = 8;
 
@@ -18,9 +18,9 @@ namespace ECA.Business.Validation.Sevis.Finance
 
         public const string OTHER_ORG_CODE = "OTHER";
 
-        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 must have an agency code set and it may be {0} characters.", ORG_LENGTH);
+        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 2 must have an agency code set and it may be {0} characters.", ORG_LENGTH);
+        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
         public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
 
@@ -36,7 +36,7 @@ namespace ECA.Business.Validation.Sevis.Finance
                 .NotNull()
                 .WithMessage(ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
                 .WithState(x => new FundingErrorPath())
-                .Length(1, ORG_LENGTH)
+                .Length(1, ORG_CODE_MAX_LENGTH)
                 .WithMessage(ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
                 .WithState(x => new FundingErrorPath());
             });
@@ -55,7 +55,7 @@ namespace ECA.Business.Validation.Sevis.Finance
             When(visitor => visitor.Org2 != null && !String.Equals(visitor.Org2, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
             {
                 RuleFor(x => x.Org2)
-                    .Length(1, ORG_LENGTH)
+                    .Length(1, ORG_CODE_MAX_LENGTH)
                     .WithMessage(ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE)
                     .WithState(x => new FundingErrorPath());
             });

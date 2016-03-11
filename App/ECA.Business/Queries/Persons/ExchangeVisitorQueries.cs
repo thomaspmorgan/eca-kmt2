@@ -214,7 +214,7 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The query to get international funding as it relates to sevis.</returns>
-        public static IQueryable<International> CreateGetInternationalFundingQuery(EcaContext context, int participantId)
+        public static IQueryable<ExchangeVisitorFundingDTO> CreateGetInternationalFundingQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from visitor in context.ParticipantExchangeVisitors
@@ -232,7 +232,7 @@ namespace ECA.Business.Queries.Persons
 
                         where visitor.ParticipantId == participantId
 
-                        select new International
+                        select new ExchangeVisitorFundingDTO
                         {
                             Amount1 = firstInternationalFundingOrg != null && visitor.FundingIntlOrg1.HasValue ? ((int)visitor.FundingIntlOrg1).ToString() : null,
                             Org1 = firstInternationalFundingOrg != null ? firstInternationalFundingOrg.OrganizationCode : null,
@@ -252,7 +252,7 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The query to get us government funding as it relates to sevis.</returns>
-        public static IQueryable<USGovt> CreateGetUSFundingQuery(EcaContext context, int participantId)
+        public static IQueryable<ExchangeVisitorFundingDTO> CreateGetUSFundingQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from visitor in context.ParticipantExchangeVisitors
@@ -270,7 +270,7 @@ namespace ECA.Business.Queries.Persons
 
                         where visitor.ParticipantId == participantId
 
-                        select new USGovt
+                        select new ExchangeVisitorFundingDTO
                         {
                             Amount1 = firstUsGovFundingAgency != null && visitor.FundingGovtAgency1.HasValue ? ((int)visitor.FundingGovtAgency1).ToString() : null,
                             Org1 = firstUsGovFundingAgency != null ? firstUsGovFundingAgency.AgencyCode : null,

@@ -164,7 +164,7 @@ namespace ECA.Business.Service.Persons
 
             foreach (var participant in participants)
             {
-                createEv = exchangeVisitorService.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
+                createEv = new CreateExchVisitor();// exchangeVisitorService.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
                 createEvs.Add(createEv);
             }
 

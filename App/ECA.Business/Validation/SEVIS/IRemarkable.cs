@@ -8,6 +8,6 @@ namespace ECA.Business.Validation.Sevis
 {
     public interface IRemarkable
     {
-        string Remarks { get; set; }
+        string Remarks { get; }
     }
 }

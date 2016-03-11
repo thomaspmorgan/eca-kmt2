@@ -110,48 +110,48 @@ namespace ECA.Business.Service.Persons
         /// <param name="user">The user.</param>
         /// <param name="projectId">The project id of the participant.</param>
         /// <param name="participantId">The participant id.</param>
-        public CreateExchVisitor GetCreateExchangeVisitor(User user, int projectId, int participantId)
-        {
-            var participant = Context.Participants.Find(participantId);
-            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
-            throwIfParticipantIsNotAPerson(participant);
+        //public CreateExchVisitor GetCreateExchangeVisitor(User user, int projectId, int participantId)
+        //{
+        //    var participant = Context.Participants.Find(participantId);
+        //    throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+        //    throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+        //    throwIfParticipantIsNotAPerson(participant);
 
-            var participantPerson = Context.ParticipantPersons.Find(participantId);
-            throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
+        //    var participantPerson = Context.ParticipantPersons.Find(participantId);
+        //    throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
+        //    var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
 
-            var project = Context.Projects.Find(participant.ProjectId);
-            throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
-            throwIfProjectIsNotExchangeVisitorType(participant, project);
+        //    var project = Context.Projects.Find(participant.ProjectId);
+        //    throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+        //    throwIfProjectIsNotExchangeVisitorType(participant, project);
 
-            var visitor = GetCreateExchangeVisitor(
-                participant: participant,
-                user: user,
-                participantPerson: participantPerson,
-                visitor: participantExchangeVisitor);
+        //    var visitor = GetCreateExchangeVisitor(
+        //        participant: participant,
+        //        user: user,
+        //        participantPerson: participantPerson,
+        //        visitor: participantExchangeVisitor);
 
-            SetBiography(participant, visitor);
-            SetSubjectField(participant, visitor);
-            //SetMailingAddress(participant, visitor, participantPerson);
-            SetUSAddress(participant, visitor, participantPerson);
+        //    SetBiography(participant, visitor);
+        //    SetSubjectField(participant, visitor);
+        //    //SetMailingAddress(participant, visitor, participantPerson);
+        //    SetUSAddress(participant, visitor, participantPerson);
             
-            //if (participantExchangeVisitor != null)
-            //{
-            //    //SetFinancialInfo(visitor, participantExchangeVisitor);
-            //}
-            //else
-            //{
-            //    visitor.FinancialInfo = null;
-            //}
+        //    //if (participantExchangeVisitor != null)
+        //    //{
+        //    //    //SetFinancialInfo(visitor, participantExchangeVisitor);
+        //    //}
+        //    //else
+        //    //{
+        //    //    visitor.FinancialInfo = null;
+        //    //}
 
-            //SetAddSiteOfActivity(visitor);
-            return new CreateExchVisitor
-            {
-                ExchangeVisitor = visitor
-            };
-        }
+        //    //SetAddSiteOfActivity(visitor);
+        //    return new CreateExchVisitor
+        //    {
+        //        ExchangeVisitor = visitor
+        //    };
+        //}
 
         /// <summary>
         /// Returns the CreateExchVisitor object to validate and send to sevis to create a new exchange visitor.
@@ -160,71 +160,71 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The project id of the participant.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The CreateExchVisitor instance</returns>
-        public async Task<CreateExchVisitor> GetCreateExchangeVisitorAsync(User user, int projectId, int participantId)
-        {
-            var participant = await Context.Participants.FindAsync(participantId);
-            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
-            throwIfParticipantIsNotAPerson(participant);
+        //public async Task<CreateExchVisitor> GetCreateExchangeVisitorAsync(User user, int projectId, int participantId)
+        //{
+        //    var participant = await Context.Participants.FindAsync(participantId);
+        //    throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+        //    throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+        //    throwIfParticipantIsNotAPerson(participant);
 
-            var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
-            throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
+        //    var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
+        //    throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
+        //    var participantExchangeVisitor = await CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefaultAsync();
 
-            var project = await Context.Projects.FindAsync(participant.ProjectId);
-            throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
-            throwIfProjectIsNotExchangeVisitorType(participant, project);
+        //    var project = await Context.Projects.FindAsync(participant.ProjectId);
+        //    throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+        //    throwIfProjectIsNotExchangeVisitorType(participant, project);
 
-            var visitor = GetCreateExchangeVisitor(
-                participant: participant,
-                user: user,
-                participantPerson: participantPerson,
-                visitor: participantExchangeVisitor);
+        //    var visitor = GetCreateExchangeVisitor(
+        //        participant: participant,
+        //        user: user,
+        //        participantPerson: participantPerson,
+        //        visitor: participantExchangeVisitor);
 
-            await SetBiographyAsync(participant, visitor);
-            await SetSubjectFieldAsync(participant, visitor);
-            //await SetMailingAddressAsync(participant, visitor, participantPerson);
-            await SetUSAddressAsync(participant, visitor, participantPerson);
-            //if(participantExchangeVisitor != null)
-            //{
-            //    await SetFinancialInfoAsync(visitor, participantExchangeVisitor);
-            //}
-            //else
-            //{
-            //    visitor.FinancialInfo = null;
-            //}
+        //    await SetBiographyAsync(participant, visitor);
+        //    await SetSubjectFieldAsync(participant, visitor);
+        //    //await SetMailingAddressAsync(participant, visitor, participantPerson);
+        //    await SetUSAddressAsync(participant, visitor, participantPerson);
+        //    //if(participantExchangeVisitor != null)
+        //    //{
+        //    //    await SetFinancialInfoAsync(visitor, participantExchangeVisitor);
+        //    //}
+        //    //else
+        //    //{
+        //    //    visitor.FinancialInfo = null;
+        //    //}
             
-            //SetAddSiteOfActivity(visitor);
-            return new CreateExchVisitor
-            {
-                ExchangeVisitor = visitor
-            };
-        }
+        //    //SetAddSiteOfActivity(visitor);
+        //    return new CreateExchVisitor
+        //    {
+        //        ExchangeVisitor = visitor
+        //    };
+        //}
 
-        public ExchangeVisitor GetCreateExchangeVisitor(Participant participant, User user, ParticipantPerson participantPerson,  ParticipantExchangeVisitor visitor)
-        {
-            Contract.Requires(participant != null, "The participant must not be null.");
-            Contract.Requires(user != null, "The user must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            var instance = new ExchangeVisitor();
-            instance.requestID = participant.ParticipantId.ToString();
-            instance.userID = user.Id.ToString();
-            instance.PrgStartDate = participantPerson.StartDate.HasValue ? participantPerson.StartDate.Value.UtcDateTime : default(DateTime);
-            instance.PrgEndDate = participantPerson.EndDate.HasValue ? participantPerson.EndDate.Value.UtcDateTime : default(DateTime);
+        //public ExchangeVisitor GetCreateExchangeVisitor(Participant participant, User user, ParticipantPerson participantPerson,  ParticipantExchangeVisitor visitor)
+        //{
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    Contract.Requires(user != null, "The user must not be null.");
+        //    Contract.Requires(participantPerson != null, "The participant person must not be null.");
+        //    var instance = new Validation.Model.CreateEV.ExchangeVisitor();
+        //    instance.requestID = participant.ParticipantId.ToString();
+        //    instance.userID = user.Id.ToString();
+        //    instance.PrgStartDate = participantPerson.StartDate.HasValue ? participantPerson.StartDate.Value.UtcDateTime : default(DateTime);
+        //    instance.PrgEndDate = participantPerson.EndDate.HasValue ? participantPerson.EndDate.Value.UtcDateTime : default(DateTime);
 
-            instance.OccupationCategoryCode = EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
-            if (visitor != null && visitor.Position != null)
-            {
-                instance.PositionCode = visitor.Position.PositionCode;
-            }
-            if (visitor != null && visitor.ProgramCategory != null)
-            {
-                instance.CategoryCode = visitor.ProgramCategory.ProgramCategoryCode;
-            }
-            //SetTIPP(instance);
-            return instance;
-        }
+        //    instance.OccupationCategoryCode = EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+        //    if (visitor != null && visitor.Position != null)
+        //    {
+        //        instance.PositionCode = visitor.Position.PositionCode;
+        //    }
+        //    if (visitor != null && visitor.ProgramCategory != null)
+        //    {
+        //        instance.CategoryCode = visitor.ProgramCategory.ProgramCategoryCode;
+        //    }
+        //    //SetTIPP(instance);
+        //    return instance;
+        //}
         #endregion
 
         //#region TIPP
@@ -388,72 +388,72 @@ namespace ECA.Business.Service.Persons
         /// <param name="orgFunding">The international organization funding.</param>
         /// <param name="usFunding">The US government funding for the participant.</param>
         /// <returns>The financial info object.</returns>
-        public FinancialInfo GetFinancialInfo(ParticipantExchangeVisitor participantExchangeVisitor, International orgFunding, USGovt usFunding)
-        {
-            Contract.Requires(participantExchangeVisitor != null, "The participant exchange visitor must not be null.");
-            Func<decimal?, string> getFundingAsWholeDollarString = (value) =>
-            {
-                if (value.HasValue && value.Value > 0.0m)
-                {
-                    return ((int)value.Value).ToString();
-                }
-                else
-                {
-                    return null;
-                }
-            };
-            var financialInfo = new FinancialInfo();
-            if ((participantExchangeVisitor.FundingGovtAgency1.HasValue && participantExchangeVisitor.FundingGovtAgency1.Value > 0.0m)
-                || (participantExchangeVisitor.FundingGovtAgency2.HasValue && participantExchangeVisitor.FundingGovtAgency2.Value > 0.0m))
-            {
-                financialInfo.ReceivedUSGovtFunds = true;
-            }
-            else
-            {
-                financialInfo.ReceivedUSGovtFunds = false;
-            }
-            financialInfo.ProgramSponsorFunds = getFundingAsWholeDollarString(participantExchangeVisitor.FundingSponsor);
-            financialInfo.OtherFunds = new OtherFunds
-            {
-                International = orgFunding != null ? orgFunding : null,
-                USGovt = usFunding != null ? usFunding : null,
-                EVGovt = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisGovt),
-                BinationalCommission = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisBNC),
-                Personal = getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal),
-            };
-            if (participantExchangeVisitor.FundingOther.HasValue && participantExchangeVisitor.FundingOther.Value > 0.0m)
-            {
-                financialInfo.OtherFunds.Other = new Other
-                {
-                    Name = participantExchangeVisitor.OtherName,
-                    Amount = getFundingAsWholeDollarString(participantExchangeVisitor.FundingOther)
-                };
-            }
-            else
-            {
-                financialInfo.OtherFunds.Other = null;
-            }
-            //these two null checks are to set the otherfunds.International and otherfund.USGovt to null
-            //if the amount1(s) are null since, the structures are optional and we don't want validation to run
-            //on optional structures.
-            if (orgFunding != null && String.IsNullOrWhiteSpace(orgFunding.Amount1))
-            {
-                if (!String.IsNullOrWhiteSpace(orgFunding.Amount2))
-                {
-                    throw new NotSupportedException("The International Funding Amount1 must have a value if Amount2 has a value.");
-                }
-                financialInfo.OtherFunds.International = null;
-            }
-            if (usFunding != null && String.IsNullOrWhiteSpace(usFunding.Amount1))
-            {
-                if (!String.IsNullOrWhiteSpace(usFunding.Amount2))
-                {
-                    throw new NotSupportedException("The US Government Funding Amount1 must have a value if Amount2 has a value.");
-                }
-                financialInfo.OtherFunds.USGovt = null;
-            }
-            return financialInfo;
-        }
+        //public FinancialInfo GetFinancialInfo(ParticipantExchangeVisitor participantExchangeVisitor, International orgFunding, USGovt usFunding)
+        //{
+        //    Contract.Requires(participantExchangeVisitor != null, "The participant exchange visitor must not be null.");
+        //    Func<decimal?, string> getFundingAsWholeDollarString = (value) =>
+        //    {
+        //        if (value.HasValue && value.Value > 0.0m)
+        //        {
+        //            return ((int)value.Value).ToString();
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    };
+        //    var financialInfo = new FinancialInfo();
+        //    if ((participantExchangeVisitor.FundingGovtAgency1.HasValue && participantExchangeVisitor.FundingGovtAgency1.Value > 0.0m)
+        //        || (participantExchangeVisitor.FundingGovtAgency2.HasValue && participantExchangeVisitor.FundingGovtAgency2.Value > 0.0m))
+        //    {
+        //        financialInfo.ReceivedUSGovtFunds = true;
+        //    }
+        //    else
+        //    {
+        //        financialInfo.ReceivedUSGovtFunds = false;
+        //    }
+        //    financialInfo.ProgramSponsorFunds = getFundingAsWholeDollarString(participantExchangeVisitor.FundingSponsor);
+        //    financialInfo.OtherFunds = new OtherFunds
+        //    {
+        //        International = orgFunding != null ? orgFunding : null,
+        //        USGovt = usFunding != null ? usFunding : null,
+        //        EVGovt = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisGovt),
+        //        BinationalCommission = getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisBNC),
+        //        Personal = getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal),
+        //    };
+        //    if (participantExchangeVisitor.FundingOther.HasValue && participantExchangeVisitor.FundingOther.Value > 0.0m)
+        //    {
+        //        financialInfo.OtherFunds.Other = new Other
+        //        {
+        //            Name = participantExchangeVisitor.OtherName,
+        //            Amount = getFundingAsWholeDollarString(participantExchangeVisitor.FundingOther)
+        //        };
+        //    }
+        //    else
+        //    {
+        //        financialInfo.OtherFunds.Other = null;
+        //    }
+        //    //these two null checks are to set the otherfunds.International and otherfund.USGovt to null
+        //    //if the amount1(s) are null since, the structures are optional and we don't want validation to run
+        //    //on optional structures.
+        //    if (orgFunding != null && String.IsNullOrWhiteSpace(orgFunding.Amount1))
+        //    {
+        //        if (!String.IsNullOrWhiteSpace(orgFunding.Amount2))
+        //        {
+        //            throw new NotSupportedException("The International Funding Amount1 must have a value if Amount2 has a value.");
+        //        }
+        //        financialInfo.OtherFunds.International = null;
+        //    }
+        //    if (usFunding != null && String.IsNullOrWhiteSpace(usFunding.Amount1))
+        //    {
+        //        if (!String.IsNullOrWhiteSpace(usFunding.Amount2))
+        //        {
+        //            throw new NotSupportedException("The US Government Funding Amount1 must have a value if Amount2 has a value.");
+        //        }
+        //        financialInfo.OtherFunds.USGovt = null;
+        //    }
+        //    return financialInfo;
+        //}
         #endregion
 
         #region US Address
@@ -495,35 +495,35 @@ namespace ECA.Business.Service.Persons
         /// <param name="visitor">The exchange visitor.</param>
         /// <param name="participantPerson">The participant person.</param>
         /// <returns>The task.</returns>
-        public Task SetUSAddressAsync(Participant participant, ExchangeVisitor visitor, ParticipantPerson participantPerson)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = GetStateDepartmentCStreetAddress();
-            SetUSAddress(visitor, usAddress);
-            return Task.FromResult<object>(null);
-        }
+        //public Task SetUSAddressAsync(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor, ParticipantPerson participantPerson)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    Contract.Requires(participantPerson != null, "The participant person must not be null.");
+        //    USAddress usAddress = GetStateDepartmentCStreetAddress();
+        //    SetUSAddress(visitor, usAddress);
+        //    return Task.FromResult<object>(null);
+        //}
 
-        /// <summary>
-        /// Sets the US address on the exchange visitor.  The us address is based on the host institution.
-        /// </summary>
-        /// <param name="participant">The participant.</param>
-        /// <param name="visitor">The exchange visitor.</param>
-        /// <param name="participantPerson">The participant person.</param>
-        public void SetUSAddress(Participant participant, ExchangeVisitor visitor, ParticipantPerson participantPerson)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            Contract.Requires(participantPerson != null, "The participant person must not be null.");
-            USAddress usAddress = GetStateDepartmentCStreetAddress();
-            SetUSAddress(visitor, usAddress);
-        }
+        ///// <summary>
+        ///// Sets the US address on the exchange visitor.  The us address is based on the host institution.
+        ///// </summary>
+        ///// <param name="participant">The participant.</param>
+        ///// <param name="visitor">The exchange visitor.</param>
+        ///// <param name="participantPerson">The participant person.</param>
+        //public void SetUSAddress(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor, ParticipantPerson participantPerson)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    Contract.Requires(participantPerson != null, "The participant person must not be null.");
+        //    USAddress usAddress = GetStateDepartmentCStreetAddress();
+        //    SetUSAddress(visitor, usAddress);
+        //}
 
-        private void SetUSAddress(ExchangeVisitor visitor, USAddress usAddress)
-        {
-            visitor.USAddress = usAddress;
-        }
+        //private void SetUSAddress(Validation.Model.CreateEV.ExchangeVisitor visitor, USAddress usAddress)
+        //{
+        //    visitor.USAddress = usAddress;
+        //}
 
         //private void SetUSAddress(ExchangeVisitorUpdate visitor, USAddress usAddress)
         //{
@@ -656,42 +656,42 @@ namespace ECA.Business.Service.Persons
 
         #region Biography
 
-        /// <summary>
-        /// Sets the biographical information on the exchange visitor.
-        /// </summary>
-        /// <param name="participant">The participant.</param>
-        /// <param name="visitor">The exchange visitor.</param>
-        public async Task SetBiographyAsync(Participant participant, ExchangeVisitor visitor)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            var biography = await ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
-            SetBiography(participant, visitor, biography);
-        }
+        ///// <summary>
+        ///// Sets the biographical information on the exchange visitor.
+        ///// </summary>
+        ///// <param name="participant">The participant.</param>
+        ///// <param name="visitor">The exchange visitor.</param>
+        //public async Task SetBiographyAsync(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    var biography = await ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
+        //    SetBiography(participant, visitor, biography);
+        //}
 
-        /// <summary>
-        /// Sets the biographical information on the exchange visitor.
-        /// </summary>
-        /// <param name="participant">The participant.</param>
-        /// <param name="visitor">The exchange visitor.</param>
-        public void SetBiography(Participant participant, ExchangeVisitor visitor)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            var biography = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefault();
-            SetBiography(participant, visitor, biography);
-        }
+        ///// <summary>
+        ///// Sets the biographical information on the exchange visitor.
+        ///// </summary>
+        ///// <param name="participant">The participant.</param>
+        ///// <param name="visitor">The exchange visitor.</param>
+        //public void SetBiography(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    var biography = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefault();
+        //    SetBiography(participant, visitor, biography);
+        //}
 
-        private void SetBiography(Participant participant, ExchangeVisitor visitor, BiographicalDTO biography)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            if (biography == null)
-            {
-                throw new NotSupportedException(String.Format("The participant with id [{0}] must have biographical information.", participant.ParticipantId));
-            }
-            //visitor.Biographical = biography.GetBiographical();
-        }
+        //private void SetBiography(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor, BiographicalDTO biography)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    if (biography == null)
+        //    {
+        //        throw new NotSupportedException(String.Format("The participant with id [{0}] must have biographical information.", participant.ParticipantId));
+        //    }
+        //    //visitor.Biographical = biography.GetBiographical();
+        //}
         
 
         #endregion
@@ -704,37 +704,37 @@ namespace ECA.Business.Service.Persons
         /// <param name="participant">The participant.</param>
         /// <param name="visitor">The visitor to set the subject field.</param>
         /// <returns>The task.</returns>
-        public async Task SetSubjectFieldAsync(Participant participant, ExchangeVisitor visitor)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            var fieldOfStudy = await ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
-            SetSubjectField(participant, visitor, fieldOfStudy);
-        }
+        //public async Task SetSubjectFieldAsync(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    var fieldOfStudy = await ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefaultAsync();
+        //    SetSubjectField(participant, visitor, fieldOfStudy);
+        //}
 
-        /// <summary>
-        /// Sets the SevisSubject field on the exchange visitor.
-        /// </summary>
-        /// <param name="participant">The participant.</param>
-        /// <param name="visitor">The visitor to set the subject field.</param>
-        public void SetSubjectField(Participant participant, ExchangeVisitor visitor)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            var fieldOfStudy = ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefault();
-            SetSubjectField(participant, visitor, fieldOfStudy);
-        }
+        ///// <summary>
+        ///// Sets the SevisSubject field on the exchange visitor.
+        ///// </summary>
+        ///// <param name="participant">The participant.</param>
+        ///// <param name="visitor">The visitor to set the subject field.</param>
+        //public void SetSubjectField(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    var fieldOfStudy = ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(this.Context, participant.ParticipantId).FirstOrDefault();
+        //    SetSubjectField(participant, visitor, fieldOfStudy);
+        //}
 
-        private void SetSubjectField(Participant participant, ExchangeVisitor visitor, SubjectField subjectField)
-        {
-            Contract.Requires(visitor != null, "The visitor must not be null.");
-            Contract.Requires(participant != null, "The participant must not be null.");
-            if (subjectField != null && subjectField.Remarks != null && subjectField.Remarks.Length > SUBJECT_FIELD_REMARKS_MAX_LENGTH)
-            {
-                subjectField.Remarks = subjectField.Remarks.Substring(0, SUBJECT_FIELD_REMARKS_MAX_LENGTH);
-            }
-            visitor.SubjectField = subjectField;
-        }
+        //private void SetSubjectField(Participant participant, Validation.Model.CreateEV.ExchangeVisitor visitor, SubjectField subjectField)
+        //{
+        //    Contract.Requires(visitor != null, "The visitor must not be null.");
+        //    Contract.Requires(participant != null, "The participant must not be null.");
+        //    if (subjectField != null && subjectField.Remarks != null && subjectField.Remarks.Length > SUBJECT_FIELD_REMARKS_MAX_LENGTH)
+        //    {
+        //        subjectField.Remarks = subjectField.Remarks.Substring(0, SUBJECT_FIELD_REMARKS_MAX_LENGTH);
+        //    }
+        //    visitor.SubjectField = subjectField;
+        //}
         #endregion
 
         //#region Dependents

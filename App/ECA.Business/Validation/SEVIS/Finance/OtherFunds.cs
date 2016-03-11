@@ -11,42 +11,45 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(OtherFundsValidator))]
     public class OtherFunds
     {
-        public OtherFunds()
+        public OtherFunds(string evGovt, string binationalCommission, string personal, USGovt usGovt, International international, Other other)
         {
-            USGovt = new USGovt();
-            International = new International();
-            Other = new Other();
+            this.EVGovt = evGovt;
+            this.BinationalCommission = binationalCommission;
+            this.Personal = personal;
+            this.USGovt = usGovt;
+            this.International = international;
+            this.Other = other;
         }
 
         /// <summary>
         /// US government organization
         /// </summary>
-        public USGovt USGovt { get; set; }
+        public USGovt USGovt { get; private set; }
 
         /// <summary>
         /// International organization funding
         /// </summary>
-        public International International { get; set; }
+        public International International { get; private set; }
 
         /// <summary>
         /// Funding from exchange visitor government
         /// </summary>
-        public string EVGovt { get; set; }
+        public string EVGovt { get; private set; }
 
         /// <summary>
         /// Funding from binational commission
         /// </summary>
-        public string BinationalCommission { get; set; }
+        public string BinationalCommission { get; private set; }
 
         /// <summary>
         /// Other organization funding
         /// </summary>
-        public Other Other { get; set; }
+        public Other Other { get; private set; }
 
         /// <summary>
         /// Personal funds
         /// </summary>
-        public string Personal { get; set; }
+        public string Personal { get; private set; }
 
         /// <summary>
         /// Returns the sevis exchange visitor OtherFundsType instance.

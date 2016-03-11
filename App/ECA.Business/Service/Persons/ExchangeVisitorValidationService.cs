@@ -182,8 +182,9 @@ namespace ECA.Business.Service.Persons
 		public ValidationResult DoGetParticipantBiographicalValidationResult(BiographicalDTO biography, ParticipantPerson person)
         {
             Contract.Requires(biography != null, "The biography should not be null here.");
-            var result = this.PersonBiographyValidator.Validate(biography.GetPerson());
-            return result;
+            throw new NotImplementedException();
+            //var result = new ValidationResult();// this.PersonBiographyValidator.Validate(biography.GetPerson());
+            //return result;
         }
         #endregion
 

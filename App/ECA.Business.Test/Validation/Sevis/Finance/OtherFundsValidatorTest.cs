@@ -2,6 +2,7 @@
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Business.Validation.SEVIS.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
@@ -9,25 +10,30 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
     [TestClass]
     public class OtherFundsValidatorTest
     {
-        public OtherFunds GetValidOtherFunds()
-        {
-            var instance = new OtherFunds();
-            instance.Other = null;
-            instance.International = null;
-            instance.USGovt = null;
-            return instance;
-        }
 
         [TestMethod]
         public void TestOther_ShouldRunValidator()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+             {
+                 return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+             };
+
+            other = null;
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             Assert.IsNull(instance.Other);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Other = new Other();
+            other = new Other("name", "amount");
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
         }
@@ -35,13 +41,27 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestUSGovt_ShouldRunValidator()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
+
+            usGovt = null;
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
-            Assert.IsNull(instance.Other);
+            var instance = createEntity();
+            Assert.IsNull(instance.USGovt);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.USGovt = new USGovt();
+            usGovt = new USGovt(null, null, null, null, null, null);
+            instance = createEntity();
+
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
         }
@@ -50,13 +70,24 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestInternational_ShouldRunValidator()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = null;
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
-            Assert.IsNull(instance.Other);
+            var instance = createEntity();
+            Assert.IsNull(instance.International);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.International = new International();
+            international = new International(null, null, null, null, null, null);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
         }
@@ -64,12 +95,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestEVGovt_Null()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.EVGovt = null;
+            evGovt = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
         }
@@ -77,12 +119,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestEVGovt_ExceedsMaxLength()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.EVGovt = new string('1', OtherFundsValidator.AMOUNT_MAX_LENGTH + 1);
+            evGovt = new string('1', OtherFundsValidator.AMOUNT_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -94,12 +147,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestEVGovt_DoesNotContainDigits()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.EVGovt = "a";
+            evGovt = "a";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -110,12 +174,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestBinationalCommission_Null()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.BinationalCommission = null;
+            binationalCommission = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
         }
@@ -123,12 +198,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestBinationalCommission_ExceedsMaxLength()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.BinationalCommission = new string('1', OtherFundsValidator.AMOUNT_MAX_LENGTH + 1);
+            binationalCommission = new string('1', OtherFundsValidator.AMOUNT_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -140,12 +226,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestBinationalCommission_DoesNotContainDigits()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.BinationalCommission = "a";
+            binationalCommission = "a";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -156,12 +253,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestPersonal_Null()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Personal = null;
+            personal = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
         }
@@ -169,12 +277,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestPersonal_ExceedsMaxLength()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Personal = new string('1', OtherFundsValidator.AMOUNT_MAX_LENGTH + 1);
+            personal = new string('1', OtherFundsValidator.AMOUNT_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -186,12 +305,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestPersonal_DoesNotContainDigits()
         {
+            string binationalCommission = "1";
+            string personal = "2";
+            string evGovt = "3";
+            Other other = new Other("name", "1");
+            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
+            International international = new International("int 1", null, "2", null, null, null);
+            Func<OtherFunds> createEntity = () =>
+            {
+                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+            };
             var validator = new OtherFundsValidator();
-            var instance = GetValidOtherFunds();
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Personal = "a";
+            personal = "a";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);

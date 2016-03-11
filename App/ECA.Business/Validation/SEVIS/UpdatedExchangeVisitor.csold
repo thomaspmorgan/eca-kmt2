@@ -37,16 +37,7 @@ namespace ECA.Business.Validation.Sevis
         //#endregion
 
 
-        /// <summary>
-        /// Returns all update sevis batch objects.  For example, if a participant has been sent to sevis and
-        /// a name has changed, a dependent has been added, and another dependent has been updated.  This collection
-        /// will contain all update sevis exchange visitor objects to perform those updates.
-        /// </summary>
-        /// <returns>All update sevis batch objects.</returns>
-        public IEnumerable<SEVISEVBatchTypeExchangeVisitor1> GetSEVISEVBatchTypeExchangeVisitor1Collection()
-        {
-            return Enumerable.Empty<SEVISEVBatchTypeExchangeVisitor1>();
-        }
+        
 
         public override ValidationResult Validate(IValidator validator)
         {

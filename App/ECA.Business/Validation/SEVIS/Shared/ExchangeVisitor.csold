@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Model.CreateEV
     {
         public ExchangeVisitor()
         {
-            Biographical = new Person();
+            //Biographical = new Person();
             SubjectField = new SubjectField();
             USAddress = new USAddress();
             MailAddress = new USAddress();

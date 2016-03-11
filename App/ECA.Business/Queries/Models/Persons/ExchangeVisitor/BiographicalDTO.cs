@@ -96,30 +96,5 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the mailing address i.e. the person's host address in the united states.
         /// </summary>
         public AddressDTO MailAddress { get; set; }
-
-        /// <summary>
-        /// Returns a person instance from this biography.
-        /// </summary>
-        /// <returns>A person instance.</returns>
-        public Person GetPerson()
-        {
-            var instance = new Person
-            {
-                BirthCity = this.BirthCity,
-                BirthCountryCode = this.BirthCountryCode,
-                BirthCountryReason = this.BirthCountryReason,
-                BirthDate = this.BirthDate,
-                CitizenshipCountryCode = this.CitizenshipCountryCode,
-                EmailAddress = this.EmailAddress,
-                Gender = this.Gender,
-                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-                PhoneNumber = this.PhoneNumber,
-            };
-            if (this.FullName != null)
-            {
-                instance.FullName = this.FullName.GetFullName();
-            }
-            return instance;
-        }
     }
 }

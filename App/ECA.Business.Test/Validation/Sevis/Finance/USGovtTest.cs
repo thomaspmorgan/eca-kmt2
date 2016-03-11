@@ -9,14 +9,35 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
     public class USGovtTest
     {
         [TestMethod]
+        public void TestConstructor()
+        {
+            var org1 = "org1";
+            var org2 = "org2";
+            var amount1 = "amount 1";
+            var amount2 = "amount 2";
+            var otherName1 = "other 1";
+            var otherName2 = "other 2";
+            var instance = new USGovt(org1, otherName1, amount1, org2, otherName2, amount2);
+            Assert.AreEqual(org1, instance.Org1);
+            Assert.AreEqual(org2, instance.Org2);
+            Assert.AreEqual(amount1, instance.Amount1);
+            Assert.AreEqual(amount2, instance.Amount2);
+            Assert.AreEqual(otherName1, instance.OtherName1);
+            Assert.AreEqual(otherName2, instance.OtherName2);
+        }
+
+        [TestMethod]
         public void TestGetOtherFundsTypeUSGovt_USGovAgency1Only()
         {
             var agencyCode1 = GovAgencyCodeType.DOE;
-            var usGov = new USGovt
-            {
-                Amount1 = "amount 1",
-                Org1 = agencyCode1.ToString()
-            };
+            var usGov = new USGovt(
+               org1: agencyCode1.ToString(),
+               amount1: "amount 1",
+               otherName1: null,
+               org2: null,
+               amount2: null,
+               otherName2: null
+               );
             var instance = usGov.GetOtherFundsTypeUSGovt();
             Assert.AreEqual(usGov.Amount1, instance.Amount1);
             Assert.AreEqual(agencyCode1, instance.Org1);
@@ -31,13 +52,14 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         {
             var agencyCode1 = GovAgencyCodeType.DOE;
             var agencyCode2 = GovAgencyCodeType.DOD;
-            var usGov = new USGovt
-            {
-                Amount1 = "amount 1",
-                Org1 = agencyCode1.ToString(),
-                Amount2 = "amount 2",
-                Org2 = agencyCode2.ToString()
-            };
+            var usGov = new USGovt(
+               org1: agencyCode1.ToString(),
+               amount1: "amount 1",
+               otherName1: null,
+               org2: agencyCode2.ToString(),
+               amount2: "amount 2",
+               otherName2: null
+               );
             var instance = usGov.GetOtherFundsTypeUSGovt();
             Assert.AreEqual(usGov.Amount1, instance.Amount1);
             Assert.AreEqual(agencyCode1, instance.Org1);
@@ -54,12 +76,14 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         public void TestGetOtherFundsTypeUSGovt_OtherUsGovAgency1()
         {
             var agencyCode1 = GovAgencyCodeType.OTHER;
-            var usGov = new USGovt
-            {
-                Amount1 = "amount 1",
-                Org1 = agencyCode1.ToString(),
-                OtherName1 = "other 1 name"
-            };
+            var usGov = new USGovt(
+               org1: agencyCode1.ToString(),
+               amount1: "amount 1",
+               otherName1: "other 1 name",
+               org2: null,
+               amount2: null,
+               otherName2: null
+               );
             var instance = usGov.GetOtherFundsTypeUSGovt();
             Assert.AreEqual(usGov.Amount1, instance.Amount1);
             Assert.AreEqual(agencyCode1, instance.Org1);
@@ -74,16 +98,14 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         {
             var agencyCode1 = GovAgencyCodeType.OTHER;
             var agencyCode2 = GovAgencyCodeType.OTHER;
-            var usGov = new USGovt
-            {
-                Amount1 = "amount 1",
-                Org1 = agencyCode1.ToString(),
-                OtherName1 = "other 1 name",
-
-                Amount2 = "amount 2",
-                Org2 = agencyCode2.ToString(),
-                OtherName2 = "other 2 name"
-            };
+            var usGov = new USGovt(
+               org1: agencyCode1.ToString(),
+               amount1: "amount 1",
+               otherName1: "other 1 name",
+               org2: agencyCode2.ToString(),
+               amount2: "amount 2",
+               otherName2: "other 2 name"
+               );
             var instance = usGov.GetOtherFundsTypeUSGovt();
             Assert.AreEqual(usGov.Amount1, instance.Amount1);
             Assert.AreEqual(agencyCode1, instance.Org1);
@@ -98,16 +120,17 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestGetOtherFundsNullableTypeUSGovt()
         {
-            var usGov = new USGovt
-            {
-                Amount1 = "amount 1",
-                Org1 = "DOE",
-                OtherName1 = "other 1 name",
+            var agencyCode1 = GovAgencyCodeType.BBG;
+            var agencyCode2 = GovAgencyCodeType.DOED;
 
-                Amount2 = "amount 2",
-                Org2 = "USDA",
-                OtherName2 = "other 2 name"
-            };
+            var usGov = new USGovt(
+               org1: agencyCode1.ToString(),
+               amount1: "amount 1",
+               otherName1: "other 1 name",
+               org2: agencyCode2.ToString(),
+               amount2: "amount 2",
+               otherName2: "other 2 name"
+               );
             var instance = usGov.GetOtherFundsNullableTypeUSGovt();
             Assert.AreEqual(usGov.Amount1, instance.Amount1);
             Assert.AreEqual(usGov.Org1, instance.Org1);

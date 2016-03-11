@@ -11,35 +11,51 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(InternationalValidator))]
     public class International
     {
+        public International(
+            string org1,
+            string otherName1,
+            string amount1,
+            string org2,
+            string otherName2,
+            string amount2)
+        {
+            this.Org1 = org1;
+            this.OtherName1 = otherName1;
+            this.Amount1 = amount1;
+            this.Org2 = org2;
+            this.OtherName2 = otherName2;
+            this.Amount2 = amount2;
+        }
+
         /// <summary>
         /// International organization 1
         /// </summary>
-        public string Org1 { get; set; }
+        public string Org1 { get; private set; }
 
         /// <summary>
         /// Other International organization 1
         /// </summary>
-        public string OtherName1 { get; set; }
+        public string OtherName1 { get; private set; }
 
         /// <summary>
         /// International organization 1 funding amount
         /// </summary>
-        public string Amount1 { get; set; }
+        public string Amount1 { get; private set; }
 
         /// <summary>
         /// International organization 2
         /// </summary>
-        public string Org2 { get; set; }
+        public string Org2 { get; private set; }
 
         /// <summary>
         /// Other International organization 2
         /// </summary>
-        public string OtherName2 { get; set; }
+        public string OtherName2 { get; private set; }
 
         /// <summary>
         /// International organization 2 funding amount
         /// </summary>
-        public string Amount2 { get; set; }
+        public string Amount2 { get; private set; }
 
         /// <summary>
         /// Returns a sevis exchange visitor OtherFundsTypeInternational model instance.

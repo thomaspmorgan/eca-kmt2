@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
+using System;
 using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Validation.Sevis.Bio
@@ -9,30 +10,21 @@ namespace ECA.Business.Validation.Sevis.Bio
         IFormPrintable, 
         IRemarkable
     {
-        /// <summary>
-        /// Gets or sets the birth country specified flag.
-        /// </summary>
-        public bool BirthCountryCodeSpecified { get; set; }
 
-        /// <summary>
-        /// Gets or sets the birth date specified flag.
-        /// </summary>
-        public bool BirthDateSpecified { get; set; }
-
-        /// <summary>
-        /// Gets or sets the citizenship code specified flag.
-        /// </summary>
-        public bool CitizenshipCountryCodeSpecified { get; set; }
-
-        /// <summary>
-        /// Gets or sets the gender specified flag.
-        /// </summary>
-        public bool GenderSpecified { get; set; }
-
-        /// <summary>
-        /// Gets or sets the permamenent residence country code specified flag.
-        /// </summary>
-        public bool PermanentResidenceCountryCodeSpecified { get; set; }
+        public UpdatedPerson(
+            string positionCode, 
+            AddressDTO mailAddress, 
+            AddressDTO usAddress,
+            string remarks,
+            bool printForm)
+        {
+            this.PrintForm = printForm;
+            this.Remarks = remarks;
+            this.MailAddress = mailAddress;
+            this.USAddress = usAddress;
+            this.PositionCode = this.PositionCode
+        }
+        
 
         /// <summary>
         /// Gets or sets the print form flag.
@@ -57,12 +49,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets or sets the position code.
         /// </summary>
-        public int PositionCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the position code specified flag.
-        /// </summary>
-        public bool PositionCodeSpecified { get; set; }
+        public string PositionCode { get; set; }
 
         /// <summary>
         /// Returns a registered sevis exchange visitor's updated biographical information model to be used
@@ -79,6 +66,11 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
             Contract.Requires(this.USAddress != null, "The us address should be specified.");
+            Contract.Requires(this.PositionCode != null, "The position code must be specified.");
+            Func<string, bool> isCodeSpecified = (value) =>
+            {
+                return !string.IsNullOrWhiteSpace(value);
+            };
 
             var instance = new SEVISEVBatchTypeExchangeVisitorBiographical
             {
@@ -92,14 +84,14 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 printForm = this.PrintForm,
                 Remarks = this.Remarks,
-                BirthCountryCodeSpecified = this.BirthCountryCodeSpecified,
-                BirthDateSpecified = this.BirthDateSpecified,
-                CitizenshipCountryCodeSpecified = this.CitizenshipCountryCodeSpecified,
-                GenderSpecified = this.GenderSpecified,
-                PermanentResidenceCountryCodeSpecified = this.PermanentResidenceCountryCodeSpecified,
+                BirthCountryCodeSpecified = isCodeSpecified(this.BirthCountryCode),
+                BirthDateSpecified = this.BirthDate.HasValue,
+                CitizenshipCountryCodeSpecified = isCodeSpecified(this.CitizenshipCountryCode),
+                GenderSpecified = isCodeSpecified(this.Gender),
+                PermanentResidenceCountryCodeSpecified = isCodeSpecified(this.PermanentResidenceCountryCode),
                 PhoneNumber = this.PhoneNumber,
-                PositionCode = (short)this.PositionCode,
-                PositionCodeSpecified = this.PositionCodeSpecified,
+                PositionCode = (short)Int32.Parse(this.PositionCode),
+                PositionCodeSpecified = isCodeSpecified(this.PositionCode),
                 ResidentialAddress = null,
                 BirthCountryReason = null,
 

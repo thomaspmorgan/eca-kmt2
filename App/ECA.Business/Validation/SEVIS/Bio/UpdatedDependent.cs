@@ -1,4 +1,5 @@
-﻿using ECA.Business.Sevis.Model;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Sevis.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -14,9 +15,53 @@ namespace ECA.Business.Validation.Sevis.Bio
     public class UpdatedDependent
         : Dependent,
         ISevisIdentifable,
-        IFormPrintable,
         IRemarkable
     {
+        public UpdatedDependent(
+            FullName fullName,
+            string birthCity,
+            string birthCountryCode,
+            string birthCountryReason,
+            DateTime? birthDate,
+            string citizenshipCountryCode,
+            string emailAddress,
+            string genderCode,
+            string permanentResidenceCountryCode,
+            string phoneNumber,
+            string positionCode,
+            string relationship,
+            AddressDTO mailAddress,
+            AddressDTO usAddress,
+            bool printForm,
+            string sevisId,
+            string remarks,
+            int personId,
+            int participantId
+            )
+            :base(
+                 fullName: fullName,
+                 birthCity: birthCity,
+                 birthCountryCode: birthCountryCode,
+                 birthCountryReason: birthCountryReason,
+                 birthDate: birthDate,
+                 citizenshipCountryCode: citizenshipCountryCode,
+                 emailAddress: emailAddress,
+                 genderCode: genderCode,
+                 permanentResidenceCountryCode: permanentResidenceCountryCode,
+                 phoneNumber: phoneNumber,
+                 positionCode: positionCode,
+                 relationship: relationship,
+                 mailAddress: mailAddress,
+                 usAddress: usAddress,
+                 printForm: printForm,
+                 personId: personId,
+                 participantId: participantId
+                 )
+        {
+            this.SevisId = sevisId;
+            this.Remarks = remarks;
+        }
+
         /// <summary>
         /// Gets or sets the sevis id.
         /// </summary>
@@ -26,16 +71,6 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets or sets the remarks.
         /// </summary>
         public string Remarks { get; set; }
-
-        /// <summary>
-        /// Gets or sets is relationship field specified flag.
-        /// </summary>
-        public bool IsRelationshipFieldSpecified { get; set; }
-
-        /// <summary>
-        /// Gets or sets the print form flag.
-        /// </summary>
-        public bool PrintForm { get; set; }
 
         /// <summary>
         /// Returns a SEVISEVBatchTypeExchangeVisitorDependentEdit instance for when a sevis registered exchange visitor
@@ -52,11 +87,15 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
             Contract.Requires(this.Relationship != null, "The Gender should be specified.");
+            Func<string, bool> isCodeSpecified = (value) =>
+            {
+                return !string.IsNullOrWhiteSpace(value);
+            };
             return new SEVISEVBatchTypeExchangeVisitorDependentEdit
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                BirthCountryReasonSpecified = false,
+                BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReason),
                 BirthDate = this.BirthDate.Value,
                 CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                 dependentSevisID = this.SevisId,
@@ -66,7 +105,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 printForm = this.PrintForm,
                 Relationship = this.Relationship.GetDependentCodeType(),
-                RelationshipSpecified = this.IsRelationshipFieldSpecified,
+                RelationshipSpecified = isCodeSpecified(this.Relationship),
                 Remarks = this.Remarks
             };
         }

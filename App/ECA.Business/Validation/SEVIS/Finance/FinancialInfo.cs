@@ -11,25 +11,37 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(FinancialInfoValidator))]
     public class FinancialInfo : IFormPrintable
     {
+        public FinancialInfo(
+            bool printForm,
+            bool receivedUSGovtFunds,
+            string programSponsorFunds,
+            OtherFunds otherFunds)
+        {
+            this.PrintForm = printForm;
+            this.ReceivedUSGovtFunds = receivedUSGovtFunds;
+            this.ProgramSponsorFunds = programSponsorFunds;
+            this.OtherFunds = otherFunds;
+        }
+
         /// <summary>
         /// Gets or sets print form.
         /// </summary>
-        public bool PrintForm { get; set; }
+        public bool PrintForm { get; private set; }
 
         /// <summary>
         /// Indicates receipt of US govt funds
         /// </summary>
-        public bool ReceivedUSGovtFunds { get; set; }
+        public bool ReceivedUSGovtFunds { get; private set; }
 
         /// <summary>
         /// Program sponsor funds
         /// </summary>
-        public string ProgramSponsorFunds { get; set; }
+        public string ProgramSponsorFunds { get; private set; }
 
         /// <summary>
         /// Other financial support
         /// </summary>
-        public OtherFunds OtherFunds { get; set; }
+        public OtherFunds OtherFunds { get; private set; }
 
         /// <summary>
         /// Returns the new sevis exchange visitor financial info.

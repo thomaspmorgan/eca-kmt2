@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
-    public abstract class BiographyValidator : AbstractValidator<Biography>
+    public class BiographyValidator : AbstractValidator<IBiographical>
     {
         public const int CITY_MAX_LENGTH = 50;
         public const int COUNTRY_CODE_LENGTH = 2;

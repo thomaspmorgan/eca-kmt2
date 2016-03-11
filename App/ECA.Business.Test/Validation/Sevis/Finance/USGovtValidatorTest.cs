@@ -9,31 +9,45 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
     [TestClass]
     public class USGovtValidatorTest
     {
-        public USGovt GetValidUSGovt()
-        {
-            return new USGovt
-            {
-            };
-        }
 
         [TestMethod]
         public void TestOrg1Code_NotOtherOrgCode_NotRequiredCodeLength()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = new string('a', USGovtValidator.ORG_LENGTH);
-            instance.Amount1 = "1";
+
+            org1 = new string('a', USGovtValidator.ORG_CODE_MAX_LENGTH);
+            amount1 = "1";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Org1 = String.Empty;
+            org1 = String.Empty;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(USGovtValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
 
-            instance.Org1 = new string('a', USGovtValidator.ORG_LENGTH + 1);
+            org1 = new string('a', USGovtValidator.ORG_CODE_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -44,16 +58,34 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestOrg1Code_IsOtherOrgCode_OtherNameExceedsLength()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
 
-            instance.Org1 = USGovtValidator.OTHER_ORG_CODE;
-            instance.Amount1 = "1";
-            instance.OtherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            org1 = USGovtValidator.OTHER_ORG_CODE;
+            amount1 = "1";
+            otherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.OtherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
+            otherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -64,16 +96,34 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestOrg1Code_IsOtherOrgCode_OtherNameNull()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
 
-            instance.Org1 = USGovtValidator.OTHER_ORG_CODE;
-            instance.Amount1 = "1";
-            instance.OtherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            org1 = USGovtValidator.OTHER_ORG_CODE;
+            amount1 = "1";
+            otherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.OtherName1 = null;
+            otherName1 = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -84,14 +134,33 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount1_Null()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1234";
+            org1 = "abc";
+            amount1 = "1234";
+            var instance = createEntity();
+
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount1 = null;
+            amount1 = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -102,14 +171,33 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount1_ExceedsMaxLength()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1234";
+
+            org1 = "abc";
+            amount1 = "1234";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount1 = new string('3', USGovtValidator.AMOUNT_MAX_LENGTH + 1);
+            amount1 = new string('3', USGovtValidator.AMOUNT_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -121,14 +209,33 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount1_DoesNotContainNumbers()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1234";
+            org1 = "abc";
+            amount1 = "1234";
+            var instance = createEntity();
+
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount1 = "a";
+            amount1 = "a";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -139,15 +246,34 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount2_IsNull()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1";
-            instance.Amount2 = "1234";
+
+            org1 = "abc";
+            amount1 = "1";
+            amount2 = "1234";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount2 = null;
+            amount2 = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
         }
@@ -155,15 +281,34 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount2_DoesNotContainDigits()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1";
-            instance.Amount2 = "1234";
+
+            org1 = "abc";
+            amount1 = "1";
+            amount2 = "1234";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount2 = "abc";
+            amount2 = "abc";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -174,15 +319,34 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount2_ExceedsMaxLength()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1";
-            instance.Amount2 = "1234";
+
+            org1 = "abc";
+            amount1 = "1";
+            amount2 = "1234";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount2 = new string('1', USGovtValidator.AMOUNT_MAX_LENGTH + 1);
+            amount2 = new string('1', USGovtValidator.AMOUNT_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -193,17 +357,36 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount2_Org2IsNotNull()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1";
-            instance.Org2 = null;
-            instance.Amount2 = null;
 
+            org1 = "abc";
+            amount1 = "1";
+            org2 = null;
+            amount2 = null;
+
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Org2 = "xxx";
+            org2 = "xxx";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -214,18 +397,35 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount2_OtherName2IsNotNull()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = "abc";
-            instance.Amount1 = "1";
-            instance.Org2 = null;
-            instance.Amount2 = null;
-
+            org1 = "abc";
+            amount1 = "1";
+            org2 = null;
+            amount2 = null;
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Org2 = USGovtValidator.OTHER_ORG_CODE;
-            instance.OtherName2 = "a";
+            org2 = USGovtValidator.OTHER_ORG_CODE;
+            otherName2 = "a";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -237,17 +437,35 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestOrg2Code_NotOtherOrgCode_NotRequiredCodeLength()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-            instance.Org1 = new string('a', USGovtValidator.ORG_LENGTH);
-            instance.Amount1 = "1";
-            instance.Org2 = new string('a', USGovtValidator.ORG_LENGTH);
-            instance.Amount2 = "1";
 
+            org1 = new string('a', USGovtValidator.ORG_CODE_MAX_LENGTH);
+            amount1 = "1";
+            org2 = new string('a', USGovtValidator.ORG_CODE_MAX_LENGTH);
+            amount2 = "1";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Org2 = String.Empty;
+            org2 = String.Empty;
+            instance = createEntity();
             result = validator.Validate(instance);
 
             Assert.IsFalse(result.IsValid);
@@ -255,7 +473,8 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(USGovtValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
 
-            instance.Org2 = new string('a', USGovtValidator.ORG_LENGTH + 1);
+            org2 = new string('a', USGovtValidator.ORG_CODE_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -266,21 +485,39 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestOrg2Code_IsOtherOrgCode_OtherNameExceedsLength()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
 
-            instance.Org1 = USGovtValidator.OTHER_ORG_CODE;
-            instance.Amount1 = "1";
-            instance.OtherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
-            instance.Org2 = USGovtValidator.OTHER_ORG_CODE;
-            instance.Amount2 = "1";
-            instance.OtherName2 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            org1 = USGovtValidator.OTHER_ORG_CODE;
+            amount1 = "1";
+            otherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
+            org2 = USGovtValidator.OTHER_ORG_CODE;
+            amount2 = "1";
+            otherName2 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.OtherName2 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
+            otherName2 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -291,22 +528,41 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestOrg2Code_IsOtherOrgCode_OtherNameNull()
         {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<USGovt> createEntity = () =>
+            {
+                return new USGovt(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
             var validator = new USGovtValidator();
-            var instance = GetValidUSGovt();
-
-            instance.Org1 = USGovtValidator.OTHER_ORG_CODE;
-            instance.Amount1 = "1";
-            instance.OtherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
 
-            instance.Org2 = USGovtValidator.OTHER_ORG_CODE;
-            instance.Amount2 = "1";
-            instance.OtherName2 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            org1 = USGovtValidator.OTHER_ORG_CODE;
+            amount1 = "1";
+            otherName1 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
+
+            org2 = USGovtValidator.OTHER_ORG_CODE;
+            amount2 = "1";
+            otherName2 = new string('a', USGovtValidator.OTHER_ORG_NAME_MAX_LENGTH);
+
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.OtherName2 = null;
+            otherName2 = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -315,3 +571,4 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using ECA.Business.Sevis.Model;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Sevis.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -11,12 +12,49 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// <summary>
     /// The AddedDependentBiography is used when an exchange visitor has received a sevis id and a dependent must be added to that participant.
     /// </summary>
-    public class AddedDependent : Dependent, IFormPrintable
+    public class AddedDependent : Dependent
     {
-        /// <summary>
-        /// Gets or sets the print form flag.
-        /// </summary>
-        public bool PrintForm { get; set; }
+        public AddedDependent(
+                FullName fullName,
+                string birthCity,
+                string birthCountryCode,
+                string birthCountryReason,
+                DateTime? birthDate,
+                string citizenshipCountryCode,
+                string emailAddress,
+                string genderCode,
+                string permanentResidenceCountryCode,
+                string phoneNumber,
+                string positionCode,
+                string relationship,
+                AddressDTO mailAddress,
+                AddressDTO usAddress,
+                bool printForm,
+                int personId,
+                int participantId
+            )
+            : base(
+                fullName: fullName,
+                birthCity: birthCity,
+                birthCountryCode: birthCountryCode,
+                birthCountryReason: birthCountryReason,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: emailAddress,
+                genderCode: genderCode,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: phoneNumber,
+                positionCode: positionCode,
+                relationship: relationship,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                participantId: participantId,
+                personId: personId
+                )
+        {
+
+        }
 
 
         /// <summary>
@@ -27,7 +65,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// and a dependent must be added to the participant.</returns>
         public override object GetSevisExhangeVisitorDependentInstance()
         {
-            Contract.Requires(this.BirthDate.HasValue, "The birth date must have a value.");   
+            Contract.Requires(this.BirthDate.HasValue, "The birth date must have a value.");
             Contract.Requires(this.FullName != null, "The full name should be specified.");
             Contract.Requires(this.BirthCountryCode != null, "The BirthCountryCode should be specified.");
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");

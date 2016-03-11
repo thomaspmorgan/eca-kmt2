@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="ECA.Business.Validation.Sevis.Bio.Dependent">
+    <Position X="10" Y="4" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABABAAAEAFICAkABAQAYEQAABAAAABACBAgAACAA=</HashCode>
+      <FileName>Validation\Sevis\Bio\Dependent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ECA.Business.Validation.Sevis.Bio.AddedDependent">
+    <Position X="12" Y="10.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Validation\Sevis\Bio\AddedDependent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ECA.Business.Validation.Sevis.Bio.FullName">
+    <Position X="13.75" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAQAABAAAAAgAAAAAAAACAAAQAAAAg=</HashCode>
+      <FileName>Validation\Sevis\Bio\FullName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ECA.Business.Validation.Sevis.Bio.Person">
+    <Position X="2.25" Y="4.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAABQAEAIEABICEgABAQAQEQAABAAAAAICAAgAIQAA=</HashCode>
+      <FileName>Validation\Sevis\Bio\Person.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ECA.Business.Validation.Sevis.Bio.UpdatedDependent">
+    <Position X="7.5" Y="10.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAEAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Validation\Sevis\Bio\UpdatedDependent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ECA.Business.Validation.Sevis.ExchangeVisitor">
+    <Position X="18.25" Y="0.75" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAABBAASAEAEAAAAAAAAAAAAAAAAAAQAEAAAQACA=</HashCode>
+      <FileName>Validation\Sevis\ExchangeVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ECA.Business.Validation.Sevis.Bio.IBiographical">
+    <Position X="6.25" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAEABICAgABAQAQEQAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Validation\Sevis\Bio\IBiographical.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

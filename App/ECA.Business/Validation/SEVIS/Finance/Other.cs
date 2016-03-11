@@ -9,16 +9,21 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(OtherValidator))]
     public class Other
     {
+        public Other(string name, string amount)
+        {
+            this.Name = name;
+            this.Amount = amount;
+        }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets or sets the amount.
         /// </summary>
-        public string Amount { get; set; }
+        public string Amount { get; private set; }
 
         /// <summary>
         /// Returns a OtherFundsTypeOther sevis exchange visitor model.

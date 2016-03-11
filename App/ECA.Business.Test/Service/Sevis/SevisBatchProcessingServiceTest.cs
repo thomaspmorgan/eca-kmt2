@@ -123,70 +123,70 @@ namespace ECA.Business.Test.Service.Sevis
         {
             var createEV = new CreateExchVisitor
             {
-                ExchangeVisitor = new ExchangeVisitor
-                {
-                    requestID = "123456789",
-                    userID = "1",
-                    PositionCode = "100",
-                    PrgStartDate = new DateTime(1998, 4, 12),
-                    PrgEndDate = new DateTime(2001, 4, 12),
-                    CategoryCode = "05",
-                    OccupationCategoryCode = "99",
-                    //Biographical = new Biographical
-                    //{
-                    //    FullName = new FullName
-                    //    {
-                    //        LastName = "Doe"
-                    //    },
-                    //    BirthDate = new DateTime(1988, 2, 23),
-                    //    Gender = "1",
-                    //    BirthCity = "Arlington",
-                    //    BirthCountryCode = "US",
-                    //    CitizenshipCountryCode = "US",
-                    //},
-                    SubjectField = new SubjectField
-                    {
-                        SubjectFieldCode = "100",
-                        ForeignDegreeLevel = "",
-                        ForeignFieldOfStudy = "",
-                        Remarks = "subject field"
-                    },
-                    USAddress = null,
-                    MailAddress = null,
-                    //FinancialInfo = new FinancialInfo
-                    //{
-                    //    ReceivedUSGovtFunds = false,
-                    //    ProgramSponsorFunds = "23000",
-                    //    OtherFunds = new OtherFunds
-                    //    { }
-                    //},
-                    //CreateDependent = null,
-                    //AddTIPP = new AddTIPP
-                    //{
-                    //    print7002 = false,
-                    //    TippExemptProgram = null,
-                    //    ParticipantInfo = null,
-                    //    TippSite = null
-                    //},
-                    //AddSiteOfActivity = new AddSiteOfActivity
-                    //{
-                    //    SiteOfActivitySOA = new SiteOfActivitySOA
-                    //    {
-                    //        printForm = false,
-                    //        Address1 = "2201 C St NW",
-                    //        City = "Washington",
-                    //        State = "DC",
-                    //        PostalCode = "20520",
-                    //        SiteName = "US Department of State",
-                    //        PrimarySite = true,
-                    //        Remarks = ""
-                    //    },
-                    //    SiteOfActivityExempt = new SiteOfActivityExempt
-                    //    {
-                    //        Remarks = ""
-                    //    }
-                    //}
-                }
+                //ExchangeVisitor = new ExchangeVisitor
+                //{
+                //    requestID = "123456789",
+                //    userID = "1",
+                //    PositionCode = "100",
+                //    PrgStartDate = new DateTime(1998, 4, 12),
+                //    PrgEndDate = new DateTime(2001, 4, 12),
+                //    CategoryCode = "05",
+                //    OccupationCategoryCode = "99",
+                //    //Biographical = new Biographical
+                //    //{
+                //    //    FullName = new FullName
+                //    //    {
+                //    //        LastName = "Doe"
+                //    //    },
+                //    //    BirthDate = new DateTime(1988, 2, 23),
+                //    //    Gender = "1",
+                //    //    BirthCity = "Arlington",
+                //    //    BirthCountryCode = "US",
+                //    //    CitizenshipCountryCode = "US",
+                //    //},
+                //    SubjectField = new SubjectField
+                //    {
+                //        SubjectFieldCode = "100",
+                //        ForeignDegreeLevel = "",
+                //        ForeignFieldOfStudy = "",
+                //        Remarks = "subject field"
+                //    },
+                //    USAddress = null,
+                //    MailAddress = null,
+                //    //FinancialInfo = new FinancialInfo
+                //    //{
+                //    //    ReceivedUSGovtFunds = false,
+                //    //    ProgramSponsorFunds = "23000",
+                //    //    OtherFunds = new OtherFunds
+                //    //    { }
+                //    //},
+                //    //CreateDependent = null,
+                //    //AddTIPP = new AddTIPP
+                //    //{
+                //    //    print7002 = false,
+                //    //    TippExemptProgram = null,
+                //    //    ParticipantInfo = null,
+                //    //    TippSite = null
+                //    //},
+                //    //AddSiteOfActivity = new AddSiteOfActivity
+                //    //{
+                //    //    SiteOfActivitySOA = new SiteOfActivitySOA
+                //    //    {
+                //    //        printForm = false,
+                //    //        Address1 = "2201 C St NW",
+                //    //        City = "Washington",
+                //    //        State = "DC",
+                //    //        PostalCode = "20520",
+                //    //        SiteName = "US Department of State",
+                //    //        PrimarySite = true,
+                //    //        Remarks = ""
+                //    //    },
+                //    //    SiteOfActivityExempt = new SiteOfActivityExempt
+                //    //    {
+                //    //        Remarks = ""
+                //    //    }
+                //    //}
+                //}
             };
 
             List<CreateExchVisitor> createEVs = new List<CreateExchVisitor>();
