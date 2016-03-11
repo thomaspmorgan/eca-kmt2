@@ -1,6 +1,4 @@
 ﻿using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.Shared;
-using FluentValidation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;

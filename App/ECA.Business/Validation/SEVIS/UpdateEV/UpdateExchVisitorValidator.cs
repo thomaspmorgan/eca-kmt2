@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation.Model.Shared;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace ECA.Business.Validation.Model
 {

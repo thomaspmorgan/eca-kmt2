@@ -2,15 +2,9 @@
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
-using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
-using Newtonsoft.Json;
-using FluentValidation.Results;
 using NLog;
 using System;
 using System.Collections.Generic;

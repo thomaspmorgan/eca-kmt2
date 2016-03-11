@@ -1,15 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Validation.Model.CreateEV;
-using ECA.Business.Validation.Model;
-using ECA.Data;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.SEVIS;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Validation.Sevis.Bio;
-using FluentValidation.Attributes;
-using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Validation.SEVIS.ErrorPaths;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {

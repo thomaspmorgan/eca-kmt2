@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Sevis.Finance;
+﻿using ECA.Business.Validation.Sevis.Finance;
 using ECA.Business.Validation.SEVIS.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

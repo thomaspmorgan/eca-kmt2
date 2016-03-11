@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Queries.Persons;
 using ECA.Business.Service.Admin;
-using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Data;

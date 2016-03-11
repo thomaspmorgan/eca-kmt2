@@ -1,12 +1,5 @@
-﻿using ECA.Business.Validation.Model.Sevis;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Sevis;
-using ECA.Business.Validation.Sevis.Bio;
-using ECA.Business.Validation.Sevis.Finance;
-using ECA.Business.Validation.SEVIS;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Validation.Sevis;
 using FluentValidation;
-using System;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {

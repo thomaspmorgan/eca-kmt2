@@ -1,6 +1,4 @@
-﻿using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.SEVIS;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
 using System.Text.RegularExpressions;
 

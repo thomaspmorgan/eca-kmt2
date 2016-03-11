@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
+using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -72,7 +73,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
             Func<Business.Validation.Sevis.Bio.Person> createEntity = () =>
             {
@@ -91,7 +93,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     positionCode: positionCode,
 
                     programCategoryCode: programCataegoryCode,
-                    fieldOfStudyCode: fieldOfStudyCode,
+                    subjectField: subjectField,
                     mailAddress: mailAddress,
                     usAddress: usAddress,
                     printForm: printForm,

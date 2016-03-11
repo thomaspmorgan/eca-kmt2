@@ -181,6 +181,7 @@
     <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
     <Compile Include="Queries\Model\ExchangeVisitor\ExchangeVisitorFundingDTOTest.cs" />
+    <Compile Include="Queries\Model\ExchangeVisitor\SubjectFieldDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
@@ -359,6 +360,7 @@
     <Compile Include="Validation\Sevis\Finance\USGovtTest.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitorTest.cs" />
     <Compile Include="Validation\Sevis\NewExchangeVisitorTest.cs" />
+    <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
     <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
     <None Include="Validation\Shared\EcaAddTIPPTest.csold" />

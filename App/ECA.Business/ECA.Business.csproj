@@ -204,6 +204,7 @@
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -600,10 +601,10 @@
     <None Include="Validation\Sevis\Shared\SiteOfActivitySOA.csold" />
     <None Include="Validation\Sevis\Shared\SiteOfActivitySOAValidator.csold" />
     <None Include="Validation\Sevis\Shared\SiteOfActivityUpdate.csold" />
-    <Compile Include="Validation\Sevis\Shared\SubjectField.cs" />
-    <Compile Include="Validation\Sevis\Shared\SubjectFieldUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\SubjectFieldUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SubjectFieldValidator.cs" />
+    <Compile Include="Validation\Sevis\SubjectField.cs" />
+    <None Include="Validation\Sevis\Shared\SubjectFieldUpdate.csold" />
+    <None Include="Validation\Sevis\Shared\SubjectFieldUpdateValidator.csold" />
+    <Compile Include="Validation\Sevis\SubjectFieldValidator.cs" />
     <Compile Include="Validation\Sevis\USAddressValidator.cs" />
     <None Include="Validation\Sevis\Shared\AddDependent.csold" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />

@@ -6,6 +6,7 @@ using ECA.Business.Sevis.Model;
 using ECA.Business.Validation;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Validation.Sevis;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -47,8 +48,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
 
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName,
@@ -64,7 +66,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks,
                 positionCode.ToString(),
                 programCataegoryCode,
-                fieldOfStudyCode,
+                subjectField,
                 mailAddress,
                 usAddress,
                 printForm,
@@ -82,11 +84,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(remarks, person.Remarks);
             Assert.AreEqual(positionCode, (short)Int32.Parse(person.PositionCode));
             Assert.AreEqual(programCataegoryCode, person.ProgramCategoryCode);
-            Assert.AreEqual(fieldOfStudyCode, person.FieldOfStudyCode);
             Assert.AreEqual(printForm, person.PrintForm);
             Assert.AreEqual(personId, person.PersonId);
             Assert.AreEqual(participantId, person.ParticipantId);
 
+            Assert.IsTrue(Object.ReferenceEquals(subjectField, person.SubjectField));
             Assert.IsTrue(Object.ReferenceEquals(fullName, person.FullName));
             Assert.IsTrue(Object.ReferenceEquals(mailAddress, person.MailAddress));
             Assert.IsTrue(Object.ReferenceEquals(usAddress, person.USAddress));
@@ -127,7 +129,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -145,7 +148,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 positionCode: positionCode.ToString(),
 
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -200,7 +203,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -217,7 +221,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks: remarks,
                 positionCode: positionCode.ToString(),
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -282,7 +286,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -299,7 +304,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks: remarks,
                 positionCode: positionCode,
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -351,7 +356,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -368,7 +374,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks: remarks,
                 positionCode: positionCode.ToString(),
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -419,7 +425,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -436,7 +443,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks: remarks,
                 positionCode: positionCode.ToString(),
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -488,7 +495,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -505,7 +513,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks: remarks,
                 positionCode: positionCode.ToString(),
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -557,7 +565,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
 
             var person = new Business.Validation.Sevis.Bio.Person
@@ -574,7 +583,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 remarks: remarks,
                 positionCode: positionCode.ToString(),
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
                 printForm: printForm,
@@ -622,7 +631,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var remarks = "remarks";
             var programCataegoryCode = "1D";
-            var fieldOfStudyCode = "01.0102";
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
 
             var person = new Business.Validation.Sevis.Bio.Person
                 (birthCity: birthCity,
@@ -637,9 +647,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 phoneNumber: phone,
                 remarks: remarks,
                 positionCode: positionCode.ToString(),
-
                 programCategoryCode: programCataegoryCode,
-                fieldOfStudyCode: fieldOfStudyCode,
+                subjectField: subjectField,
                 mailAddress: null,
                 usAddress: usAddress,
                 printForm: printForm,

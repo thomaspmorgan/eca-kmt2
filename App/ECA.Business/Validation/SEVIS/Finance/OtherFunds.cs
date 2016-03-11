@@ -1,7 +1,5 @@
 ﻿using ECA.Business.Sevis.Model;
-using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {

@@ -2,7 +2,7 @@
 using FluentValidation;
 using System.Text.RegularExpressions;
 
-namespace ECA.Business.Validation.Model.Shared
+namespace ECA.Business.Validation.Sevis
 {
     public class SubjectFieldValidator : AbstractValidator<SubjectField>
     {

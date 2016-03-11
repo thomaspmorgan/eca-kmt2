@@ -2,7 +2,6 @@
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service.Admin;
-using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Data;
@@ -188,7 +187,7 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The subject field query for sevis by participant id.</returns>
-        public static IQueryable<SubjectField> CreateGetSubjectFieldByParticipantIdQuery(EcaContext context, int participantId)
+        public static IQueryable<SubjectFieldDTO> CreateGetSubjectFieldByParticipantIdQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
@@ -200,7 +199,7 @@ namespace ECA.Business.Queries.Persons
                         on exchangeVisitor.FieldOfStudyId equals fieldOfStudy.FieldOfStudyId
 
                         where participant.ParticipantId == participantId
-                        select new SubjectField
+                        select new SubjectFieldDTO
                         {
                             SubjectFieldCode = fieldOfStudy.FieldOfStudyCode,
                             Remarks = fieldOfStudy.Description

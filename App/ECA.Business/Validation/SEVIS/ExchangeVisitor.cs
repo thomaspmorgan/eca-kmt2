@@ -1,25 +1,19 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
+using ECA.Business.Service.Admin;
 using ECA.Business.Sevis.Model;
-using FluentValidation;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.Finance;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
-using FluentValidation.Results;
-using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
-using ECA.Business.Validation.Sevis.Bio;
-using ECA.Data;
-using System.Linq;
 using System.Diagnostics.Contracts;
-using ECA.Business.Validation.Sevis.Finance;
-using ECA.Business.Service;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+using System.Linq;
 
 namespace ECA.Business.Validation.Sevis
 {
     public class ExchangeVisitor
     {
-
-
         public ExchangeVisitor(
             User user,
             Bio.Person person,
@@ -39,7 +33,6 @@ namespace ECA.Business.Validation.Sevis
             this.ProgramStartDate = programStartDate;
             this.Dependents = dependents ?? new List<Dependent>();
             this.SiteOfActivity = siteOfActivity;
-
         }
 
         /// <summary>
@@ -81,13 +74,6 @@ namespace ECA.Business.Validation.Sevis
         /// Gets the dependents.
         /// </summary>
         public IEnumerable<Dependent> Dependents { get; private set; }
-
-
-        public void SetAddSiteOfActivity()
-        {
-            throw new NotImplementedException();
-            //will fall into the items of the sevis class
-        }
 
         /// <summary>
         /// Returns the AddTipp model to send with the exchange visitor.
@@ -191,7 +177,7 @@ namespace ECA.Business.Validation.Sevis
             instance.PrgStartDate = this.ProgramStartDate;
             instance.printForm = true;
             instance.requestID = this.Person.ParticipantId.ToString();
-            
+            instance.SubjectField = this.Person.SubjectField.GetEVPersonTypeSubjectField();
             SetDependents(instance);
             return instance;
         }
@@ -222,125 +208,5 @@ namespace ECA.Business.Validation.Sevis
         {
             return Enumerable.Empty<SEVISEVBatchTypeExchangeVisitor1>();
         }
-
-        /// <summary>
-        /// Sets the program start date from the given participant person.
-        /// </summary>
-        /// <param name="participantPerson">The participant person.</param>
-        //public void SetStartDate(ParticipantPerson participantPerson)
-        //{
-        //    this.ProgramStartDate = participantPerson.StartDate.HasValue ? participantPerson.StartDate.Value.UtcDateTime : default(DateTime);
-        //}
-
-        /// <summary>
-        /// Sets the program end date from the given participant person.
-        /// </summary>
-        /// <param name="participantPerson">The participant person.</param>
-        //public void SetEndDate(ParticipantPerson participantPerson)
-        //{
-        //    this.ProgramEndDate = participantPerson.EndDate.HasValue ? participantPerson.EndDate.Value.UtcDateTime : default(DateTime);
-        //}
-
-
-
-        /// <summary>
-        /// Sets the person to the person that is created by the given biography.
-        /// </summary>
-        /// <param name="biography"></param>
-        //public void SetPerson(Bio.Person person)
-        //{
-        //    if (person != null)
-        //    {
-        //        this.Person = person;
-        //    }
-        //    else
-        //    {
-        //        this.Person = null;
-        //    }
-        //}
-
-
-        /// <summary>
-        /// Sets the subject field with the given field of study.
-        /// </summary>
-        /// <param name="fieldOfStudy"></param>
-        //public void SetSubjectField(FieldOfStudy fieldOfStudy)
-        //{
-        //    if (fieldOfStudy != null)
-        //    {
-        //        this.SubjectField = fieldOfStudy.FieldOfStudyCode;
-        //    }
-        //    else
-        //    {
-        //        this.SubjectField = null;
-        //    }
-        //}
-
-        /// <summary>
-        /// Sets the us address from the given address dto.
-        /// </summary>
-        /// <param name="address">The address.</param>
-        //public void SetUSAddress(AddressDTO address)
-        //{
-        //    if (address != null)
-        //    {
-        //        var usAddress = address.GetUSAddress();
-        //        this.USAddress = usAddress;
-        //    }
-        //    else
-        //    {
-        //        this.USAddress = null;
-        //    }
-        //}
-
-        /// <summary>
-        /// Sets the mailing address from the given address.
-        /// </summary>
-        /// <param name="address">The mailing address.</param>
-        //public void SetMailAddress(AddressDTO address)
-        //{
-        //    if (address != null)
-        //    {
-        //        var usAddress = address.GetUSAddress();
-        //        this.MailAddress = usAddress;
-        //    }
-        //    else
-        //    {
-        //        this.MailAddress = null;
-        //    }
-        //} 
-
-        /// <summary>
-        /// Sets the dependents of this exchange visitor.
-        /// </summary>
-        /// <param name="dependents">The exchange visitor's dependents.</param>
-        //public void SetDependents(IEnumerable<Dependent> dependents)
-        //{
-        //    if(dependents != null)
-        //    {
-        //        this.Dependents = dependents;
-        //    }
-        //    else
-        //    {
-        //        this.Dependents = new List<Dependent>();
-        //    }
-        //}
-
-        /// <summary>
-        /// Sets the financial info with the given instance.
-        /// </summary>
-        /// <param name="financialInfo">The financial info.</param>
-        //public void SetFinancialInfo(FinancialInfo financialInfo)
-        //{
-        //    if (financialInfo != null)
-        //    {
-        //        this.FinancialInfo = financialInfo;
-        //    }
-        //    else
-        //    {
-        //        this.FinancialInfo = null;
-        //    }
-        //}
     }
-
 }

@@ -1,9 +1,7 @@
 ﻿using ECA.Business.Sevis.Model;
-using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {

@@ -26,7 +26,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             string remarks,
             string positionCode,
             string programCategoryCode,
-            string fieldOfStudyCode,
+            SubjectField subjectField,
             AddressDTO mailAddress,
             AddressDTO usAddress,
             bool printForm,
@@ -52,7 +52,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.PersonId = personId;
             this.ParticipantId = participantId;
             this.ProgramCategoryCode = programCategoryCode;
-            this.FieldOfStudyCode = fieldOfStudyCode;
+            this.SubjectField = subjectField;
             this.PositionCode = positionCode;
         }
 
@@ -109,7 +109,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets the field of study code.
         /// </summary>
-        public string FieldOfStudyCode { get; private set; }
+        public SubjectField SubjectField { get; private set; }
 
         /// <summary>
         /// Gets the citizneship country code.

@@ -1,10 +1,4 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Queries.Persons;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Sevis;
-using ECA.Business.Validation.Sevis.Finance;
+﻿using ECA.Business.Validation.Sevis;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -13,7 +7,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {

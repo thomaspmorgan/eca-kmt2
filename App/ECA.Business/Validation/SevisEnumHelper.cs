@@ -81,6 +81,22 @@ namespace ECA.Business.Validation
             return GetCodeType<StateCodeType>(value);
         }
 
+
+        /// <summary>
+        /// Returns the ProgSubjectCodeType for the given string value.
+        /// </summary>
+        /// <returns>The ProgSubjectCodeType for the given string value.</returns>
+        public static ProgSubjectCodeType GetProgSubjectCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            value = value.Replace(".", String.Empty);
+            if (!Enum.IsDefined(typeof(ProgSubjectCodeType), value))
+            {
+                value = "Item" + value;
+            }
+            return GetCodeType<ProgSubjectCodeType>(value);
+        }
+
         /// <summary>
         /// Returns the EVOccupationCategoryCodeType for the given string value.
         /// </summary>
