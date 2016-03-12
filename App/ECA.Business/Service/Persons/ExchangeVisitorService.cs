@@ -1,4 +1,11 @@
-﻿using ECA.Business.Validation.Sevis;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
+using ECA.Business.Queries.Persons;
+using ECA.Business.Service.Admin;
+using ECA.Business.Validation.Sevis;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.Finance;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -95,7 +102,93 @@ namespace ECA.Business.Service.Persons
             };
         }
 
-        #region Get Create Exchange Visitor
+        #region Get Exchange Visitor
+        public ExchangeVisitor GetExchangeVisitor(User user, int projectId, int participantId)
+        {
+            var participant = Context.Participants.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
+            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
+            throwIfParticipantIsNotAPerson(participant);
+
+            var participantPerson = Context.ParticipantPersons.Find(participantId);
+            throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
+
+            var participantExchangeVisitor = CreateGetParticipantExchangeVisitorByParticipantIdQuery(participantId).FirstOrDefault();
+
+            var project = Context.Projects.Find(participant.ProjectId);
+            throwIfModelDoesNotExist(participant.ProjectId, project, typeof(Project));
+            throwIfProjectIsNotExchangeVisitorType(participant, project);
+
+            var biographyDto = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, participantId).FirstOrDefault();
+            Contract.Assert(biographyDto != null, "The biography should not be null.");
+
+            var subjectField = ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(this.Context, participantId).FirstOrDefault();
+            var siteOfActivityAddress = GetStateDepartmentCStreetAddress();
+            var person = GetPerson(biography: biographyDto, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectField, siteOfActivityAddress: siteOfActivityAddress);
+
+            return null;
+        }
+
+        public ECA.Business.Validation.Sevis.Bio.Person GetPerson(
+            BiographicalDTO biography,
+            ParticipantExchangeVisitor participantExchangeVisitor, 
+            SubjectFieldDTO subjectFieldDTO,
+            AddressDTO siteOfActivityAddress)
+        {
+            Contract.Requires(biography != null, "The biography should not be null.");
+            Contract.Requires(participantExchangeVisitor != null, "The participant exchange visitor must not be null.");
+            Contract.Requires(siteOfActivityAddress != null, "The site of activity address must not be null.");
+            SubjectField subjectField = null;
+            FullName fullName = null;
+            if(subjectFieldDTO != null)
+            {
+                subjectField = subjectFieldDTO.GetSubjectField();
+            }
+            if(biography.FullName != null)
+            {
+                fullName = biography.FullName.GetFullName();
+            }
+            var instance = new ECA.Business.Validation.Sevis.Bio.Person(
+                fullName: fullName,
+                birthCity: biography.BirthCity,
+                birthCountryCode: biography.BirthCountryCode,
+                birthCountryReason: biography.BirthCountryReason,
+                birthDate: biography.BirthDate,
+                citizenshipCountryCode: biography.CitizenshipCountryCode,
+                emailAddress: biography.EmailAddress,
+                genderCode: biography.Gender,
+                permanentResidenceCountryCode: biography.PermanentResidenceCountryCode,
+                phoneNumber: biography.PhoneNumber,
+                remarks: null,
+                positionCode: biography.PositionCode,
+                programCategoryCode: participantExchangeVisitor.ProgramCategory.ProgramCategoryCode,
+                mailAddress: biography.MailAddress,
+                participantId: participantExchangeVisitor.ParticipantId,
+                usAddress: siteOfActivityAddress,
+                personId: biography.PersonId,
+                printForm: true,
+                subjectField: subjectField
+                );
+            return instance;
+        }
+
+        public ExchangeVisitor GetExchangeVisitor(User user, Validation.Sevis.Bio.Person person, FinancialInfo financialInfo, ParticipantPerson participantPerson, string occupationCategoryCode, IEnumerable<Dependent> dependents, AddressDTO siteOfActivity)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(person != null, "The person must not be null.");
+            Contract.Requires(financialInfo != null, "The financial info must not be null.");
+            Contract.Requires(participantPerson != null, "The participant person must not be null.");
+            Contract.Requires(siteOfActivity != null, "The site of activity must not be null.");
+            return new ExchangeVisitor(
+                user: user,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: participantPerson.EndDate.HasValue ? participantPerson.EndDate.Value.DateTime : default(DateTime),
+                programStartDate: participantPerson.StartDate.HasValue ? participantPerson.StartDate.Value.DateTime : default(DateTime),
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+        }
 
         /// <summary>
         /// Returns the CreateExchVisitor object to validate and send to sevis to create a new exchange visitor.
@@ -129,7 +222,7 @@ namespace ECA.Business.Service.Persons
         //    SetSubjectField(participant, visitor);
         //    //SetMailingAddress(participant, visitor, participantPerson);
         //    SetUSAddress(participant, visitor, participantPerson);
-            
+
         //    //if (participantExchangeVisitor != null)
         //    //{
         //    //    //SetFinancialInfo(visitor, participantExchangeVisitor);
@@ -187,7 +280,7 @@ namespace ECA.Business.Service.Persons
         //    //{
         //    //    visitor.FinancialInfo = null;
         //    //}
-            
+
         //    //SetAddSiteOfActivity(visitor);
         //    return new CreateExchVisitor
         //    {
@@ -235,7 +328,7 @@ namespace ECA.Business.Service.Persons
         //    }
         //}
 
-        
+
         //#endregion
 
         #region Site Of Activity
@@ -283,17 +376,18 @@ namespace ECA.Business.Service.Persons
         /// Returns a USAddress instance of the US State Department C Street location.
         /// </summary>
         /// <returns>A USAddress instance of the US State Department C Street location.</returns>
-        public USAddress GetStateDepartmentCStreetAddress()
+        public AddressDTO GetStateDepartmentCStreetAddress()
         {
-            return new USAddress
+            return new AddressDTO
             {
-                Address1 = SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1,
+                Street1 = SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1,
+                Street2 = null,
+                Street3 = null,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
                 City = SITE_OF_ACTIVITY_STATE_DEPT_CITY,
-                State = SITE_OF_ACTIVITY_STATE_DEPT_STATE,
+                Division = SITE_OF_ACTIVITY_STATE_DEPT_STATE,
                 PostalCode = SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE,
-                Address2 = null,
-                Explanation = null,
-                ExplanationCode = null
+                LocationName = SITE_OF_ACTIVITY_STATE_DEPT_NAME
             };
         }
         #endregion
