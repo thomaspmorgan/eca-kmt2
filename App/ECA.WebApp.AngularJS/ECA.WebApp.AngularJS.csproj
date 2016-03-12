@@ -180,6 +180,8 @@
     <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />
+    <Content Include="app\directives\dependents.controller.js" />
+    <Content Include="app\directives\dependents.directive.js" />
     <Content Include="app\directives\participant-person-info.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
@@ -194,8 +196,10 @@
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\edit.controller.js" />
     <Content Include="app\offices\edit.html" />
+    <Content Include="app\people\dependent-edit.controller.js" />
     <Content Include="app\people\dependent-modal.html" />
     <Content Include="app\people\dependent-edit.html" />
+    <Content Include="app\people\dependent.controller.js" />
     <Content Include="app\people\dependent.html" />
     <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
     <Content Include="app\points-of-contact\points-of-contact-modal.html" />
