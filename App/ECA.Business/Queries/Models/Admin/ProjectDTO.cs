@@ -102,6 +102,27 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public string VisitorTypeName { get; set; }
 
+
+        /// <summary>
+        /// The number of US Participants, Esimated
+        /// </summary>
+        public int? UsParticipantsEst { get; set; }
+
+        /// <summary>
+        /// The number of Non-US Participants, Esimated
+        /// </summary>
+        public int? NonUsParticipantsEst { get; set; }
+
+        /// <summary>
+        /// The number of US Participants, Actual
+        /// </summary>
+        public int? UsParticipantsActual { get; set; }
+
+        /// <summary>
+        /// The number of Non-US Participants, Actual
+        /// </summary>
+        public int? NonUsParticipantsActual { get; set; }
+
         /// <summary>
         /// Gets or sets the themes.
         /// </summary>

@@ -1,12 +1,9 @@
 ﻿using ECA.Business.Service;
-using ECA.Business.Service.Admin;
 using ECA.Business.Service.Projects;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Projects
 {
@@ -96,6 +93,26 @@ namespace ECA.WebApi.Models.Projects
         public int  VisitorTypeId { get; set; }
 
         /// <summary>
+        /// The number of US Participants, Esimated
+        /// </summary>
+        public int? UsParticipantsEst { get; set; }
+
+        /// <summary>
+        /// The number of Non-US Participants, Esimated
+        /// </summary>
+        public int? NonUsParticipantsEst { get; set; }
+
+        /// <summary>
+        /// The number of US Participants, Actual
+        /// </summary>
+        public int? UsParticipantsActual { get; set; }
+
+        /// <summary>
+        /// The number of Non-US Participants, Actual
+        /// </summary>
+        public int? NonUsParticipantsActual { get; set; }
+
+        /// <summary>
         /// Returns a business entity from this binding model.
         /// </summary>
         /// <param name="user">The user making the change.</param>
@@ -117,7 +134,11 @@ namespace ECA.WebApi.Models.Projects
                 regionIds: this.RegionIds,
                 startDate: this.StartDate,
                 endDate: this.EndDate,
-                visitorTypeId: this.VisitorTypeId);
+                visitorTypeId: this.VisitorTypeId,
+                usParticipantsEst: this.UsParticipantsEst,
+                nonUsParticipantsEst: this.NonUsParticipantsEst,
+                usParticipantsActual: this.UsParticipantsActual,
+                nonUsParticipantsActual: this.NonUsParticipantsActual);
         }
     }
 }
