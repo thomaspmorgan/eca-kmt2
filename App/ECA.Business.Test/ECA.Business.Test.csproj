@@ -178,10 +178,11 @@
     <Compile Include="Queries\Fundings\MoneyFlowQueriesTest.cs" />
     <Compile Include="Queries\Itineraries\ItineraryQueriesTest.cs" />
     <Compile Include="Queries\Itineraries\ItineraryStopQueriesTest.cs" />
-    <Compile Include="Queries\Model\Admin\AddressDTOTest.cs" />
-    <Compile Include="Queries\Model\ExchangeVisitor\FullNameDTOTest.cs" />
-    <Compile Include="Queries\Model\ExchangeVisitor\ExchangeVisitorFundingDTOTest.cs" />
-    <Compile Include="Queries\Model\ExchangeVisitor\SubjectFieldDTOTest.cs" />
+    <Compile Include="Queries\Models\Admin\AddressDTOTest.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTOTest.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTOTest.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTOTest.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />

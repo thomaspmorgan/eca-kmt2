@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Queries.Models.Persons;
 
-namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
+namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
 {
     [TestClass]
     public class FullNameDTOTest

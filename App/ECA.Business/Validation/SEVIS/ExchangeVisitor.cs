@@ -12,10 +12,11 @@ using System.Linq;
 
 namespace ECA.Business.Validation.Sevis
 {
-    public class ExchangeVisitor
+    public class ExchangeVisitor : ISevisIdentifable
     {
         public ExchangeVisitor(
             User user,
+            string sevisId,
             Bio.Person person,
             FinancialInfo financialInfo,
             string occupationCategoryCode,
@@ -33,7 +34,13 @@ namespace ECA.Business.Validation.Sevis
             this.ProgramStartDate = programStartDate;
             this.Dependents = dependents ?? new List<Dependent>();
             this.SiteOfActivity = siteOfActivity;
+            this.SevisId = sevisId;
         }
+
+        /// <summary>
+        /// Gets or sets the sevis id.
+        /// </summary>
+        public string SevisId { get; private set; }
 
         /// <summary>
         /// Gets the site of activity, i.e. State Dept at the C Street address.
