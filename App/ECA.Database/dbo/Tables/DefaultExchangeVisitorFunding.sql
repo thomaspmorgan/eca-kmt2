@@ -24,7 +24,6 @@
     [FundingOther] DECIMAL(12, 2) NULL,
 	[OtherName] NVARCHAR(60) NULL, 
     [FundingTotal] DECIMAL(12, 2) NULL,
-    CONSTRAINT [FK_DefaultExchangeVisitorFunding_ToProject] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project]([ProjectId]), 
     CONSTRAINT [FK_DefaultExchangeVisitorFunding_ToUSGovernmentAgency_1] FOREIGN KEY ([GovtAgency1Id]) REFERENCES [sevis].[USGovernmentAgency]([AgencyId]), 
     CONSTRAINT [FK_DefaultExchangeVisitorFunding_ToUSGovermentAgency_2] FOREIGN KEY ([GovtAgency2Id]) REFERENCES [sevis].[USGovernmentAgency]([AgencyId]), 
     CONSTRAINT [FK_DefaultExchangeVisitorFunding_ToIntlOrg1] FOREIGN KEY ([IntlOrg1Id]) REFERENCES [sevis].[InternationalOrganization]([OrganizationId]), 

@@ -437,6 +437,11 @@ namespace ECA.Data
         public DbSet<BirthCountry> BirthCountries { get; set; }
 
         /// <summary>
+        /// Gets or sets the default exchange visitor funding
+        /// </summary>
+        public DbSet<DefaultExchangeVisitorFunding> DefaultExchangeVisitorFunding { get; set; }
+
+        /// <summary>
         /// Overrides the DbContext OnModelCreating method.
         /// </summary>
         /// <param name="modelBuilder">The model builder.</param>
