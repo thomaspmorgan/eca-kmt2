@@ -11,34 +11,34 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="form-group row" ng-show="pii.firstName">
+                        <div class="form-group row" ng-show="dependent.firstName">
                             <label class="col-md-4 title-label">First name</label>
                             <div class="col-md-8">
-                                {{pii.firstName}}
+                                {{dependent.firstName}}
                             </div>
                         </div>
-                        <div class="form-group row" ng-show="pii.lastName">
+                        <div class="form-group row" ng-show="dependent.lastName">
                             <label class="col-md-4 title-label">Last name</label>
                             <div class="col-md-8">
-                                {{pii.lastName}}
+                                {{dependent.lastName}}
                             </div>
                         </div>
-                        <div class="form-group row" ng-show="pii.nameSuffix">
+                        <div class="form-group row" ng-show="dependent.nameSuffix">
                             <label class="col-md-4 title-label">Name suffix</label>
                             <div class="col-md-8">
-                                {{pii.nameSuffix}}
+                                {{dependent.nameSuffix}}
                             </div>
                         </div>
-                        <div class="form-group row" ng-show="pii.givenName">
+                        <div class="form-group row" ng-show="dependent.givenName">
                             <label class="col-md-4 title-label">Passport name</label>
                             <div class="col-md-8">
-                                {{pii.givenName}}
+                                {{dependent.givenName}}
                             </div>
                         </div>
-                        <div class="form-group row" ng-show="pii.familyName">
+                        <div class="form-group row" ng-show="dependent.familyName">
                             <label class="col-md-4 title-label">Preferred name</label>
                             <div class="col-md-8">
-                                {{pii.familyName}}
+                                {{dependent.familyName}}
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            {{pii.gender}}
+                            {{dependent.gender}}
                         </div>
                     </div>
                 </div>
@@ -58,17 +58,17 @@
             <div class="row">
                 <div class="col-md-4 title-label">City of Birth</div>
                 <div class="col-md-8">
-                    <div>{{pii.placeOfBirth.name}}</div>
-                    <div>{{pii.placeOfBirth.division}}</div>
-                    <div>{{pii.placeOfBirth.country}}</div>
+                    <div>{{dependent.placeOfBirth.name}}</div>
+                    <div>{{dependent.placeOfBirth.division}}</div>
+                    <div>{{dependent.placeOfBirth.country}}</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Date of Birth</div>
-                <div class="col-md-8" ng-show="pii.dateOfBirth">
-                    {{pii.dateOfBirth | date : 'longDate' : 'utc'}}
+                <div class="col-md-8" ng-show="dependent.dateOfBirth">
+                    {{dependent.dateOfBirth | date : 'longDate' : 'utc'}}
                 </div>
-                <div class="col-md-8" ng-show="!pii.dateOfBirth">
+                <div class="col-md-8" ng-show="!dependent.dateOfBirth">
                     No Data
                 </div>
             </div>
@@ -77,7 +77,7 @@
             <div class="row">
                 <div class="col-md-4 title-label">Countries of Citizenship</div>
                 <div class="col-md-8">
-                    <div class="form-group" ng-repeat="country in pii.countriesOfCitizenship">
+                    <div class="form-group" ng-repeat="country in dependent.countriesOfCitizenship">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
                             {{country.value}}
@@ -88,19 +88,19 @@
             <div class="row">
                 <div class="col-md-4 title-label">Permanent Residence Country</div>
                 <div class="col-md-8">
-                    <div>{{pii.residenceCountry}}</div>
+                    <div>{{dependent.residenceCountry}}</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Birth Country Reason</div>
                 <div class="col-md-8">
-                    <div>{{pii.birthCountryReason}}</div>
+                    <div>{{dependent.birthCountryReason}}</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Email Address</div>
                 <div class="col-md-8">
-                    <div>{{pii.emailAddress}}</div>
+                    <div>{{dependent.emailAddress}}</div>
                 </div>
             </div>
         </div>
