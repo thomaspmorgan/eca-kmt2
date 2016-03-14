@@ -469,6 +469,16 @@ namespace ECA.Business.Service.Projects
             projectToUpdate.StartDate = updatedProject.StartDate;
             projectToUpdate.VisitorTypeId = updatedProject.VisitorTypeId;
 
+            if (updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
+            {
+                var defaultExchangeVisitorFunding = new DefaultExchangeVisitorFunding
+                {
+                    Project = projectToUpdate
+                };
+                projectToUpdate.DefaultExchangeVisitorFunding = defaultExchangeVisitorFunding;
+                Context.DefaultExchangeVisitorFunding.Add(defaultExchangeVisitorFunding);
+            }
+
             Contract.Assert(updatedProject.Audit != null, "The audit must not be null.");
             updatedProject.Audit.SetHistory(projectToUpdate);
         }
