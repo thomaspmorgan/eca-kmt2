@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ECA.Business.Queries.Models.Persons
     {
         public SimplePersonDependentDTO()
         {
-            CountriesOfCitizenship = new List<Location>();
+            CountriesOfCitizenship = new List<SimpleLookupDTO>();
             History = new History();
         }
 
@@ -49,7 +50,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

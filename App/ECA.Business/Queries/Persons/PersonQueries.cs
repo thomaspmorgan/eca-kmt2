@@ -137,9 +137,9 @@ namespace ECA.Business.Queries.Persons
                             Gender = gender.GenderId,
                             CityOfBirth = hasPlaceOfBirth ? cityOfBirth.LocationId : 0,
                             CountryOfBirth = (int)countryOfBirthId,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new Location { LocationId = x.LocationId, LocationName = x.LocationName }).ToList(),
-                            PermanentResidenceCountryCode = 0,
-                            BirthCountryReason = "",
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
+                            PermanentResidenceCountryCode = person.Addresses.Where(x => x.IsPrimary == true && x.AddressTypeId == AddressType.Home.Id).Select(x => x.LocationId).FirstOrDefault(),
+                            BirthCountryReason = "[[ignored]]",
                             EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
                             PersonTypeId = person.PersonTypeId
                         };
