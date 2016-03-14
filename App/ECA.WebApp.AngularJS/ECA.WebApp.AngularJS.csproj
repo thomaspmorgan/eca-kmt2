@@ -233,6 +233,7 @@
     </Content>
     <Content Include="app\services\contacts.service.js" />
     <Content Include="app\services\data-point-configuration.service.js" />
+    <Content Include="app\services\default-exchange-visitor-funding.service.js" />
     <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
     <Content Include="app\services\datetime.service.js" />
