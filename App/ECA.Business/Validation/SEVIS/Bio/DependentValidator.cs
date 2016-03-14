@@ -6,7 +6,6 @@ namespace ECA.Business.Validation.Sevis.Bio
 {
     public class DependentValidator : BiographicalValidator<Dependent>
     {
-
         public const string DEPENDENT_RELATIONSHIP_REQUIRED = "Biographical:  The dependent named {0} {1} must have the relationship specified.";
 
         public DependentValidator()

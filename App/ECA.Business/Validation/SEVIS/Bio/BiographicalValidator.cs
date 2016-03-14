@@ -105,9 +105,9 @@ namespace ECA.Business.Validation.Sevis.Bio
             When(x => x.PhoneNumber != null, () =>
             {
                 RuleFor(x => x.PhoneNumber)
-                .Length(0, MAX_PHONE_NUMBER_LENGTH)
-                .WithMessage(PHONE_NUMBER_ERROR_MESSAGE)
-                .WithState(x => new PhoneNumberErrorPath());
+                    .Length(0, MAX_PHONE_NUMBER_LENGTH)
+                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE)
+                    .WithState(x => new PhoneNumberErrorPath());
             });
 
             When(x => x.MailAddress != null, () =>

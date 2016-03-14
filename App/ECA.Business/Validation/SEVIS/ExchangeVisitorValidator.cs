@@ -73,9 +73,9 @@ namespace ECA.Business.Validation.Sevis
                 .WithState(x => new FundingErrorPath())
                 .SetValidator(new FinancialInfoValidator());
 
-            //RuleFor(visitor => visitor.CreateDependent)
-            //    .SetCollectionValidator(new CreateDependentValidator())
-            //    .When(visitor => visitor.CreateDependent != null);
+            RuleFor(visitor => visitor.Dependents)
+                .SetCollectionValidator(new DependentValidator())
+                .When(visitor => visitor.Dependents != null);
 
             RuleFor(visitor => visitor.SiteOfActivity)
                 .NotNull()
