@@ -59,6 +59,10 @@ angular.module('staticApp')
                   okCallback: function () {
                       userSection = true
                       defer.resolve(userSection);
+                  },
+                  cancelCallback: function () {
+                      userSection = !userSection
+                      defer.resolve(userSection);
                   }
               });
           } else {

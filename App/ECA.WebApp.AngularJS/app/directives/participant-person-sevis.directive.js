@@ -229,7 +229,7 @@
                                 defer.resolve(userSection);
                             },
                             cancelCallback: function () {
-                                userSection = !userSection
+                                userSection = false;
                                 $scope.editMode = false;
                                 defer.resolve(userSection);
                             }
