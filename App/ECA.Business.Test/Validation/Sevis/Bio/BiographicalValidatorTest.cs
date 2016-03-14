@@ -2,7 +2,7 @@
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Bio;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -154,10 +154,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.GENDER_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
         }
-
-        #endregion
-
-        #region Gender
 
         [TestMethod]
         public void TestGender_NotMaleOrFemaleGenderCode()

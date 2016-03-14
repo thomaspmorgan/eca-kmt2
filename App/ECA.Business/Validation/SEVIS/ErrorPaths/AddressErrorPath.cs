@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An AddressErrorPath is used to denote an address error and where it might be located.

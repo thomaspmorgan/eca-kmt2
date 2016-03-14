@@ -1,4 +1,4 @@
-﻿using ECA.Business.Validation.SEVIS;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation;
 using System.Text.RegularExpressions;
 

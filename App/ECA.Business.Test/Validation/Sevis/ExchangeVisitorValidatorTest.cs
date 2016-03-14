@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Data;
-using ECA.Business.Service.Persons;
-using ECA.Business.Validation.SEVIS;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
-using ECA.Business.Validation.Sevis;
+﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
-using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Service.Admin;
-using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Persons;
+using ECA.Business.Validation.Sevis;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Business.Validation.Sevis.Finance;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis
 {

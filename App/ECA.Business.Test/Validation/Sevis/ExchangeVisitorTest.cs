@@ -353,7 +353,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
             var phone = "123-456-7890";
-            var positionCode = "120";
             var mailAddress = new AddressDTO
             {
                 AddressId = 1,
@@ -378,7 +377,6 @@ namespace ECA.Business.Test.Validation.Sevis
                 gender,
                 permanentResidenceCountryCode,
                 phone,
-                positionCode,
                 relationship,
                 mailAddress,
                 usAddress,
@@ -466,7 +464,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
             var phone = "123-456-7890";
-            var positionCode = "120";
             var mailAddress = new AddressDTO
             {
                 AddressId = 1,
@@ -494,7 +491,6 @@ namespace ECA.Business.Test.Validation.Sevis
                 gender,
                 permanentResidenceCountryCode,
                 phone,
-                positionCode,
                 relationship,
                 mailAddress,
                 usAddress,

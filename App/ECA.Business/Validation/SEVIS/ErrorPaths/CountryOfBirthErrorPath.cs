@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An CountryOfBirthErrorPath is used to denote a country of birth error and where it might be located.

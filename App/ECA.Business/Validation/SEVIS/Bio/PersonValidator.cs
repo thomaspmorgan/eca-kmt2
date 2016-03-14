@@ -1,11 +1,6 @@
-﻿using ECA.Business.Validation.SEVIS;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {

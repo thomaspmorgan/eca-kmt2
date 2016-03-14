@@ -1,12 +1,12 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using System.Linq;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using ECA.Business.Validation.SEVIS;
+using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {

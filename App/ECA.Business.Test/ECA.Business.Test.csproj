@@ -323,6 +323,7 @@
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />
+    <Compile Include="Validation\ErrorPaths\DependentErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\BirthDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\AddressErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\CitizenshipErrorPathTest.cs" />
@@ -347,6 +348,7 @@
     <Compile Include="Validation\Sevis\Bio\FullNameValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\ModifiedParticipantDependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependentTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidatorTest.cs" />

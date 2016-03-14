@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An StartDateErrorPath is used when a participant's traveling start date has an error and where it might be located.

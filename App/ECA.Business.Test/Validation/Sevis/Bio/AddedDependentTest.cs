@@ -34,7 +34,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
             var phone = "123-456-7890";
-            var positionCode = "120";
             var mailAddress = new AddressDTO
             {
                 AddressId = 1,
@@ -59,7 +58,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 gender,
                 permanentResidenceCountryCode,
                 phone,
-                positionCode,
                 relationship,
                 mailAddress,
                 usAddress,
@@ -77,7 +75,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(gender, instance.Gender);
             Assert.AreEqual(permanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, instance.PhoneNumber);
-            Assert.AreEqual(positionCode, instance.PositionCode);
             Assert.AreEqual(printForm, instance.PrintForm);
             Assert.AreEqual(birthCountryReason, instance.BirthCountryReason);
             Assert.AreEqual(relationship, instance.Relationship);
@@ -108,7 +105,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
             var phone = "123-456-7890";
-            var positionCode = "120";
             var mailAddress = new AddressDTO
             {
                 AddressId = 1,
@@ -133,7 +129,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 genderCode: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
-                positionCode: positionCode,
                 relationship: relationship,
                 mailAddress: mailAddress,
                 usAddress: usAddress,
@@ -180,7 +175,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
             var phone = "123-456-7890";
-            var positionCode = "120";
             var mailAddress = new AddressDTO
             {
                 AddressId = 1,
@@ -205,7 +199,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 genderCode: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
-                positionCode: positionCode,
                 relationship: relationship,
                 mailAddress: mailAddress,
                 usAddress: usAddress,

@@ -14,7 +14,6 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// </summary>
     public abstract class Dependent : IBiographical, IFormPrintable, IUserDefinable
     {
-
         public Dependent(
             FullName fullName,
             string birthCity,
@@ -26,7 +25,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             string genderCode,
             string permanentResidenceCountryCode,
             string phoneNumber,
-            string positionCode,
             string relationship,
             AddressDTO mailAddress,
             AddressDTO usAddress,
@@ -48,7 +46,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.MailAddress = mailAddress;
             this.USAddress = usAddress;
             this.PrintForm = printForm;
-            this.PositionCode = positionCode;
             this.Relationship = relationship;
             SetParticipantId(participantId);
             SetPersonId(personId);
@@ -57,14 +54,8 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets or sets the print form flag.
         /// </summary>
-        public bool PrintForm { get; set; }
+        public bool PrintForm { get; set; }        
         
-
-        /// <summary>
-        /// Gets or sets the position code.
-        /// </summary>
-        public string PositionCode { get; set; }
-
         /// <summary>
         /// Gets the full name.
         /// </summary>

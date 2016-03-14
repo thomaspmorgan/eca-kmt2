@@ -229,7 +229,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.AreEqual(dto.Gender, instance.Gender);
             Assert.AreEqual(dto.PermanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(dto.PhoneNumber, instance.PhoneNumber);
-            Assert.AreEqual(dto.PositionCode, instance.PositionCode);
             Assert.IsTrue(instance.PrintForm);
             Assert.AreEqual(dto.Relationship, instance.Relationship);
 
@@ -325,7 +324,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.AreEqual(dto.Gender, instance.Gender);
             Assert.AreEqual(dto.PermanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(dto.PhoneNumber, instance.PhoneNumber);
-            Assert.AreEqual(dto.PositionCode, instance.PositionCode);
             Assert.IsTrue(instance.PrintForm);
             Assert.AreEqual(dto.Relationship, instance.Relationship);
             Assert.AreEqual(dto.SevisId, instance.SevisId);

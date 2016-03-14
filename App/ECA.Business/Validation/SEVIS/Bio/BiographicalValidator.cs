@@ -1,4 +1,4 @@
-﻿using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Data;
 using FluentValidation;
 

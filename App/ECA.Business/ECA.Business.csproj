@@ -539,10 +539,12 @@
     <Compile Include="Validation\Sevis\Bio\IBiographical.cs" />
     <Compile Include="Validation\Sevis\Bio\ModifiedParticipantDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\Dependent.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
     <None Include="Validation\Sevis\Bio\UpdatedPerson.csold" />
     <None Include="Validation\Sevis\Bio\UpdatedPersonValidator.csold" />
+    <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
     <Compile Include="Validation\Sevis\IFormPrintable.cs" />
     <Compile Include="Validation\Sevis\IRemarkable.cs" />

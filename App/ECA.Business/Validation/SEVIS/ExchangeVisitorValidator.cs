@@ -1,7 +1,6 @@
-﻿using ECA.Business.Validation.Sevis;
-using ECA.Business.Validation.Sevis.Bio;
+﻿using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Business.Validation.Sevis.Finance;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
 using FluentValidation;
 using System;
 

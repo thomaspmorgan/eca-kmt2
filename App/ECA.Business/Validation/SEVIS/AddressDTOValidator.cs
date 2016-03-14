@@ -1,7 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
-using ECA.Business.Validation.Sevis;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation;
 using System.Text.RegularExpressions;
 

@@ -1,5 +1,5 @@
 ﻿using ECA.Business.Validation.Sevis;
-using ECA.Business.Validation.SEVIS;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
