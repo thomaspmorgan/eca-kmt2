@@ -29,6 +29,10 @@ namespace ECA.Business.Test.Service.Projects
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
+            var usParticipantsEst = 5;
+            var nonUsParticipantsEst = 3;
+            var usParticipantsActual = 4;
+            var nonUsParticipantsActual = 2;
             var instance = new PublishedProject(
                 user,
                 projectId,
@@ -44,7 +48,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds,
                 startDate,
                 endDate,
-                1);
+                1,
+                usParticipantsEst,
+                nonUsParticipantsEst,
+                usParticipantsActual,
+                nonUsParticipantsActual);
 
             Assert.AreEqual(projectId, instance.ProjectId);
             Assert.AreEqual(projectStatusId, instance.ProjectStatusId);
@@ -99,7 +107,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: regionIds,
                 startDate: startDate,
                 endDate: endDate,
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             CollectionAssert.AreEqual(locationIds.Distinct().ToList(), instance.LocationIds.ToList());
@@ -136,7 +148,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: startDate,
                 endDate: endDate,
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
             Assert.IsNotNull(instance.LocationIds);
             Assert.IsNotNull(instance.ThemeIds);

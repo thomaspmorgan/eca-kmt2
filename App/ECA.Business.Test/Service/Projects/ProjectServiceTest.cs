@@ -2896,7 +2896,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
             var message = String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId);
             Action a = () => service.Update(updatedProject);
@@ -2973,7 +2977,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
@@ -3048,7 +3056,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
             Action tester = () =>
              {
@@ -3113,7 +3125,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
@@ -3178,7 +3194,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
@@ -3243,7 +3263,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
@@ -3308,7 +3332,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
@@ -3373,7 +3401,11 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: null,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
@@ -3437,13 +3469,87 @@ namespace ECA.Business.Test.Service.Projects
                 regionIds: regionIds,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0),
-                visitorTypeId: 1
+                visitorTypeId: 1,
+                usParticipantsEst: null,
+                nonUsParticipantsEst: null,
+                usParticipantsActual: null,
+                nonUsParticipantsActual: null
                 );
 
             Action tester = () =>
             {
                 Assert.AreEqual(1, projectToUpdate.Regions.Count);
                 Assert.AreEqual(regionIds.First(), projectToUpdate.Regions.First().LocationId);
+            };
+            context.Revert();
+            service.Update(updatedProject);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_CheckParticipantsEstActual()
+        {
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
+            {
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+
+            });
+
+            var regionIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdateId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: null,
+                objectiveIds: null,
+                regionIds: regionIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: 1,
+                usParticipantsEst: 3,
+                nonUsParticipantsEst: 4,
+                usParticipantsActual: 5,
+                nonUsParticipantsActual: 6
+                );
+
+            Action tester = () =>
+            {
+                Assert.AreEqual(3, projectToUpdate.UsParticipantsEst);
+                Assert.AreEqual(4, projectToUpdate.NonUsParticipantsEst);
+                Assert.AreEqual(5, projectToUpdate.UsParticipantsActual);
+                Assert.AreEqual(6, projectToUpdate.NonUsParticipantsActual);
             };
             context.Revert();
             service.Update(updatedProject);
