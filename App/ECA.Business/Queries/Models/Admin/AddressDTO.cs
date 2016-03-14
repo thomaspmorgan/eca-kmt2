@@ -1,13 +1,7 @@
 ﻿using ECA.Business.Service.Admin;
-using ECA.Business.Sevis.Model;
-using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
 using ECA.Business.Validation.Sevis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Admin
 {

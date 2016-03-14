@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using ECA.Core.Exceptions;
 using Newtonsoft.Json.Serialization;
 using ECA.Business.Validation;
+using ECA.Business.Validation.Sevis;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -128,9 +129,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
 
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+				sevisId: null,
+                person: null,
+				financialInfo: null,
+				occupationCategoryCode: null,
+				programEndDate: DateTime.UtcNow,
+				programStartDate: DateTime.UtcNow,
+				siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+				dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
@@ -180,9 +191,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
 
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
@@ -232,9 +253,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
 
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
@@ -291,9 +322,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
 
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             updateExchVisitorValidator.Setup(x => x.Validate(It.IsAny<UpdateExchVisitor>())).Returns(validationResult);
@@ -353,9 +394,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
 
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
@@ -410,9 +461,19 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = participant.ParticipantId,
                 SevisValidationResult = "some string"
             };
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
@@ -479,9 +540,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisCommStatusId = SevisCommStatus.InformationRequired.Id
 
             };
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
@@ -549,9 +620,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id
 
             };
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
@@ -614,10 +695,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string",
                 SevisId = null
             };
-
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
@@ -672,9 +762,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string",
                 SevisId = " "
             };
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);
@@ -729,9 +829,19 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string",
                 SevisId = String.Empty
             };
-            var updateExchVisitor = new UpdateExchVisitor();
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(updateExchVisitor);
-            exchangeVisitorService.Setup(x => x.GetUpdateExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(updateExchVisitor);
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             createExchVisitorValidator.Setup(x => x.Validate(It.IsAny<CreateExchVisitor>())).Returns(validationResult);

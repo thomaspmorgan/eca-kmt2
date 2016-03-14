@@ -340,9 +340,8 @@
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
     <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
-    <None Include="Validation\Sevis\Bio\UpdatedPersonTest.csold" />
     <Compile Include="Validation\Sevis\Bio\PersonValidatorTest.cs" />
-    <Compile Include="Validation\Sevis\Bio\IBiographicalValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\BiographicalValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameTest.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameValidatorTest.cs" />
@@ -353,20 +352,19 @@
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\InternationalValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherValidatorTest.cs" />
-    <None Include="Validation\Sevis\ExchangeVisitorValidatorTest.csold" />
+    <Compile Include="Validation\Sevis\ExchangeVisitorValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherTest.cs" />
     <Compile Include="Validation\Sevis\Finance\InternationalTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoTest.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovtTest.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitorTest.cs" />
-    <Compile Include="Validation\Sevis\NewExchangeVisitorTest.cs" />
     <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
     <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
     <None Include="Validation\Shared\EcaAddTIPPTest.csold" />
     <Compile Include="Validation\Sevis\Finance\USGovtValidatorTest.cs" />
-    <Compile Include="Validation\Shared\USAddressValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\AddressDTOValidatorTest.cs" />
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
     <Compile Include="Validation\SimpleValidationResultTest.cs" />
   </ItemGroup>

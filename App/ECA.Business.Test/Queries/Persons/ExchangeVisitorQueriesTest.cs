@@ -1040,7 +1040,7 @@ namespace ECA.Business.Test.Queries.Persons
             var cityOfBirth = new Location
             {
                 LocationId = 55,
-                LocationName = new string('a', BiographyValidator.CITY_MAX_LENGTH + 1),
+                LocationName = new string('a', PersonValidator.CITY_MAX_LENGTH + 1),
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
@@ -1167,7 +1167,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
 
-            Assert.AreEqual(cityOfBirth.LocationName.Substring(0, BiographyValidator.CITY_MAX_LENGTH), biography.BirthCity);
+            Assert.AreEqual(cityOfBirth.LocationName.Substring(0, PersonValidator.CITY_MAX_LENGTH), biography.BirthCity);
         }
 
         [TestMethod]

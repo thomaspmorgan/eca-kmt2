@@ -3,6 +3,7 @@ using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Queries.Persons;
 using ECA.Business.Validation;
 using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
@@ -35,21 +36,19 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="exchangeVisitorService">The exchange visitor service that is capable of executing validation.</param>
-        /// <param name="updateExchVisitorValidator">The update exchange visitor validator.</param>
-        /// <param name="createExchVisitorValidator">The create exchange visitor validator.</param>
+        /// <param name="exchangeVisitorValidator">The update exchange visitor validator.</param>
         /// <param name="saveActions">The context save actions.</param>
         public ExchangeVisitorValidationService(EcaContext context,
             IExchangeVisitorService exchangeVisitorService,
-            AbstractValidator<UpdateExchVisitor> updateExchVisitorValidator = null,
-            AbstractValidator<CreateExchVisitor> createExchVisitorValidator = null,
+            AbstractValidator<ExchangeVisitor> exchangeVisitorValidator = null,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
             this.exchangeVisitorService = exchangeVisitorService;
-            this.UpdateExchangeVisitorValidator = updateExchVisitorValidator ?? new UpdateExchVisitorValidator();
-            this.CreateExchangeVisitorValidator = createExchVisitorValidator ?? new CreateExchVisitorValidator();
+            //this.UpdateExchangeVisitorValidator = updateExchVisitorValidator ?? new UpdateExchVisitorValidator();
+            //this.CreateExchangeVisitorValidator = createExchVisitorValidator ?? new CreateExchVisitorValidator();
 
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
@@ -74,12 +73,12 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets the update exchange visitor fluent validation validator.
         /// </summary>
-        public AbstractValidator<UpdateExchVisitor> UpdateExchangeVisitorValidator { get; private set; }
+        //public AbstractValidator<UpdateExchVisitor> UpdateExchangeVisitorValidator { get; private set; }
 
         /// <summary>
         /// Gets the create exchange visitor fluent validation validator.
         /// </summary>
-        public AbstractValidator<CreateExchVisitor> CreateExchangeVisitorValidator { get; private set; }
+        //public AbstractValidator<CreateExchVisitor> CreateExchangeVisitorValidator { get; private set; }
 
 		public AbstractValidator<Validation.Sevis.Bio.Person> PersonBiographyValidator { get; private set; }
 

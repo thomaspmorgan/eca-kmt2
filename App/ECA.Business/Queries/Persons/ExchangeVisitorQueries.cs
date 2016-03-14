@@ -30,7 +30,7 @@ namespace ECA.Business.Queries.Persons
             var cityLocationTypeId = LocationType.City.Id;
             var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
-            var cityMaxLength = BiographyValidator.CITY_MAX_LENGTH;
+            var cityMaxLength = PersonValidator.CITY_MAX_LENGTH;
             var unitedStatesCountryName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             var hostAddressTypeId = AddressType.Host.Id;
             var query = from person in context.People

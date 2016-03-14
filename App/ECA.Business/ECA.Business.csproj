@@ -325,7 +325,7 @@
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveAction.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
-    <Compile Include="Service\Persons\ExchangeVisitorValidationService.cs" />
+    <None Include="Service\Persons\ExchangeVisitorValidationService.csold" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
     <Compile Include="Service\Persons\IExchangeVisitorService.cs" />
@@ -544,7 +544,6 @@
     <None Include="Validation\Sevis\Bio\UpdatedPerson.csold" />
     <None Include="Validation\Sevis\Bio\UpdatedPersonValidator.csold" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
-    <None Include="Validation\Sevis\Finance\UpdatedFinancialInfo.csold" />
     <Compile Include="Validation\Sevis\IFormPrintable.cs" />
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
     <Compile Include="Validation\Sevis\IRequestIdentifiable.cs" />
@@ -552,8 +551,6 @@
     <Compile Include="Validation\Sevis\IUserDefinable.cs" />
     <Compile Include="Validation\Sevis\IUserIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
-    <None Include="Validation\Sevis\NewExchangeVisitor.csold" />
-    <None Include="Validation\Sevis\UpdatedExchangeVisitor.csold" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
     <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
@@ -566,8 +563,8 @@
     <Compile Include="Validation\Sevis\ErrorPaths\EmailErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\EndDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\FieldOfStudyErrorPath.cs" />
-    <Compile Include="Validation\Sevis\CreateEV\CreateExchVisitor.cs" />
-    <Compile Include="Validation\Sevis\CreateEV\CreateExchVisitorValidator.cs" />
+    <None Include="Validation\Sevis\CreateEV\CreateExchVisitor.csold" />
+    <None Include="Validation\Sevis\CreateEV\CreateExchVisitorValidator.csold" />
     <Compile Include="Validation\Sevis\ErrorPaths\ErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\FullNameErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\FundingErrorPath.cs" />
@@ -578,18 +575,11 @@
     <Compile Include="Validation\Sevis\ErrorPaths\PositionCodeErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\ProgramCategoryCodeErrorPath.cs" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="Validation\Sevis\SEVISBatchCreateUpdateEVValidator.csold" />
-    <None Include="Validation\Sevis\Shared\AddSiteOfActivity.csold" />
-    <None Include="Validation\Sevis\Shared\AddSiteOfActivityValidator.csold" />
     <Compile Include="Validation\Sevis\Bio\Person.cs" />
     <None Include="Validation\Sevis\Bio\BiographicalUpdate.csold" />
     <None Include="Validation\Sevis\Bio\BiographicalUpdateValidator.csold" />
-    <Compile Include="Validation\Sevis\Bio\BiographyValidator.cs" />
-    <None Include="Validation\Sevis\Shared\ExchangeVisitor.csold" />
-    <None Include="Validation\Sevis\Shared\AddDependentValidator.csold" />
-    <None Include="Validation\Sevis\Shared\ExchangeVisitorUpdate.csold" />
-    <None Include="Validation\Sevis\Shared\ExchangeVisitorUpdateValidator.csold" />
-    <Compile Include="Validation\Sevis\NewExchangeVisitorValidator.cs" />
+    <Compile Include="Validation\Sevis\Bio\BiographicalValidator.cs" />
+    <Compile Include="Validation\Sevis\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\International.cs" />
@@ -598,26 +588,14 @@
     <Compile Include="Validation\Sevis\Finance\OtherFunds.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherValidator.cs" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExempt.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdate.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdateValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySeekingGemp.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySeekingGempValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySOA.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySOAValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityUpdate.csold" />
     <Compile Include="Validation\Sevis\SubjectField.cs" />
-    <None Include="Validation\Sevis\Shared\SubjectFieldUpdate.csold" />
-    <None Include="Validation\Sevis\Shared\SubjectFieldUpdateValidator.csold" />
     <Compile Include="Validation\Sevis\SubjectFieldValidator.cs" />
-    <Compile Include="Validation\Sevis\USAddressValidator.cs" />
-    <None Include="Validation\Sevis\Shared\AddDependent.csold" />
+    <Compile Include="Validation\Sevis\AddressDTOValidator.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovt.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovtValidator.cs" />
-    <Compile Include="Validation\Sevis\UpdateEV\UpdateExchVisitor.cs" />
-    <Compile Include="Validation\Sevis\UpdateEV\UpdateExchVisitorValidator.cs" />
+    <None Include="Validation\Sevis\UpdateEV\UpdateExchVisitor.csold" />
+    <None Include="Validation\Sevis\UpdateEV\UpdateExchVisitorValidator.csold" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfo.cs" />
     <Compile Include="Validation\Sevis\Bio\FullName.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
@@ -628,7 +606,7 @@
     <Compile Include="Service\Update.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
-    <Compile Include="Validation\Sevis\SEVISBatchCreateUpdateEV.cs" />
+    <None Include="Validation\Sevis\SEVISBatchCreateUpdateEV.csold" />
     <Compile Include="Validation\Sevis\USAddress.cs" />
   </ItemGroup>
   <ItemGroup>

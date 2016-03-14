@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using ECA.Business.Validation.Model;
+﻿using ECA.Business.Validation.Sevis;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
     public interface IExchangeVisitorService
     {
-        //CreateExchVisitor GetCreateExchangeVisitor(User user, int projectId, int participantId);
-        //Task<CreateExchVisitor> GetCreateExchangeVisitorAsync(User user, int projectId, int participantId);
-        //UpdateExchVisitor GetUpdateExchangeVisitor(User user, int projectId, int participantId);
-        //Task<UpdateExchVisitor> GetUpdateExchangeVisitorAsync(User user, int projectId, int participantId);
+        ExchangeVisitor GetExchangeVisitor(User user, int projectId, int participantId);
+
+        Task<ExchangeVisitor> GetExchangeVisitorAsync(User user, int projectId, int participantId);
     }
 }

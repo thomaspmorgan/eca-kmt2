@@ -40,7 +40,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.BirthDate = birthDate;
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
-            this.FullName = fullName;
+            this.FullName = fullName; 
             this.Gender = genderCode;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
             this.PhoneNumber = phoneNumber;
@@ -53,7 +53,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.ParticipantId = participantId;
             this.ProgramCategoryCode = programCategoryCode;
             this.SubjectField = subjectField;
-            this.PositionCode = positionCode;
         }
 
         /// <summary>

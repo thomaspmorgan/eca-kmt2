@@ -1,0 +1,15 @@
+﻿using ECA.Business.Validation.Model;
+using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+
+namespace ECA.Business.Validation
+{
+    /// <summary>
+    /// SEVIS batch create or update exchange visitors
+    /// </summary>
+    [Serializable]
+    public class SEVISBatchCreateUpdateEV
+    {
+    }
+}

@@ -4,6 +4,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Sevis.Model;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
+using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -142,9 +143,13 @@ namespace ECA.Business.Validation.Sevis
             };
         }
 
-        public ValidationResult Validate()
+        /// <summary>
+        /// Performs validation on this exchange visitor and returns the validation result.
+        /// </summary>
+        /// <returns>The validation result.</returns>
+        public ValidationResult Validate(AbstractValidator<ExchangeVisitor> validator)
         {
-            throw new NotImplementedException();
+            return validator.Validate(this);
         }
 
         /// <summary>

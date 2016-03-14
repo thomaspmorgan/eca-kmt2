@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
-    public class BiographyValidator : AbstractValidator<IBiographical>
+    public class BiographicalValidator<T> : AbstractValidator<T> where T : IBiographical
     {
         public const int CITY_MAX_LENGTH = 50;
         public const int COUNTRY_CODE_LENGTH = 2;
@@ -34,7 +34,11 @@ namespace ECA.Business.Validation.Sevis.Bio
 
         public const string INVALID_EMAIL_ERROR_MESSAGE = "EV Biographical Info: Email is invalid.";
 
-        public BiographyValidator()
+        public const int MAX_PHONE_NUMBER_LENGTH = 10;
+
+        public static string PHONE_NUMBER_ERROR_MESSAGE = string.Format("EV Biographical Info:  The phone number may be up to {0} characters long.", MAX_PHONE_NUMBER_LENGTH);
+
+        public BiographicalValidator()
         {
             RuleFor(visitor => visitor.FullName)
                 .NotNull()
@@ -97,6 +101,26 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .EmailAddress()
                 .WithMessage(INVALID_EMAIL_ERROR_MESSAGE)
                 .WithState(x => new EmailErrorPath());
+
+            When(x => x.PhoneNumber != null, () =>
+            {
+                RuleFor(x => x.PhoneNumber)
+                .Length(0, MAX_PHONE_NUMBER_LENGTH)
+                .WithMessage(PHONE_NUMBER_ERROR_MESSAGE)
+                .WithState(x => new PhoneNumberErrorPath());
+            });
+
+            When(x => x.MailAddress != null, () =>
+            {
+                RuleFor(x => x.MailAddress)
+                .SetValidator(new AddressDTOValidator(AddressDTOValidator.PERSON_HOST_ADDRESS));
+            });
+
+            When(x => x.USAddress != null, () =>
+            {
+                RuleFor(x => x.USAddress)
+                .SetValidator(new AddressDTOValidator(AddressDTOValidator.C_STREET_ADDRESS));
+            });
         }
     }
 }

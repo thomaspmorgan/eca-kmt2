@@ -1,5 +1,4 @@
 ﻿using ECA.Business.Sevis.Model;
-using ECA.Business.Validation.Model.Sevis;
 using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +7,7 @@ namespace ECA.Business.Validation.Sevis
     /// <summary>
     /// U.S. physical address
     /// </summary>
-    [Validator(typeof(USAddressValidator))]
+    [Validator(typeof(AddressDTOValidator))]
     public class USAddress
     {
         /// <summary>

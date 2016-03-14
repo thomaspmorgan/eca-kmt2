@@ -8,12 +8,12 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Full name of person
         /// </summary>
-        FullName FullName { get; }
+        FullName FullName { get; } 
 
         /// <summary>
         /// Student date of birth.
         /// </summary>
-        DateTime? BirthDate { get; }
+        DateTime? BirthDate { get; } 
 
         /// <summary>
         /// Gender code.
