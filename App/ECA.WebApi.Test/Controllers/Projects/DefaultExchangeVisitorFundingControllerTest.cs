@@ -31,5 +31,15 @@ namespace ECA.WebApi.Test.Controllers.Projects
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DefaultExchangeVisitorFundingDTO>));
             service.Verify(x => x.GetDefaultExchangeVisitorFundingAsync(It.IsAny<int>()));
         }
+
+        [TestMethod]
+        public async Task TestGetDefaultExchangeVisitorFundingByIdAsync_NotFound()
+        {
+            service.Setup(x => x.GetDefaultExchangeVisitorFundingAsync(It.IsAny<int>()))
+                .ReturnsAsync(null);
+            var response = await controller.GetDefaultExchangeVisitorFundingByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+            service.Verify(x => x.GetDefaultExchangeVisitorFundingAsync(It.IsAny<int>()));
+        }
     }
 }
