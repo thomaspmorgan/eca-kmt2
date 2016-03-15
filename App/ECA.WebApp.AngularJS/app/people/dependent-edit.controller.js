@@ -7,15 +7,14 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personDependentEditCtrl', function ($scope, $timeout, PersonService, DependentService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personDependentEditCtrl', function ($scope, $timeout, $modalInstance, PersonService, DependentService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
       
       $scope.dependent = {};
       $scope.selectedCountriesOfCitizenship = [];
       $scope.dependentLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
-      $scope.personIdDeferred = $q.defer();
-      $scope.edit.dependent = false;
+      //$scope.personIdDeferred = $q.defer();
 
       $scope.updateGender = function () {
           $scope.dependent.gender = getObjectById($scope.dependent.genderId, $scope.genders).value;
@@ -35,31 +34,13 @@ angular.module('staticApp')
       }
 
       $scope.isPlaceOfBirthValid = function ($value) {
-          if ($value === undefined && $scope.dependent.isPlaceOfBirthUnknown) {
-              return true;
-          }
-          if ($value === undefined && !$scope.dependent.isPlaceOfBirthUnknown) {
-              return false;
-          }
-          else {
-              if (($value === 0 || $value === null) && !$scope.dependent.isPlaceOfBirthUnknown) {
-                  return false;
-              }
-              else if ($scope.dependent.isPlaceOfBirthUnknown) {
-                  return $value === undefined || $value === null || $value === 0;
-              }
-              else {
-                  return true;
-              }
-          }
+            if ($value === 0 || $value === null) {
+                return false;
+            }
+            else {
+                return true;
+            }
       }
-
-      //PersonService.getPersonById($stateParams.personId)
-      //  .then(function (data) {
-      //      $scope.person = data;
-      //      loadDependent(data.personId);
-      //      $scope.personIdDeferred.resolve(data.personId);
-      //  });
 
       function loadDependent() {
           personId = $stateParams.personId;
@@ -160,7 +141,6 @@ angular.module('staticApp')
          });
       
       $scope.cancelEditDependent = function () {
-          $scope.edit.dependent = false;
           loadDependent($scope.person.personId);
       };
 
@@ -171,7 +151,6 @@ angular.module('staticApp')
               .then(function () {
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadDependent($scope.person.personId);
-                  $scope.edit.dependent = false;
               },
               function (error) {
                   if (error.status == 400) {
@@ -211,5 +190,15 @@ angular.module('staticApp')
           $scope.datePickerOpen = true;
       };
 
+      $scope.onSaveClick = function () {
+          return saveNewLocation()
+              .then(function (loc) {
+                  $modalInstance.close(loc);
+              });
+      }
+
+      $scope.onCloseClick = function () {
+          $modalInstance.dismiss('cancel');
+      }
 
   });

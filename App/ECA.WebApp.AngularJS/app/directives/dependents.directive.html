@@ -4,14 +4,14 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseDependents">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseDependents">expand_more</i>
         </a>
-        <a ng-click="view.onAddDependentClick(modelType, modelId)" ng-show="editMode">
+        <a ng-click="view.onAddDependentClick()" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;">({{model.dependents.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;">({{model.dependants.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseDependents">
-        <div ng-repeat="dependent in model.dependents">
-            <div ng-controller="DependentCtrl as ctrl" class="expandIndent">
+        <div ng-repeat="dependent in model.dependants">
+            <div ng-controller="DependentsCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>
@@ -19,7 +19,7 @@
                 </div>
                 <div ng-class="{true: 'row', false: 'row2'}[editMode]">
                     <div>
-                        <span>{{dependent.name}}</span>
+                        <span>{{dependent.value}}</span>
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingDependent" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>

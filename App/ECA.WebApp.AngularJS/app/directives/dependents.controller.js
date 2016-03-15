@@ -14,7 +14,6 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
-        $modalInstance,
         ConstantsService
         ) {
 
@@ -26,18 +25,17 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadDependentsPromise = $q.defer();
 
-      $scope.view.onAddDependentClick = function (modelType, modelId) {
+      $scope.view.onAddDependentClick = function () {
           $scope.dependentLoading = false;
           var addDependentModalInstance = $modal.open({
               animation: true,
               templateUrl: 'app/people/add-dependent-modal.html',
               controller: 'AddDependentModalCtrl',
-              size: 'lg',
+              size: 'md',
               resolve: {}
           });
           addDependentModalInstance.result.then(function (addedDependent) {
               $log.info('Finished adding dependent.');
-              $modalInstance.close([addedDependent]);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -49,7 +47,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/people/dependent-edit.html',
               controller: 'personDependentEditCtrl',
-              size: 'lg',
+              size: 'md',
               resolve: {}
           });
           editDependentModalInstance.result.then(function (updatedDependent) {

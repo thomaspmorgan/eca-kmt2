@@ -2,21 +2,13 @@
     <h3 class="modal-title">Dependent</h3>
 </div>
 <div class="modal-body">
-    <div ng-show="dependentsLoading">
-        <div class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
+    <div class="spinner" ng-show="dependentsLoading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
     </div>
-    <div ng-show="!dependentsLoading">
-        <div class="row">
-            <div class="pull-right">
-                <button ng-click="saveAddDependent()" class="btn btn-success" ng-disabled="dependentForm.$pristine">Save</button>
-                <button ng-click="cancelAddDependent()" class="btn btn-cancel">Cancel</button>
-            </div>
-        </div>
-        <form name="dependentForm" class="form-horizontal">
+    <div in-context-form ng-show="!dependentsLoading">
+        <form name="dependentForm">
             <div class="form-group row">
                 <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
                 <div class="col-md-8">
@@ -154,9 +146,9 @@
 </div>
 <div class="modal-footer">
     <div class="pull-right">
-        <button ng-click="view.onSaveClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || view.isSavingNewDependent">
+        <button ng-click="onSaveClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || view.isSavingNewDependent">
             Save
         </button>
-        <button ng-click="view.onCloseClick()" class="btn btn-cancel">Close</button>
+        <button ng-click="onCloseClick()" class="btn btn-cancel">Close</button>
     </div>
 </div>

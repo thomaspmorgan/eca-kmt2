@@ -1,4 +1,23 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -213,7 +232,9 @@
 		removewNewPhoneNumberEventName: 'removeNewPhoneNumber',
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
-		searchDelimiter: ' '
+		searchDelimiter: ' ',
+		sevisStatuses: '[2, 3, 4, 5]'
 	};
 });
+
 

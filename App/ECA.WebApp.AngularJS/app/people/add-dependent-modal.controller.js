@@ -33,19 +33,28 @@ angular.module('staticApp')
           });
       }
 
+      $scope.isPlaceOfBirthValid = function ($value) {
+          if ($value === 0 || $value === null) {
+              return false;
+          }
+          else {
+              return true;
+          }
+      }
+
       LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
         .then(function (data) {
             $scope.countries = data.results;
         });
       
-      $scope.view.onSaveClick = function () {
+      $scope.onSaveClick = function () {
           return saveNewLocation()
               .then(function (loc) {
                   $modalInstance.close(loc);
               });
       }
 
-      $scope.view.onCloseClick = function () {
+      $scope.onCloseClick = function () {
           $modalInstance.dismiss('cancel');
       }
 
