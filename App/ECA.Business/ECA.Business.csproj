@@ -325,7 +325,7 @@
     <Compile Include="Service\Persons\EvaluationNoteService.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveAction.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorService.cs" />
-    <None Include="Service\Persons\ExchangeVisitorValidationService.csold" />
+    <Compile Include="Service\Persons\ExchangeVisitorValidationService.cs" />
     <Compile Include="Service\Persons\IEduEmpService.cs" />
     <Compile Include="Service\Persons\IEvaluationNoteService.cs" />
     <Compile Include="Service\Persons\IExchangeVisitorService.cs" />

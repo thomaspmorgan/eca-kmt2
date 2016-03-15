@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
+using FluentValidation;
+using Moq;
 
 namespace ECA.Business.Test.Validation.Sevis
 {
@@ -621,6 +623,7 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         #endregion Check Serialization
+
         [TestMethod]
         public void TestGetSEVISBatchTypeExchangeVisitor_CheckSerialization()
         {
@@ -655,5 +658,294 @@ namespace ECA.Business.Test.Validation.Sevis
                 Assert.IsNotNull(xml);
             }
         }
+
+        #region Validate
+        [TestMethod]
+        public void TestValidate()
+        {
+            var userId = 10;
+            var sevisId = "sevis id";
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            var validator = new Mock<AbstractValidator<ExchangeVisitor>>();
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            exchangeVisitor.Validate(validator.Object);
+            validator.Verify(x => x.Validate(It.Is<ExchangeVisitor>(y => y == exchangeVisitor)), Times.Once());
+        }
+        #endregion
+
+        #region AddToBatch
+        [TestMethod]
+        public void TestAddToBatch_HasNullSevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = null;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var evBatchType = new SEVISEVBatchType();
+            evBatchType.CreateEV = new SEVISEVBatchTypeExchangeVisitor[0];
+            evBatchType.UpdateEV = new SEVISEVBatchTypeExchangeVisitor1[0];
+
+            exchangeVisitor.AddToBatch(evBatchType);
+            Assert.AreEqual(1, evBatchType.CreateEV.Count());
+            Assert.AreEqual(0, evBatchType.UpdateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddToBatch_EmptySevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = String.Empty;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var evBatchType = new SEVISEVBatchType();
+            evBatchType.CreateEV = new SEVISEVBatchTypeExchangeVisitor[0];
+            evBatchType.UpdateEV = new SEVISEVBatchTypeExchangeVisitor1[0];
+
+            exchangeVisitor.AddToBatch(evBatchType);
+            Assert.AreEqual(1, evBatchType.CreateEV.Count());
+            Assert.AreEqual(0, evBatchType.UpdateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddToBatch_WhitespaceSevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = " ";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var evBatchType = new SEVISEVBatchType();
+            evBatchType.CreateEV = new SEVISEVBatchTypeExchangeVisitor[0];
+            evBatchType.UpdateEV = new SEVISEVBatchTypeExchangeVisitor1[0];
+
+            exchangeVisitor.AddToBatch(evBatchType);
+            Assert.AreEqual(1, evBatchType.CreateEV.Count());
+            Assert.AreEqual(0, evBatchType.UpdateEV.Count());
+        }
+
+        [TestMethod]
+        public void TestAddToBatch_HasSevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = "sevisid";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var evBatchType = new SEVISEVBatchType();
+            evBatchType.CreateEV = new SEVISEVBatchTypeExchangeVisitor[0];
+            evBatchType.UpdateEV = new SEVISEVBatchTypeExchangeVisitor1[0];
+
+            exchangeVisitor.AddToBatch(evBatchType);
+            Assert.AreEqual(0, evBatchType.CreateEV.Count());
+            Assert.AreEqual(0, evBatchType.UpdateEV.Count());
+        }
+        #endregion
+
+        #region Get Batch Record Count
+        [TestMethod]
+        public void TestGetBatchRecordCount_HasNullSevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = null;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+            Assert.AreEqual(1, exchangeVisitor.GetBatchRecordCount());
+        }
+
+        [TestMethod]
+        public void TestGetBatchRecordCount_EmptySevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = String.Empty;
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+            Assert.AreEqual(1, exchangeVisitor.GetBatchRecordCount());
+        }
+
+        [TestMethod]
+        public void TestGetBatchRecordCount_WhitespaceSevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = " ";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+            Assert.AreEqual(1, exchangeVisitor.GetBatchRecordCount());
+        }
+
+        [TestMethod]
+        public void TestGetBatchRecordCount_HasSevisId()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            string sevisId = "sevisid";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+            Assert.AreEqual(0, exchangeVisitor.GetBatchRecordCount());
+        }
+        #endregion
+
     }
 }

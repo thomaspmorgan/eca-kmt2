@@ -268,7 +268,7 @@
     <Compile Include="Service\Persons\LanguageProficiencyServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantExchangeVisitorServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
-    <None Include="Service\Persons\ExchangeVisitorValidationServiceTest.csold" />
+    <Compile Include="Service\Persons\ExchangeVisitorValidationServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveActionTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
