@@ -213,11 +213,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-md-4 title-label">Dependants</label>
+                    <label class="col-md-4 title-label">Dependents</label>
                     <div class="col-md-8">
-                        <ul>
-                            <li ng-repeat="dependant in pii.dependants">{{dependant.value}}</li>
-                        </ul>
+                        <dependents model="pii" modelid="person.personId" modeltype="'person'" editmode="edit.Pii" />
                     </div>
                 </div>
             </div>

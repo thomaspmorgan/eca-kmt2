@@ -1,0 +1,46 @@
+﻿<div ng-controller="DependentsCtrl">
+    <div>
+        <a ng-click="view.collapseDependents = !view.collapseDependents">
+            <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseDependents">expand_less</i>
+            <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseDependents">expand_more</i>
+        </a>
+        <a ng-click="view.onAddDependentClick(modelType, modelId)" ng-show="editMode">
+            <i class="material-icons md-24 md-dark pull-right">add</i>
+        </a>
+        <div class="pull-right" style="margin-top: 3px;">({{model.dependents.length}})</div>
+    </div>
+    <div class="col-md-12" collapse="view.collapseDependents">
+        <div ng-repeat="dependent in model.dependents">
+            <div ng-controller="DependentCtrl as ctrl" class="expandIndent">
+                <div class="spinner" ng-show="view.isSavingChanges">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div ng-class="{true: 'row', false: 'row2'}[editMode]">
+                    <div>
+                        <span>{{dependent.name}}</span>
+                        <div class="pull-right" ng-show="editMode">
+                            <a ng-show="!view.isDeletingDependent" ng-click="view.showConfirmDelete = true">
+                                <i class="material-icons md-dark">delete</i>
+                            </a>
+                            <a ng-show="view.isDeletingDependent">
+                                <i class="material-icons md-dark material-icons-spin">refresh</i>
+                            </a>
+                            <a ng-click="view.onEditDependentClick()">
+                                <i class="material-icons md-dark">edit</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-show="view.showConfirmDelete" class="text-center">
+                        Are you sure you want to delete this dependent?
+                    </div>
+                    <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
+                        <button ng-click="view.onDeleteDependentClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
