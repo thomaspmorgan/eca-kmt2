@@ -85,7 +85,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; private set; }
+        public List<SimpleLookupDTO> CountriesOfCitizenship { get; private set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

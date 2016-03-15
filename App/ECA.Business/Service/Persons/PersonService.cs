@@ -14,6 +14,7 @@ using ECA.Business.Validation;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Service.Persons
 {
@@ -203,7 +204,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="personId">The person Id</param>
         /// <returns>The person dependent</returns>
-        private async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId)
+        public async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
             return await CreateGetSimplePersonDependent(personId).FirstOrDefaultAsync();
@@ -231,10 +232,11 @@ namespace ECA.Business.Service.Persons
         /// <param name="newPerson"></param>
         /// <param name="countriesOfCitizenship"></param>
         /// <returns></returns>
-        private Person CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
+        private Person CreatePersonDependent(NewPersonDependent newPerson, List<SimpleLookupDTO> countriesOfCitizenship)
         {
             HashSet<EmailAddress> emails = new HashSet<EmailAddress>();
             EmailAddress email = new EmailAddress { Address = newPerson.EmailAddress };
+            var locationsOfCitizenship = GetLocationsByIdAsync(countriesOfCitizenship.Select(x => x.Id).ToList());
             emails.Add(email);
 
             var person = new Person
@@ -244,7 +246,7 @@ namespace ECA.Business.Service.Persons
                 GenderId = newPerson.Gender,
                 DateOfBirth = newPerson.DateOfBirth,
                 PlaceOfBirthId = newPerson.CityOfBirth,
-                CountriesOfCitizenship = countriesOfCitizenship,
+                CountriesOfCitizenship = locationsOfCitizenship.Result,
                 EmailAddresses = emails,
                 PersonTypeId = newPerson.PersonTypeId
             };
@@ -263,12 +265,12 @@ namespace ECA.Business.Service.Persons
         public async Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person)
         {
             var personToUpdate = await GetPersonDependentByIdAsync(person.PersonId);
-            var countriesOfCitizenship = await GetLocationsByIdAsync(person.CountriesOfCitizenship.Select(x => (int)x.CountryId).ToList());
+            var countriesOfCitizenship = person.CountriesOfCitizenship;
             DoDependentUpdate(person, personToUpdate, countriesOfCitizenship);
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, SimplePersonDependentDTO person, List<Location> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, SimplePersonDependentDTO person, List<SimpleLookupDTO> countriesOfCitizenship)
         {
             person.FullName = updateDependent.FullName;
             person.DateOfBirth = updateDependent.DateOfBirth;
@@ -281,20 +283,8 @@ namespace ECA.Business.Service.Persons
             person.EmailAddress = updateDependent.EmailAddress;
             person.PersonTypeId = updateDependent.PersonTypeId;
             updateDependent.Audit.SetHistory(person);
-            SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
         }
-
-        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, SimplePersonDependentDTO person)
-        {
-            Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
-            Contract.Requires(person != null, "The person entity must not be null.");
-            person.CountriesOfCitizenship.Clear();
-            countriesOfCitizenship.ForEach(x =>
-            {
-                person.CountriesOfCitizenship.Add(x);
-            });
-        }
-
+        
         /// <summary>
         /// Deletes a dependent from a person family
         /// </summary>

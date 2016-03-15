@@ -3,6 +3,7 @@ using ECA.WebApi.Models.Person;
 using ECA.Data;
 using ECA.Business.Service;
 using System;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.WebApi.Test.Models.Person
 {
@@ -26,7 +27,7 @@ namespace ECA.WebApi.Test.Models.Person
                 DateOfBirth = DateTime.Now,
                 CityOfBirth = 1,
                 CountryOfBirth = 2,
-                CountriesOfCitizenship = new System.Collections.Generic.List<Location>(),
+                CountriesOfCitizenship = new System.Collections.Generic.List<SimpleLookupDTO>(),
                 EmailAddress = "email@domain.com",
                 Gender = Gender.Male.Id,
                 PermanentResidenceCountryCode = 2,

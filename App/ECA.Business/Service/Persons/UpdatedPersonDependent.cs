@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Service.Lookup;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace ECA.Business.Service.Persons
             int gender,
             int cityOfBirth,
             int countryOfBirth,
-            List<Location> countriesOfCitizenship,
+            List<SimpleLookupDTO> countriesOfCitizenship,
             int permanentResidenceCountryCode,
             string birthCountryReason,
             string emailAddress,
@@ -83,7 +84,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; private set; }
+        public List<SimpleLookupDTO> CountriesOfCitizenship { get; private set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

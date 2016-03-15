@@ -1,7 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
-using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -45,7 +45,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; set; }
+        public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

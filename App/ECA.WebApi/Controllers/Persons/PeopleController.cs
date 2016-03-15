@@ -202,7 +202,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("Person/{personId:int}/Dependent")]
         public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int personId)
         {
-            var person = await service.GetPersonByIdAsync(personId);
+            var person = await service.GetPersonDependentByIdAsync(personId);
             if (person != null)
             {
                 return Ok(person);
@@ -264,6 +264,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to create</param>
         /// <returns></returns>
+        [Route("Dependent")]
         public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
         {
             if (ModelState.IsValid)
@@ -382,7 +383,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId"></param>
         /// <param name="dependentId"></param>
         /// <returns></returns>
-        [Route("People/{personId:int}/Dependent/{dependentId:int}")]
+        [Route("Dependent")]
         [ResponseType(typeof(OkResult))]
         public async Task<IHttpActionResult> DeleteDependentAsync(int personId, int dependentId)
         {

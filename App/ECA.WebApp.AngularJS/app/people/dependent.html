@@ -1,4 +1,7 @@
-﻿<div ng-controller="personDependentViewCtrl">
+﻿<div class="modal-header">
+    <h3 class="modal-title">Dependent</h3>
+</div>
+<div class="modal-body">
     <div ng-show="dependentLoading">
         <div class="spinner">
             <div class="bounce1"></div>
@@ -104,5 +107,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button ng-click="view.onSaveClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || view.isSavingNewDependent">
+            Save
+        </button>
+        <button ng-click="view.onCloseClick()" class="btn btn-cancel">Close</button>
     </div>
 </div>

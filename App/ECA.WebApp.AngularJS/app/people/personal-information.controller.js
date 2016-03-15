@@ -57,16 +57,16 @@ angular.module('staticApp')
                   okText: 'Yes',
                   cancelText: 'No',
                   okCallback: function () {
-                      userSection = true
+                      userSection = true;
                       defer.resolve(userSection);
                   },
                   cancelCallback: function () {
-                      userSection = !userSection
+                      userSection = false;
                       defer.resolve(userSection);
                   }
               });
           } else {
-              userSection = !userSection
+              userSection = !userSection;
               defer.resolve(userSection);
           }
 

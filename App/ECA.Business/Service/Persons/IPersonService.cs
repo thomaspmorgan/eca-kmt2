@@ -3,12 +3,8 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace ECA.Business.Service.Persons
 {
@@ -155,6 +151,13 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         Task<SimplePersonDTO> GetPersonByIdAsync(int personId);
 
+        /// <summary>
+        /// Get a person dependent
+        /// </summary>
+        /// <param name="personId">The person Id</param>
+        /// <returns>The person dependent</returns>
+        Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId);
+        
         /// <summary>
         /// Update a person dependent
         /// </summary>
