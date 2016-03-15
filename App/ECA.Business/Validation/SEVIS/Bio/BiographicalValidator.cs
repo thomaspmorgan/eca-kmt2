@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Data;
 using FluentValidation;
+using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -26,17 +27,15 @@ namespace ECA.Business.Validation.Sevis.Bio
 
         public const string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = "EV Biographical Info: One and only one country of citizenship is required.";
 
-        public const string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = "EV Biographical Info: Permanent Residence Country is required.  Add a non US address to this person.";
+        public const string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = "EV Biographical Info: Permanent Residence Country is required.  Add a home address outside of the United States to this person.";
 
         public static string BIRTH_COUNTRY_REASON_ERROR_MESSAGE = string.Format("EV Biographical Info: Birth Country Reason must be {0} characters.", BIRTH_COUNTRY_REASON_LENGTH);
 
-        public static string EMAIL_ERROR_MESSAGE = string.Format("EV Biographical Info: Email can be up to {0} characters.", EMAIL_MAX_LENGTH);
-
-        public const string INVALID_EMAIL_ERROR_MESSAGE = "EV Biographical Info: Email is invalid.";
+        public const string EMAIL_ERROR_MESSAGE = "EV Biographical Info: The email address '{0}' is invalid.  It may be up to {1} characters long.";
 
         public const int MAX_PHONE_NUMBER_LENGTH = 10;
 
-        public static string PHONE_NUMBER_ERROR_MESSAGE = string.Format("EV Biographical Info:  The phone number may be up to {0} characters long.", MAX_PHONE_NUMBER_LENGTH);
+        public const string PHONE_NUMBER_ERROR_MESSAGE = "EV Biographical Info:  The phone number '{0}' may be up to {1} characters long.";
 
         public BiographicalValidator()
         {
@@ -94,19 +93,38 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE)
                 .WithState(x => new CountryOfBirthErrorPath());
 
-            RuleFor(visitor => visitor.EmailAddress)
-                .Length(0, EMAIL_MAX_LENGTH)
-                .WithMessage(EMAIL_ERROR_MESSAGE)
-                .WithState(x => new EmailErrorPath())
-                .EmailAddress()
-                .WithMessage(INVALID_EMAIL_ERROR_MESSAGE)
-                .WithState(x => new EmailErrorPath());
+            When(x => x.EmailAddress != null, () =>
+            {
+                Func<T, object> emailDelegate = (b) =>
+                {
+                    return b.EmailAddress != null ? b.EmailAddress : null;
+                };
+                Func<T, object> maxEmailLengthDelete = (b) =>
+                {
+                    return EMAIL_MAX_LENGTH.ToString();
+                };
+                RuleFor(x => x.EmailAddress)
+                    .EmailAddress()
+                    .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, maxEmailLengthDelete)
+                    .WithState(x => new EmailErrorPath())
+                    .Length(0, EMAIL_MAX_LENGTH)
+                    .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, maxEmailLengthDelete)
+                    .WithState(x => new EmailErrorPath());
+            });
 
             When(x => x.PhoneNumber != null, () =>
             {
+                Func<T, object> maxLengthDelegate = (b) =>
+                {
+                    return MAX_PHONE_NUMBER_LENGTH.ToString();
+                };
+                Func<T, object> phoneNumberDelegate = (b) =>
+                {
+                    return b.PhoneNumber != null ? b.PhoneNumber : null;
+                };
                 RuleFor(x => x.PhoneNumber)
                     .Length(0, MAX_PHONE_NUMBER_LENGTH)
-                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE)
+                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, phoneNumberDelegate, maxLengthDelegate)
                     .WithState(x => new PhoneNumberErrorPath());
             });
 

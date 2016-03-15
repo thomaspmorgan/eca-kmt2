@@ -483,7 +483,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.INVALID_EMAIL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(BiographicalValidator<BiographicalTestClass>.EMAIL_ERROR_MESSAGE, instance.EmailAddress, BiographicalValidator<BiographicalTestClass>.EMAIL_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(EmailErrorPath));
         }
 
@@ -499,7 +499,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.EMAIL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(string.Format(BiographicalValidator<BiographicalTestClass>.EMAIL_ERROR_MESSAGE, instance.EmailAddress, BiographicalValidator<BiographicalTestClass>.EMAIL_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(EmailErrorPath));
         }
 
@@ -518,7 +518,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, instance.PhoneNumber, BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
         }
         #endregion

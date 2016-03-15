@@ -45,7 +45,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship", 
                 SevisId = "sevisId"
             };
@@ -87,7 +86,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = null
             };
@@ -129,7 +127,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = string.Empty
             };
@@ -171,7 +168,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = " "
             };
@@ -213,7 +209,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = "sevisId"
             };
@@ -266,7 +261,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = "sevisId"
             };
@@ -308,7 +302,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = "sevisId"
             };
@@ -364,7 +357,6 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PersonTypeId = PersonType.Child.Id,
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
-                PositionCode = "position code",
                 Relationship = "relationship",
                 SevisId = "sevisId"
             };

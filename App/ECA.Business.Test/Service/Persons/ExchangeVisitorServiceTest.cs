@@ -589,16 +589,19 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 3,
                 PhoneNumber = "123-455-6789",
                 PhoneNumberId = 4,
-                PositionCode = "position code"
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-
                 ParticipantId = 10,
                 ProgramCategory = new ProgramCategory
                 {
                     ProgramCategoryId = 100,
                     ProgramCategoryCode = "program category code"
+                },
+                Position = new Position
+                {
+                    PositionCode = "position code",
+                    PositionId = 19092
                 }
             };
             var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
@@ -621,6 +624,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsTrue(Object.ReferenceEquals(mailAddress, person.MailAddress));
 
             Assert.AreEqual(participantExchangeVisitor.ProgramCategory.ProgramCategoryCode, person.ProgramCategoryCode);
+            Assert.AreEqual(participantExchangeVisitor.Position.PositionCode, person.PositionCode);
             Assert.IsNull(person.Remarks);
         }
 
@@ -661,7 +665,6 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 3,
                 PhoneNumber = "123-455-6789",
                 PhoneNumberId = 4,
-                PositionCode = "position code"
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -711,7 +714,6 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 3,
                 PhoneNumber = "123-455-6789",
                 PhoneNumberId = 4,
-                PositionCode = "position code"
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -758,7 +760,6 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 3,
                 PhoneNumber = "123-455-6789",
                 PhoneNumberId = 4,
-                PositionCode = "position code"
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -810,7 +811,6 @@ namespace ECA.Business.Test.Service.Persons
                 MailAddress = mailAddress,
                 PhoneNumber = "123-455-6789",
                 PhoneNumberId = 4,
-                PositionCode = "position code"
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -862,7 +862,6 @@ namespace ECA.Business.Test.Service.Persons
                 MailAddress = mailAddress,
                 PhoneNumber = "123-455-6789",
                 PhoneNumberId = 4,
-                PositionCode = "position code"
             };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
@@ -879,6 +878,57 @@ namespace ECA.Business.Test.Service.Persons
             var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
             Assert.IsNull(person.ProgramCategoryCode);
         }
+
+        [TestMethod]
+        public void TestGetPerson_NullPosition()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 2
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO(),
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                MailAddress = mailAddress,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+
+                },
+                Position = null
+            };
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            var subjectFieldDTO = new SubjectFieldDTO
+            {
+                SubjectFieldCode = "subject field code"
+            };
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNull(person.PositionCode);
+        }
         #endregion
 
         #region State Dept US Address
@@ -892,7 +942,7 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Financial Info
         [TestMethod]
-        public async Task TestGetFinancialInfo_HasUSAndInternationFunding()
+        public async Task TestGetFinancialInfo_HasUSAndInternationFunding_NotEmpty()
         {
             var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
@@ -935,6 +985,8 @@ namespace ECA.Business.Test.Service.Persons
 
                 Action<FinancialInfo> tester = (financialInfo) =>
                 {
+                    Assert.IsFalse(usFunding.IsEmpty());
+                    Assert.IsFalse(internationalFunding.IsEmpty());
                     Assert.IsNotNull(financialInfo);
                     Assert.IsNotNull(financialInfo.OtherFunds);
                     Assert.IsNotNull(financialInfo.OtherFunds.USGovt);
@@ -960,6 +1012,90 @@ namespace ECA.Business.Test.Service.Persons
                 tester(resultsAsync);
             }
         }
+
+        [TestMethod]
+        public async Task TestGetFinancialInfo_HasUSAndInternationFunding_EmptyFunding()
+        {
+            var participantId = 100;
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId
+            };
+            using (ShimsContext.Create())
+            {
+                var usFunding = new ExchangeVisitorFundingDTO
+                {   
+                };
+                var internationalFunding = new ExchangeVisitorFundingDTO
+                {
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetInternationalFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO> { internationalFunding }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetUSFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO> { usFunding }.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ExchangeVisitorFundingDTO>((src) =>
+                {
+                    return Task<ExchangeVisitorFundingDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                Action<FinancialInfo> tester = (financialInfo) =>
+                {
+                    Assert.IsTrue(usFunding.IsEmpty());
+                    Assert.IsTrue(internationalFunding.IsEmpty());
+                    Assert.IsNotNull(financialInfo);
+                    Assert.IsNotNull(financialInfo.OtherFunds);
+                    Assert.IsNull(financialInfo.OtherFunds.USGovt);
+                    Assert.IsNull(financialInfo.OtherFunds.International);
+                };
+                var results = service.GetFinancialInfo(participantExchangeVisitor);
+                var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+                tester(results);
+                tester(resultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetFinancialInfo_OrgAndInternationFundingAreNull()
+        {
+            var participantId = 100;
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId
+            };
+            using (ShimsContext.Create())
+            {
+               
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetInternationalFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO>().AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetUSFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO>().AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ExchangeVisitorFundingDTO>((src) =>
+                {
+                    return Task<ExchangeVisitorFundingDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                Action<FinancialInfo> tester = (financialInfo) =>
+                {
+                    Assert.IsNotNull(financialInfo);
+                    Assert.IsNotNull(financialInfo.OtherFunds);
+                    Assert.IsNull(financialInfo.OtherFunds.USGovt);
+                    Assert.IsNull(financialInfo.OtherFunds.International);
+                };
+                var results = service.GetFinancialInfo(participantExchangeVisitor);
+                var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+                tester(results);
+                tester(resultsAsync);
+            }
+        }
+
 
         [TestMethod]
         public async Task TestGetFinancialInfo_HasUsGovtAgency1Amount1Funding()
@@ -1125,56 +1261,5 @@ namespace ECA.Business.Test.Service.Persons
             tester(resultsAsync);
         }
         #endregion
-
-
-        //[TestMethod]
-        //public async Task TestSetDependents_ExchangeVisitor_HasDependent()
-        //{
-        //    using (ShimsContext.Create())
-        //    {
-        //        var dependents = new List<DependentBiographicalDTO>();
-        //        var dependent = new DependentBiographicalDTO
-        //        {
-        //            FullName = new FullNameDTO()
-        //        };
-        //        dependents.Add(dependent);
-        //        ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, participantId) =>
-        //        {
-        //            return dependents.AsQueryable();
-        //        };
-        //        System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
-        //        {
-        //            return Task<List<SimplePersonDTO>>.FromResult(src.ToList());
-        //        });
-        //        var participant = new Participant
-        //        {
-        //            ParticipantId = 1,
-        //        };
-        //        ExchangeVisitor exchangeVisitor = null;
-        //        context.SetupActions.Add(() =>
-        //        {
-        //            exchangeVisitor = new ExchangeVisitor
-        //            {
-
-        //            };
-        //        });
-        //        Action tester = () =>
-        //        {
-        //            Assert.IsNotNull(exchangeVisitor.CreateDependent);
-        //            Assert.AreEqual(1, exchangeVisitor.CreateDependent.Count());
-        //            var firstDto = exchangeVisitor.CreateDependent.First();
-        //        };
-        //        context.Revert();
-        //        service.SetDependents(participant, exchangeVisitor);
-        //        tester();
-
-        //        context.Revert();
-        //        await service.SetDependentsAsync(participant, exchangeVisitor);
-        //        tester();
-        //    }
-
-        //}
-
-
     }
 }

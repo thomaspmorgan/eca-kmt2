@@ -1,9 +1,5 @@
 ﻿using ECA.Business.Validation.Sevis.Finance;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
 {
@@ -38,6 +34,20 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
         /// Gets or sets organization 2 funding amount.
         /// </summary>
         public string Amount2 { get; set; }
+
+        /// <summary>
+        /// Returns true if this dto no funding levels or agencies set.
+        /// </summary>
+        /// <returns>True, if this dto has no funding and agencies set.</returns>
+        public bool IsEmpty()
+        {
+            return String.IsNullOrWhiteSpace(this.Org1)
+                && String.IsNullOrWhiteSpace(this.Org2)
+                && (String.IsNullOrWhiteSpace(this.Amount1) || this.Amount1 == "0")
+                && (String.IsNullOrWhiteSpace(this.Amount2) || this.Amount2 == "0")
+                && String.IsNullOrWhiteSpace(this.OtherName1)
+                && String.IsNullOrWhiteSpace(this.OtherName2);
+        }
 
         /// <summary>
         /// Returns the international funding sevis model.

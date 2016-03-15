@@ -37,11 +37,6 @@ namespace ECA.Business.Queries.Models.Persons
         public string PhoneNumber { get; set; }
 
         /// <summary>
-        /// Position held in home country
-        /// </summary>
-        public string PositionCode { get; set; }
-
-        /// <summary>
         /// Full name of person
         /// </summary>
         public FullNameDTO FullName { get; set; }

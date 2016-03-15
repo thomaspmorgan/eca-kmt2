@@ -193,7 +193,7 @@ namespace ECA.Business.Service.Persons
         /// Returns the person model for an exchange visitor.
         /// </summary>
         /// <param name="biography">The biography of the participant.</param>
-        /// <param name="participantExchangeVisitor">The participant exchange visitor record.  This record should have the program category pre-loaded.</param>
+        /// <param name="participantExchangeVisitor">The participant exchange visitor record.  This record should have the program category and position pre-loaded.</param>
         /// <param name="subjectFieldDTO">The field of study of the participant.</param>
         /// <param name="siteOfActivityAddress">the site of activity of the exchange visitor, i.e. C Street state dept.</param>
         /// <returns>The person model for the exchange visitor.</returns>
@@ -228,7 +228,7 @@ namespace ECA.Business.Service.Persons
                 permanentResidenceCountryCode: biography.PermanentResidenceCountryCode,
                 phoneNumber: biography.PhoneNumber,
                 remarks: null,
-                positionCode: biography.PositionCode,
+                positionCode: participantExchangeVisitor.Position != null ? participantExchangeVisitor.Position.PositionCode : null,
                 programCategoryCode: participantExchangeVisitor.ProgramCategory != null ? participantExchangeVisitor.ProgramCategory.ProgramCategoryCode : null,
                 mailAddress: biography.MailAddress,
                 participantId: participantExchangeVisitor.ParticipantId,
@@ -311,7 +311,6 @@ namespace ECA.Business.Service.Persons
         }
         #endregion
 
-
         #region Financial Info
 
         /// <summary>
@@ -381,8 +380,8 @@ namespace ECA.Business.Service.Persons
                 evGovt: getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisGovt),
                 binationalCommission: getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisBNC),
                 personal: getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal),
-                usGovt: usFunding != null ? usFunding.GetUSGovt() : null,
-                international: orgFunding != null ? orgFunding.GetInternational() : null,
+                usGovt: usFunding != null && !usFunding.IsEmpty() ? usFunding.GetUSGovt() : null,
+                international: orgFunding != null && !orgFunding.IsEmpty() ? orgFunding.GetInternational() : null,
                 other: other);
 
             var financialInfo = new FinancialInfo(

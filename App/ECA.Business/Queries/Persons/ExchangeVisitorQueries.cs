@@ -33,6 +33,7 @@ namespace ECA.Business.Queries.Persons
             var cityMaxLength = PersonValidator.CITY_MAX_LENGTH;
             var unitedStatesCountryName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             var hostAddressTypeId = AddressType.Host.Id;
+            var homeAddressTypeId = AddressType.Home.Id;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -69,6 +70,7 @@ namespace ECA.Business.Queries.Persons
                         let residenceAddress = addressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
                             .Where(x => x.Country != unitedStatesCountryName)
+                            .Where(x => x.AddressTypeId == homeAddressTypeId)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
@@ -76,6 +78,7 @@ namespace ECA.Business.Queries.Persons
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
 
                         let mailAddress = addressQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
                             .Where(x => x.Country == unitedStatesCountryName)
                             .Where(x => x.AddressTypeId == hostAddressTypeId)
                             .OrderByDescending(x => x.IsPrimary)
@@ -107,7 +110,7 @@ namespace ECA.Business.Queries.Persons
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
                             PhoneNumber = phoneNumber != null ? phoneNumber.Number : null,
-                            MailAddress = mailAddress
+                            MailAddress = mailAddress,
                         };
             return query;
         }
@@ -172,7 +175,6 @@ namespace ECA.Business.Queries.Persons
                             MailAddress = biography.MailAddress,
                             PhoneNumber = biography.PhoneNumber,
                             PhoneNumberId = biography.PhoneNumberId,
-                            PositionCode = biography.PositionCode,
                             Relationship = personType.SevisDependentTypeCode,
                             PersonTypeId = personType.PersonTypeId,
                             SevisId = null //this will change when the dependents are storing their sevis ids

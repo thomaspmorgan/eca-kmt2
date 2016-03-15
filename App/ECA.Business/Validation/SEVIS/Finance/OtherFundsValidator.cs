@@ -18,9 +18,18 @@ namespace ECA.Business.Validation.Sevis.Finance
 
         public OtherFundsValidator()
         {
-            RuleFor(visitor => visitor.Other).SetValidator(new OtherValidator()).When(visitor => visitor.Other != null);
-            RuleFor(visitor => visitor.USGovt).SetValidator(new USGovtValidator()).When(visitor => visitor.USGovt != null);
-            RuleFor(visitor => visitor.International).SetValidator(new InternationalValidator()).When(visitor => visitor.International != null);
+            RuleFor(visitor => visitor.Other)
+                .SetValidator(new OtherValidator())
+                .When(visitor => visitor.Other != null);
+
+            RuleFor(visitor => visitor.USGovt)
+                .SetValidator(new USGovtValidator())
+                .When(visitor => visitor.USGovt != null);
+
+            RuleFor(visitor => visitor.International)
+                .SetValidator(new InternationalValidator())
+                .When(visitor => visitor.International != null);
+
             When(visitor => visitor.EVGovt != null, () =>
             {
                 RuleFor(x => x.EVGovt)
