@@ -97,7 +97,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 },
                 Gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE,
                 PermanentResidenceCountryCode = "FR",
-                PhoneNumber = "1234567890"
+                PhoneNumber = "18502663026"
             };
         }
 
@@ -507,6 +507,38 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         #region Phone Number
         [TestMethod]
+        public void TestPhoneNumber_IsNull()
+        {
+            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var instance = GetValidBiographical();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PhoneNumber = null;
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.VISITING_PHONE_REQUIRED_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value), result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
+        }
+
+        [TestMethod]
+        public void TestPhoneNumber_HasCharacters()
+        {
+            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var instance = GetValidBiographical();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PhoneNumber = "abc";
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value, instance.PhoneNumber, BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
+        }
+
+        [TestMethod]
         public void TestPhoneNumber_ExceedsMaxLength()
         {
             var validator = new BiographicalValidator<BiographicalTestClass>();
@@ -518,7 +550,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, instance.PhoneNumber, BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value, instance.PhoneNumber, BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
         }
         #endregion
@@ -542,7 +574,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(AddressDTOValidator.COUNTRY_ERROR_MESSAGE, AddressDTOValidator.PERSON_HOST_ADDRESS , LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(AddressDTOValidator.COUNTRY_ERROR_MESSAGE, AddressDTOValidator.PERSON_HOST_ADDRESS, LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME), result.Errors.First().ErrorMessage);
         }
         #endregion
 

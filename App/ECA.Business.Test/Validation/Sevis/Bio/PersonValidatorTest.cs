@@ -47,7 +47,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -129,7 +129,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -211,7 +211,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             string positionCodeAsString = positionCode.ToString();
             var printForm = true;
@@ -294,7 +294,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
             var birthCountryReason = "ab";
@@ -375,7 +375,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
             var birthCountryReason = "ab";
@@ -456,7 +456,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
             var birthCountryReason = "ab";

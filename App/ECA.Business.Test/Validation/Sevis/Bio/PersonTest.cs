@@ -7,6 +7,7 @@ using ECA.Business.Validation;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Validation.Sevis;
+using PhoneNumbers;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -123,7 +124,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "123-456-7890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "reason";
@@ -156,6 +157,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 participantId: participantId
                 );
 
+            var phoneNumberUtil = PhoneNumberUtil.GetInstance();
+            var pn = phoneNumberUtil.Parse(phone, ECA.Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+            var expectedPhone = pn.NationalNumber.ToString();
+            Assert.AreEqual("8505551212", expectedPhone);
+
             var instance = person.GetEVPersonTypeBiographical();
             Assert.AreEqual(person.BirthCity, instance.BirthCity);
             Assert.AreEqual(person.BirthCountryCode.GetBirthCntryCodeType(), instance.BirthCountryCode);
@@ -164,7 +170,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(person.EmailAddress, instance.EmailAddress);
             Assert.AreEqual(person.Gender.GetEVGenderCodeType(), instance.Gender);
             Assert.AreEqual(person.PermanentResidenceCountryCode.GetCountryCodeWithType(), instance.PermanentResidenceCountryCode);
-            Assert.AreEqual(person.PhoneNumber, instance.PhoneNumber);
+            Assert.AreEqual(expectedPhone, instance.PhoneNumber);
             Assert.IsFalse(instance.BirthCountryReasonSpecified);
         }
 
@@ -197,7 +203,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "123-456-7890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "reason";
@@ -229,6 +235,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 participantId: participantId
                 );
 
+            var phoneNumberUtil = PhoneNumberUtil.GetInstance();
+            var pn = phoneNumberUtil.Parse(phone, ECA.Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+            var expectedPhone = pn.NationalNumber.ToString();
+            Assert.AreEqual("8505551212", expectedPhone);
+
             var instance = person.GetSEVISEVBatchTypeExchangeVisitorBiographical();
             Assert.AreEqual(person.BirthCity, instance.BirthCity);
             Assert.AreEqual(person.BirthCountryCode.GetBirthCntryCodeType(), instance.BirthCountryCode);
@@ -237,7 +248,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(person.EmailAddress, instance.EmailAddress);
             Assert.AreEqual(person.Gender.GetGenderCodeType(), instance.Gender);
             Assert.AreEqual(person.PermanentResidenceCountryCode.GetCountryCodeWithType(), instance.PermanentResidenceCountryCode);
-            Assert.AreEqual(person.PhoneNumber, instance.PhoneNumber);
+            Assert.AreEqual(expectedPhone, instance.PhoneNumber);
             Assert.AreEqual(person.Remarks, instance.Remarks);
             Assert.AreEqual(person.PrintForm, instance.printForm);
             Assert.AreEqual((short)Int32.Parse(person.PositionCode), instance.PositionCode);

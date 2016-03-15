@@ -1,7 +1,9 @@
 ﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Data;
 using FluentValidation;
+using PhoneNumbers;
 using System;
+using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -35,7 +37,9 @@ namespace ECA.Business.Validation.Sevis.Bio
 
         public const int MAX_PHONE_NUMBER_LENGTH = 10;
 
-        public const string PHONE_NUMBER_ERROR_MESSAGE = "EV Biographical Info:  The phone number '{0}' may be up to {1} characters long.";
+        public const string VISITING_PHONE_REQUIRED_ERROR_MESSAGE = "EV Biographical Info:  A '{0}' US phone number is required.";
+
+        public const string PHONE_NUMBER_ERROR_MESSAGE = "EV Biographical Info:  The '{0}' US phone number '{1}' may be up to {2} characters long.";
 
         public BiographicalValidator()
         {
@@ -112,8 +116,17 @@ namespace ECA.Business.Validation.Sevis.Bio
                     .WithState(x => new EmailErrorPath());
             });
 
+            RuleFor(x => x.PhoneNumber)
+                .NotNull()
+                .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value)
+                .WithState(x => new PhoneNumberErrorPath());
+
             When(x => x.PhoneNumber != null, () =>
             {
+                Func<T, object> numberTypeDelegate = (b) =>
+                {
+                    return Data.PhoneNumberType.Visiting.Value;
+                };
                 Func<T, object> maxLengthDelegate = (b) =>
                 {
                     return MAX_PHONE_NUMBER_LENGTH.ToString();
@@ -123,9 +136,21 @@ namespace ECA.Business.Validation.Sevis.Bio
                     return b.PhoneNumber != null ? b.PhoneNumber : null;
                 };
                 RuleFor(x => x.PhoneNumber)
-                    .Length(0, MAX_PHONE_NUMBER_LENGTH)
-                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, phoneNumberDelegate, maxLengthDelegate)
-                    .WithState(x => new PhoneNumberErrorPath());
+                    .Must((phone) =>
+                    {
+                        try
+                        {
+                            var phonenumberUtil = PhoneNumberUtil.GetInstance();
+                            var usPhoneNumber = phonenumberUtil.Parse(phone, "US");
+                            return phonenumberUtil.IsValidNumber(usPhoneNumber);
+                        }
+                        catch(Exception)
+                        {
+                            return false;
+                        }
+                    })
+                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, numberTypeDelegate, phoneNumberDelegate, maxLengthDelegate)
+                    .WithState(x => new PhoneNumberErrorPath());                
             });
 
             When(x => x.MailAddress != null, () =>
