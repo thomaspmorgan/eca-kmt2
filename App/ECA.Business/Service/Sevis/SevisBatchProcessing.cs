@@ -305,6 +305,13 @@ namespace ECA.Business.Service.Sevis
                 Context.SevisBatchProcessings.Remove(sevisBatchProcessingToDelete);
             }
         }
+
         #endregion
+
+
+        public string GetSevisBatchCreateUpdateXML(int programId, User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

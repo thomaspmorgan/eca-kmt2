@@ -364,7 +364,6 @@
     <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
     <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
-    <None Include="Validation\Shared\EcaAddTIPPTest.csold" />
     <Compile Include="Validation\Sevis\Finance\USGovtValidatorTest.cs" />
     <Compile Include="Validation\Sevis\AddressDTOValidatorTest.cs" />
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
