@@ -352,6 +352,7 @@
     <Compile Include="Service\Admin\AdditionalLocationTest.cs" />
     <Compile Include="Service\Admin\EcaLocationTest.cs" />
     <Compile Include="Service\Admin\UpdatedLocationTest.cs" />
+    <Compile Include="Service\Projects\DefaultExchangeVisitorFundingServiceTest.cs" />
     <Compile Include="Service\Reports\ReportServiceTest.cs" />
     <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingServiceTest.cs" />
