@@ -80,7 +80,6 @@ namespace ECA.Business.Service.Persons
 
         #endregion
 
-
         #region update
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetCommStatusesThatAreReadyToSubmitQuery(int projectId, IEnumerable<int> participantIds)

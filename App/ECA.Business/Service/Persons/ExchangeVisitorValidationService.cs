@@ -1,5 +1,5 @@
 ﻿using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Sevis;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -31,22 +31,26 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="exchangeVisitorService">The exchange visitor service that is capable of executing validation.</param>
-        /// <param name="updateExchVisitorValidator">The update exchange visitor validator.</param>
-        /// <param name="createExchVisitorValidator">The create exchange visitor validator.</param>
+        /// <param name="exchangeVisitorValidator">The update exchange visitor validator.</param>
         /// <param name="saveActions">The context save actions.</param>
-        public ExchangeVisitorValidationService(EcaContext context,
+        public ExchangeVisitorValidationService(
+            EcaContext context,
             IExchangeVisitorService exchangeVisitorService,
-            AbstractValidator<UpdateExchVisitor> updateExchVisitorValidator = null,
-            AbstractValidator<CreateExchVisitor> createExchVisitorValidator = null,
+            AbstractValidator<ExchangeVisitor> exchangeVisitorValidator = null,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
             this.exchangeVisitorService = exchangeVisitorService;
-            this.UpdateExchangeVisitorValidator = updateExchVisitorValidator ?? new UpdateExchVisitorValidator();
-            this.CreateExchangeVisitorValidator = createExchVisitorValidator ?? new CreateExchVisitorValidator();
-
+            if (exchangeVisitorValidator == null)
+            {
+                this.ExchangeVisitorValidator = new ExchangeVisitorValidator();
+            }
+            else
+            {
+                this.ExchangeVisitorValidator = exchangeVisitorValidator;
+            }
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -67,15 +71,10 @@ namespace ECA.Business.Service.Persons
             };
         }
 
-        /// <summary>
-        /// Gets the update exchange visitor fluent validation validator.
+		/// <summary>
+        /// Gets the exchange visitor validator.
         /// </summary>
-        public AbstractValidator<UpdateExchVisitor> UpdateExchangeVisitorValidator { get; private set; }
-
-        /// <summary>
-        /// Gets the create exchange visitor fluent validation validator.
-        /// </summary>
-        public AbstractValidator<CreateExchVisitor> CreateExchangeVisitorValidator { get; private set; }
+        public AbstractValidator<ExchangeVisitor> ExchangeVisitorValidator { get; private set; }
 
         /// <summary>
         /// Runs a validation on sevis information for the participant with the given id and updates the sevis comm
@@ -99,17 +98,8 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(participantId, project, typeof(Project));
             if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
             {
-                ValidationResult validationResult;
-                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
-                {
-                    var updateExchangeVisitor = exchangeVisitorService.GetUpdateExchangeVisitor(user, projectId, participantId);
-                    validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
-                }
-                else
-                {
-                    var createExchangeVisitor = exchangeVisitorService.GetCreateExchangeVisitor(user, projectId, participantId);
-                    validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
-                }
+                var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(user, projectId, participantId);
+                ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return HandleValidationResult(participantPerson, validationResult);
             }
             else
@@ -141,17 +131,8 @@ namespace ECA.Business.Service.Persons
             throwIfModelDoesNotExist(participantId, project, typeof(Project));
             if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
             {
-                ValidationResult validationResult;
-                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
-                {
-                    var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(user, projectId, participantId);
-                    validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
-                }
-                else
-                {
-                    var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
-                    validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
-                }
+                var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(user, projectId, participantId);
+                ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return await HandleValidationResultAsync(participantPerson, validationResult);
             }
             else
@@ -159,6 +140,8 @@ namespace ECA.Business.Service.Persons
                 return null;
             }
         }
+
+        #region Handle Validation Result
 
         private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
         {
@@ -237,5 +220,6 @@ namespace ECA.Business.Service.Persons
                 }
             }
         }
+        #endregion
     }
 }

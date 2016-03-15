@@ -284,7 +284,7 @@ namespace ECA.Business.Service.Persons
             person.PersonTypeId = updateDependent.PersonTypeId;
             updateDependent.Audit.SetHistory(person);
         }
-        
+
         /// <summary>
         /// Deletes a dependent from a person family
         /// </summary>

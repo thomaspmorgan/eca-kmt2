@@ -183,7 +183,7 @@ angular.module('staticApp')
 
           goToPersonContactInformationState: function (personId, options) {
               options = options || {};
-              return $state.href(service.stateNames.people.section.contact, { personId: personId }, options);
+              return $state.go(service.stateNames.people.section.contact, { personId: personId }, options);
           },
 
           goToProgramState: function (programId, options) {
