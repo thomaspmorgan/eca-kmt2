@@ -187,6 +187,7 @@
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
     <Compile Include="Controllers\Admin\OrganizationsControllerTest.cs" />
+    <Compile Include="Controllers\Projects\DefaultExchangeVisitorFundingControllerTest.cs" />
     <Compile Include="Controllers\Search\SearchControllerTest.cs" />
     <Compile Include="Controllers\Search\ECADocumentViewModelTest.cs" />
     <Compile Include="Controllers\Security\AuthControllerTest.cs" />

@@ -22,6 +22,10 @@ namespace ECA.WebApi.Controllers.Projects
 
         private IDefaultExchangeVisitorFundingService service;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="service">The service to set</param>
         public DefaultExchangeVisitorFundingController(IDefaultExchangeVisitorFundingService service)
         {
             Contract.Requires(service != null, "The default exchange visitor funding service must not be null.");
