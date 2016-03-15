@@ -14,10 +14,10 @@ namespace ECA.Business.Queries.Projects
         public static IQueryable<DefaultExchangeVisitorFundingDTO> CreateGetDefaultExchangeVisitorFundingDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = (from p in context.ParticipantExchangeVisitors
+            var query = (from p in context.DefaultExchangeVisitorFunding
                          select new DefaultExchangeVisitorFundingDTO
                          {
-                             ProjectId = p.Participant.ProjectId,
+                             ProjectId = p.ProjectId,
                              FundingGovtAgency1 = p.FundingGovtAgency1 ?? 0,
                              GovtAgency1Id = p.GovtAgency1Id ?? 0,
                              GovtAgency1Name = p.GovtAgency1 != null ? p.GovtAgency1.Description : string.Empty,
