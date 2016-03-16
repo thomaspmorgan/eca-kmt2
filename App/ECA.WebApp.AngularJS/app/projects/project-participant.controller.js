@@ -103,7 +103,7 @@ angular.module('staticApp')
       }
 
       $scope.view.cancelActualParticipants = function () {
-          $scope.view.editingEstParticipants = false;
+          $scope.view.editingActualParticipants = false;
           restoreOriginalActualParticipantValues();
       }
 
