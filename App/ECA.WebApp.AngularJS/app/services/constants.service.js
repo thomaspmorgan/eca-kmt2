@@ -153,9 +153,9 @@
 			cityOfBirth: {id: 13, value: "City of Birth"},
 			countryOfBirth: {id: 14, value: "Country of Birth"},
 			citizenship: {id: 15, value: "Citizenship"},
-			permanentCountryOfResidence: {id: 16, value: "Permanent Country of Residence"}
+			permanentCountryOfResidence: {id: 16, value: "Permanent Country of Residence"},
+			dependent: {id: 17, value: "Dependent"}
 		},
-		sevisStatuses: [2, 3, 4, 5],
 		socialMediaType: {
 			facebook: {id: 1, value: "Facebook"},
 			linkedin: {id: 2, value: "LinkedIn"},

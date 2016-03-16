@@ -74,9 +74,7 @@ angular.module('staticApp')
       }
 
       $scope.cancelButtonClicked = function () {
-          getOfficeById(officeId);
-          $state.go(overviewStateName);
-          $scope.isInEditState = false;
+          $scope.$broadcast('cancelSaveOffice');
       }
 
       function getOfficeById(id) {

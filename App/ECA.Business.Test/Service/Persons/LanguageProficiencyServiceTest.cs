@@ -1,13 +1,6 @@
-﻿using System;
+﻿using ECA.Business.Service.Persons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Service.Persons;
 using System.Threading.Tasks;
-using ECA.Data;
-using System.Linq;
-using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.LanguageProficiency
 {

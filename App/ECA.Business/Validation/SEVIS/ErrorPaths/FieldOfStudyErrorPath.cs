@@ -1,6 +1,6 @@
-﻿using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 
-namespace ECA.Business.Validation.SEVIS
+namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An FieldOfStudyErrorPath is used to denote a field of study and where it might be located.

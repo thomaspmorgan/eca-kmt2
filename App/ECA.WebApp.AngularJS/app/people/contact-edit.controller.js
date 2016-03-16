@@ -21,6 +21,8 @@ angular.module('staticApp')
           PersonService.getContactInfoById(personId)
           .then(function (data) {
               $scope.contactInfo = data;
+              $scope.sevisStatus.statusName = data.sevisStatus;
+              $scope.sevisStatus.statusNameId = data.sevisStatusId;
               $scope.contactsLoading = false;
           });
       };

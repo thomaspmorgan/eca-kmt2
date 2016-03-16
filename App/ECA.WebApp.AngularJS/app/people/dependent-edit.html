@@ -1,0 +1,22 @@
+﻿<div ng-controller="personDependentEditCtrl">
+    <div ng-show="dependentsLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div ng-show="!dependentsLoading">
+        <div class="row">
+            <div class="pull-right">
+                <button ng-click="saveEditDependent()" class="btn btn-success" ng-disabled="dependentForm.$pristine">Save</button>
+                <button ng-click="cancelEditDependent()" class="btn btn-cancel">Cancel</button>
+            </div>
+        </div>
+        <form name="dependentForm" class="form-horizontal">
+
+
+
+        </form>
+    </div>
+</div>
