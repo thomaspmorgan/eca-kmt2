@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -31,7 +32,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         public override object GetSevisExhangeVisitorDependentInstance()
         {
-            throw new NotImplementedException();
+            return new SEVISEVBatchTypeExchangeVisitorDependent
+            {
+                Item = null,
+                UserDefinedA = this.UserDefinedA,
+                UserDefinedB = this.UserDefinedB
+            };
         }
     }
 

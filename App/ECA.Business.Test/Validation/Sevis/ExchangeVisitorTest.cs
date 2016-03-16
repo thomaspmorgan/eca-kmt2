@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 using System.IO;
 using FluentValidation;
 using Moq;
+using ECA.Business.Test.Validation.Sevis.Bio;
 
 namespace ECA.Business.Test.Validation.Sevis
 {
@@ -520,7 +521,6 @@ namespace ECA.Business.Test.Validation.Sevis
 
         #endregion
 
-
         #region AddTIPP
         [TestMethod]
         public void TestAddTIPP()
@@ -624,11 +624,11 @@ namespace ECA.Business.Test.Validation.Sevis
 
         #endregion Check Serialization
 
+        #region GetSEVISEVBatchTypeExchangeVisitor1Collection
         [TestMethod]
-        public void TestGetSEVISBatchTypeExchangeVisitor_CheckSerialization()
+        public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_CheckBiographical()
         {
             var userId = 10;
-            var sevisId = "sevis id";
             var user = new User(userId);
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -636,7 +636,10 @@ namespace ECA.Business.Test.Validation.Sevis
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var startDate = DateTime.UtcNow.AddDays(-1.0);
             var siteOfActivity = GetSOAAsAddressDTO();
-            var dependents = new List<Dependent>();
+            List<Dependent> dependents = new List<Dependent>();
+            var testDependent = new TestDependent();
+            dependents.Add(testDependent);
+            var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
                 user: user,
@@ -649,15 +652,40 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
-            using (var textWriter = new StringWriter())
+            Action<SEVISEVBatchTypeExchangeVisitor1> propertyTester = (visitor) =>
             {
-                var serializer = new XmlSerializer(instance.GetType());
-                serializer.Serialize(textWriter, instance);
-                var xml = textWriter.ToString();
-                Assert.IsNotNull(xml);
-            }
+                Assert.AreEqual(person.ParticipantId.ToString(), visitor.requestID);
+                Assert.AreEqual(sevisId, visitor.sevisID);
+                Assert.AreEqual(userId.ToString(), visitor.userID);
+                Assert.IsFalse(visitor.statusCodeSpecified);
+            };
+
+            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().ToList();
+
+            var personVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorBiographical>(list).FirstOrDefault();
+            Assert.IsNotNull(personVisitorItem);
+            propertyTester(personVisitorItem);
+
+            var financialVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorFinancialInfo>(list).FirstOrDefault();
+            Assert.IsNotNull(financialVisitorItem);
+            propertyTester(financialVisitorItem);
+
+            var dependentVisitorItemsCount = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).Count();
+            Assert.AreEqual(1, dependentVisitorItemsCount);
+
+            var dependentVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).FirstOrDefault();
+            Assert.IsNotNull(dependentVisitorItem);
+            propertyTester(dependentVisitorItem);
+            Assert.IsNotNull(dependentVisitorItem.Item);
+            Assert.IsNull(dependentVisitorItem.UserDefinedA);
+            Assert.IsNull(dependentVisitorItem.UserDefinedB);
         }
+
+        private IQueryable<SEVISEVBatchTypeExchangeVisitor1> CreateGetItemQuery<T>(List<SEVISEVBatchTypeExchangeVisitor1> items)
+        {
+            return items.Where(x => x.Item.GetType() == typeof(T)).AsQueryable();
+        }
+        #endregion
 
         #region Validate
         [TestMethod]
@@ -829,7 +857,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             exchangeVisitor.AddToBatch(evBatchType);
             Assert.AreEqual(0, evBatchType.CreateEV.Count());
-            Assert.AreEqual(0, evBatchType.UpdateEV.Count());
+            Assert.AreEqual(2, evBatchType.UpdateEV.Count());
         }
         #endregion
 
@@ -943,9 +971,80 @@ namespace ECA.Business.Test.Validation.Sevis
                 programStartDate: startDate,
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
-            Assert.AreEqual(0, exchangeVisitor.GetBatchRecordCount());
+            var expected = 2;
+            Assert.AreEqual(expected, exchangeVisitor.GetBatchRecordCount());
+            Assert.AreEqual(expected, exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().Count());
         }
         #endregion
 
+        [TestMethod]
+        public void TestGetSEVISBatchTypeExchangeVisitor_CheckSerialization()
+        {
+            var userId = 10;
+            var sevisId = "sevis id";
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            using (var textWriter = new StringWriter())
+            {
+                var serializer = new XmlSerializer(instance.GetType());
+                serializer.Serialize(textWriter, instance);
+                var xml = textWriter.ToString();
+                Assert.IsNotNull(xml);
+            }
+        }
+
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_CheckSerialization()
+        {
+            var userId = 10;
+            var sevisId = "sevis id";
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection();
+            using (var textWriter = new StringWriter())
+            {
+                var serializer = new XmlSerializer(instance.GetType());
+                serializer.Serialize(textWriter, instance);
+                var xml = textWriter.ToString();
+                Assert.IsNotNull(xml);
+            }
+        }
     }
 }

@@ -13,8 +13,24 @@ using System.Linq;
 
 namespace ECA.Business.Validation.Sevis
 {
+    /// <summary>
+    /// The ExchangeVisitor model is used to send created and updated exchange visitor information to sevis.  This class can be used to validate exchange visitor information
+    /// as well as convert directly to the sevis xsd schema exchange visitor objects.
+    /// </summary>
     public class ExchangeVisitor : ISevisIdentifable
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <param name="user">The user requesting the exchange visitor.</param>
+        /// <param name="sevisId">The sevis id of the exchange visitor, or null, if none has been provided yet.</param>
+        /// <param name="person">The person object representing the biographical information of the exchange visitor.</param>
+        /// <param name="financialInfo">The financial info, detailing financial information about the exchange visitor.</param>
+        /// <param name="occupationCategoryCode">The occupation category code.</param>
+        /// <param name="programEndDate">The end date of the participant.</param>
+        /// <param name="programStartDate">The start date of the participant.</param>
+        /// <param name="siteOfActivity">The exchange visitor site of activity.</param>
+        /// <param name="dependents">The dependents of the exchange visitor.</param>
         public ExchangeVisitor(
             User user,
             string sevisId,
@@ -259,7 +275,27 @@ namespace ECA.Business.Validation.Sevis
         /// <returns>All update sevis batch objects.</returns>
         public IEnumerable<SEVISEVBatchTypeExchangeVisitor1> GetSEVISEVBatchTypeExchangeVisitor1Collection()
         {
-            return Enumerable.Empty<SEVISEVBatchTypeExchangeVisitor1>();
+            var visitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
+            Func<object, SEVISEVBatchTypeExchangeVisitor1> createUpdateExchangeVisitor = (item) =>
+            {
+                return new SEVISEVBatchTypeExchangeVisitor1
+                {
+                    Item = item,
+                    requestID = this.Person.ParticipantId.ToString(),
+                    sevisID = this.SevisId,
+                    statusCodeSpecified = false,
+                    userID = this.User.Id.ToString()
+                };
+            };
+            visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical()));
+            visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo()));
+            foreach(var dependent in this.Dependents)
+            {
+                var modifiedDependent = new ModifiedParticipantDependent(dependent, null, null);
+                visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent()));
+            }
+
+            return visitors;
         }
     }
 }
