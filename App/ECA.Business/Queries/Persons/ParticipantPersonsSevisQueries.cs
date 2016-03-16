@@ -1,15 +1,6 @@
-﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Service;
-using ECA.Business.Service.Lookup;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.CreateEV;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Core.DynamicLinq;
+﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 

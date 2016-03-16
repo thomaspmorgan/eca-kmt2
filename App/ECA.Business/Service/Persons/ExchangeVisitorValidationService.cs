@@ -1,9 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
-using ECA.Business.Queries.Persons;
-using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Sevis.Bio;
+﻿using ECA.Business.Validation;
+using ECA.Business.Validation.Sevis;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
@@ -35,22 +31,26 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="exchangeVisitorService">The exchange visitor service that is capable of executing validation.</param>
-        /// <param name="updateExchVisitorValidator">The update exchange visitor validator.</param>
-        /// <param name="createExchVisitorValidator">The create exchange visitor validator.</param>
+        /// <param name="exchangeVisitorValidator">The update exchange visitor validator.</param>
         /// <param name="saveActions">The context save actions.</param>
-        public ExchangeVisitorValidationService(EcaContext context,
+        public ExchangeVisitorValidationService(
+            EcaContext context,
             IExchangeVisitorService exchangeVisitorService,
-            AbstractValidator<UpdateExchVisitor> updateExchVisitorValidator = null,
-            AbstractValidator<CreateExchVisitor> createExchVisitorValidator = null,
+            AbstractValidator<ExchangeVisitor> exchangeVisitorValidator = null,
             List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             Contract.Requires(context != null, "The context must not be null.");
             this.exchangeVisitorService = exchangeVisitorService;
-            this.UpdateExchangeVisitorValidator = updateExchVisitorValidator ?? new UpdateExchVisitorValidator();
-            this.CreateExchangeVisitorValidator = createExchVisitorValidator ?? new CreateExchVisitorValidator();
-
+            if (exchangeVisitorValidator == null)
+            {
+                this.ExchangeVisitorValidator = new ExchangeVisitorValidator();
+            }
+            else
+            {
+                this.ExchangeVisitorValidator = exchangeVisitorValidator;
+            }
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -72,16 +72,9 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Gets the update exchange visitor fluent validation validator.
+        /// Gets the exchange visitor validator.
         /// </summary>
-        public AbstractValidator<UpdateExchVisitor> UpdateExchangeVisitorValidator { get; private set; }
-
-        /// <summary>
-        /// Gets the create exchange visitor fluent validation validator.
-        /// </summary>
-        public AbstractValidator<CreateExchVisitor> CreateExchangeVisitorValidator { get; private set; }
-
-		public AbstractValidator<Validation.Sevis.Bio.Person> PersonBiographyValidator { get; private set; }
+        public AbstractValidator<ExchangeVisitor> ExchangeVisitorValidator { get; private set; }
 
         /// <summary>
         /// Runs a validation on sevis information for the participant with the given id and updates the sevis comm
@@ -101,28 +94,17 @@ namespace ECA.Business.Service.Persons
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var project = Context.Projects.Find(projectId);
-            throwIfModelDoesNotExist(participantId, project, typeof(Project));
-            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
+            if (ShouldRunValidation(participant))
             {
-                ValidationResult validationResult = null;
-                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
-                {
-                    //var updateExchangeVisitor = exchangeVisitorService.GetUpdateExchangeVisitor(user, projectId, participantId);
-                    //validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
-                }
-                else
-                {
-                    //var createExchangeVisitor = exchangeVisitorService.GetCreateExchangeVisitor(user, projectId, participantId);
-                    //validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
-                }
+                var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(user, projectId, participantId);
+                ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return HandleValidationResult(participantPerson, validationResult);
             }
             else
             {
+                HandleNonValidatedParticipant(participantPerson);
                 return null;
             }
-
         }
 
         /// <summary>
@@ -143,83 +125,45 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var project = await Context.Projects.FindAsync(projectId);
-            throwIfModelDoesNotExist(participantId, project, typeof(Project));
-            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
+            if (ShouldRunValidation(participant))
             {
-                ValidationResult validationResult = null;
-                if (!String.IsNullOrWhiteSpace(participantPerson.SevisId))
-                {
-                    //var updateExchangeVisitor = await exchangeVisitorService.GetUpdateExchangeVisitorAsync(user, projectId, participantId);
-                    //validationResult = this.UpdateExchangeVisitorValidator.Validate(updateExchangeVisitor);
-                }
-                else
-                {
-                    //var createExchangeVisitor = await exchangeVisitorService.GetCreateExchangeVisitorAsync(user, projectId, participantId);
-                    //validationResult = this.CreateExchangeVisitorValidator.Validate(createExchangeVisitor);
-                }
+                var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(user, projectId, participantId);
+                ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return await HandleValidationResultAsync(participantPerson, validationResult);
             }
             else
             {
+                HandleNonValidatedParticipant(participantPerson);
                 return null;
             }
         }
 
-        #region Validate Biographical Data
-		public ValidationResult GetParticipantBiographicalValidationResult(ParticipantPerson person)
+        private void HandleNonValidatedParticipant(ParticipantPerson person)
         {
-            var biography = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, person.ParticipantId).FirstOrDefault();
-            return DoGetParticipantBiographicalValidationResult(biography, person);
+            person.SevisValidationResult = null;
         }
 
-        public async Task<ValidationResult> GetParticipantBiographicalValidationResultAsync(ParticipantPerson person)
+        /// <summary>
+        /// Returns true if all conditions are met stating sevis validation should run on a participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <returns>True, if sevis exchange visitor validation should run; otherwise, false.</returns>
+        public bool ShouldRunValidation(Participant participant)
         {
-            var biography = await ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.Context, person.ParticipantId).FirstOrDefaultAsync();
-            return DoGetParticipantBiographicalValidationResult(biography, person);
-        }
-
-		public ValidationResult DoGetParticipantBiographicalValidationResult(BiographicalDTO biography, ParticipantPerson person)
-        {
-            Contract.Requires(biography != null, "The biography should not be null here.");
-            var result = this.PersonBiographyValidator.Validate(biography.GetPerson());
-            return result;
-        }
-        #endregion
-
-        #region Validate Dependents Biographies
-		public IEnumerable<ValidationResult> GetDependentsBiographicalValidationResults(ParticipantPerson person)
-        {
-            var biographies = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, person.ParticipantId).ToList();
-            return DoGetDependentsBiographicalValidationResults(biographies, person);
-        }
-
-		public IEnumerable<ValidationResult> DoGetDependentsBiographicalValidationResults(IEnumerable<DependentBiographicalDTO> dependentBiographics, ParticipantPerson person)
-        {
-            var validationResults = new List<ValidationResult>();
-			foreach(var bio in dependentBiographics)
+            if (participant.ParticipantTypeId != ParticipantType.ForeignTravelingParticipant.Id)
             {
-                if (!String.IsNullOrEmpty(bio.SevisId)) //updated dependents
-                {
-
-                }
-                else 
-                {
-                    if (!String.IsNullOrWhiteSpace(person.SevisId)) //we're adding dependents to the sevis exchange visitor
-                    {
-
-                    }
-                    else //we are adding a new exchange visitor and accounting for dependents
-                    {
-
-                    }
-                }
+                return false;
             }
-
-            return validationResults;
+            if (!participant.ParticipantStatusId.HasValue)
+            {
+                return false;
+            }
+            if (!ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).Contains(participant.ParticipantStatusId.Value))
+            {
+                return false;
+            }
+            return true;
         }
-        #endregion
-
 
         #region Handle Validation Result
 

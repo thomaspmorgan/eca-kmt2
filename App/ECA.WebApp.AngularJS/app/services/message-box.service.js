@@ -18,6 +18,8 @@ angular.module('staticApp')
               var opt = options || {};
               var modalInstance = $modal.open({
                   animation: true,
+                  keyboard: false,
+                  backdrop: 'static',
                   templateUrl: 'app/directives/confirm-dialog.directive.html',
                   controller: 'ConfirmCtrl',
                   resolve: {

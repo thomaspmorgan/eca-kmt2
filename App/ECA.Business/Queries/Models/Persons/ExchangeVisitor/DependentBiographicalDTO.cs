@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Sevis.Bio;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Validation.Sevis.Bio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,81 +32,90 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
         /// Gets or sets the participant id.  The participant id is used to relate
         /// this dependent back to a participant and then back to the participant person.
         /// </summary>
-        public int ParticipantId { get; set; }
-
+        public int ParticipantId { get; set; }    
+        
         /// <summary>
-        /// Returns a dependent instance, based on this dependents SevisId value.
+        /// Returns the dependent instance from this dto.  If the sevis id has a value, an UpdatedDependent is returned, otherwise,
+        /// an AddedDependent is returned.
         /// </summary>
-        /// <returns>Returns a dependent instance, based on this dependents SevisId value.</returns>
-        public Dependent GetDependent()
+        /// <param name="usAddress">The us address of this dependent.</param>
+        /// <returns>The dependent instance from this dto.</returns>
+        public Dependent GetDependent(AddressDTO usAddress, string remarks)
         {
-            if (String.IsNullOrWhiteSpace(this.SevisId))
+            if (!string.IsNullOrWhiteSpace(this.SevisId))
             {
-                return GetAddedDependent();
+                return GetUpdatedDependent(usAddress, remarks);
             }
             else
             {
-                return GetUpdatedDependent();
+                return GetAddedDependent(usAddress);
             }
-        }
+        }    
 
         /// <summary>
-        /// Returns an AddedDependent instance from this biography.
+        /// Returns an Added Dependent from this dto instance.
         /// </summary>
-        /// <returns>The AddedDependent instance.</returns>
-        public AddedDependent GetAddedDependent()
+        /// <param name="usAddress">The US adress of this dependent.</param>
+        /// <returns>The added dependent instance.</returns>
+        public AddedDependent GetAddedDependent(AddressDTO usAddress)
         {
-            var instance = new AddedDependent
-            {
-                BirthCity = this.BirthCity,
-                BirthCountryCode = this.BirthCountryCode,
-                BirthCountryReason = null,
-                BirthDate = this.BirthDate,
-                CitizenshipCountryCode = this.CitizenshipCountryCode,
-                EmailAddress = this.EmailAddress,
-                Gender = this.Gender,
-                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-                PrintForm = true,
-                Relationship = this.Relationship,
-            };
+            FullName fullName = null;
             if(this.FullName != null)
             {
-                instance.FullName = this.FullName.GetFullName();
+                fullName = this.FullName.GetFullName();
             }
-            instance.SetParticipantId(this.ParticipantId);
-            instance.SetPersonId(this.PersonId);
-            return instance;
+            return new AddedDependent(
+                fullName: fullName,
+                birthCity: this.BirthCity,
+                birthCountryCode: this.BirthCountryCode,
+                birthCountryReason: this.BirthCountryReason,
+                birthDate: this.BirthDate,
+                citizenshipCountryCode: this.CitizenshipCountryCode,
+                emailAddress: this.EmailAddress,
+                genderCode: this.Gender,
+                permanentResidenceCountryCode: this.PermanentResidenceCountryCode,
+                phoneNumber: this.PhoneNumber,
+                relationship: this.Relationship,
+                mailAddress: this.MailAddress,
+                usAddress: usAddress,
+                printForm: true,
+                participantId: this.ParticipantId,
+                personId: this.PersonId
+                );
         }
 
         /// <summary>
-        /// Returns an UpdatedDependent instance from this biography.
+        /// Returns an Added Dependent from this dto instance.
         /// </summary>
-        /// <returns>The UpdatedDependent instance.</returns>
-        public UpdatedDependent GetUpdatedDependent()
+        /// <param name="usAddress">The US adress of this dependent.</param>
+        /// <returns>The added dependent instance.</returns>
+        public UpdatedDependent GetUpdatedDependent(AddressDTO usAddress, string remarks)
         {
-            var instance = new UpdatedDependent
-            {
-                BirthCity = this.BirthCity,
-                BirthCountryCode = this.BirthCountryCode,
-                BirthCountryReason = null,
-                BirthDate = this.BirthDate,
-                CitizenshipCountryCode = this.CitizenshipCountryCode,
-                EmailAddress = this.EmailAddress,
-                Gender = this.Gender,
-                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode,
-                PrintForm = true,
-                Relationship = this.Relationship,
-                IsRelationshipFieldSpecified = true,
-                Remarks = null,
-                SevisId = this.SevisId,
-            };
+            FullName fullName = null;
             if (this.FullName != null)
             {
-                instance.FullName = this.FullName.GetFullName();
+                fullName = this.FullName.GetFullName();
             }
-            instance.SetParticipantId(this.ParticipantId);
-            instance.SetPersonId(this.PersonId);
-            return instance;
+            return new UpdatedDependent(
+                fullName: fullName,
+                birthCity: this.BirthCity,
+                birthCountryCode: this.BirthCountryCode,
+                birthCountryReason: this.BirthCountryReason,
+                birthDate: this.BirthDate,
+                citizenshipCountryCode: this.CitizenshipCountryCode,
+                emailAddress: this.EmailAddress,
+                genderCode: this.Gender,
+                permanentResidenceCountryCode: this.PermanentResidenceCountryCode,
+                phoneNumber: this.PhoneNumber,
+                relationship: this.Relationship,
+                mailAddress: this.MailAddress,
+                usAddress: usAddress,
+                printForm: true,
+                participantId: this.ParticipantId,
+                personId: this.PersonId,
+                remarks: remarks,
+                sevisId: this.SevisId
+                );
         }
     }
 }

@@ -1,34 +1,33 @@
-﻿using System;
-using System.Linq;
+﻿using ECA.Business.Validation.Sevis;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.SEVIS;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Test.Validation.Shared
 {
     [TestClass]
     public class SubjectFieldValidatorTest
     {
-        private SubjectField GetValidSubjectField()
-        {
-            return new SubjectField
-            {
-                ForeignDegreeLevel = "level",
-                ForeignFieldOfStudy = "foreign",
-                Remarks = "remarks",
-                SubjectFieldCode = "00.0000"
-            };
-        }
-
         [TestMethod]
         public void TestSubjectFieldOfCode_ContainsLetters()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.SubjectFieldCode = "00.aaaa";
+            subjectFieldCode = "00.aaaa";
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -39,12 +38,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_DoesNotContainRequiredDigits()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.SubjectFieldCode = "00.000";
+            subjectFieldCode = "00.000";
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -55,12 +64,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_MissingDecimal()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.SubjectFieldCode = "000000";
+            subjectFieldCode = "000000";
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -71,13 +90,23 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignDegreeLevelExceedsMaxLength()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(degreeLevel));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignDegreeLevel = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            degreeLevel = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -88,13 +117,23 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignDegreeLevelIsNull()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(degreeLevel));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignDegreeLevel = null;
+            degreeLevel = null;
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
         }
@@ -102,13 +141,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignDegreeLevelIsEmpty()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(degreeLevel));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignDegreeLevel = String.Empty;
+            degreeLevel = String.Empty;
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
         }
@@ -116,13 +164,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignDegreeLevelIsWhitesppace()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(degreeLevel));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignDegreeLevel =  " ";
+            degreeLevel =  " ";
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
         }
@@ -130,13 +187,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignFieldOfStudyIsNull()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignFieldOfStudy));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(foreignFieldOfStudy));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignFieldOfStudy = null;
+            foreignFieldOfStudy = null;
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
         }
@@ -144,13 +210,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignFieldOfStudyIsEmpty()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignFieldOfStudy));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(foreignFieldOfStudy));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignFieldOfStudy = String.Empty;
+            foreignFieldOfStudy = String.Empty;
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
         }
@@ -158,13 +233,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignFieldOfStudyIsWhitesppace()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignFieldOfStudy));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(foreignFieldOfStudy));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignFieldOfStudy = " ";
+            foreignFieldOfStudy = " ";
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
         }
@@ -172,13 +256,22 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestSubjectFieldOfCode_ForeignFieldOfStudyExceedsMaxLength()
         {
-            var instance = GetValidSubjectField();
-            Assert.IsFalse(String.IsNullOrWhiteSpace(instance.ForeignDegreeLevel));
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
+            Assert.IsFalse(String.IsNullOrWhiteSpace(degreeLevel));
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.ForeignFieldOfStudy = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            foreignFieldOfStudy = new string('c', SubjectFieldValidator.FOREIGN_FIELD_MAX_LENGTH + 1);
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -189,12 +282,21 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestRemarks_Null()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.Remarks = null;
+            remarks = null;
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -205,12 +307,21 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestRemarks_EmptyString()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.Remarks = String.Empty;
+            remarks = String.Empty;
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -221,12 +332,21 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestRemarks_Whitespace()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.Remarks = " ";
+            remarks = " ";
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
@@ -237,12 +357,21 @@ namespace ECA.Business.Test.Validation.Shared
         [TestMethod]
         public void TestRemarks_ExceedsMaxLength()
         {
-            var instance = GetValidSubjectField();
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+            var instance = createEntity();
             var validator = new SubjectFieldValidator();
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            instance.Remarks = new string('a', SubjectFieldValidator.REMARKS_MAX_LENGTH + 1);
+            remarks = new string('a', SubjectFieldValidator.REMARKS_MAX_LENGTH + 1);
+            instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);

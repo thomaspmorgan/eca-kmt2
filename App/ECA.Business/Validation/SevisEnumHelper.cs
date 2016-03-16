@@ -47,6 +47,21 @@ namespace ECA.Business.Validation
         }
 
         /// <summary>
+        /// Returns the EVCategoryCodeType for the given string value.
+        /// </summary>
+        /// <returns>The EVCategoryCodeType for the given string value.</returns>
+        public static EVCategoryCodeType GetEVCategoryCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            if (!Enum.IsDefined(typeof(EVCategoryCodeType), value))
+            {
+                value = "Item" + value;
+            }
+
+            return GetCodeType<EVCategoryCodeType>(value);
+        }
+
+        /// <summary>
         /// Returns the CntryCodeWithoutType for the given string value.
         /// </summary>
         /// <returns>The CntryCodeWithoutType for the given string value.</returns>
@@ -64,6 +79,36 @@ namespace ECA.Business.Validation
         {
             Contract.Requires(value != null, "The string value must not be null.");
             return GetCodeType<StateCodeType>(value);
+        }
+
+
+        /// <summary>
+        /// Returns the ProgSubjectCodeType for the given string value.
+        /// </summary>
+        /// <returns>The ProgSubjectCodeType for the given string value.</returns>
+        public static ProgSubjectCodeType GetProgSubjectCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            value = value.Replace(".", String.Empty);
+            if (!Enum.IsDefined(typeof(ProgSubjectCodeType), value))
+            {
+                value = "Item" + value;
+            }
+            return GetCodeType<ProgSubjectCodeType>(value);
+        }
+
+        /// <summary>
+        /// Returns the EVOccupationCategoryCodeType for the given string value.
+        /// </summary>
+        /// <returns>The EVOccupationCategoryCodeType for the given string value.</returns>
+        public static EVOccupationCategoryCodeType GetEVOccupationCategoryCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            if (!Enum.IsDefined(typeof(EVOccupationCategoryCodeType), value))
+            {
+                value = "Item" + value;
+            }
+            return GetCodeType<EVOccupationCategoryCodeType>(value);
         }
 
         /// <summary>
@@ -84,6 +129,16 @@ namespace ECA.Business.Validation
         {
             Contract.Requires(value != null, "The string value must not be null.");
             return GetCodeType<InternationalOrgCodeType>(value);
+        }
+
+        /// <summary>
+        /// Returns the NameSuffixCodeType for the given string value.
+        /// </summary>
+        /// <returns>The NameSuffixCodeType for the given string value.</returns>
+        public static NameSuffixCodeType GetNameSuffixCodeType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<NameSuffixCodeType>(value.Replace(".", String.Empty));
         }
 
         /// <summary>

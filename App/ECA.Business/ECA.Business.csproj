@@ -138,6 +138,10 @@
       <HintPath>..\packages\NLog.4.1.2\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PhoneNumbers, Version=7.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libphonenumber-csharp.7.2.5\lib\PhoneNumbers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -147,6 +151,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -203,6 +208,8 @@
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
     <Compile Include="Queries\Models\Persons\LanguageProficiencyDTO.cs" />
     <Compile Include="Queries\Models\Persons\MembershipDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantPersonSevisCommStatusDTO.cs" />
@@ -211,9 +218,12 @@
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\BiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimplePersonDependentDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramSnapshotDTO.cs" />
     <Compile Include="Queries\Models\Reports\ProjectWithGrantNumberDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchProcessingResultDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
@@ -331,6 +341,7 @@
     <Compile Include="Service\Persons\LanguageProficiencyService.cs" />
     <Compile Include="Service\Persons\MembershipService.cs" />
     <Compile Include="Service\Persons\NewParticipantExchangeVisitor.cs" />
+    <Compile Include="Service\Persons\NewPersonDependent.cs" />
     <Compile Include="Service\Persons\NewPersonEduEmp.cs" />
     <Compile Include="Service\Persons\NewPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
@@ -341,6 +352,7 @@
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPerson.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevisValidationEntity.cs" />
+    <Compile Include="Service\Persons\UpdatedPersonDependent.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEduEmp.cs" />
     <Compile Include="Service\Persons\UpdatedPersonEvaluationNote.cs" />
     <Compile Include="Service\Persons\UpdatedPersonLanguageProficiency.cs" />
@@ -528,24 +540,22 @@
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
     <Compile Include="Validation\SevisEnumHelper.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependent.cs" />
-    <Compile Include="Validation\Sevis\Bio\Biography.cs" />
+    <Compile Include="Validation\Sevis\Bio\IBiographical.cs" />
     <Compile Include="Validation\Sevis\Bio\ModifiedParticipantDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\Dependent.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
-    <Compile Include="Validation\Sevis\Bio\UpdatedPerson.cs" />
-    <Compile Include="Validation\Sevis\Bio\UpdatedPersonValidator.cs" />
+    <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
-    <Compile Include="Validation\Sevis\Finance\UpdatedFinancialInfo.cs" />
-    <Compile Include="Validation\Sevis\IBiographical.cs" />
+    <Compile Include="Validation\Sevis\Finance\OrganizationFunding.cs" />
     <Compile Include="Validation\Sevis\IFormPrintable.cs" />
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
     <Compile Include="Validation\Sevis\IRequestIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ISevisIdentifable.cs" />
     <Compile Include="Validation\Sevis\IUserDefinable.cs" />
     <Compile Include="Validation\Sevis\IUserIdentifiable.cs" />
-    <Compile Include="Validation\Sevis\NewExchangeVisitor.cs" />
-    <Compile Include="Validation\Sevis\UpdatedExchangeVisitor.cs" />
+    <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
     <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
@@ -558,8 +568,6 @@
     <Compile Include="Validation\Sevis\ErrorPaths\EmailErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\EndDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\FieldOfStudyErrorPath.cs" />
-    <Compile Include="Validation\Sevis\CreateEV\CreateExchVisitor.cs" />
-    <Compile Include="Validation\Sevis\CreateEV\CreateExchVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\ErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\FullNameErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\FundingErrorPath.cs" />
@@ -569,18 +577,10 @@
     <Compile Include="Validation\Sevis\ErrorPaths\StartDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\PositionCodeErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\ProgramCategoryCodeErrorPath.cs" />
-    <None Include="Validation\Sevis\SEVISBatchCreateUpdateEVValidator.csold" />
-    <None Include="Validation\Sevis\Shared\AddSiteOfActivity.csold" />
-    <None Include="Validation\Sevis\Shared\AddSiteOfActivityValidator.csold" />
+    <None Include="ClassDiagram1.cd" />
     <Compile Include="Validation\Sevis\Bio\Person.cs" />
-    <None Include="Validation\Sevis\Bio\BiographicalUpdate.csold" />
-    <None Include="Validation\Sevis\Bio\BiographicalUpdateValidator.csold" />
-    <Compile Include="Validation\Sevis\Bio\BiographyValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\ExchangeVisitor.cs" />
-    <None Include="Validation\Sevis\Shared\AddDependentValidator.csold" />
-    <None Include="Validation\Sevis\Shared\ExchangeVisitorUpdate.csold" />
-    <None Include="Validation\Sevis\Shared\ExchangeVisitorUpdateValidator.csold" />
-    <Compile Include="Validation\Sevis\NewExchangeVisitorValidator.cs" />
+    <Compile Include="Validation\Sevis\Bio\BiographicalValidator.cs" />
+    <Compile Include="Validation\Sevis\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\International.cs" />
@@ -589,26 +589,12 @@
     <Compile Include="Validation\Sevis\Finance\OtherFunds.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherValidator.cs" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExempt.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdate.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptUpdateValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityExemptValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySeekingGemp.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySeekingGempValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySOA.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivitySOAValidator.csold" />
-    <None Include="Validation\Sevis\Shared\SiteOfActivityUpdate.csold" />
-    <Compile Include="Validation\Sevis\Shared\SubjectField.cs" />
-    <Compile Include="Validation\Sevis\Shared\SubjectFieldUpdate.cs" />
-    <Compile Include="Validation\Sevis\Shared\SubjectFieldUpdateValidator.cs" />
-    <Compile Include="Validation\Sevis\Shared\SubjectFieldValidator.cs" />
-    <Compile Include="Validation\Sevis\USAddressValidator.cs" />
-    <None Include="Validation\Sevis\Shared\AddDependent.csold" />
+    <Compile Include="Validation\Sevis\SubjectField.cs" />
+    <Compile Include="Validation\Sevis\SubjectFieldValidator.cs" />
+    <Compile Include="Validation\Sevis\AddressDTOValidator.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovt.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovtValidator.cs" />
-    <Compile Include="Validation\Sevis\UpdateEV\UpdateExchVisitor.cs" />
-    <Compile Include="Validation\Sevis\UpdateEV\UpdateExchVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfo.cs" />
     <Compile Include="Validation\Sevis\Bio\FullName.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
@@ -619,7 +605,6 @@
     <Compile Include="Service\Update.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
-    <Compile Include="Validation\Sevis\SEVISBatchCreateUpdateEV.cs" />
     <Compile Include="Validation\Sevis\USAddress.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,51 +6,6 @@
 DECLARE @OfficeId int
 SELECT @OfficeId = organizationid FROM organization WHERE officesymbol = 'ECA/PE/C/PF'
 
-/* Check which programs already exist */
-/*  -- just for debug
-SELECT * FROM program WHERE name IN 
-(
-'Professional Fellows'
-,'Professional Fellows - YSEALI'
-,'Professional Fellows On Demand'
-,'Community Solutions'
-,'Professional Fellows Congress'
-,'TechWomen'
-,'Pakistan Journalism Program'
-,'Fortune/U.S. Department of State Global Women's Mentoring Partnership'
-,'Goldman Sachs 10,000 Women - U.S. Department of State Entrepreneurship Program'
-,'Business Leadership Program for Young Russians'
-,'Digital Communications Network (=Russian Periphery Digital Communicators Network'
-,'Japan-US Friendship Commission (CULCON)'
-,'Mike Mansfield Fellowship Program'
-,'National Youth Science Camp'
-,'U.S. Congress-Korea National Assembly Youth Exchange'
-,'Traditional Public-Private Partnerships: American Council of Young Political Leaders (ACYPL)'
-,'Traditional Public-Private Partnerships: ACILS'
-,'Traditional Public-Private Partnerships: Partners of the Americas'
-,'Traditional Public-Private Partnerships: Sister Cities International'
-,'Traditional Public-Private Partnerships: Institute for Representative Government'
- 
-,'Professional Fellows Program FY13'
-,'Professional Fellows - YSEALI FY15'
-,'Professional Fellows  On-Demand FY12' 
-,'Community Solutions FY13'
-,'Professional Fellows Congress FY13'
-,'TechWomen FY13'
-,'Pakistan Journalism Program FY13'
-,'Japan-US Friendship Commission'
-,'Mike Mansfied Fellowship Program FY13'
-,'National Youth Science Camp FY13'
-,'U.S. Congress-Korea National Assembly Youth Exchange FY13'
-,'TPPP: The American Council of Young Political Leaders FY13'
-,'TPPP: ACILS FY13'
-,'TPPP: Partners of the Americas FY13'
-,'TPPP: Sister Cities International'
-,'TPPP: Institute for Representative Government (IRG) FY13'
-)
-*/
-
-
 /* Get the 'Active' program status ID */
 DECLARE @ActiveStatusId int
 SELECT @ActiveStatusId = programstatusid FROM dbo.programstatus WHERE status = 'Active'
@@ -88,30 +43,14 @@ VALUES
 ,('Mike Mansfield Fellowship Program',NULL,@OfficeId)
 ,('National Youth Science Camp',NULL,@OfficeId)
 ,('U.S. Congress-Korea National Assembly Youth Exchange',NULL,@OfficeId)
-,('Traditional Public-Private Partnerships: American Council of Young Political Leaders (ACYPL)',NULL,@OfficeId)
-,('Traditional Public-Private Partnerships: ACILS',NULL,@OfficeId)
-,('Traditional Public-Private Partnerships: Partners of the Americas',NULL,@OfficeId)
-,('Traditional Public-Private Partnerships: Sister Cities International',NULL,@OfficeId)
-,('Traditional Public-Private Partnerships: Institute for Representative Government',NULL,@OfficeId)
-
+,('Traditional Public Private Partnerships (TPPP)',NULL,@OfficeId)
 
 --Program/Subprogram
-,('Professional Fellows Program FY13','Professional Fellows',@OfficeId)
-,('Professional Fellows - YSEALI FY15','Professional Fellows - YSEALI',@OfficeId)
-,('Professional Fellows  On-Demand FY12','Professional Fellows On Demand',@OfficeId) 
-,('Community Solutions FY13','Community Solutions',@OfficeId)
-,('Professional Fellows Congress FY13','Professional Fellows Congress',@OfficeId)
-,('TechWomen FY13','TechWomen',@OfficeId)
-,('Pakistan Journalism Program FY13','Pakistan Journalism Program',@OfficeId)
-,('Japan-US Friendship Commission','Japan-US Friendship Commission (CULCON)',@OfficeId)
-,('Mike Mansfied Fellowship Program FY13','Mike Mansfield Fellowship Program',@OfficeId)
-,('National Youth Science Camp FY13','National Youth Science Camp',@OfficeId)
-,('U.S. Congress-Korea National Assembly Youth Exchange FY13','U.S. Congress-Korea National Assembly Youth Exchange',@OfficeId)
-,('TPPP: The American Council of Young Political Leaders FY13','Traditional Public-Private Partnerships: American Council of Young Political Leaders (ACYPL)',@OfficeId)
-,('TPPP: ACILS FY13','Traditional Public-Private Partnerships: ACILS',@OfficeId)
-,('TPPP: Partners of the Americas FY13','Traditional Public-Private Partnerships: Partners of the Americas',@OfficeId)
-,('TPPP: Sister Cities International','Traditional Public-Private Partnerships: Sister Cities International',@OfficeId)
-,('TPPP: Institute for Representative Government (IRG) FY13','Traditional Public-Private Partnerships: Institute for Representative Government',@OfficeId)
+,('TPPP: American Council of Young Political Leaders (ACYPL)','Traditional Public Private Partnerships (TPPP)',@OfficeId)
+,('TPPP: ACILS','Traditional Public Private Partnerships (TPPP)',@OfficeId)
+,('TPPP: Partners of the Americas','Traditional Public Private Partnerships (TPPP)',@OfficeId)
+,('TPPP: Sister Cities International','Traditional Public Private Partnerships (TPPP)',@OfficeId)
+,('TPPP: Institute for Representative Government','Traditional Public Private Partnerships (TPPP)',@OfficeId)
  
 
 
@@ -161,7 +100,7 @@ while @i <= @max begin
       SET ProgramStatusId = @ActiveStatusId,
           Owner_OrganizationId = @Owner_OrganizationId,
           ParentProgram_ProgramId = @ParentProgramId,
-	  History_RevisedOn = CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
+	  History_RevisedOn = GETDATE(),
 	  History_RevisedBy = 1
       WHERE programid = @existingprogramid
     ELSE
@@ -171,8 +110,8 @@ while @i <= @max begin
            History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn,
            ParentProgram_ProgramId,Owner_OrganizationId) 
       VALUES (@ActiveStatusId,@ProgramName,@ProgramName,CAST(N'2015-01-01T00:00:00.0000000-00:00' AS DateTimeOffset),
-              NULL,1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),
-              1,CAST(N'2015-09-17T00:00:00.0000000-00:00' AS DateTimeOffset),@ParentProgramId,@OfficeId)
+              NULL,1,GETDATE(),
+              1,GETDATE(),@ParentProgramId,@OfficeId)
 
     set @i = @i + 1
 end

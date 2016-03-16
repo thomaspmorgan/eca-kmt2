@@ -205,7 +205,7 @@ namespace ECA.Business.Test.Service.Persons
                         projectId);
 
             Action a = () => service.Update(model);
-            Func<Task> f = () => service.UpdateAsync(model);
+            Func<Task> f = async () => await service.UpdateAsync(model);
             a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
             f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }

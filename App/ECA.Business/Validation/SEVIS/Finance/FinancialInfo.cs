@@ -1,7 +1,5 @@
 ﻿using ECA.Business.Sevis.Model;
-using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
@@ -9,27 +7,39 @@ namespace ECA.Business.Validation.Sevis.Finance
     /// Financial support information
     /// </summary>
     [Validator(typeof(FinancialInfoValidator))]
-    public class FinancialInfo
+    public class FinancialInfo : IFormPrintable
     {
-        public FinancialInfo()
+        public FinancialInfo(
+            bool printForm,
+            bool receivedUSGovtFunds,
+            string programSponsorFunds,
+            OtherFunds otherFunds)
         {
-            OtherFunds = new OtherFunds();
+            this.PrintForm = printForm;
+            this.ReceivedUSGovtFunds = receivedUSGovtFunds;
+            this.ProgramSponsorFunds = programSponsorFunds;
+            this.OtherFunds = otherFunds;
         }
-        
+
+        /// <summary>
+        /// Gets or sets print form.
+        /// </summary>
+        public bool PrintForm { get; private set; }
+
         /// <summary>
         /// Indicates receipt of US govt funds
         /// </summary>
-        public bool ReceivedUSGovtFunds { get; set; }
+        public bool ReceivedUSGovtFunds { get; private set; }
 
         /// <summary>
         /// Program sponsor funds
         /// </summary>
-        public string ProgramSponsorFunds { get; set; }
+        public string ProgramSponsorFunds { get; private set; }
 
         /// <summary>
         /// Other financial support
         /// </summary>
-        public OtherFunds OtherFunds { get; set; }
+        public OtherFunds OtherFunds { get; private set; }
 
         /// <summary>
         /// Returns the new sevis exchange visitor financial info.
@@ -37,10 +47,16 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <returns>The new exchange visitor financial info.</returns>
         public EVPersonTypeFinancialInfo GetEVPersonTypeFinancialInfo()
         {
-            return new EVPersonTypeFinancialInfo
+            var instance = new EVPersonTypeFinancialInfo
             {
-
+                ProgramSponsorFunds = this.ProgramSponsorFunds,
+                ReceivedUSGovtFunds = this.ReceivedUSGovtFunds
             };
+            if (this.OtherFunds != null)
+            {
+                instance.OtherFunds = this.OtherFunds.GetOtherFundsType();
+            }
+            return instance;
         }
 
         /// <summary>
@@ -49,10 +65,18 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <returns>An updated sevis exchange visitor's financial information.</returns>
         public SEVISEVBatchTypeExchangeVisitorFinancialInfo GetSEVISEVBatchTypeExchangeVisitorFinancialInfo()
         {
-            return new SEVISEVBatchTypeExchangeVisitorFinancialInfo
+            var instance = new SEVISEVBatchTypeExchangeVisitorFinancialInfo
             {
-
+                printForm = this.PrintForm,
+                ProgramSponsorFunds = this.ProgramSponsorFunds,
+                ReceivedUSGovtFunds = this.ReceivedUSGovtFunds,
+                ReceivedUSGovtFundsSpecified = true
             };
+            if (this.OtherFunds != null)
+            {
+                instance.OtherFunds = this.OtherFunds.GetOtherFundsNullableType();
+            }
+            return instance;
         }
     }
 }

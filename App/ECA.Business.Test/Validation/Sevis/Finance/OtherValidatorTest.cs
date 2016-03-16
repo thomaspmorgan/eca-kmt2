@@ -1,7 +1,7 @@
-﻿using ECA.Business.Validation.Model.Shared;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Business.Validation.Sevis.Finance;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
@@ -13,14 +13,22 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestName_Null()
         {
+            string name = null;
+            string amount = null;
+            Func<Other> createEntity = () =>
+            {
+                return new Other(name: name, amount: amount);
+            };
             var validator = new OtherValidator();
-            var instance = new Other();
-            instance.Name = "name";
-            instance.Amount = "1";
+            
+            name = "name";
+            amount = "1";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Name = null;
+            name = null;
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -31,14 +39,22 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestName_ExceedsMaxLength()
         {
+            string name = null;
+            string amount = null;
+            Func<Other> createEntity = () =>
+            {
+                return new Other(name: name, amount: amount);
+            };
             var validator = new OtherValidator();
-            var instance = new Other();
-            instance.Name = "name";
-            instance.Amount = "1";
+            
+            name = "name";
+            amount = "1";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Name = new string('c', OtherValidator.NAME_MAX_LENGTH + 1);
+            name = new string('c', OtherValidator.NAME_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -49,14 +65,22 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount_ExceedsMaxLength()
         {
+            string name = null;
+            string amount = null;
+            Func<Other> createEntity = () =>
+            {
+                return new Other(name: name, amount: amount);
+            };
             var validator = new OtherValidator();
-            var instance = new Other();
-            instance.Name = "name";
-            instance.Amount = "1";
+            
+            name = "name";
+            amount = "1";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount = new string('1', OtherValidator.AMOUNT_MAX_LENGTH + 1);
+            amount = new string('1', OtherValidator.AMOUNT_MAX_LENGTH + 1);
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
@@ -67,14 +91,22 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         [TestMethod]
         public void TestAmount_DoesNotContainDigits()
         {
+            string name = null;
+            string amount = null;
+            Func<Other> createEntity = () =>
+            {
+                return new Other(name: name, amount: amount);
+            };
             var validator = new OtherValidator();
-            var instance = new Other();
-            instance.Name = "name";
-            instance.Amount = "1";
+            
+            name = "name";
+            amount = "1";
+            var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            instance.Amount = "a";
+            amount = "a";
+            instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);

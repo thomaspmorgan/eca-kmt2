@@ -8,6 +8,6 @@ namespace ECA.Business.Validation.Sevis
 {
     public interface IFormPrintable
     {
-        bool PrintForm { get; set; }
+        bool PrintForm { get; }
     }
 }

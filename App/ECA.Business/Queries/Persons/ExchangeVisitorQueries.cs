@@ -2,10 +2,10 @@
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service.Admin;
-using ECA.Business.Validation.Model.Shared;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Data;
+using PhoneNumbers;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -16,7 +16,6 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ExchangeVisitorQueries
     {
-
         /// <summary>
         /// Returns a query to get biographical information about a participant as it relates to sevis.
         /// </summary>
@@ -25,15 +24,18 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<BiographicalDTO> CreateGetBiographicalDataQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+
             var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
             var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
             var addressQuery = AddressQueries.CreateGetAddressDTOQuery(context);
             var cityLocationTypeId = LocationType.City.Id;
             var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
-            var cityMaxLength = BiographyValidator.CITY_MAX_LENGTH;
+            var cityMaxLength = PersonValidator.CITY_MAX_LENGTH;
             var unitedStatesCountryName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             var hostAddressTypeId = AddressType.Host.Id;
+            var homeAddressTypeId = AddressType.Home.Id;
+            var visitingPhoneNumberTypeId = Data.PhoneNumberType.Visiting.Id;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -64,12 +66,14 @@ namespace ECA.Business.Queries.Persons
 
                         let phoneNumber = phoneNumberQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.PhoneNumberTypeId == visitingPhoneNumberTypeId)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
                         let residenceAddress = addressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
                             .Where(x => x.Country != unitedStatesCountryName)
+                            .Where(x => x.AddressTypeId == homeAddressTypeId)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
@@ -77,6 +81,7 @@ namespace ECA.Business.Queries.Persons
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
 
                         let mailAddress = addressQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
                             .Where(x => x.Country == unitedStatesCountryName)
                             .Where(x => x.AddressTypeId == hostAddressTypeId)
                             .OrderByDescending(x => x.IsPrimary)
@@ -107,8 +112,15 @@ namespace ECA.Business.Queries.Persons
                             BirthCountryReason = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
-                            PhoneNumber = phoneNumber != null ? phoneNumber.Number : null,
-                            MailAddress = mailAddress
+                            PhoneNumber = phoneNumber != null 
+                                ? phoneNumber.Number
+                                    .Replace(" ", string.Empty)
+                                    .Replace("-", string.Empty)
+                                    .Replace("+", string.Empty)
+                                    .Replace("(", string.Empty)
+                                    .Replace(")", string.Empty)  
+                                : null,
+                            MailAddress = mailAddress,
                         };
             return query;
         }
@@ -171,10 +183,8 @@ namespace ECA.Business.Queries.Persons
                             PersonId = biography.PersonId,
                             ParticipantId = participantId,
                             MailAddress = biography.MailAddress,
-                            USAddress = biography.USAddress,
                             PhoneNumber = biography.PhoneNumber,
                             PhoneNumberId = biography.PhoneNumberId,
-                            PositionCode = biography.PositionCode,
                             Relationship = personType.SevisDependentTypeCode,
                             PersonTypeId = personType.PersonTypeId,
                             SevisId = null //this will change when the dependents are storing their sevis ids
@@ -189,7 +199,7 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The subject field query for sevis by participant id.</returns>
-        public static IQueryable<SubjectField> CreateGetSubjectFieldByParticipantIdQuery(EcaContext context, int participantId)
+        public static IQueryable<SubjectFieldDTO> CreateGetSubjectFieldByParticipantIdQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
@@ -201,7 +211,7 @@ namespace ECA.Business.Queries.Persons
                         on exchangeVisitor.FieldOfStudyId equals fieldOfStudy.FieldOfStudyId
 
                         where participant.ParticipantId == participantId
-                        select new SubjectField
+                        select new SubjectFieldDTO
                         {
                             SubjectFieldCode = fieldOfStudy.FieldOfStudyCode,
                             Remarks = fieldOfStudy.Description
@@ -215,7 +225,7 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The query to get international funding as it relates to sevis.</returns>
-        public static IQueryable<International> CreateGetInternationalFundingQuery(EcaContext context, int participantId)
+        public static IQueryable<ExchangeVisitorFundingDTO> CreateGetInternationalFundingQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from visitor in context.ParticipantExchangeVisitors
@@ -233,7 +243,7 @@ namespace ECA.Business.Queries.Persons
 
                         where visitor.ParticipantId == participantId
 
-                        select new International
+                        select new ExchangeVisitorFundingDTO
                         {
                             Amount1 = firstInternationalFundingOrg != null && visitor.FundingIntlOrg1.HasValue ? ((int)visitor.FundingIntlOrg1).ToString() : null,
                             Org1 = firstInternationalFundingOrg != null ? firstInternationalFundingOrg.OrganizationCode : null,
@@ -253,7 +263,7 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="participantId">The participant id.</param>
         /// <returns>The query to get us government funding as it relates to sevis.</returns>
-        public static IQueryable<USGovt> CreateGetUSFundingQuery(EcaContext context, int participantId)
+        public static IQueryable<ExchangeVisitorFundingDTO> CreateGetUSFundingQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from visitor in context.ParticipantExchangeVisitors
@@ -271,7 +281,7 @@ namespace ECA.Business.Queries.Persons
 
                         where visitor.ParticipantId == participantId
 
-                        select new USGovt
+                        select new ExchangeVisitorFundingDTO
                         {
                             Amount1 = firstUsGovFundingAgency != null && visitor.FundingGovtAgency1.HasValue ? ((int)visitor.FundingGovtAgency1).ToString() : null,
                             Org1 = firstUsGovFundingAgency != null ? firstUsGovFundingAgency.AgencyCode : null,

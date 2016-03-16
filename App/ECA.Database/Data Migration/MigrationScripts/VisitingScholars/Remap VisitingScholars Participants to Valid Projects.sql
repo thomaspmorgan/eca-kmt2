@@ -11,9 +11,30 @@ SELECT p.*
   select * from location where locationid in (2139,2087,2134,101447,101446,101448)
   select * from location where locationid in (150,199)
 
+/* Create a list of current fulbright participants */
+select p.personid,p2.participantid,
+* 
+from FulbrightDataset2_Import f
+ join eca_kmt_qa.eca_kmt_qa.dbo.person p on (
+(p.lastname is null and f.[Last Name] is null or p.lastname = f.[Last Name]) and
+(p.firstname is null and f.[First Name] is null or p.firstname = f.[First Name]) and
+(p.middlename is null and f.[Middle Name] is null or p.middlename = f.[Middle Name]) and
+(p.nameprefix is null and f.Prefix is null or p.nameprefix = f.Prefix) and
+(p.namesuffix is null and f.Suffix is null or p.namesuffix = f.Suffix) and
+(p.dateofbirth is null and f.[Date of Birth] is null or convert(date,p.dateofbirth) = convert(date,f.[Date of Birth]))
+)
+join eca_kmt_qa.eca_kmt_qa.dbo.participant p2 on (p2.personid = p.personid)
+order by category,subcategory
 
-  /* Remap participants to projects */
 
+
+/* Remap participants to projects */
+update eca_kmt_qa.eca_kmt_qa.dbo.participant set projectid = 7371 WHERE participantid in (1437,1440)
+update eca_kmt_qa.eca_kmt_qa.dbo.participant set projectid = 7372 WHERE participantid in (1405,1389,1415)
+update eca_kmt_qa.eca_kmt_qa.dbo.participant set projectid = 7373 WHERE projectid = 1521
+
+
+ /* Some queries to help */
   select * from participant where personid in (614,617)
 
   select * from project where name like '%Fulbright%Lecturer%'

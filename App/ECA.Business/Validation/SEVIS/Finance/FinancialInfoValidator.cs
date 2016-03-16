@@ -1,5 +1,4 @@
-﻿using ECA.Business.Validation.SEVIS;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation;
 
 namespace ECA.Business.Validation.Sevis.Finance

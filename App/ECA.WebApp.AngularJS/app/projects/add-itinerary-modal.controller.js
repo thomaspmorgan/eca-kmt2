@@ -144,11 +144,14 @@ angular.module('staticApp')
           $scope.view.itinerary.arrivalLocationId = $model.id;
       }
 
-      $scope.view.onAddNewArrivalLocationClick = function () {
+      $scope.view.onAddNewArrivalLocationClick = function ($event) {
           var setArrivalLocationCallback = function (addedLocation) {
               $scope.view.onArrivalLocationSelect(addedLocation[0], addedLocation[0]);
           };
           addNewLocation(setArrivalLocationCallback);
+          
+          $event.preventDefault();
+          $event.stopPropagation();
       }
 
       $scope.view.onAddNewDepartureDestinationLocationClick = function () {

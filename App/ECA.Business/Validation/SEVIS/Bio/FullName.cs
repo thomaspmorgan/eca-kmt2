@@ -1,9 +1,7 @@
 ﻿using ECA.Business.Sevis.Model;
-using ECA.Business.Validation.Model.Shared;
 using FluentValidation.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Serialization;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -49,11 +47,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 FirstName = this.FirstName,
                 LastName = this.LastName,
                 PassportName = this.PassportName,
-                PreferredName = this.PreferredName,};
+                PreferredName = this.PreferredName,
+            };
             if (!String.IsNullOrWhiteSpace(this.Suffix))
             {
-                var suffix = this.Suffix.Replace(".", String.Empty);
-                instance.Suffix = (NameSuffixCodeType)Enum.Parse(typeof(NameSuffixCodeType), suffix);
+                instance.Suffix = this.Suffix.GetNameSuffixCodeType();
                 instance.SuffixSpecified = true;
             }
             else
@@ -72,7 +70,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             return new NameNullableType
             {
                 FirstName = this.FirstName,
-                LastName= this.LastName,
+                LastName = this.LastName,
                 PassportName = this.PassportName,
                 PreferredName = this.PreferredName,
                 Suffix = this.Suffix

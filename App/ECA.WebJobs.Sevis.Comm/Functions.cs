@@ -7,6 +7,7 @@ using ECA.Core.Settings;
 using System.Diagnostics.Contracts;
 using System.Net.Http;
 using ECA.WebJobs.Sevis;
+using ECA.Business.Sevis;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -43,29 +44,29 @@ namespace ECA.WebJobs.Sevis.Comm
             var batchesToBeSent = service.GetSevisBatchesToUpload();
             Console.WriteLine(String.Format("Sevis Batches to Upload: [{0}]", batchesToBeSent.Count()));
 
-            //var batchComm = new SevisComm(settings);
+            var batchComm = new SevisComm(settings);
 
-            //foreach(var batch in batchesToBeSent)
-            //{
-            //    HttpResponseMessage status = new HttpResponseMessage();
-            //    try
-            //    {
-            //        status = await batchComm.UploadAsync(batch.SendXml, batch.BatchId);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(String.Format("Exception: {0}", e.Message));
-            //    }
-            //    if (status.IsSuccessStatusCode)
-            //    {
-            //        var updatedBatch = new UpdatedSevisBatchProcessing(batch);
-            //        updatedBatch.SubmitDate = DateTime.Now;
-            //        await service.UpdateAsync(updatedBatch);
-            //        Console.WriteLine("SEVIS Upload successful");
-            //    }
-            //    else
-            //        Console.WriteLine("SEVIS Upload failed, error: {0}", status.StatusCode.ToString());
-            //}
+            foreach (var batch in batchesToBeSent)
+            {
+                HttpResponseMessage status = new HttpResponseMessage();
+                try
+                {
+                    status = await batchComm.UploadAsync(batch.SendXml, batch.BatchId);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(String.Format("Exception: {0}", e.Message));
+                }
+                if (status.IsSuccessStatusCode)
+                {
+                    var updatedBatch = new UpdatedSevisBatchProcessing(batch);
+                    updatedBatch.SubmitDate = DateTime.Now;
+                    await service.UpdateAsync(updatedBatch);
+                    Console.WriteLine("SEVIS Upload successful");
+                }
+                else
+                    Console.WriteLine("SEVIS Upload failed, error: {0}", status.StatusCode.ToString());
+            }
 
             // Check for Downloads to get
 
@@ -74,7 +75,7 @@ namespace ECA.WebJobs.Sevis.Comm
             // Process any Downloads that have not been processed
 
             //var batchesToProcess = service.GetSevisBatchesToProcess();
-            
+
             Console.WriteLine("Finished Batch Processing.");
 
         }

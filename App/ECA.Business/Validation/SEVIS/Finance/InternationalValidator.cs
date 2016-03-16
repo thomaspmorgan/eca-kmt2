@@ -1,5 +1,5 @@
-﻿using ECA.Business.Validation.SEVIS;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Sevis.Model;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation;
 using System;
 using System.Text.RegularExpressions;
@@ -16,15 +16,15 @@ namespace ECA.Business.Validation.Sevis.Finance
 
         public const string AMOUNT_REGEX = @"^\d{1,8}$";
 
-        public const string OTHER_ORG_CODE = "OTHER";
+        public static string OTHER_ORG_CODE = InternationalOrgCodeType.OTHER.ToString();
 
         public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("International Funds: The International Organization 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
         public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("International Funds: The International Organization 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("International Funds: The International Organization 1 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
+        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("International Funds: The International Organization 1 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("International Funds: The International Organization 2 is set to other; therefore, a name of the agency must be supplied.  The name can be {0} characters.", OTHER_ORG_NAME_MAX_LENGTH);
+        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("International Funds: The International Organization 2 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
         public static string AMOUNT_ERROR_MESSAGE = String.Format("International Funds: An International Organization Amount is required and can be up to {0} digits.", AMOUNT_MAX_LENGTH);
 

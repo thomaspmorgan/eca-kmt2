@@ -8,6 +8,6 @@ namespace ECA.Business.Validation.Sevis
 {
     public interface ISevisIdentifable
     {
-        string SevisId { get; set; }
+        string SevisId { get; }
     }
 }

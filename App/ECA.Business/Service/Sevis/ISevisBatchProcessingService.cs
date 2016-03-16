@@ -81,6 +81,14 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="batchId">The id of the SevisBatchProcessing record to delete.</param>
         Task DeleteAsync(int batchId);
+
+        /// <summary>
+        /// Retrieve SEVIS batch XML
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        string GetSevisBatchCreateUpdateXML(int programId, User user);
     }
 
     /// <summary>
@@ -197,8 +205,7 @@ namespace ECA.Business.Service.Sevis
         {
             return Task.FromResult<IEnumerable<SevisBatchProcessingDTO>>(null);
         }
-
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -216,6 +223,17 @@ namespace ECA.Business.Service.Sevis
         public Task DeleteAsync(int batchId)
         {
             return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public string GetSevisBatchCreateUpdateXML(int programId, User user)
+        {
+            return string.Empty;
         }
     }
 }

@@ -641,7 +641,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
             Assert.AreEqual(PersonQueries.UNKNOWN_PARTICIPANT_STATUS, result.CurrentStatus);
         }
-
+        
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipation_StatusIsNull()
         {
