@@ -4,54 +4,58 @@
     <div class="bounce2"></div>
     <div class="bounce3"></div>
 </div>
-<form name="form.numParticipantsForm" ng-show="!view.isLoading">
-    <div class="row row4" ng-if="!view.editingEstParticipants">
+<div ng-show="!view.isLoading">
+    <div ng-cloak class="row row4" ng-if="!view.editingEstParticipants">
         <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
         <div class="col-md-2 subsubheading">{{project.usParticipantsEst}}</div>
         <div class="col-md-2 project-color subsubheading">Non-US:</div>
         <div class="col-md-2 subsubheading pull-left">{{project.nonUsParticipantsEst}}</div>
         <div class="col-md-2 "><a ng-show="permissions.editProject" ng-click="view.editingEstParticipants=!view.editingEstParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
     </div>
-    <div class="row row4" ng-if="view.editingEstParticipants">
-        <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
-        <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.usParticipantsEst" /></div>
-        <div class="col-md-2 project-color subsubheading">Non-US:</div>
-        <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.nonUsParticipantsEst" /></div>
-        <div class="col-md-2 pull-right">
-            <button class="btn-xs btn-success"
-                    ng-click="view.saveEstParticipants()"
-                    ng-disabled="form.numParticipantsForm.$invalid || !form.numParticipantsForm.$dirty">
-                Save
-            </button>
-            <button class="btn-xs btn-cancel" ng-click="view.cancelEstParticipants()">
-                Cancel
-            </button>
+    <form name="form.numEstParticipantsForm">
+        <div class="row row4" ng-if="view.editingEstParticipants">
+            <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
+            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.usParticipantsEst" /></div>
+            <div class="col-md-2 project-color subsubheading">Non-US:</div>
+            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.nonUsParticipantsEst" /></div>
+            <div class="col-md-2 pull-right">
+                <button class="btn-xs btn-success"
+                        ng-click="view.saveEstParticipants()"
+                        ng-disabled="form.numEstParticipantsForm.$invalid || !form.numEstParticipantsForm.$dirty">
+                    Save
+                </button>
+                <button class="btn-xs btn-cancel" ng-click="view.cancelEstParticipants()">
+                    Cancel
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="row row4" ng-if="!view.editingActualParticipants && !view.hasRealActualParticipants">
+    </form>
+    <div ng-cloak class="row row4" ng-if="!view.editingActualParticipants && !view.hasRealActualParticipants">
         <div class="col-md-4 project-color subsubheading tab-subheader">Total Participants Actual,  US:</div>
         <div class="col-md-2 subsubheading">{{project.usParticipantsActual}}</div>
         <div class="col-md-2 project-color subsubheading">Non-US:</div>
         <div class="col-md-2 subsubheading">{{project.nonUsParticipantsActual}}</div>
         <div class="col-md-2 pull-left"><a ng-click="view.editingActualParticipants=!view.editingActualParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
     </div>
-    <div class="row row4" ng-if="view.editingActualParticipants && !view.hasRealActualParticipants">
-        <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
-        <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.usParticipantsActual" /></div>
-        <div class="col-md-2 project-color subsubheading">Non-US:</div>
-        <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.nonUsParticipantsActual" /></div>
-        <div class="col-md-2 pull-right">
-            <button class="btn-xs btn-success"
-                    ng-click="view.saveActualParticipants()"
-                    ng-disabled="form.numParticipantsForm.$invalid || !form.numParticipantsForm.$dirty">
-                Save
-            </button>
-            <button class="btn-xs btn-cancel" ng-click="view.cancelActualParticipants()">
-                Cancel
-            </button>
+    <form name="form.numActualParticipantsForm">
+        <div class="row row4" ng-if="view.editingActualParticipants && !view.hasRealActualParticipants">
+            <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
+            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.usParticipantsActual" /></div>
+            <div class="col-md-2 project-color subsubheading">Non-US:</div>
+            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.nonUsParticipantsActual" /></div>
+            <div class="col-md-2 pull-right">
+                <button class="btn-xs btn-success"
+                        ng-click="view.saveActualParticipants()"
+                        ng-disabled="form.numActualParticipantsForm.$invalid || !form.numActualParticipantsForm.$dirty">
+                    Save
+                </button>
+                <button class="btn-xs btn-cancel" ng-click="view.cancelActualParticipants()">
+                    Cancel
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 <div class="list2">
     <div class="row row4">
         <div ng-show="!view.isLoading" class="mute">Participants: {{view.totalParticipants}} | Last updated {{project.updated | date}}</div>
