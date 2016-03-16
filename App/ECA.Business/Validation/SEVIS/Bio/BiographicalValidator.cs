@@ -56,6 +56,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             RuleFor(visitor => visitor.Gender)
                 .NotNull()
                 .WithMessage(GENDER_REQUIRED_ERROR_MESSAGE)
+                .WithState(x => new GenderErrorPath())
                 .Matches(string.Format("({0}|{1})", Gender.SEVIS_MALE_GENDER_CODE_VALUE, Gender.SEVIS_FEMALE_GENDER_CODE_VALUE))
                 .WithMessage(GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE)
                 .WithState(x => new GenderErrorPath());

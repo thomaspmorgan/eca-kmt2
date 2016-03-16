@@ -153,6 +153,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.GENDER_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(GenderErrorPath));
         }
 
         [TestMethod]
