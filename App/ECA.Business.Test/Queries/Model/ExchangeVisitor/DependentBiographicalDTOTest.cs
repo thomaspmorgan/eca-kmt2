@@ -1,7 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Validation.Model.CreateEV;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Data;
+using ECA.Business.Validation.Sevis.Bio;
 
 namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
 {
@@ -9,99 +12,368 @@ namespace ECA.Business.Test.Queries.Model.ExchangeVisitor
     public class DependentBiographicalDTOTest
     {
         [TestMethod]
-        public void TestGetAddDependent()
+        public void TestGetDependent_HasSevisId()
         {
-            var dto = new DependentBiographicalDTO
+            var personId = 1500;
+            var participantId = 2;
+            var fullName = new FullNameDTO
             {
-                AddressId = 1,
+                FirstName = "first",
+                LastName = "last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "suffix"
+            };
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new DependentBiographicalDTO
+            {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
                 BirthCountryReason = "birth country reason",
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
-                EmailAddress = "someone@isp.com",
-                EmailAddressId = 2,
-                FullName = new FullNameDTO
-                {
-                    FirstName = "first name",
-                    LastName = "last name",
-                    PassportName = "passport",
-                    PreferredName = "preferred name",
-                    Suffix = "suffix"
-                },
+                EmailAddress = "someone@ispl.com",
+                FullName = fullName,
                 Gender = "male",
-                GenderId = 3,
-                NumberOfCitizenships = 4,
-                PermanentResidenceCountryCode = "residence code",
-                PersonId = 5,
+                PermanentResidenceCountryCode = "perm resident country code",
+                PersonId = personId,
                 PhoneNumber = "123-456-7890",
-                PhoneNumberId = 6,
-                PositionCode = "position",
-                Relationship = "relationship",
-                PersonTypeId = 7,
-                SevisId = "sevis id"
+                PositionCode = "position code",
+                EmailAddressId = 3,
+                GenderId = 4,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 2000,
+                PermanentResidenceAddressId = residenceAddress.AddressId,
+                PhoneNumberId = 5,
+                USAddress = usAddress,
+                PersonTypeId = PersonType.Child.Id,
+                Relationship = "child",
+                SevisId = "sevisId",
+                ParticipantId = participantId
             };
-            var instance = dto.GetAddDependent();
-            Assert.AreEqual(dto.BirthCity, instance.BirthCity);
-            Assert.AreEqual(dto.BirthCountryCode, instance.BirthCountryCode);
-            Assert.AreEqual(dto.BirthCountryReason, instance.BirthCountryReason);
-            Assert.AreEqual(dto.BirthDate, instance.BirthDate);
-            Assert.AreEqual(dto.CitizenshipCountryCode, instance.CitizenshipCountryCode);
-            Assert.AreEqual(dto.EmailAddress, instance.EmailAddress);
-            Assert.AreEqual(dto.Gender, instance.Gender);
-            Assert.AreEqual(dto.PermanentResidenceCountryCode, instance.PermanentResidenceCountryCode);            
-            Assert.AreEqual(dto.Relationship, instance.Relationship);
-            Assert.IsNull(instance.UserDefinedA);
-            Assert.IsNull(instance.UserDefinedB);
-            Assert.IsFalse(instance.printForm);
 
-            Assert.AreEqual(dto.FullName.FirstName, instance.FullName.FirstName);
-            Assert.AreEqual(dto.FullName.LastName, instance.FullName.LastName);
-            Assert.AreEqual(dto.FullName.PassportName, instance.FullName.PassportName);
-            Assert.AreEqual(dto.FullName.PreferredName, instance.FullName.PreferredName);
-            Assert.AreEqual(dto.FullName.Suffix, instance.FullName.Suffix);
+            var dependent = model.GetDependent();
+            Assert.IsNotNull(dependent);
+            Assert.IsInstanceOfType(dependent, typeof(UpdatedDependent));
         }
 
         [TestMethod]
-        public void TestGetCreateDependent()
+        public void TestGetDependent_NullSevisId()
         {
-            var dto = new DependentBiographicalDTO
+            var personId = 1500;
+            var participantId = 2;
+            var fullName = new FullNameDTO
             {
-                AddressId = 1,
+                FirstName = "first",
+                LastName = "last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "suffix"
+            };
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new DependentBiographicalDTO
+            {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
                 BirthCountryReason = "birth country reason",
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
-                EmailAddress = "someone@isp.com",
-                EmailAddressId = 2,
-                FullName = new FullNameDTO
-                {
-                    FirstName = "first name",
-                    LastName = "last name",
-                    PassportName = "passport",
-                    PreferredName = "preferred name",
-                    Suffix = "suffix"
-                },
+                EmailAddress = "someone@ispl.com",
+                FullName = fullName,
                 Gender = "male",
-                GenderId = 3,
-                NumberOfCitizenships = 4,
-                PermanentResidenceCountryCode = "residence code",
-                PersonId = 5,
+                PermanentResidenceCountryCode = "perm resident country code",
+                PersonId = personId,
                 PhoneNumber = "123-456-7890",
-                PhoneNumberId = 6,
-                PositionCode = "position",
-                Relationship = "relationship",
-                PersonTypeId = 7,
-                SevisId = "sevis id"
+                PositionCode = "position code",
+                EmailAddressId = 3,
+                GenderId = 4,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 2000,
+                PermanentResidenceAddressId = residenceAddress.AddressId,
+                PhoneNumberId = 5,
+                USAddress = usAddress,
+                PersonTypeId = PersonType.Child.Id,
+                Relationship = "child",
+                SevisId = null,
+                ParticipantId = participantId
             };
-            var instance = dto.GetCreateDependent();
-            Assert.IsInstanceOfType(instance.AddTIPP, typeof(EcaAddTIPP));
-            Assert.IsNotNull(instance.Dependent);
 
-            //sanity check
-            Assert.AreEqual(dto.FullName.FirstName, instance.Dependent.FullName.FirstName);
+            var dependent = model.GetDependent();
+            Assert.IsNotNull(dependent);
+            Assert.IsInstanceOfType(dependent, typeof(AddedDependent));
+        }
 
+        [TestMethod]
+        public void TestGetDependent_WhitespaceSevisId()
+        {
+            var personId = 1500;
+            var participantId = 2;
+            var fullName = new FullNameDTO
+            {
+                FirstName = "first",
+                LastName = "last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "suffix"
+            };
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new DependentBiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@ispl.com",
+                FullName = fullName,
+                Gender = "male",
+                PermanentResidenceCountryCode = "perm resident country code",
+                PersonId = personId,
+                PhoneNumber = "123-456-7890",
+                PositionCode = "position code",
+                EmailAddressId = 3,
+                GenderId = 4,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 2000,
+                PermanentResidenceAddressId = residenceAddress.AddressId,
+                PhoneNumberId = 5,
+                USAddress = usAddress,
+                PersonTypeId = PersonType.Child.Id,
+                Relationship = "child",
+                SevisId = " ",
+                ParticipantId = participantId
+            };
+
+            var dependent = model.GetDependent();
+            Assert.IsNotNull(dependent);
+            Assert.IsInstanceOfType(dependent, typeof(AddedDependent));
+        }
+
+        [TestMethod]
+        public void TestGetDependent_EmptySevisId()
+        {
+            var personId = 1500;
+            var participantId = 2;
+            var fullName = new FullNameDTO
+            {
+                FirstName = "first",
+                LastName = "last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "suffix"
+            };
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new DependentBiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@ispl.com",
+                FullName = fullName,
+                Gender = "male",
+                PermanentResidenceCountryCode = "perm resident country code",
+                PersonId = personId,
+                PhoneNumber = "123-456-7890",
+                PositionCode = "position code",
+                EmailAddressId = 3,
+                GenderId = 4,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 2000,
+                PermanentResidenceAddressId = residenceAddress.AddressId,
+                PhoneNumberId = 5,
+                USAddress = usAddress,
+                PersonTypeId = PersonType.Child.Id,
+                Relationship = "child",
+                SevisId = String.Empty,
+                ParticipantId = participantId
+            };
+
+            var dependent = model.GetDependent();
+            Assert.IsNotNull(dependent);
+            Assert.IsInstanceOfType(dependent, typeof(AddedDependent));
+        }
+
+        [TestMethod]
+        public void TestGetAddedDependent()
+        {
+            var personId = 1500;
+            var participantId = 2;
+            var fullName = new FullNameDTO
+            {
+                FirstName = "first",
+                LastName = "last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "suffix"
+            };
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new DependentBiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@ispl.com",
+                FullName = fullName,
+                Gender = "male",
+                PermanentResidenceCountryCode = "perm resident country code",
+                PersonId = personId,
+                PhoneNumber = "123-456-7890",
+                PositionCode = "position code",
+                EmailAddressId = 3,
+                GenderId = 4,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 2000,
+                PermanentResidenceAddressId = residenceAddress.AddressId,
+                PhoneNumberId = 5,
+                USAddress = usAddress,
+                PersonTypeId = PersonType.Child.Id,
+                Relationship = "child",
+                SevisId = "sevisId",
+                ParticipantId = participantId
+            };
+
+            var person = model.GetAddedDependent();
+            Assert.IsNotNull(person);
+            Assert.AreEqual(model.BirthCity, person.BirthCity);
+            Assert.AreEqual(model.BirthCountryCode, person.BirthCountryCode);            
+            Assert.AreEqual(model.BirthDate, person.BirthDate);
+            Assert.AreEqual(model.CitizenshipCountryCode, person.CitizenshipCountryCode);
+            Assert.AreEqual(model.EmailAddress, person.EmailAddress);
+            Assert.AreEqual(model.Gender, person.Gender);
+            Assert.AreEqual(model.PermanentResidenceCountryCode, person.PermanentResidenceCountryCode);
+            Assert.AreEqual(model.Relationship, person.Relationship);
+
+            Assert.AreEqual(participantId, person.GetParticipantId());
+            Assert.AreEqual(personId, person.GetPersonId());
+
+            Assert.AreEqual(fullName.FirstName, person.FullName.FirstName);
+            Assert.AreEqual(fullName.LastName, person.FullName.LastName);
+            Assert.AreEqual(fullName.PassportName, person.FullName.PassportName);
+            Assert.AreEqual(fullName.PreferredName, person.FullName.PreferredName);
+            Assert.AreEqual(fullName.Suffix, person.FullName.Suffix);
+
+            Assert.IsNull(person.BirthCountryReason);
+        }
+
+        [TestMethod]
+        public void TestGetUpdatedDependent()
+        {
+            var personId = 1500;
+            var participantId = 2;
+            var fullName = new FullNameDTO
+            {
+                FirstName = "first",
+                LastName = "last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "suffix"
+            };
+            var mailAddress = new AddressDTO();
+            mailAddress.AddressId = 50;
+
+            var residenceAddress = new AddressDTO();
+            residenceAddress.AddressId = 60;
+
+            var usAddress = new AddressDTO();
+            usAddress.AddressId = 70;
+
+            var model = new DependentBiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@ispl.com",
+                FullName = fullName,
+                Gender = "male",
+                PermanentResidenceCountryCode = "perm resident country code",
+                PersonId = personId,
+                ParticipantId = participantId,
+                PhoneNumber = "123-456-7890",
+                PositionCode = "position code",
+                EmailAddressId = 3,
+                GenderId = 4,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 2000,
+                PermanentResidenceAddressId = residenceAddress.AddressId,
+                PhoneNumberId = 5,
+                USAddress = usAddress,
+                PersonTypeId = PersonType.Child.Id,
+                Relationship = "child",
+                SevisId = "sevisId",
+            };
+
+            var person = model.GetUpdatedDependent();
+            Assert.IsNotNull(person);
+            Assert.AreEqual(model.BirthCity, person.BirthCity);
+            Assert.AreEqual(model.BirthCountryCode, person.BirthCountryCode);
+            Assert.AreEqual(model.BirthDate, person.BirthDate);
+            Assert.AreEqual(model.CitizenshipCountryCode, person.CitizenshipCountryCode);
+            Assert.AreEqual(model.EmailAddress, person.EmailAddress);
+            Assert.AreEqual(model.Gender, person.Gender);
+            Assert.AreEqual(model.PermanentResidenceCountryCode, person.PermanentResidenceCountryCode);
+            Assert.AreEqual(model.Relationship, person.Relationship);
+            Assert.AreEqual(model.SevisId, person.SevisId);
+
+            Assert.IsTrue(person.IsRelationshipFieldSpecified);
+            Assert.IsTrue(person.PrintForm);
+            Assert.IsNull(person.Remarks);
+
+            Assert.AreEqual(participantId, person.GetParticipantId());
+            Assert.AreEqual(personId, person.GetPersonId());
+
+            Assert.AreEqual(fullName.FirstName, person.FullName.FirstName);
+            Assert.AreEqual(fullName.LastName, person.FullName.LastName);
+            Assert.AreEqual(fullName.PassportName, person.FullName.PassportName);
+            Assert.AreEqual(fullName.PreferredName, person.FullName.PreferredName);
+            Assert.AreEqual(fullName.Suffix, person.FullName.Suffix);
+
+            Assert.IsNull(person.BirthCountryReason);
         }
     }
 }

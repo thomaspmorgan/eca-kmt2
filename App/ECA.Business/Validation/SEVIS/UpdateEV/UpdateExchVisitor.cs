@@ -11,12 +11,12 @@ namespace ECA.Business.Validation.Model
     {
         public UpdateExchVisitor()
         {
-            ExchangeVisitor = new ExchangeVisitorUpdate();
+            //ExchangeVisitor = new ExchangeVisitorUpdate();
         }
 
         /// <summary>
         /// Exchange visitor information
         /// </summary>
-        public ExchangeVisitorUpdate ExchangeVisitor { get; set; }
+        //public ExchangeVisitorUpdate ExchangeVisitor { get; set; }
     }
 }

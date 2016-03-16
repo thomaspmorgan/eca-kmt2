@@ -3,26 +3,28 @@ using FluentValidation.Attributes;
 using ECA.Business.Validation.Model.Shared;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.Business.Validation.Model.CreateEV
 {
     /// <summary>
     /// Exchange visitor information
     /// </summary>
-    [Validator(typeof(ExchangeVisitorValidator))]
+    //[Validator(typeof(ExchangeVisitorValidator))]
     public class ExchangeVisitor
     {
         public ExchangeVisitor()
         {
-            Biographical = new Biographical();
+            Biographical = new Person();
             SubjectField = new SubjectField();
             USAddress = new USAddress();
             MailAddress = new USAddress();
-            FinancialInfo = new FinancialInfo();
-            CreateDependent = new List<CreateDependent>();
+            //FinancialInfo = new FinancialInfo();
+            //CreateDependent = new List<CreateDependent>();
             AddSiteOfActivity = new AddSiteOfActivity();
             AddTIPP = new AddTIPP();
-            ResidentialAddress = new ResidentialAddress();
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Biographical information
         /// </summary>
-        public Biographical Biographical { get; set; }
+        public Person Biographical { get; set; }
 
         /// <summary>
         /// Position code (numeric)
@@ -104,12 +106,12 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// <summary>
         /// Financial support information
         /// </summary>
-        public FinancialInfo FinancialInfo { get; set; }
+        //public FinancialInfo FinancialInfo { get; set; }
         
         /// <summary>
         /// Dependent information
         /// </summary>
-        public List<CreateDependent> CreateDependent { get; set; }
+        //public List<CreateDependent> CreateDependent { get; set; }
 
         /// <summary>
         /// Site of activity address
@@ -120,11 +122,5 @@ namespace ECA.Business.Validation.Model.CreateEV
         /// Add T/IPP information
         /// </summary>
         public AddTIPP AddTIPP { get; set; }
-
-        /// <summary>
-        /// Residential address information
-        /// </summary>
-        public ResidentialAddress ResidentialAddress { get; set; }
-        
     }
 }
