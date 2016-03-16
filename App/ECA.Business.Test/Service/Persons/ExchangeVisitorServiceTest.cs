@@ -1,20 +1,20 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Data;
-using ECA.Business.Service;
-using ECA.Business.Service.Persons;
-using System.Threading.Tasks;
-using ECA.Business.Validation.Model.CreateEV;
-using ECA.Business.Queries.Persons;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Core.Exceptions;
-using ECA.Business.Service.Admin;
-using Microsoft.QualityTools.Testing.Fakes;
+﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
+using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
+using ECA.Business.Service;
+using ECA.Business.Service.Admin;
+using ECA.Business.Service.Persons;
+using ECA.Business.Validation.Sevis;
+using ECA.Business.Validation.Sevis.Finance;
+using ECA.Core.Exceptions;
+using ECA.Data;
+using FluentAssertions;
+using Microsoft.QualityTools.Testing.Fakes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Service.Persons
         private TestEcaContext context;
         private ExchangeVisitorService service;
 
-        private Action<USAddress> usStateDeptAddressTester;
+        private Action<AddressDTO> usStateDeptAddressTester;
 
         [TestInitialize]
         public void TestInit()
@@ -33,1505 +33,901 @@ namespace ECA.Business.Test.Service.Persons
             service = new ExchangeVisitorService(context);
             usStateDeptAddressTester = (address) =>
             {
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, address.Address1);
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, address.Street1);
                 Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, address.City);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, address.State);
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, address.Division);
                 Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, address.PostalCode);
-                Assert.IsNull(address.Address2);
-                Assert.IsNull(address.Explanation);
-                Assert.IsNull(address.ExplanationCode);
+                Assert.AreEqual(LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME, address.Country);
+                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, address.LocationName);
             };
         }
 
-        #region GetCreateExchangeVisitor
-
+        #region GetExchangeVisitor
         [TestMethod]
-        public void TestGetCreateExchangeVisitor_CheckProperties()
+        public async Task TestGetExchangeVisitor()
         {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
+            var projectId = 10;
+            var participantId = 100;
+            var personId = 11;
+            var user = new User(1000);
+            var person = new Data.Person
+            {
+                PersonId = personId
+            };
+            var project = new Project
+            {
+                ProjectId = projectId,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
             var participant = new Participant
             {
-                ParticipantId = 1
-            };
-            var user = new User(2);
-            var position = new Position
-            {
-                PositionId = 30,
-                PositionCode = "posCode"
-            };
-            var category = new ProgramCategory
-            {
-                ProgramCategoryId = 20,
-                ProgramCategoryCode = "catCode"
-            };
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                Position = position,
-                PositionId = position.PositionId,
-                ProgramCategory = category,
-                ProgramCategoryId = category.ProgramCategoryId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                StartDate = yesterday,
-                EndDate = endDate
-            };
-
-            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
-            Assert.AreEqual(participant.ParticipantId.ToString(), instance.requestID);
-            Assert.AreEqual(user.Id.ToString(), instance.userID);
-            Assert.AreEqual(yesterday.UtcDateTime, instance.PrgStartDate);
-            Assert.AreEqual(endDate.UtcDateTime, instance.PrgEndDate);
-            Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, instance.OccupationCategoryCode);
-            Assert.AreEqual(position.PositionCode, instance.PositionCode);
-            Assert.AreEqual(category.ProgramCategoryCode, instance.CategoryCode);
-            Assert.IsNull(instance.ResidentialAddress);
-        }
-
-        [TestMethod]
-        public void TestGetCreateExchangeVisitor_ParticipantExchangeVisitorIsNull()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            var user = new User(2);
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                StartDate = yesterday,
-                EndDate = endDate
-            };
-            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, null);
-            Assert.IsNull(instance.PositionCode);
-            Assert.IsNull(instance.CategoryCode);
-        }
-
-        [TestMethod]
-        public void TestGetCreateExchangeVisitor_PositionAndCategoryAreNull()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            var user = new User(2);
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                StartDate = yesterday,
-                EndDate = endDate
-            };
-            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
-            Assert.IsNull(instance.PositionCode);
-            Assert.IsNull(instance.CategoryCode);
-        }
-
-        [TestMethod]
-        public void TestGetCreateExchangeVisitor_ParticipantPersonStartAndEndDatesAreNull()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            var user = new User(2);
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                StartDate = null,
-                EndDate = null
-            };
-            var instance = service.GetCreateExchangeVisitor(participant, user, participantPerson, visitor);
-            Assert.AreEqual(default(DateTime), instance.PrgStartDate);
-            Assert.AreEqual(default(DateTime), instance.PrgEndDate);
-        }
-        #endregion
-
-        #region Set Biography
-        [TestMethod]
-        public async Task TestSetBiography_CheckProperties()
-        {
-            ExchangeVisitor visitor = null;
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 100,
-                FullName = "full name",
-                Alias = "alias",
-                FirstName = "first name",
-                LastName = "last name",
-                NameSuffix = "suffix",
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                PersonId = person.PersonId,
+                ParticipantId = participantId,
+                Project = project,
+                ProjectId = project.ProjectId,
                 Person = person,
+                PersonId = person.PersonId
             };
+            project.Participants.Add(participant);
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId,
+                Participant = participant,
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
             var participantPerson = new ParticipantPerson
             {
-                ParticipantId = participant.ParticipantId,
                 Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = DateTime.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id"
             };
-            participant.ParticipantPerson = participantPerson;
-
-
-            context.SetupActions.Add(() =>
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ParticipantPersons.Add(participantPerson);
+            context.People.Add(person);
+            context.ProgramCategories.Add(programCategory);
+            using (ShimsContext.Create())
             {
-                context.Genders.Add(gender);
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.People.Add(person);
-                visitor = new ExchangeVisitor();
-            });
-            Action tester = () =>
-            {
-                Assert.IsNotNull(visitor.Biographical);
-                Assert.AreEqual(person.Alias, visitor.Biographical.FullName.PreferredName);
-                Assert.AreEqual(person.FirstName, visitor.Biographical.FullName.FirstName);
-                Assert.AreEqual(person.LastName, visitor.Biographical.FullName.LastName);
-                Assert.AreEqual(person.NameSuffix, visitor.Biographical.FullName.Suffix);
-            };
-            context.Revert();
-            service.SetBiography(participant, visitor);
-            tester();
+                var biographicalDTO = new BiographicalDTO
+                {
 
-            context.Revert();
-            await service.SetBiographyAsync(participant, visitor);
-            tester();
+                };
+                var dependentBiographicalDTO = new DependentBiographicalDTO
+                {
+
+                };
+                var subjectFieldDTO = new SubjectFieldDTO
+                {
+
+                };
+
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<BiographicalDTO> { biographicalDTO }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<DependentBiographicalDTO> { dependentBiographicalDTO }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQueryEcaContextInt32 = (ctx, pId) =>
+                {
+                    return new List<SubjectFieldDTO> { subjectFieldDTO }.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
+                {
+                    return Task<List<DependentBiographicalDTO>>.FromResult(src.ToList());
+                });
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<BiographicalDTO>((src) =>
+                {
+                    return Task<List<BiographicalDTO>>.FromResult(src.FirstOrDefault());
+                });
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SubjectFieldDTO>((src) =>
+                {
+                    return Task<List<SubjectFieldDTO>>.FromResult(src.FirstOrDefault());
+                });
+                Action<ExchangeVisitor> tester = (exchangeVisitor) =>
+                {
+                    Assert.AreEqual(1, exchangeVisitor.Dependents.Count());
+                    Assert.IsNotNull(exchangeVisitor.FinancialInfo);
+                    Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, exchangeVisitor.OccupationCategoryCode);
+                    Assert.IsNotNull(exchangeVisitor.Person);
+                    Assert.AreEqual(participantPerson.StartDate.Value.DateTime, exchangeVisitor.ProgramStartDate);
+                    Assert.AreEqual(participantPerson.EndDate.Value.DateTime, exchangeVisitor.ProgramEndDate);
+                    Assert.AreEqual(participantPerson.SevisId, exchangeVisitor.SevisId);
+                    Assert.IsTrue(Object.ReferenceEquals(user, exchangeVisitor.User));
+
+                    Assert.IsNotNull(exchangeVisitor.SiteOfActivity);
+                    var cStreetAddress = service.GetStateDepartmentCStreetAddress();
+                    Assert.AreEqual(cStreetAddress.Street1, exchangeVisitor.SiteOfActivity.Street1);
+                    Assert.AreEqual(cStreetAddress.LocationName, exchangeVisitor.SiteOfActivity.LocationName);
+                };
+                var result = service.GetExchangeVisitor(user, projectId, participantId);
+                var resultAsync = await service.GetExchangeVisitorAsync(user, projectId, participantId);
+                tester(result);
+                tester(resultAsync);
+            }
         }
 
         [TestMethod]
-        public async Task TestSetBiography_BiographyIsNull()
+        public async Task TestGetExchangeVisitor_ProjectIsNotAnExchangeVisitorProject()
         {
-            Participant participant = new Participant
+            var projectId = 10;
+            var participantId = 100;
+            var personId = 11;
+            var user = new User(1000);
+            var person = new Data.Person
             {
-                ParticipantId = 1
+                PersonId = personId
             };
-            ExchangeVisitor visitor = new ExchangeVisitor();
-            Assert.IsNull(ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.context, participant.ParticipantId).FirstOrDefault());
+            var project = new Project
+            {
+                ProjectId = projectId,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                Project = project,
+                ProjectId = project.ProjectId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            project.Participants.Add(participant);
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId,
+                Participant = participant,
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                StartDate = DateTime.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id"
+            };
+            context.Participants.Add(participant);
+            context.Projects.Add(project);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ParticipantPersons.Add(participantPerson);
+            context.People.Add(person);
+            context.ProgramCategories.Add(programCategory);
 
-            var message = String.Format("The participant with id [{0}] must have biographical information.", participant.ParticipantId);
-            Action a = () => service.SetBiography(participant, visitor);
-            Func<Task> f = () => service.SetBiographyAsync(participant, visitor);
+            var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
+            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
-        #endregion
 
-        #region Set Subject Field
         [TestMethod]
-        public async Task TestSetSubjectField_CheckProperties()
+        public async Task TestGetExchangeVisitor_ProjectDoesNotExist()
         {
-            var fieldOfStudy = new FieldOfStudy
+            var projectId = 10;
+            var participantId = 100;
+            var personId = 11;
+            var user = new User(1000);
+            var person = new Data.Person
             {
-                Description = "desc",
-                FieldOfStudyCode = "code",
-                FieldOfStudyId = 2,
+                PersonId = personId
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
             };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = participantId,
+                ProjectId = projectId,
+                Person = person,
+                PersonId = person.PersonId
             };
-            var exchangeVisitor = new ParticipantExchangeVisitor
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                ParticipantId = participantId,
+                Participant = participant,
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            var participantPerson = new ParticipantPerson
             {
                 Participant = participant,
                 ParticipantId = participant.ParticipantId,
-                FieldOfStudy = fieldOfStudy,
-                FieldOfStudyId = fieldOfStudy.FieldOfStudyId
+                StartDate = DateTime.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id"
             };
-            participant.ParticipantExchangeVisitor = exchangeVisitor;
+            context.Participants.Add(participant);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ParticipantPersons.Add(participantPerson);
+            context.People.Add(person);
+            context.ProgramCategories.Add(programCategory);
 
-            ExchangeVisitor visitor = null;
-            context.SetupActions.Add(() =>
-            {
-                context.Participants.Add(participant);
-                context.ParticipantExchangeVisitors.Add(exchangeVisitor);
-                context.FieldOfStudies.Add(fieldOfStudy);
-                visitor = new ExchangeVisitor();
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance);
-                Assert.IsNotNull(testInstance.SubjectField);
-                Assert.AreEqual(fieldOfStudy.FieldOfStudyCode, testInstance.SubjectField.SubjectFieldCode);
-                Assert.AreEqual(fieldOfStudy.Description, testInstance.SubjectField.Remarks);
-            };
-            context.Revert();
-            service.SetSubjectField(participant, visitor);
-            tester(visitor);
-
-            context.Revert();
-            await service.SetSubjectFieldAsync(participant, visitor);
-            tester(visitor);
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, projectId);
+            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
-        public async Task TestSetSubjectField_FieldOfStudyDescriptionGreaterThanMaxLength()
+        public async Task TestGetExchangeVisitor_ParticipantPersonDoesNotExist()
         {
-            var fieldOfStudy = new FieldOfStudy
+            var projectId = 10;
+            var participantId = 100;
+            var personId = 11;
+            var user = new User(1000);
+            var person = new Data.Person
             {
-                Description = new String('d', ExchangeVisitorService.SUBJECT_FIELD_REMARKS_MAX_LENGTH + 1),
-                FieldOfStudyCode = "code",
-                FieldOfStudyId = 2,
+                PersonId = personId
+            };
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
             };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = participantId,
+                ProjectId = projectId,
+                Person = person,
+                PersonId = person.PersonId
             };
-            var exchangeVisitor = new ParticipantExchangeVisitor
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
+                ParticipantId = participantId,
                 Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                FieldOfStudy = fieldOfStudy,
-                FieldOfStudyId = fieldOfStudy.FieldOfStudyId
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
             };
-            participant.ParticipantExchangeVisitor = exchangeVisitor;
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            context.Participants.Add(participant);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.People.Add(person);
+            context.ProgramCategories.Add(programCategory);
 
-            ExchangeVisitor visitor = null;
-            context.SetupActions.Add(() =>
-            {
-                context.Participants.Add(participant);
-                context.ParticipantExchangeVisitors.Add(exchangeVisitor);
-                context.FieldOfStudies.Add(fieldOfStudy);
-                visitor = new ExchangeVisitor();
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance);
-                Assert.IsNotNull(testInstance.SubjectField);
-                Assert.AreEqual(fieldOfStudy.Description.Substring(0, ExchangeVisitorService.SUBJECT_FIELD_REMARKS_MAX_LENGTH), testInstance.SubjectField.Remarks);
-            };
-            context.Revert();
-            service.SetSubjectField(participant, visitor);
-            tester(visitor);
-
-            context.Revert();
-            await service.SetSubjectFieldAsync(participant, visitor);
-            tester(visitor);
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantPerson).Name, participantId);
+            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
-        public async Task TestSetSubjectField_FieldOfStudyDescriptionIsNull()
+        public async Task TestGetExchangeVisitor_ParticipantIsNotAPerson()
         {
-            var fieldOfStudy = new FieldOfStudy
+            var projectId = 10;
+            var participantId = 100;
+            var user = new User(1000);
+            var programCategory = new ProgramCategory
             {
-                Description = null,
-                FieldOfStudyCode = "code",
-                FieldOfStudyId = 2,
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
             };
             var participant = new Participant
             {
-                ParticipantId = 1
+                ParticipantId = participantId,
+                ProjectId = projectId,
             };
-            var exchangeVisitor = new ParticipantExchangeVisitor
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
+                ParticipantId = participantId,
                 Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                FieldOfStudy = fieldOfStudy,
-                FieldOfStudyId = fieldOfStudy.FieldOfStudyId
-            };
-            participant.ParticipantExchangeVisitor = exchangeVisitor;
-
-            ExchangeVisitor visitor = null;
-            context.SetupActions.Add(() =>
-            {
-                context.Participants.Add(participant);
-                context.ParticipantExchangeVisitors.Add(exchangeVisitor);
-                context.FieldOfStudies.Add(fieldOfStudy);
-                visitor = new ExchangeVisitor();
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance);
-                Assert.IsNotNull(testInstance.SubjectField);
-                Assert.IsNull(testInstance.SubjectField.Remarks);
-            };
-            context.Revert();
-            service.SetSubjectField(participant, visitor);
-            tester(visitor);
-
-            context.Revert();
-            await service.SetSubjectFieldAsync(participant, visitor);
-            tester(visitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetSubjectField_ExchangeVisitorDoesNotHaveFieldOfStudy()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            var exchangeVisitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-            participant.ParticipantExchangeVisitor = exchangeVisitor;
-
-            ExchangeVisitor visitor = null;
-            context.SetupActions.Add(() =>
-            {
-                context.Participants.Add(participant);
-                context.ParticipantExchangeVisitors.Add(exchangeVisitor);
-                visitor = new ExchangeVisitor();
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance);
-                Assert.IsNull(testInstance.SubjectField);
-            };
-            context.Revert();
-            service.SetSubjectField(participant, visitor);
-            tester(visitor);
-
-            context.Revert();
-            await service.SetSubjectFieldAsync(participant, visitor);
-            tester(visitor);
-        }
-        #endregion
-
-        #region SetMailingAddress
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitor_CheckProperties()
-        {
-            var personId = 1000;
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Host.Value,
-                AddressTypeId = AddressType.Host.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HomeInstitutionAddressId = address.AddressId
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance.MailAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.MailAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.MailAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.MailAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.MailAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.MailAddress.PostalCode);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitor_AddressIsNotInUS()
-        {
-            var personId = 1000;
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "Not United states"
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Host.Value,
-                AddressTypeId = AddressType.Host.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HomeInstitutionAddressId = address.AddressId
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.MailAddress);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitor_AddressIsNotHostAddress()
-        {
-            var personId = 1000;
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "Not United states"
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                HomeInstitutionAddressId = address.AddressId
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.MailAddress);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitor_PersonDoesNotHaveAHostAddress()
-        {
-            var personId = 1000;
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.MailAddress);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_CheckProperties()
-        {
-            var personId = 1000;
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Host.Value,
-                AddressTypeId = AddressType.Host.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance.MailAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.MailAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.MailAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.MailAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.MailAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.MailAddress.PostalCode);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_AddressIsNotInUS()
-        {
-            var personId = 1000;
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "Not United states"
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Host.Value,
-                AddressTypeId = AddressType.Host.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.MailAddress);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_AddressIsNotHostAddress()
-        {
-            var personId = 1000;
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "Not United states"
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-                context.AddressTypes.Add(addressType);
-                context.Locations.Add(division);
-                context.Locations.Add(country);
-                context.Locations.Add(city);
-                context.Locations.Add(addressLocation);
-                context.Addresses.Add(address);
-                context.LocationTypes.Add(addressLocationType);
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.MailAddress);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetMailingAddress_ExchangeVisitorUpdate_PersonDoesNotHaveAHostAddress()
-        {
-            var personId = 1000;
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                PersonId = personId
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNull(testInstance.MailAddress);
-            };
-            context.Revert();
-            service.SetMailingAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetMailingAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-        #endregion
-
-        #region SetUSAddress
-        [TestMethod]
-        public async Task TestSetUSAddress_ExchangeVisitor_CheckProperties()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson();
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-            });
-
-            Action<ExchangeVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance.USAddress);
-                usStateDeptAddressTester(testInstance.USAddress);
-            };
-            context.Revert();
-            service.SetUSAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetUSAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetUSAddress_ExchangeVisitorUpdate_CheckProperties()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            ExchangeVisitorUpdate exchangeVisitor = null;
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId
-            };
-
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitorUpdate();
-                context.Participants.Add(participant);
-                context.ParticipantPersons.Add(participantPerson);
-            });
-
-            Action<ExchangeVisitorUpdate> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance.USAddress);
-                usStateDeptAddressTester(testInstance.USAddress);
-            };
-            context.Revert();
-            service.SetUSAddress(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-
-            context.Revert();
-            await service.SetUSAddressAsync(participant, exchangeVisitor, participantPerson);
-            tester(exchangeVisitor);
-        }
-        #endregion
-
-        #region GetFinancialInfo
-        [TestMethod]
-        public void TestGetFinancialInfo_CheckProperties()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m,
-                FundingOther = 6.6m,
-                OtherName = "other name"
-            };
-            var orgFunding = new International
-            {
-                Amount1 = "1"
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = "2"
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsTrue(instance.ReceivedUSGovtFunds);
-            Assert.AreEqual("2", instance.ProgramSponsorFunds);
-            Assert.IsNotNull(instance.OtherFunds);
-            Assert.IsTrue(Object.ReferenceEquals(orgFunding, instance.OtherFunds.International));
-            Assert.IsTrue(Object.ReferenceEquals(usGovFunding, instance.OtherFunds.USGovt));
-
-            Assert.AreEqual("3", instance.OtherFunds.EVGovt);
-            Assert.AreEqual("4", instance.OtherFunds.BinationalCommission);
-            Assert.AreEqual("5", instance.OtherFunds.Personal);
-            Assert.AreEqual("6", instance.OtherFunds.Other.Amount);
-            Assert.AreEqual(participantExchangeVisitor.OtherName, instance.OtherFunds.Other.Name);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingSponsorNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingSponsor = null
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.ProgramSponsorFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingSponsorZero()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingSponsor = 0m,
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.ProgramSponsorFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingVisGovtNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingVisGovt = null
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.EVGovt);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingVisGovtZero()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingVisGovt = 0m,
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.EVGovt);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingVisBNCNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingVisBNC = null
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.BinationalCommission);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingVisBNCZero()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingVisBNC = 0m,
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.BinationalCommission);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingPersonalNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingPersonal = null
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.Personal);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingPersonalZero()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingPersonal = 0m
-            };
-            var orgFunding = new International
-            {
-
-            };
-            var usGovFunding = new USGovt
-            {
-
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.Personal);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_ReceivedGovFundsFromUSGovAgency1()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 1.0m,
-                FundingGovtAgency2 = 0.0m
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
-            Assert.IsTrue(instance.ReceivedUSGovtFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_ReceivedGovFundsFromUSGovAgency2()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 0.0m,
-                FundingGovtAgency2 = 1.0m,
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
-            Assert.IsTrue(instance.ReceivedUSGovtFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_ReceivedZeroFundsFromUSGovAgencies()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 0.0m,
-                FundingGovtAgency2 = 0.0m,
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
-            Assert.IsFalse(instance.ReceivedUSGovtFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_USGovAgenciesFundingsAreNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = null,
-                FundingGovtAgency2 = null,
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, null);
-            Assert.IsFalse(instance.ReceivedUSGovtFunds);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingOtherDoesNotHaveAValue()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingOther = null
-            };
-            var orgFunding = new International
-            {
-                Amount1 = "1"
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = "2"
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNotNull(instance.OtherFunds);
-            Assert.IsNull(instance.OtherFunds.Other);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_FundingOtherZero()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingOther = 0m
-            };
-            var orgFunding = new International
-            {
-                Amount1 = "1"
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = "2"
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNotNull(instance.OtherFunds);
-            Assert.IsNull(instance.OtherFunds.Other);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_InternationalFundingAmount1IsNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
-            };
-            var orgFunding = new International
-            {
-                Amount1 = null
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = "2"
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNotNull(instance.OtherFunds);
-            Assert.IsNull(instance.OtherFunds.International);
-        }
-
-        [TestMethod]
-        public void TestGetFinancialInfo_InternationalFundingAmount2IsNotNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
-            };
-            var orgFunding = new International
-            {
-                Amount1 = null,
-                Amount2 = "1"
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = "2"
-            };
-            var message = "The International Funding Amount1 must have a value if Amount2 has a value.";
-            Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
+            };
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            context.Participants.Add(participant);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ProgramCategories.Add(programCategory);
+
+            var message = String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId);
+            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-
-        [TestMethod]
-        public void TestGetFinancialInfo_USGovernmentFundingAmount1IsNull()
-        {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
-            };
-            var orgFunding = new International
-            {
-                Amount1 = "1"
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = null
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            Assert.IsNotNull(instance.OtherFunds);
-            Assert.IsNull(instance.OtherFunds.USGovt);
+            f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
 
         [TestMethod]
-        public void TestGetFinancialInfo_USGoverntmentFundingAmount2IsNotNull()
+        public async Task TestGetExchangeVisitor_ParticipantDoesNotBelongToProject()
         {
+            var projectId = 10;
+            var participantId = 100;
+            var user = new User(1000);
+            var programCategory = new ProgramCategory
+            {
+                ProgramCategoryCode = "program category code",
+                ProgramCategoryId = 234
+            };
+            var participant = new Participant
+            {
+                ParticipantId = participantId,
+                ProjectId = projectId,
+            };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
+                ParticipantId = participantId,
+                Participant = participant,
+                ProgramCategoryId = programCategory.ProgramCategoryId,
+                ProgramCategory = programCategory
             };
-            var orgFunding = new International
-            {
-                Amount1 = "11",
-                Amount2 = "1"
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = null,
-                Amount2 = "1"
-            };
-            var message = "The US Government Funding Amount1 must have a value if Amount2 has a value.";
-            Action a = () => service.GetFinancialInfo(participantExchangeVisitor, orgFunding, usGovFunding);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
+            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+            context.Participants.Add(participant);
+            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            context.ProgramCategories.Add(programCategory);
+
+            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
+                        user.Id,
+                        participant.ParticipantId,
+                        projectId + 1);
+            Action a = () => service.GetExchangeVisitor(user, projectId + 1, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId + 1, participantId);
+            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
+            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }
 
         [TestMethod]
-        public void TestGetFinancialInfo_OrgFundingIsNull()
+        public async Task TestGetExchangeVisitor_ParticipantDoesNotExist()
         {
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-            };
-            var usGovFunding = new USGovt
-            {
-                Amount1 = "1"
-            };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, null, usGovFunding);
-            Assert.IsNull(instance.OtherFunds.International);
-            Assert.IsNotNull(instance.OtherFunds.USGovt);
+            var projectId = 10;
+            var participantId = 100;
+            var user = new User(1000);
+
+            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, participantId);
+            Action a = () => service.GetExchangeVisitor(user, projectId + 1, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId + 1, participantId);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
-        public void TestGetFinancialInfo_USGovtFundingIsNull()
+        public async Task TestGetExchangeVisitor_HasAllEntityRelationships()
         {
+            var user = new User(1);
+            var person = new Business.Validation.Sevis.Bio.Person(
+                fullName: null,
+                birthCity: null,
+                birthCountryCode: null,
+                birthCountryReason: null,
+                birthDate: null,
+                citizenshipCountryCode: null,
+                emailAddress: null,
+                genderCode: null,
+                permanentResidenceCountryCode: null,
+                phoneNumber: null,
+                remarks: null,
+                positionCode: null,
+                programCategoryCode: null,
+                subjectField: null,
+                mailAddress: null,
+                usAddress: null,
+                printForm: true,
+                personId: 10,
+                participantId: 20);
+            var financialInfo = new FinancialInfo(printForm: true, receivedUSGovtFunds: true, programSponsorFunds: "100", otherFunds: null);
+            var participantPerson = new ParticipantPerson
+            {
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id",
+            };
+            var occupationCategoryCode = "occupation category code";
+            var dependents = new List<DependentBiographicalDTO>();
+            var siteOfActivity = service.GetStateDepartmentCStreetAddress();
+            var instance = service.GetExchangeVisitor(
+                user: user,
+                person: person,
+                financialInfo: financialInfo,
+                participantPerson: participantPerson,
+                occupationCategoryCode: occupationCategoryCode,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            Assert.AreEqual(occupationCategoryCode, instance.OccupationCategoryCode);
+            Assert.IsTrue(Object.ReferenceEquals(user, instance.User));
+            Assert.IsTrue(Object.ReferenceEquals(person, instance.Person));
+            Assert.IsTrue(Object.ReferenceEquals(financialInfo, instance.FinancialInfo));
+            Assert.IsTrue(Object.ReferenceEquals(siteOfActivity, instance.SiteOfActivity));
+            Assert.IsNotNull(instance.Dependents);
+            Assert.AreEqual(participantPerson.StartDate.Value.DateTime, instance.ProgramStartDate);
+            Assert.AreEqual(participantPerson.EndDate.Value.DateTime, instance.ProgramEndDate);
+            Assert.AreEqual(participantPerson.SevisId, instance.SevisId);
+        }
+
+        [TestMethod]
+        public async Task TestGetExchangeVisitor_CheckDependents()
+        {
+            var user = new User(1);
+            var person = new Business.Validation.Sevis.Bio.Person(
+                fullName: null,
+                birthCity: null,
+                birthCountryCode: null,
+                birthCountryReason: null,
+                birthDate: null,
+                citizenshipCountryCode: null,
+                emailAddress: null,
+                genderCode: null,
+                permanentResidenceCountryCode: null,
+                phoneNumber: null,
+                remarks: null,
+                positionCode: null,
+                programCategoryCode: null,
+                subjectField: null,
+                mailAddress: null,
+                usAddress: null,
+                printForm: true,
+                personId: 10,
+                participantId: 20);
+            var financialInfo = new FinancialInfo(printForm: true, receivedUSGovtFunds: true, programSponsorFunds: "100", otherFunds: null);
+            var participantPerson = new ParticipantPerson
+            {
+                StartDate = DateTimeOffset.UtcNow.AddDays(-1.0),
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                SevisId = "sevis Id",
+            };
+            var occupationCategoryCode = "occupation category code";
+            var dependents = new List<DependentBiographicalDTO>();
+            var dependent = new DependentBiographicalDTO
+            {
+
+            };
+            dependents.Add(dependent);
+
+            var siteOfActivity = service.GetStateDepartmentCStreetAddress();
+            var instance = service.GetExchangeVisitor(
+                user: user,
+                person: person,
+                financialInfo: financialInfo,
+                participantPerson: participantPerson,
+                occupationCategoryCode: occupationCategoryCode,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            Assert.AreEqual(1, instance.Dependents.Count());
+        }
+
+        [TestMethod]
+        public async Task TestGetExchangeVisitor_ParticipantPersonDoesNotHaveStartAndEndDates()
+        {
+            var user = new User(1);
+            var person = new Business.Validation.Sevis.Bio.Person(
+                fullName: null,
+                birthCity: null,
+                birthCountryCode: null,
+                birthCountryReason: null,
+                birthDate: null,
+                citizenshipCountryCode: null,
+                emailAddress: null,
+                genderCode: null,
+                permanentResidenceCountryCode: null,
+                phoneNumber: null,
+                remarks: null,
+                positionCode: null,
+                programCategoryCode: null,
+                subjectField: null,
+                mailAddress: null,
+                usAddress: null,
+                printForm: true,
+                personId: 10,
+                participantId: 20);
+            var financialInfo = new FinancialInfo(printForm: true, receivedUSGovtFunds: true, programSponsorFunds: "100", otherFunds: null);
+            var participantPerson = new ParticipantPerson
+            {
+                StartDate = null,
+                EndDate = null
+            };
+            var occupationCategoryCode = "occupation category code";
+            var dependents = new List<DependentBiographicalDTO>();
+            var siteOfActivity = service.GetStateDepartmentCStreetAddress();
+            var instance = service.GetExchangeVisitor(
+                user: user,
+                person: person,
+                financialInfo: financialInfo,
+                participantPerson: participantPerson,
+                occupationCategoryCode: occupationCategoryCode,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+            Assert.AreEqual(default(DateTime), instance.ProgramStartDate);
+            Assert.AreEqual(default(DateTime), instance.ProgramEndDate);
+        }
+        #endregion
+
+        #region GetPerson
+        [TestMethod]
+        public void TestGetPerson()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO
+                {
+                    FirstName = "first",
+                    LastName = "last",
+                    PassportName = "passport",
+                    PreferredName = "preferred",
+                    Suffix = "suffix"
+                },
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+                    ProgramCategoryId = 100,
+                    ProgramCategoryCode = "program category code"
+                },
+                Position = new Position
+                {
+                    PositionCode = "position code",
+                    PositionId = 19092
+                }
             };
-            var international = new International
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            var subjectFieldDTO = new SubjectFieldDTO
             {
-                Amount1 = "1"
+                SubjectFieldCode = "subject field code"
             };
-            var instance = service.GetFinancialInfo(participantExchangeVisitor, international, null);
-            Assert.IsNotNull(instance.OtherFunds.International);
-            Assert.IsNull(instance.OtherFunds.USGovt);
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+
+            //full name sanity checks
+            Assert.IsNotNull(person.FullName);
+            Assert.AreEqual(biographyDTO.FullName.FirstName, person.FullName.FirstName);
+
+            //subjectfield checks
+            Assert.IsNotNull(person.SubjectField);
+            Assert.AreEqual(subjectFieldDTO.SubjectFieldCode, person.SubjectField.SubjectFieldCode);
+
+            Assert.IsTrue(Object.ReferenceEquals(siteOfActivityAddress, person.USAddress));
+            Assert.IsTrue(Object.ReferenceEquals(mailAddress, person.MailAddress));
+
+            Assert.AreEqual(participantExchangeVisitor.ProgramCategory.ProgramCategoryCode, person.ProgramCategoryCode);
+            Assert.AreEqual(participantExchangeVisitor.Position.PositionCode, person.PositionCode);
+            Assert.IsNull(person.Remarks);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_NullSubjectField()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO
+                {
+                    FirstName = "first",
+                    LastName = "last",
+                    PassportName = "passport",
+                    PreferredName = "preferred",
+                    Suffix = "suffix"
+                },
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+                    ProgramCategoryId = 100,
+                    ProgramCategoryCode = "program category code"
+                }
+            };
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            SubjectFieldDTO subjectFieldDTO = null;
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNotNull(person);
+            Assert.IsNull(person.SubjectField);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_NullFullName()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = null,
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                MailAddress = mailAddress,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+                    ProgramCategoryId = 100,
+                    ProgramCategoryCode = "program category code"
+                }
+            };
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            var subjectFieldDTO = new SubjectFieldDTO
+            {
+                SubjectFieldCode = "subject field code"
+            };
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNull(person.FullName);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_NullMailAddress()
+        {
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO(),
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+                    ProgramCategoryId = 100,
+                    ProgramCategoryCode = "program category code"
+                }
+            };
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            var subjectFieldDTO = new SubjectFieldDTO
+            {
+                SubjectFieldCode = "subject field code"
+            };
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNull(person.MailAddress);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_NullSiteOfActivity()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 2
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO(),
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                MailAddress = mailAddress,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+                    ProgramCategoryId = 100,
+                    ProgramCategoryCode = "program category code"
+                }
+            };
+            AddressDTO siteOfActivityAddress = null;
+            var subjectFieldDTO = new SubjectFieldDTO
+            {
+                SubjectFieldCode = "subject field code"
+            };
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNull(person.USAddress);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_NullProgramCategory()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 2
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO(),
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                MailAddress = mailAddress,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = null
+            };
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            var subjectFieldDTO = new SubjectFieldDTO
+            {
+                SubjectFieldCode = "subject field code"
+            };
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNull(person.ProgramCategoryCode);
+        }
+
+        [TestMethod]
+        public void TestGetPerson_NullPosition()
+        {
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 2
+            };
+            var permanentResidenceAddress = new AddressDTO
+            {
+                AddressId = 3
+            };
+            var biographyDTO = new BiographicalDTO
+            {
+                BirthCity = "birth city",
+                BirthCountryCode = "birth country code",
+                BirthCountryReason = "birth country reason",
+                BirthDate = DateTime.UtcNow,
+                CitizenshipCountryCode = "citizenship country code",
+                EmailAddress = "someone@isp.com",
+                EmailAddressId = 1,
+                FullName = new FullNameDTO(),
+                Gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE,
+                GenderId = Gender.Male.Id,
+                NumberOfCitizenships = 1,
+                PermanentResidenceAddressId = permanentResidenceAddress.AddressId,
+                PermanentResidenceCountryCode = "perm residence country code",
+                PersonId = 3,
+                MailAddress = mailAddress,
+                PhoneNumber = "123-455-6789",
+                PhoneNumberId = 4,
+            };
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+
+                ParticipantId = 10,
+                ProgramCategory = new ProgramCategory
+                {
+
+                },
+                Position = null
+            };
+            var siteOfActivityAddress = service.GetStateDepartmentCStreetAddress();
+            var subjectFieldDTO = new SubjectFieldDTO
+            {
+                SubjectFieldCode = "subject field code"
+            };
+
+            var person = service.GetPerson(biography: biographyDTO, participantExchangeVisitor: participantExchangeVisitor, subjectFieldDTO: subjectFieldDTO, siteOfActivityAddress: siteOfActivityAddress);
+            Assert.IsNull(person.PositionCode);
         }
         #endregion
 
@@ -1544,2425 +940,325 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
-        #region Site of Activity
+        #region Financial Info
         [TestMethod]
-        public void TestSetAddSiteOfActivity_CheckProperties()
+        public async Task TestGetFinancialInfo_HasUSAndInternationFunding_NotEmpty()
         {
-            var exchangeVisitor = new ExchangeVisitor();
-
-            service.SetAddSiteOfActivity(exchangeVisitor);
-            Assert.IsNotNull(exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA);
-            Assert.IsNotNull(exchangeVisitor.AddSiteOfActivity.SiteOfActivityExempt);
-
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Address1);
-            Assert.IsNull(exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Address2);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.City);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.State);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.PostalCode);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.SiteName);
-            Assert.AreEqual(true, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.PrimarySite);
-            Assert.AreEqual(string.Empty, exchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Remarks);
-
-            Assert.AreEqual(string.Empty, exchangeVisitor.AddSiteOfActivity.SiteOfActivityExempt.Remarks);
-        }
-
-        [TestMethod]
-        public void TestGetStateDepartmentSiteOfActivity_CheckProperities()
-        {
-            var instance = service.GetStateDepartmentSiteOfActivity();
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, instance.Address1);
-            Assert.IsNull(instance.Address2);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, instance.City);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, instance.State);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, instance.PostalCode);
-            Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, instance.SiteName);
-            Assert.AreEqual(true, instance.PrimarySite);
-            Assert.AreEqual(string.Empty, instance.Remarks);
-        }
-        #endregion
-
-        #region SetResidentialAddress
-        [TestMethod]
-        public void TestSetResidentialAddress()
-        {
-            var instance = new ExchangeVisitor();
-            instance.ResidentialAddress = new ResidentialAddress();
-
-            service.SetResidentialAddress(instance);
-            Assert.IsNull(instance.ResidentialAddress);
-        }
-        #endregion
-
-        #region SetFinancialInfo
-        [TestMethod]
-        public async Task TestSetFinancialInfo_CheckProperties()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-
-            var person = new Person
-            {
-                PersonId = 10,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m,
-                FundingOther = 6.6m,
-                OtherName = "other name"
-
-            };
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            Action<ExchangeVisitor> tester = (instance) =>
-            {
-                Assert.AreEqual("2", instance.FinancialInfo.ProgramSponsorFunds);
-                Assert.AreEqual("3", instance.FinancialInfo.OtherFunds.EVGovt);
-                Assert.AreEqual("4", instance.FinancialInfo.OtherFunds.BinationalCommission);
-                Assert.AreEqual("5", instance.FinancialInfo.OtherFunds.Personal);
-                Assert.AreEqual("6", instance.FinancialInfo.OtherFunds.Other.Amount);
-                Assert.AreEqual(visitor.OtherName, instance.FinancialInfo.OtherFunds.Other.Name);
-            };
-            var exchangeVisitor = new ExchangeVisitor();
-            var exchangeVisitorAsync = new ExchangeVisitor();
-
-            service.SetFinancialInfo(exchangeVisitor, visitor);
-            tester(exchangeVisitor);
-            await service.SetFinancialInfoAsync(exchangeVisitorAsync, visitor);
-            tester(exchangeVisitorAsync);
-        }
-        #endregion
-
-        #region SetFinancialInfoUpdate
-        [TestMethod]
-        public async Task TestSetFinancialInfoUpdate_CheckProperties()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-
-            var person = new Person
-            {
-                PersonId = 10,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
-
-            };
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            Action<ExchangeVisitorUpdate> tester = (instance) =>
-            {
-                Assert.AreEqual("2", instance.FinancialInfo.ProgramSponsorFunds);
-                Assert.AreEqual("3", instance.FinancialInfo.OtherFunds.EVGovt);
-                Assert.AreEqual("4", instance.FinancialInfo.OtherFunds.BinationalCommission);
-                Assert.AreEqual("5", instance.FinancialInfo.OtherFunds.Personal);
-                Assert.IsTrue(instance.FinancialInfo.printForm);
-            };
-            var exchangeVisitor = new ExchangeVisitorUpdate();
-            var exchangeVisitorAsync = new ExchangeVisitorUpdate();
-
-            service.SetFinancialInfoUpdate(exchangeVisitor, visitor);
-            tester(exchangeVisitor);
-            await service.SetFinancialInfoUpdateAsync(exchangeVisitorAsync, visitor);
-            tester(exchangeVisitorAsync);
-        }
-        #endregion
-
-        #region SetTIPP
-        [TestMethod]
-        public void TestSetTIPP()
-        {
-            var instance = new ExchangeVisitor();
-            instance.AddTIPP = null;
-            service.SetTIPP(instance);
-            Assert.IsInstanceOfType(instance.AddTIPP, typeof(EcaAddTIPP));
-            foreach (var dependent in instance.CreateDependent)
-            {
-                Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
-            }
-        }
-        #endregion
-
-        #region GetCreateExchVisitor
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckExchangeVisitor()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var position = new Position
-            {
-                PositionId = 30,
-                PositionCode = "posCode"
-            };
-            var category = new ProgramCategory
-            {
-                ProgramCategoryId = 20,
-                ProgramCategoryCode = "catCode"
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                StartDate = yesterday,
-                EndDate = endDate
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                Position = position,
-                PositionId = position.PositionId,
-                ProgramCategory = category,
-                ProgramCategoryId = category.ProgramCategoryId
-            };
-            context.Genders.Add(gender);
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor);
-                Assert.IsNotNull(instance.ExchangeVisitor.CreateDependent);
-                Assert.AreEqual(0, instance.ExchangeVisitor.CreateDependent.Count());
-            };
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantExchangeVisitorIsNull_CheckFinancialInfoIsNull()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var position = new Position
-            {
-                PositionId = 30,
-                PositionCode = "posCode"
-            };
-            var category = new ProgramCategory
-            {
-                ProgramCategoryId = 20,
-                ProgramCategoryCode = "catCode"
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                StartDate = yesterday,
-                EndDate = endDate
-            };
-            participant.ParticipantPerson = participantPerson;
-            context.Genders.Add(gender);
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor);
-                Assert.IsNull(instance.ExchangeVisitor.FinancialInfo);
-            };
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckBiography()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                Alias = "alias",
-                FirstName = "first name",
-                LastName = "last name",
-                NameSuffix = "suffix",
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var position = new Position
-            {
-                PositionId = 30,
-                PositionCode = "posCode"
-            };
-            var category = new ProgramCategory
-            {
-                ProgramCategoryId = 20,
-                ProgramCategoryCode = "catCode"
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                Position = position,
-                PositionId = position.PositionId,
-                ProgramCategory = category,
-                ProgramCategoryId = category.ProgramCategoryId
-            };
-            context.Genders.Add(gender);
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor);
-                Assert.IsNotNull(instance.ExchangeVisitor.Biographical);
-
-                Assert.AreEqual(person.Alias, instance.ExchangeVisitor.Biographical.FullName.PreferredName);
-                Assert.AreEqual(person.FirstName, instance.ExchangeVisitor.Biographical.FullName.FirstName);
-                Assert.AreEqual(person.LastName, instance.ExchangeVisitor.Biographical.FullName.LastName);
-                Assert.AreEqual(person.NameSuffix, instance.ExchangeVisitor.Biographical.FullName.Suffix);
-            };
-
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckTIPP()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                Alias = "alias",
-                FirstName = "first name",
-                LastName = "last name",
-                NameSuffix = "suffix",
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var position = new Position
-            {
-                PositionId = 30,
-                PositionCode = "posCode"
-            };
-            var category = new ProgramCategory
-            {
-                ProgramCategoryId = 20,
-                ProgramCategoryCode = "catCode"
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                Position = position,
-                PositionId = position.PositionId,
-                ProgramCategory = category,
-                ProgramCategoryId = category.ProgramCategoryId
-            };
-            context.Genders.Add(gender);
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor);
-                Assert.IsNotNull(instance.ExchangeVisitor.AddTIPP);
-                Assert.IsInstanceOfType(instance.ExchangeVisitor.AddTIPP, typeof(EcaAddTIPP));
-                foreach (var dependent in instance.ExchangeVisitor.CreateDependent)
-                {
-                    Assert.IsInstanceOfType(dependent, typeof(EcaAddTIPP));
-                }
-            };
-
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckSubjectField()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var fieldOfStudy = new FieldOfStudy
-            {
-                Description = "desc",
-                FieldOfStudyCode = "code",
-                FieldOfStudyId = 2,
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                FieldOfStudy = fieldOfStudy,
-                FieldOfStudyId = fieldOfStudy.FieldOfStudyId
-            };
-            context.Genders.Add(gender);
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            context.FieldOfStudies.Add(fieldOfStudy);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor);
-                Assert.IsNotNull(instance.ExchangeVisitor.SubjectField);
-                Assert.AreEqual(fieldOfStudy.FieldOfStudyCode, instance.ExchangeVisitor.SubjectField.SubjectFieldCode);
-            };
-
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckingMailingAddress()
-        {
-            var personId = 1000;
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Host.Value,
-                AddressTypeId = AddressType.Host.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 505,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = personId,
-                Alias = "alias",
-                FirstName = "first name",
-                LastName = "last name",
-                NameSuffix = "suffix",
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-            context.Locations.Add(cityOfBirth);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Genders.Add(gender);
-
-            Action<CreateExchVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance.ExchangeVisitor.MailAddress);
-                Assert.AreEqual(addressLocation.Street1, testInstance.ExchangeVisitor.MailAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, testInstance.ExchangeVisitor.MailAddress.Address2);
-                Assert.AreEqual(city.LocationName, testInstance.ExchangeVisitor.MailAddress.City);
-                Assert.AreEqual(division.LocationName, testInstance.ExchangeVisitor.MailAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, testInstance.ExchangeVisitor.MailAddress.PostalCode);
-            };
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckingUSAddress()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 505,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                Alias = "alias",
-                FirstName = "first name",
-                LastName = "last name",
-                NameSuffix = "suffix",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-            };
-            context.Locations.Add(cityOfBirth);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Genders.Add(gender);
-
-            Action<CreateExchVisitor> tester = (testInstance) =>
-            {
-                Assert.IsNotNull(testInstance.ExchangeVisitor.USAddress);
-                usStateDeptAddressTester(testInstance.ExchangeVisitor.USAddress);
-            };
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckFinancialInfo()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
-
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            context.Genders.Add(gender);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor);
-                Assert.IsNotNull(instance.ExchangeVisitor.FinancialInfo);
-                Assert.AreEqual("2", instance.ExchangeVisitor.FinancialInfo.ProgramSponsorFunds);
-                Assert.AreEqual("3", instance.ExchangeVisitor.FinancialInfo.OtherFunds.EVGovt);
-                Assert.AreEqual("4", instance.ExchangeVisitor.FinancialInfo.OtherFunds.BinationalCommission);
-                Assert.AreEqual("5", instance.ExchangeVisitor.FinancialInfo.OtherFunds.Personal);
-            };
-
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_CheckSiteOfActivity()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-            context.Genders.Add(gender);
-            Action<CreateExchVisitor> tester = (instance) =>
-            {
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Address1);
-                Assert.IsNull(instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Address2);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.City);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.State);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.PostalCode);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.SiteName);
-                Assert.AreEqual(true, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.PrimarySite);
-                Assert.AreEqual(string.Empty, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivitySOA.Remarks);
-
-                Assert.AreEqual(string.Empty, instance.ExchangeVisitor.AddSiteOfActivity.SiteOfActivityExempt.Remarks);
-            };
-
-            var serviceResult = service.GetCreateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            var serviceResultAsync = await service.GetCreateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(serviceResult);
-            tester(serviceResultAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitorAsync_ProjectIsNotAnExchangeVisitorProject()
-        {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.NotApplicable.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ProjectDoesNotExist()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId - 1,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            participant.ParticipantPerson = participantPerson;
-            var visitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-            context.ParticipantPersons.Add(participantPerson);
-            context.ParticipantExchangeVisitors.Add(visitor);
-
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, participant.ProjectId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesNotExist()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantPerson).Name, participant.ParticipantId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantDoesNotExist()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Projects.Add(project);
-
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, 1);
-            Action a = () => service.GetCreateExchangeVisitor(user, project.ProjectId, 1);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, project.ProjectId, 1);
-
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantPersonDoesBelongToProject()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 10,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                Person = person,
-                PersonId = person.PersonId
-            };
-            context.Locations.Add(cityOfBirth);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-
-            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        user.Id,
-                        participant.ParticipantId,
-                        participant.ProjectId + 1);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId + 1, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId + 1, participant.ParticipantId);
-
-            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetCreateExchangeVisitor_ParticipantIsNotAPerson()
-        {
-            var yesterday = DateTimeOffset.Now.AddDays(-1.0);
-            var endDate = DateTimeOffset.Now.AddDays(20.0);
-
-            var user = new User(2);
-            var project = new Project
-            {
-                ProjectId = 3,
-                StartDate = yesterday,
-                EndDate = endDate,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var organization = new Organization
-            {
-                OrganizationId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                Project = project,
-                ProjectId = project.ProjectId,
-                OrganizationId = organization.OrganizationId,
-                Organization = organization
-            };
-            context.Organizations.Add(organization);
-            context.Participants.Add(participant);
-            context.Projects.Add(project);
-
-            var message = String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId);
-            Action a = () => service.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetCreateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        #endregion
-
-        #region GetExchangeVisitorUpdate
-        [TestMethod]
-        public void TestGetExchangeVisitorUpdate()
-        {
-            var person = new Person
-            {
-                PersonId = 20
-
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-            };
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
-            participant.ParticipantPerson = participantPerson;
-
-            var instance = service.GetExchangeVisitorUpdate(participant, user, participantPerson);
-            Assert.IsNotNull(instance);
-            Assert.AreEqual(participantPerson.SevisId, instance.sevisID);
-            Assert.AreEqual(participant.ParticipantId.ToString(), instance.requestID.ToString());
-
-            Assert.IsNotNull(instance.Reprint);
-            Assert.IsTrue(instance.Reprint.printForm);
-            Assert.AreEqual(ExchangeVisitorService.REPRINT_FORM_UPDATE_REASON_CODE, instance.Reprint.Reason);
-
-            Assert.IsNotNull(instance.Reprint7002);
-            Assert.IsFalse(instance.Reprint7002.print7002);
-        }
-
-        [TestMethod]
-        public void TestGetExchangeVisitorUpdate_SevisIdIsEmpty()
-        {
-            var person = new Person
-            {
-                PersonId = 20
-
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-            };
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = String.Empty
-            };
-            participant.ParticipantPerson = participantPerson;
-            var message = String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId);
-            Action a = () => service.GetExchangeVisitorUpdate(participant, user, participantPerson);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public void TestGetExchangeVisitorUpdate_SevisIdIsWhitespace()
-        {
-            var person = new Person
-            {
-                PersonId = 20
-
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-            };
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = " "
-            };
-            participant.ParticipantPerson = participantPerson;
-            var message = String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId);
-            Action a = () => service.GetExchangeVisitorUpdate(participant, user, participantPerson);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-
-        [TestMethod]
-        public void TestGetExchangeVisitorUpdate_SevisIdIsNull()
-        {
-            var person = new Person
-            {
-                PersonId = 20
-
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-            };
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = null
-            };
-            participant.ParticipantPerson = participantPerson;
-            var message = String.Format("The participant with id [{0}] does not have a sevis id.  The update can not take place.", participant.ParticipantId);
-            Action a = () => service.GetExchangeVisitorUpdate(participant, user, participantPerson);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-        #endregion
-
-        #region SetBiographyUpdate
-        [TestMethod]
-        public async Task TestSetBiographyUpdate_CheckProperties()
-        {
-
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                LastName = "lastName",
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
-            };
-            participant.ParticipantPerson = participantPerson;
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-
-            Action<ExchangeVisitorUpdate> tester = (instance) =>
-            {
-                Assert.IsNotNull(instance.Biographical);
-                Assert.IsNotNull(instance.Biographical.FullName);
-                Assert.AreEqual(person.FirstName, instance.Biographical.FullName.FirstName);
-                Assert.AreEqual(person.LastName, instance.Biographical.FullName.LastName);
-            };
-
-            var visitor = new ExchangeVisitorUpdate();
-            var asyncVisitor = new ExchangeVisitorUpdate();
-            service.SetBiographyUpdate(participant, participantPerson, visitor);
-            await service.SetBiographyUpdateAsync(participant, participantPerson, asyncVisitor);
-            tester(visitor);
-            tester(asyncVisitor);
-        }
-
-        [TestMethod]
-        public async Task TestSetBiographyUpdate_BiographyNotFound()
-        {
-
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                LastName = "lastName",
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-            };
-            participant.ParticipantPerson = participantPerson;
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-
-            ExchangeVisitorUpdate visitor = new ExchangeVisitorUpdate();
-            var otherParticipant = new Participant
-            {
-                ParticipantId = participant.ParticipantId + 1
-            };
-
-            Assert.IsNull(ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(this.context, otherParticipant.ParticipantId).FirstOrDefault());
-
-
-            var message = String.Format("The participant with id [{0}] must have biographical information.", otherParticipant.ParticipantId);
-            Action a = () => service.SetBiographyUpdate(otherParticipant, participantPerson, visitor);
-            Func<Task> f = () => service.SetBiographyUpdateAsync(otherParticipant, participantPerson, visitor);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        #endregion
-
-        #region Set Dependents
-        [TestMethod]
-        public async Task TestSetDependents_ExchangeVisitorUpdate()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-            };
-            ExchangeVisitorUpdate exchangeVisitorUpdate = null;
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitorUpdate = new ExchangeVisitorUpdate
-                {
-
-                };
-            });
-            Action tester = () =>
-            {
-                Assert.IsNull(exchangeVisitorUpdate.Dependent);
-            };
-            context.Revert();
-            service.SetDependents(participant, exchangeVisitorUpdate);
-            tester();
-
-            context.Revert();
-            await service.SetDependentsAsync(participant, exchangeVisitorUpdate);
-            tester();
-        }
-
-        [TestMethod]
-        public async Task TestSetDependents_ExchangeVisitor_NoDependents()
-        {
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-            };
-            ExchangeVisitor exchangeVisitor = null;
-            context.SetupActions.Add(() =>
-            {
-                exchangeVisitor = new ExchangeVisitor
-                {
-
-                };
-            });
-            Action tester = () =>
-            {
-                Assert.IsNotNull(exchangeVisitor.CreateDependent);
-                Assert.AreEqual(0, exchangeVisitor.CreateDependent.Count());
-            };
-            context.Revert();
-            service.SetDependents(participant, exchangeVisitor);
-            tester();
-
-            context.Revert();
-            await service.SetDependentsAsync(participant, exchangeVisitor);
-            tester();
-        }
-
-        [TestMethod]
-        public async Task TestSetDependents_ExchangeVisitor_HasDependent()
-        {
             using (ShimsContext.Create())
             {
-                var dependents = new List<DependentBiographicalDTO>();
-                var dependent = new DependentBiographicalDTO
+                var usFunding = new ExchangeVisitorFundingDTO
                 {
-                    FullName = new FullNameDTO()
+                    Amount1 = "100",
+                    Amount2 = "101",
+                    Org1 = "us org 1",
+                    Org2 = "us org 2",
+                    OtherName1 = "us other 1",
+                    OtherName2 = "us other 2"
                 };
-                dependents.Add(dependent);
-                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQueryEcaContextInt32 = (ctx, participantId) =>
+                var internationalFunding = new ExchangeVisitorFundingDTO
                 {
-                    return dependents.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.ToListAsyncOf1IQueryableOfM0<DependentBiographicalDTO>((src) =>
-                {
-                    return Task<List<SimplePersonDTO>>.FromResult(src.ToList());
-                });
-                var participant = new Participant
-                {
-                    ParticipantId = 1,
-                };
-                ExchangeVisitor exchangeVisitor = null;
-                context.SetupActions.Add(() =>
-                {
-                    exchangeVisitor = new ExchangeVisitor
-                    {
+                    Amount1 = "200",
+                    Amount2 = "201",
+                    Org1 = "international org 1",
+                    Org2 = "international org 2",
+                    OtherName1 = "international other 1",
+                    OtherName2 = "international other 2"
 
-                    };
-                });
-                Action tester = () =>
-                {
-                    Assert.IsNotNull(exchangeVisitor.CreateDependent);
-                    Assert.AreEqual(1, exchangeVisitor.CreateDependent.Count());
-                    var firstDto = exchangeVisitor.CreateDependent.First();
                 };
-                context.Revert();
-                service.SetDependents(participant, exchangeVisitor);
-                tester();
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetInternationalFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO> { internationalFunding }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetUSFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO> { usFunding }.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ExchangeVisitorFundingDTO>((src) =>
+                {
+                    return Task<ExchangeVisitorFundingDTO>.FromResult(src.FirstOrDefault());
+                });
 
-                context.Revert();
-                await service.SetDependentsAsync(participant, exchangeVisitor);
-                tester();
+                Action<FinancialInfo> tester = (financialInfo) =>
+                {
+                    Assert.IsFalse(usFunding.IsEmpty());
+                    Assert.IsFalse(internationalFunding.IsEmpty());
+                    Assert.IsNotNull(financialInfo);
+                    Assert.IsNotNull(financialInfo.OtherFunds);
+                    Assert.IsNotNull(financialInfo.OtherFunds.USGovt);
+                    Assert.IsNotNull(financialInfo.OtherFunds.International);
+
+                    Assert.AreEqual(usFunding.Amount1, financialInfo.OtherFunds.USGovt.Amount1);
+                    Assert.AreEqual(usFunding.Amount2, financialInfo.OtherFunds.USGovt.Amount2);
+                    Assert.AreEqual(usFunding.Org1, financialInfo.OtherFunds.USGovt.Org1);
+                    Assert.AreEqual(usFunding.Org2, financialInfo.OtherFunds.USGovt.Org2);
+                    Assert.AreEqual(usFunding.OtherName1, financialInfo.OtherFunds.USGovt.OtherName1);
+                    Assert.AreEqual(usFunding.OtherName2, financialInfo.OtherFunds.USGovt.OtherName2);
+
+                    Assert.AreEqual(internationalFunding.Amount1, financialInfo.OtherFunds.International.Amount1);
+                    Assert.AreEqual(internationalFunding.Amount2, financialInfo.OtherFunds.International.Amount2);
+                    Assert.AreEqual(internationalFunding.Org1, financialInfo.OtherFunds.International.Org1);
+                    Assert.AreEqual(internationalFunding.Org2, financialInfo.OtherFunds.International.Org2);
+                    Assert.AreEqual(internationalFunding.OtherName1, financialInfo.OtherFunds.International.OtherName1);
+                    Assert.AreEqual(internationalFunding.OtherName2, financialInfo.OtherFunds.International.OtherName2);
+                };
+                var results = service.GetFinancialInfo(participantExchangeVisitor);
+                var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+                tester(results);
+                tester(resultsAsync);
             }
-
         }
-        #endregion
 
-        #region GetUpdateExchangeVisitor
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_CheckExchangeVisitorUpdateProperty()
+        public async Task TestGetFinancialInfo_HasUSAndInternationFunding_EmptyFunding()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-
-            Action<UpdateExchVisitor> tester = (instance) =>
+            using (ShimsContext.Create())
             {
-                Assert.IsNotNull(instance);
-                Assert.AreEqual(participantPerson.SevisId, instance.ExchangeVisitor.sevisID);
-                Assert.AreEqual(participant.ParticipantId.ToString(), instance.ExchangeVisitor.requestID.ToString());
-                Assert.IsNotNull(instance.ExchangeVisitor.Reprint);
-                Assert.IsNotNull(instance.ExchangeVisitor.Reprint7002);
-            };
+                var usFunding = new ExchangeVisitorFundingDTO
+                {   
+                };
+                var internationalFunding = new ExchangeVisitorFundingDTO
+                {
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetInternationalFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO> { internationalFunding }.AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetUSFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO> { usFunding }.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ExchangeVisitorFundingDTO>((src) =>
+                {
+                    return Task<ExchangeVisitorFundingDTO>.FromResult(src.FirstOrDefault());
+                });
 
-            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            tester(result);
-            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(resultAsync);
+                Action<FinancialInfo> tester = (financialInfo) =>
+                {
+                    Assert.IsTrue(usFunding.IsEmpty());
+                    Assert.IsTrue(internationalFunding.IsEmpty());
+                    Assert.IsNotNull(financialInfo);
+                    Assert.IsNotNull(financialInfo.OtherFunds);
+                    Assert.IsNull(financialInfo.OtherFunds.USGovt);
+                    Assert.IsNull(financialInfo.OtherFunds.International);
+                };
+                var results = service.GetFinancialInfo(participantExchangeVisitor);
+                var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+                tester(results);
+                tester(resultsAsync);
+            }
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_CheckSetDependents()
+        public async Task TestGetFinancialInfo_OrgAndInternationFundingAreNull()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PlaceOfBirth = cityOfBirth,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-
-            Action<UpdateExchVisitor> tester = (instance) =>
+            using (ShimsContext.Create())
             {
-                Assert.IsNotNull(instance);
-                Assert.IsNull(instance.ExchangeVisitor.Dependent);
-            };
+               
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetInternationalFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO>().AsQueryable();
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimExchangeVisitorQueries.CreateGetUSFundingQueryEcaContextInt32 = (ctx, partId) =>
+                {
+                    return new List<ExchangeVisitorFundingDTO>().AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<ExchangeVisitorFundingDTO>((src) =>
+                {
+                    return Task<ExchangeVisitorFundingDTO>.FromResult(src.FirstOrDefault());
+                });
 
-            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            tester(result);
-
-            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(resultAsync);
+                Action<FinancialInfo> tester = (financialInfo) =>
+                {
+                    Assert.IsNotNull(financialInfo);
+                    Assert.IsNotNull(financialInfo.OtherFunds);
+                    Assert.IsNull(financialInfo.OtherFunds.USGovt);
+                    Assert.IsNull(financialInfo.OtherFunds.International);
+                };
+                var results = service.GetFinancialInfo(participantExchangeVisitor);
+                var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+                tester(results);
+                tester(resultsAsync);
+            }
         }
 
+
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_CheckBiographicalUpdateProperty()
+        public async Task TestGetFinancialInfo_HasUsGovtAgency1Amount1Funding()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId,
+                FundingGovtAgency1 = 100.0m
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-            Action<UpdateExchVisitor> tester = (instance) =>
+            Action<FinancialInfo> tester = (financialInfo) =>
             {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor.Biographical);
-                Assert.AreEqual(person.FirstName, instance.ExchangeVisitor.Biographical.FullName.FirstName);
+                Assert.IsNotNull(financialInfo);
+                Assert.IsTrue(financialInfo.ReceivedUSGovtFunds);
             };
-
-            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            tester(result);
-            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(resultAsync);
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_CheckMailingAddressProperty()
+        public async Task TestGetFinancialInfo_HasUsGovtAgency2Amount1Funding()
         {
-            var personId = 1000;
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            }; var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Host.Value,
-                AddressTypeId = AddressType.Host.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-                PersonId = personId
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = personId,
-                FirstName = "firstName",
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234",
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId,
+                FundingGovtAgency2 = 200.0m
             };
-            participant.ParticipantPerson = participantPerson;
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-            Action<UpdateExchVisitor> tester = (instance) =>
+            Action<FinancialInfo> tester = (financialInfo) =>
             {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor.MailAddress);
-                Assert.AreEqual(addressLocation.Street1, instance.ExchangeVisitor.MailAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, instance.ExchangeVisitor.MailAddress.Address2);
-                Assert.AreEqual(city.LocationName, instance.ExchangeVisitor.MailAddress.City);
-                Assert.AreEqual(division.LocationName, instance.ExchangeVisitor.MailAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, instance.ExchangeVisitor.MailAddress.PostalCode);
+                Assert.IsNotNull(financialInfo);
+                Assert.IsTrue(financialInfo.ReceivedUSGovtFunds);
             };
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
 
-            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            tester(result);
-            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(resultAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_CheckUSAddressProperty()
+        public async Task TestGetFinancialInfo_HasOtherFunding()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                Gender = gender,
-                GenderId = gender.GenderId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234",
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId,
+                FundingOther = 10.0m,
+                OtherName = "other"
             };
-            participant.ParticipantPerson = participantPerson;
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-            Action<UpdateExchVisitor> tester = (instance) =>
+            Action<FinancialInfo> tester = (financialInfo) =>
             {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor.USAddress);
-                usStateDeptAddressTester(instance.ExchangeVisitor.USAddress);
+                Assert.IsNotNull(financialInfo);
+                Assert.IsNotNull(financialInfo.OtherFunds.Other);
+                Assert.AreEqual("10", financialInfo.OtherFunds.Other.Amount);
             };
-
-            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            tester(result);
-            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(resultAsync);
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_CheckFinancialInfoUpdateProperty()
+        public async Task TestGetFinancialInfo_HasZeroOtherFunding()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                GenderId = gender.GenderId,
-                Gender = gender
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-                FundingGovtAgency1 = 1.0m,
-                FundingSponsor = 2.2m,
-                FundingVisGovt = 3.3m,
-                FundingVisBNC = 4.4m,
-                FundingPersonal = 5.5m
-
+                ParticipantId = participantId,
+                FundingOther = 0.0m,
+                OtherName = "other"
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-
-            Action<UpdateExchVisitor> tester = (instance) =>
+            Action<FinancialInfo> tester = (financialInfo) =>
             {
-                Assert.IsNotNull(instance);
-                Assert.IsNotNull(instance.ExchangeVisitor.FinancialInfo);
-                Assert.AreEqual("2", instance.ExchangeVisitor.FinancialInfo.ProgramSponsorFunds);
-                Assert.AreEqual("3", instance.ExchangeVisitor.FinancialInfo.OtherFunds.EVGovt);
-                Assert.AreEqual("4", instance.ExchangeVisitor.FinancialInfo.OtherFunds.BinationalCommission);
-                Assert.AreEqual("5", instance.ExchangeVisitor.FinancialInfo.OtherFunds.Personal);
-                Assert.IsTrue(instance.ExchangeVisitor.FinancialInfo.printForm);
+                Assert.IsNotNull(financialInfo);
+                Assert.IsNull(financialInfo.OtherFunds.Other);
             };
-
-            var result = service.GetUpdateExchangeVisitor(user, project.ProjectId, participant.ParticipantId);
-            tester(result);
-            var resultAsync = await service.GetUpdateExchangeVisitorAsync(user, project.ProjectId, participant.ParticipantId);
-            tester(resultAsync);
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ProjectDoesNotExist()
+        public async Task TestGetFinancialInfo_HasVisitorGovernmentFunding()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = 2,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId,
+                FundingVisGovt = 10.0m
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, participant.ProjectId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            Action<FinancialInfo> tester = (financialInfo) =>
+            {
+                Assert.IsNotNull(financialInfo);
+                Assert.AreEqual("10", financialInfo.OtherFunds.EVGovt);
+            };
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ProjectIsNotAnExchangeVisitorProject()
+        public async Task TestGetFinancialInfo_HasBinationalCommissionGovernmentFunding()
         {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.NotApplicable.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
+            var participantId = 100;
             var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                ParticipantPerson = participantPerson,
-
+                ParticipantId = participantId,
+                FundingVisBNC = 10.0m
             };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
+            Action<FinancialInfo> tester = (financialInfo) =>
+            {
+                Assert.IsNotNull(financialInfo);
+                Assert.AreEqual("10", financialInfo.OtherFunds.BinationalCommission);
+            };
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantExchangeVisitorDoesNotExist()
+        public async Task TestGetFinancialInfo_HasPersonalFunding()
         {
-            var project = new Project
+            var participantId = 100;
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+                ParticipantId = participantId,
+                FundingPersonal = 10.0m
             };
-            var cityOfBirth = new Location
+            Action<FinancialInfo> tester = (financialInfo) =>
             {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
+                Assert.IsNotNull(financialInfo);
+                Assert.AreEqual("10", financialInfo.OtherFunds.Personal);
             };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId,
-                SevisId = "N1234"
-            };
-            participant.ParticipantPerson = participantPerson;
-            context.Locations.Add(cityOfBirth);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantExchangeVisitor).Name, participant.ParticipantId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
 
         [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantPersonDoesNotExist()
+        public async Task TestGetFinancialInfo_CheckPrintForm()
         {
-            var project = new Project
+            var participantId = 100;
+            var participantExchangeVisitor = new ParticipantExchangeVisitor
             {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 1,
-                LocationTypeId = LocationType.City.Id,
-            };
-            var person = new Person
-            {
-                PersonId = 20,
-                FirstName = "firstName",
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                Person = person,
-                PersonId = person.PersonId,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            context.Locations.Add(cityOfBirth);
-            context.Projects.Add(project);
-            context.People.Add(person);
-            context.Participants.Add(participant);
+                ParticipantId = participantId,
 
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantPerson).Name, participant.ParticipantId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantIsNotAPerson()
-        {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
-            var participant = new Participant
+            Action<FinancialInfo> tester = (financialInfo) =>
             {
-                ParticipantId = 10,
-                ProjectId = project.ProjectId,
-                Project = project
+                Assert.IsNotNull(financialInfo);
+                Assert.IsTrue(financialInfo.PrintForm);
             };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-
-            var message = String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId);
-            Action a = () => service.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, participant.ProjectId, participant.ParticipantId);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantDoesNotBelongToProject()
-        {
-            var project = new Project
-            {
-                ProjectId = 1,
-                VisitorTypeId = VisitorType.ExchangeVisitor.Id
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                ProjectId = project.ProjectId,
-                Project = project
-            };
-            project.Participants.Add(participant);
-            var user = new User(100);
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-
-            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        user.Id,
-                        participant.ParticipantId,
-                        -1);
-            Action a = () => service.GetUpdateExchangeVisitor(user, -1, participant.ParticipantId);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, -1, participant.ParticipantId);
-            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetUpdateExchangeVisitorAsync_ParticipantDoesNotExist()
-        {
-            var user = new User(100);
-            var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, 1);
-            Action a = () => service.GetUpdateExchangeVisitor(user, 1, 1);
-            Func<Task> f = () => service.GetUpdateExchangeVisitorAsync(user, 1, 1);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            var results = service.GetFinancialInfo(participantExchangeVisitor);
+            var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
+            tester(results);
+            tester(resultsAsync);
         }
         #endregion
     }

@@ -46,6 +46,7 @@ namespace ECA.Business.Service.Persons
                 }
             };
         }
+
         #region Pii
 
         /// <summary>
@@ -160,20 +161,6 @@ namespace ECA.Business.Service.Persons
             return general;
         }
 
-        /// <summary>
-        /// Deletes a dependent from a person family
-        /// </summary>
-        /// <param name="personId"></param>
-        /// <param name="dependentId"></param>
-        /// <returns></returns>
-        public async Task DeletePersonDependentByIdAsync(int personId, int dependentId)
-        {
-            var person = await Context.People.FindAsync(personId);
-            var dependent = await Context.People.FindAsync(dependentId);
-            person.Family.Remove(dependent);
-            DoDelete(dependent);
-        }
-
         private void DoDelete(Person personToDelete)
         {
             if (personToDelete != null)
@@ -207,6 +194,121 @@ namespace ECA.Business.Service.Persons
             SetProminentCategories(person, prominentCategories);
         }
 
+        #endregion
+
+        #region Dependent
+        
+        /// <summary>
+        /// Get a person dependent
+        /// </summary>
+        /// <param name="personId">The person Id</param>
+        /// <returns>The person dependent</returns>
+        private async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with id {0}.", personId);
+            return await CreateGetSimplePersonDependent(personId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependent(int personId)
+        {
+            var query = PersonQueries.CreateGetSimplePersonDependentDTOsQuery(this.Context);
+            return query.Where(p => p.PersonId == personId);
+        }
+        
+        /// <summary>
+        /// Create a person dependent
+        /// </summary>
+        /// <param name="newPersonDependent">The person dependent to create</param>
+        /// <returns>The person create</returns>
+        public Task<Person> CreateDependentAsync(NewPersonDependent newPersonDependent)
+        {
+            return Task.Run(() => CreatePersonDependent(newPersonDependent, newPersonDependent.CountriesOfCitizenship));
+        }
+        
+        /// <summary>
+        /// Creates a person dependent
+        /// </summary>
+        /// <param name="newPerson"></param>
+        /// <param name="countriesOfCitizenship"></param>
+        /// <returns></returns>
+        private Person CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
+        {
+            HashSet<EmailAddress> emails = new HashSet<EmailAddress>();
+            EmailAddress email = new EmailAddress { Address = newPerson.EmailAddress };
+            emails.Add(email);
+
+            var person = new Person
+            {
+                FirstName = newPerson.FullName.FirstName,
+                LastName = newPerson.FullName.LastName,
+                GenderId = newPerson.Gender,
+                DateOfBirth = newPerson.DateOfBirth,
+                PlaceOfBirthId = newPerson.CityOfBirth,
+                CountriesOfCitizenship = countriesOfCitizenship,
+                EmailAddresses = emails,
+                PersonTypeId = newPerson.PersonTypeId
+            };
+
+            newPerson.Audit.SetHistory(person);
+            this.Context.People.Add(person);
+            this.logger.Trace("Creating new person dependent {0}.", newPerson);
+            return person;
+        }
+
+        /// <summary>
+        /// Update a person dependent
+        /// </summary>
+        /// <param name="person">The dependent to update</param>
+        /// <returns>The updated dependent</returns>
+        public async Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person)
+        {
+            var personToUpdate = await GetPersonDependentByIdAsync(person.PersonId);
+            var countriesOfCitizenship = await GetLocationsByIdAsync(person.CountriesOfCitizenship.Select(x => (int)x.CountryId).ToList());
+            DoDependentUpdate(person, personToUpdate, countriesOfCitizenship);
+            return personToUpdate;
+        }
+
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, SimplePersonDependentDTO person, List<Location> countriesOfCitizenship)
+        {
+            person.FullName = updateDependent.FullName;
+            person.DateOfBirth = updateDependent.DateOfBirth;
+            person.Gender = updateDependent.Gender;
+            person.CityOfBirth = updateDependent.CityOfBirth;
+            person.CountryOfBirth = updateDependent.CountryOfBirth;
+            person.CountriesOfCitizenship = updateDependent.CountriesOfCitizenship;
+            person.PermanentResidenceCountryCode = updateDependent.PermanentResidenceCountryCode;
+            person.BirthCountryReason = updateDependent.BirthCountryReason;
+            person.EmailAddress = updateDependent.EmailAddress;
+            person.PersonTypeId = updateDependent.PersonTypeId;
+            updateDependent.Audit.SetHistory(person);
+            SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
+        }
+
+        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, SimplePersonDependentDTO person)
+        {
+            Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
+            Contract.Requires(person != null, "The person entity must not be null.");
+            person.CountriesOfCitizenship.Clear();
+            countriesOfCitizenship.ForEach(x =>
+            {
+                person.CountriesOfCitizenship.Add(x);
+            });
+        }
+
+        /// <summary>
+        /// Deletes a dependent from a person family
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="dependentId"></param>
+        /// <returns></returns>
+        public async Task DeletePersonDependentByIdAsync(int personId, int dependentId)
+        {
+            var person = await Context.People.FindAsync(personId);
+            var dependent = await Context.People.FindAsync(dependentId);
+            person.Family.Remove(dependent);
+            DoDelete(dependent);
+        }
+        
         #endregion
 
         #region Contact

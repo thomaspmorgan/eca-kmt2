@@ -1113,6 +1113,41 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SevisDependentTypeCode" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="ad95c2d5-7b71-4785-87f3-2110c0c24f4a" ChangeDateTime="03/13/2016 20:52:14">
+    <Property Name="ElementName" Value="[dbo].[Project].[EstNonUsTravelingParticipants]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Project]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UsTravelingParticipants" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e828211c-c975-46ca-b930-9dcf5b5cf082" ChangeDateTime="03/13/2016 20:52:40">
+    <Property Name="ElementName" Value="[dbo].[Project].[UsTravelingParticipants]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Project]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UsParticipantsEst" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c8957a66-a627-4963-b82a-79d31f9b3b2d" ChangeDateTime="03/13/2016 20:53:00">
+    <Property Name="ElementName" Value="[dbo].[Project].[EstUsTravelingParticipants]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Project]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NonUsParticipantsEst" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f2b8d2fa-a7c3-45ef-94b1-4817b6be0197" ChangeDateTime="03/13/2016 20:53:18">
+    <Property Name="ElementName" Value="[dbo].[Project].[EstForeignNonTravelingParticipants]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Project]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UsParticipantsActual" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6b06f4fb-3cb9-455b-bd47-f98f062add02" ChangeDateTime="03/13/2016 20:53:45">
+    <Property Name="ElementName" Value="[dbo].[Project].[EstForeignTravelingParticipants]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Project]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NonUsParticipantsActual" />
+  </Operation>
   <Operation Name="Rename Refactor" Key="64cc2872-3958-456b-9d6e-98a1008b1661" ChangeDateTime="03/10/2016 19:32:33">
     <Property Name="ElementName" Value="[dbo].[DefaultProjectExchangeVisitiorFunding].[Id]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />

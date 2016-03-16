@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Projects
 {
@@ -28,6 +26,10 @@ namespace ECA.Business.Service.Projects
         /// <param name="visitorTypeId">The type of visitor for this project</param>
         /// <param name="categoryIds">The categories by id.</param>
         /// <param name="objectiveIds">The objectives by id.</param>
+        /// <param name="usParticipantsEst">The number of US Participants, Estimated</param>
+        /// <param name="nonUsParticipantsEst">The number of Non-US Participants, Estimated</param>
+        /// <param name="usParticipantsActual">The number of US Participants, Actual</param>
+        /// <param name="nonUsParticipantsActual">The number of Non-US Participants, Actual</param>
         public PublishedProject(
             User updatedBy,
             int projectId,
@@ -43,7 +45,11 @@ namespace ECA.Business.Service.Projects
             IEnumerable<int> regionIds,
             DateTimeOffset startDate,
             DateTimeOffset endDate,
-            int visitorTypeId
+            int visitorTypeId,
+            int? usParticipantsEst,
+            int? nonUsParticipantsEst,
+            int? usParticipantsActual,
+            int? nonUsParticipantsActual
             )
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
@@ -61,6 +67,10 @@ namespace ECA.Business.Service.Projects
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.VisitorTypeId = visitorTypeId;
+            this.UsParticipantsEst = usParticipantsEst;
+            this.NonUsParticipantsEst = nonUsParticipantsEst;
+            this.UsParticipantsActual = usParticipantsActual;
+            this.NonUsParticipantsActual = nonUsParticipantsActual;
             this.Audit = new Update(updatedBy);
 
             this.GoalIds = this.GoalIds.Distinct();
@@ -141,6 +151,26 @@ namespace ECA.Business.Service.Projects
         /// The Visitor Type Id
         /// </summary>
         public int  VisitorTypeId { get; private set; }
+
+        /// <summary>
+        /// The number of US Participants, Esimated
+        /// </summary>
+        public int? UsParticipantsEst { get; private set; }
+
+        /// <summary>
+        /// The number of Non-US Participants, Esimated
+        /// </summary>
+        public int? NonUsParticipantsEst { get; private set; }
+
+        /// <summary>
+        /// The number of US Participants, Actual
+        /// </summary>
+        public int? UsParticipantsActual { get; private set; }
+
+        /// <summary>
+        /// The number of Non-US Participants, Actual
+        /// </summary>
+        public int? NonUsParticipantsActual { get; private set; }
 
         /// <summary>
         /// Gets the Audit.

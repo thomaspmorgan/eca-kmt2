@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An BirthDateErrorPath is used to denote a birth date error and where it might be located.

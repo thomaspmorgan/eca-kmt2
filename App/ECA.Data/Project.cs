@@ -188,6 +188,26 @@ namespace ECA.Data
         public int AudienceReach { get; set; }
 
         /// <summary>
+        /// Gets or sets the number of US Participants, Estimated
+        /// </summary>
+        public int? UsParticipantsEst { get; set; }
+
+        /// <summary>
+        /// Gets or the number of Non-US Participants, Estimated
+        /// </summary>
+        public int? NonUsParticipantsEst { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of US Participants, Actual
+        /// </summary>
+        public int? UsParticipantsActual { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of Non-US Participants, Actual
+        /// </summary>
+        public int? NonUsParticipantsActual { get; set; }
+
+        /// <summary>
         /// Gets or sets the artifacts.
         /// </summary>
         public virtual ICollection<Artifact> Artifacts { get; set; }

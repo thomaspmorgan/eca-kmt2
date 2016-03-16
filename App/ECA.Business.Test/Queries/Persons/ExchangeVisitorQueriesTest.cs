@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Data;
-using ECA.Business.Queries.Persons;
-using ECA.Business.Validation.Model;
-using System.Collections.Generic;
-using ECA.Business.Validation.Model.Shared;
-using ECA.Business.Validation.Model.CreateEV;
+﻿using ECA.Business.Queries.Persons;
 using ECA.Business.Service.Admin;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Validation.Sevis.Finance;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace ECA.Business.Test.Queries.Persons
 {
@@ -71,7 +69,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var dependent = new Person
+            var dependent = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -123,7 +121,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PersonId = dependent.PersonId
             };
             dependent.Addresses.Add(residenceAddress);
-            
+
             var emailAddressType = new EmailAddressType
             {
                 EmailAddressTypeId = 2,
@@ -141,20 +139,20 @@ namespace ECA.Business.Test.Queries.Persons
             dependent.EmailAddresses.Add(email);
             var phoneNumberType = new PhoneNumberType
             {
-                PhoneNumberTypeId = 97,
-                PhoneNumberTypeName = "phone number type"
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
             };
             var phoneNumber = new PhoneNumber
             {
                 PhoneNumberId = 8562,
                 Person = dependent,
                 PersonId = dependent.PersonId,
-                Number = "123-456-7890",
+                Number = "1234567890",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
             };
 
-            var participatingPerson = new Person
+            var participatingPerson = new Data.Person
             {
                 PersonId = dependent.PersonId + 1,
             };
@@ -193,7 +191,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(addressCountry);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
-            
+
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
@@ -204,7 +202,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
             Assert.IsNull(biography.FullName.PassportName);
             Assert.AreEqual(dependent.PersonId, biography.PersonId);
-            Assert.AreEqual(residenceAddress.AddressId, biography.AddressId);
+            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
             Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
             Assert.AreEqual(gender.GenderId, biography.GenderId);
             Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
@@ -212,6 +210,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(phoneNumber.Number, biography.PhoneNumber);
             Assert.AreEqual(spousePersonType.PersonTypeId, biography.PersonTypeId);
             Assert.AreEqual(spousePersonType.SevisDependentTypeCode, biography.Relationship);
+            Assert.AreEqual(participant.ParticipantId, biography.ParticipantId);
 
             Assert.AreEqual(email.Address, biography.EmailAddress);
 
@@ -265,7 +264,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -378,7 +377,7 @@ namespace ECA.Business.Test.Queries.Persons
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(0, result.Count);
-            
+
             var sanityCheckResult = ExchangeVisitorQueries.CreateGetBiographicalDataByParticipantIdQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, sanityCheckResult.Count);
         }
@@ -421,7 +420,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -505,7 +504,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -665,7 +664,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -714,6 +713,237 @@ namespace ECA.Business.Test.Queries.Persons
                 Person = person,
                 PersonId = person.PersonId
             };
+
+            var unitedStates = new Location
+            {
+                LocationId = 10957,
+                LocationName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
+            };
+            var tn = new Location
+            {
+                LocationId = 10958,
+                LocationName = "TN",
+            };
+            var nashville = new Location
+            {
+                LocationId = 10959,
+                LocationName = "Nashville"
+            };
+            var hostAddressLocation = new Location
+            {
+                LocationId = 10960,
+                Country = unitedStates,
+                CountryId = unitedStates.LocationId,
+                Division = tn,
+                DivisionId = tn.LocationId,
+                City = nashville,
+                CityId = nashville.LocationId
+            };
+            var hostAddressType = new AddressType
+            {
+                AddressName = AddressType.Host.Value,
+                AddressTypeId = AddressType.Host.Id
+            };
+            var hostAddress = new Address
+            {
+                AddressId = 1300,
+                Location = hostAddressLocation,
+                LocationId = hostAddressLocation.LocationId,
+                AddressType = hostAddressType,
+                AddressTypeId = hostAddressType.AddressTypeId,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            person.Addresses.Add(residenceAddress);
+            person.Addresses.Add(hostAddress);
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                PersonId = person.PersonId,
+                Person = person,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 2,
+                EmailAddressTypeName = "email address Type"
+            };
+            var email = new EmailAddress
+            {
+                EmailAddressId = 250,
+                Address = "someone@isp.com",
+                Person = person,
+                PersonId = person.PersonId,
+                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+                EmailAddressType = emailAddressType
+            };
+            person.EmailAddresses.Add(email);
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
+            };
+            var expectedPhonenumberValue = "18505551212";
+            var phoneNumber = new PhoneNumber
+            {
+                PhoneNumberId = 8562,
+                Person = person,
+                PersonId = person.PersonId,
+                Number = expectedPhonenumberValue,
+                PhoneNumberType = phoneNumberType,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
+            };
+
+            person.PhoneNumbers.Add(phoneNumber);
+            context.AddressTypes.Add(residenceAddressType);
+            context.BirthCountries.Add(sevisResidenceCountry);
+            context.PhoneNumbers.Add(phoneNumber);
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.EmailAddressTypes.Add(emailAddressType);
+            context.EmailAddresses.Add(email);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Locations.Add(countryOfCitizenship);
+            context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
+            context.Locations.Add(addressLocation);
+            context.Locations.Add(hostAddressLocation);
+            context.Locations.Add(unitedStates);
+            context.Locations.Add(nashville);
+            context.Locations.Add(tn);
+            context.Addresses.Add(residenceAddress);
+            context.Addresses.Add(hostAddress);
+            context.AddressTypes.Add(hostAddressType);
+            context.Locations.Add(addressCountry);
+            context.BirthCountries.Add(sevisBirthCountry);
+            context.BirthCountries.Add(sevisCountryOfCitizenship);
+
+            var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var biography = result.First();
+            Assert.AreEqual(person.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
+            Assert.AreEqual(person.Alias, biography.FullName.PreferredName);
+            Assert.AreEqual(person.FirstName, biography.FullName.FirstName);
+            Assert.AreEqual(person.LastName, biography.FullName.LastName);
+            Assert.AreEqual(person.NameSuffix, biography.FullName.Suffix);
+            Assert.IsNull(biography.FullName.PassportName);
+            Assert.AreEqual(person.PersonId, biography.PersonId);
+            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
+            Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
+            Assert.AreEqual(gender.GenderId, biography.GenderId);
+            Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
+            Assert.AreEqual(phoneNumber.PhoneNumberId, biography.PhoneNumberId);
+            Assert.AreEqual(expectedPhonenumberValue, biography.PhoneNumber);
+            Assert.AreEqual(email.Address, biography.EmailAddress);
+            Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
+
+            Assert.IsNotNull(biography.MailAddress);
+            Assert.AreEqual(hostAddress.AddressId, biography.MailAddress.AddressId);
+
+            Assert.AreEqual(cityOfBirth.LocationName, biography.BirthCity);
+            Assert.AreEqual(sevisBirthCountry.CountryCode, biography.BirthCountryCode);
+            Assert.AreEqual(sevisResidenceCountry.CountryCode, biography.PermanentResidenceCountryCode);
+            Assert.IsNull(biography.BirthCountryReason);
+        }
+
+        [TestMethod]
+        public void TestCreateGetBiographicalDataQuery_DoesNotHaveMailingAddress()
+        {
+            var sevisCountryOfCitizenship = new BirthCountry
+            {
+                BirthCountryId = 1000978,
+                CountryCode = "country of citizenship code"
+            };
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 87,
+                LocationName = "citizenship",
+                BirthCountry = sevisCountryOfCitizenship,
+                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
+            };
+            var sevisBirthCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
+            var countryOfBirth = new Location
+            {
+                LocationId = 42,
+                LocationName = "country of birth",
+                BirthCountryId = sevisBirthCountry.BirthCountryId,
+                BirthCountry = sevisBirthCountry
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 55,
+                LocationName = "city of birth",
+                Country = countryOfBirth,
+                CountryId = countryOfBirth.LocationId,
+                LocationTypeId = LocationType.City.Id
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "gender",
+                SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
+            };
+            var person = new Data.Person
+            {
+                PersonId = 100,
+                FullName = "full name",
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(countryOfCitizenship);
+
+            var sevisResidenceCountry = new BirthCountry
+            {
+                BirthCountryId = 90,
+                CountryCode = "sevis country code",
+                CountryName = "sevis country name"
+            };
+            var addressCountry = new Location
+            {
+                LocationId = 29,
+                LocationName = "address country",
+                BirthCountry = sevisResidenceCountry,
+                BirthCountryId = sevisResidenceCountry.BirthCountryId
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 16,
+                Country = addressCountry,
+                CountryId = addressCountry.LocationId,
+            };
+            var residenceAddressType = new AddressType
+            {
+                AddressTypeId = 1,
+                AddressName = "address type"
+            };
+            var residenceAddress = new Address
+            {
+                AddressId = 12,
+                LocationId = addressLocation.LocationId,
+                Location = addressLocation,
+                AddressTypeId = residenceAddressType.AddressTypeId,
+                AddressType = residenceAddressType,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            
             person.Addresses.Add(residenceAddress);
             var participant = new Participant
             {
@@ -780,28 +1010,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
-            Assert.AreEqual(person.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
-            Assert.AreEqual(person.Alias, biography.FullName.PreferredName);
-            Assert.AreEqual(person.FirstName, biography.FullName.FirstName);
-            Assert.AreEqual(person.LastName, biography.FullName.LastName);
-            Assert.AreEqual(person.NameSuffix, biography.FullName.Suffix);
-            Assert.IsNull(biography.FullName.PassportName);
-            Assert.AreEqual(person.PersonId, biography.PersonId);
-            Assert.AreEqual(residenceAddress.AddressId, biography.AddressId);
-            Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
-            Assert.AreEqual(gender.GenderId, biography.GenderId);
-            Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
-            Assert.AreEqual(phoneNumber.PhoneNumberId, biography.PhoneNumberId);
-            Assert.AreEqual(phoneNumber.Number, biography.PhoneNumber);
-
-            Assert.AreEqual(email.Address, biography.EmailAddress);
-
-            Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
-
-            Assert.AreEqual(cityOfBirth.LocationName, biography.BirthCity);
-            Assert.AreEqual(sevisBirthCountry.CountryCode, biography.BirthCountryCode);
-            Assert.AreEqual(sevisResidenceCountry.CountryCode, biography.PermanentResidenceCountryCode);
-            Assert.IsNull(biography.BirthCountryReason);
+            Assert.IsNull(biography.MailAddress);
         }
 
         [TestMethod]
@@ -834,7 +1043,7 @@ namespace ECA.Business.Test.Queries.Persons
             var cityOfBirth = new Location
             {
                 LocationId = 55,
-                LocationName = new string('a', BiographicalValidator.CITY_MAX_LENGTH + 1),
+                LocationName = new string('a', PersonValidator.CITY_MAX_LENGTH + 1),
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
@@ -845,7 +1054,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -961,7 +1170,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
 
-            Assert.AreEqual(cityOfBirth.LocationName.Substring(0, BiographicalValidator.CITY_MAX_LENGTH), biography.BirthCity);
+            Assert.AreEqual(cityOfBirth.LocationName.Substring(0, PersonValidator.CITY_MAX_LENGTH), biography.BirthCity);
         }
 
         [TestMethod]
@@ -1005,7 +1214,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1165,7 +1374,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1325,7 +1534,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "U"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1485,7 +1694,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1643,7 +1852,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1768,7 +1977,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -1886,7 +2095,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2009,7 +2218,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2046,8 +2255,8 @@ namespace ECA.Business.Test.Queries.Persons
             };
             var residenceAddressType = new AddressType
             {
-                AddressTypeId = 1,
-                AddressName = "address type"
+                AddressTypeId = AddressType.Home.Id,
+                AddressName = AddressType.Home.Value
             };
             var residenceAddress = new Address
             {
@@ -2095,7 +2304,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetBiographicalDataQuery_CheckUsesPrimaryAddress()
+        public void TestCreateGetBiographicalDataQuery_CheckUsesPrimaryAddressHomeForPermanentResidenceAddress()
         {
             var countryOfCitizenship = new Location
             {
@@ -2128,7 +2337,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2164,8 +2373,8 @@ namespace ECA.Business.Test.Queries.Persons
             };
             var residenceAddressType = new AddressType
             {
-                AddressTypeId = 1,
-                AddressName = "address type"
+                AddressTypeId = AddressType.Home.Id,
+                AddressName = AddressType.Home.Value
             };
             var residenceAddress = new Address
             {
@@ -2222,11 +2431,11 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
-            Assert.AreEqual(residenceAddress.AddressId, biography.AddressId);
+            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
         }
 
         [TestMethod]
-        public void TestCreateGetBiographicalDataQuery_CheckIsNotUSCountryAddress()
+        public void TestCreateGetBiographicalDataQuery_CheckIsNotUSCountryAddressForPermanentResidenceAddress()
         {
             var countryOfCitizenship = new Location
             {
@@ -2259,7 +2468,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2354,7 +2563,139 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
             Assert.IsNull(biography.PermanentResidenceCountryCode);
-            Assert.IsNull(biography.AddressId);
+            Assert.IsNull(biography.PermanentResidenceAddressId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetBiographicalDataQuery_CheckIsHostAddressForPermanentResidenceAddress()
+        {
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 87,
+                LocationName = "citizenship",
+                LocationIso2 = "iso2"
+            };
+            var sevisBirthCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
+            var countryOfBirth = new Location
+            {
+                LocationId = 42,
+                LocationName = "country of birth",
+                BirthCountryId = sevisBirthCountry.BirthCountryId,
+                BirthCountry = sevisBirthCountry
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 55,
+                LocationName = "city of birth",
+                Country = countryOfBirth,
+                CountryId = countryOfBirth.LocationId
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "gender",
+                SevisGenderCode = "sevis code"
+            };
+            var person = new Data.Person
+            {
+                PersonId = 100,
+                FullName = "full name",
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(countryOfCitizenship);
+
+            var sevisResidenceCountry = new BirthCountry
+            {
+                BirthCountryId = 90,
+                CountryCode = "sevis country code",
+                CountryName = "sevis country name"
+            };
+            var addressCountry = new Location
+            {
+                LocationId = 29,
+                LocationName = "some country",
+                BirthCountry = sevisResidenceCountry,
+                BirthCountryId = sevisResidenceCountry.BirthCountryId
+            };
+            var addressLocation = new Location
+            {
+                LocationId = 16,
+                Country = addressCountry,
+                CountryId = addressCountry.LocationId,
+            };
+            var residenceAddressType = new AddressType
+            {
+                AddressTypeId = AddressType.Organization.Id,
+                AddressName = AddressType.Organization.Value
+            };
+            var residenceAddress = new Address
+            {
+                AddressId = 12,
+                LocationId = addressLocation.LocationId,
+                Location = addressLocation,
+                AddressTypeId = residenceAddressType.AddressTypeId,
+                AddressType = residenceAddressType,
+                IsPrimary = true,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            var otherAddress = new Address
+            {
+                AddressId = 13,
+                LocationId = addressLocation.LocationId,
+                Location = addressLocation,
+                AddressTypeId = residenceAddressType.AddressTypeId,
+                AddressType = residenceAddressType,
+                IsPrimary = false,
+                Person = person,
+                PersonId = person.PersonId
+            };
+            person.Addresses.Add(residenceAddress);
+            person.Addresses.Add(otherAddress);
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                PersonId = person.PersonId,
+                Person = person,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            context.AddressTypes.Add(residenceAddressType);
+            context.BirthCountries.Add(sevisResidenceCountry);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Locations.Add(countryOfCitizenship);
+            context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
+            context.Locations.Add(addressLocation);
+            context.Addresses.Add(residenceAddress);
+            context.Addresses.Add(otherAddress);
+            context.Locations.Add(addressCountry);
+            context.BirthCountries.Add(sevisBirthCountry);
+
+            var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var biography = result.First();
+            Assert.IsNull(biography.PermanentResidenceCountryCode);
+            Assert.IsNull(biography.PermanentResidenceAddressId);
         }
 
         [TestMethod]
@@ -2391,7 +2732,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2431,7 +2772,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
-            Assert.IsFalse(biography.AddressId.HasValue);
+            Assert.IsFalse(biography.PermanentResidenceAddressId.HasValue);
             Assert.IsNull(biography.PermanentResidenceCountryCode);
         }
 
@@ -2469,7 +2810,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderName = "gender",
                 SevisGenderCode = "sevis code"
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2527,15 +2868,15 @@ namespace ECA.Business.Test.Queries.Persons
 
             var phoneNumberType = new PhoneNumberType
             {
-                PhoneNumberTypeId = 97,
-                PhoneNumberTypeName = "phone number type"
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
             };
             var primaryPhone = new PhoneNumber
             {
                 PhoneNumberId = 8562,
                 Person = person,
                 PersonId = person.PersonId,
-                Number = "123-456-7890",
+                Number = "1234567890",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
                 IsPrimary = true
@@ -2546,7 +2887,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PhoneNumberId = 8532,
                 Person = person,
                 PersonId = person.PersonId,
-                Number = "555-555-5555",
+                Number = "5555555555",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
                 IsPrimary = false
@@ -2580,6 +2921,239 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
+        public void TestCreateGetBiographicalDataQuery_PhoneNumberIsNotVisitingPhoneNumber()
+        {
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 87,
+                LocationName = "citizenship",
+                LocationIso2 = "iso2"
+            };
+            var sevisCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
+            var countryOfBirth = new Location
+            {
+                LocationId = 42,
+                LocationName = "country of birth",
+                BirthCountryId = sevisCountry.BirthCountryId,
+                BirthCountry = sevisCountry
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 55,
+                LocationName = "city of birth",
+                Country = countryOfBirth,
+                CountryId = countryOfBirth.LocationId
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "gender",
+                SevisGenderCode = "sevis code"
+            };
+            var person = new Data.Person
+            {
+                PersonId = 100,
+                FullName = "full name",
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(countryOfCitizenship);
+
+
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                PersonId = person.PersonId,
+                Person = person,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 2,
+                EmailAddressTypeName = "email address Type"
+            };
+            var primaryEmail = new EmailAddress
+            {
+                EmailAddressId = 250,
+                Address = "someone@isp.com",
+                Person = person,
+                PersonId = person.PersonId,
+                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+                EmailAddressType = emailAddressType,
+                IsPrimary = true
+            };
+            person.EmailAddresses.Add(primaryEmail);
+
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = PhoneNumberType.Cell.Id,
+                PhoneNumberTypeName = PhoneNumberType.Cell.Value
+            };
+            var primaryPhone = new PhoneNumber
+            {
+                PhoneNumberId = 8562,
+                Person = person,
+                PersonId = person.PersonId,
+                Number = "123-456-7890",
+                PhoneNumberType = phoneNumberType,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
+            };
+            person.PhoneNumbers.Add(primaryPhone);
+
+            context.PhoneNumbers.Add(primaryPhone);
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.EmailAddressTypes.Add(emailAddressType);
+            context.EmailAddresses.Add(primaryEmail);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Locations.Add(countryOfCitizenship);
+            context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
+            context.BirthCountries.Add(sevisCountry);
+
+            var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var biography = result.First();
+            Assert.IsNull(biography.PhoneNumber);
+            Assert.IsNull(biography.PhoneNumberId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetBiographicalDataQuery_CheckRemovesNonDigitCharactersFromPhone()
+        {
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 87,
+                LocationName = "citizenship",
+                LocationIso2 = "iso2"
+            };
+            var sevisCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
+            var countryOfBirth = new Location
+            {
+                LocationId = 42,
+                LocationName = "country of birth",
+                BirthCountryId = sevisCountry.BirthCountryId,
+                BirthCountry = sevisCountry
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 55,
+                LocationName = "city of birth",
+                Country = countryOfBirth,
+                CountryId = countryOfBirth.LocationId
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "gender",
+                SevisGenderCode = "sevis code"
+            };
+            var person = new Data.Person
+            {
+                PersonId = 100,
+                FullName = "full name",
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(countryOfCitizenship);
+
+
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                PersonId = person.PersonId,
+                Person = person,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 2,
+                EmailAddressTypeName = "email address Type"
+            };
+            var primaryEmail = new EmailAddress
+            {
+                EmailAddressId = 250,
+                Address = "someone@isp.com",
+                Person = person,
+                PersonId = person.PersonId,
+                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+                EmailAddressType = emailAddressType,
+                IsPrimary = true
+            };
+            person.EmailAddresses.Add(primaryEmail);
+
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
+            };
+
+            var phoneNumber = "+1 (850) 456-7890";
+            var expectedPhonenumber = "18504567890";
+            var primaryPhone = new PhoneNumber
+            {
+                PhoneNumberId = 8562,
+                Person = person,
+                PersonId = person.PersonId,
+                Number = phoneNumber,
+                PhoneNumberType = phoneNumberType,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
+            };
+            person.PhoneNumbers.Add(primaryPhone);
+
+            context.PhoneNumbers.Add(primaryPhone);
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.EmailAddressTypes.Add(emailAddressType);
+            context.EmailAddresses.Add(primaryEmail);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Locations.Add(countryOfCitizenship);
+            context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
+            context.BirthCountries.Add(sevisCountry);
+
+            var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var biography = result.First();
+            Assert.AreEqual(primaryPhone.PhoneNumberId, biography.PhoneNumberId);
+            Assert.AreEqual(expectedPhonenumber, biography.PhoneNumber);
+        }
+
+        [TestMethod]
         public void TestCreateGetBiographicalDataQuery_AllRelationshipsNull()
         {
             var gender = new Gender
@@ -2587,7 +3161,7 @@ namespace ECA.Business.Test.Queries.Persons
                 GenderId = Gender.Male.Id,
                 GenderName = Gender.Male.Value
             };
-            var person = new Person
+            var person = new Data.Person
             {
                 PersonId = 100,
                 FullName = "full name",
@@ -2628,9 +3202,11 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(biography.BirthCountryReason);
             Assert.IsNull(biography.EmailAddress);
             Assert.IsNull(biography.PermanentResidenceCountryCode);
+            Assert.IsNull(biography.MailAddress);
+
             Assert.IsFalse(biography.PhoneNumberId.HasValue);
             Assert.IsFalse(biography.EmailAddressId.HasValue);
-            Assert.IsFalse(biography.AddressId.HasValue);
+            Assert.IsFalse(biography.PermanentResidenceAddressId.HasValue);
         }
 
         #endregion
@@ -2770,151 +3346,6 @@ namespace ECA.Business.Test.Queries.Persons
             exchangeVisitor.ParticipantId = participant.ParticipantId + 1;
             result = ExchangeVisitorQueries.CreateGetSubjectFieldByParticipantIdQuery(context, participant.ParticipantId).FirstOrDefault();
             Assert.IsNull(result);
-        }
-        #endregion
-
-        #region CreateGetUsAddressByAddressId
-        [TestMethod]
-        public void TestCreateGetUsAddressByAddressIdQuery_CheckProperties()
-        {
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
-
-            Action<USAddress> tester = (usAddress) =>
-            {
-                Assert.AreEqual(addressLocation.Street1, usAddress.Address1);
-                Assert.AreEqual(addressLocation.Street2, usAddress.Address2);
-                Assert.AreEqual(city.LocationName, usAddress.City);
-                Assert.AreEqual(division.LocationName, usAddress.State);
-                Assert.AreEqual(addressLocation.PostalCode, usAddress.PostalCode);
-            };
-            var serviceResult = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(context, address.AddressId).FirstOrDefault();
-            tester(serviceResult);
-        }
-
-        [TestMethod]
-        public void TestCreateGetUsAddressByAddressIdQuery_AddressDoesNotExist()
-        {
-            var addressLocationType = new LocationType
-            {
-                LocationTypeId = LocationType.Address.Id,
-                LocationTypeName = LocationType.Address.Value
-            };
-            var division = new Location
-            {
-                LocationId = 1,
-                LocationName = "TN"
-            };
-            var country = new Location
-            {
-                LocationId = 2,
-                LocationName = "US",
-            };
-            var city = new Location
-            {
-                LocationId = 3,
-                LocationName = "Nashville"
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 4,
-                City = city,
-                CityId = city.LocationId,
-                Country = country,
-                CountryId = country.LocationId,
-                Division = division,
-                DivisionId = division.LocationId,
-                LocationName = "address",
-                LocationType = addressLocationType,
-                LocationTypeId = addressLocationType.LocationTypeId,
-                PostalCode = "12345",
-                Street1 = "street1",
-                Street2 = "street2",
-                Street3 = "street3",
-            };
-            var addressType = new AddressType
-            {
-                AddressName = AddressType.Home.Value,
-                AddressTypeId = AddressType.Home.Id
-            };
-            var address = new Address
-            {
-                AddressId = 1,
-                AddressType = addressType,
-                AddressTypeId = addressType.AddressTypeId,
-                IsPrimary = true,
-                Location = addressLocation,
-                LocationId = addressLocation.LocationId,
-            };
-            context.AddressTypes.Add(addressType);
-            context.Locations.Add(division);
-            context.Locations.Add(country);
-            context.Locations.Add(city);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(address);
-            context.LocationTypes.Add(addressLocationType);
-
-            var serviceResult = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(context, address.AddressId).FirstOrDefault();
-            Assert.IsNotNull(serviceResult);
-
-            serviceResult = ExchangeVisitorQueries.CreateGetUsAddressByAddressIdQuery(context, address.AddressId + 1).FirstOrDefault();
-            Assert.IsNull(serviceResult);
         }
         #endregion
 

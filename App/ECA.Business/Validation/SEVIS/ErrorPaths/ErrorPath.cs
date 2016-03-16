@@ -2,7 +2,7 @@
 using ECA.Core.Generation;
 using System.Diagnostics.Contracts;
 
-namespace ECA.Business.Validation.SEVIS.ErrorPaths
+namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// The SevisErrorType class contains lookups for different sevis validation errro types.
@@ -182,6 +182,17 @@ namespace ECA.Business.Validation.SEVIS.ErrorPaths
             get
             {
                 return new StaticLookup("Permanent Country of Residence", 16);
+            }
+        }
+
+        /// <summary>
+        /// Gets the dependent error type.
+        /// </summary>
+        public static StaticLookup Dependent
+        {
+            get
+            {
+                return new StaticLookup("Dependent", 17);
             }
         }
     }

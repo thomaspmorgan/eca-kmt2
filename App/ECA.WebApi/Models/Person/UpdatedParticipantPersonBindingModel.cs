@@ -1,9 +1,5 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Persons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Person
 {

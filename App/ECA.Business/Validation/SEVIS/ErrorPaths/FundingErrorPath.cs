@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Validation.SEVIS.ErrorPaths
+﻿namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An FundingErrorPath is used when a participant has a sevis funding error and where it might be located.

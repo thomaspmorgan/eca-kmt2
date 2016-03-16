@@ -468,6 +468,10 @@ namespace ECA.Business.Service.Projects
             projectToUpdate.ProjectStatusId = updatedProject.ProjectStatusId;
             projectToUpdate.StartDate = updatedProject.StartDate;
             projectToUpdate.VisitorTypeId = updatedProject.VisitorTypeId;
+            projectToUpdate.UsParticipantsEst = updatedProject.UsParticipantsEst;
+            projectToUpdate.NonUsParticipantsEst = updatedProject.NonUsParticipantsEst;
+            projectToUpdate.UsParticipantsActual = updatedProject.UsParticipantsActual;
+            projectToUpdate.NonUsParticipantsActual = updatedProject.NonUsParticipantsActual;
 
             if (updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
             {

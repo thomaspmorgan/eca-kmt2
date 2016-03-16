@@ -180,6 +180,8 @@
     <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />
+    <Content Include="app\directives\dependents.controller.js" />
+    <Content Include="app\directives\dependents.directive.js" />
     <Content Include="app\directives\participant-person-info.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
@@ -194,6 +196,11 @@
     <Content Include="app\home\home.routes.js" />
     <Content Include="app\offices\edit.controller.js" />
     <Content Include="app\offices\edit.html" />
+    <Content Include="app\people\dependent-edit.controller.js" />
+    <Content Include="app\people\dependent-modal.html" />
+    <Content Include="app\people\dependent-edit.html" />
+    <Content Include="app\people\dependent.controller.js" />
+    <Content Include="app\people\dependent.html" />
     <Content Include="app\points-of-contact\points-of-contact-modal.controller.js" />
     <Content Include="app\points-of-contact\points-of-contact-modal.html" />
     <Content Include="app\programs\all-programs.controller.js" />
@@ -234,6 +241,7 @@
     <Content Include="app\services\contacts.service.js" />
     <Content Include="app\services\data-point-configuration.service.js" />
     <Content Include="app\services\default-exchange-visitor-funding.service.js" />
+    <Content Include="app\services\dependent.service.js" />
     <Content Include="app\services\itinerary.service.js" />
     <Content Include="app\services\participant-exchange-visitor.service.js" />
     <Content Include="app\services\datetime.service.js" />
@@ -424,6 +432,7 @@
     </Content>
     <Content Include="app\projects\project-participant-info.controller.js" />
     <Content Include="app\directives\participantLocations.json" />
+    <Content Include="app\directives\dependents.directive.html" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />
