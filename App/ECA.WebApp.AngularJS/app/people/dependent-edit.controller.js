@@ -42,8 +42,8 @@ angular.module('staticApp')
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
-
-                 loadCountries();
+                 
+                 loadResidenceCountries();
 
                  return $scope.loadCities(null)
                  .then(function () {
@@ -77,7 +77,7 @@ angular.module('staticApp')
       }
 
       $scope.searchCountries = function (search) {
-          return $scope.loadCountries(search);
+          return $scope.loadCitizenshipCountries(search);
       }
       
       $scope.loadCities = function (search) {
@@ -102,7 +102,7 @@ angular.module('staticApp')
           }
       }
 
-      $scope.loadCountries = function (search) {
+      $scope.loadCitizenshipCountries = function (search) {
           if (search) {
               var params = {
                   limit: 300,
@@ -122,24 +122,19 @@ angular.module('staticApp')
           }
       }
 
-      var countriesFilter = FilterService.add('addResidence_countries');
-      var countriesParams = countriesFilter
-          .skip(0)
-          .take(300)
-          .equal('locationTypeId', ConstantsService.locationType.country.id)
-          .isTrue('isActive')
-          .sortBy('name')
-          .toParams();
-      function loadCountries() {
-          return LocationService.get(countriesParams)
-          .then(function (response) {
-              $scope.countriesResidence = response.results;
-          })
-          .catch(function () {
-              var message = "Unable to load countries.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
+      function loadResidenceCountries() {
+          var params = {
+              limit: 300,
+              filter: [
+                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+                { property: 'isActive', comparison: 'eq', value: true }
+              ]};
+
+              return LocationService.get(params)
+                .then(function (data) {
+                    $scope.countriesResidence = data.results;
+                    return $scope.countriesResidence;
+                });
       }
 
       $scope.loadLocationById = function (id) {
@@ -164,13 +159,13 @@ angular.module('staticApp')
           loadDependent($scope.person.personId);
       };
 
-      $scope.saveEditDependent = function () {
+      function saveEditDependent() {
           setupDependent();
-
-          DependentService.update($scope.dependent, $scope.person.personId)
-              .then(function () {
+          DependentService.update($scope.dependent, $scope.dependent.personId)
+              .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
-                  loadDependent($scope.person.personId);
+                  //loadDependent($scope.dependent.personId);
+                  $modalInstance.close(response);
               },
               function (error) {
                   if (error.status == 400) {
@@ -195,7 +190,7 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          $scope.dependent.personId = $scope.person.personId;
+          //$scope.dependent.personId = $scope.person.personId;
           $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
@@ -204,22 +199,22 @@ angular.module('staticApp')
           }
       };
 
-      $scope.openDatePicker = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.datePickerOpen = true;
-      };
-
       $scope.onSaveClick = function () {
-          return saveNewLocation()
-              .then(function (loc) {
-                  $modalInstance.close(loc);
-              });
+          return saveEditDependent();
+              //.then(function (response) {
+              //    $modalInstance.close(response);
+              //});
       }
 
       $scope.onCloseClick = function () {
           $modalInstance.dismiss('cancel');
       }
+
+      $scope.openDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.datePickerOpen = true;
+      };
 
       function getObjectById(id, array) {
           for (var i = 0; i < array.length; i++) {

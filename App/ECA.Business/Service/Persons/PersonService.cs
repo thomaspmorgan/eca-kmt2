@@ -262,27 +262,33 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="person">The dependent to update</param>
         /// <returns>The updated dependent</returns>
-        public async Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person)
+        public async Task<Person> UpdatePersonDependentAsync(UpdatedPersonDependent person)
         {
-            var personToUpdate = await GetPersonDependentByIdAsync(person.PersonId);
-            var countriesOfCitizenship = person.CountriesOfCitizenship;
+            var personToUpdate = await GetPersonModelByIdAsync(person.PersonId);
+            var countriesOfCitizenship = await GetLocationsByIdAsync(person.CountriesOfCitizenship);
             DoDependentUpdate(person, personToUpdate, countriesOfCitizenship);
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, SimplePersonDependentDTO person, List<SimpleLookupDTO> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, Person person, List<Location> countriesOfCitizenship)
         {
-            person.FullName = updateDependent.FullName;
+            HashSet<EmailAddress> emails = new HashSet<EmailAddress>();
+            EmailAddress email = new EmailAddress { Address = updateDependent.EmailAddress };
+            HashSet<Address> addresses = new HashSet<Address>();
+            Address address = new Address { LocationId = updateDependent.PermanentResidenceCountryCode, PersonId = updateDependent.PersonId };
+            person.FirstName = updateDependent.FullName.FirstName;
+            person.LastName = updateDependent.FullName.LastName;
+            person.NameSuffix = updateDependent.FullName.Suffix;
             person.DateOfBirth = updateDependent.DateOfBirth;
-            person.Gender = updateDependent.Gender;
-            person.CityOfBirth = updateDependent.CityOfBirth;
-            person.CountryOfBirth = updateDependent.CountryOfBirth;
-            person.CountriesOfCitizenship = updateDependent.CountriesOfCitizenship;
-            person.PermanentResidenceCountryCode = updateDependent.PermanentResidenceCountryCode;
-            person.BirthCountryReason = updateDependent.BirthCountryReason;
-            person.EmailAddress = updateDependent.EmailAddress;
+            person.GenderId = updateDependent.GenderId;
+            person.PlaceOfBirthId = updateDependent.CityOfBirth;
+            person.PlaceOfBirth.CountryId = updateDependent.CountryOfBirth;
+            person.Addresses = addresses;
+            //person.BirthCountryReason = updateDependent.BirthCountryReason;
+            person.EmailAddresses = emails;
             person.PersonTypeId = updateDependent.PersonTypeId;
             updateDependent.Audit.SetHistory(person);
+            SetCountriesOfCitizenship(countriesOfCitizenship, person);
         }
 
         /// <summary>

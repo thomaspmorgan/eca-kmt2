@@ -30,7 +30,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; set; }
+        public int GenderId { get; set; }
 
         /// <summary>
         /// Gets and sets the city of birth
@@ -45,7 +45,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
+        public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code
@@ -79,7 +79,7 @@ namespace ECA.WebApi.Models.Person
                 personId: PersonId,
                 fullName: FullName,
                 dateOfBirth: DateOfBirth,
-                gender: Gender,
+                genderId: GenderId,
                 cityOfBirth: CityOfBirth,
                 countryOfBirth: CountryOfBirth,
                 countriesOfCitizenship: CountriesOfCitizenship,

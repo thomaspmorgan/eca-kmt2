@@ -27,9 +27,9 @@ namespace ECA.WebApi.Test.Models.Person
                 DateOfBirth = DateTime.Now,
                 CityOfBirth = 1,
                 CountryOfBirth = 2,
-                CountriesOfCitizenship = new System.Collections.Generic.List<SimpleLookupDTO>(),
+                CountriesOfCitizenship = new System.Collections.Generic.List<int>(),
                 EmailAddress = "email@domain.com",
-                Gender = Gender.Male.Id,
+                GenderId = Gender.Male.Id,
                 PermanentResidenceCountryCode = 2,
                 PersonTypeId = PersonType.Spouse.Id,
                 BirthCountryReason = "rebel"
@@ -42,7 +42,7 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.CountryOfBirth, instance.CountryOfBirth);
             CollectionAssert.AreEqual(model.CountriesOfCitizenship, instance.CountriesOfCitizenship);
             Assert.AreEqual(model.EmailAddress, instance.EmailAddress);
-            Assert.AreEqual(model.Gender, instance.Gender);
+            Assert.AreEqual(model.GenderId, instance.GenderId);
             Assert.AreEqual(model.PermanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(model.PersonTypeId, instance.PersonTypeId);
             Assert.AreEqual(model.BirthCountryReason, instance.BirthCountryReason);

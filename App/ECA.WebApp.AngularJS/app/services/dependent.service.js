@@ -20,16 +20,16 @@ angular.module('staticApp')
               return defer.promise;
           },
           getDependents: function (params) {
-              return DragonBreath.get(params, 'dependent');
+              return DragonBreath.get(params, 'dependents');
           },
-          update: function (personId, dependent) {
-              return DragonBreath.save(dependent, 'dependent');
+          update: function (dependent, dependentId) {
+              return DragonBreath.save(dependent, 'person/dependent/' + dependentId);
           },
           create: function (dependent) {
-              return DragonBreath.create(dependent, 'dependent');
+              return DragonBreath.create(dependent, 'person/dependent');
           },
-          delete: function (dependent) {
-              return DragonBreath.create(dependent, 'dependent');
+          delete: function (personId, dependentId) {
+              return DragonBreath.create(dependent, 'person/' + personId + '/dependent/' + dependentId);
           }
       };
   });

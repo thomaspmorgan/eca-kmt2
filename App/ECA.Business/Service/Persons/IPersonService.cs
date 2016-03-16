@@ -163,7 +163,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="person">The dependent to update</param>
         /// <returns></returns>
-        Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person);
+        Task<Person> UpdatePersonDependentAsync(UpdatedPersonDependent person);
 
         /// <summary>
         /// Deletes a dependent from the person

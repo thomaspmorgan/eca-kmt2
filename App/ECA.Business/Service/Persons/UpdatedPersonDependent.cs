@@ -1,6 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Service.Lookup;
-using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +13,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="personId">The person id</param>
         /// <param name="fullName">The person full name</param>
         /// <param name="dateOfBirth">The person date of birth</param>
-        /// <param name="gender">The person gender</param>
+        /// <param name="genderId">The person gender</param>
         /// <param name="cityOfBirth">The person city of birth</param>
         /// <param name="countryOfBirth">The person country of birth</param>
         /// <param name="countriesOfCitizenship">The person countries of citizenship</param>
@@ -28,10 +26,10 @@ namespace ECA.Business.Service.Persons
             int personId,
             FullNameDTO fullName,
             DateTime dateOfBirth,
-            int gender,
+            int genderId,
             int cityOfBirth,
             int countryOfBirth,
-            List<SimpleLookupDTO> countriesOfCitizenship,
+            List<int> countriesOfCitizenship,
             int permanentResidenceCountryCode,
             string birthCountryReason,
             string emailAddress,
@@ -41,7 +39,7 @@ namespace ECA.Business.Service.Persons
             this.PersonId = personId;
             this.FullName = fullName;
             this.DateOfBirth = dateOfBirth;
-            this.Gender = gender;
+            this.GenderId = genderId;
             this.CityOfBirth = cityOfBirth;
             this.CountryOfBirth = countryOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
@@ -69,7 +67,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; private set; }
+        public int GenderId { get; private set; }
 
         /// <summary>
         /// Gets and sets the city of birth
@@ -84,7 +82,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<SimpleLookupDTO> CountriesOfCitizenship { get; private set; }
+        public List<int> CountriesOfCitizenship { get; private set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

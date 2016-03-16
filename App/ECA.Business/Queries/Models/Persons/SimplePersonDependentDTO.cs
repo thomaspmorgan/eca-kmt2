@@ -35,17 +35,17 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; set; }
+        public int? GenderId { get; set; }
 
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int CityOfBirth { get; set; }
+        public int? CityOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
-        public int CountryOfBirth { get; set; }
+        public int? CountryOfBirth { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship
@@ -55,7 +55,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the premanent residence country code
         /// </summary>
-        public int PermanentResidenceCountryCode { get; set; }
+        public int? PermanentResidenceCountryCode { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason
