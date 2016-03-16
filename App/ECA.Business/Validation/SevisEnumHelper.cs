@@ -53,11 +53,11 @@ namespace ECA.Business.Validation
         public static EVCategoryCodeType GetEVCategoryCodeType(this string value)
         {
             Contract.Requires(value != null, "The string value must not be null.");
-            var itemKey = "Item";
-            if (!value.StartsWith(itemKey))
+            if (!Enum.IsDefined(typeof(EVCategoryCodeType), value))
             {
-                value = itemKey + value;
+                value = "Item" + value;
             }
+
             return GetCodeType<EVCategoryCodeType>(value);
         }
 
