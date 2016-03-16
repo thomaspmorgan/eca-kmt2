@@ -548,6 +548,7 @@
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
+    <Compile Include="Validation\Sevis\Finance\OrganizationFunding.cs" />
     <Compile Include="Validation\Sevis\IFormPrintable.cs" />
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
     <Compile Include="Validation\Sevis\IRequestIdentifiable.cs" />

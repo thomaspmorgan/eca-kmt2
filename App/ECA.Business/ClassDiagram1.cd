@@ -3,7 +3,7 @@
   <Class Name="ECA.Business.Validation.Sevis.Bio.Dependent">
     <Position X="9.75" Y="8" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>AAAABABAAAEAFICAkABAQAYEQAABAAAABACBAgAACAA=</HashCode>
+      <HashCode>AAAABABAAAEAFICAkABAQAYEQAAAAAAABACBAgAACAA=</HashCode>
       <FileName>Validation\Sevis\Bio\Dependent.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -25,7 +25,7 @@
   <Class Name="ECA.Business.Validation.Sevis.Bio.Person">
     <Position X="3" Y="8" Width="4" />
     <TypeIdentifier>
-      <HashCode>AAAABQAAAIEABICEgABAQQQEQAABAAAAAICAAgAIQAA=</HashCode>
+      <HashCode>AAAABQAAAIEABICEgABAQQQMQAABAAAAAICAAgAIQAA=</HashCode>
       <FileName>Validation\Sevis\Bio\Person.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -41,13 +41,13 @@
   <Class Name="ECA.Business.Validation.Sevis.ExchangeVisitor">
     <Position X="18.25" Y="0.75" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AIADAABBAASAEAEAAAEABAAAAAAAAAAAAQAEEAAQAAA=</HashCode>
+      <HashCode>AIADAABBAASAEAEAAAEABAAAAAAAAAAAAQAEEAAUAAg=</HashCode>
       <FileName>Validation\Sevis\ExchangeVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.FinancialInfo" BaseTypeListCollapsed="true">
-    <Position X="24" Y="5.5" Width="3" />
+    <Position X="24" Y="3.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAgAAABAAAAAAIAAAAAAAACAAAAAABA=</HashCode>
       <FileName>Validation\Sevis\Finance\FinancialInfo.cs</FileName>
@@ -55,31 +55,38 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.International">
-    <Position X="21.25" Y="12.5" Width="2.75" />
+    <Position X="21.25" Y="14" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAIAAQAIAAAAAAQBIAAAAAABIAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
       <FileName>Validation\Sevis\Finance\International.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.Other">
-    <Position X="24.25" Y="12.5" Width="2.25" />
+    <Position X="28" Y="12" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAASAAAAAAQAAAAAAAAAAAAA=</HashCode>
       <FileName>Validation\Sevis\Finance\Other.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.OtherFunds">
-    <Position X="23.25" Y="8.5" Width="4.75" />
+    <Position X="23.25" Y="7" Width="4.75" />
     <TypeIdentifier>
       <HashCode>BAAAAAARCAAAAAAAIAAAAAAAAABCBAAAAAAAAAAAAAA=</HashCode>
       <FileName>Validation\Sevis\Finance\OtherFunds.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.USGovt">
-    <Position X="26.75" Y="12.5" Width="3.25" />
+    <Position X="24.5" Y="14" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAAAAAQAIAAAAAAABIAAAAAABoAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>Validation\Sevis\Finance\USGovt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ECA.Business.Validation.Sevis.Finance.OrganizationFunding">
+    <Position X="22" Y="10.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAIAAAAAAABIAAAAAABIAAA=</HashCode>
+      <FileName>Validation\Sevis\Finance\OrganizationFunding.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="ECA.Business.Validation.Sevis.Bio.IBiographical">
