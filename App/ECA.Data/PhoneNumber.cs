@@ -10,6 +10,16 @@ namespace ECA.Data
 {
     public class PhoneNumber : IHistorical
     {
+        /// <summary>
+        /// The phone numbe region for the united states.  This is useful for libphonenumber nuget package.
+        /// </summary>
+        public const string US_PHONE_NUMBER_REGION_KEY = "US";
+
+        /// <summary>
+        /// The number of digits in a us phone number.
+        /// </summary>
+        public const int US_PHONE_NUMBER_LENGTH = 10;
+
         public PhoneNumber()
         {
             this.History = new History();

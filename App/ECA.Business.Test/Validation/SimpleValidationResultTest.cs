@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using ECA.Business.Validation;
+﻿using ECA.Business.Validation;
+using ECA.Business.Validation.Sevis.ErrorPaths;
 using FluentValidation.Results;
-using ECA.Business.Validation.SEVIS.ErrorPaths;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECA.Business.Test.Validation
 {

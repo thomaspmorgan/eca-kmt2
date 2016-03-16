@@ -1,7 +1,7 @@
 ﻿using CAM.Data;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
-using ECA.Business.Validation.Model;
+using ECA.Business.Validation.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.WebApi.Models.Person;
@@ -122,12 +122,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>An ok result.</returns>
         [Route("Project/{projectId:int}/Participant/{participantId:int}/Profile")]
         //[ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
-        [ResponseType(typeof(CreateExchVisitor))]
+        //[ResponseType(typeof(ExchangeVisitor))]
         public async Task<IHttpActionResult> GetExchangeVisitorProfileAsync(int projectId, int participantId)
         {
             var user = this.userProvider.GetCurrentUser();
             var businessUser = this.userProvider.GetBusinessUser(user);
-            var model = await visitorService.GetCreateExchangeVisitorAsync(businessUser, projectId, participantId);            
+            var model = await visitorService.GetExchangeVisitorAsync(businessUser, projectId, participantId);            
             return Ok(model);
         } 
     }

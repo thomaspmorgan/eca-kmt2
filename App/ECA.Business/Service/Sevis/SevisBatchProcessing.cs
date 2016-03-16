@@ -1,24 +1,18 @@
-﻿using ECA.Business.Queries.Models.Sevis;
-using ECA.Business.Queries.Sevis;
-using ECA.Business.Service.Persons;
-using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
-using ECA.Business.Validation.Model.Shared;
+﻿using ECA.Business.Queries.Sevis;
+using ECA.Business.Queries.Models.Sevis;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
 using ECA.Data;
-using System.Web.Script.Serialization;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
+using Newtonsoft.Json;
+using ECA.Business.Service.Persons;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -32,18 +26,16 @@ namespace ECA.Business.Service.Sevis
         private readonly Action<SevisBatchProcessing, int> throwIfSevisBatchProcessingNotFound;
         private ParticipantService participantService;
         private ParticipantPersonsSevisService sevisService;
-        private IExchangeVisitorService exchangeVisitorService;
 
         /// <summary>
         /// Creates a new instance and initializes the context..
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="saveActions">The save actions.</param>
-        public SevisBatchProcessingService(EcaContext context, IExchangeVisitorService exchangeVisitorService, ParticipantService participantService, ParticipantPersonsSevisService sevisService, List<ISaveAction> saveActions = null)
+        public SevisBatchProcessingService(EcaContext context, ParticipantService participantService, ParticipantPersonsSevisService sevisService, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             throwIfSevisBatchProcessingNotFound = (sevisBatchProcessing, batchId) =>
             {
                 if (sevisBatchProcessing == null)
@@ -51,135 +43,9 @@ namespace ECA.Business.Service.Sevis
                     throw new ModelNotFoundException(String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId));
                 }
             };
-            this.exchangeVisitorService = exchangeVisitorService;
             this.participantService = participantService;
             this.sevisService = sevisService;
         }
-        
-        #region SEVIS validation
-
-        /// <summary>
-        /// Retrieve SEVIS batch XML
-        /// </summary>
-        /// <param name="programId"></param>
-        /// <param name="user"></param>
-        /// <returns>XML of serialized sevis batch object</returns>
-        public string GetSevisBatchCreateUpdateXML(int programId, User user)
-        {
-            // get sevis create objects
-            var createEvs = GetSevisCreateEVs(user);
-
-            // get sevis update objects
-            var updateEvs = GetSevisUpdateEVs(user);
-
-            // get sevis batch object
-            var sevisBatch = CreateGetSevisBatchCreateUpdateEV(createEvs, updateEvs, programId, user);
-
-            // get sevis xml
-            var sevisXml = GetSevisBatchXml(sevisBatch);
-
-            return sevisXml;
-        }
-
-        /// <summary>
-        /// Retrieve a SEVIS batch to create/update exchange visitors
-        /// </summary>
-        /// <param name="createEVs"></param>
-        /// <param name="updateEVs"></param>
-        /// <param name="programId"></param>
-        /// <param name="user"></param>
-        /// <returns>Sevis batch object</returns>
-        public SEVISBatchCreateUpdateEV CreateGetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs,
-            List<UpdateExchVisitor> updateEVs, int programId, User user)
-        {
-            // create batch header
-            var batchHeader = new BatchHeader
-            {
-                BatchID = DateTime.Today.ToString(),
-                OrgID = programId.ToString()
-            };
-            var createEVBatch = new SEVISBatchCreateUpdateEV
-            {
-                userID = user.Id.ToString(),
-                BatchHeader = batchHeader,
-                UpdateEV = updateEVs,
-                CreateEV = createEVs
-            };
-
-            return createEVBatch;
-        }
-
-        /// <summary>
-        /// Retrieve participants with no sevis that are ready to submit
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Sevis exchange visitor create objects (250 max)</returns>
-        public List<CreateExchVisitor> GetSevisCreateEVs(User user)
-        {
-            var participants = Context.ParticipantPersons
-                                    .Where(x => x.ParticipantPersonSevisCommStatuses.Last().SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && x.SevisId == null)
-                                    .Select(x => new { ParticipantId = x.ParticipantId, ProjectId = x.Participant.ProjectId }).Take(250);
-
-            List<CreateExchVisitor> createEvs = new List<CreateExchVisitor>();
-            CreateExchVisitor createEv = new CreateExchVisitor();
-
-            foreach (var participant in participants)
-            {
-                createEv = exchangeVisitorService.GetCreateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-                createEvs.Add(createEv);
-            }
-
-            return createEvs;
-        }
-
-        /// <summary>
-        /// Retrieve participants with sevis information that are ready to submit
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Sevis exchange visitor update objects (250 max)</returns>
-        public List<UpdateExchVisitor> GetSevisUpdateEVs(User user)
-        {
-            var participants = Context.ParticipantPersons
-                                    .Where(x => x.ParticipantPersonSevisCommStatuses.Last().SevisCommStatusId == SevisCommStatus.ReadyToSubmit.Id && x.SevisId == null)
-                                    .Select(x => new { ParticipantId = x.ParticipantId, ProjectId = x.Participant.ProjectId }).Take(250);
-
-            List<UpdateExchVisitor> updateEvs = new List<UpdateExchVisitor>();
-            UpdateExchVisitor updateEv = new UpdateExchVisitor();
-
-            foreach (var participant in participants)
-            {
-                updateEv = exchangeVisitorService.GetUpdateExchangeVisitor(user, participant.ProjectId, participant.ParticipantId);
-                updateEvs.Add(updateEv);
-            }
-
-            return updateEvs;
-        }
-
-        /// <summary>
-        /// Serialize SEVIS batch object to XML
-        /// </summary>
-        /// <param name="validationEntity">Participant object to be validated</param>
-        /// <returns>XML of sevis batch object</returns>
-        public string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity)
-        {
-            XmlSerializer serializer = new XmlSerializer(validationEntity.GetType());
-            var settings = new XmlWriterSettings
-            {
-                NewLineHandling = NewLineHandling.Entitize,
-                Encoding = System.Text.Encoding.UTF8,
-                DoNotEscapeUriAttributes = true
-            };
-            using (var stream = new StringWriter())
-            {
-                using (var writer = XmlWriter.Create(stream, settings))
-                {
-                    serializer.Serialize(writer, validationEntity);
-                    return stream.ToString();
-                }
-            }
-        }
-
-        #endregion
 
         #region Get
         /// <summary>
@@ -271,7 +137,6 @@ namespace ECA.Business.Service.Sevis
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
             return dtos;
         }
-        
         #endregion
 
         #region Create
@@ -316,38 +181,34 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Process SEVIS batch transaction log
         /// </summary>
-        /// <param name="user">User</param>
         /// <param name="batchId">Batch ID</param>
         public async Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
         {
+            string json = "";
             var batchLog = await GetByIdAsync(batchId);
             var xml = batchLog.TransactionLogXml;
             var doc = XDocument.Parse(xml.ToString());
+            XNamespace xmlns = "http://james.newtonking.com/projects/json";
             List<ParticipantSevisBatchProcessingResultDTO> results = new List<ParticipantSevisBatchProcessingResultDTO>();
-            List<ParticipantSevisBatchResultDTO> recordResults = new List<ParticipantSevisBatchResultDTO>();
 
-            foreach (XElement recordElement in doc.Descendants("Record"))
+            foreach (XElement record in doc.Descendants("Record"))
             {
-                var record = new ParticipantSevisBatchResultRecordDTO
-                {
-                    participantId = Convert.ToInt32(recordElement.Attribute("requestID").Value),
-                    sevisId = recordElement.Attribute("sevisID").Value,
-                    userId = Convert.ToInt32(recordElement.Attribute("userID").Value)
-                };
+                var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
+                var status = record.Descendants("Result").First().Attribute("status").Value;
+                var rows = record.Descendants("Result");
 
-                foreach (XElement resultElement in recordElement.Descendants("Result"))
+                if (rows.Count() == 1)
                 {
-                    var result = new ParticipantSevisBatchResultDTO
-                    {
-                        statusCode = Convert.ToInt32(resultElement.Attribute("status").Value),
-                        errorCode = resultElement.Descendants("ErrorCode").First().Value,
-                        errorMessage = resultElement.Descendants("ErrorMessage").First().Value
-                    };
-                    recordResults.Add(result);
+                    record.Add(new XElement("Result", ""));
+                    json = JsonConvert.SerializeXNode(record).Replace(",null]", "]");
+                }
+                else
+                {
+                    json = JsonConvert.SerializeXNode(record);
                 }
 
-                record.sevisResults = recordResults;
-                results.Add(await UpdateParticipant(record));
+                // update participant person batch result
+                results.Add(await UpdateParticipant(participantID, status, json));
             }
 
             return results;
@@ -356,17 +217,20 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Update a participant record with sevis batch results
         /// </summary>
+        /// <param name="participantID"></param>
+        /// <param name="status"></param>
+        /// <param name="json"></param>
         /// <returns></returns>
-        private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(ParticipantSevisBatchResultRecordDTO record)
+        private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
         {
             var result = new ParticipantSevisBatchProcessingResultDTO();
-            var json = new JavaScriptSerializer().Serialize(record);
-            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(record.participantId);
+            
+            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
             participantPersonDTO.SevisBatchResult = json;
             
-            result.ParticipantId = record.participantId;
+            result.ParticipantId = participantID;
             result.ProjectId = participantPersonDTO.Participant.ProjectId;
-            if (record.sevisResults.First().statusCode == 1)
+            if (status == "1")
             {
                 result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
             }
@@ -441,6 +305,13 @@ namespace ECA.Business.Service.Sevis
                 Context.SevisBatchProcessings.Remove(sevisBatchProcessingToDelete);
             }
         }
+
         #endregion
+
+
+        public string GetSevisBatchCreateUpdateXML(int programId, User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -36,22 +36,15 @@ namespace ECA.WebJobs.Sevis.Core
                 var service = new ParticipantService(context, null);
                 return service;
             }));
-
-            this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
-            {
-                var context = c.Resolve<EcaContext>();
-                var service = new ExchangeVisitorService(context, null);
-                return service;
-            }));
+            
             
             //Register the SEVIS Batch Processing service
             this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
-                var exchangeVisitorService = c.Resolve<IExchangeVisitorService>();
                 var participantService = c.Resolve<ParticipantService>();
                 var participantPersonSevisService = c.Resolve<ParticipantPersonsSevisService>();
-                var service = new SevisBatchProcessingService(context, exchangeVisitorService, participantService, participantPersonSevisService, null);
+                var service = new SevisBatchProcessingService(context, participantService, participantPersonSevisService, null);
                 return service;
             }));
         }

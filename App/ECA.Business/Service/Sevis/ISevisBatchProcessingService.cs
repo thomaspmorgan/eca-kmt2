@@ -1,6 +1,4 @@
 ﻿using ECA.Business.Queries.Models.Sevis;
-using ECA.Business.Validation;
-using ECA.Business.Validation.Model;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Collections.Generic;
@@ -91,38 +89,6 @@ namespace ECA.Business.Service.Sevis
         /// <param name="user"></param>
         /// <returns></returns>
         string GetSevisBatchCreateUpdateXML(int programId, User user);
-
-        /// <summary>
-        /// Retrieve a SEVIS batch to create/update exchange visitors
-        /// </summary>
-        /// <param name="createEVs"></param>
-        /// <param name="updateEVs"></param>
-        /// <param name="programId"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        SEVISBatchCreateUpdateEV CreateGetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, int programId, User user);
-
-        /// <summary>
-        /// Retrieve participants with no sevis that are ready to submit
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Sevis exchange visitor create objects (250 max)</returns>
-        List<CreateExchVisitor> GetSevisCreateEVs(User user);
-
-        /// <summary>
-        /// Retrieve participants with sevis information that are ready to submit
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns>Sevis exchange visitor update objects (250 max)</returns>
-        List<UpdateExchVisitor> GetSevisUpdateEVs(User user);
-
-        /// <summary>
-        /// Retrieve XML format of SEVIS batch object
-        /// </summary>
-        /// <param name="validationEntity">Participant object to be validated</param>
-        /// <returns>Participant object in XML format</returns>
-        string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity);
-
     }
 
     /// <summary>
@@ -268,49 +234,6 @@ namespace ECA.Business.Service.Sevis
         public string GetSevisBatchCreateUpdateXML(int programId, User user)
         {
             return string.Empty;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="createEVs"></param>
-        /// <param name="updateEVs"></param>
-        /// <param name="programId"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public SEVISBatchCreateUpdateEV CreateGetSevisBatchCreateUpdateEV(List<CreateExchVisitor> createEVs, List<UpdateExchVisitor> updateEVs, int programId, User user)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public List<CreateExchVisitor> GetSevisCreateEVs(User user)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public List<UpdateExchVisitor> GetSevisUpdateEVs(User user)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="validationEntity"></param>
-        /// <returns></returns>
-        public string GetSevisBatchXml(SEVISBatchCreateUpdateEV validationEntity)
-        {
-            return null;
         }
     }
 }

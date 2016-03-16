@@ -1,6 +1,6 @@
-﻿using ECA.Business.Validation.SEVIS.ErrorPaths;
+﻿using ECA.Business.Validation.Sevis.ErrorPaths;
 
-namespace ECA.Business.Validation.SEVIS
+namespace ECA.Business.Validation.Sevis.ErrorPaths
 {
     /// <summary>
     /// An ProgramCategoryCodeErrorPath is used when a participant's program category code has an error and where it might be located.
