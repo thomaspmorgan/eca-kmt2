@@ -58,7 +58,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -170,7 +170,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -266,7 +266,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -364,7 +364,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -464,7 +464,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -565,7 +565,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -664,7 +664,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -762,7 +762,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -857,7 +857,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -955,7 +955,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -1051,7 +1051,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -1147,7 +1147,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -1245,7 +1245,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -1343,7 +1343,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "1234567890";
+            var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "ab";
@@ -1396,7 +1396,7 @@ namespace ECA.Business.Test.Validation.Sevis
             
             Func<AddedDependent> createDependentEntity = () =>
             {
-                var badPhoneNumber = new string('a', PersonValidator.MAX_PHONE_NUMBER_LENGTH + 1);
+                var badPhoneNumber = new string('1', PersonValidator.MAX_PHONE_NUMBER_LENGTH + 1);
                 return new AddedDependent(
                     fullName: fullName,
                     birthCity: birthCity,

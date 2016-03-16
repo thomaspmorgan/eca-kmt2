@@ -139,15 +139,15 @@ namespace ECA.Business.Test.Queries.Persons
             dependent.EmailAddresses.Add(email);
             var phoneNumberType = new PhoneNumberType
             {
-                PhoneNumberTypeId = 97,
-                PhoneNumberTypeName = "phone number type"
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
             };
             var phoneNumber = new PhoneNumber
             {
                 PhoneNumberId = 8562,
                 Person = dependent,
                 PersonId = dependent.PersonId,
-                Number = "123-456-7890",
+                Number = "1234567890",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
             };
@@ -785,19 +785,20 @@ namespace ECA.Business.Test.Queries.Persons
             person.EmailAddresses.Add(email);
             var phoneNumberType = new PhoneNumberType
             {
-                PhoneNumberTypeId = 97,
-                PhoneNumberTypeName = "phone number type"
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
             };
+            var expectedPhonenumberValue = "18505551212";
             var phoneNumber = new PhoneNumber
             {
                 PhoneNumberId = 8562,
                 Person = person,
                 PersonId = person.PersonId,
-                Number = "123-456-7890",
+                Number = expectedPhonenumberValue,
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
-
             };
+
             person.PhoneNumbers.Add(phoneNumber);
             context.AddressTypes.Add(residenceAddressType);
             context.BirthCountries.Add(sevisResidenceCountry);
@@ -839,7 +840,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(gender.GenderId, biography.GenderId);
             Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
             Assert.AreEqual(phoneNumber.PhoneNumberId, biography.PhoneNumberId);
-            Assert.AreEqual(phoneNumber.Number, biography.PhoneNumber);
+            Assert.AreEqual(expectedPhonenumberValue, biography.PhoneNumber);
             Assert.AreEqual(email.Address, biography.EmailAddress);
             Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
 
@@ -2867,15 +2868,15 @@ namespace ECA.Business.Test.Queries.Persons
 
             var phoneNumberType = new PhoneNumberType
             {
-                PhoneNumberTypeId = 97,
-                PhoneNumberTypeName = "phone number type"
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
             };
             var primaryPhone = new PhoneNumber
             {
                 PhoneNumberId = 8562,
                 Person = person,
                 PersonId = person.PersonId,
-                Number = "123-456-7890",
+                Number = "1234567890",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
                 IsPrimary = true
@@ -2886,7 +2887,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PhoneNumberId = 8532,
                 Person = person,
                 PersonId = person.PersonId,
-                Number = "555-555-5555",
+                Number = "5555555555",
                 PhoneNumberType = phoneNumberType,
                 PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
                 IsPrimary = false
@@ -2917,6 +2918,239 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(primaryEmail.Address, biography.EmailAddress);
             Assert.AreEqual(primaryPhone.PhoneNumberId, biography.PhoneNumberId);
             Assert.AreEqual(primaryEmail.EmailAddressId, biography.EmailAddressId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetBiographicalDataQuery_PhoneNumberIsNotVisitingPhoneNumber()
+        {
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 87,
+                LocationName = "citizenship",
+                LocationIso2 = "iso2"
+            };
+            var sevisCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
+            var countryOfBirth = new Location
+            {
+                LocationId = 42,
+                LocationName = "country of birth",
+                BirthCountryId = sevisCountry.BirthCountryId,
+                BirthCountry = sevisCountry
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 55,
+                LocationName = "city of birth",
+                Country = countryOfBirth,
+                CountryId = countryOfBirth.LocationId
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "gender",
+                SevisGenderCode = "sevis code"
+            };
+            var person = new Data.Person
+            {
+                PersonId = 100,
+                FullName = "full name",
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(countryOfCitizenship);
+
+
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                PersonId = person.PersonId,
+                Person = person,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 2,
+                EmailAddressTypeName = "email address Type"
+            };
+            var primaryEmail = new EmailAddress
+            {
+                EmailAddressId = 250,
+                Address = "someone@isp.com",
+                Person = person,
+                PersonId = person.PersonId,
+                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+                EmailAddressType = emailAddressType,
+                IsPrimary = true
+            };
+            person.EmailAddresses.Add(primaryEmail);
+
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = PhoneNumberType.Cell.Id,
+                PhoneNumberTypeName = PhoneNumberType.Cell.Value
+            };
+            var primaryPhone = new PhoneNumber
+            {
+                PhoneNumberId = 8562,
+                Person = person,
+                PersonId = person.PersonId,
+                Number = "123-456-7890",
+                PhoneNumberType = phoneNumberType,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
+            };
+            person.PhoneNumbers.Add(primaryPhone);
+
+            context.PhoneNumbers.Add(primaryPhone);
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.EmailAddressTypes.Add(emailAddressType);
+            context.EmailAddresses.Add(primaryEmail);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Locations.Add(countryOfCitizenship);
+            context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
+            context.BirthCountries.Add(sevisCountry);
+
+            var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var biography = result.First();
+            Assert.IsNull(biography.PhoneNumber);
+            Assert.IsNull(biography.PhoneNumberId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetBiographicalDataQuery_CheckRemovesNonDigitCharactersFromPhone()
+        {
+            var countryOfCitizenship = new Location
+            {
+                LocationId = 87,
+                LocationName = "citizenship",
+                LocationIso2 = "iso2"
+            };
+            var sevisCountry = new BirthCountry
+            {
+                BirthCountryId = 698,
+                CountryCode = "birth country code"
+            };
+            var countryOfBirth = new Location
+            {
+                LocationId = 42,
+                LocationName = "country of birth",
+                BirthCountryId = sevisCountry.BirthCountryId,
+                BirthCountry = sevisCountry
+            };
+            var cityOfBirth = new Location
+            {
+                LocationId = 55,
+                LocationName = "city of birth",
+                Country = countryOfBirth,
+                CountryId = countryOfBirth.LocationId
+            };
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "gender",
+                SevisGenderCode = "sevis code"
+            };
+            var person = new Data.Person
+            {
+                PersonId = 100,
+                FullName = "full name",
+                Alias = "alias",
+                FirstName = "first name",
+                LastName = "last name",
+                NameSuffix = "suffix",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                PlaceOfBirth = cityOfBirth,
+                PlaceOfBirthId = cityOfBirth.LocationId
+            };
+            person.CountriesOfCitizenship.Add(countryOfCitizenship);
+
+
+            var participant = new Participant
+            {
+                ParticipantId = 10,
+                PersonId = person.PersonId,
+                Person = person,
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+            };
+            participant.ParticipantPerson = participantPerson;
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = 2,
+                EmailAddressTypeName = "email address Type"
+            };
+            var primaryEmail = new EmailAddress
+            {
+                EmailAddressId = 250,
+                Address = "someone@isp.com",
+                Person = person,
+                PersonId = person.PersonId,
+                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+                EmailAddressType = emailAddressType,
+                IsPrimary = true
+            };
+            person.EmailAddresses.Add(primaryEmail);
+
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
+            };
+
+            var phoneNumber = "+1 (850) 456-7890";
+            var expectedPhonenumber = "18504567890";
+            var primaryPhone = new PhoneNumber
+            {
+                PhoneNumberId = 8562,
+                Person = person,
+                PersonId = person.PersonId,
+                Number = phoneNumber,
+                PhoneNumberType = phoneNumberType,
+                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId,
+            };
+            person.PhoneNumbers.Add(primaryPhone);
+
+            context.PhoneNumbers.Add(primaryPhone);
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.EmailAddressTypes.Add(emailAddressType);
+            context.EmailAddresses.Add(primaryEmail);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Locations.Add(countryOfCitizenship);
+            context.Locations.Add(cityOfBirth);
+            context.Locations.Add(countryOfBirth);
+            context.BirthCountries.Add(sevisCountry);
+
+            var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
+            Assert.AreEqual(1, result.Count);
+            var biography = result.First();
+            Assert.AreEqual(primaryPhone.PhoneNumberId, biography.PhoneNumberId);
+            Assert.AreEqual(expectedPhonenumber, biography.PhoneNumber);
         }
 
         [TestMethod]

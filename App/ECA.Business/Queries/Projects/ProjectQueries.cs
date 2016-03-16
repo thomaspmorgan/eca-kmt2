@@ -221,10 +221,10 @@ namespace ECA.Business.Queries.Projects
                             CountryIsosByRegions = projectRegionCountries.Select(x => new SimpleLookupDTO { Id = x.Id, Value = x.LocationIso }).Distinct(),
                             VisitorTypeId = project.VisitorTypeId,
                             VisitorTypeName = project.VisitorType.VisitorTypeName,
-                            UsParticipantsEst = project.UsParticipantsEst,
-                            NonUsParticipantsEst = project.NonUsParticipantsEst,
-                            UsParticipantsActual = project.UsParticipantsActual,
-                            NonUsParticipantsActual = project.NonUsParticipantsActual,
+                            UsParticipantsEst = project.UsParticipantsEst ?? 0,
+                            NonUsParticipantsEst = project.NonUsParticipantsEst ?? 0,
+                            UsParticipantsActual = project.UsParticipantsActual ?? 0,
+                            NonUsParticipantsActual = project.NonUsParticipantsActual ?? 0,
 
                         };
             return query;

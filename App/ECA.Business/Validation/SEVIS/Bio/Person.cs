@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
 using ECA.Business.Queries.Models.Admin;
+using PhoneNumbers;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -149,6 +150,14 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets the program category code.
         /// </summary>
         public string ProgramCategoryCode { get; private set; }
+        
+        private string GetUSPhoneNumber(string phoneNumber)
+        {
+            Contract.Requires(phoneNumber != null, "The phone number must not be null.");
+            var phoneNumberUtil = PhoneNumberUtil.GetInstance();
+            var pn = phoneNumberUtil.Parse(phoneNumber, ECA.Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+            return pn.NationalNumber.ToString();
+        }
 
         /// <summary>
         /// Returns an EVPersonTypeBiographical instance for use in a new exchange visitor's biographical information.
@@ -173,7 +182,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 FullName = this.FullName.GetNameType(),
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
-                PhoneNumber = this.PhoneNumber,
+                PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
             };
         }
 
@@ -215,7 +224,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 CitizenshipCountryCodeSpecified = isCodeSpecified(this.CitizenshipCountryCode),
                 GenderSpecified = isCodeSpecified(this.Gender),
                 PermanentResidenceCountryCodeSpecified = isCodeSpecified(this.PermanentResidenceCountryCode),
-                PhoneNumber = this.PhoneNumber,
+                PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
                 ResidentialAddress = null,
                 BirthCountryReason = null,
                 USAddress = null,

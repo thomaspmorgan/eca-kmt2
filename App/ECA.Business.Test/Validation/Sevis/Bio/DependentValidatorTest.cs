@@ -44,7 +44,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             };
             string gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
             string permanentResidenceCountryCode = "FR";
-            string phoneNumber = "1234567890";
+            string phoneNumber = "18505551212";
             string relationship = "relations";
             Func<AddedDependent> createEntity = () =>
             {

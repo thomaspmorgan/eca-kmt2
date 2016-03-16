@@ -5,60 +5,42 @@ using System;
 namespace ECA.Business.Validation.Sevis.Finance
 {
     /// <summary>
-    /// US government organization funding
+    /// USGovt funding is used to represent an exchange visitor's funding from a US government agency.
     /// </summary>
     [Validator(typeof(USGovtValidator))]
-    public class USGovt
+    public class USGovt : OrganizationFunding
     {
+        /// <summary>
+        /// Creates a new instance with the given funding details.
+        /// </summary>
+        /// <param name="org1">The first organization providing funding.  This value is a code.</param>
+        /// <param name="otherName1">The name of the first organization if the first organization is 'OTHER'.</param>
+        /// <param name="amount1">The first organization funding amount in whole dollars.</param>
+        /// <param name="org2">The second organization providing funding.  This value is a code.</param>
+        /// <param name="otherName2">The name of the second organization if the second organization is 'OTHER'.</param>
+        /// <param name="amount2">The second organization's funding amount in whole dollars.</param>
         public USGovt(
-            string org1,
-            string otherName1,
-            string amount1,
-            string org2,
-            string otherName2,
-            string amount2)
+             string org1,
+             string otherName1,
+             string amount1,
+             string org2,
+             string otherName2,
+             string amount2)
+            : base(
+                 org1: org1,
+                 otherName1: otherName1,
+                 amount1: amount1,
+                 org2: org2,
+                 otherName2: otherName2,
+                 amount2: amount2)
         {
-            this.Org1 = org1;
-            this.OtherName1 = otherName1;
-            this.Amount1 = amount1;
-            this.Org2 = org2;
-            this.OtherName2 = otherName2;
-            this.Amount2 = amount2;
+
         }
-        /// <summary>
-        /// US government organization 1
-        /// </summary>
-        public string Org1 { get; private set; }
 
         /// <summary>
-        /// Other US government organization 1
+        /// Returns the sevis exchange visitor USGovt funding instance.
         /// </summary>
-        public string OtherName1 { get; private set; }
-
-        /// <summary>
-        /// US government organization 1 funding amount
-        /// </summary>
-        public string Amount1 { get; private set; }
-
-        /// <summary>
-        /// US government organization 2
-        /// </summary>
-        public string Org2 { get; private set; }
-
-        /// <summary>
-        /// Other US government organization 2
-        /// </summary>
-        public string OtherName2 { get; private set; }
-
-        /// <summary>
-        /// US government organization 2 funding amount
-        /// </summary>
-        public string Amount2 { get; private set; }
-
-        /// <summary>
-        /// Returns a new sevis exchange visitor us government funding.
-        /// </summary>
-        /// <returns></returns>
+        /// <returns>The sevis exchange visitor USGovt funding instance.</returns>
         public OtherFundsTypeUSGovt GetOtherFundsTypeUSGovt()
         {
             Func<string, GovAgencyCodeType> getGovAgencyCode = (code) =>

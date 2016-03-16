@@ -5,6 +5,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Data;
+using PhoneNumbers;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -15,7 +16,6 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ExchangeVisitorQueries
     {
-
         /// <summary>
         /// Returns a query to get biographical information about a participant as it relates to sevis.
         /// </summary>
@@ -24,6 +24,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<BiographicalDTO> CreateGetBiographicalDataQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+
             var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
             var phoneNumberQuery = PhoneNumberQueries.CreateGetPhoneNumberDTOQuery(context);
             var addressQuery = AddressQueries.CreateGetAddressDTOQuery(context);
@@ -34,6 +35,7 @@ namespace ECA.Business.Queries.Persons
             var unitedStatesCountryName = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             var hostAddressTypeId = AddressType.Host.Id;
             var homeAddressTypeId = AddressType.Home.Id;
+            var visitingPhoneNumberTypeId = Data.PhoneNumberType.Visiting.Id;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -64,6 +66,7 @@ namespace ECA.Business.Queries.Persons
 
                         let phoneNumber = phoneNumberQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.PhoneNumberTypeId == visitingPhoneNumberTypeId)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
@@ -109,7 +112,14 @@ namespace ECA.Business.Queries.Persons
                             BirthCountryReason = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
-                            PhoneNumber = phoneNumber != null ? phoneNumber.Number : null,
+                            PhoneNumber = phoneNumber != null 
+                                ? phoneNumber.Number
+                                    .Replace(" ", string.Empty)
+                                    .Replace("-", string.Empty)
+                                    .Replace("+", string.Empty)
+                                    .Replace("(", string.Empty)
+                                    .Replace(")", string.Empty)  
+                                : null,
                             MailAddress = mailAddress,
                         };
             return query;
