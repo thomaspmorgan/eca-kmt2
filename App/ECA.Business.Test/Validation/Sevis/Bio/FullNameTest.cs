@@ -2,12 +2,37 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
     [TestClass]
     public class FullNameTest
     {
+        [TestMethod]
+        public void TestConstructor()
+        {
+            var fullName = new FullName
+            {
+                FirstName = "first",
+                LastName = "Last",
+                PassportName = "passport",
+                PreferredName = "preferred",
+                Suffix = "Jr."
+            };
+
+            var json = JsonConvert.SerializeObject(fullName);
+            var jsonObject = JsonConvert.DeserializeObject<FullName>(json);
+
+            Assert.AreEqual(fullName.FirstName, jsonObject.FirstName);
+            Assert.AreEqual(fullName.LastName, jsonObject.LastName);
+            Assert.AreEqual(fullName.PassportName, jsonObject.PassportName);
+            Assert.AreEqual(fullName.PreferredName, jsonObject.PreferredName);
+            Assert.AreEqual(fullName.Suffix, jsonObject.Suffix);
+
+            Assert.Fail("Need to refactor full name constructor to require arguments.  Then continue on with the serialization to json.");
+        }
+
         [TestMethod]
         public void TestGetNameType_HasSuffixWithPeriod()
         {

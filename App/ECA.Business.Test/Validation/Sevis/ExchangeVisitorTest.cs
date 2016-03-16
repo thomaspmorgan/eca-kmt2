@@ -17,6 +17,7 @@ using System.IO;
 using FluentValidation;
 using Moq;
 using ECA.Business.Test.Validation.Sevis.Bio;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis
 {

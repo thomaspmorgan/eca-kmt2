@@ -6,6 +6,7 @@ using ECA.Business.Validation;
 using ECA.Business.Sevis.Model;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -87,6 +88,27 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsTrue(Object.ReferenceEquals(fullName, instance.FullName));
             Assert.IsTrue(Object.ReferenceEquals(mailAddress, instance.MailAddress));
             Assert.IsTrue(Object.ReferenceEquals(usAddress, instance.USAddress));
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<UpdatedDependent>(json);
+            Assert.AreEqual(personId, jsonObject.GetPersonId());
+            Assert.AreEqual(participantId, jsonObject.GetParticipantId());
+            Assert.AreEqual(birthCity, jsonObject.BirthCity);
+            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
+            Assert.AreEqual(birthDate, jsonObject.BirthDate);
+            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
+            Assert.AreEqual(email, jsonObject.EmailAddress);
+            Assert.AreEqual(gender, jsonObject.Gender);
+            Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
+            Assert.AreEqual(phone, jsonObject.PhoneNumber);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(relationship, jsonObject.Relationship);
+            Assert.AreEqual(sevisId, jsonObject.SevisId);
+            Assert.AreEqual(remarks, jsonObject.Remarks);
+            Assert.IsNotNull(jsonObject.FullName);
+            Assert.IsNotNull(jsonObject.MailAddress);
+            Assert.IsNotNull(jsonObject.USAddress);
         }
 
         [TestMethod]
@@ -134,7 +156,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 relationship: relationship,
@@ -212,7 +234,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 relationship: relationship,
@@ -277,7 +299,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 relationship: relationship,

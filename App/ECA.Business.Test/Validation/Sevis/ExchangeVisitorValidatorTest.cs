@@ -1405,7 +1405,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     birthDate: birthDate,
                     citizenshipCountryCode: citizenshipCountryCode,
                     emailAddress: "someone@isp.com",
-                    genderCode: gender,
+                    gender: gender,
                     permanentResidenceCountryCode: permanentResidenceCountryCode,
                     phoneNumber: badPhoneNumber,
                     relationship: "relationship",

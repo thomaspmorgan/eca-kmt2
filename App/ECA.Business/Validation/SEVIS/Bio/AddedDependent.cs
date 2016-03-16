@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -14,6 +15,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// </summary>
     public class AddedDependent : Dependent
     {
+        [JsonConstructor]
         public AddedDependent(
                 FullName fullName,
                 string birthCity,
@@ -22,7 +24,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 DateTime? birthDate,
                 string citizenshipCountryCode,
                 string emailAddress,
-                string genderCode,
+                string gender,
                 string permanentResidenceCountryCode,
                 string phoneNumber,
                 string relationship,
@@ -40,7 +42,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: emailAddress,
-                genderCode: genderCode,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phoneNumber,
                 relationship: relationship,

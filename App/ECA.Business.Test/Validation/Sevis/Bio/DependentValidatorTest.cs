@@ -56,7 +56,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     birthDate: birthDate,
                     citizenshipCountryCode: citizenshipCountryCode,
                     emailAddress: emailAddress,
-                    genderCode: gender,
+                    gender: gender,
                     permanentResidenceCountryCode: permanentResidenceCountryCode,
                     phoneNumber: phoneNumber,
                     relationship: relationship,

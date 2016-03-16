@@ -16,7 +16,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                   birthDate: null,
                   citizenshipCountryCode: null,
                   emailAddress: null,
-                  genderCode: null,
+                  gender: null,
                   permanentResidenceCountryCode: null,
                   phoneNumber: null,
                   relationship: null,

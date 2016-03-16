@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
@@ -24,6 +25,16 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(amount2, instance.Amount2);
             Assert.AreEqual(otherName1, instance.OtherName1);
             Assert.AreEqual(otherName2, instance.OtherName2);
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonTestObject = JsonConvert.DeserializeObject<USGovt>(json);
+            Assert.AreEqual(org1, jsonTestObject.Org1);
+            Assert.AreEqual(org2, jsonTestObject.Org2);
+            Assert.AreEqual(amount1, jsonTestObject.Amount1);
+            Assert.AreEqual(amount2, jsonTestObject.Amount2);
+            Assert.AreEqual(otherName1, jsonTestObject.OtherName1);
+            Assert.AreEqual(otherName2, jsonTestObject.OtherName2);
+
         }
 
         [TestMethod]
