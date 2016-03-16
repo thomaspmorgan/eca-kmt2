@@ -11,9 +11,9 @@ angular.module('staticApp')
   .factory('DependentService', function ($q, DragonBreath) {
 
       return {
-          getDependentById: function (id) {
+          getDependentById: function (dependentId) {
               var defer = $q.defer();
-              DragonBreath.get('person/' + id + '/dependent')
+              DragonBreath.get('person/' + dependentId + '/dependent')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -22,7 +22,7 @@ angular.module('staticApp')
           getDependents: function (params) {
               return DragonBreath.get(params, 'dependent');
           },
-          update: function (dependent, id) {
+          update: function (personId, dependent) {
               return DragonBreath.save(dependent, 'dependent');
           },
           create: function (dependent) {

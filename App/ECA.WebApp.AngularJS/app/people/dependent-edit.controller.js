@@ -7,45 +7,26 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personDependentEditCtrl', function ($scope, $timeout, $modalInstance, PersonService, DependentService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personDependentEditCtrl', function ($scope, $timeout, $modalInstance,
+          PersonService, DependentService, LookupService, LocationService, ConstantsService,
+          $stateParams, NotificationService, FilterService, $q, DateTimeService, dependent) {
       
-      $scope.dependent = {};
+      $scope.dependent = loadDependent(dependent.id);
       $scope.selectedCountriesOfCitizenship = [];
+      $scope.countriesCitizenship = [];
+      $scope.countriesResidence = [];
+      $scope.cities = [];
       $scope.dependentLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
-      //$scope.personIdDeferred = $q.defer();
 
       $scope.updateGender = function () {
           $scope.dependent.gender = getObjectById($scope.dependent.genderId, $scope.genders).value;
       };
 
-      function getObjectById(id, array) {
-          for (var i = 0; i < array.length; i++) {
-              if (array[i].id === id) {
-                  return array[i];
-              }
-          }
-          return null;
-      };
-
-      $scope.onSelectCityOfBirth = function () {
-          $scope.dependent.isPlaceOfBirthUnknown = false;
-      }
-
-      $scope.isPlaceOfBirthValid = function ($value) {
-            if ($value === 0 || $value === null) {
-                return false;
-            }
-            else {
-                return true;
-            }
-      }
-
-      function loadDependent() {
-          personId = $stateParams.personId;
+      function loadDependent(dependentId) {
           $scope.dependentLoading = true;
-          return DependentService.getDependentById(personId)
+          return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.placeOfBirth) {
@@ -62,7 +43,9 @@ angular.module('staticApp')
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
 
-                 return loadCities(null)
+                 loadCountries();
+
+                 return $scope.loadCities(null)
                  .then(function () {
                      $scope.dependentLoading = false;
                  })
@@ -72,19 +55,32 @@ angular.module('staticApp')
              });
       };
 
+      $scope.onSelectCityOfBirth = function () {
+          $scope.dependent.isPlaceOfBirthUnknown = false;
+      }
+
+      $scope.isPlaceOfBirthValid = function ($value) {
+            if ($value === 0 || $value === null) {
+                return false;
+            }
+            else {
+                return true;
+            }
+      }
+
       $scope.isCityOfBirthValid = function ($value) {
             return $value !== undefined && $value !== null && $value !== 0;
       }
 
       $scope.searchCities = function (search) {
-          return loadCities(search);
+          return $scope.loadCities(search);
       }
 
       $scope.searchCountries = function (search) {
-          return loadCountries(search);
+          return $scope.loadCountries(search);
       }
       
-      function loadCities(search) {
+      $scope.loadCities = function (search) {
           if (search || $scope.dependent) {
               var params = {
                   limit: 30,
@@ -106,10 +102,10 @@ angular.module('staticApp')
           }
       }
 
-      function loadCountries(search) {
+      $scope.loadCountries = function (search) {
           if (search) {
               var params = {
-                  limit: 30,
+                  limit: 300,
                   filter: [
                     { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
                     { property: 'isActive', comparison: 'eq', value: true }
@@ -120,13 +116,33 @@ angular.module('staticApp')
               }
               return LocationService.get(params)
                 .then(function (data) {
-                    $scope.countries = data.results;
-                    return $scope.countries;
+                    $scope.countriesCitizenship = data.results;
+                    return $scope.countriesCitizenship;
                 });
           }
       }
-      
-      function loadLocationById(id) {
+
+      var countriesFilter = FilterService.add('addResidence_countries');
+      var countriesParams = countriesFilter
+          .skip(0)
+          .take(300)
+          .equal('locationTypeId', ConstantsService.locationType.country.id)
+          .isTrue('isActive')
+          .sortBy('name')
+          .toParams();
+      function loadCountries() {
+          return LocationService.get(countriesParams)
+          .then(function (response) {
+              $scope.countriesResidence = response.results;
+          })
+          .catch(function () {
+              var message = "Unable to load countries.";
+              NotificationService.showErrorMessage(message);
+              $log.error(message);
+          });
+      }
+
+      $scope.loadLocationById = function (id) {
           return LocationService.get({
               limit: 1,
               filter: [
@@ -135,7 +151,11 @@ angular.module('staticApp')
           });
       }
 
-      LookupService.getAllGenders({ limit: 300 })
+      LookupService.getAllGenders({
+          limit: 300,
+          filter: [{
+              property: 'id', comparison: ConstantsService.inComparisonType, value: [1,2] }]
+         })
          .then(function (data) {
              $scope.genders = data.results;
          });
@@ -200,5 +220,14 @@ angular.module('staticApp')
       $scope.onCloseClick = function () {
           $modalInstance.dismiss('cancel');
       }
+
+      function getObjectById(id, array) {
+          for (var i = 0; i < array.length; i++) {
+              if (array[i].id === id) {
+                  return array[i];
+              }
+          }
+          return null;
+      };
 
   });

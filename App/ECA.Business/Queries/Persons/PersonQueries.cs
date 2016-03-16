@@ -133,13 +133,13 @@ namespace ECA.Business.Queries.Persons
                                                 PassportName = "",
                                                 PreferredName = ""
                                             },
-                            DateOfBirth = (DateTime)person.DateOfBirth,
+                            DateOfBirth = person.DateOfBirth,
                             Gender = gender.GenderId,
                             CityOfBirth = hasPlaceOfBirth ? cityOfBirth.LocationId : 0,
                             CountryOfBirth = (int)countryOfBirthId,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
                             PermanentResidenceCountryCode = person.Addresses.Where(x => x.IsPrimary == true && x.AddressTypeId == AddressType.Home.Id).Select(x => x.LocationId).FirstOrDefault(),
-                            BirthCountryReason = "[[ignored]]",
+                            BirthCountryReason = "TODO",
                             EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
                             PersonTypeId = person.PersonTypeId
                         };

@@ -30,7 +30,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the date of birth
         /// </summary>
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets and sets the gender

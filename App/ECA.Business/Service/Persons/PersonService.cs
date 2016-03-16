@@ -204,16 +204,16 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="personId">The person Id</param>
         /// <returns>The person dependent</returns>
-        public async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId)
+        public async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int dependentId)
         {
-            this.logger.Trace("Retrieving person with id {0}.", personId);
-            return await CreateGetSimplePersonDependent(personId).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieving person with id {0}.", dependentId);
+            return await CreateGetSimplePersonDependent(dependentId).FirstOrDefaultAsync();
         }
 
-        private IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependent(int personId)
+        private IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependent(int dependentId)
         {
             var query = PersonQueries.CreateGetSimplePersonDependentDTOsQuery(this.Context);
-            return query.Where(p => p.PersonId == personId);
+            return query.Where(p => p.PersonId == dependentId);
         }
         
         /// <summary>

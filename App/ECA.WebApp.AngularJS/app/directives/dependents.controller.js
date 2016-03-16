@@ -14,12 +14,14 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
-        ConstantsService
+        ConstantsService,
+        DependentService,
+        LocationService
         ) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
-      $scope.view.collapseDependents = true;
+      $scope.view.collapseDependents = false;
       var tempId = 0;
 
       $scope.data = {};
@@ -41,14 +43,21 @@ angular.module('staticApp')
           });
       };
 
-      $scope.view.onEditDependentClick = function () {
+      $scope.view.onEditDependentClick = function (dependent) {
           $scope.dependentLoading = false;
+          dependent.original = angular.copy(dependent);
+          dependent.currentlyEditing = true;
+
           var editDependentModalInstance = $modal.open({
               animation: true,
               templateUrl: 'app/people/dependent-edit.html',
               controller: 'personDependentEditCtrl',
               size: 'md',
-              resolve: {}
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
           });
           editDependentModalInstance.result.then(function (updatedDependent) {
               $log.info('Finished updating dependent.');
@@ -57,6 +66,28 @@ angular.module('staticApp')
               $log.info('Modal dismissed at: ' + new Date());
           });
       };
+      
+      function loadCities(search) {
+          if (search || $scope.dependent) {
+              var params = {
+                  limit: 30,
+                  filter: [
+                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
+                  ]
+              };
+              if (search) {
+                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
+              }
+              else if ($scope.dependent.cityOfBirthId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.cityOfBirthId });
+              }
+              return LocationService.get(params)
+                .then(function (data) {
+                    $scope.cities = data.results;
+                    return $scope.cities;
+                });
+          }
+      }
 
       $scope.$on(ConstantsService.removeNewDependentEventName, function (event, newDependent) {
           console.assert($scope.model, 'The scope person must exist.  It should be set by the directive.');
