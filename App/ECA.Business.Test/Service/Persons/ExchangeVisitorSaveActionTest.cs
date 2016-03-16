@@ -1873,13 +1873,11 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestBeforeChanges_DeletedEntity_HasPersonId()
+        public async Task TestBeforeChanges_DeletedEntity_HasPersonId_HasParticipantId()
         {
             using (ShimsContext.Create())
             {
-                var participantId = 2;
-
-                var list = new List<object>();
+                var participantId = 2;                
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
@@ -1891,7 +1889,6 @@ namespace ECA.Business.Test.Service.Persons
                     Person = participatingPerson,
                     PersonId = participatingPerson.PersonId
                 };
-                list.Add(address);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
                 {
                     var peopleDtos = new List<SimplePersonDTO>();
@@ -1950,6 +1947,160 @@ namespace ECA.Business.Test.Service.Persons
                     saveAction.DeletedObjects.Clear();
                     context.Addresses.Add(address);
                     context.People.Add(participatingPerson);
+                });
+
+                context.Revert();
+                saveAction.BeforeSaveChanges(context);
+                tester();
+
+                context.Revert();
+                await saveAction.BeforeSaveChangesAsync(context);
+                tester();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestBeforeChanges_DeletedEntity_HasPersonId_DoesNotHaveParticipantId()
+        {
+            using (ShimsContext.Create())
+            {
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var address = new Address
+                {
+                    AddressId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+                var addressDbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                addressDbEntityEntry.GetDatabaseValues = () => propertyValues;
+                addressDbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                addressDbEntityEntry.EntityGet = () => address;
+                addressDbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                dbEntityEntry.EntityGet = () => address;
+                dbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return addressDbEntityEntry;
+                });
+
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (chgTracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(dbEntityEntry);
+                    return entries;
+                };
+
+                context.GetLocalDelegate = () => address;
+
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, saveAction.DeletedObjects.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(address, saveAction.DeletedObjects.First()));
+                    Assert.AreEqual(0, saveAction.ParticipantIds.Count);
+                };
+                context.SetupActions.Add(() =>
+                {
+                    saveAction.DeletedObjects.Clear();
+                    context.Addresses.Add(address);
+                    context.People.Add(participatingPerson);
+                });
+
+                context.Revert();
+                saveAction.BeforeSaveChanges(context);
+                tester();
+
+                context.Revert();
+                await saveAction.BeforeSaveChangesAsync(context);
+                tester();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestBeforeChanges_DeletedEntity_DoesNotHavePersonId()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new Address
+                {
+                    AddressId = 3,
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+                var addressDbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                addressDbEntityEntry.GetDatabaseValues = () => propertyValues;
+                addressDbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                addressDbEntityEntry.EntityGet = () => address;
+                addressDbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                dbEntityEntry.EntityGet = () => address;
+                dbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return addressDbEntityEntry;
+                });
+
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (chgTracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(dbEntityEntry);
+                    return entries;
+                };
+
+                context.GetLocalDelegate = () => address;
+
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, saveAction.DeletedObjects.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(address, saveAction.DeletedObjects.First()));
+                    Assert.AreEqual(0, saveAction.ParticipantIds.Count);
+                };
+                context.SetupActions.Add(() =>
+                {
+                    saveAction.DeletedObjects.Clear();
+                    context.Addresses.Add(address);
                 });
 
                 context.Revert();
