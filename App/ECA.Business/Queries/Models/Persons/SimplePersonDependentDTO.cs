@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ECA.Business.Queries.Models.Persons
     {
         public SimplePersonDependentDTO()
         {
-            CountriesOfCitizenship = new List<Location>();
+            CountriesOfCitizenship = new List<SimpleLookupDTO>();
             History = new History();
         }
 
@@ -29,32 +30,32 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the date of birth
         /// </summary>
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; set; }
+        public int? GenderId { get; set; }
 
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int CityOfBirth { get; set; }
+        public int? CityOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
-        public int CountryOfBirth { get; set; }
+        public int? CountryOfBirth { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code
         /// </summary>
-        public int PermanentResidenceCountryCode { get; set; }
+        public int? PermanentResidenceCountryCode { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason

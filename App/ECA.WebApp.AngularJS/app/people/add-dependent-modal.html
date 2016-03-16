@@ -2,43 +2,41 @@
     <h3 class="modal-title">Dependent</h3>
 </div>
 <div class="modal-body">
-    <div ng-show="dependentsLoading">
-        <div class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
+    <div class="spinner" ng-show="dependentsLoading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
     </div>
-    <div ng-show="!dependentsLoading">
-        <form name="dependentForm" class="form-horizontal">
+    <div in-context-form ng-show="!dependentsLoading">
+        <form name="dependentForm">
             <div class="form-group row">
                 <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
                 <div class="col-md-8">
-                    <input type="text" name="firstName" class="form-control" ng-model="dependent.fullName.firstName" required />
+                    <input type="text" name="firstName" class="form-control" ng-model="dependent.firstName" required />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
                 <div class="col-md-8">
-                    <input type="text" name="lastName" class="form-control" ng-model="dependent.fullName.lastName" required />
+                    <input type="text" name="lastName" class="form-control" ng-model="dependent.lastName" required />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 title-label">Name suffix</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" ng-model="dependent.fullName.nameSuffix" />
+                    <input type="text" class="form-control" ng-model="dependent.nameSuffix" />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 title-label">Passport name</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" ng-model="dependent.fullName.passportName" />
+                    <input type="text" class="form-control" ng-model="dependent.passportName" />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 title-label">Preferred name</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" ng-model="dependent.fullName.preferredName" />
+                    <input type="text" class="form-control" ng-model="dependent.preferredName" />
                 </div>
             </div>
             <div class="form-group row">
@@ -83,6 +81,7 @@
                                name="dateOfBirth"
                                id="dateOfBirth"
                                datepicker-popup="dd-MMMM-yyyy"
+                               ng-disabled="dependent.isDateOfBirthUnknown"
                                ng-model="dependent.dateOfBirth"
                                is-open="datePickerOpen"
                                max-date="maxDateOfBirth"
@@ -103,14 +102,15 @@
                 <div class="col-md-4 title-label">Countries of Citizenship</div>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <div class="col-md-12">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
                             <ui-select multiple ng-model="selectedCountriesOfCitizenship"
                                        theme="select2" style="min-width: 200px;"
                                        title="Choose a country">
                                 <ui-select-match placeholder="Select countries...">
                                     <div>{{$item.name}}</div>
                                 </ui-select-match>
-                                <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country in countriesCitizenship">
+                                <ui-select-choices refresh="searchCountries($select.search)" refresh-delay="250" repeat="country in countries">
                                     <div ng-bind-html="country.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
@@ -119,21 +119,23 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-4 title-label">Permanent Residence Country<span class="asterisk"> *</span></div>
-                <div class="col-md-8">
-                    <select class="form-control"
-                            ng-options="t.id as t.name for t in countriesResidence"
-                            ng-model="dependent.PermanentResidenceCountryCode"
-                            required />
-                </div>
+                <label for="countryId">Permanent Residence Country<span class="asterisk"> *</span></label>
+                <select class="form-control"
+                        id="countryId"
+                        name="countryId"
+                        ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
+                        ng-options="t.id as t.name for t in view.countries"
+                        ng-model="view.newLocation.countryId"
+                        ng-change="view.onCountryChange()"
+                        required />
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <div class="col-md-4 title-label">Birth Country Reason</div>
                 <div class="col-md-8">
                     <input type="text" class="form-control" ng-model="dependent.birthCountryReason" />
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <div class="col-md-4 title-label">Email Address</div>
                 <div class="col-md-8">
                     <input type="text" class="form-control" ng-model="dependent.emailAddress" />

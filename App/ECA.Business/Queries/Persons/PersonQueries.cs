@@ -110,16 +110,17 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from person in context.People
+
+                        let hasGender = person.Gender != null
                         let gender = person.Gender
 
                         let hasPlaceOfBirth = person.PlaceOfBirth != null
                         let cityOfBirth = person.PlaceOfBirth
-
                         let cityOfBirthName = hasPlaceOfBirth ? cityOfBirth.LocationName : null
 
                         let hasCountryOfBirth = hasPlaceOfBirth && cityOfBirth.Country != null
                         let countryOfBirthId = hasCountryOfBirth ? cityOfBirth.Country.CountryId : 0
-
+                        
                         where person.PersonType.IsDependentPersonType == true
 
                         select new SimplePersonDependentDTO
@@ -133,13 +134,13 @@ namespace ECA.Business.Queries.Persons
                                                 PassportName = "",
                                                 PreferredName = ""
                                             },
-                            DateOfBirth = (DateTime)person.DateOfBirth,
-                            Gender = gender.GenderId,
+                            DateOfBirth = person.DateOfBirth,
+                            GenderId = hasGender ? gender.GenderId : 0,
                             CityOfBirth = hasPlaceOfBirth ? cityOfBirth.LocationId : 0,
-                            CountryOfBirth = (int)countryOfBirthId,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new Location { LocationId = x.LocationId, LocationName = x.LocationName }).ToList(),
-                            PermanentResidenceCountryCode = 0,
-                            BirthCountryReason = "",
+                            CountryOfBirth = countryOfBirthId,
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
+                            PermanentResidenceCountryCode = person.Addresses.Where(x => x.IsPrimary == true && x.AddressTypeId == AddressType.Home.Id).Select(x => x.LocationId).FirstOrDefault(),
+                            BirthCountryReason = "TODO",
                             EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
                             PersonTypeId = person.PersonTypeId
                         };

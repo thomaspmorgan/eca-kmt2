@@ -197,7 +197,8 @@
     <Content Include="app\offices\edit.controller.js" />
     <Content Include="app\offices\edit.html" />
     <Content Include="app\people\dependent-edit.controller.js" />
-    <Content Include="app\people\dependent-modal.html" />
+    <Content Include="app\people\add-dependent-modal.html" />
+    <Content Include="app\people\add-dependent-modal.controller.js" />
     <Content Include="app\people\dependent-edit.html" />
     <Content Include="app\people\dependent.controller.js" />
     <Content Include="app\people\dependent.html" />

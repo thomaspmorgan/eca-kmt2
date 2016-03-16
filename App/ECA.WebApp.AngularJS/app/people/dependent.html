@@ -1,4 +1,7 @@
-﻿<div ng-controller="personDependentViewCtrl">
+﻿<div class="modal-header">
+    <h3 class="modal-title">Dependent</h3>
+</div>
+<div class="modal-body">
     <div ng-show="dependentLoading">
         <div class="spinner">
             <div class="bounce1"></div>
@@ -14,31 +17,31 @@
                         <div class="form-group row" ng-show="dependent.firstName">
                             <label class="col-md-4 title-label">First name</label>
                             <div class="col-md-8">
-                                {{dependent.firstName}}
+                                {{dependent.fullName.firstName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="dependent.lastName">
                             <label class="col-md-4 title-label">Last name</label>
                             <div class="col-md-8">
-                                {{dependent.lastName}}
+                                {{dependent.fullName.lastName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="dependent.nameSuffix">
                             <label class="col-md-4 title-label">Name suffix</label>
                             <div class="col-md-8">
-                                {{dependent.nameSuffix}}
+                                {{dependent.fullName.nameSuffix}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="dependent.givenName">
                             <label class="col-md-4 title-label">Passport name</label>
                             <div class="col-md-8">
-                                {{dependent.givenName}}
+                                {{dependent.fullName.passportName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="dependent.familyName">
                             <label class="col-md-4 title-label">Preferred name</label>
                             <div class="col-md-8">
-                                {{dependent.familyName}}
+                                {{dependent.fullName.preferredName}}
                             </div>
                         </div>
                     </div>
@@ -104,5 +107,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button ng-click="view.onSaveClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || view.isSavingNewDependent">
+            Save
+        </button>
+        <button ng-click="view.onCloseClick()" class="btn btn-cancel">Close</button>
     </div>
 </div>
