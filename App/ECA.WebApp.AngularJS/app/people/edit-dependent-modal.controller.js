@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller: personDependentEditCtrl
- * # personDependentEditCtrl
+ * @name staticApp.controller: EditDependentModalCtrl
+ * # EditDependentModalCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personDependentEditCtrl', function ($scope, $timeout, $modalInstance,
+  .controller('EditDependentModalCtrl', function ($scope, $timeout, $modalInstance,
           PersonService, DependentService, LookupService, LocationService, ConstantsService,
           $stateParams, NotificationService, FilterService, $q, DateTimeService, dependent) {
       
@@ -20,22 +20,20 @@ angular.module('staticApp')
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
 
-      $scope.updateDependentGender = function () {
-          $scope.dependent.gender = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
-      };
-
       function loadDependent(dependentId) {
           $scope.dependentLoading = true;
           return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
+                 if ($scope.dependent.placeOfBirth) {
+                     $scope.dependent.cityOfBirthId = $scope.dependent.placeOfBirth.id;
+                 }
                  $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
                      var location = {};
                      location.id = obj.id;
                      location.name = obj.value;
                      return location;
                  });
-                 // Convert from UTC to local date time
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
@@ -50,6 +48,10 @@ angular.module('staticApp')
                      $scope.dependentLoading = false;
                  });
              });
+      };
+
+      $scope.updateDependentGender = function () {
+          $scope.dependent.gender = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
       };
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -145,7 +147,7 @@ angular.module('staticApp')
 
       function saveEditDependent() {
           setupDependent();
-          DependentService.update($scope.dependent, $scope.dependent.personId)
+          return DependentService.update($scope.dependent, $scope.dependent.personId)
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
               },
@@ -181,7 +183,10 @@ angular.module('staticApp')
       };
 
       $scope.onSaveDependentClick = function () {
-          return saveEditDependent();
+          return saveEditDependent()
+              .then(function (dependent) {
+                  $modalInstance.close(dependent);
+              });
       }
 
       $scope.onCloseDependentClick = function () {

@@ -50,8 +50,8 @@ angular.module('staticApp')
 
           var editDependentModalInstance = $modal.open({
               animation: true,
-              templateUrl: 'app/people/dependent-edit.html',
-              controller: 'personDependentEditCtrl',
+              templateUrl: 'app/people/edit-dependent-modal.html',
+              controller: 'EditDependentModalCtrl',
               size: 'md',
               resolve: {
                   dependent: function () {

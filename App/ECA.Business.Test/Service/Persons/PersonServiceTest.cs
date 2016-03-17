@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
 using ECA.Business.Service.Lookup;
@@ -1696,8 +1697,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
-            var cityOfBirth = 5;
-            var countryOfBirth = 32;
+            var placeOfBirth = new LocationDTO { CityId = 5, CountryId = 193 };
             var personTypeId = PersonType.Spouse.Id;
             var countriesOfCitizenship = new List<SimpleLookupDTO>();
 
@@ -1715,8 +1715,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var newPerson = new NewPersonDependent(
-                createdBy: user, fullName: fullName, dateOfBirth: dateOfBirth, gender: gender,
-                cityOfBirth: cityOfBirth, countryOfBirth: countryOfBirth, 
+                createdBy: user, fullName: fullName, dateOfBirth: dateOfBirth, gender: gender, placeOfBirth: placeOfBirth, 
                 countriesOfCitizenship: countriesOfCitizenship, permanentResidenceCountryCode: countryResidence.LocationId, 
                 birthCountryReason: "", emailAddress: "", personTypeId: personTypeId);
 
@@ -1730,7 +1729,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.FullName.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
                 Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
-                Assert.AreEqual(newPerson.CityOfBirth, testPerson.PlaceOfBirthId);
+                Assert.AreEqual(newPerson.PlaceOfBirth.CityId, testPerson.PlaceOfBirthId);
                 //Assert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).ToList());
                 Assert.AreEqual(newPerson.PersonTypeId, testPerson.PersonTypeId);
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);

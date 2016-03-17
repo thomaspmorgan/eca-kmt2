@@ -1,6 +1,8 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Service.Persons
 {
@@ -14,8 +16,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="fullName">The person full name</param>
         /// <param name="dateOfBirth">The person date of birth</param>
         /// <param name="genderId">The person gender</param>
-        /// <param name="cityOfBirth">The person city of birth</param>
-        /// <param name="countryOfBirth">The person country of birth</param>
+        /// <param name="placeOfBirth">The place of birth</param>
         /// <param name="countriesOfCitizenship">The person countries of citizenship</param>
         /// <param name="permanentResidenceCountryCode">The person permanent residence country</param>
         /// <param name="birthCountryReason">The person birth country reason</param>
@@ -27,21 +28,27 @@ namespace ECA.Business.Service.Persons
             FullNameDTO fullName,
             DateTime dateOfBirth,
             int genderId,
-            int cityOfBirth,
-            int countryOfBirth,
+            LocationDTO placeOfBirth,
             List<int> countriesOfCitizenship,
             int permanentResidenceCountryCode,
             string birthCountryReason,
             string emailAddress,
             int personTypeId)
         {
+            Contract.Requires(updater != null, "The created by user must not be null.");
+            Contract.Requires(fullName != null, "The full name must not be null.");
+            Contract.Requires(dateOfBirth != null, "The date of birth must not be null.");
+            Contract.Requires(genderId > 0, "The gender must not be null.");
+            Contract.Requires(placeOfBirth != null, "The city of birth must not be null.");
+            Contract.Requires(countriesOfCitizenship != null, "The countries of citizenship must not be null.");
+            Contract.Requires(permanentResidenceCountryCode > 0, "The permanent residence country must not be null.");
+            Contract.Requires(personTypeId > 0, "The person type must not be null.");
             this.Audit = new Update(updater);
             this.PersonId = personId;
             this.FullName = fullName;
             this.DateOfBirth = dateOfBirth;
             this.GenderId = genderId;
-            this.CityOfBirth = cityOfBirth;
-            this.CountryOfBirth = countryOfBirth;
+            this.PlaceOfBirth = placeOfBirth;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
             this.BirthCountryReason = birthCountryReason;
@@ -72,12 +79,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int CityOfBirth { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the city of birth
-        /// </summary>
-        public int CountryOfBirth { get; set; }
+        public LocationDTO PlaceOfBirth { get; private set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship

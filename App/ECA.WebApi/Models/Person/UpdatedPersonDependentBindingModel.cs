@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
 using ECA.Business.Service.Persons;
 using System;
@@ -34,13 +35,8 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int CityOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the city of birth
-        /// </summary>
-        public int CountryOfBirth { get; set; }
-
+        public LocationDTO PlaceOfBirth { get; set; }
+        
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
@@ -79,8 +75,7 @@ namespace ECA.WebApi.Models.Person
                 fullName: FullName,
                 dateOfBirth: DateOfBirth,
                 genderId: GenderId,
-                cityOfBirth: CityOfBirth,
-                countryOfBirth: CountryOfBirth,
+                placeOfBirth: PlaceOfBirth,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 permanentResidenceCountryCode: PermanentResidenceCountryCode,
                 birthCountryReason: BirthCountryReason,

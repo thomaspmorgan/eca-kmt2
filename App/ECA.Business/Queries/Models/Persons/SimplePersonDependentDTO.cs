@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 using ECA.Business.Service.Lookup;
 using ECA.Data;
 using System;
@@ -40,13 +41,8 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int? CityOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the city of birth
-        /// </summary>
-        public int? CountryOfBirth { get; set; }
-
+        public LocationDTO PlaceOfBirth { get; set; }
+        
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
@@ -55,7 +51,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the premanent residence country code
         /// </summary>
-        public int? PermanentResidenceCountryCode { get; set; }
+        public int PermanentResidenceCountryCode { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason

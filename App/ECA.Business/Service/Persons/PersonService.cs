@@ -245,7 +245,7 @@ namespace ECA.Business.Service.Persons
                 LastName = newPerson.FullName.LastName,
                 GenderId = newPerson.Gender,
                 DateOfBirth = newPerson.DateOfBirth,
-                PlaceOfBirthId = newPerson.CityOfBirth,
+                PlaceOfBirthId = newPerson.PlaceOfBirth.CityId,
                 CountriesOfCitizenship = locationsOfCitizenship.Result,
                 EmailAddresses = emails,
                 PersonTypeId = newPerson.PersonTypeId
@@ -266,10 +266,10 @@ namespace ECA.Business.Service.Persons
         {
             var personToUpdate = await GetPersonModelByIdAsync(person.PersonId);
             Location cityOfBirth = null;
-            if (person.CityOfBirth > 0)
+            if (person.PlaceOfBirth.Id > 0)
             {
-                cityOfBirth = await GetLocationByIdAsync(person.CityOfBirth);
-                throwIfLocationNotFound(cityOfBirth, person.CityOfBirth);
+                cityOfBirth = await GetLocationByIdAsync(person.PlaceOfBirth.Id);
+                throwIfLocationNotFound(cityOfBirth, person.PlaceOfBirth.Id);
             }
             var countriesOfCitizenship = await GetLocationsByIdAsync(person.CountriesOfCitizenship);
             DoDependentUpdate(person, personToUpdate, cityOfBirth, countriesOfCitizenship);
@@ -287,6 +287,8 @@ namespace ECA.Business.Service.Persons
             person.FirstName = updateDependent.FullName.FirstName;
             person.LastName = updateDependent.FullName.LastName;
             person.NameSuffix = updateDependent.FullName.Suffix;
+            //person.PreferredName = updateDependent.FullName.PreferredName;
+            //person.PassportName = updateDependent.FullName.PassportName;
             person.DateOfBirth = updateDependent.DateOfBirth;
             person.GenderId = updateDependent.GenderId;
             person.PlaceOfBirthId = cityOfBirth.LocationId;

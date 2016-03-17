@@ -109,18 +109,52 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependentDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
+
             var query = from person in context.People
 
                         let hasGender = person.Gender != null
                         let gender = person.Gender
 
-                        let hasPlaceOfBirth = person.PlaceOfBirth != null
-                        let cityOfBirth = person.PlaceOfBirth
-                        let cityOfBirthName = hasPlaceOfBirth ? cityOfBirth.LocationName : null
+                        let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
+                        let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
+                        let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
 
                         let hasCountryOfBirth = hasPlaceOfBirth && cityOfBirth.Country != null
                         let countryOfBirthId = hasCountryOfBirth ? cityOfBirth.Country.CountryId : 0
                         
+                        let PermanentResidenceAddress = (from address in person.Addresses
+                                                         let addressType = address.AddressType
+
+                                                         let location = address.Location
+
+                                                         let hasCity = location.City != null
+                                                         let city = location.City
+
+                                                         let hasCountry = location.Country != null
+                                                         let country = location.Country
+
+                                                         let hasDivision = location.Division != null
+                                                         let division = location.Division
+                                                         select new AddressDTO
+                                                         {
+                                                             AddressId = address.AddressId,
+                                                             AddressType = addressType.AddressName,
+                                                             AddressTypeId = addressType.AddressTypeId,
+                                                             City = hasCity ? city.LocationName : null,
+                                                             CityId = location.CityId,
+                                                             Country = hasCountry ? country.LocationName : null,
+                                                             CountryId = location.CountryId,
+                                                             CountryIso2 = location.LocationIso2,
+                                                             Division = hasDivision ? division.LocationName : null,
+                                                             DivisionId = location.DivisionId,
+                                                             IsPrimary = address.IsPrimary,
+                                                             LocationId = location.LocationId,
+                                                             LocationName = location.LocationName,
+                                                             OrganizationId = address.OrganizationId,
+                                                             PersonId = address.PersonId,
+                                                         }).FirstOrDefault()
+
                         where person.PersonType.IsDependentPersonType == true
 
                         select new SimplePersonDependentDTO
@@ -136,10 +170,9 @@ namespace ECA.Business.Queries.Persons
                                             },
                             DateOfBirth = person.DateOfBirth,
                             GenderId = hasGender ? gender.GenderId : 0,
-                            CityOfBirth = hasPlaceOfBirth ? cityOfBirth.LocationId : 0,
-                            CountryOfBirth = countryOfBirthId,
+                            PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
-                            PermanentResidenceCountryCode = person.Addresses.Where(x => x.IsPrimary == true && x.AddressTypeId == AddressType.Home.Id).Select(x => x.LocationId).FirstOrDefault(),
+                            PermanentResidenceCountryCode = PermanentResidenceAddress.LocationId,
                             BirthCountryReason = "TODO",
                             EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
                             PersonTypeId = person.PersonTypeId
