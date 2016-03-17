@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
@@ -9,6 +10,16 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(OtherFundsValidator))]
     public class OtherFunds
     {
+        /// <summary>
+        /// Creates a new OtherFunds instance with the given values.
+        /// </summary>
+        /// <param name="evGovt">The exchange visitor government funding value.</param>
+        /// <param name="binationalCommission">the binational commission funding value.</param>
+        /// <param name="personal">The person funding value.</param>
+        /// <param name="usGovt">The USGovernment funding value.</param>
+        /// <param name="international">The International funding value.</param>
+        /// <param name="other">The other funding value.</param>
+        [JsonConstructor]
         public OtherFunds(string evGovt, string binationalCommission, string personal, USGovt usGovt, International international, Other other)
         {
             this.EVGovt = evGovt;

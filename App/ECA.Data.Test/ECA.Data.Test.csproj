@@ -91,7 +91,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -114,6 +116,7 @@
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="ProjectTest.cs" />
     <Compile Include="LocationTest.cs" />
+    <Compile Include="ParticipantStatusTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

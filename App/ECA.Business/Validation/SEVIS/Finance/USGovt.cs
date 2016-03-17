@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using Newtonsoft.Json;
 using System;
 
 namespace ECA.Business.Validation.Sevis.Finance
@@ -19,6 +20,7 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <param name="org2">The second organization providing funding.  This value is a code.</param>
         /// <param name="otherName2">The name of the second organization if the second organization is 'OTHER'.</param>
         /// <param name="amount2">The second organization's funding amount in whole dollars.</param>
+        [JsonConstructor]
         public USGovt(
              string org1,
              string otherName1,

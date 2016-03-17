@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ECA.Core.Generation;
 
 namespace ECA.Data
 {
@@ -14,6 +15,21 @@ namespace ECA.Data
     /// </summary>
     public partial class ParticipantStatus
     {
+        /// <summary>
+        /// The list of participant statuses that pertain to exchange visitor validation i.e. if the participant's status
+        /// is in this list, then the participant's exchange visitor validation should be executed.
+        /// </summary>
+        public static readonly List<StaticLookup> EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES = new List<StaticLookup>
+            {
+                ParticipantStatus.Active,
+                ParticipantStatus.Nominee,
+                ParticipantStatus.Applicant,
+                ParticipantStatus.Alternate,
+                ParticipantStatus.Approved,
+                ParticipantStatus.Intention,
+                ParticipantStatus.Pending,
+            }.OrderBy(x => x.Value).ToList();
+
         /// <summary>
         /// Creates a new ParticipantStatus and initializes the participants and history properties.
         /// </summary>

@@ -35,14 +35,12 @@ namespace ECA.Business.Queries.Models.Persons
         /// <returns>The sevis full name instance.</returns>
         public FullName GetFullName()
         {
-            return new FullName
-            {
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                PassportName = this.PassportName,
-                PreferredName = this.PreferredName,
-                Suffix = this.Suffix
-            };
+            return new FullName(
+                firstName: this.FirstName, 
+                lastName: this.LastName, 
+                preferredName: this.PreferredName, 
+                passportName: this.PassportName, 
+                suffix: this.Suffix); 
         }
     }
 }
