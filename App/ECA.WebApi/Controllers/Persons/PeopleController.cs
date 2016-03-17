@@ -264,7 +264,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model">The model to create</param>
         /// <returns></returns>
-        [Route("Person/Dependent")]
+        [Route("People/Dependent")]
         public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
         {
             if (ModelState.IsValid)
@@ -356,7 +356,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Route("Person/Dependent/{dependentId:int}")]
+        [Route("People/Dependent")]
         public async Task<IHttpActionResult> PutDependentAsync(UpdatedPersonDependentBindingModel model)
         {
             if (ModelState.IsValid)

@@ -18,14 +18,14 @@ angular.module('staticApp')
       $scope.personIdDeferred = $q.defer();
 
       $scope.updateGender = function () {
-          $scope.pii.gender = getObjectById($scope.pii.genderId, $scope.genders).value;
+          $scope.pii.gender = $scope.getObjectById($scope.pii.genderId, $scope.genders).value;
       };
 
       $scope.updateMaritalStatus = function () {
-          $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
+          $scope.pii.maritalStatus = $scope.getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
 
-      function getObjectById(id, array) {
+      $scope.getObjectById = function (id, array) {
           for (var i = 0; i < array.length; i++) {
               if (array[i].id === id) {
                   return array[i];
@@ -170,20 +170,6 @@ angular.module('staticApp')
                     return $scope.countries;
                 });
           }
-      }
-
-      //LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
-      //  .then(function (data) {
-      //      $scope.countries = data.results;
-      //  });
-
-      function loadLocationById(id) {
-          return LocationService.get({
-              limit: 1,
-              filter: [
-                  { property: 'id', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id, value: id }
-              ]
-          });
       }
 
       LookupService.getAllGenders({ limit: 300 })
