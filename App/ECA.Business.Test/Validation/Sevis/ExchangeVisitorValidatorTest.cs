@@ -619,7 +619,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            occupationCategoryCode = new string('c', ExchangeVisitorValidator.CATEGORY_CODE_LENGTH + 1);
+            occupationCategoryCode = new string('c', ExchangeVisitorValidator.OCCUPATION_CATEGORY_CODE_LENGTH + 1);
             instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);

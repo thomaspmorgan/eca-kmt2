@@ -14,21 +14,49 @@ namespace ECA.Business.Validation.Sevis
         /// </summary>
         public const int FIELD_CODE_MAX_LENGTH = 7;
 
+        /// <summary>
+        /// The max length of the foreign field of study.
+        /// </summary>
         public const int FOREIGN_FIELD_MAX_LENGTH = 100;
+
+        /// <summary>
+        /// The max length of the remarks.
+        /// </summary>
         public const int REMARKS_MAX_LENGTH = 500;
 
+        /// <summary>
+        /// The field of study code regular expression.
+        /// </summary>
         public const string FIELD_OF_STUDY_CODE_REGEX = @"^[0-9]{2}[.][0-9]{4}$";
 
-        public const string SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE = "Subject Field: The field of study code is required, must be 7 characters long, and in a ##.#### format.";
+        /// <summary>
+        /// The error message to return when a subject field code is invalid.
+        /// </summary>
+        public const string SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE = "The participant's field of study code is required, must be 7 characters long, and in a ##.#### format.";
 
-        public static string SUBJECT_FIELD_FOREIGN_DEGREE_ERROR_MESSAGE = string.Format("Subject Field: Foreign Degree Level can be up to {0} characters", FOREIGN_FIELD_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when a foreign degree level is invalid.
+        /// </summary>
+        public static string SUBJECT_FIELD_FOREIGN_DEGREE_ERROR_MESSAGE = string.Format("The participant's field of study foreign degree level can be up to {0} characters.", FOREIGN_FIELD_MAX_LENGTH);
 
-        public static string SUBJECT_FIELD_OF_STUDY_MAX_LENGTH_ERROR_MESSAGE = string.Format("Subject Field: Foreign Field of Study can be up to {0} characters", FOREIGN_FIELD_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when a foreign field of study exceeds the max length.
+        /// </summary>
+        public static string SUBJECT_FIELD_OF_STUDY_MAX_LENGTH_ERROR_MESSAGE = string.Format("The participant's foreign field of study can be up to {0} characters.", FOREIGN_FIELD_MAX_LENGTH);
 
-        public const string SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE = "Subject Field: Remarks are required";
+        /// <summary>
+        /// The error message to return when the remarks are invalid.
+        /// </summary>
+        public const string SUBJECT_FIELD_REMARKS_REQUIRED_ERROR_MESSAGE = "The participant's field of study remarks are required.";
 
-        public static string REMARKS_MAX_LENGTH_ERROR_MESSAGE = string.Format("Subject Field: Remarks are required and can be can be up to {0} characters", REMARKS_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when the field of study remarks exceed the max length.
+        /// </summary>
+        public static string REMARKS_MAX_LENGTH_ERROR_MESSAGE = string.Format("The participant's field of study remarks are required and can be can be up to {0} characters.", REMARKS_MAX_LENGTH);
 
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public SubjectFieldValidator()
         {
             RuleFor(visitor => visitor.SubjectFieldCode)
