@@ -186,7 +186,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingSponsor}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingSponsor"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -195,7 +195,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingPersonal}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingPersonal"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -204,7 +204,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingVisGovt}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingVisGovt"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -213,7 +213,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingVisBNC}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingVisBNC"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -228,87 +228,87 @@
                             <div class="col-md-1"></div>
                             <div class="col-md-2 title-label">Gov't Agency 1</div>
                             <div class="col-md-3">
-                                <ui-select ng-model="" theme="select2">
-                                    <ui-select-match placeholder="Select a US Government Agency...">{{$select.selected.description}}</ui-select-match>
+                                <ui-select ng-model="editView.selectedGovtAgency1" theme="select2">
+                                    <ui-select-match placeholder="Select a US Government Agency..." allow-clear="true">{{$select.selected.description}}</ui-select-match>
                                     <ui-select-choices repeat="usGovernmentAgency.id as usGovernmentAgency in editView.usGovernmentAgencies | filter: {description: $select.search} track by usGovernmentAgency.id">
                                         <div ng-bind-html="usGovernmentAgency.description | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" value="{{editView.sevisFunding.govtAgency1OtherName}}" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.govtAgency1OtherName" maxlength="60"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingGovtAgency1}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingGovtAgency1"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-1"></div>
                             <div class="col-md-2 title-label">Gov't Agency 2</div>
                             <div class="col-md-3">
-                                <ui-select ng-model="" theme="select2">
-                                    <ui-select-match placeholder="Select a US Government Agency...">{{$select.selected.description}}</ui-select-match>
+                                <ui-select ng-model="editView.selectedGovtAgency2" theme="select2">
+                                    <ui-select-match placeholder="Select a US Government Agency..." allow-clear="true">{{$select.selected.description}}</ui-select-match>
                                     <ui-select-choices repeat="usGovernmentAgency.id as usGovernmentAgency in editView.usGovernmentAgencies | filter: {description: $select.search} track by usGovernmentAgency.id">
                                         <div ng-bind-html="usGovernmentAgency.description | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" value="{{editView.sevisFunding.govtAgency2OtherName}}" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.govtAgency2OtherName" maxlength="60"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingGovtAgency2}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingGovtAgency2"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-1"></div>
                             <div class="col-md-2 title-label">Int'l Org 1</div>
                             <div class="col-md-3">
-                                <ui-select ng-model="" theme="select2">
-                                    <ui-select-match placeholder="Select an International Organization...">{{$select.selected.description}}</ui-select-match>
+                                <ui-select ng-model="editView.selectedIntlOrg1" theme="select2">
+                                    <ui-select-match placeholder="Select an International Organization..." allow-clear="true">{{$select.selected.description}}</ui-select-match>
                                     <ui-select-choices repeat="internationalOrganization.id as internationalOrganization in editView.internationalOrganizations | filter: {description: $select.search} track by internationalOrganization.id">
                                         <div ng-bind-html="internationalOrganization.description | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" value="{{editView.sevisFunding.intlOrg1OtherName}}" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.intlOrg1OtherName" maxlength="60"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingIntlOrg1}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingIntlOrg1"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-1"></div>
                             <div class="col-md-2 title-label">Int'l Org 2</div>
                             <div class="col-md-3">
-                                <ui-select ng-model="" theme="select2">
-                                    <ui-select-match placeholder="Select an International Organization...">{{$select.selected.description}}</ui-select-match>
+                                <ui-select ng-model="editView.selectedIntlOrg2" theme="select2">
+                                    <ui-select-match placeholder="Select an International Organization..." allow-clear="true">{{$select.selected.description}}</ui-select-match>
                                     <ui-select-choices repeat="internationalOrganization.id as internationalOrganization in editView.internationalOrganizations | filter: {description: $select.search} track by internationalOrganization.id">
                                         <div ng-bind-html="internationalOrganization.description | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" value="{{editView.sevisFunding.intlOrg2OtherName}}" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.intlOrg2OtherName" maxlength="60"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingIntlOrg2}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingIntlOrg2"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-1"></div>
                             <div class="col-md-2 title-label">Other Org</div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" value="{{editView.sevisFunding.otherName}}"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.otherName"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
-                                <input type="number" class="form-control" value="{{editView.sevisFunding.fundingOther}}"/>
+                                <input type="number" class="form-control" ng-model="editView.sevisFunding.fundingOther"/>
                             </div>
                         </div>
                     </div>
