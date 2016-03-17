@@ -39,27 +39,27 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <summary>
         /// The error message to return when an org 1 code is not specified.
         /// </summary>
-        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The participant's international organization 1 funding must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The international organization 1 funding the participant must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
         /// <summary>
         /// The error message to return when an org 2 code is not specified.
         /// </summary>
-        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The participant's international organization 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The international organization 2 funding the participant must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
         /// <summary>
         /// The error message to return when the first international organization is specified as other and the other name of the organization is invalid.
         /// </summary>
-        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("The participant's international organization 1 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
+        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("The name of the international organization 1 funding the participant is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
         /// <summary>
         /// The error message to return when the second international organization is specified as other and the other name of the organization is invalid.
         /// </summary>
-        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("The participant's international organization 2 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
+        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("The name of the international organization 2 funding the participant is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
         /// <summary>
         /// The error message to format when a funding amount is invalid.
         /// </summary>
-        public const string AMOUNT_ERROR_MESSAGE = "The participant's international organization {0} amount is required and can be up to {1} digits.";
+        public const string AMOUNT_ERROR_MESSAGE = "The international organization {0} funding amount is required and can be up to {1} digits.";
 
         /// <summary>
         /// Creates a new default instance.

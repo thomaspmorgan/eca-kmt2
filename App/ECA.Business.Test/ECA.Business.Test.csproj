@@ -369,6 +369,7 @@
     <Compile Include="Validation\ErrorPaths\ProgramCategoryCodeErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
+    <Compile Include="Validation\ErrorPaths\SevisErrorPathTest.cs" />
     <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\BiographicalValidatorTest.cs" />
