@@ -79,6 +79,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
     {
         public BiographicalTestClass GetValidBiographical()
         {
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             return new BiographicalTestClass
             {
                 BirthCity = "birth city",
@@ -87,14 +94,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "UK",
                 EmailAddress = "email@isp.com",
-                FullName = new FullName
-                {
-                    FirstName = "first name",
-                    LastName = "last name",
-                    PassportName = "passport name",
-                    PreferredName = "preferred name",
-                    Suffix = FullNameValidator.SECOND_SUFFIX
-                },
+                FullName = fullName,
                 Gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE,
                 PermanentResidenceCountryCode = "FR",
                 PhoneNumber = "18502663026"

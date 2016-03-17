@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
-            string genderCode,
+            string gender,
             string permanentResidenceCountryCode,
             string phoneNumber,
             string relationship,
@@ -40,7 +41,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
             this.FullName = fullName;
-            this.Gender = genderCode;
+            this.Gender = gender;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
             this.PhoneNumber = phoneNumber;
             this.MailAddress = mailAddress;
@@ -119,11 +120,13 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets or sets the user defined a field.
         /// </summary>
+        [JsonProperty("participantId")]
         public string UserDefinedA { get; private set; }
 
         /// <summary>
         /// Gets or sets the user defined b field.
         /// </summary>
+        [JsonProperty("personId")]
         public string UserDefinedB { get; private set; }
 
         /// <summary>

@@ -14,10 +14,10 @@ namespace ECA.Business.Service
         /// <summary>
         /// Creates a new user.
         /// </summary>
-        /// <param name="userId">The user id</param>
-        public User(int userId)
+        /// <param name="id">The user id</param>
+        public User(int id)
         {
-            this.Id = userId;
+            this.Id = id;
         }
 
         /// <summary>

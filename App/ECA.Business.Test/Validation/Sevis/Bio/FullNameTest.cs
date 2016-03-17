@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -9,16 +10,52 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
     public class FullNameTest
     {
         [TestMethod]
+        public void TestConstructor()
+        {
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+            var json = JsonConvert.SerializeObject(fullName);
+            var jsonObject = JsonConvert.DeserializeObject<FullName>(json);
+
+            Assert.AreEqual(fullName.FirstName, jsonObject.FirstName);
+            Assert.AreEqual(fullName.LastName, jsonObject.LastName);
+            Assert.AreEqual(fullName.PassportName, jsonObject.PassportName);
+            Assert.AreEqual(fullName.PreferredName, jsonObject.PreferredName);
+            Assert.AreEqual(fullName.Suffix, jsonObject.Suffix);
+        }
+
+        [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+            var json = JsonConvert.SerializeObject(fullName);
+            var jsonObject = JsonConvert.DeserializeObject<FullName>(json);
+
+            Assert.AreEqual(fullName.FirstName, jsonObject.FirstName);
+            Assert.AreEqual(fullName.LastName, jsonObject.LastName);
+            Assert.AreEqual(fullName.PassportName, jsonObject.PassportName);
+            Assert.AreEqual(fullName.PreferredName, jsonObject.PreferredName);
+            Assert.AreEqual(fullName.Suffix, jsonObject.Suffix);
+        }
+
+        [TestMethod]
         public void TestGetNameType_HasSuffixWithPeriod()
         {
-            var fullName = new FullName
-            {
-                FirstName = "first",
-                LastName = "Last",
-                PassportName = "passport",
-                PreferredName = "preferred",
-                Suffix = "Jr."
-            };
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
             var instance = fullName.GetNameType();
             Assert.AreEqual(fullName.FirstName, instance.FirstName);
             Assert.AreEqual(fullName.LastName, instance.LastName);
@@ -31,10 +68,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestGetNameType_HasSuffixWithoutPeriod()
         {
-            var fullName = new FullName
-            {
-                Suffix = "Jr"
-            };
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
             var instance = fullName.GetNameType();
             Assert.AreEqual(NameSuffixCodeType.Jr, instance.Suffix);
             Assert.IsTrue(instance.SuffixSpecified);
@@ -43,9 +82,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestGetNameType_DoesNotHaveSuffix()
         {
-            var fullName = new FullName
-            {
-            };
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var fullName = new FullName(firstName, lastName, passport, preferred, null);
             var instance = fullName.GetNameType();
             Assert.IsFalse(instance.SuffixSpecified);
         }
@@ -53,14 +94,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestGetNameNullableType()
         {
-            var fullName = new FullName
-            {
-                FirstName = "first",
-                LastName = "Last",
-                PassportName = "passport",
-                PreferredName = "preferred",
-                Suffix = "Jr."
-            };
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
             var instance = fullName.GetNameNullableType();
             Assert.AreEqual(fullName.FirstName, instance.FirstName);
             Assert.AreEqual(fullName.LastName, instance.LastName);
