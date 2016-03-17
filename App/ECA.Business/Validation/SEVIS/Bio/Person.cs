@@ -21,7 +21,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
-            string genderCode,
+            string gender,
             string permanentResidenceCountryCode,
             string phoneNumber,
             string remarks,
@@ -42,7 +42,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
             this.FullName = fullName; 
-            this.Gender = genderCode;
+            this.Gender = gender;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
             this.PhoneNumber = phoneNumber;
             this.Remarks = remarks;

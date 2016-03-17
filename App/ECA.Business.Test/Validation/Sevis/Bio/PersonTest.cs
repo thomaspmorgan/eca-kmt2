@@ -8,6 +8,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Validation.Sevis;
 using PhoneNumbers;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -28,14 +29,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -96,6 +97,86 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         }
 
         [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var state = "TN";
+            var mailAddress = new AddressDTO();
+            mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            mailAddress.Division = state;
+
+            var usAddress = new AddressDTO();
+            usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
+            usAddress.Division = state;
+
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            short positionCode = 120;
+            var printForm = true;
+            var birthCountryReason = "reason";
+            var remarks = "remarks";
+            var programCataegoryCode = "1D";
+
+            var subjectFieldCode = "01.0102";
+            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
+
+            var person = new Business.Validation.Sevis.Bio.Person(
+                fullName,
+                birthCity,
+                birthCountryCode,
+                birthCountryReason,
+                birthDate,
+                citizenshipCountryCode,
+                email,
+                gender,
+                permanentResidenceCountryCode,
+                phone,
+                remarks,
+                positionCode.ToString(),
+                programCataegoryCode,
+                subjectField,
+                mailAddress,
+                usAddress,
+                printForm,
+                personId,
+                participantId);
+            var json = JsonConvert.SerializeObject(person);
+            var jsonObject = JsonConvert.DeserializeObject<Business.Validation.Sevis.Bio.Person>(json);
+            Assert.IsNotNull(jsonObject.FullName);
+            Assert.IsNotNull(jsonObject.MailAddress);
+            Assert.IsNotNull(jsonObject.USAddress);
+            Assert.IsNotNull(jsonObject.SubjectField);
+            Assert.AreEqual(birthCity, jsonObject.BirthCity);
+            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
+            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
+            Assert.AreEqual(email, jsonObject.EmailAddress);
+            Assert.AreEqual(gender, jsonObject.Gender);
+            Assert.AreEqual(phone, jsonObject.PhoneNumber);
+            Assert.AreEqual(remarks, jsonObject.Remarks);
+            Assert.AreEqual(positionCode.ToString(), jsonObject.PositionCode);
+            Assert.AreEqual(programCataegoryCode, jsonObject.ProgramCategoryCode);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.AreEqual(personId, jsonObject.PersonId);
+            Assert.AreEqual(participantId, jsonObject.ParticipantId);
+        }
+
+        [TestMethod]
         public void TestGetEVPersonTypeBiographical()
         {
             var state = "TN";
@@ -109,14 +190,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -142,7 +223,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -188,14 +269,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -221,7 +302,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -276,14 +357,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -309,7 +390,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -346,14 +427,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             string birthCountryCode = null;
             var birthDate = DateTime.UtcNow;
@@ -379,7 +460,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -416,14 +497,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var citizenshipCountryCode = "FR";
@@ -448,7 +529,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: default(DateTime?),
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -485,14 +566,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -518,7 +599,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -555,14 +636,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -588,7 +669,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,
@@ -621,14 +702,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -653,7 +734,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 remarks: remarks,

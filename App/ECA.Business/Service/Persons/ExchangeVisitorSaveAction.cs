@@ -156,6 +156,8 @@ namespace ECA.Business.Service.Persons
             return participantEntityTypes;
         }
 
+        #region SaveAction
+
         private void OnBeforeSaveChanges(DbContext context)
         {
             Contract.Requires(context is EcaContext, "The given context must be an EcaContext instance.");
@@ -165,8 +167,6 @@ namespace ECA.Business.Service.Persons
             this.DeletedObjects = GetDeletedEntities(context).ToList();
         }
 
-        #region SaveAction
-
         /// <summary>
         /// Locates participant related entities that have been created or modified in the context.
         /// </summary>
@@ -175,7 +175,7 @@ namespace ECA.Business.Service.Persons
         public void BeforeSaveChanges(DbContext context)
         {
             OnBeforeSaveChanges(context);
-            foreach(var deletedObject in this.DeletedObjects)
+            foreach (var deletedObject in this.DeletedObjects)
             {
                 var id = GetPersonIdByObject(this.Context, deletedObject);
                 if (id.HasValue)
@@ -272,6 +272,8 @@ namespace ECA.Business.Service.Persons
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Returns the union of the created, modified, and deleted objects.
@@ -453,7 +455,7 @@ namespace ECA.Business.Service.Persons
             var personId = databaseValues.GetValue<int?>(PropertyHelper.GetPropertyName<T>(propertySelector));
             return personId;
         }
-        
+
 
         /// <summary>
         /// Returns the person id from an entity that is related to a person.  This is useful when an entity
@@ -476,6 +478,7 @@ namespace ECA.Business.Service.Persons
 
         #endregion
 
+        #region GetParticipantId
         /// <summary>
         /// Returns the participant ids of the created or modified entities that should have their validation rechecked.
         /// </summary>

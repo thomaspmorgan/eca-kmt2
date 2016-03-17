@@ -224,7 +224,7 @@ namespace ECA.Business.Service.Persons
                 birthDate: biography.BirthDate,
                 citizenshipCountryCode: biography.CitizenshipCountryCode,
                 emailAddress: biography.EmailAddress,
-                genderCode: biography.Gender,
+                gender: biography.Gender,
                 permanentResidenceCountryCode: biography.PermanentResidenceCountryCode,
                 phoneNumber: biography.PhoneNumber,
                 remarks: null,
