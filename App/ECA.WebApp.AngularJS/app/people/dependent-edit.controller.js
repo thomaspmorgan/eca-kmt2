@@ -51,7 +51,7 @@ angular.module('staticApp')
                  });
              });
       };
-      
+
       $scope.isDependentPlaceOfBirthValid = function ($value) {
             if ($value === 0 || $value === null) {
                 return false;
@@ -187,5 +187,5 @@ angular.module('staticApp')
       $scope.onCloseDependentClick = function () {
           $modalInstance.dismiss('cancel');
       }
-      
+
   });
