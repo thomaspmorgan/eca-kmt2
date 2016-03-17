@@ -132,7 +132,7 @@ namespace ECA.Business.Test.Validation.Sevis
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
-            Assert.AreEqual(ExchangeVisitorValidator.BIOGRAPHICAL_INFORMATION_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.AreEqual(ExchangeVisitorValidator.PERSON_INFORMATION_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
         }
 
         [TestMethod]
@@ -619,7 +619,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var results = validator.Validate(instance);
             Assert.IsTrue(results.IsValid);
 
-            occupationCategoryCode = new string('c', ExchangeVisitorValidator.CATEGORY_CODE_LENGTH + 1);
+            occupationCategoryCode = new string('c', ExchangeVisitorValidator.OCCUPATION_CATEGORY_CODE_LENGTH + 1);
             instance = createEntity();
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
