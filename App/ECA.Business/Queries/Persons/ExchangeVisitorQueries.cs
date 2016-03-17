@@ -5,7 +5,6 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Data;
-using PhoneNumbers;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -100,6 +99,7 @@ namespace ECA.Business.Queries.Persons
                                 FirstName = person.FirstName,
                                 LastName = person.LastName,
                                 Suffix = person.NameSuffix,
+                                MiddleName = person.MiddleName,
                                 PreferredName = person.Alias,
                             },
                             BirthDate = person.DateOfBirth.HasValue
