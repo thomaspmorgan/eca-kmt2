@@ -61,7 +61,6 @@ angular.module('staticApp')
           });
           editDependentModalInstance.result.then(function (updatedDependent) {
               $log.info('Finished updating dependent.');
-              $modalInstance.close([updatedDependent]);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });

@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
-using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using System;
 using System.Collections.Generic;

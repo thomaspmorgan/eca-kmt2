@@ -265,28 +265,35 @@ namespace ECA.Business.Service.Persons
         public async Task<Person> UpdatePersonDependentAsync(UpdatedPersonDependent person)
         {
             var personToUpdate = await GetPersonModelByIdAsync(person.PersonId);
+            Location cityOfBirth = null;
+            if (person.CityOfBirth > 0)
+            {
+                cityOfBirth = await GetLocationByIdAsync(person.CityOfBirth);
+                throwIfLocationNotFound(cityOfBirth, person.CityOfBirth);
+            }
             var countriesOfCitizenship = await GetLocationsByIdAsync(person.CountriesOfCitizenship);
-            DoDependentUpdate(person, personToUpdate, countriesOfCitizenship);
+            DoDependentUpdate(person, personToUpdate, cityOfBirth, countriesOfCitizenship);
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, Person person, List<Location> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship)
         {
             HashSet<EmailAddress> emails = new HashSet<EmailAddress>();
-            EmailAddress email = new EmailAddress { Address = updateDependent.EmailAddress };
+            EmailAddress email = new EmailAddress { Address = updateDependent.EmailAddress, EmailAddressTypeId = EmailAddressType.Personal.Id, IsPrimary = true };
+            emails.Add(email);
             HashSet<Address> addresses = new HashSet<Address>();
-            Address address = new Address { LocationId = updateDependent.PermanentResidenceCountryCode, PersonId = updateDependent.PersonId };
+            Address address = new Address { LocationId = updateDependent.PermanentResidenceCountryCode, PersonId = updateDependent.PersonId, AddressTypeId = AddressType.Home.Id };
+            addresses.Add(address);
             person.FirstName = updateDependent.FullName.FirstName;
             person.LastName = updateDependent.FullName.LastName;
             person.NameSuffix = updateDependent.FullName.Suffix;
             person.DateOfBirth = updateDependent.DateOfBirth;
             person.GenderId = updateDependent.GenderId;
-            person.PlaceOfBirthId = updateDependent.CityOfBirth;
-            person.PlaceOfBirth.CountryId = updateDependent.CountryOfBirth;
+            person.PlaceOfBirthId = cityOfBirth.LocationId;
             person.Addresses = addresses;
-            //person.BirthCountryReason = updateDependent.BirthCountryReason;
             person.EmailAddresses = emails;
             person.PersonTypeId = updateDependent.PersonTypeId;
+            //person.BirthCountryReason = updateDependent.BirthCountryReason;
             updateDependent.Audit.SetHistory(person);
             SetCountriesOfCitizenship(countriesOfCitizenship, person);
         }
