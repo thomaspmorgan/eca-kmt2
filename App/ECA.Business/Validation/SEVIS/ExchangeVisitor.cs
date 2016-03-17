@@ -6,6 +6,7 @@ using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using FluentValidation;
 using FluentValidation.Results;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -98,6 +99,16 @@ namespace ECA.Business.Validation.Sevis
         /// Gets the dependents.
         /// </summary>
         public IEnumerable<Dependent> Dependents { get; private set; }
+
+        /// <summary>
+        /// Serializes this exchange visitor to json.
+        /// </summary>
+        /// <returns>The json object representing this exchange visitor.</returns>
+        public string ToJson()
+        {
+            var json = JsonConvert.SerializeObject(this, GetSerializerSettings());
+            return json;
+        }
 
         /// <summary>
         /// Returns the AddTipp model to send with the exchange visitor.
@@ -296,6 +307,29 @@ namespace ECA.Business.Validation.Sevis
             }
 
             return visitors;
+        }
+
+        /// <summary>
+        /// Returns an exchange visitor instance with the given json.
+        /// </summary>
+        /// <param name="json">The json object representing an exchange visitor.</param>
+        /// <returns>The ExchangeVisitor instance.</returns>
+        public static ExchangeVisitor GetExchangeVisitor(string json)
+        {
+            Contract.Requires(json != null, "The json string must not be null.");
+            return JsonConvert.DeserializeObject<ExchangeVisitor>(json, GetSerializerSettings());
+        }
+
+        /// <summary>
+        /// Returns the serializer settings for the json serializer.
+        /// </summary>
+        /// <returns>The settings for the json serializer.</returns>
+        private static JsonSerializerSettings GetSerializerSettings()
+        {
+            return new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+            };
         }
     }
 }

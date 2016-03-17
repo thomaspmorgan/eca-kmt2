@@ -5,11 +5,28 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
+    /// <summary>
+    /// A FullName is used to represent a sevis exchange visitor full name.
+    /// </summary>
     [Validator(typeof(FullNameValidator))]
     public class FullName
     {
-        public FullName()
-        { }
+        /// <summary>
+        /// Creates a new full name instance with the given name parts.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="passportName">The passport name.</param>
+        /// <param name="preferredName">The preferred name.</param>
+        /// <param name="suffix">The suffix.</param>
+        public FullName(string firstName, string lastName, string passportName, string preferredName, string suffix)
+        {
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.PassportName = passportName;
+            this.PreferredName = preferredName;
+            this.Suffix = suffix;
+        }
 
         /// <summary>
         /// Person last name.

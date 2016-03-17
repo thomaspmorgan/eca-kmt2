@@ -41,6 +41,31 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         }
 
         [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var binationalCommission = "commission";
+            var personal = "peronsal";
+            var evGovt = "ev gov";
+            var other = new Other("name", "amount");
+            var usGovt = new USGovt("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new International("international org 1", null, "internation org 1 value", null, null, null);
+            var instance = new OtherFunds(evGovt, binationalCommission, personal, usGovt, international, other);
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<OtherFunds>(json);
+            Assert.AreEqual(binationalCommission, jsonObject.BinationalCommission);
+            Assert.AreEqual(personal, jsonObject.Personal);
+            Assert.AreEqual(evGovt, jsonObject.EVGovt);
+            Assert.IsNotNull(jsonObject.International);
+            Assert.IsNotNull(jsonObject.Other);
+            Assert.IsNotNull(jsonObject.USGovt);
+            Assert.AreEqual(usGovt.Org1, jsonObject.USGovt.Org1);
+            Assert.AreEqual(usGovt.Amount1, jsonObject.USGovt.Amount1);
+            Assert.AreEqual(international.Org1, jsonObject.International.Org1);
+            Assert.AreEqual(international.Amount1, jsonObject.International.Amount1);
+        }
+
+        [TestMethod]
         public void TestGetOtherFundsType()
         {
             string binationalCommission = "commission";

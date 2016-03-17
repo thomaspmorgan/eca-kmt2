@@ -19,14 +19,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         {
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -103,20 +103,93 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsNotNull(jsonObject.USAddress);
         }
 
+        [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReason = "reason";
+            var relationship = DependentCodeType.Item01.ToString();
+            var instance = new AddedDependent(
+                fullName,
+                birthCity,
+                birthCountryCode,
+                birthCountryReason,
+                birthDate,
+                citizenshipCountryCode,
+                email,
+                gender,
+                permanentResidenceCountryCode,
+                phone,
+                relationship,
+                mailAddress,
+                usAddress,
+                printForm,
+                personId,
+                participantId
+                );
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<AddedDependent>(json);
+            Assert.AreEqual(personId, jsonObject.GetPersonId());
+            Assert.AreEqual(participantId, jsonObject.GetParticipantId());
+            Assert.AreEqual(birthCity, jsonObject.BirthCity);
+            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
+            Assert.AreEqual(birthDate, jsonObject.BirthDate);
+            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
+            Assert.AreEqual(email, jsonObject.EmailAddress);
+            Assert.AreEqual(gender, jsonObject.Gender);
+            Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
+            Assert.AreEqual(phone, jsonObject.PhoneNumber);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(relationship, jsonObject.Relationship);
+            Assert.IsNotNull(jsonObject.FullName);
+            Assert.IsNotNull(jsonObject.MailAddress);
+            Assert.IsNotNull(jsonObject.USAddress);
+        }
+
 
         [TestMethod]
         public void TestGetSevisExhangeVisitorDependentInstance()
         {
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -179,14 +252,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         {
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;

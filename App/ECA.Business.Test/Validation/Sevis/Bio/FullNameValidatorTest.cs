@@ -10,14 +10,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
     {
         public FullName GetValidFullName()
         {
-            return new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SENIOR_SUFFIX
-            };
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = FullNameValidator.SENIOR_SUFFIX;
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+            return fullName;
         }
 
         [TestMethod]

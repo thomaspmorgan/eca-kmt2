@@ -52,14 +52,14 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -152,6 +152,171 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(startDate, exchangeVisitor.ProgramStartDate);
             Assert.AreEqual(sevisId, exchangeVisitor.SevisId);
         }
+
+        [TestMethod]
+        public void TestToJson()
+        {
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+            var sevisId = "sevis id";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user,
+                sevisId,
+                person,
+                financialInfo,
+                occupationCategoryCode,
+                endDate,
+                startDate,
+                siteOfActivity,
+                dependents);
+
+            var json = exchangeVisitor.ToJson();
+            Assert.IsNotNull(json);
+
+            var jsonObject = JsonConvert.DeserializeObject<ExchangeVisitor>(json);
+            Assert.IsNotNull(jsonObject.User);
+            Assert.IsNotNull(jsonObject.Person);
+            Assert.IsNotNull(jsonObject.FinancialInfo);
+            Assert.IsNotNull(jsonObject.Dependents);
+            Assert.IsNotNull(jsonObject.SiteOfActivity);
+           
+            Assert.AreEqual(sevisId, jsonObject.SevisId);
+            Assert.AreEqual(endDate, jsonObject.ProgramEndDate);
+            Assert.AreEqual(startDate, jsonObject.ProgramStartDate);
+            Assert.AreEqual(occupationCategoryCode, jsonObject.OccupationCategoryCode);
+            Assert.AreEqual(userId, jsonObject.User.Id);
+        }
+
+        [TestMethod]
+        public void TestGetExchangeVisitor_HasAddedDependent()
+        {
+            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2);
+
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+            dependents.Add(addedDependent);
+            var sevisId = "sevis id";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user,
+                sevisId,
+                person,
+                financialInfo,
+                occupationCategoryCode,
+                endDate,
+                startDate,
+                siteOfActivity,
+                dependents);
+
+            var json = exchangeVisitor.ToJson();
+            Assert.IsNotNull(json);
+
+            var jsonObject = ExchangeVisitor.GetExchangeVisitor(json);
+            Assert.IsNotNull(jsonObject.Dependents);
+            Assert.AreEqual(1, jsonObject.Dependents.Count());
+
+            var firstJsonDependent = jsonObject.Dependents.First();
+            Assert.IsInstanceOfType(firstJsonDependent, typeof(AddedDependent));
+        }
+
+        [TestMethod]
+        public void TestGetExchangeVisitor_HasUpdatedDependent()
+        {
+            var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2);
+
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+            dependents.Add(updatedDependent);
+            var sevisId = "sevis id";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user,
+                sevisId,
+                person,
+                financialInfo,
+                occupationCategoryCode,
+                endDate,
+                startDate,
+                siteOfActivity,
+                dependents);
+
+            var json = exchangeVisitor.ToJson();
+            Assert.IsNotNull(json);
+
+            var jsonObject = ExchangeVisitor.GetExchangeVisitor(json);
+            Assert.IsNotNull(jsonObject.Dependents);
+            Assert.AreEqual(1, jsonObject.Dependents.Count());
+
+            var firstJsonDependent = jsonObject.Dependents.First();
+            Assert.IsInstanceOfType(firstJsonDependent, typeof(UpdatedDependent));
+        }
+
+        [TestMethod]
+        public void TestGetExchangeVisitor_HasMultipleDependents()
+        {
+            var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2);
+            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2);
+
+            var userId = 10;
+            var user = new User(userId);
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+            dependents.Add(updatedDependent);
+            dependents.Add(addedDependent);
+            var sevisId = "sevis id";
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user,
+                sevisId,
+                person,
+                financialInfo,
+                occupationCategoryCode,
+                endDate,
+                startDate,
+                siteOfActivity,
+                dependents);
+
+            var json = exchangeVisitor.ToJson();
+            Assert.IsNotNull(json);
+
+            var jsonObject = ExchangeVisitor.GetExchangeVisitor(json);
+            Assert.IsNotNull(jsonObject.Dependents);
+            Assert.AreEqual(2, jsonObject.Dependents.Count());
+
+            var firstJsonDependent = jsonObject.Dependents.First();
+            Assert.IsInstanceOfType(firstJsonDependent, typeof(UpdatedDependent));
+
+            var lastJsonDependent = jsonObject.Dependents.Last();
+            Assert.IsInstanceOfType(lastJsonDependent, typeof(AddedDependent));
+        }
+
 
         [TestMethod]
         public void TestConstructor_NullDependents()
@@ -341,14 +506,14 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -452,14 +617,14 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;

@@ -34,14 +34,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             DateTime birthDate = DateTime.Now;
             string citizenshipCountryCode = "UK";
             string emailAddress = "email@isp.com";
-            FullName fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             string gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
             string permanentResidenceCountryCode = "FR";
             string phoneNumber = "18505551212";
