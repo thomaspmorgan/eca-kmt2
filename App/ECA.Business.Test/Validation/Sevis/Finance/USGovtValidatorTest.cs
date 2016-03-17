@@ -164,7 +164,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "1", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -201,7 +201,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "1", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -239,7 +239,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "1", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -312,7 +312,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "2", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -350,7 +350,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "2", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -390,7 +390,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "2", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -429,7 +429,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(USGovtValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(USGovtValidator.AMOUNT_ERROR_MESSAGE, "2", USGovtValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 

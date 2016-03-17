@@ -132,7 +132,7 @@ namespace ECA.Business.Test.Validation.Sevis
             results = validator.Validate(instance);
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
-            Assert.AreEqual(ExchangeVisitorValidator.BIOGRAPHICAL_INFORMATION_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.AreEqual(ExchangeVisitorValidator.PERSON_INFORMATION_REQUIRED_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
         }
 
         [TestMethod]

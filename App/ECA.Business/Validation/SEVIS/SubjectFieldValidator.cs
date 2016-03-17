@@ -4,9 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Sevis
 {
+    /// <summary>
+    /// The SubjectFieldValidator is used to validate a participant's field of study.
+    /// </summary>
     public class SubjectFieldValidator : AbstractValidator<SubjectField>
     {
+        /// <summary>
+        /// The subject field code max length.
+        /// </summary>
         public const int FIELD_CODE_MAX_LENGTH = 7;
+
         public const int FOREIGN_FIELD_MAX_LENGTH = 100;
         public const int REMARKS_MAX_LENGTH = 500;
 

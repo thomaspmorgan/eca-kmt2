@@ -6,28 +6,64 @@ using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
+    /// <summary>
+    /// A USGovtValidator is used to validation us government agency participant funding.
+    /// </summary>
     public class USGovtValidator : AbstractValidator<USGovt>
     {
+        /// <summary>
+        /// The max length of the other us government agency funding.
+        /// </summary>
         public const int OTHER_ORG_NAME_MAX_LENGTH = 60;
 
+        /// <summary>
+        /// The max length of an org code.
+        /// </summary>
         public const int ORG_CODE_MAX_LENGTH = 5;
 
+        /// <summary>
+        /// The max length of an amount.
+        /// </summary>
         public const int AMOUNT_MAX_LENGTH = 8;
 
+        /// <summary>
+        /// The amount regex value.
+        /// </summary>
         public const string AMOUNT_REGEX = @"^\d{1,8}$";
 
+        /// <summary>
+        /// The other org code.
+        /// </summary>
         public static string OTHER_ORG_CODE = GovAgencyCodeType.OTHER.ToString();
 
-        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when the participant's us gov agency 1 code is not set.
+        /// </summary>
+        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The participant's U.S. Government Agency 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("U.S. Gov Funds: The U.S. Government Agency 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when the participan't us gov agency 2 code is not set.
+        /// </summary>
+        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The participant's U.S. Government Agency 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("U.S. Gov Funds: The U.S. Government Agency 1 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when a us gov agency 1 code is set to other but a name is not set.
+        /// </summary>
+        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("The particiant's U.S. Government Agency 1 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("U.S. Gov Funds: The U.S. Government Agency 2 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when a us gov agency 2 code is set to other but a name is not set.
+        /// </summary>
+        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("The participant's U.S. Government Agency 2 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string AMOUNT_ERROR_MESSAGE = String.Format("U.S. Gov Funds: U.S. Government Org Amount is required and can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+        /// <summary>
+        /// The error message to format when a us government agency's funding amount is not set.
+        /// </summary>
+        public const string AMOUNT_ERROR_MESSAGE = "The participant's U.S. Government Org {0} amount is required and can be up to {1} digits.";
 
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public USGovtValidator()
         {
             When(visitor => !String.Equals(visitor.Org1, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
@@ -75,23 +111,23 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 RuleFor(x => x.Amount2)
                 .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "2", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath());
             });
 
             RuleFor(visitor => visitor.Amount1)
                 .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "1", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "1", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath());
 
             When(visitor => visitor.Amount2 != null, () =>
             {
                 RuleFor(visitor => visitor.Amount2)
                 .Matches(new Regex(AMOUNT_REGEX))
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "2", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath());
             });
         }

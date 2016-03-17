@@ -6,29 +6,64 @@ using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
+    /// <summary>
+    /// An InternationalValidator is used to validate international organization participant funding.
+    /// </summary>
     public class InternationalValidator : AbstractValidator<International>
     {
+        /// <summary>
+        /// The max length of an other organizations' name.
+        /// </summary>
         public const int OTHER_ORG_NAME_MAX_LENGTH = 60;
 
+        /// <summary>
+        /// The max length of an org code.
+        /// </summary>
         public const int ORG_CODE_MAX_LENGTH = 6;
 
+        /// <summary>
+        /// The max funding length.
+        /// </summary>
         public const int AMOUNT_MAX_LENGTH = 8;
 
+        /// <summary>
+        /// The amount regular expression value.
+        /// </summary>
         public const string AMOUNT_REGEX = @"^\d{1,8}$";
 
+        /// <summary>
+        /// The other org code.
+        /// </summary>
         public static string OTHER_ORG_CODE = InternationalOrgCodeType.OTHER.ToString();
 
-        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("International Funds: The International Organization 1 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when an org 1 code is not specified.
+        /// </summary>
+        public static string ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The participant's international organization 1 funding must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("International Funds: The International Organization 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when an org 2 code is not specified.
+        /// </summary>
+        public static string ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE = String.Format("The participant's international organization 2 must have an agency code set and it may be {0} characters.", ORG_CODE_MAX_LENGTH);
 
-        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("International Funds: The International Organization 1 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when the first international organization is specified as other and the other name of the organization is invalid.
+        /// </summary>
+        public static string OTHER_ORG_1_NAME_REQUIRED = String.Format("The participant's international organization 1 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("International Funds: The International Organization 2 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when the second international organization is specified as other and the other name of the organization is invalid.
+        /// </summary>
+        public static string OTHER_ORG_2_NAME_REQUIRED = String.Format("The participant's international organization 2 is set to {0}; therefore, a name of the agency must be supplied.  The name can be {1} characters.", OTHER_ORG_CODE, OTHER_ORG_NAME_MAX_LENGTH);
 
-        public static string AMOUNT_ERROR_MESSAGE = String.Format("International Funds: An International Organization Amount is required and can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+        /// <summary>
+        /// The error message to format when a funding amount is invalid.
+        /// </summary>
+        public const string AMOUNT_ERROR_MESSAGE = "The participant's international organization {0} amount is required and can be up to {1} digits.";
 
-
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public InternationalValidator()
         {
             When(visitor => !String.Equals(visitor.Org1, OTHER_ORG_CODE, StringComparison.OrdinalIgnoreCase), () =>
@@ -76,13 +111,13 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 RuleFor(x => x.Amount2)
                 .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "2", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath());
             });
 
             RuleFor(visitor => visitor.Amount1)
                 .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "1", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
                 .WithMessage(AMOUNT_ERROR_MESSAGE)
@@ -92,10 +127,10 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 RuleFor(visitor => visitor.Amount2)
                 .NotNull()
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "2", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath())
                 .Matches(new Regex(AMOUNT_REGEX))
-                .WithMessage(AMOUNT_ERROR_MESSAGE)
+                .WithMessage(AMOUNT_ERROR_MESSAGE, "2", AMOUNT_MAX_LENGTH)
                 .WithState(x => new FundingErrorPath());
             });
         }
