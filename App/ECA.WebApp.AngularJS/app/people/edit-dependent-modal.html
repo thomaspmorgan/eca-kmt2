@@ -2,12 +2,10 @@
     <h3 class="modal-title">Dependent</h3>
 </div>
 <div class="modal-body">
-    <div ng-show="dependentsLoading">
-        <div class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
+    <div class="spinner" ng-show="dependentsLoading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
     </div>
     <div ng-show="!dependentsLoading">
         <form name="dependentForm" class="form-horizontal">

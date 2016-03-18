@@ -35,7 +35,7 @@ namespace ECA.WebApi.Test.Models.Person
                 BirthCountryReason = "rebel"
             };
             var user = new User(1);
-            var instance = model.ToUpdatedPersonDependent(user);
+            var instance = model.ToUpdatePersonDependent(user);
             Assert.AreEqual(model.FullName, instance.FullName);
             Assert.AreEqual(model.DateOfBirth, instance.DateOfBirth);
             Assert.AreEqual(model.PlaceOfBirth, instance.PlaceOfBirth);
