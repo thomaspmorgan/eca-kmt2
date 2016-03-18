@@ -305,7 +305,7 @@ namespace ECA.Business.Validation.Sevis
             visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo()));
             foreach(var dependent in this.Dependents)
             {
-                var modifiedDependent = new ModifiedParticipantDependent(dependent, null, null);
+                var modifiedDependent = new ModifiedParticipantDependent(dependent);
                 visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent()));
             }
 

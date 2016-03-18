@@ -92,6 +92,13 @@ namespace ECA.Business.Validation.Sevis
             dependent.UserDefinedB = GetPersonIdAsString(this.PersonId);
         }
 
+        public void SetUserDefinedFields(SEVISEVBatchTypeExchangeVisitorDependent dependent)
+        {
+            Contract.Requires(dependent != null, "The dependent must not be null.");
+            dependent.UserDefinedA = GetParticipantIdAsString(this.ParticipantId);
+            dependent.UserDefinedB = GetPersonIdAsString(this.PersonId);
+        }
+
         /// <summary>
         /// Sets the user defined fields on the given sevis person model.
         /// </summary>

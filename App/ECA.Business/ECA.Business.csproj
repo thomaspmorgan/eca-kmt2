@@ -552,14 +552,11 @@
     <Compile Include="Validation\Sevis\Finance\OrganizationFunding.cs" />
     <Compile Include="Validation\Sevis\IFormPrintable.cs" />
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
-    <Compile Include="Validation\Sevis\IRequestIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ISevisIdentifable.cs" />
-    <Compile Include="Validation\Sevis\IUserIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
     <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
-    <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\AddressErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\BirthDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\CitizenshipErrorPath.cs" />
