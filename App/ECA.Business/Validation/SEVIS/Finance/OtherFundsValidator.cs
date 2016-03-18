@@ -6,16 +6,34 @@ namespace ECA.Business.Validation.Sevis.Finance
 {
     public class OtherFundsValidator : AbstractValidator<OtherFunds>
     {
+        /// <summary>
+        /// The max length of amount.
+        /// </summary>
         public const int AMOUNT_MAX_LENGTH = 8;
 
+        /// <summary>
+        /// The amount regular expression value.
+        /// </summary>
         public const string AMOUNT_REGEX = @"^\d{1,8}$";
 
-        public static string EV_GOVT_ERROR_MESSAGE = string.Format("Financial Info: Government funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when an exchange visitor government funding value is invalid.
+        /// </summary>
+        public static string EXCHANGE_VISITOR_GOVERNMENT_FUNDING_ERROR_MESSAGE = string.Format("The participant's exchange visitor government funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
 
-        public static string BINATIONAL_ERROR_MESSAGE = string.Format("Financial Info: Binational funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when an exchange visitor's binational funding is invalid.
+        /// </summary>
+        public static string BINATIONAL_ERROR_MESSAGE = string.Format("The participant's binational funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
 
-        public static string PERSONAL_ERROR_MESSAGE = string.Format("Financial Info: Personal funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
+        /// <summary>
+        /// The error message to return when an exchange's visitor's personal funding is invalid.
+        /// </summary>
+        public static string PERSONAL_ERROR_MESSAGE = string.Format("The participant's personal funding can be up to {0} digits.", AMOUNT_MAX_LENGTH);
 
+        /// <summary>
+        /// Creates a default instance.
+        /// </summary>
         public OtherFundsValidator()
         {
             RuleFor(visitor => visitor.Other)
@@ -34,7 +52,7 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 RuleFor(x => x.EVGovt)
                  .Matches(new Regex(AMOUNT_REGEX))
-                 .WithMessage(EV_GOVT_ERROR_MESSAGE)
+                 .WithMessage(EXCHANGE_VISITOR_GOVERNMENT_FUNDING_ERROR_MESSAGE)
                  .WithState(x => new FundingErrorPath());
             });
 

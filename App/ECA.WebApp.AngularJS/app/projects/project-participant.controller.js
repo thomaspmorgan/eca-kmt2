@@ -60,6 +60,10 @@ angular.module('staticApp')
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
 
+      $scope.view.hasRealActualParticipants = false;
+      $scope.view.editingEstParticipants = false;
+      $scope.view.editingActualParticipants = false;
+
       $scope.sevisInfo = {};
       $scope.exchangeVisitorInfo = {};
       $scope.participantInfo = {};
@@ -74,6 +78,132 @@ angular.module('staticApp')
       $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
       var notifyStatuses = ConstantsService.sevisStatuses;
+
+      var origNonUsParticipantsEst;
+      var origUsParticipantsEst;
+      var origNonUsParticipantsActual;
+      var origUsParticipantsActual;
+
+      $scope.view.saveEstParticipants = function ()
+      {
+          $scope.view.editingEstParticipants = false;
+          saveProject();
+      }
+
+      $scope.view.saveActualParticipants = function ()
+      {
+          $scope.view.editingActualParticipants = false;
+          saveProject();
+      }
+
+      $scope.view.cancelEstParticipants = function ()
+      {
+          $scope.view.editingEstParticipants = false;
+          restoreOriginalEstParticipantValues();
+      }
+
+      $scope.view.cancelActualParticipants = function () {
+          $scope.view.editingActualParticipants = false;
+          restoreOriginalActualParticipantValues();
+      }
+
+      function updateRelationshipIds(idsPropertyName, realPropertyName) {
+          console.assert($scope.$parent.project.hasOwnProperty(idsPropertyName), "The project must have the property named " + idsPropertyName);
+          console.assert($scope.$parent.project.hasOwnProperty(realPropertyName), "The project must have the property named " + realPropertyName);
+          $scope.$parent.project[idsPropertyName] = [];
+          $scope.$parent.project[idsPropertyName] = $scope.$parent.project[realPropertyName].map(function (c) {
+              return c.id;
+          });
+      }
+
+      function updatePointsOfContactIds() {
+          var propertyName = "pointsOfContactIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'contacts');
+      }
+
+      function updateThemes() {
+          var propertyName = "themeIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'themes');
+      }
+
+      function updateCategories() {
+          var propertyName = "categoryIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'categories');
+      }
+
+      function updateObjectives() {
+          var propertyName = "objectiveIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'objectives');
+      }
+
+      function updateGoals() {
+          var propertyName = "goalIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'goals');
+      }
+
+      function updateLocations() {
+          var propertyName = "locationIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'locations');
+      }
+
+      function updateRegions() {
+          var propertyName = "regionIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'regions');
+      }
+
+      function restoreOriginalEstParticipantValues()
+      {
+          $scope.$parent.project.nonUsParticipantsEst = origNonUsParticipantsEst;
+          $scope.$parent.project.usParticipantsEst = origUsParticipantsEst;
+      }
+
+      function restoreOriginalActualParticipantValues()
+      {
+          $scope.$parent.project.nonUsParticipantsActual = origNonUsParticipantsActual;
+          $scope.$parent.project.usParticipantsActual = origUsParticipantsActual;
+      }
+
+      function saveProject() {
+          updatePointsOfContactIds();
+          updateThemes();
+          updateGoals();
+          updateCategories();
+          updateObjectives();
+          updateLocations();
+          updateRegions();
+          ProjectService.update($scope.$parent.project, $stateParams.projectId)
+           .then(function (response) {
+               $scope.$parent.project = response.data;
+               NotificationService.showSuccessMessage('Successfully saved number of participants.');
+           }, function (error) {
+               restoreOriginalEstParticipantValues();
+               restoreOriginalActualParticipantValues();
+               if (error.status === 400) {
+                   if (error.data.message && error.data.modelState) {
+                       for (var key in error.data.modelState) {
+                           NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                       }
+                   }
+                   else if (error.data.Message && error.data.ValidationErrors) {
+                       for (var key in error.data.ValidationErrors) {
+                           NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                       }
+                   } else {
+                       NotificationService.showErrorMessage(error.data);
+                   }
+               }
+           })
+           .then(function () {
+               //nothing
+           });
+      }
 
       $scope.view.onDeleteParticipantClick = function (participant) {
           MessageBox.confirm({
@@ -224,6 +354,10 @@ angular.module('staticApp')
 
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           BrowserService.setDocumentTitleByProject(project, 'Participants');
+          origNonUsParticipantsEst = $scope.$parent.project.nonUsParticipantsEst;
+          origUsParticipantsEst = $scope.$parent.project.usParticipantsEst;
+          origNonUsParticipantsActual = $scope.$parent.project.nonUsParticipantsActual;
+          origUsParticipantsActual = $scope.$parent.project.usParticipantsActual;
 
       });
 
@@ -401,6 +535,7 @@ angular.module('staticApp')
                 $scope.participants = data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                $scope.view.hasRealActualParticipants = data.total > 0;
                 $scope.participantsLoading = false;
                 handleParticipantState();
             })

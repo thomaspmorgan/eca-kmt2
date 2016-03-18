@@ -11,25 +11,22 @@ angular.module('staticApp')
   .factory('DependentService', function ($q, DragonBreath) {
 
       return {
-          getDependentById: function (id) {
+          getDependentById: function (dependentId) {
               var defer = $q.defer();
-              DragonBreath.get('/dependent/' + id)
+              DragonBreath.get('person/' + dependentId + '/dependent')
                 .success(function (data) {
                     defer.resolve(data);
                 });
               return defer.promise;
           },
-          getDependents: function (params) {
-              return DragonBreath.get(params, 'dependent');
-          },
           update: function (dependent, id) {
-              return DragonBreath.save(dependent, 'dependent');
+              return DragonBreath.save(dependent, 'people/dependent');
           },
           create: function (dependent) {
-              return DragonBreath.create(dependent, 'dependent');
+              return DragonBreath.create(dependent, 'people/dependent');
           },
-          delete: function (dependent) {
-              return DragonBreath.create(dependent, 'dependent');
+          delete: function (personId, dependentId) {
+              return DragonBreath.create(dependent, 'person/' + personId + '/dependent/' + dependentId);
           }
       };
   });

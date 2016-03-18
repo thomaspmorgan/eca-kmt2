@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
+using ECA.Core.DynamicLinq;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
@@ -18,7 +20,6 @@ namespace ECA.Business.Service.Persons
     public class ExchangeVisitorSaveAction : ISaveAction
     {
         private IExchangeVisitorValidationService validationService;
-
         /// <summary>
         /// Creates a new instance and initializes it with the given dependencies.
         /// </summary>
@@ -32,6 +33,8 @@ namespace ECA.Business.Service.Persons
             this.User = userProvider();
             this.CreatedObjects = new List<object>();
             this.ModifiedObjects = new List<object>();
+            this.DeletedObjects = new List<object>();
+            this.ParticipantIds = new HashSet<int>();
         }
 
         /// <summary>
@@ -50,6 +53,16 @@ namespace ECA.Business.Service.Persons
         public List<object> ModifiedObjects { get; private set; }
 
         /// <summary>
+        /// Gets the deleted entities.
+        /// </summary>
+        public List<object> DeletedObjects { get; private set; }
+
+        /// <summary>
+        /// Gets the set of participant ids.
+        /// </summary>
+        public HashSet<int> ParticipantIds { get; private set; }
+
+        /// <summary>
         /// Gets the EcaContext instance.
         /// </summary>
         public EcaContext Context { get; set; }
@@ -62,7 +75,7 @@ namespace ECA.Business.Service.Persons
         public IList<object> GetCreatedEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var createdParticipants = GetParticipantEntities(context, EntityState.Added).ToList();
+            var createdParticipants = GetParticipantEntities(context, GetCreatedAndModifiedEntityTypes(), EntityState.Added).ToList();
             return createdParticipants;
         }
 
@@ -74,8 +87,20 @@ namespace ECA.Business.Service.Persons
         public IList<object> GetModifiedEntities(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var modifiedParticipants = GetParticipantEntities(context, EntityState.Modified).ToList();
+            var modifiedParticipants = GetParticipantEntities(context, GetCreatedAndModifiedEntityTypes(), EntityState.Modified).ToList();
             return modifiedParticipants;
+        }
+
+        /// <summary>
+        /// Returns the list of modified entities from the given context.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The modified entities.</returns>
+        public IList<object> GetDeletedEntities(DbContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var deletedEntities = GetParticipantEntities(context, GetDeletedEntityTypes(), EntityState.Deleted).ToList();
+            return deletedEntities;
         }
 
         /// <summary>
@@ -83,11 +108,11 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="context">The context to get entities from.</param>
         /// <param name="state">The entity state.</param>
+        /// <param name="participantEntityTypes">The participant entity types that are to be found in the give context.</param>
         /// <returns>The list of objects that relate to a participant.</returns>
-        public IList<object> GetParticipantEntities(DbContext context, EntityState state)
+        public IList<object> GetParticipantEntities(DbContext context, List<Type> participantEntityTypes, EntityState state)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var participantEntityTypes = GetParticipantTypes();
 
             var changedParticipantEntities = from changedEntity in context.ChangeTracker.Entries().Where(x => x.State == state)
                                              let type = changedEntity.Entity.GetType()
@@ -101,10 +126,10 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Returns the list of object types that need to be watched for potential participant changes.
+        /// Returns the list of types that should be located when they are added or changed to the context.
         /// </summary>
-        /// <returns>The list of object types that need to be watched for potential participant changes.</returns>
-        public List<Type> GetParticipantTypes()
+        /// <returns>The list of types that should be located when they are added or changed to the context.</returns>
+        public List<Type> GetCreatedAndModifiedEntityTypes()
         {
             var participantEntityTypes = new List<Type>();
             participantEntityTypes.Add(typeof(Participant));
@@ -118,15 +143,29 @@ namespace ECA.Business.Service.Persons
             return participantEntityTypes;
         }
 
+        /// <summary>
+        /// Returns the list of types that should be located when they are deleted from the context.
+        /// </summary>
+        /// <returns>The list of types that should be located when they are deleted from the context.</returns>
+        public List<Type> GetDeletedEntityTypes()
+        {
+            var participantEntityTypes = new List<Type>();
+            participantEntityTypes.Add(typeof(Address));
+            participantEntityTypes.Add(typeof(EmailAddress));
+            participantEntityTypes.Add(typeof(PhoneNumber));
+            return participantEntityTypes;
+        }
+
+        #region SaveAction
+
         private void OnBeforeSaveChanges(DbContext context)
         {
             Contract.Requires(context is EcaContext, "The given context must be an EcaContext instance.");
             this.Context = (EcaContext)context;
             this.CreatedObjects = GetCreatedEntities(context).ToList();
             this.ModifiedObjects = GetModifiedEntities(context).ToList();
+            this.DeletedObjects = GetDeletedEntities(context).ToList();
         }
-
-        #region SaveAction
 
         /// <summary>
         /// Locates participant related entities that have been created or modified in the context.
@@ -136,6 +175,19 @@ namespace ECA.Business.Service.Persons
         public void BeforeSaveChanges(DbContext context)
         {
             OnBeforeSaveChanges(context);
+            foreach (var deletedObject in this.DeletedObjects)
+            {
+                var id = GetPersonIdByObject(this.Context, deletedObject);
+                if (id.HasValue)
+                {
+                    var person = this.Context.People.Find(id.Value);
+                    var participantId = GetParticipantId(person);
+                    if (participantId.HasValue)
+                    {
+                        this.ParticipantIds.Add(participantId.Value);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -143,10 +195,22 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>The task.</returns>
-        public Task BeforeSaveChangesAsync(DbContext context)
+        public async Task BeforeSaveChangesAsync(DbContext context)
         {
             OnBeforeSaveChanges(context);
-            return Task.FromResult<object>(null);
+            foreach (var deletedObject in this.DeletedObjects)
+            {
+                var id = await GetPersonIdByObjectAsync(this.Context, deletedObject);
+                if (id.HasValue)
+                {
+                    var person = await this.Context.People.FindAsync(id.Value);
+                    var participantId = await GetParticipantIdAsync(person);
+                    if (participantId.HasValue)
+                    {
+                        this.ParticipantIds.Add(participantId.Value);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -155,12 +219,13 @@ namespace ECA.Business.Service.Persons
         /// <param name="context">The context that has created or modified participant related entities.</param>
         public void AfterSaveChanges(DbContext context)
         {
-            var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
+            var allParticipantObjects = GetCreatedAndModifiedEntities();
             var ids = GetParticipantIds(allParticipantObjects);
+            ids.ForEach(x => this.ParticipantIds.Add(x));
             var callSaveChanges = false;
-            if (ids.Count > 0)
+            if (this.ParticipantIds.Count > 0)
             {
-                foreach (var id in ids)
+                foreach (var id in this.ParticipantIds)
                 {
                     var participant = this.Context.Participants.Find(id);
                     Contract.Assert(participant != null, "The participant should be found.");
@@ -175,7 +240,6 @@ namespace ECA.Business.Service.Persons
                 {
                     Context.SaveChanges();
                 }
-
             }
         }
 
@@ -185,12 +249,13 @@ namespace ECA.Business.Service.Persons
         /// <param name="context">The context that has created or modified participant related entities.</param>
         public async Task AfterSaveChangesAsync(DbContext context)
         {
-            var allParticipantObjects = GetUnionedCreatedAndModifiedObjects();
+            var allParticipantObjects = GetCreatedAndModifiedEntities();
             var ids = await GetParticipantIdsAsync(allParticipantObjects);
+            ids.ForEach(x => this.ParticipantIds.Add(x));
             var callSaveChanges = false;
-            if (ids.Count > 0)
+            if (this.ParticipantIds.Count > 0)
             {
-                foreach (var id in ids)
+                foreach (var id in this.ParticipantIds)
                 {
                     var participant = await this.Context.Participants.FindAsync(id);
                     Contract.Assert(participant != null, "The participant should be found.");
@@ -208,11 +273,212 @@ namespace ECA.Business.Service.Persons
             }
         }
 
-        public List<object> GetUnionedCreatedAndModifiedObjects()
+        #endregion
+
+        /// <summary>
+        /// Returns the union of the created, modified, and deleted objects.
+        /// </summary>
+        /// <returns>The list of created, modified and deleted objects.</returns>
+        public List<object> GetCreatedAndModifiedEntities()
         {
-            return this.ModifiedObjects.Union(this.CreatedObjects).ToList();
+            return this.ModifiedObjects.Union(this.CreatedObjects).Union(this.DeletedObjects).ToList();
         }
 
+        #region GetPersonIdByEntity
+
+        /// <summary>
+        /// Returns the person id from the given object.  Use this method when an object has been deleted from the context
+        /// and the person id must be recovered from the database.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="obj">The deleted object.</param>
+        /// <returns>The person id, or null if it does not exist.</returns>
+        public int? GetPersonIdByObject(EcaContext context, Object obj)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(obj != null, "The obj must not be null.");
+            var type = obj.GetType();
+            if (typeof(PhoneNumber).IsAssignableFrom(type))
+            {
+                var phoneNumber = (PhoneNumber)obj;
+                return GetPersonIdByPhoneNumber(context, phoneNumber);
+            }
+            else if (typeof(EmailAddress).IsAssignableFrom(type))
+            {
+                var email = (EmailAddress)obj;
+                return GetPersonIdByEmailAddress(context, email);
+            }
+            else if (typeof(Address).IsAssignableFrom(type))
+            {
+                var address = (Address)obj;
+                return GetPersonIdByAddress(context, address);
+            }
+            else
+            {
+                throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
+            }
+        }
+
+        /// <summary>
+        /// Returns the person id from the given object.  Use this method when an object has been deleted from the context
+        /// and the person id must be recovered from the database.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="obj">The deleted object.</param>
+        /// <returns>The person id, or null if it does not exist.</returns>
+        public Task<int?> GetPersonIdByObjectAsync(EcaContext context, Object obj)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(obj != null, "The obj must not be null.");
+            var type = obj.GetType();
+            if (typeof(PhoneNumber).IsAssignableFrom(type))
+            {
+                var phoneNumber = (PhoneNumber)obj;
+                return GetPersonIdByPhoneNumberAsync(context, phoneNumber);
+            }
+            else if (typeof(EmailAddress).IsAssignableFrom(type))
+            {
+                var email = (EmailAddress)obj;
+                return GetPersonIdByEmailAddressAsync(context, email);
+            }
+            else if (typeof(Address).IsAssignableFrom(type))
+            {
+                var address = (Address)obj;
+                return GetPersonIdByAddressAsync(context, address);
+            }
+            else
+            {
+                throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
+            }
+        }
+
+        /// <summary>
+        /// Returns the person id from the given address.  Use this method with an address hat has been 
+        /// deleted to recover the original person id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="address">The deleted address.</param>
+        /// <returns>The person id or null if it doesn't exist.</returns>
+        public int? GetPersonIdByAddress(EcaContext context, Address address)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(address != null, "The address must not be null.");
+            return GetPersonIdByEntity<Address>(context, address, x => x.PersonId);
+        }
+
+        /// <summary>
+        /// Returns the person id from the given address.  Use this method with an address hat has been 
+        /// deleted to recover the original person id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="address">The deleted address.</param>
+        /// <returns>The person id or null if it doesn't exist.</returns>
+        public Task<int?> GetPersonIdByAddressAsync(EcaContext context, Address address)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(address != null, "The address must not be null.");
+            return GetPersonIdByEntityAsync<Address>(context, address, x => x.PersonId);
+        }
+
+        /// <summary>
+        /// Returns the person id from the given phone number.  Use this method with a phone number that has been 
+        /// deleted to recover the original person id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="phoneNumber">The deleted phone number.</param>
+        /// <returns>The person id or null if it doesn't exist.</returns>
+        public int? GetPersonIdByPhoneNumber(EcaContext context, PhoneNumber phoneNumber)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(phoneNumber != null, "The phone number must not be null.");
+            return GetPersonIdByEntity<PhoneNumber>(context, phoneNumber, x => x.PersonId);
+        }
+
+
+        /// <summary>
+        /// Returns the person id from the given phone number.  Use this method with a phone number that has been 
+        /// deleted to recover the original person id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="phoneNumber">The deleted phone number.</param>
+        /// <returns>The person id or null if it doesn't exist.</returns>
+        public Task<int?> GetPersonIdByPhoneNumberAsync(EcaContext context, PhoneNumber phoneNumber)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(phoneNumber != null, "The phone number must not be null.");
+            return GetPersonIdByEntityAsync<PhoneNumber>(context, phoneNumber, x => x.PersonId);
+        }
+
+        /// <summary>
+        /// Returns the person id from the given email address.  Use this method with an email address has been 
+        /// deleted to recover the original person id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="emailAddress">The deleted email address.</param>
+        /// <returns>The person id or null if it doesn't exist.</returns>
+        public int? GetPersonIdByEmailAddress(EcaContext context, EmailAddress emailAddress)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(emailAddress != null, "The email address must not be null.");
+            return GetPersonIdByEntity<EmailAddress>(context, emailAddress, x => x.PersonId);
+        }
+
+        /// <summary>
+        /// Returns the person id from the given email address.  Use this method with an email address has been 
+        /// deleted to recover the original person id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="emailAddress">The deleted email address.</param>
+        /// <returns>The person id or null if it doesn't exist.</returns>
+        public Task<int?> GetPersonIdByEmailAddressAsync(EcaContext context, EmailAddress emailAddress)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(emailAddress != null, "The email address must not be null.");
+            return GetPersonIdByEntityAsync<EmailAddress>(context, emailAddress, x => x.PersonId);
+        }
+
+        /// <summary>
+        /// Returns the person id from an entity that is related to a person.  This is useful when an entity
+        /// has been deleted via the context, but the related person must be retrieved.
+        /// </summary>
+        /// <typeparam name="T">The entity type that is related to a person.</typeparam>
+        /// <param name="context">The context to query.</param>
+        /// <param name="entity">The entity that has been deleted.</param>
+        /// <param name="propertySelector"></param>
+        /// <returns>The id of the person or null if it does not exist.</returns>
+        public int? GetPersonIdByEntity<T>(EcaContext context, T entity, Expression<Func<T, object>> propertySelector) where T : class
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(entity != null, "The entity must not be null.");
+            Contract.Requires(propertySelector != null, "The property selector must not be null.");
+            var databaseValues = context.GetEntry<T>(entity).GetDatabaseValues();
+            var personId = databaseValues.GetValue<int?>(PropertyHelper.GetPropertyName<T>(propertySelector));
+            return personId;
+        }
+
+
+        /// <summary>
+        /// Returns the person id from an entity that is related to a person.  This is useful when an entity
+        /// has been deleted via the context, but the related person must be retrieved.
+        /// </summary>
+        /// <typeparam name="T">The entity type that is related to a person.</typeparam>
+        /// <param name="context">The context to query.</param>
+        /// <param name="entity">The entity that has been deleted.</param>
+        /// <param name="propertySelector"></param>
+        /// <returns>The id of the person or null if it does not exist.</returns>
+        public async Task<int?> GetPersonIdByEntityAsync<T>(EcaContext context, T entity, Expression<Func<T, object>> propertySelector) where T : class
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(entity != null, "The entity must not be null.");
+            Contract.Requires(propertySelector != null, "The property selector must not be null.");
+            var databaseValues = await context.GetEntry<T>(entity).GetDatabaseValuesAsync();
+            var personId = databaseValues.GetValue<int?>(PropertyHelper.GetPropertyName<T>(propertySelector));
+            return personId;
+        }
+
+        #endregion
+
+        #region GetParticipantId
         /// <summary>
         /// Returns the participant ids of the created or modified entities that should have their validation rechecked.
         /// </summary>

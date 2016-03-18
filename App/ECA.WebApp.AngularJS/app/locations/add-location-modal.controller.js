@@ -480,10 +480,6 @@ angular.module('staticApp')
       $q.all([getLocationTypes(), loadCountries(), loadRegions()])
         .then(function () {
             $scope.view.isLoadingRequiredData = false;
-            var element = angular.element('#locationTypeId');
-            $timeout(function () {
-                element.focus();
-            }, 800);
         })
         .catch(function () {
             $scope.view.isLoadingRequiredData = false;

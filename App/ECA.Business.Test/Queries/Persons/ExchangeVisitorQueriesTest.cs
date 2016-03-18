@@ -77,6 +77,7 @@ namespace ECA.Business.Test.Queries.Persons
                 FirstName = "first name",
                 LastName = "last name",
                 NameSuffix = "suffix",
+                MiddleName = "middle",
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,
@@ -200,6 +201,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(dependent.FirstName, biography.FullName.FirstName);
             Assert.AreEqual(dependent.LastName, biography.FullName.LastName);
             Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
+            Assert.AreEqual(dependent.MiddleName, biography.FullName.MiddleName);
             Assert.IsNull(biography.FullName.PassportName);
             Assert.AreEqual(dependent.PersonId, biography.PersonId);
             Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
@@ -672,6 +674,7 @@ namespace ECA.Business.Test.Queries.Persons
                 FirstName = "first name",
                 LastName = "last name",
                 NameSuffix = "suffix",
+                MiddleName = "middle",
                 Gender = gender,
                 GenderId = gender.GenderId,
                 PlaceOfBirth = cityOfBirth,
@@ -833,6 +836,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(person.FirstName, biography.FullName.FirstName);
             Assert.AreEqual(person.LastName, biography.FullName.LastName);
             Assert.AreEqual(person.NameSuffix, biography.FullName.Suffix);
+            Assert.AreEqual(person.MiddleName, biography.FullName.MiddleName);
             Assert.IsNull(biography.FullName.PassportName);
             Assert.AreEqual(person.PersonId, biography.PersonId);
             Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
@@ -943,7 +947,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Person = person,
                 PersonId = person.PersonId
             };
-            
+
             person.Addresses.Add(residenceAddress);
             var participant = new Participant
             {

@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.ErrorPaths;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
@@ -10,14 +11,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
     {
         public FullName GetValidFullName()
         {
-            return new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SENIOR_SUFFIX
-            };
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = FullNameValidator.SENIOR_SUFFIX;
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+            return fullName;
         }
 
         [TestMethod]
@@ -192,7 +192,10 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, instance.Suffix, 
+                    string.Join(FullNameValidator.JUNIOR_SUFFIX, FullNameValidator.SENIOR_SUFFIX, FullNameValidator.FIRST_SUFFIX, FullNameValidator.SECOND_SUFFIX, FullNameValidator.THIRD_SUFFIX, FullNameValidator.FOURTH_SUFFIX)), 
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 

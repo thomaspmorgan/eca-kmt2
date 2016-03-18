@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Finance;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
@@ -14,8 +15,8 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            var usGovt = new USGovt("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new International("international org 1", null, "internation org 1 value", null, null, null);
 
             var otherFunds = new OtherFunds(
                 evGovt: evGovt,
@@ -38,6 +39,45 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             Assert.AreEqual(programSponsorFunds, instance.ProgramSponsorFunds);
             Assert.AreEqual(receivedUsGovtFunds, instance.ReceivedUSGovtFunds);
             Assert.AreEqual(printForm, instance.PrintForm);
+        }
+
+        [TestMethod]
+        public void TestJsonSerialization()
+        {
+            string binationalCommission = "commission";
+            string personal = "peronsal";
+            string evGovt = "ev gov";
+            Other other = new Other("name", "amount");
+            var usGovt = new USGovt("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new International("international org 1", null, "internation org 1 value", null, null, null);
+
+            var otherFunds = new OtherFunds(
+                evGovt: evGovt,
+                binationalCommission: binationalCommission,
+                personal: personal,
+                usGovt: usGovt,
+                international: international,
+                other: other);
+
+            var programSponsorFunds = "prog sponsor funds";
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var instance = new FinancialInfo(
+                printForm,
+                receivedUsGovtFunds,
+                programSponsorFunds,
+                otherFunds);
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<FinancialInfo>(json);
+            Assert.AreEqual(receivedUsGovtFunds, jsonObject.ReceivedUSGovtFunds);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.IsNotNull(jsonObject.OtherFunds);
+            Assert.IsNotNull(jsonObject.OtherFunds.International);
+            Assert.IsNotNull(jsonObject.OtherFunds.USGovt);
+
+            //spot checks
+            Assert.AreEqual(usGovt.Org1, jsonObject.OtherFunds.USGovt.Org1);
+            Assert.AreEqual(international.Org1, jsonObject.OtherFunds.International.Org1);
         }
 
         [TestMethod]

@@ -3,6 +3,8 @@ using ECA.WebApi.Models.Person;
 using ECA.Data;
 using ECA.Business.Service;
 using System;
+using ECA.Business.Service.Lookup;
+using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.WebApi.Test.Models.Person
 {
@@ -24,11 +26,10 @@ namespace ECA.WebApi.Test.Models.Person
                     Suffix = "suffix"
                 },
                 DateOfBirth = DateTime.Now,
-                CityOfBirth = 1,
-                CountryOfBirth = 2,
-                CountriesOfCitizenship = new System.Collections.Generic.List<Location>(),
+                PlaceOfBirth = new LocationDTO { CityId = 5, CountryId = 193 },
+                CountriesOfCitizenship = new System.Collections.Generic.List<int>(),
                 EmailAddress = "email@domain.com",
-                Gender = Gender.Male.Id,
+                GenderId = Gender.Male.Id,
                 PermanentResidenceCountryCode = 2,
                 PersonTypeId = PersonType.Spouse.Id,
                 BirthCountryReason = "rebel"
@@ -37,11 +38,10 @@ namespace ECA.WebApi.Test.Models.Person
             var instance = model.ToUpdatedPersonDependent(user);
             Assert.AreEqual(model.FullName, instance.FullName);
             Assert.AreEqual(model.DateOfBirth, instance.DateOfBirth);
-            Assert.AreEqual(model.CityOfBirth, instance.CityOfBirth);
-            Assert.AreEqual(model.CountryOfBirth, instance.CountryOfBirth);
+            Assert.AreEqual(model.PlaceOfBirth, instance.PlaceOfBirth);
             CollectionAssert.AreEqual(model.CountriesOfCitizenship, instance.CountriesOfCitizenship);
             Assert.AreEqual(model.EmailAddress, instance.EmailAddress);
-            Assert.AreEqual(model.Gender, instance.Gender);
+            Assert.AreEqual(model.GenderId, instance.GenderId);
             Assert.AreEqual(model.PermanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(model.PersonTypeId, instance.PersonTypeId);
             Assert.AreEqual(model.BirthCountryReason, instance.BirthCountryReason);

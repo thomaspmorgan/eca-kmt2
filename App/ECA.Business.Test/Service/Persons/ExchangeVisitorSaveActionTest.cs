@@ -12,6 +12,7 @@ using Moq;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
+using ECA.Core.DynamicLinq;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -191,6 +192,162 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public void TestGetModifiedParticipants_EmailAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.EmailAddresses.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_EmailAddressProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.EmailAddresses.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_PhoneNumber()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PhoneNumber
+                {
+                    PhoneNumberId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.PhoneNumbers.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_PhoneNumberProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PhoneNumberProxyClass
+                {
+                    PhoneNumberId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.PhoneNumbers.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_Address()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new Address
+                {
+                    AddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.Addresses.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_AddressProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new AddressProxyClass
+                {
+                    AddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.Addresses.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
         public void TestGetModifiedParticipants_EntityIsNotAParticipantRelatedEntity()
         {
             using (ShimsContext.Create())
@@ -218,7 +375,7 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Created Entities
         [TestMethod]
-        public void TestGetCreatedParticipants_Participant()
+        public void TestGetCreatedEntities_Participant()
         {
             using (ShimsContext.Create())
             {
@@ -244,7 +401,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_ParticipantProxy()
+        public void TestGetCreatedEntities_ParticipantProxy()
         {
             using (ShimsContext.Create())
             {
@@ -270,7 +427,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_Person()
+        public void TestGetCreatedEntities_Person()
         {
             using (ShimsContext.Create())
             {
@@ -296,7 +453,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_PersonProxy()
+        public void TestGetCreatedEntities_PersonProxy()
         {
             using (ShimsContext.Create())
             {
@@ -322,7 +479,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_ParticipantPerson()
+        public void TestGetCreatedEntities_ParticipantPerson()
         {
             using (ShimsContext.Create())
             {
@@ -348,7 +505,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_ParticipantPersonProxy()
+        public void TestGetCreatedEntities_ParticipantPersonProxy()
         {
             using (ShimsContext.Create())
             {
@@ -374,7 +531,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_ParticipantPersonExchangeVisitor()
+        public void TestGetCreatedEntities_ParticipantPersonExchangeVisitor()
         {
             using (ShimsContext.Create())
             {
@@ -400,7 +557,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_ParticipantPersonExchangeVisitorProxy()
+        public void TestGetCreatedEntities_ParticipantPersonExchangeVisitorProxy()
         {
             using (ShimsContext.Create())
             {
@@ -426,7 +583,163 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public void TestGetCreatedParticipants_EntityIsNotAParticipantRelatedEntity()
+        public void TestGetCreatedEntities_Address()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new Address
+                {
+                    AddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.Addresses.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_AddressProxy()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new AddressProxyClass
+                {
+                    AddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.Addresses.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_EmailAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.EmailAddresses.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_EmailAddressProxy()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.EmailAddresses.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_PhoneNumber()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PhoneNumber
+                {
+                    PhoneNumberId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.PhoneNumbers.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_PhoneNumberProxy()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PhoneNumberProxyClass
+                {
+                    PhoneNumberId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.PhoneNumbers.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_EntityIsNotAParticipantRelatedEntity()
         {
             using (ShimsContext.Create())
             {
@@ -451,17 +764,213 @@ namespace ECA.Business.Test.Service.Persons
         }
         #endregion
 
-        #region GetParticipantTypes
+        #region Deleted Entities
         [TestMethod]
-        public void TestParticipantTypes()
+        public void TestGetDeletedEntities_EntityTypeIsNotParticipantRelatedEntity()
         {
-            var types = saveAction.GetParticipantTypes();
+            using (ShimsContext.Create())
+            {
+                var entity = new Project
+                {
+                    ProjectId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.Projects.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(0, entities.Count);
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDeletedEntities_Address()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new Address
+                {
+                    AddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.Addresses.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDeletedEntities_AddressProxy()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new AddressProxyClass
+                {
+                    AddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.Addresses.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDeletedEntities_PhoneNumber()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PhoneNumber
+                {
+                    PhoneNumberId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.PhoneNumbers.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDeletedEntities_PhoneNumberProxy()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PhoneNumberProxyClass
+                {
+                    PhoneNumberId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.PhoneNumbers.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDeletedEntities_EmailAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.EmailAddresses.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetDeletedEntities_EmailAddressProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Deleted
+                    });
+                    return entries;
+                };
+                context.EmailAddresses.Add(entity);
+                var entities = saveAction.GetDeletedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        #endregion
+
+        #region GetCreatedAndModifiedEntityTypes
+        [TestMethod]
+        public void GetCreatedAndModifiedEntityTypes()
+        {
+            var types = saveAction.GetCreatedAndModifiedEntityTypes();
             Assert.AreEqual(8, types.Count);
             Assert.IsTrue(types.Contains(typeof(Location)));
             Assert.IsTrue(types.Contains(typeof(Participant)));
             Assert.IsTrue(types.Contains(typeof(Person)));
             Assert.IsTrue(types.Contains(typeof(ParticipantPerson)));
             Assert.IsTrue(types.Contains(typeof(ParticipantExchangeVisitor)));
+            Assert.IsTrue(types.Contains(typeof(PhoneNumber)));
+            Assert.IsTrue(types.Contains(typeof(EmailAddress)));
+            Assert.IsTrue(types.Contains(typeof(Address)));
+        }
+        #endregion
+
+        #region GetDeletedEntityTypes
+        [TestMethod]
+        public void GetDeletedEntityTypes()
+        {
+            var types = saveAction.GetDeletedEntityTypes();
+            Assert.AreEqual(3, types.Count);
             Assert.IsTrue(types.Contains(typeof(PhoneNumber)));
             Assert.IsTrue(types.Contains(typeof(EmailAddress)));
             Assert.IsTrue(types.Contains(typeof(Address)));
@@ -1002,7 +1511,7 @@ namespace ECA.Business.Test.Service.Persons
                     PersonId = 2,
                     PersonTypeId = PersonType.Participant.Id
                 };
-                
+
                 var location = new LocationProxyClass
                 {
                     LocationId = 1,
@@ -1282,7 +1791,7 @@ namespace ECA.Business.Test.Service.Persons
 
         #region BeforeSaveChanges
         [TestMethod]
-        public async Task TestBeforeChanges()
+        public async Task TestBeforeChanges_AddedEntity()
         {
             using (ShimsContext.Create())
             {
@@ -1304,6 +1813,7 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     Assert.AreEqual(1, saveAction.CreatedObjects.Count);
                     Assert.IsTrue(Object.ReferenceEquals(entity, saveAction.CreatedObjects.First()));
+                    Assert.AreEqual(0, saveAction.ParticipantIds.Count);
                 };
                 context.SetupActions.Add(() =>
                 {
@@ -1320,18 +1830,757 @@ namespace ECA.Business.Test.Service.Persons
                 tester();
             }
         }
+
+        [TestMethod]
+        public async Task TestBeforeChanges_ModifiedEntity()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new ParticipantProxyClass
+                {
+                    ParticipantId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, saveAction.ModifiedObjects.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(entity, saveAction.ModifiedObjects.First()));
+                    Assert.AreEqual(0, saveAction.ParticipantIds.Count);
+                };
+                context.SetupActions.Add(() =>
+                {
+                    saveAction.ModifiedObjects.Clear();
+                    context.Participants.Add(entity);
+                });
+
+                context.Revert();
+                saveAction.BeforeSaveChanges(context);
+                tester();
+
+                context.Revert();
+                await saveAction.BeforeSaveChangesAsync(context);
+                tester();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestBeforeChanges_DeletedEntity_HasPersonId_HasParticipantId()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;                
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var address = new Address
+                {
+                    AddressId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = participatingPerson.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+                var addressDbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                addressDbEntityEntry.GetDatabaseValues = () => propertyValues;
+                addressDbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                addressDbEntityEntry.EntityGet = () => address;
+                addressDbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                dbEntityEntry.EntityGet = () => address;
+                dbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return addressDbEntityEntry;
+                });
+
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (chgTracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(dbEntityEntry);
+                    return entries;
+                };
+
+                context.GetLocalDelegate = () => address;
+                
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, saveAction.DeletedObjects.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(address, saveAction.DeletedObjects.First()));
+                    Assert.AreEqual(1, saveAction.ParticipantIds.Count);
+                };
+                context.SetupActions.Add(() =>
+                {
+                    saveAction.DeletedObjects.Clear();
+                    context.Addresses.Add(address);
+                    context.People.Add(participatingPerson);
+                });
+
+                context.Revert();
+                saveAction.BeforeSaveChanges(context);
+                tester();
+
+                context.Revert();
+                await saveAction.BeforeSaveChangesAsync(context);
+                tester();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestBeforeChanges_DeletedEntity_HasPersonId_DoesNotHaveParticipantId()
+        {
+            using (ShimsContext.Create())
+            {
+                var participatingPerson = new PersonProxyClass
+                {
+                    PersonId = 2,
+                    PersonTypeId = PersonType.Participant.Id
+                };
+                var address = new Address
+                {
+                    AddressId = 3,
+                    Person = participatingPerson,
+                    PersonId = participatingPerson.PersonId
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+                var addressDbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                addressDbEntityEntry.GetDatabaseValues = () => propertyValues;
+                addressDbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                addressDbEntityEntry.EntityGet = () => address;
+                addressDbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                dbEntityEntry.EntityGet = () => address;
+                dbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return addressDbEntityEntry;
+                });
+
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (chgTracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(dbEntityEntry);
+                    return entries;
+                };
+
+                context.GetLocalDelegate = () => address;
+
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, saveAction.DeletedObjects.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(address, saveAction.DeletedObjects.First()));
+                    Assert.AreEqual(0, saveAction.ParticipantIds.Count);
+                };
+                context.SetupActions.Add(() =>
+                {
+                    saveAction.DeletedObjects.Clear();
+                    context.Addresses.Add(address);
+                    context.People.Add(participatingPerson);
+                });
+
+                context.Revert();
+                saveAction.BeforeSaveChanges(context);
+                tester();
+
+                context.Revert();
+                await saveAction.BeforeSaveChangesAsync(context);
+                tester();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestBeforeChanges_DeletedEntity_DoesNotHavePersonId()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new Address
+                {
+                    AddressId = 3,
+                };
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+                var addressDbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                addressDbEntityEntry.GetDatabaseValues = () => propertyValues;
+                addressDbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                addressDbEntityEntry.EntityGet = () => address;
+                addressDbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+                dbEntityEntry.EntityGet = () => address;
+                dbEntityEntry.StateGet = () => EntityState.Deleted;
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return addressDbEntityEntry;
+                });
+
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (chgTracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(dbEntityEntry);
+                    return entries;
+                };
+
+                context.GetLocalDelegate = () => address;
+
+                Action tester = () =>
+                {
+                    Assert.AreEqual(1, saveAction.DeletedObjects.Count);
+                    Assert.IsTrue(Object.ReferenceEquals(address, saveAction.DeletedObjects.First()));
+                    Assert.AreEqual(0, saveAction.ParticipantIds.Count);
+                };
+                context.SetupActions.Add(() =>
+                {
+                    saveAction.DeletedObjects.Clear();
+                    context.Addresses.Add(address);
+                });
+
+                context.Revert();
+                saveAction.BeforeSaveChanges(context);
+                tester();
+
+                context.Revert();
+                await saveAction.BeforeSaveChangesAsync(context);
+                tester();
+            }
+        }
+        #endregion
+
+        #region GetPersonIdByEntity
+        [TestMethod]
+        public async Task TestGetPersonIdByEntity()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new Address
+                {
+                    AddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => address;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(address.PersonId, personId);
+                };
+                
+                var result = saveAction.GetPersonIdByEntity<Address>(context, address, x => x.PersonId);
+                var resultAsync = await saveAction.GetPersonIdByEntityAsync<Address>(context, address, x => x.PersonId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByEntity_PersonDoesNotExist()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new Address
+                {
+                    AddressId = 1,
+                };
+                context.GetLocalDelegate = () => address;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.IsNull(personId);
+                };
+
+                var result = saveAction.GetPersonIdByEntity<Address>(context, address, x => x.PersonId);
+                var resultAsync = await saveAction.GetPersonIdByEntityAsync<Address>(context, address, x => x.PersonId);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new Address
+                {
+                    AddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => address;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(address.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByAddress(context, address);
+                var resultAsync = await saveAction.GetPersonIdByAddressAsync(context, address);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByPhoneNumber()
+        {
+            using (ShimsContext.Create())
+            {
+                var phoneNumber = new PhoneNumber
+                {
+                    PhoneNumberId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => phoneNumber;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<PhoneNumber>(x => x.PersonId), property);
+                    return phoneNumber.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<PhoneNumber>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<PhoneNumber>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(phoneNumber.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByPhoneNumber(context, phoneNumber);
+                var resultAsync = await saveAction.GetPersonIdByPhoneNumberAsync(context, phoneNumber);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByEmailAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var email = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => email;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.PersonId), property);
+                    return email.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(email.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByEmailAddress(context, email);
+                var resultAsync = await saveAction.GetPersonIdByEmailAddressAsync(context, email);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_EmailAddress()
+        {
+            using (ShimsContext.Create())
+            {
+                var email = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => email;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.PersonId), property);
+                    return email.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(email.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, email);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, email);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_EmailAddressProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var email = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => email;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.PersonId), property);
+                    return email.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(email.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, email);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, email);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_Address()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new Address
+                {
+                    AddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => address;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(address.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, address);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, address);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_AddressProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var address = new AddressProxyClass
+                {
+                    AddressId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => address;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<Address>(x => x.PersonId), property);
+                    return address.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<Address>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<Address>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(address.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, address);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, address);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_PhoneNumber()
+        {
+            using (ShimsContext.Create())
+            {
+                var phoneNumber = new PhoneNumber
+                {
+                    PhoneNumberId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => phoneNumber;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<PhoneNumber>(x => x.PersonId), property);
+                    return phoneNumber.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<PhoneNumber>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<PhoneNumber>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(phoneNumber.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, phoneNumber);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, phoneNumber);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_PhoneNumberProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var phoneNumber = new PhoneNumberProxyClass
+                {
+                    PhoneNumberId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => phoneNumber;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<PhoneNumber>(x => x.PersonId), property);
+                    return phoneNumber.PersonId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<PhoneNumber>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<PhoneNumber>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(phoneNumber.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, phoneNumber);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, phoneNumber);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_ObjectTypeNotSupported()
+        {
+            var obj = 1;
+            Action a = () => saveAction.GetPersonIdByObject(context, obj);
+            Func<Task> f = () => saveAction.GetPersonIdByObjectAsync(context, obj);
+
+            var expectedMessage = String.Format("The object type [{0}] is not supported.", obj.GetType().Name);
+            a.ShouldThrow<NotSupportedException>().WithMessage(expectedMessage);
+            f.ShouldThrow<NotSupportedException>().WithMessage(expectedMessage);
+        }
         #endregion
 
         [TestMethod]
-        public void TestGetUnionedCreatedAndModifiedObjects()
+        public void GetUnionedObjects()
         {
             var a = 1;
             var b = 2;
+            var c = 3;
             saveAction.CreatedObjects.Add(a);
             saveAction.ModifiedObjects.Add(b);
-            var list = saveAction.GetUnionedCreatedAndModifiedObjects();
+            saveAction.DeletedObjects.Add(c);
+            var list = saveAction.GetCreatedAndModifiedEntities();
             Assert.IsTrue(list.Contains(a));
             Assert.IsTrue(list.Contains(b));
+            Assert.IsTrue(list.Contains(c));
         }
     }
 }
+

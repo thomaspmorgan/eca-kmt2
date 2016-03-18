@@ -1,7 +1,8 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
-using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -16,31 +17,26 @@ namespace ECA.WebApi.Models.Person
         /// Gets or sets the first name
         /// </summary>
         public FullNameDTO FullName { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the gender
-        /// </summary>
-        public int Gender { get; set; }
-
-        /// <summary>
-        /// Gets or sets the city of birth
-        /// </summary>
-        public int CityOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the date of birth
         /// </summary>
         public DateTime DateOfBirth { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the gender
+        /// </summary>
+        public int GenderId { get; set; }
+
         /// <summary>
         /// Gets or sets the city of birth
         /// </summary>
-        public int CountryOfBirth { get; set; }
+        public LocationDTO PlaceOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the countries of citizenship
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; set; }
+        public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code
@@ -73,9 +69,8 @@ namespace ECA.WebApi.Models.Person
                 createdBy: user,
                 fullName: this.FullName,
                 dateOfBirth: this.DateOfBirth,
-                gender: this.Gender,
-                cityOfBirth: this.CityOfBirth,
-                countryOfBirth: this.CountryOfBirth,                                
+                gender: this.GenderId,
+                placeOfBirth: this.PlaceOfBirth,
                 countriesOfCitizenship: this.CountriesOfCitizenship,
                 permanentResidenceCountryCode: this.PermanentResidenceCountryCode,
                 birthCountryReason: this.BirthCountryReason,

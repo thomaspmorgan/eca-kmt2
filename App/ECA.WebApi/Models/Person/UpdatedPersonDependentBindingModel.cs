@@ -1,7 +1,7 @@
-﻿using ECA.Business.Queries.Models.Persons;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
 using ECA.Business.Service.Persons;
-using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -30,22 +30,17 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; set; }
+        public int GenderId { get; set; }
 
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int CityOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the city of birth
-        /// </summary>
-        public int CountryOfBirth { get; set; }
-
+        public LocationDTO PlaceOfBirth { get; set; }
+        
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; set; }
+        public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code
@@ -79,9 +74,8 @@ namespace ECA.WebApi.Models.Person
                 personId: PersonId,
                 fullName: FullName,
                 dateOfBirth: DateOfBirth,
-                gender: Gender,
-                cityOfBirth: CityOfBirth,
-                countryOfBirth: CountryOfBirth,
+                genderId: GenderId,
+                placeOfBirth: PlaceOfBirth,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 permanentResidenceCountryCode: PermanentResidenceCountryCode,
                 birthCountryReason: BirthCountryReason,
