@@ -992,15 +992,15 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.IsNotNull(financialInfo.OtherFunds.USGovernmentFunding);
                     Assert.IsNotNull(financialInfo.OtherFunds.InternationalFunding);
 
-                    Assert.AreEqual(usFunding.Amount1, financialInfo.OtherFunds.USGovernmentFunding.Amount1);
-                    Assert.AreEqual(usFunding.Amount2, financialInfo.OtherFunds.USGovernmentFunding.Amount2);
+                    Assert.AreEqual(((int)usFunding.Amount1).ToString(), financialInfo.OtherFunds.USGovernmentFunding.Amount1);
+                    Assert.AreEqual(((int)usFunding.Amount2).ToString(), financialInfo.OtherFunds.USGovernmentFunding.Amount2);
                     Assert.AreEqual(usFunding.Org1, financialInfo.OtherFunds.USGovernmentFunding.Org1);
                     Assert.AreEqual(usFunding.Org2, financialInfo.OtherFunds.USGovernmentFunding.Org2);
                     Assert.AreEqual(usFunding.OtherName1, financialInfo.OtherFunds.USGovernmentFunding.OtherName1);
                     Assert.AreEqual(usFunding.OtherName2, financialInfo.OtherFunds.USGovernmentFunding.OtherName2);
 
-                    Assert.AreEqual(internationalFunding.Amount1, financialInfo.OtherFunds.InternationalFunding.Amount1);
-                    Assert.AreEqual(internationalFunding.Amount2, financialInfo.OtherFunds.InternationalFunding.Amount2);
+                    Assert.AreEqual(((int)internationalFunding.Amount1).ToString(), financialInfo.OtherFunds.InternationalFunding.Amount1);
+                    Assert.AreEqual(((int)internationalFunding.Amount2).ToString(), financialInfo.OtherFunds.InternationalFunding.Amount2);
                     Assert.AreEqual(internationalFunding.Org1, financialInfo.OtherFunds.InternationalFunding.Org1);
                     Assert.AreEqual(internationalFunding.Org2, financialInfo.OtherFunds.InternationalFunding.Org2);
                     Assert.AreEqual(internationalFunding.OtherName1, financialInfo.OtherFunds.InternationalFunding.OtherName1);
