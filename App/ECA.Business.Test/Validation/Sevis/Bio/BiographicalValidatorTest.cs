@@ -5,6 +5,7 @@ using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PhoneNumbers;
 using System;
 using System.Linq;
 
@@ -526,6 +527,10 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestPhoneNumber_HasCharacters()
         {
+            var phonenumberUtil = PhoneNumberUtil.GetInstance();
+            var example = phonenumberUtil.GetExampleNumber(Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+            var formattedExample = phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
+
             var validator = new BiographicalValidator<BiographicalTestClass>();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
@@ -535,23 +540,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value, instance.PhoneNumber, BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH), result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
-        }
-
-        [TestMethod]
-        public void TestPhoneNumber_ExceedsMaxLength()
-        {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.PhoneNumber = new string('1', BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH + 1);
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value, instance.PhoneNumber, BiographicalValidator<BiographicalTestClass>.MAX_PHONE_NUMBER_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value, instance.PhoneNumber, formattedExample), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
         }
         #endregion

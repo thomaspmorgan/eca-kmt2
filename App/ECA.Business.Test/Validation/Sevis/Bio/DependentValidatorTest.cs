@@ -77,7 +77,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count());
-            Assert.AreEqual(String.Format("Biographical:  The dependent named {0} {1} must have the relationship specified.", fullName.FirstName, fullName.LastName), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(DependentValidator.DEPENDENT_RELATIONSHIP_REQUIRED, fullName.FirstName, fullName.LastName), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(DependentErrorPath));
         }
         

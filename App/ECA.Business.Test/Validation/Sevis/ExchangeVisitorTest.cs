@@ -102,8 +102,8 @@ namespace ECA.Business.Test.Validation.Sevis
         public FinancialInfo GetFinancialInfo()
         {
             var other = new Other(null, null);
-            var usGovt = new USGovt(null, null, null, null, null, null);
-            var international = new International(null, null, null, null, null, null);
+            var usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            var international = new InternationalFunding(null, null, null, null, null, null);
             var otherFunds = new OtherFunds(null, null, null, usGovt, international, other);
 
             var programSponsorFunds = "100";
