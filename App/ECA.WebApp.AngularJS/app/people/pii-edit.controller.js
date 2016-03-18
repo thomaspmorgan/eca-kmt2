@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, FilterService, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -153,23 +153,18 @@ angular.module('staticApp')
           }
       }
 
+      var countriesFilter = FilterService.add('pii_edit_countries_filter');
       function loadCountries(search) {
+          countriesFilter.reset();
+          countriesFilter = countriesFilter.skip(0).take(30).equal('locationTypeId', ConstantsService.locationType.country.id);
           if (search) {
-              var params = {
-                  limit: 30,
-                  filter: [
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id }
-                  ]
-              };
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              }
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.countries = data.results;
-                    return $scope.countries;
-                });
+              countriesFilter = countriesFilter.like('name', search);
           }
+          return LocationService.get(countriesFilter.toParams())
+            .then(function (data) {
+                $scope.countries = data.results;
+                return $scope.countries;
+            });
       }
 
       LookupService.getAllGenders({ limit: 300 })
