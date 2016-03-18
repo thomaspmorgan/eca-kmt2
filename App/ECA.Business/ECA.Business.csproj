@@ -537,6 +537,7 @@
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
     <Compile Include="Service\Projects\TravelService.cs" />
+    <Compile Include="Service\Projects\UpdatedDefaultExchangeVisitorFunding.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />

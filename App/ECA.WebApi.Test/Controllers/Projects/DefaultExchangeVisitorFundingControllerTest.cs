@@ -6,6 +6,7 @@ using ECA.WebApi.Controllers.Projects;
 using System.Threading.Tasks;
 using ECA.Business.Queries.Models.Admin;
 using System.Web.Http.Results;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Test.Controllers.Projects
 {
@@ -13,13 +14,14 @@ namespace ECA.WebApi.Test.Controllers.Projects
     public class DefaultExchangeVisitorFundingControllerTest
     {
         private Mock<IDefaultExchangeVisitorFundingService> service;
+        private Mock<IUserProvider> userProvider;
         private DefaultExchangeVisitorFundingController controller;
 
         [TestInitialize]
         public void TestInit()
         {
             service = new Mock<IDefaultExchangeVisitorFundingService>();
-            controller = new DefaultExchangeVisitorFundingController(service.Object);
+            controller = new DefaultExchangeVisitorFundingController(service.Object, userProvider.Object);
         }
 
         [TestMethod]

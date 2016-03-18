@@ -29,7 +29,8 @@ angular.module('staticApp')
         OfficeService,
         FilterService,
         StateService,
-        NotificationService) {
+        NotificationService,
+        DefaultExchangeVisitorFundingService) {
 
       console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
       $scope.$parent.isInEditViewState = true;
@@ -456,6 +457,8 @@ angular.module('staticApp')
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
                 $scope.$parent.project = response.data;
+                DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
+                    .then(function () {});
                 showSaveSuccess();
                 goToProjectOverview();
             }, function (error) {
@@ -479,8 +482,7 @@ angular.module('staticApp')
                 $scope.editView.isSaving = false;
                 enableProjectStatusButton();
             });
-          // Save the sevis funding
-          console.log($scope.editView.sevisFunding);
+
       }
 
       function showSaveSuccess() {

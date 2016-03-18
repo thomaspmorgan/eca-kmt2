@@ -1,5 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Projects;
+using ECA.WebApi.Models.Projects;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -21,15 +23,18 @@ namespace ECA.WebApi.Controllers.Projects
     {
 
         private IDefaultExchangeVisitorFundingService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="service">The service to set</param>
-        public DefaultExchangeVisitorFundingController(IDefaultExchangeVisitorFundingService service)
+        /// <param name="userProvider">The user provider to set</param>
+        public DefaultExchangeVisitorFundingController(IDefaultExchangeVisitorFundingService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The default exchange visitor funding service must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -48,6 +53,30 @@ namespace ECA.WebApi.Controllers.Projects
             } else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Updates default exchange visitor funding
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="model">The new model</param>
+        /// <returns>The saved default exchange visitor funding</returns>
+        [Route("Project/{projectId:int}/DefaultExchangeVisitorFunding")]
+        public async Task<IHttpActionResult> PutDefaultExchangeVisitorFunding(int projectId, [FromBody]UpdatedDefaultExchangeVisitorFundingBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await service.UpdateAsync(model.ToUpdatedDefaultExchangeVisitorFunding(businessUser, projectId));
+                await service.SaveChangesAsync();
+                var dto = await service.GetDefaultExchangeVisitorFundingAsync(projectId);
+                return Ok(dto);
+            } 
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
     }
