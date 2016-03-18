@@ -546,6 +546,7 @@
     <Compile Include="Validation\Sevis\Bio\DependentValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
+    <Compile Include="Validation\Sevis\ParticipantSevisKey.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
     <Compile Include="Validation\Sevis\Finance\OrganizationFunding.cs" />
@@ -553,7 +554,6 @@
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
     <Compile Include="Validation\Sevis\IRequestIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ISevisIdentifable.cs" />
-    <Compile Include="Validation\Sevis\IUserDefinable.cs" />
     <Compile Include="Validation\Sevis\IUserIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />

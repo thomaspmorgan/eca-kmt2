@@ -370,7 +370,7 @@
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\SevisErrorPathTest.cs" />
-    <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\TestDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\BiographicalValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependentTest.cs" />
@@ -400,6 +400,7 @@
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
     <Compile Include="Validation\SimpleValidationResultTest.cs" />
     <Compile Include="Validation\SevisEnumHelperTest.cs" />
+    <Compile Include="Validation\ParticipantSevisKeyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

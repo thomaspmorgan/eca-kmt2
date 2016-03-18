@@ -392,7 +392,12 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(endDate, instance.PrgEndDate);
             Assert.IsTrue(instance.printForm);
             Assert.AreEqual(person.ParticipantId.ToString(), instance.requestID);
+            Assert.IsNotNull(instance.UserDefinedA);
+            Assert.IsNotNull(instance.UserDefinedB);
 
+            var key = new ParticipantSevisKey(instance.UserDefinedA, instance.UserDefinedB);
+            Assert.AreEqual(person.ParticipantId, key.ParticipantId);
+            Assert.AreEqual(person.PersonId, key.PersonId);
         }
 
         [TestMethod]

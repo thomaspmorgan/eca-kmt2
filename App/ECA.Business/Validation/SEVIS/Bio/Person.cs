@@ -171,7 +171,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
-            return new EVPersonTypeBiographical
+            var instance = new EVPersonTypeBiographical
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
@@ -184,6 +184,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
             };
+            return instance;
         }
 
         /// <summary>

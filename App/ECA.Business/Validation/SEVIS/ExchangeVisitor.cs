@@ -259,6 +259,9 @@ namespace ECA.Business.Validation.Sevis
             instance.requestID = this.Person.ParticipantId.ToString();
             instance.SubjectField = this.Person.SubjectField.GetEVPersonTypeSubjectField();
             SetDependents(instance);
+
+            var key = new ParticipantSevisKey(this.Person);
+            key.SetUserDefinedFields(instance);
             return instance;
         }
 

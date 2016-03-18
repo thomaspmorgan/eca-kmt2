@@ -13,7 +13,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// A Dependent instance is used to specify what action will be taken on a sevis registered exchange visitor dependent, such as
     /// adding a new dependenting, deleting a sevis registered dependent, or editing a sevis registered dependent.
     /// </summary>
-    public abstract class Dependent : IBiographical, IFormPrintable, IUserDefinable
+    public abstract class Dependent : IBiographical, IFormPrintable
     {
         public Dependent(
             FullName fullName,
@@ -48,9 +48,19 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.USAddress = usAddress;
             this.PrintForm = printForm;
             this.Relationship = relationship;
-            SetParticipantId(participantId);
-            SetPersonId(personId);
+            this.PersonId = personId;
+            this.ParticipantId = participantId;
         }
+
+        /// <summary>
+        /// Gets the participant id i.e. the id of the participant this person is a dependent of.
+        /// </summary>
+        public int ParticipantId { get; private set; }
+
+        /// <summary>
+        /// Gets the person id of this dependent.
+        /// </summary>
+        public int PersonId { get; private set; }
 
         /// <summary>
         /// Gets or sets the print form flag.
@@ -118,59 +128,9 @@ namespace ECA.Business.Validation.Sevis.Bio
         public AddressDTO USAddress { get; private set; }
 
         /// <summary>
-        /// Gets or sets the user defined a field.
-        /// </summary>
-        [JsonProperty("participantId")]
-        public string UserDefinedA { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the user defined b field.
-        /// </summary>
-        [JsonProperty("personId")]
-        public string UserDefinedB { get; private set; }
-
-        /// <summary>
         /// Gets or sets the relationship.
         /// </summary>
         public string Relationship { get; set; }
-
-        /// <summary>
-        /// Sets the UserDefinedA field to the participant ic.
-        /// </summary>
-        /// <param name="participantId">The participant id.</param>
-        public void SetParticipantId(int participantId)
-        {
-            this.UserDefinedA = participantId.ToString();
-        }
-
-        /// <summary>
-        /// Sets the UserDefinedB field to the person id.
-        /// </summary>
-        /// <param name="personId">The person id.</param>
-        public void SetPersonId(int personId)
-        {
-            this.UserDefinedB = personId.ToString();
-        }
-
-        /// <summary>
-        /// Returns the person id of this dependent.
-        /// </summary>
-        /// <returns>The person id of this dependent.</returns>
-        public int? GetPersonId()
-        {
-            return Int32.Parse(this.UserDefinedB);
-        }
-
-        /// <summary>
-        /// Returns the participant id i.e. the participant id of the person that is participating in the project and who this person
-        /// is a dependent of.
-        /// </summary>
-        /// <returns>The participant id.</returns>
-        public int? GetParticipantId()
-        {
-            return Int32.Parse(this.UserDefinedA);
-        }
-
 
         /// <summary>
         /// Returns a SEVISEVBatchTypeExchangeVisitorDependent(Add|Delete|Edit|EndStatus|Reprint|Terminate) instance used when performing
