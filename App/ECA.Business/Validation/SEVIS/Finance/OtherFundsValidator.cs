@@ -40,17 +40,17 @@ namespace ECA.Business.Validation.Sevis.Finance
                 .SetValidator(new OtherValidator())
                 .When(visitor => visitor.Other != null);
 
-            RuleFor(visitor => visitor.USGovt)
-                .SetValidator(new USGovtValidator())
-                .When(visitor => visitor.USGovt != null);
+            RuleFor(visitor => visitor.USGovernmentFunding)
+                .SetValidator(new USGovernmentFundingValidator())
+                .When(visitor => visitor.USGovernmentFunding != null);
 
-            RuleFor(visitor => visitor.International)
-                .SetValidator(new InternationalValidator())
-                .When(visitor => visitor.International != null);
+            RuleFor(visitor => visitor.InternationalFunding)
+                .SetValidator(new InternationalFundingValidator())
+                .When(visitor => visitor.InternationalFunding != null);
 
-            When(visitor => visitor.EVGovt != null, () =>
+            When(visitor => visitor.ExchangeVisitorGovernment != null, () =>
             {
-                RuleFor(x => x.EVGovt)
+                RuleFor(x => x.ExchangeVisitorGovernment)
                  .Matches(new Regex(AMOUNT_REGEX))
                  .WithMessage(EXCHANGE_VISITOR_GOVERNMENT_FUNDING_ERROR_MESSAGE)
                  .WithState(x => new FundingErrorPath());

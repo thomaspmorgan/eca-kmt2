@@ -237,22 +237,22 @@ namespace ECA.Business.Queries.Persons
                         let hasSecondInternationalFunding= visitor.FundingIntlOrg2.HasValue && visitor.FundingIntlOrg2.Value > 0
 
                         let otherName1 = firstInternationalFundingOrg == null
-                            || (firstInternationalFundingOrg != null && firstInternationalFundingOrg.OrganizationCode == InternationalValidator.OTHER_ORG_CODE)
+                            || (firstInternationalFundingOrg != null && firstInternationalFundingOrg.OrganizationCode == InternationalFundingValidator.OTHER_ORG_CODE)
                             ? visitor.IntlOrg1OtherName : null
 
                         let otherName2 = secondIternationalFundingOrg == null
-                            || (secondIternationalFundingOrg != null && secondIternationalFundingOrg.OrganizationCode == InternationalValidator.OTHER_ORG_CODE)
+                            || (secondIternationalFundingOrg != null && secondIternationalFundingOrg.OrganizationCode == InternationalFundingValidator.OTHER_ORG_CODE)
                             ? visitor.IntlOrg2OtherName : null
 
                         where visitor.ParticipantId == participantId
 
                         select new ExchangeVisitorFundingDTO
                         {
-                            Amount1 = hasFirstInternationalFunding ? ((int)visitor.FundingIntlOrg1).ToString() : null,
+                            Amount1 = hasFirstInternationalFunding ? visitor.FundingIntlOrg1 : null,
                             Org1 = firstInternationalFundingOrg != null && hasFirstInternationalFunding ? firstInternationalFundingOrg.OrganizationCode : null,
                             OtherName1 = otherName1,
 
-                            Amount2 = hasSecondInternationalFunding && hasSecondInternationalFunding ? ((int)visitor.FundingIntlOrg2).ToString() : null,
+                            Amount2 = hasSecondInternationalFunding && hasSecondInternationalFunding ? visitor.FundingIntlOrg2 : null,
                             Org2 = secondIternationalFundingOrg != null && hasSecondInternationalFunding ? secondIternationalFundingOrg.OrganizationCode : null,
                             OtherName2 = otherName2
                         };
@@ -278,22 +278,22 @@ namespace ECA.Business.Queries.Persons
                         let hasSecondUsGovFunding = visitor.FundingGovtAgency2.HasValue && visitor.FundingGovtAgency2.Value > 0
 
                         let otherName1 = firstUsGovFundingAgency == null
-                            || (firstUsGovFundingAgency != null && firstUsGovFundingAgency.AgencyCode == USGovtValidator.OTHER_ORG_CODE)
+                            || (firstUsGovFundingAgency != null && firstUsGovFundingAgency.AgencyCode == USGovernmentFundingValidator.OTHER_ORG_CODE)
                             ? visitor.GovtAgency1OtherName : null
 
                         let otherName2 = secondUsGovFundingAgency == null
-                            || (secondUsGovFundingAgency != null && secondUsGovFundingAgency.AgencyCode == USGovtValidator.OTHER_ORG_CODE)
+                            || (secondUsGovFundingAgency != null && secondUsGovFundingAgency.AgencyCode == USGovernmentFundingValidator.OTHER_ORG_CODE)
                             ? visitor.GovtAgency2OtherName : null
 
                         where visitor.ParticipantId == participantId
 
                         select new ExchangeVisitorFundingDTO
                         {
-                            Amount1 = hasFirstUsGovFunding ? ((int)visitor.FundingGovtAgency1).ToString() : null,
+                            Amount1 = hasFirstUsGovFunding ? visitor.FundingGovtAgency1 : null,
                             Org1 = firstUsGovFundingAgency != null && hasFirstUsGovFunding ? firstUsGovFundingAgency.AgencyCode : null,
                             OtherName1 = otherName1,
 
-                            Amount2 = hasSecondUsGovFunding ? ((int)visitor.FundingGovtAgency2).ToString() : null,
+                            Amount2 = hasSecondUsGovFunding ? visitor.FundingGovtAgency2 : null,
                             Org2 = secondUsGovFundingAgency != null && hasSecondUsGovFunding ? secondUsGovFundingAgency.AgencyCode : null,
                             OtherName2 = otherName2
                         };

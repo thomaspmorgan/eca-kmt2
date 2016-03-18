@@ -17,11 +17,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
              {
-                 return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                 return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
              };
 
             other = null;
@@ -44,21 +44,21 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
 
             usGovt = null;
             var validator = new OtherFundsValidator();
             var instance = createEntity();
-            Assert.IsNull(instance.USGovt);
+            Assert.IsNull(instance.USGovernmentFunding);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            usGovt = new USGovt(null, null, null, null, null, null);
+            usGovt = new USGovernmentFunding(null, null, null, null, null, null);
             instance = createEntity();
 
             result = validator.Validate(instance);
@@ -73,19 +73,19 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = null;
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = null;
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
-            Assert.IsNull(instance.International);
+            Assert.IsNull(instance.InternationalFunding);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            international = new International(null, null, null, null, null, null);
+            international = new InternationalFunding(null, null, null, null, null, null);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
@@ -98,11 +98,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -122,11 +122,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -150,11 +150,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -177,11 +177,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -201,11 +201,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -229,11 +229,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -256,11 +256,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -280,11 +280,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();
@@ -308,11 +308,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "2";
             string evGovt = "3";
             Other other = new Other("name", "1");
-            USGovt usGovt = new USGovt("us 1", null, "1", null, null, null);
-            International international = new International("int 1", null, "2", null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding("us 1", null, "1", null, null, null);
+            InternationalFunding international = new InternationalFunding("int 1", null, "2", null, null, null);
             Func<OtherFunds> createEntity = () =>
             {
-                return new OtherFunds(evGovt: evGovt, binationalCommission: binationalCommission, personal: personal, usGovt: usGovt, international: international, other: other);
+                return new OtherFunds(exchangeVisitorGovernment: evGovt, binationalCommission: binationalCommission, personal: personal, usGovernmentFunding: usGovt, internationalFunding: international, other: other);
             };
             var validator = new OtherFundsValidator();
             var instance = createEntity();

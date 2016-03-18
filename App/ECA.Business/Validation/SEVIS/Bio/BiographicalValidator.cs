@@ -72,7 +72,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to reutnr when a permananet residence country is not specified via a home address.
         /// </summary>
-        public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = 
+        public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE =
             String.Format("The Permanent Residence Country is required.  Add a home address outside of the {0} to this person.", LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME);
 
         /// <summary>
@@ -86,11 +86,6 @@ namespace ECA.Business.Validation.Sevis.Bio
         public const string EMAIL_ERROR_MESSAGE = "The email address '{0}' is invalid.  It may be up to {1} characters long.";
 
         /// <summary>
-        /// The maximum length of a phone number.
-        /// </summary>
-        public const int MAX_PHONE_NUMBER_LENGTH = 10;
-
-        /// <summary>
         /// The error message to return when a visiting phone number is required.
         /// </summary>
         public const string VISITING_PHONE_REQUIRED_ERROR_MESSAGE = "A '{0}' US phone number is required.";
@@ -98,7 +93,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to format when a phone number is required and the specifics of that phone number.
         /// </summary>
-        public const string PHONE_NUMBER_ERROR_MESSAGE = "The '{0}' US phone number '{1}' may be up to {2} characters long.";
+        public const string PHONE_NUMBER_ERROR_MESSAGE = "The '{0}' phone number '{1}' must be valid in the United States for example '{2}'.";
 
         /// <summary>
         /// Creates a new default instance.
@@ -186,17 +181,19 @@ namespace ECA.Business.Validation.Sevis.Bio
 
             When(x => x.PhoneNumber != null, () =>
             {
-                Func<T, object> numberTypeDelegate = (b) =>
+                Func<T, object> numberTypeDelegate = (p) =>
                 {
                     return Data.PhoneNumberType.Visiting.Value;
                 };
-                Func<T, object> maxLengthDelegate = (b) =>
+                Func<T, object> phoneNumberDelegate = (p) =>
                 {
-                    return MAX_PHONE_NUMBER_LENGTH.ToString();
+                    return p.PhoneNumber != null ? p.PhoneNumber : null;
                 };
-                Func<T, object> phoneNumberDelegate = (b) =>
+                Func<T, object> getExampleUSPhoneNumberDelegate = (p) =>
                 {
-                    return b.PhoneNumber != null ? b.PhoneNumber : null;
+                    var phonenumberUtil = PhoneNumberUtil.GetInstance();
+                    var example = phonenumberUtil.GetExampleNumber(Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+                    return phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
                 };
                 RuleFor(x => x.PhoneNumber)
                     .Must((phone) =>
@@ -204,16 +201,16 @@ namespace ECA.Business.Validation.Sevis.Bio
                         try
                         {
                             var phonenumberUtil = PhoneNumberUtil.GetInstance();
-                            var usPhoneNumber = phonenumberUtil.Parse(phone, "US");
+                            var usPhoneNumber = phonenumberUtil.Parse(phone, Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
                             return phonenumberUtil.IsValidNumber(usPhoneNumber);
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
                             return false;
                         }
                     })
-                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, numberTypeDelegate, phoneNumberDelegate, maxLengthDelegate)
-                    .WithState(x => new PhoneNumberErrorPath());                
+                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, numberTypeDelegate, phoneNumberDelegate, getExampleUSPhoneNumberDelegate)
+                    .WithState(x => new PhoneNumberErrorPath());
             });
 
             When(x => x.MailAddress != null, () =>

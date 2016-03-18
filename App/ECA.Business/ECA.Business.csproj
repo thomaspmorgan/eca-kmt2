@@ -583,8 +583,8 @@
     <Compile Include="Validation\Sevis\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameValidator.cs" />
-    <Compile Include="Validation\Sevis\Finance\International.cs" />
-    <Compile Include="Validation\Sevis\Finance\InternationalValidator.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalFunding.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalFundingValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\Other.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFunds.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidator.cs" />
@@ -593,8 +593,8 @@
     <Compile Include="Validation\Sevis\SubjectFieldValidator.cs" />
     <Compile Include="Validation\Sevis\AddressDTOValidator.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
-    <Compile Include="Validation\Sevis\Finance\USGovt.cs" />
-    <Compile Include="Validation\Sevis\Finance\USGovtValidator.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovernmentFunding.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovernmentFundingValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfo.cs" />
     <Compile Include="Validation\Sevis\Bio\FullName.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />

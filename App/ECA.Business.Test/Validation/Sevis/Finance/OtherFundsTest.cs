@@ -15,29 +15,29 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var personal = "peronsal";
             var evGovt = "ev gov";
             var other = new Other("name", "amount");
-            var usGovt = new USGovt("us gov 1", null, "us gov value 1", null, null, null);
-            var international = new International("international org 1", null, "internation org 1 value", null, null, null);
+            var usGovt = new USGovernmentFunding("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new InternationalFunding("international org 1", null, "internation org 1 value", null, null, null);
             var instance = new OtherFunds(evGovt, binationalCommission, personal, usGovt, international, other);
 
             Assert.AreEqual(binationalCommission, instance.BinationalCommission);
             Assert.AreEqual(personal, instance.Personal);
-            Assert.AreEqual(evGovt, instance.EVGovt);
-            Assert.IsTrue(Object.ReferenceEquals(usGovt, instance.USGovt));
-            Assert.IsTrue(Object.ReferenceEquals(international, instance.International));
+            Assert.AreEqual(evGovt, instance.ExchangeVisitorGovernment);
+            Assert.IsTrue(Object.ReferenceEquals(usGovt, instance.USGovernmentFunding));
+            Assert.IsTrue(Object.ReferenceEquals(international, instance.InternationalFunding));
             Assert.IsTrue(Object.ReferenceEquals(other, instance.Other));
 
             var json = JsonConvert.SerializeObject(instance);
             var jsonObject = JsonConvert.DeserializeObject<OtherFunds>(json);
             Assert.AreEqual(binationalCommission, jsonObject.BinationalCommission);
             Assert.AreEqual(personal, jsonObject.Personal);
-            Assert.AreEqual(evGovt, jsonObject.EVGovt);
-            Assert.IsNotNull(jsonObject.International);
+            Assert.AreEqual(evGovt, jsonObject.ExchangeVisitorGovernment);
+            Assert.IsNotNull(jsonObject.InternationalFunding);
             Assert.IsNotNull(jsonObject.Other);
-            Assert.IsNotNull(jsonObject.USGovt);
-            Assert.AreEqual(usGovt.Org1, jsonObject.USGovt.Org1);
-            Assert.AreEqual(usGovt.Amount1, jsonObject.USGovt.Amount1);
-            Assert.AreEqual(international.Org1, jsonObject.International.Org1);
-            Assert.AreEqual(international.Amount1, jsonObject.International.Amount1);
+            Assert.IsNotNull(jsonObject.USGovernmentFunding);
+            Assert.AreEqual(usGovt.Org1, jsonObject.USGovernmentFunding.Org1);
+            Assert.AreEqual(usGovt.Amount1, jsonObject.USGovernmentFunding.Amount1);
+            Assert.AreEqual(international.Org1, jsonObject.InternationalFunding.Org1);
+            Assert.AreEqual(international.Amount1, jsonObject.InternationalFunding.Amount1);
         }
 
         [TestMethod]
@@ -47,22 +47,22 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var personal = "peronsal";
             var evGovt = "ev gov";
             var other = new Other("name", "amount");
-            var usGovt = new USGovt("us gov 1", null, "us gov value 1", null, null, null);
-            var international = new International("international org 1", null, "internation org 1 value", null, null, null);
+            var usGovt = new USGovernmentFunding("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new InternationalFunding("international org 1", null, "internation org 1 value", null, null, null);
             var instance = new OtherFunds(evGovt, binationalCommission, personal, usGovt, international, other);
 
             var json = JsonConvert.SerializeObject(instance);
             var jsonObject = JsonConvert.DeserializeObject<OtherFunds>(json);
             Assert.AreEqual(binationalCommission, jsonObject.BinationalCommission);
             Assert.AreEqual(personal, jsonObject.Personal);
-            Assert.AreEqual(evGovt, jsonObject.EVGovt);
-            Assert.IsNotNull(jsonObject.International);
+            Assert.AreEqual(evGovt, jsonObject.ExchangeVisitorGovernment);
+            Assert.IsNotNull(jsonObject.InternationalFunding);
             Assert.IsNotNull(jsonObject.Other);
-            Assert.IsNotNull(jsonObject.USGovt);
-            Assert.AreEqual(usGovt.Org1, jsonObject.USGovt.Org1);
-            Assert.AreEqual(usGovt.Amount1, jsonObject.USGovt.Amount1);
-            Assert.AreEqual(international.Org1, jsonObject.International.Org1);
-            Assert.AreEqual(international.Amount1, jsonObject.International.Amount1);
+            Assert.IsNotNull(jsonObject.USGovernmentFunding);
+            Assert.AreEqual(usGovt.Org1, jsonObject.USGovernmentFunding.Org1);
+            Assert.AreEqual(usGovt.Amount1, jsonObject.USGovernmentFunding.Amount1);
+            Assert.AreEqual(international.Org1, jsonObject.InternationalFunding.Org1);
+            Assert.AreEqual(international.Amount1, jsonObject.InternationalFunding.Amount1);
         }
 
         [TestMethod]
@@ -72,26 +72,26 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
 
             var instance = otherFunds.GetOtherFundsType();
             Assert.IsNotNull(instance);
             Assert.AreEqual(otherFunds.BinationalCommission, instance.BinationalCommission);
-            Assert.AreEqual(otherFunds.EVGovt, instance.EVGovt);
+            Assert.AreEqual(otherFunds.ExchangeVisitorGovernment, instance.EVGovt);
             Assert.AreEqual(otherFunds.Personal, instance.Personal);
 
-            Assert.IsNotNull(otherFunds.International);
+            Assert.IsNotNull(otherFunds.InternationalFunding);
             Assert.IsNotNull(otherFunds.Personal);
-            Assert.IsNotNull(otherFunds.USGovt);
+            Assert.IsNotNull(otherFunds.USGovernmentFunding);
         }
 
         [TestMethod]
@@ -101,20 +101,20 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = null;
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = null;
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
 
             var instance = otherFunds.GetOtherFundsType();
             Assert.IsNotNull(instance);
-            Assert.IsNull(otherFunds.International);
+            Assert.IsNull(otherFunds.InternationalFunding);
         }
 
         [TestMethod]
@@ -124,15 +124,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = null;
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var instance = otherFunds.GetOtherFundsType();
             Assert.IsNotNull(instance);
@@ -146,19 +146,19 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = null;
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = null;
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var instance = otherFunds.GetOtherFundsType();
             Assert.IsNotNull(instance);
-            Assert.IsNull(otherFunds.USGovt);
+            Assert.IsNull(otherFunds.USGovernmentFunding);
         }
 
 
@@ -169,25 +169,25 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var instance = otherFunds.GetOtherFundsNullableType();
             Assert.IsNotNull(instance);
             Assert.AreEqual(otherFunds.BinationalCommission, instance.BinationalCommission);
-            Assert.AreEqual(otherFunds.EVGovt, instance.EVGovt);
+            Assert.AreEqual(otherFunds.ExchangeVisitorGovernment, instance.EVGovt);
             Assert.AreEqual(otherFunds.Personal, instance.Personal);
 
-            Assert.IsNotNull(otherFunds.International);
+            Assert.IsNotNull(otherFunds.InternationalFunding);
             Assert.IsNotNull(otherFunds.Personal);
-            Assert.IsNotNull(otherFunds.USGovt);
+            Assert.IsNotNull(otherFunds.USGovernmentFunding);
         }
 
         [TestMethod]
@@ -197,19 +197,19 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = null;
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = null;
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var instance = otherFunds.GetOtherFundsNullableType();
             Assert.IsNotNull(instance);
-            Assert.IsNull(otherFunds.International);
+            Assert.IsNull(otherFunds.InternationalFunding);
         }
 
         [TestMethod]
@@ -219,15 +219,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = null;
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var instance = otherFunds.GetOtherFundsNullableType();
             Assert.IsNotNull(instance);
@@ -241,19 +241,19 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = null;
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = null;
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var instance = otherFunds.GetOtherFundsNullableType();
             Assert.IsNotNull(instance);
-            Assert.IsNull(otherFunds.USGovt);
+            Assert.IsNull(otherFunds.USGovernmentFunding);
         }
     }
 }
