@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
     [TestClass]
-    public class InternationalTest
+    public class InternationalFundingTest
     {
         [TestMethod]
         public void TestConstructor()
@@ -18,7 +18,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var amount2 = "amount 2";
             var otherName1 = "other 1";
             var otherName2 = "other 2";
-            var international = new International(org1, otherName1, amount1, org2, otherName2, amount2);
+            var international = new InternationalFunding(org1, otherName1, amount1, org2, otherName2, amount2);
             Assert.AreEqual(org1, international.Org1);
             Assert.AreEqual(org2, international.Org2);
             Assert.AreEqual(amount1, international.Amount1);
@@ -36,10 +36,10 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var amount2 = "amount 2";
             var otherName1 = "other 1";
             var otherName2 = "other 2";
-            var international = new International(org1, otherName1, amount1, org2, otherName2, amount2);
+            var international = new InternationalFunding(org1, otherName1, amount1, org2, otherName2, amount2);
 
             var json = JsonConvert.SerializeObject(international);
-            var jsonTestObject = JsonConvert.DeserializeObject<International>(json);
+            var jsonTestObject = JsonConvert.DeserializeObject<InternationalFunding>(json);
             Assert.AreEqual(org1, jsonTestObject.Org1);
             Assert.AreEqual(org2, jsonTestObject.Org2);
             Assert.AreEqual(amount1, jsonTestObject.Amount1);
@@ -53,7 +53,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         public void TestGetOtherFundsTypeInternational_InternationalOrg1Only()
         {
             var agencyCode1 = InternationalOrgCodeType.EEC;
-            var international = new International(
+            var international = new InternationalFunding(
                 org1: agencyCode1.ToString(),
                 amount1: "amount 1",
                 otherName1: null,
@@ -76,7 +76,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         {
             var agencyCode1 = InternationalOrgCodeType.EEC;
             var agencyCode2 = InternationalOrgCodeType.ESCAP;
-            var international = new International(
+            var international = new InternationalFunding(
                 org1: agencyCode1.ToString(),
                 amount1: "amount 1",
                 otherName1: null,
@@ -101,7 +101,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         public void TestGetOtherFundsTypeInternational_OtherInternationalOrgAgency1()
         {
             var agencyCode1 = InternationalOrgCodeType.OTHER;
-            var international = new International(
+            var international = new InternationalFunding(
                 org1: agencyCode1.ToString(),
                 amount1: "amount 1",
                 otherName1: "other 1 name",
@@ -124,7 +124,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var agencyCode1 = InternationalOrgCodeType.OTHER;
             var agencyCode2 = InternationalOrgCodeType.OTHER;
 
-            var international = new International(
+            var international = new InternationalFunding(
                 org1: agencyCode1.ToString(),
                 amount1: "amount 1",
                 otherName1: "other 1 name",
@@ -149,7 +149,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
 
             var agencyCode1 = InternationalOrgCodeType.ECOSOC;
             var agencyCode2 = InternationalOrgCodeType.EEC;
-            var international = new International(
+            var international = new InternationalFunding(
                 org1: agencyCode1.ToString(),
                 amount1: "amount 1",
                 otherName1: "other 1 name",
