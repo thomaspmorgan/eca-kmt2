@@ -479,6 +479,8 @@ angular.module('staticApp')
                 $scope.editView.isSaving = false;
                 enableProjectStatusButton();
             });
+          // Save the sevis funding
+          console.log($scope.editView.sevisFunding);
       }
 
       function showSaveSuccess() {

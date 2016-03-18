@@ -461,6 +461,7 @@ namespace ECA.Business.Service.Projects
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
             SetLocations<Project>(updatedProject.LocationIds.ToList(), projectToUpdate, x => x.Locations);
             SetRegions(updatedProject.RegionIds.ToList(), projectToUpdate);
+            CreateDefaultExchangeVisitorFunding(updatedProject, projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;
@@ -473,7 +474,14 @@ namespace ECA.Business.Service.Projects
             projectToUpdate.UsParticipantsActual = updatedProject.UsParticipantsActual;
             projectToUpdate.NonUsParticipantsActual = updatedProject.NonUsParticipantsActual;
 
-            if (updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
+            Contract.Assert(updatedProject.Audit != null, "The audit must not be null.");
+            updatedProject.Audit.SetHistory(projectToUpdate);
+        }
+
+        private async void CreateDefaultExchangeVisitorFunding(PublishedProject updatedProject, Project projectToUpdate)
+        {
+            var existingRecord = await Context.DefaultExchangeVisitorFunding.FindAsync(updatedProject.ProjectId);
+            if (existingRecord == null && updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
             {
                 var defaultExchangeVisitorFunding = new DefaultExchangeVisitorFunding
                 {
@@ -482,9 +490,6 @@ namespace ECA.Business.Service.Projects
                 projectToUpdate.DefaultExchangeVisitorFunding = defaultExchangeVisitorFunding;
                 Context.DefaultExchangeVisitorFunding.Add(defaultExchangeVisitorFunding);
             }
-
-            Contract.Assert(updatedProject.Audit != null, "The audit must not be null.");
-            updatedProject.Audit.SetHistory(projectToUpdate);
         }
 
         private ProjectServiceUpdateValidationEntity GetUpdateValidationEntity(
