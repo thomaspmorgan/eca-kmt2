@@ -227,10 +227,14 @@ namespace ECA.Business.Service.Persons
             // create dependent
             var person = CreatePersonDependent(newDependent, citizenship);
             // add dependent to person family
+            var dependent = new PersonFamily
+            {
+                PersonId = newDependent.PersonId,
+                RelatedPersonId = person.PersonId
+            };
+            //this.Context.PersonFamilies.Add(dependent);
 
-
-            this.logger.Trace("Creating new person dependent {0}.", newDependent);
-                        
+            this.logger.Trace("Creating new person dependent {0}.", newDependent);                        
             return person;
         }
         

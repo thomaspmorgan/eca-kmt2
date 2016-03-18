@@ -1,5 +1,5 @@
 ﻿using ECA.Business.Service;
-using ECA.Data;
+using System.Collections.Generic;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -7,7 +7,12 @@ namespace ECA.Business.Queries.Models.Persons
     /// The SimplePersonDependentDTO is used to represent dependents in the ECA system.
     /// </summary>
     public class SimplePersonDependentDTO : SimplePersonDTO, IAuditable
-    {   
+    {
+        /// <summary>
+        /// Gets and sets the countries of citizenship
+        /// </summary>
+        public List<int> CountriesOfCitizenship { get; set; }
+
         /// <summary>
         /// Gets or sets the premanent residence country code
         /// </summary>

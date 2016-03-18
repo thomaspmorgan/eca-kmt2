@@ -160,22 +160,15 @@ namespace ECA.Business.Queries.Persons
                         select new SimplePersonDependentDTO
                         {
                             PersonId = person.PersonId,
-                            FullName = new FullNameDTO
-                                            {
-                                                FirstName = person.FirstName,
-                                                LastName = person.LastName,
-                                                Suffix = person.NameSuffix,
-                                                PassportName = "",
-                                                PreferredName = ""
-                                            },
+                            FirstName = person.FirstName,
+                            LastName = person.LastName,
+                            NameSuffix = person.NameSuffix,
                             DateOfBirth = person.DateOfBirth,
                             GenderId = hasGender ? gender.GenderId : 0,
-                            PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
+                            CityOfBirthId = hasPlaceOfBirth ? locationOfBirth.CityId : null,
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => (int)x.CityId).ToList(),
                             PermanentResidenceCountryCode = PermanentResidenceAddress.LocationId,
-                            BirthCountryReason = "TODO",
-                            EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
-                            PersonTypeId = person.PersonTypeId
+                            BirthCountryReason = "TODO"
                         };
             return query;
         }
