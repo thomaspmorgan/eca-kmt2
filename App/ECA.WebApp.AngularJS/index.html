@@ -24,7 +24,6 @@
     <!-- build:css(.) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-
 </head>
 <body ng-app="staticApp" class="cbp-spmenu-push">
     <!--[if lt IE 8]>
@@ -96,8 +95,7 @@
                                 &bull;
                             </span>
                             <span ng-if="$last && view.maxBreadcrumbs > 0">
-                                <a 
-                                   href="#" 
+                                <a href="#"
                                    scroll-to="top"
                                    tooltip-placement="bottom"
                                    tooltip="{{breadcrumb.name}}">
@@ -221,9 +219,6 @@
     <script src="app/people/all-people.controller.js"></script>
     <script src="app/people/contact-edit.controller.js"></script>
     <script src="app/people/contact.controller.js"></script>
-    <script src="app/people/add-dependent-modal.controller.js"></script>
-    <script src="app/people/dependent.controller.js"></script>
-    <script src="app/people/dependent-edit.controller.js"></script>
     <script src="app/people/education-employment-edit.controller.js"></script>
     <script src="app/people/education-employment.controller.js"></script>
     <script src="app/people/evaluation-notes-edit.controller.js"></script>
@@ -235,6 +230,9 @@
     <script src="app/people/personal-information.controller.js"></script>
     <script src="app/people/pii-edit.controller.js"></script>
     <script src="app/people/pii.controller.js"></script>
+    <script src="app/people/add-dependent-modal.controller.js"></script>
+    <script src="app/people/dependent.controller.js"></script>
+    <script src="app/people/edit-dependent-modal.controller.js"></script>
     <script src="app/people/timeline.controller.js"></script>
     <script src="app/programs/add-program-modal.controller.js"></script>
     <script src="app/programs/edit.controller.js"></script>

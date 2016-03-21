@@ -21,7 +21,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
-            string genderCode,
+            string gender,
             string permanentResidenceCountryCode,
             string phoneNumber,
             string remarks,
@@ -42,7 +42,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
             this.FullName = fullName; 
-            this.Gender = genderCode;
+            this.Gender = gender;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
             this.PhoneNumber = phoneNumber;
             this.Remarks = remarks;
@@ -171,7 +171,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
-            return new EVPersonTypeBiographical
+            var instance = new EVPersonTypeBiographical
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
@@ -184,6 +184,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
             };
+            return instance;
         }
 
         /// <summary>

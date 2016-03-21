@@ -16,9 +16,14 @@ namespace ECA.Business.Test.Validation
         {
             var isValid = true;
             var errors = new List<SimpleValidationFailure>();
+            errors.Add(new SimpleValidationFailure(new ErrorPath(), "C", "Property"));
+            errors.Add(new SimpleValidationFailure(new ErrorPath(), "A", "Property"));
+            errors.Add(new SimpleValidationFailure(new ErrorPath(), "B", "Property"));
             var instance = new SimpleValidationResult(isValid, errors);
             Assert.AreEqual(isValid, instance.IsValid);
-            Assert.IsTrue(Object.ReferenceEquals(errors, instance.Errors));
+            Assert.AreEqual(errors.Count, instance.Errors.Count());
+            CollectionAssert.AreEqual(errors.OrderBy(x => x.ErrorMessage).ToList(), instance.Errors.ToList());
+            CollectionAssert.AreNotEqual(errors.ToList(), instance.Errors.ToList());
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
 using ECA.Business.Service.Lookup;
@@ -1686,20 +1687,17 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateDependentAsync_CheckProperties()
         {
             var user = new User(1);
-            var fullName = new FullNameDTO
-            {
-                FirstName = "Jon",
-                LastName = "Doe",
-                Suffix = "Jr",
-                PassportName = "Jon Doe",
-                PreferredName = "Jonny"
-            };
+            int personId = 1;
+            var firstName = "first";
+            var lastName = "last";
+            var suffix = "jr";
+            var passport = "first last";
+            var preferred = "first last";
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
-            var cityOfBirth = 5;
-            var countryOfBirth = 32;
+            var placeOfBirth = new LocationDTO { CityId = 5, CountryId = 193 };
             var personTypeId = PersonType.Spouse.Id;
-            var countriesOfCitizenship = new List<SimpleLookupDTO>();
+            var countriesOfCitizenship = new List<int>();
 
             var countryType = new LocationType
             {
@@ -1714,11 +1712,10 @@ namespace ECA.Business.Test.Service.Persons
                 LocationName = "residence"
             };
 
-            var newPerson = new NewPersonDependent(
-                createdBy: user, fullName: fullName, dateOfBirth: dateOfBirth, gender: gender,
-                cityOfBirth: cityOfBirth, countryOfBirth: countryOfBirth, 
-                countriesOfCitizenship: countriesOfCitizenship, permanentResidenceCountryCode: countryResidence.LocationId, 
-                birthCountryReason: "", emailAddress: "", personTypeId: personTypeId);
+            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, firstName: firstName, lastName: lastName, nameSuffix: suffix, 
+                passportName: passport, preferredName: preferred, gender: gender, dateOfBirth: dateOfBirth, cityOfBirth: placeOfBirth.CityId, 
+                personTypeId: personTypeId, countriesOfCitizenship: countriesOfCitizenship, permanentResidenceCountryCode: countryResidence.LocationId, 
+                birthCountryReason: "");
 
             context.SetupActions.Add(() =>
             {
@@ -1726,8 +1723,8 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
-                Assert.AreEqual(newPerson.FullName.FirstName, testPerson.FirstName);
-                Assert.AreEqual(newPerson.FullName.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
                 Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
                 Assert.AreEqual(newPerson.CityOfBirth, testPerson.PlaceOfBirthId);

@@ -4,10 +4,19 @@ using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
+    /// <summary>
+    /// The DependentValidator is used to validation dependent abstract class instances.
+    /// </summary>
     public class DependentValidator : BiographicalValidator<Dependent>
     {
-        public const string DEPENDENT_RELATIONSHIP_REQUIRED = "Biographical:  The dependent named {0} {1} must have the relationship specified.";
+        /// <summary>
+        /// The error message to format when a relationship is required on a dependent.
+        /// </summary>
+        public const string DEPENDENT_RELATIONSHIP_REQUIRED = "The dependent named '{0} {1}' must have the relationship specified.";
 
+        /// <summary>
+        /// Creates a new default instance.
+        /// </summary>
         public DependentValidator()
             : base()
         {

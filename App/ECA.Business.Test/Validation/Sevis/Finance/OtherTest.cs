@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Finance;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
@@ -13,8 +14,23 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var amount = "amount";
             var name = "name";
             var other = new Other(name, amount);
-            Assert.AreEqual(name, other.Name);
-            Assert.AreEqual(amount, other.Amount);
+            var json = JsonConvert.SerializeObject(other);
+            var instance = JsonConvert.DeserializeObject<Other>(json);
+            Assert.AreEqual(name, instance.Name);
+            Assert.AreEqual(amount, instance.Amount);
+        }
+
+        [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var amount = "amount";
+            var name = "name";
+            var other = new Other(name, amount);
+
+            var json = JsonConvert.SerializeObject(other);
+            var instance = JsonConvert.DeserializeObject<Other>(json);
+            Assert.AreEqual(name, instance.Name);
+            Assert.AreEqual(amount, instance.Amount);
         }
 
         [TestMethod]

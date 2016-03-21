@@ -71,7 +71,7 @@ namespace ECA.Business.Service.Persons
             };
         }
 
-		/// <summary>
+        /// <summary>
         /// Gets the exchange visitor validator.
         /// </summary>
         public AbstractValidator<ExchangeVisitor> ExchangeVisitorValidator { get; private set; }
@@ -94,9 +94,7 @@ namespace ECA.Business.Service.Persons
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var project = Context.Projects.Find(projectId);
-            throwIfModelDoesNotExist(participantId, project, typeof(Project));
-            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
+            if (ShouldRunValidation(participant))
             {
                 var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(user, projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
@@ -104,9 +102,9 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
+                HandleNonValidatedParticipant(participantPerson);
                 return null;
             }
-
         }
 
         /// <summary>
@@ -127,9 +125,7 @@ namespace ECA.Business.Service.Persons
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
-            var project = await Context.Projects.FindAsync(projectId);
-            throwIfModelDoesNotExist(participantId, project, typeof(Project));
-            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id && participant.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id)
+            if (ShouldRunValidation(participant))
             {
                 var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(user, projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
@@ -137,8 +133,36 @@ namespace ECA.Business.Service.Persons
             }
             else
             {
+                HandleNonValidatedParticipant(participantPerson);
                 return null;
             }
+        }
+
+        private void HandleNonValidatedParticipant(ParticipantPerson person)
+        {
+            person.SevisValidationResult = null;
+        }
+
+        /// <summary>
+        /// Returns true if all conditions are met stating sevis validation should run on a participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <returns>True, if sevis exchange visitor validation should run; otherwise, false.</returns>
+        public bool ShouldRunValidation(Participant participant)
+        {
+            if (participant.ParticipantTypeId != ParticipantType.ForeignTravelingParticipant.Id)
+            {
+                return false;
+            }
+            if (!participant.ParticipantStatusId.HasValue)
+            {
+                return false;
+            }
+            if (!ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.Select(x => x.Id).Contains(participant.ParticipantStatusId.Value))
+            {
+                return false;
+            }
+            return true;
         }
 
         #region Handle Validation Result

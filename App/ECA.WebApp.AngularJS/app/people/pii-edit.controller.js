@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, FilterService, NotificationService, $q, DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -18,14 +18,14 @@ angular.module('staticApp')
       $scope.personIdDeferred = $q.defer();
 
       $scope.updateGender = function () {
-          $scope.pii.gender = getObjectById($scope.pii.genderId, $scope.genders).value;
+          $scope.pii.gender = $scope.getObjectById($scope.pii.genderId, $scope.genders).value;
       };
 
       $scope.updateMaritalStatus = function () {
-          $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
+          $scope.pii.maritalStatus = $scope.getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
 
-      function getObjectById(id, array) {
+      $scope.getObjectById = function (id, array) {
           for (var i = 0; i < array.length; i++) {
               if (array[i].id === id) {
                   return array[i];
@@ -153,37 +153,18 @@ angular.module('staticApp')
           }
       }
 
+      var countriesFilter = FilterService.add('pii_edit_countries_filter');
       function loadCountries(search) {
+          countriesFilter.reset();
+          countriesFilter = countriesFilter.skip(0).take(30).equal('locationTypeId', ConstantsService.locationType.country.id);
           if (search) {
-              var params = {
-                  limit: 30,
-                  filter: [
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id }
-                  ]
-              };
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              }
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.countries = data.results;
-                    return $scope.countries;
-                });
+              countriesFilter = countriesFilter.like('name', search);
           }
-      }
-
-      //LocationService.get({ limit: 300, filter: { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id } })
-      //  .then(function (data) {
-      //      $scope.countries = data.results;
-      //  });
-
-      function loadLocationById(id) {
-          return LocationService.get({
-              limit: 1,
-              filter: [
-                  { property: 'id', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id, value: id }
-              ]
-          });
+          return LocationService.get(countriesFilter.toParams())
+            .then(function (data) {
+                $scope.countries = data.results;
+                return $scope.countries;
+            });
       }
 
       LookupService.getAllGenders({ limit: 300 })

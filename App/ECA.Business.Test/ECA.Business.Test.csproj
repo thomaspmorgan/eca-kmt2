@@ -79,16 +79,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.1.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=4.2.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.2.2\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.1.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+    <Reference Include="FluentAssertions.Core, Version=4.2.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.2.2\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GeoTimeZone, Version=1.1.0.38953, Culture=neutral, processorArchitecture=MSIL">
@@ -96,7 +96,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hyak.Common.1.0.3\lib\net45\Hyak.Common.dll</HintPath>
+      <HintPath>..\packages\Hyak.Common.1.1.0\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Common, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -152,6 +152,31 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core.4.0.0.0.Fakes">
       <HintPath>FakesAssemblies\System.Core.4.0.0.0.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -344,7 +369,8 @@
     <Compile Include="Validation\ErrorPaths\ProgramCategoryCodeErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\StartDateErrorPathTest.cs" />
     <Compile Include="Validation\ErrorPaths\ErrorPathTest.cs" />
-    <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
+    <Compile Include="Validation\ErrorPaths\SevisErrorPathTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\TestDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\BiographicalValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependentTest.cs" />
@@ -356,24 +382,25 @@
     <Compile Include="Validation\Sevis\Bio\UpdatedDependentTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidatorTest.cs" />
-    <Compile Include="Validation\Sevis\Finance\InternationalValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalFundingValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherValidatorTest.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitorValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherTest.cs" />
-    <Compile Include="Validation\Sevis\Finance\InternationalTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalFundingTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OrganizationFundingTest.cs" />
-    <Compile Include="Validation\Sevis\Finance\USGovtTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovernmentFundingTest.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitorTest.cs" />
     <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
     <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
-    <Compile Include="Validation\Sevis\Finance\USGovtValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovernmentFundingValidatorTest.cs" />
     <Compile Include="Validation\Sevis\AddressDTOValidatorTest.cs" />
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
     <Compile Include="Validation\SimpleValidationResultTest.cs" />
     <Compile Include="Validation\SevisEnumHelperTest.cs" />
+    <Compile Include="Validation\ParticipantSevisKeyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

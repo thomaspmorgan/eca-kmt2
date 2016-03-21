@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller: personDependentEditCtrl
- * # personDependentEditCtrl
+ * @name staticApp.controller: EditDependentModalCtrl
+ * # EditDependentModalCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personDependentEditCtrl', function ($scope, $timeout, $modalInstance,
+  .controller('EditDependentModalCtrl', function ($scope, $timeout, $modalInstance,
           PersonService, DependentService, LookupService, LocationService, ConstantsService,
           $stateParams, NotificationService, FilterService, $q, DateTimeService, dependent) {
       
@@ -19,10 +19,6 @@ angular.module('staticApp')
       $scope.dependentLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
-
-      $scope.updateGender = function () {
-          $scope.dependent.gender = getObjectById($scope.dependent.genderId, $scope.genders).value;
-      };
 
       function loadDependent(dependentId) {
           $scope.dependentLoading = true;
@@ -38,14 +34,13 @@ angular.module('staticApp')
                      location.name = obj.value;
                      return location;
                  });
-                 // Convert from UTC to local date time
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
                  
                  loadResidenceCountries();
 
-                 return $scope.loadCities(null)
+                 return loadDependentCities(null)
                  .then(function () {
                      $scope.dependentLoading = false;
                  })
@@ -55,11 +50,11 @@ angular.module('staticApp')
              });
       };
 
-      $scope.onSelectCityOfBirth = function () {
-          $scope.dependent.isPlaceOfBirthUnknown = false;
-      }
+      $scope.updateDependentGender = function () {
+          $scope.dependent.gender = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
+      };
 
-      $scope.isPlaceOfBirthValid = function ($value) {
+      $scope.isDependentPlaceOfBirthValid = function ($value) {
             if ($value === 0 || $value === null) {
                 return false;
             }
@@ -68,19 +63,19 @@ angular.module('staticApp')
             }
       }
 
-      $scope.isCityOfBirthValid = function ($value) {
+      $scope.isDependentCityOfBirthValid = function ($value) {
             return $value !== undefined && $value !== null && $value !== 0;
       }
 
-      $scope.searchCities = function (search) {
-          return $scope.loadCities(search);
+      $scope.searchDependentCities = function (search) {
+          return loadDependentCities(search);
       }
 
-      $scope.searchCountries = function (search) {
-          return $scope.loadCitizenshipCountries(search);
+      $scope.searchDependentCountries = function (search) {
+          return loadDependentCitizenshipCountries(search);
       }
       
-      $scope.loadCities = function (search) {
+      function loadDependentCities(search) {
           if (search || $scope.dependent) {
               var params = {
                   limit: 30,
@@ -102,7 +97,7 @@ angular.module('staticApp')
           }
       }
 
-      $scope.loadCitizenshipCountries = function (search) {
+      function loadDependentCitizenshipCountries(search) {
           if (search) {
               var params = {
                   limit: 300,
@@ -137,15 +132,6 @@ angular.module('staticApp')
                 });
       }
 
-      $scope.loadLocationById = function (id) {
-          return LocationService.get({
-              limit: 1,
-              filter: [
-                  { property: 'id', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id, value: id }
-              ]
-          });
-      }
-
       LookupService.getAllGenders({
           limit: 300,
           filter: [{
@@ -161,11 +147,9 @@ angular.module('staticApp')
 
       function saveEditDependent() {
           setupDependent();
-          DependentService.update($scope.dependent, $scope.dependent.personId)
+          return DependentService.update($scope.dependent, $scope.dependent.personId)
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
-                  //loadDependent($scope.dependent.personId);
-                  $modalInstance.close(response);
               },
               function (error) {
                   if (error.status == 400) {
@@ -190,7 +174,6 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          //$scope.dependent.personId = $scope.person.personId;
           $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
@@ -199,30 +182,15 @@ angular.module('staticApp')
           }
       };
 
-      $scope.onSaveClick = function () {
-          return saveEditDependent();
-              //.then(function (response) {
-              //    $modalInstance.close(response);
-              //});
+      $scope.onSaveDependentClick = function () {
+          return saveEditDependent()
+              .then(function (dependent) {
+                  $modalInstance.close(dependent);
+              });
       }
 
-      $scope.onCloseClick = function () {
+      $scope.onCloseDependentClick = function () {
           $modalInstance.dismiss('cancel');
       }
-
-      $scope.openDatePicker = function ($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.datePickerOpen = true;
-      };
-
-      function getObjectById(id, array) {
-          for (var i = 0; i < array.length; i++) {
-              if (array[i].id === id) {
-                  return array[i];
-              }
-          }
-          return null;
-      };
 
   });

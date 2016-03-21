@@ -224,7 +224,7 @@ namespace ECA.Business.Service.Persons
                 birthDate: biography.BirthDate,
                 citizenshipCountryCode: biography.CitizenshipCountryCode,
                 emailAddress: biography.EmailAddress,
-                genderCode: biography.Gender,
+                gender: biography.Gender,
                 permanentResidenceCountryCode: biography.PermanentResidenceCountryCode,
                 phoneNumber: biography.PhoneNumber,
                 remarks: null,
@@ -377,11 +377,11 @@ namespace ECA.Business.Service.Persons
             }
 
             var otherFunds = new OtherFunds(
-                evGovt: getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisGovt),
+                exchangeVisitorGovernment: getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisGovt),
                 binationalCommission: getFundingAsWholeDollarString(participantExchangeVisitor.FundingVisBNC),
                 personal: getFundingAsWholeDollarString(participantExchangeVisitor.FundingPersonal),
-                usGovt: usFunding != null && !usFunding.IsEmpty() ? usFunding.GetUSGovt() : null,
-                international: orgFunding != null && !orgFunding.IsEmpty() ? orgFunding.GetInternational() : null,
+                usGovernmentFunding: usFunding != null && !usFunding.IsEmpty() ? usFunding.GetUSGovt() : null,
+                internationalFunding: orgFunding != null && !orgFunding.IsEmpty() ? orgFunding.GetInternational() : null,
                 other: other);
 
             var financialInfo = new FinancialInfo(

@@ -41,7 +41,7 @@
   <Class Name="ECA.Business.Validation.Sevis.ExchangeVisitor">
     <Position X="18.25" Y="0.75" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AIADAABBAASAEAEAAAEABAAAAAAAAAAAAQAEEAAUAAg=</HashCode>
+      <HashCode>AIADAABBAASAEAEAAIEABAAAAAAAAAAAIQAEEAAUIAg=</HashCode>
       <FileName>Validation\Sevis\ExchangeVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -54,11 +54,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="ECA.Business.Validation.Sevis.Finance.International">
+  <Class Name="ECA.Business.Validation.Sevis.Finance.InternationalFunding">
     <Position X="21.25" Y="14" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>Validation\Sevis\Finance\International.cs</FileName>
+      <FileName>Validation\Sevis\Finance\InternationalFunding.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.Other">
@@ -71,15 +71,15 @@
   <Class Name="ECA.Business.Validation.Sevis.Finance.OtherFunds">
     <Position X="23.25" Y="7" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>BAAAAAARCAAAAAAAIAAAAAAAAABCBAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BACAAAAQCAAAAAAAIAAAAAAAAAAABAAAAAAABAAAAAI=</HashCode>
       <FileName>Validation\Sevis\Finance\OtherFunds.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Validation.Sevis.Finance.USGovt">
+  <Class Name="ECA.Business.Validation.Sevis.Finance.USGovernmentFunding">
     <Position X="24.5" Y="14" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
-      <FileName>Validation\Sevis\Finance\USGovt.cs</FileName>
+      <FileName>Validation\Sevis\Finance\USGovernmentFunding.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Validation.Sevis.Finance.OrganizationFunding">

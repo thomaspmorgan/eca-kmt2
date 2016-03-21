@@ -7,6 +7,7 @@ using ECA.Business.Validation;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -18,14 +19,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         {
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -65,8 +66,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 personId,
                 participantId
                 );
-            Assert.AreEqual(personId, instance.GetPersonId());
-            Assert.AreEqual(participantId, instance.GetParticipantId());
+            Assert.AreEqual(personId, instance.PersonId);
+            Assert.AreEqual(participantId, instance.ParticipantId);
             Assert.AreEqual(birthCity, instance.BirthCity);
             Assert.AreEqual(birthCountryCode, instance.BirthCountryCode);
             Assert.AreEqual(birthDate, instance.BirthDate);
@@ -81,6 +82,98 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsTrue(Object.ReferenceEquals(fullName, instance.FullName));
             Assert.IsTrue(Object.ReferenceEquals(mailAddress, instance.MailAddress));
             Assert.IsTrue(Object.ReferenceEquals(usAddress, instance.USAddress));
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<AddedDependent>(json);
+            Assert.AreEqual(personId, jsonObject.PersonId);
+            Assert.AreEqual(participantId, jsonObject.ParticipantId);
+            Assert.AreEqual(birthCity, jsonObject.BirthCity);
+            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
+            Assert.AreEqual(birthDate, jsonObject.BirthDate);
+            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
+            Assert.AreEqual(email, jsonObject.EmailAddress);
+            Assert.AreEqual(gender, jsonObject.Gender);
+            Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
+            Assert.AreEqual(phone, jsonObject.PhoneNumber);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(relationship, jsonObject.Relationship);
+            Assert.IsNotNull(jsonObject.FullName);
+            Assert.IsNotNull(jsonObject.MailAddress);
+            Assert.IsNotNull(jsonObject.USAddress);
+        }
+
+        [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReason = "reason";
+            var relationship = DependentCodeType.Item01.ToString();
+            var instance = new AddedDependent(
+                fullName,
+                birthCity,
+                birthCountryCode,
+                birthCountryReason,
+                birthDate,
+                citizenshipCountryCode,
+                email,
+                gender,
+                permanentResidenceCountryCode,
+                phone,
+                relationship,
+                mailAddress,
+                usAddress,
+                printForm,
+                personId,
+                participantId
+                );
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<AddedDependent>(json);
+            Assert.AreEqual(personId, jsonObject.PersonId);
+            Assert.AreEqual(participantId, jsonObject.ParticipantId);
+            Assert.AreEqual(birthCity, jsonObject.BirthCity);
+            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
+            Assert.AreEqual(birthDate, jsonObject.BirthDate);
+            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
+            Assert.AreEqual(email, jsonObject.EmailAddress);
+            Assert.AreEqual(gender, jsonObject.Gender);
+            Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
+            Assert.AreEqual(phone, jsonObject.PhoneNumber);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(relationship, jsonObject.Relationship);
+            Assert.IsNotNull(jsonObject.FullName);
+            Assert.IsNotNull(jsonObject.MailAddress);
+            Assert.IsNotNull(jsonObject.USAddress);
         }
 
 
@@ -89,14 +182,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         {
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -126,7 +219,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 relationship: relationship,
@@ -159,14 +252,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         {
             var personId = 100;
             var participantId = 200;
-            var fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             var birthCity = "birth city";
             var birthCountryCode = "CN";
             var birthDate = DateTime.UtcNow;
@@ -196,7 +289,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
-                genderCode: gender,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phone,
                 relationship: relationship,
@@ -207,8 +300,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 personId: personId
                 );
             var instance = dependent.GetEVPersonTypeDependent();
-            Assert.AreEqual(participantId.ToString(), instance.UserDefinedA);
-            Assert.AreEqual(personId.ToString(), instance.UserDefinedB);
             
             Assert.AreEqual(dependent.BirthCity, instance.BirthCity);
             Assert.AreEqual(dependent.BirthCountryCode.GetBirthCntryCodeType(), instance.BirthCountryCode);
@@ -218,9 +309,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(dependent.Gender.GetEVGenderCodeType(), instance.Gender);
             Assert.AreEqual(dependent.PermanentResidenceCountryCode.GetCountryCodeWithType(), instance.PermanentResidenceCountryCode);
             Assert.AreEqual(dependent.Relationship.GetDependentCodeType(), instance.Relationship);
-            Assert.AreEqual(dependent.UserDefinedA, instance.UserDefinedA);
-            Assert.AreEqual(dependent.UserDefinedB, instance.UserDefinedB);
+            Assert.IsNotNull(instance.UserDefinedA);
+            Assert.IsNotNull(instance.UserDefinedB);
             Assert.IsFalse(instance.BirthCountryReasonSpecified);
+
+            var key = new ParticipantSevisKey(instance.UserDefinedA, instance.UserDefinedB);
+            Assert.AreEqual(participantId, key.ParticipantId);
+            Assert.AreEqual(personId, key.PersonId);
         }
     }
 }

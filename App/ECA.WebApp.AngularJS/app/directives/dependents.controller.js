@@ -50,8 +50,8 @@ angular.module('staticApp')
 
           var editDependentModalInstance = $modal.open({
               animation: true,
-              templateUrl: 'app/people/dependent-edit.html',
-              controller: 'personDependentEditCtrl',
+              templateUrl: 'app/people/edit-dependent-modal.html',
+              controller: 'EditDependentModalCtrl',
               size: 'md',
               resolve: {
                   dependent: function () {
@@ -61,7 +61,6 @@ angular.module('staticApp')
           });
           editDependentModalInstance.result.then(function (updatedDependent) {
               $log.info('Finished updating dependent.');
-              $modalInstance.close([updatedDependent]);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
