@@ -8,7 +8,9 @@ using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Core.Exceptions;
 using ECA.Core.Service;
+using ECA.Core.Settings;
 using ECA.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -51,12 +53,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// The postal code of the state dept site of activity.
         /// </summary>
-        public const string SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE = "20522";
-
-        /// <summary>
-        /// The reprint form update reason code.
-        /// </summary>
-        public const string REPRINT_FORM_UPDATE_REASON_CODE = "05";
+        public const string SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE = "20522";        
 
         /// <summary>
         /// The name of the state dept site of activity.
@@ -67,16 +64,19 @@ namespace ECA.Business.Service.Persons
         private readonly Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private readonly Action<Participant> throwIfParticipantIsNotAPerson;
         private readonly Action<Participant, Project> throwIfProjectIsNotExchangeVisitorType;
+        private AppSettings appSettings;
 
         /// <summary>
         /// Creates a new ExchangeVisitorService and initializes the context and save actions.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="saveActions">The context save actions.</param>
-        public ExchangeVisitorService(EcaContext context, List<ISaveAction> saveActions = null)
+        public ExchangeVisitorService(EcaContext context, AppSettings appSettings, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(appSettings != null, "The app settings must not be null.");
+            this.appSettings = appSettings;
             throwIfModelDoesNotExist = (id, instance, type) =>
             {
                 if (instance == null)
@@ -304,17 +304,10 @@ namespace ECA.Business.Service.Persons
         /// <returns>A USAddress instance of the US State Department C Street location.</returns>
         public AddressDTO GetStateDepartmentCStreetAddress()
         {
-            return new AddressDTO
-            {
-                Street1 = SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1,
-                Street2 = null,
-                Street3 = null,
-                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME,
-                City = SITE_OF_ACTIVITY_STATE_DEPT_CITY,
-                Division = SITE_OF_ACTIVITY_STATE_DEPT_STATE,
-                PostalCode = SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE,
-                LocationName = SITE_OF_ACTIVITY_STATE_DEPT_NAME
-            };
+            //get a configuration error if SevisSiteOfActivity is not defined.
+            var addressDTOAsJson = appSettings.SevisSiteOfActivity;
+            var addressDTO = JsonConvert.DeserializeObject<AddressDTO>(addressDTOAsJson);
+            return addressDTO;
         }
         #endregion
 
