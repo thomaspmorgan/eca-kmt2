@@ -61,6 +61,11 @@ namespace ECA.WebApi.Models.Person
         public int? CityOfBirth { get; private set; }
 
         /// <summary>
+        /// Gets or sets the email address
+        /// </summary>
+        public string EmailAddress { get; set; }
+
+        /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
         public List<int> CountriesOfCitizenship { get; private set; }
@@ -93,6 +98,7 @@ namespace ECA.WebApi.Models.Person
                 gender: Gender,
                 dateOfBirth: DateOfBirth,
                 cityOfBirth: CityOfBirth,
+                emailAddress: EmailAddress,
                 personTypeId: PersonTypeId,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 permanentResidenceCountryCode: PermanentResidenceCountryCode,

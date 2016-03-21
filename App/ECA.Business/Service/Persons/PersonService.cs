@@ -626,7 +626,8 @@ namespace ECA.Business.Service.Persons
                 DateOfBirth = newPerson.DateOfBirth,
                 PlaceOfBirthId = newPerson.CityOfBirth,
                 PersonTypeId = newPerson.PersonTypeId,
-                CountriesOfCitizenship = countriesOfCitizenship
+                CountriesOfCitizenship = countriesOfCitizenship,
+                //EmailAddresses = newPerson.EmailAddress;
             };
             
             newPerson.Audit.SetHistory(person);
@@ -677,12 +678,12 @@ namespace ECA.Business.Service.Persons
         private async Task<Person> GetPersonModelByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
-            return await CreateGetPersonById(personId).FirstOrDefaultAsync();
+            return await CreateGetPersonById(personId);
         }
 
-        private IQueryable<Person> CreateGetPersonById(int personId)
+        private async Task<Person> CreateGetPersonById(int personId)
         {
-            return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
+            return await Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
         }
 
         /// <summary>

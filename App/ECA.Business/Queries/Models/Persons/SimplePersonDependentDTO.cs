@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using System.Collections.Generic;
 
 namespace ECA.Business.Queries.Models.Persons
@@ -11,7 +12,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<int> CountriesOfCitizenship { get; set; }
+        public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

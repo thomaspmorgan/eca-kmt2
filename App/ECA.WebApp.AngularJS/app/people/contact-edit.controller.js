@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .controller('personContactEditCtrl', function ($scope, PersonService, NotificationService, $stateParams, $log, $q) {
 
-      $scope.contactsLoading = true;
+      $scope.edit.contactsLoading = true;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
@@ -17,13 +17,13 @@ angular.module('staticApp')
       });
 
       function loadContactInfo(personId) {
-          $scope.contactsLoading = true;
+          $scope.edit.contactsLoading = true;
           PersonService.getContactInfoById(personId)
           .then(function (data) {
               $scope.contactInfo = data;
               $scope.sevisStatus.statusName = data.sevisStatus;
               $scope.sevisStatus.statusNameId = data.sevisStatusId;
-              $scope.contactsLoading = false;
+              $scope.edit.contactsLoading = false;
           });
       };
 

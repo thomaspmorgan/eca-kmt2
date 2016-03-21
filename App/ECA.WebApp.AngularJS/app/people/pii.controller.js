@@ -9,7 +9,7 @@
 angular.module('staticApp')
   .controller('personPiiViewCtrl', function ($scope, $timeout, PersonService, LocationService, ConstantsService, $stateParams, $q, BrowserService) {
 
-      $scope.piiLoading = true;
+      $scope.edit.piiLoading = true;
 
       $scope.selectedCountriesOfCitizenship = [];
 
@@ -24,7 +24,7 @@ angular.module('staticApp')
         });
 
       function loadPii(personId) {
-          $scope.piiLoading = true;
+          $scope.edit.piiLoading = true;
           PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
@@ -48,7 +48,7 @@ angular.module('staticApp')
                  if ($scope.pii.countryOfBirthId) {
                      $scope.getCities("");
                  }
-                 $scope.piiLoading = false;
+                 $scope.edit.piiLoading = false;
              });
       };
 

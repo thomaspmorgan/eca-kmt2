@@ -166,7 +166,7 @@ namespace ECA.Business.Queries.Persons
                             DateOfBirth = person.DateOfBirth,
                             GenderId = hasGender ? gender.GenderId : 0,
                             CityOfBirthId = hasPlaceOfBirth ? locationOfBirth.CityId : null,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => (int)x.CityId).ToList(),
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).ToList(),
                             PermanentResidenceCountryCode = PermanentResidenceAddress.LocationId,
                             BirthCountryReason = "TODO"
                         };

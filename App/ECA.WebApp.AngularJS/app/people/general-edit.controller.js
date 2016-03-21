@@ -13,7 +13,7 @@ angular.module('staticApp')
       $scope.editView = [];
       $scope.editView.prominentCategories = [];
       $scope.editView.selectedProminentCategories = [];
-      $scope.loadingGeneral = true;
+      $scope.edit.loadingGeneral = true;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
@@ -22,7 +22,7 @@ angular.module('staticApp')
       });
 
       function loadGeneral(personId) {
-          $scope.loadingGeneral = true;
+          $scope.edit.loadingGeneral = true;
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
@@ -34,7 +34,7 @@ angular.module('staticApp')
                   prominentCategory.name = obj.value;
                   return prominentCategory;
               });
-              $scope.loadingGeneral = false;
+              $scope.edit.loadingGeneral = false;
           });
       };
 

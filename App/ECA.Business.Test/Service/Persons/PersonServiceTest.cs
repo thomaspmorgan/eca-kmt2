@@ -1695,6 +1695,7 @@ namespace ECA.Business.Test.Service.Persons
             var preferred = "first last";
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
+            var emailAddress = "email@domain.com";
             var placeOfBirth = new LocationDTO { CityId = 5, CountryId = 193 };
             var personTypeId = PersonType.Spouse.Id;
             var countriesOfCitizenship = new List<int>();
@@ -1713,9 +1714,9 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, firstName: firstName, lastName: lastName, nameSuffix: suffix, 
-                passportName: passport, preferredName: preferred, gender: gender, dateOfBirth: dateOfBirth, cityOfBirth: placeOfBirth.CityId, 
-                personTypeId: personTypeId, countriesOfCitizenship: countriesOfCitizenship, permanentResidenceCountryCode: countryResidence.LocationId, 
-                birthCountryReason: "");
+                passportName: passport, preferredName: preferred, gender: gender, dateOfBirth: dateOfBirth, cityOfBirth: placeOfBirth.CityId,
+                emailAddress: emailAddress, personTypeId: personTypeId, countriesOfCitizenship: countriesOfCitizenship, 
+                permanentResidenceCountryCode: countryResidence.LocationId, birthCountryReason: "");
 
             context.SetupActions.Add(() =>
             {

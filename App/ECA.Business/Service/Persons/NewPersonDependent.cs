@@ -18,6 +18,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="gender">The gender</param>
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="cityOfBirth">The city of birth</param>
+        /// <param name="emailAddress">The email address</param>
         /// <param name="personTypeId">The person type id</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         /// <param name="permanentResidenceCountryCode">The permanent residence country code</param>
@@ -33,6 +34,7 @@ namespace ECA.Business.Service.Persons
             int gender,
             DateTime? dateOfBirth,
             int? cityOfBirth,
+            string emailAddress,
             int personTypeId,
             List<int> countriesOfCitizenship,
             int permanentResidenceCountryCode,
@@ -47,6 +49,7 @@ namespace ECA.Business.Service.Persons
             this.Gender = gender;
             this.DateOfBirth = dateOfBirth;
             this.CityOfBirth = cityOfBirth;
+            this.EmailAddress = emailAddress;
             this.PersonTypeId = personTypeId;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.PermanentResidenceCountryCode = permanentResidenceCountryCode;
@@ -103,6 +106,11 @@ namespace ECA.Business.Service.Persons
         /// Gets and sets the city of birth
         /// </summary>
         public int? CityOfBirth { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the email address
+        /// </summary>
+        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship
