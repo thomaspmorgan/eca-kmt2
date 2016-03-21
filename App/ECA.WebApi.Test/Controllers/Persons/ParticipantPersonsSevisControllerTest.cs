@@ -14,17 +14,14 @@ namespace ECA.WebApi.Test.Controllers.Persons
     {
         private ParticipantPersonsSevisController controller;
         private Mock<IParticipantPersonsSevisService> participantPersonSevisService;
-        private Mock<IExchangeVisitorService> visitorService;
         private Mock<IUserProvider> userProvider;
 
         [TestInitialize]
         public void TestInit()
         {
             participantPersonSevisService = new Mock<IParticipantPersonsSevisService>();
-            visitorService = new Mock<IExchangeVisitorService>();
             userProvider = new Mock<IUserProvider>();
-
-            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, visitorService.Object, userProvider.Object);
+            controller = new ParticipantPersonsSevisController(participantPersonSevisService.Object, userProvider.Object);
         }
 
         [TestMethod]
