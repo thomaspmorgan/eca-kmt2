@@ -115,14 +115,9 @@ namespace ECA.Business.Queries.Persons
 
                         let hasGender = person.Gender != null
                         let gender = person.Gender
-
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
                         let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
-
-                        let hasCountryOfBirth = hasPlaceOfBirth && cityOfBirth.Country != null
-                        let countryOfBirthId = hasCountryOfBirth ? cityOfBirth.Country.CountryId : 0
-                        
                         let PermanentResidenceAddress = (from address in person.Addresses
                                                          let addressType = address.AddressType
 

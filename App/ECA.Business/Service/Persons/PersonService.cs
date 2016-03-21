@@ -267,7 +267,7 @@ namespace ECA.Business.Service.Persons
             //person.PassportName = updateDependent.PassportName;
             person.DateOfBirth = updateDependent.DateOfBirth;
             person.GenderId = updateDependent.Gender;
-            person.PlaceOfBirthId = cityOfBirth.LocationId;
+            person.PlaceOfBirthId = cityOfBirth != null ? cityOfBirth.LocationId : 0;
             //person.Addresses = addresses;
             //person.EmailAddresses = emails;
             person.PersonTypeId = updateDependent.PersonTypeId;

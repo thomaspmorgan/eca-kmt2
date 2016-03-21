@@ -76,7 +76,7 @@ namespace ECA.Business.Service.Sevis
         ///  Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
         /// </summary>
         /// <returns>The list of SevisBatchProcessing dtos.</returns>
-        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToUpload()
+        public IQueryable<SevisBatchProcessingDTO> GetSevisBatchesToUpload()
         {
             var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForUpload(this.Context);
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to upload");
@@ -87,7 +87,7 @@ namespace ECA.Business.Service.Sevis
         /// Retrieves the list of SEVIS Batch DTOs that have not been uploaded yet.
         /// </summary>
         /// <returns>The list of SevisBatchProcessing dtos.</returns>
-        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync()
+        public Task<IQueryable<SevisBatchProcessingDTO>> GetSevisBatchesToUploadAsync()
         {
             var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForUpload(this.Context));
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to upload");
@@ -98,7 +98,7 @@ namespace ECA.Business.Service.Sevis
         ///  Retrieves the list of SEVIS Batch DTOs that have not been downloaded yet.
         /// </summary>
         /// <returns>The list of SevisBatchProcessing dtos.</returns>
-        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToDownload()
+        public IQueryable<SevisBatchProcessingDTO> GetSevisBatchesToDownload()
         {
             var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForDownload(this.Context);
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
@@ -109,7 +109,7 @@ namespace ECA.Business.Service.Sevis
         /// Retrieves the list of SEVIS Batch DTOs that have not been downloaded yet.
         /// </summary>
         /// <returns>The list of SevisBatchProcessing dtos.</returns>
-        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToDownloadAsync()
+        public Task<IQueryable<SevisBatchProcessingDTO>> GetSevisBatchesToDownloadAsync()
         {
             var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsForDownload(this.Context));
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
@@ -120,7 +120,7 @@ namespace ECA.Business.Service.Sevis
         ///  Retrieves the list of SEVIS Batch DTOs that have not been processed yet.
         /// </summary>
         /// <returns>The list of SevisBatchProcessing dtos.</returns>
-        public IEnumerable<SevisBatchProcessingDTO> GetSevisBatchesToProcess()
+        public IQueryable<SevisBatchProcessingDTO> GetSevisBatchesToProcess()
         {
             var dtos = SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToProcess(this.Context);
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
@@ -131,7 +131,7 @@ namespace ECA.Business.Service.Sevis
         /// Retrieves the list of SEVIS Batch DTOs that have not been processed yet.
         /// </summary>
         /// <returns>The list of SevisBatchProcessing dtos.</returns>
-        public Task<IEnumerable<SevisBatchProcessingDTO>> GetSevisBatchesToProcessAsync()
+        public Task<IQueryable<SevisBatchProcessingDTO>> GetSevisBatchesToProcessAsync()
         {
             var dtos = Task.FromResult(SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToProcess(this.Context));
             logger.Trace("Retrieved the SEVIS Batch Processing dtos to download");
@@ -162,7 +162,6 @@ namespace ECA.Business.Service.Sevis
         {
             var newSevisBatchProcessing = new SevisBatchProcessing();
             SaveChanges();
-            throwIfSevisBatchProcessingNotFound(newSevisBatchProcessing, newSevisBatchProcessing.BatchId);
             return newSevisBatchProcessing;
         }
 
@@ -170,7 +169,6 @@ namespace ECA.Business.Service.Sevis
         {
             var newSevisBatchProcessing = new SevisBatchProcessing();
             await SaveChangesAsync();
-            throwIfSevisBatchProcessingNotFound(newSevisBatchProcessing, newSevisBatchProcessing.BatchId);
             return newSevisBatchProcessing;
         }
 
@@ -182,36 +180,24 @@ namespace ECA.Business.Service.Sevis
         /// Process SEVIS batch transaction log
         /// </summary>
         /// <param name="batchId">Batch ID</param>
-        public async Task<IEnumerable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
+        public async Task<IQueryable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId)
         {
-            string json = "";
             var batchLog = await GetByIdAsync(batchId);
             var xml = batchLog.TransactionLogXml;
             var doc = XDocument.Parse(xml.ToString());
-            XNamespace xmlns = "http://james.newtonking.com/projects/json";
             List<ParticipantSevisBatchProcessingResultDTO> results = new List<ParticipantSevisBatchProcessingResultDTO>();
 
             foreach (XElement record in doc.Descendants("Record"))
             {
                 var participantID = Convert.ToInt32(record.Attribute("requestID").Value);
                 var status = record.Descendants("Result").First().Attribute("status").Value;
-                var rows = record.Descendants("Result");
-
-                if (rows.Count() == 1)
-                {
-                    record.Add(new XElement("Result", ""));
-                    json = JsonConvert.SerializeXNode(record).Replace(",null]", "]");
-                }
-                else
-                {
-                    json = JsonConvert.SerializeXNode(record);
-                }
+                string json = JsonConvert.SerializeXNode(record);
 
                 // update participant person batch result
                 results.Add(await UpdateParticipant(participantID, status, json));
             }
 
-            return results;
+            return results.AsQueryable();
         }
 
         /// <summary>
