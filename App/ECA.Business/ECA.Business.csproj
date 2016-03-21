@@ -538,6 +538,9 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
+    <Compile Include="Sevis\Model\sevistranslog.cs">
+      <DependentUpon>SevisTransLog.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Validation\SevisEnumHelper.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\IBiographical.cs" />
@@ -603,6 +606,10 @@
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
     <Compile Include="Validation\Sevis\USAddress.cs" />
+    <None Include="Translog.cd" />
+    <None Include="Sevis\Model\SevisTransLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

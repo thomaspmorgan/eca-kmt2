@@ -1,23 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-angular.module('staticApp').factory('ConstantsService', function() {
+﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -236,5 +217,4 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		sevisStatuses: '[2, 3, 4, 5]'
 	};
 });
-
 

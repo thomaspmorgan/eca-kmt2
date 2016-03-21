@@ -36,5 +36,20 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(code.GetProgSubjectCodeType(), model.SubjectFieldCode);
             Assert.AreEqual(instance.Remarks, model.Remarks);
         }
+
+        [TestMethod]
+        public void TestGetSEVISEVBatchTypeExchangeVisitorProgramEditSubject()
+        {
+            var code = "01.0103";
+            var foreignDegreeLevel = "degree level";
+            var foreignFieldOfStudy = "field of study";
+            var remarks = "remarks";
+
+            var instance = new SubjectField(code, foreignDegreeLevel, foreignFieldOfStudy, remarks);
+            var model = instance.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
+            Assert.AreEqual(code.GetProgSubjectCodeType(), model.SubjectFieldCode);
+            Assert.AreEqual(instance.Remarks, model.Remarks);
+            Assert.IsTrue(model.printForm);
+        }
     }
 }
