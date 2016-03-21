@@ -51,5 +51,19 @@ namespace ECA.Business.Validation.Sevis
                 SubjectFieldCode = this.SubjectFieldCode.GetProgSubjectCodeType()
             };
         }
+
+        /// <summary>
+        /// Returns the SEVISEVBatchTypeExchangeVisitorProgramEditSubject sevis model instance.
+        /// </summary>
+        /// <returns>The SEVISEVBatchTypeExchangeVisitorProgramEditSubject sevis model instance.</returns>
+        public SEVISEVBatchTypeExchangeVisitorProgramEditSubject GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject()
+        {
+            return new SEVISEVBatchTypeExchangeVisitorProgramEditSubject
+            {
+                printForm = true,
+                Remarks = this.Remarks,
+                SubjectFieldCode = this.SubjectFieldCode.GetProgSubjectCodeType()
+            };
+        }
     }
 }
