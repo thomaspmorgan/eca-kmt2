@@ -18,6 +18,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
+    /// <summary>
+    /// The ExchangeVisitorService is used to retreive exchange visitor information from an entity framework eca context.
+    /// </summary>
     public class ExchangeVisitorService : EcaService, IExchangeVisitorService
     {
         /// <summary>
@@ -65,6 +68,11 @@ namespace ECA.Business.Service.Persons
         private readonly Action<Participant> throwIfParticipantIsNotAPerson;
         private readonly Action<Participant, Project> throwIfProjectIsNotExchangeVisitorType;
 
+        /// <summary>
+        /// Creates a new ExchangeVisitorService and initializes the context and save actions.
+        /// </summary>
+        /// <param name="context">The context to operate against.</param>
+        /// <param name="saveActions">The context save actions.</param>
         public ExchangeVisitorService(EcaContext context, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
         {
