@@ -23,6 +23,7 @@ angular.module('staticApp')
         ProgramService,
         TableService,
         LocationService,
+        NavigationService,
         LookupService,
         ConstantsService,
         AuthService,
@@ -453,6 +454,7 @@ angular.module('staticApp')
             .then(function (response) {
                 $scope.$parent.project = response.data;
                 showSaveSuccess();
+                NavigationService.updateBreadcrumbs();
                 goToProjectOverview();
             }, function (error) {
                 showProjectEditCancelButton();
