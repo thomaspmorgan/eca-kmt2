@@ -83,7 +83,7 @@ namespace ECA.Core.Settings
         /// <summary>
         /// The sevis site of activity address key.
         /// </summary>
-        public const string SEVIS_SITE_OF_ACTIVITY_ADDRESS = SEVIS_PREFIX + "SiteOfActivityAddress";
+        public const string SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO = SEVIS_PREFIX + "SiteOfActivityAddressDTO";
         #endregion
 
         #region Database Constants
@@ -242,7 +242,7 @@ namespace ECA.Core.Settings
         /// <summary>
         /// Gets the azure SEVIS site of activity.
         /// </summary>
-        public string SevisSiteOfActivity { get { return GetAppSetting(SEVIS_SITE_OF_ACTIVITY_ADDRESS); } }
+        public string SevisSiteOfActivityAddressDTO { get { return GetAppSetting(SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO); } }
 
         /// <summary>
         /// Gets the active directory client id.

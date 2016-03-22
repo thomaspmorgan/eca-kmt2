@@ -42,7 +42,7 @@ namespace ECA.Business.Test.Service.Persons
             cStreetAddress = new AddressDTO();
             cStreetAddress.Street1 = "street1";
             cStreetAddressJson = JsonConvert.SerializeObject(cStreetAddress);
-            nameValueSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS, cStreetAddressJson);
+            nameValueSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, cStreetAddressJson);
 
             context = new TestEcaContext();
             service = new ExchangeVisitorService(context, appSettings);

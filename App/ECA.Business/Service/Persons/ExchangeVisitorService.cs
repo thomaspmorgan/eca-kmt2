@@ -33,32 +33,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// The max length of the subject field remarks.
         /// </summary>
-        public const int SUBJECT_FIELD_REMARKS_MAX_LENGTH = 500;
-
-        /// <summary>
-        /// The address 1 of the state dept site of activity.
-        /// </summary>
-        public const string SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1 = "2200 C Street, NW";
-
-        /// <summary>
-        /// The city of the state dept site of activity.
-        /// </summary>
-        public const string SITE_OF_ACTIVITY_STATE_DEPT_CITY = "Washington";
-
-        /// <summary>
-        /// The state of the state dept site of activity.
-        /// </summary>
-        public const string SITE_OF_ACTIVITY_STATE_DEPT_STATE = "DC";
-
-        /// <summary>
-        /// The postal code of the state dept site of activity.
-        /// </summary>
-        public const string SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE = "20522";        
-
-        /// <summary>
-        /// The name of the state dept site of activity.
-        /// </summary>
-        public const string SITE_OF_ACTIVITY_STATE_DEPT_NAME = "US Department of State";
+        public const int SUBJECT_FIELD_REMARKS_MAX_LENGTH = 500;        
 
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
         private readonly Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
@@ -305,7 +280,7 @@ namespace ECA.Business.Service.Persons
         public AddressDTO GetStateDepartmentCStreetAddress()
         {
             //get a configuration error if SevisSiteOfActivity is not defined.
-            var addressDTOAsJson = appSettings.SevisSiteOfActivity;
+            var addressDTOAsJson = appSettings.SevisSiteOfActivityAddressDTO;
             var addressDTO = JsonConvert.DeserializeObject<AddressDTO>(addressDTOAsJson);
             return addressDTO;
         }

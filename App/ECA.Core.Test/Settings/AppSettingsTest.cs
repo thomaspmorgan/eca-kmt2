@@ -140,11 +140,11 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
-        public void TestAppSettings_SevisSiteOfActivity()
+        public void TestAppSettings_SevisSiteOfActivityAddressDTO()
         {
             var value = "value";
-            appSettings.Add(AppSettings.SITE_OF_ACTIVITY_ADDRESS, value);
-            Assert.AreEqual(value, settings.SevisSiteOfActivity);
+            appSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, value);
+            Assert.AreEqual(value, settings.SevisSiteOfActivityAddressDTO);
         }
 
         [TestMethod]
