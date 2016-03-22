@@ -1,0 +1,941 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/17/2016 2:57:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{6A41B5AD-5072-4E36-A2F1-D1E4C0ECA1BC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.4100.1"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load CE Persons"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{6C04A276-975B-4F7E-9712-131E3EA3CB64}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{216CA8CC-C6B1-47A3-96C5-35123C1041C8}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\CE_PERSON"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CE_PERSON"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Person]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\CE_PERSON.Connections[OleDbConnection]"
+                  connectionManagerID="{5D8F5C50-636D-463C-A91F-EE92820556FD}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[BE00003308.CE]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_ID]"
+                      name="PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[GENDER_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[GENDER_CD]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[GENDER_CD]"
+                      name="GENDER_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[MARITAL_STATUS]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[MARITAL_STATUS]"
+                      name="MARITAL_STATUS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PREFIX_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PREFIX_CD]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PREFIX_CD]"
+                      name="PREFIX_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[FIRST_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[FIRST_NAME]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[FIRST_NAME]"
+                      name="FIRST_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[MIDDLE_NAME]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[MIDDLE_NAME]"
+                      name="MIDDLE_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[LAST_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[LAST_NAME]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[LAST_NAME]"
+                      name="LAST_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[SUFFIX_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[SUFFIX_CD]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[SUFFIX_CD]"
+                      name="SUFFIX_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[NICK_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[NICK_NAME]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[NICK_NAME]"
+                      name="NICK_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[TITLE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[TITLE]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[TITLE]"
+                      name="TITLE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_DATE]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_DATE]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_DATE]"
+                      name="BIRTH_DATE"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_CITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_CITY]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_CITY]"
+                      name="BIRTH_CITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_STATE_CD]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_STATE_CD]"
+                      name="BIRTH_STATE_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_PROVINCE]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_PROVINCE]"
+                      name="BIRTH_PROVINCE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_COUNTRY]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[BIRTH_COUNTRY]"
+                      name="BIRTH_COUNTRY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[DECEASED_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[DECEASED_IND]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[DECEASED_IND]"
+                      name="DECEASED_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[WEB_ADDRESS]"
+                      name="WEB_ADDRESS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_CREATE_ID]"
+                      name="PERSON_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_CREATE_DT]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_CREATE_DT]"
+                      name="PERSON_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_UPDATE_ID]"
+                      name="PERSON_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_UPDATE_DT]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_UPDATE_DT]"
+                      name="PERSON_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[GENDER_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="GENDER_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="MARITAL_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PREFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="PREFIX_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[FIRST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="FIRST_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="MIDDLE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[LAST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="LAST_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[SUFFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="SUFFIX_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[NICK_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="NICK_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      name="TITLE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_DATE]"
+                      dataType="dbTimeStampOffset"
+                      name="BIRTH_DATE"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_CITY]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_PROVINCE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[DECEASED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DECEASED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="255"
+                      name="WEB_ADDRESS" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].ExternalColumns[PERSON_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
+                      name="PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[GENDER_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[GENDER_CD]"
+                      name="GENDER_CD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[MARITAL_STATUS]"
+                      name="MARITAL_STATUS" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PREFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PREFIX_CD]"
+                      name="PREFIX_CD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[FIRST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[FIRST_NAME]"
+                      name="FIRST_NAME" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[MIDDLE_NAME]"
+                      name="MIDDLE_NAME" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[LAST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[LAST_NAME]"
+                      name="LAST_NAME" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[SUFFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[SUFFIX_CD]"
+                      name="SUFFIX_CD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[NICK_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[NICK_NAME]"
+                      name="NICK_NAME" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[TITLE]"
+                      name="TITLE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_DATE]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_DATE]"
+                      name="BIRTH_DATE"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_CITY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_CITY]"
+                      name="BIRTH_CITY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_STATE_CD]"
+                      name="BIRTH_STATE_CD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_PROVINCE]"
+                      name="BIRTH_PROVINCE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[BIRTH_COUNTRY]"
+                      name="BIRTH_COUNTRY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[DECEASED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[DECEASED_IND]"
+                      name="DECEASED_IND" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[WEB_ADDRESS]"
+                      name="WEB_ADDRESS" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_CREATE_ID]"
+                      name="PERSON_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_CREATE_DT]"
+                      name="PERSON_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_UPDATE_ID]"
+                      name="PERSON_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[PERSON_UPDATE_DT]"
+                      name="PERSON_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\KMT Person"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="KMT Person"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Person]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\KMT Person.Connections[OleDbConnection]"
+                  connectionManagerID="{D7B1D4D9-51C9-4512-931D-D9CBE25C2EC0}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].Columns[FIRST_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FIRST_NAME"
+                      externalMetadataColumnId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[FIRST_NAME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].Columns[LAST_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LAST_NAME"
+                      externalMetadataColumnId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[LAST_NAME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].Columns[PREFIX_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PREFIX_CD"
+                      externalMetadataColumnId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[NamePrefix]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PREFIX_CD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].Columns[SUFFIX_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SUFFIX_CD"
+                      externalMetadataColumnId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[NameSuffix]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[SUFFIX_CD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].Columns[MIDDLE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MIDDLE_NAME"
+                      externalMetadataColumnId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[MiddleName]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[MIDDLE_NAME]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].Columns[PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_ID"
+                      externalMetadataColumnId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[CE_PersonId]"
+                      lineageId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output].Columns[PERSON_ID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[PersonId]"
+                      dataType="i4"
+                      name="PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[PersonTypeId]"
+                      dataType="i4"
+                      name="PersonTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      dataType="wstr"
+                      length="50"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      dataType="wstr"
+                      length="50"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[SecondLastName]"
+                      dataType="wstr"
+                      length="50"
+                      name="SecondLastName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[NamePrefix]"
+                      dataType="wstr"
+                      length="20"
+                      name="NamePrefix" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[NameSuffix]"
+                      dataType="wstr"
+                      length="20"
+                      name="NameSuffix" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[GivenName]"
+                      dataType="wstr"
+                      length="50"
+                      name="GivenName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[FamilyName]"
+                      dataType="wstr"
+                      length="50"
+                      name="FamilyName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[MiddleName]"
+                      dataType="wstr"
+                      length="50"
+                      name="MiddleName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[Patronym]"
+                      dataType="wstr"
+                      length="50"
+                      name="Patronym" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[Alias]"
+                      dataType="wstr"
+                      length="50"
+                      name="Alias" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[FullName]"
+                      dataType="wstr"
+                      length="296"
+                      name="FullName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[GenderId]"
+                      dataType="i4"
+                      name="GenderId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[DateOfBirth]"
+                      dataType="dbTimeStamp2"
+                      name="DateOfBirth"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[Ethnicity]"
+                      dataType="wstr"
+                      length="100"
+                      name="Ethnicity" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[Location_LocationId]"
+                      dataType="i4"
+                      name="Location_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[MedicalConditions]"
+                      dataType="wstr"
+                      length="2000"
+                      name="MedicalConditions" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[Awards]"
+                      dataType="wstr"
+                      length="2000"
+                      name="Awards" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[MaritalStatusId]"
+                      dataType="i4"
+                      name="MaritalStatusId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[PlaceOfBirth_LocationId]"
+                      dataType="i4"
+                      name="PlaceOfBirth_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[HasContactAgreement]"
+                      dataType="bool"
+                      name="HasContactAgreement" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[IsDateOfBirthUnknown]"
+                      dataType="bool"
+                      name="IsDateOfBirthUnknown" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[IsDateOfBirthEstimated]"
+                      dataType="bool"
+                      name="IsDateOfBirthEstimated" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[IsPlaceOfBirthUnknown]"
+                      dataType="bool"
+                      name="IsPlaceOfBirthUnknown" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PersonId]"
+                      dataType="wstr"
+                      length="32"
+                      name="IVLP_PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input].ExternalColumns[CE_PersonId]"
+                      dataType="wstr"
+                      length="32"
+                      name="CE_PersonId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\KMT Person.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\KMT Person.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\KMT Person.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\KMT Person.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\KMT Person.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\KMT Person.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\CE_PERSON.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Data Flow Task\CE_PERSON"
+          TopLeft="55.5,22.5" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Data Flow Task\KMT Person"
+          TopLeft="59.5,140.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="125.25,64.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,76"
+              Start="0,0"
+              End="0,68.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\CE_PERSON">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\KMT Person">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
