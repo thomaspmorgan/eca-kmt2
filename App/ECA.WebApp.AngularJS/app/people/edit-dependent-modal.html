@@ -13,8 +13,8 @@
                 <div class="col-md-4 title-label">Relationship<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
                     <ui-select name="persontype" ng-model="dependent.personTypeId" theme="select2" required>
-                        <ui-select-match placeholder="Select persontype">
-                            <div>{{$select.selected.value}}</div>
+                        <ui-select-match placeholder="Select relationship">
+                            <div>{{$select.selected.name}}</div>
                         </ui-select-match>
                         <ui-select-choices repeat="persontype.id as persontype in persontypes">
                             <div ng-bind-html="persontype.name"></div>

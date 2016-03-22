@@ -131,24 +131,23 @@ angular.module('staticApp')
       }
 
       LookupService.getAllGenders({
-          limit: 300,
-          filter: [{
-              property: 'id', comparison: ConstantsService.inComparisonType, value: [1,2] }]
-         })
-         .then(function (data) {
-             $scope.genders = data.results;
-         });
-      
+            limit: 300,
+            filter: [{
+                property: 'id', comparison: ConstantsService.inComparisonType, value: [1, 2]
+            }]
+        })
+        .then(function (data) {
+            $scope.genders = data.results;
+        });
 
       LookupService.getPersonTypes({
-          limit: 300,
-              filter: [{ property: 'isDependentPersonType', comparison: 'eq', value: true }]
-         })
-         .then(function(data) {
-             $scope.persontypes = data.results;
-         });
-
-
+            limit: 300,
+            filter: [{ property: 'isDependentPersonType', comparison: 'eq', value: true }]
+        })
+        .then(function (data) {
+            $scope.persontypes = data.data.results;
+        });
+      
       $scope.cancelEditDependent = function () {
           loadDependent($scope.person.personId);
       };
