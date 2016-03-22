@@ -16,6 +16,7 @@ angular.module('staticApp')
         OrganizationService,
         BrowserService,
         ConstantsService,
+        NavigationService,
         NotificationService) {
 
       $scope.view = {};
@@ -49,6 +50,7 @@ angular.module('staticApp')
               $scope.organization = results.data;
               $scope.view.showEditDetails = false;
               isOrganizationLoading(false);
+              NavigationService.updateBreadcrumbs();
               NotificationService.showSuccessMessage('Successfully updated the organization.');
           })
           .catch(function () {

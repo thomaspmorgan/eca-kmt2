@@ -214,7 +214,8 @@
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
-		sevisStatuses: '[2, 3, 4, 5]'
+		sevisStatuses: '[2, 3, 4, 5]',
+		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
 

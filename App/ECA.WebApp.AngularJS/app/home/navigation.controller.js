@@ -14,6 +14,7 @@ angular.module('staticApp')
       $state,
       $log,
       StateService,
+      NavigationService,
       OrganizationService,
       PersonService,
       OfficeService,
@@ -33,6 +34,11 @@ angular.module('staticApp')
       $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
           handleStateChangeSuccess(toState, toParams);
       });
+      $rootScope.$on(ConstantsService.updateBreadcrumbsEventName, function () {
+          console.assert(currentStatePrefix, 'The current state prefix must have a value.');
+          console.assert(currentStateParams, 'The current state params must have a value.');
+          setBreadcrumbsByState(currentStatePrefix, currentStateParams);
+      });
 
       function handleStateChangeSuccess(toState, toParams) {
           var dotIndex = toState.name.indexOf('.');
@@ -42,14 +48,14 @@ angular.module('staticApp')
           }
           if (prefix !== currentStatePrefix || !areStateParamsEqual(toParams, currentStateParams)) {
               currentStatePrefix = prefix;
-              currentStateParams = toParams;
-              clearBreadcrumbs();
+              currentStateParams = toParams;              
               setBreadcrumbsByState(currentStatePrefix, currentStateParams);
           }
       }
 
       function setBreadcrumbsByState(stateName, stateParams) {
           $scope.view.isLoadingBreadcrumbs = true;
+          clearBreadcrumbs();
           if (StateService.isProjectState(stateName)) {
               return ProjectService.getById(stateParams.projectId)
               .then(function (response) {
@@ -86,6 +92,7 @@ angular.module('staticApp')
               });
           }
           else {
+              $scope.view.isLoadingBreadcrumbs = false;
               $log.info('No entity to set breadcrumbs to.');
           }
       }

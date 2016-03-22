@@ -87,7 +87,7 @@
 	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
 	otherConstants["emailRegex"] = @"^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$";
-
+	otherConstants["updateBreadcrumbsEventName"] = "updateBreadcrumbs";
 
 	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
 	WriteTypes(types, otherConstants);
