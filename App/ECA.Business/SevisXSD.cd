@@ -248,7 +248,7 @@
   <Class Name="ECA.Business.Sevis.Model.TippPhase" Collapsed="true">
     <Position X="45.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAABAAAAAIgAAAAAAAA=</HashCode>
+      <HashCode>AABACEIwBAAUogEAAJAo0WogAggBAABjgIwAAFAgRAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -421,7 +421,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorDependentEndStatus">
-    <Position X="16.75" Y="24.25" Width="3.75" />
+    <Position X="16" Y="24.25" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAgAIAAAQIAAIAAAAAAAAEAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>

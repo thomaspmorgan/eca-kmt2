@@ -2,17 +2,20 @@
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service;
-using ECA.Business.Service.Admin;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Core.Exceptions;
+using ECA.Core.Settings;
 using ECA.Data;
 using FluentAssertions;
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,23 +26,26 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ExchangeVisitorService service;
-
-        private Action<AddressDTO> usStateDeptAddressTester;
+        private AppSettings appSettings;
+        private NameValueCollection nameValueSettings;
+        private ConnectionStringSettingsCollection connectionStrings;
+        private AddressDTO cStreetAddress;
+        private string cStreetAddressJson;
 
         [TestInitialize]
         public void TestInit()
         {
+            nameValueSettings = new NameValueCollection();
+            connectionStrings = new ConnectionStringSettingsCollection();
+            appSettings = new AppSettings(nameValueSettings, connectionStrings);
+
+            cStreetAddress = new AddressDTO();
+            cStreetAddress.Street1 = "street1";
+            cStreetAddressJson = JsonConvert.SerializeObject(cStreetAddress);
+            nameValueSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, cStreetAddressJson);
+
             context = new TestEcaContext();
-            service = new ExchangeVisitorService(context);
-            usStateDeptAddressTester = (address) =>
-            {
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, address.Street1);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, address.City);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, address.Division);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, address.PostalCode);
-                Assert.AreEqual(LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME, address.Country);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, address.LocationName);
-            };
+            service = new ExchangeVisitorService(context, appSettings);
         }
 
         #region GetExchangeVisitor
@@ -936,7 +942,9 @@ namespace ECA.Business.Test.Service.Persons
         public void TestGetStateDepartmentCStreetAddress()
         {
             var address = service.GetStateDepartmentCStreetAddress();
-            usStateDeptAddressTester(address);
+            Assert.AreEqual(cStreetAddressJson, JsonConvert.SerializeObject(address));
+            //sanity check
+            Assert.AreEqual(cStreetAddress.Street1, address.Street1);
         }
         #endregion
 
