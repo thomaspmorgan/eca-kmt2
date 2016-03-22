@@ -98,7 +98,7 @@
                 <div class="form-group row">
                     <div class="col-md-3 title-label">Visitor Type</div>
                     <div class="col-md-9">
-                        <ui-select search-enabled="false" close-on-select="true" ng-model="project.visitorTypeId" theme="select2" title="Choose a visitor type." style="min-width: 200px;">
+                        <ui-select search-enabled="false" close-on-select="true" ng-model="project.visitorTypeId" theme="select2" title="Choose a visitor type." style="min-width: 200px;" on-select="editView.visitorTypeSelected($select.selected.id)">
                             <ui-select-match placeholder="Select visitor type...">
                                 <div>{{$select.selected.value}}</div>
                             </ui-select-match>

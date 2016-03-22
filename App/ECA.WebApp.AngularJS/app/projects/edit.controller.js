@@ -305,6 +305,22 @@ angular.module('staticApp')
           });
       }
 
+      $scope.editView.visitorTypeSelected = function (visitorTypeId) {
+          if (!$scope.editView.sevisFunding && visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
+              $scope.editView.sevisFunding = {};
+              $scope.editView.sevisFunding.fundingSponsor = 0;
+              $scope.editView.sevisFunding.fundingPersonal = 0;
+              $scope.editView.sevisFunding.fundingVisGovt = 0;
+              $scope.editView.sevisFunding.fundingVisBNC = 0;
+              $scope.editView.sevisFunding.fundingGovtAgency1 = 0;
+              $scope.editView.sevisFunding.fundingGovtAgency2 = 0;
+              $scope.editView.sevisFunding.fundingIntlOrg1 = 0;
+              $scope.editView.sevisFunding.fundingIntlOrg2 = 0;
+              $scope.editView.sevisFunding.fundingOther = 0;
+              $scope.editView.sevisFunding.total = 0;
+          }
+      }
+
       function onFormValidStateChange() {
           var isInvalid = $scope.form.projectForm.$invalid;
           if (isInvalid) {
@@ -457,32 +473,51 @@ angular.module('staticApp')
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
                 $scope.$parent.project = response.data;
-                DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
-                    .then(function () {});
                 showSaveSuccess();
-                goToProjectOverview();
-            }, function (error) {
-                showProjectEditCancelButton();
-                if (error.status === 400) {
-                    if (error.data.message && error.data.modelState) {
-                        for (var key in error.data.modelState) {
-                            NotificationService.showErrorMessage(error.data.modelState[key][0]);
-                        }
-                    }
-                    else if (error.data.Message && error.data.ValidationErrors) {
-                        for (var key in error.data.ValidationErrors) {
-                            NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
-                        }
-                    } else {
-                        NotificationService.showErrorMessage(error.data);
-                    }
+                if ($scope.$parent.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
+                    $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
+                        .then(function () {
+                            goToProjectOverview();
+                        }, errorCallback);
                 }
-            })
+            }, errorCallback)
             .then(function () {
                 $scope.editView.isSaving = false;
                 enableProjectStatusButton();
             });
 
+      }
+
+      function getSevisFundingTotal() {
+          var total = $scope.editView.sevisFunding.fundingSponsor +
+          $scope.editView.sevisFunding.fundingPersonal +
+          $scope.editView.sevisFunding.fundingVisGovt +
+          $scope.editView.sevisFunding.fundingVisBNC +
+          $scope.editView.sevisFunding.fundingGovtAgency1 +
+          $scope.editView.sevisFunding.fundingGovtAgency2 +
+          $scope.editView.sevisFunding.fundingIntlOrg1 +
+          $scope.editView.sevisFunding.fundingIntlOrg2 +
+          $scope.editView.sevisFunding.fundingOther;
+          return total;
+      }
+
+      function errorCallback(error) {
+        showProjectEditCancelButton();
+        if (error.status === 400) {
+            if (error.data.message && error.data.modelState) {
+                for (var key in error.data.modelState) {
+                    NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                }
+            }
+            else if (error.data.Message && error.data.ValidationErrors) {
+                for (var key in error.data.ValidationErrors) {
+                    NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                }
+            } else {
+                NotificationService.showErrorMessage(error.data);
+            }
+        }
       }
 
       function showSaveSuccess() {
