@@ -10,6 +10,11 @@ namespace ECA.Business.Queries.Models.Persons
     public class SimplePersonDependentDTO : SimplePersonDTO, IAuditable
     {
         /// <summary>
+        /// Gets the person type id.
+        /// </summary>
+        public int PersonTypeId { get; set; }
+
+        /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
         public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }

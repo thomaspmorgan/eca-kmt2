@@ -16,9 +16,9 @@ namespace ECA.Business.Service.Persons
         /// <param name="nameSuffix">The name suffix</param>
         /// <param name="passportName">The passport name</param>
         /// <param name="preferredName">The preferred name</param>
-        /// <param name="gender">The gender</param>
+        /// <param name="genderId">The gender</param>
         /// <param name="dateOfBirth">The date of birth</param>
-        /// <param name="cityOfBirth">The city of birth</param>
+        /// <param name="cityOfBirthId">The city of birth</param>
         /// <param name="emailAddress">The email address</param>
         /// <param name="personTypeId">The person type id</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
@@ -32,9 +32,9 @@ namespace ECA.Business.Service.Persons
             string nameSuffix,
             string passportName,
             string preferredName,
-            int gender,
+            int genderId,
             DateTime? dateOfBirth,
-            int? cityOfBirth,
+            int? cityOfBirthId,
             string emailAddress,
             int personTypeId,
             List<int> countriesOfCitizenship,
@@ -52,9 +52,9 @@ namespace ECA.Business.Service.Persons
             this.NameSuffix = nameSuffix;
             this.PassportName = passportName;
             this.PreferredName = preferredName;
-            this.Gender = gender;
+            this.GenderId = genderId;
             this.DateOfBirth = dateOfBirth;
-            this.CityOfBirth = cityOfBirth;
+            this.CityOfBirthId = cityOfBirthId;
             this.EmailAddress = emailAddress;
             this.PersonTypeId = personTypeId;
             this.CountriesOfCitizenship = countriesOfCitizenship;
@@ -71,17 +71,17 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets the person type id.
         /// </summary>
-        public int PersonTypeId { get; private set; }
+        public int PersonTypeId { get; set; }
 
         /// <summary>
         /// Gets and sets the first name
         /// </summary>
-        public string FirstName { get; private set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Gets and sets the last name
         /// </summary>
-        public string LastName { get; private set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Gets or sets the name suffix.
@@ -101,17 +101,17 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; private set; }
+        public int GenderId { get; set; }
 
         /// <summary>
         /// Gets and sets the date of birth
         /// </summary>
-        public DateTime? DateOfBirth { get; private set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int? CityOfBirth { get; private set; }
+        public int? CityOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the email address
@@ -121,7 +121,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<int> CountriesOfCitizenship { get; private set; }
+        public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets the premanent residence country code

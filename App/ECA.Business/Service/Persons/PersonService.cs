@@ -247,10 +247,10 @@ namespace ECA.Business.Service.Persons
         {
             var personToUpdate = await GetPersonModelByIdAsync(updatedDependent.PersonId);
             Location cityOfBirth = null;
-            if (updatedDependent.CityOfBirth.HasValue)
+            if (updatedDependent.CityOfBirthId.HasValue)
             {
-                cityOfBirth = await GetLocationByIdAsync(updatedDependent.CityOfBirth.Value);
-                throwIfLocationNotFound(cityOfBirth, updatedDependent.CityOfBirth.Value);
+                cityOfBirth = await GetLocationByIdAsync(updatedDependent.CityOfBirthId.Value);
+                throwIfLocationNotFound(cityOfBirth, updatedDependent.CityOfBirthId.Value);
             }
             var countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
             DoDependentUpdate(updatedDependent, personToUpdate, cityOfBirth, countriesOfCitizenship);
@@ -266,7 +266,7 @@ namespace ECA.Business.Service.Persons
             person.FullName = updateDependent.PreferredName;
             //person.PassportName = updateDependent.PassportName;
             person.DateOfBirth = updateDependent.DateOfBirth;
-            person.GenderId = updateDependent.Gender;
+            person.GenderId = updateDependent.GenderId;
             person.PlaceOfBirthId = cityOfBirth != null ? cityOfBirth.LocationId : 0;
             //person.Addresses = addresses;
             //person.EmailAddresses = emails;
@@ -622,9 +622,9 @@ namespace ECA.Business.Service.Persons
                 LastName = newPerson.LastName,
                 NameSuffix = newPerson.NameSuffix,
                 FullName = newPerson.PassportName,
-                GenderId = newPerson.Gender,
+                GenderId = newPerson.GenderId,
                 DateOfBirth = newPerson.DateOfBirth,
-                PlaceOfBirthId = newPerson.CityOfBirth,
+                PlaceOfBirthId = newPerson.CityOfBirthId,
                 PersonTypeId = newPerson.PersonTypeId,
                 CountriesOfCitizenship = countriesOfCitizenship,
                 //EmailAddresses = newPerson.EmailAddress;

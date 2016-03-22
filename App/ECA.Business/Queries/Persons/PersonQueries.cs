@@ -155,6 +155,7 @@ namespace ECA.Business.Queries.Persons
                         select new SimplePersonDependentDTO
                         {
                             PersonId = person.PersonId,
+                            PersonTypeId = person.PersonTypeId,
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NameSuffix = person.NameSuffix,

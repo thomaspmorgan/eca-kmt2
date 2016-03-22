@@ -1727,8 +1727,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
                 Assert.AreEqual(newPerson.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
-                Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
-                Assert.AreEqual(newPerson.CityOfBirth, testPerson.PlaceOfBirthId);
+                Assert.AreEqual(newPerson.GenderId, testPerson.GenderId);
+                Assert.AreEqual(newPerson.CityOfBirthId, testPerson.PlaceOfBirthId);
                 //Assert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).ToList());
                 Assert.AreEqual(newPerson.PersonTypeId, testPerson.PersonTypeId);
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);

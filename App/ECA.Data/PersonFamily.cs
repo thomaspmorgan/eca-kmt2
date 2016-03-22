@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
     public class PersonFamily : IHistorical
     {
-        //public PersonFamily()
-        //{
-        //    Dependents = new HashSet<Person>();
-        //}
-
         /// <summary>
         /// Gets or sets the person id.
         /// </summary>
@@ -33,9 +27,6 @@ namespace ECA.Data
         /// <summary>
         /// create/update time and user
         /// </summary>
-        public History History { get; set; }
-        
-
-        //public virtual ICollection<Person> Dependents { get; set; }
+        public History History { get; set; }        
     }
 }

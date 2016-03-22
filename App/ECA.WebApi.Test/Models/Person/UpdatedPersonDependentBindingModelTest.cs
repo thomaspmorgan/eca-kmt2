@@ -38,9 +38,9 @@ namespace ECA.WebApi.Test.Models.Person
                 NameSuffix = suffix,
                 PassportName = passport,
                 PreferredName = preferred,
-                Gender = gender,
+                GenderId = gender,
                 DateOfBirth = dateOfBirth,
-                CityOfBirth = placeOfBirth.CityId,
+                CityOfBirthId = placeOfBirth.CityId,
                 PersonTypeId = personTypeId,
                 CountriesOfCitizenship = countriesOfCitizenship,
                 PermanentResidenceCountryCode = permanentResidenceCountryCode,
@@ -52,9 +52,9 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.LastName, instance.LastName);
             Assert.AreEqual(model.PassportName, instance.PassportName);
             Assert.AreEqual(model.PreferredName, instance.PreferredName);
-            Assert.AreEqual(model.Gender, instance.Gender);
+            Assert.AreEqual(model.GenderId, instance.GenderId);
             Assert.AreEqual(model.DateOfBirth, instance.DateOfBirth);
-            Assert.AreEqual(model.CityOfBirth, instance.CityOfBirth);
+            Assert.AreEqual(model.CityOfBirthId, instance.CityOfBirthId);
             Assert.AreEqual(model.PersonTypeId, instance.PersonTypeId);
             CollectionAssert.AreEqual(model.CountriesOfCitizenship, instance.CountriesOfCitizenship);
             Assert.AreEqual(model.PermanentResidenceCountryCode, instance.PermanentResidenceCountryCode);

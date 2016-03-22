@@ -11,7 +11,7 @@ angular.module('staticApp')
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
-      $scope.piiLoading = true;
+      $scope.edit.piiLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
       $scope.unknownCountryId = 0;
@@ -70,7 +70,7 @@ angular.module('staticApp')
         });
 
       function loadPii(personId) {
-          $scope.piiLoading = true;
+          $scope.edit.piiLoading = true;
           return PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
@@ -92,10 +92,10 @@ angular.module('staticApp')
                  
                  return loadCities(null)
                  .then(function () {
-                     $scope.piiLoading = false;
+                     $scope.edit.piiLoading = false;
                  })
                  .catch(function() {
-                     $scope.piiLoading = false;
+                     $scope.edit.piiLoading = false;
                  });
              });
       };

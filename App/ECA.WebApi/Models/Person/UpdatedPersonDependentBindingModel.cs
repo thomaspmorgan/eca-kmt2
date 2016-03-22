@@ -48,7 +48,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the gender
         /// </summary>
-        public int Gender { get; set; }
+        public int GenderId { get; set; }
 
         /// <summary>
         /// Gets and sets the date of birth
@@ -58,7 +58,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets and sets the city of birth
         /// </summary>
-        public int? CityOfBirth { get; set; }
+        public int? CityOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the email address
@@ -95,9 +95,9 @@ namespace ECA.WebApi.Models.Person
                 nameSuffix: NameSuffix,
                 passportName: PassportName,
                 preferredName: PreferredName,
-                gender: Gender,
+                genderId: GenderId,
                 dateOfBirth: DateOfBirth,
-                cityOfBirth: CityOfBirth,
+                cityOfBirthId: CityOfBirthId,
                 emailAddress: EmailAddress,
                 personTypeId: PersonTypeId,
                 countriesOfCitizenship: CountriesOfCitizenship,

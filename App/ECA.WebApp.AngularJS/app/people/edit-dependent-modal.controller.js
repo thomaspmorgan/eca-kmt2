@@ -51,7 +51,7 @@ angular.module('staticApp')
       };
 
       $scope.updateDependentGender = function () {
-          $scope.dependent.gender = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
+          $scope.dependent.genderId = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
       };
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -139,6 +139,16 @@ angular.module('staticApp')
              $scope.genders = data.results;
          });
       
+
+      LookupService.getPersonTypes({
+          limit: 300,
+              filter: [{ property: 'isDependentPersonType', comparison: 'eq', value: true }]
+         })
+         .then(function(data) {
+             $scope.persontypes = data.results;
+         });
+
+
       $scope.cancelEditDependent = function () {
           loadDependent($scope.person.personId);
       };
