@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
@@ -9,43 +10,53 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(OtherFundsValidator))]
     public class OtherFunds
     {
-        public OtherFunds(string evGovt, string binationalCommission, string personal, USGovt usGovt, International international, Other other)
+        /// <summary>
+        /// Creates a new OtherFunds instance with the given values.
+        /// </summary>
+        /// <param name="exchangeVisitorGovernment">The exchange visitor government funding value.</param>
+        /// <param name="binationalCommission">the binational commission funding value.</param>
+        /// <param name="personal">The person funding value.</param>
+        /// <param name="usGovernmentFunding">The USGovernment funding value.</param>
+        /// <param name="internationalFunding">The International funding value.</param>
+        /// <param name="other">The other funding value.</param>
+        [JsonConstructor]
+        public OtherFunds(string exchangeVisitorGovernment, string binationalCommission, string personal, USGovernmentFunding usGovernmentFunding, InternationalFunding internationalFunding, Other other)
         {
-            this.EVGovt = evGovt;
+            this.ExchangeVisitorGovernment = exchangeVisitorGovernment;
             this.BinationalCommission = binationalCommission;
             this.Personal = personal;
-            this.USGovt = usGovt;
-            this.International = international;
+            this.USGovernmentFunding = usGovernmentFunding;
+            this.InternationalFunding = internationalFunding;
             this.Other = other;
         }
 
         /// <summary>
-        /// US government organization
+        /// Gets or sets the US government organization.
         /// </summary>
-        public USGovt USGovt { get; private set; }
+        public USGovernmentFunding USGovernmentFunding { get; private set; }
 
         /// <summary>
-        /// International organization funding
+        /// Gets or sets the International organization funding.
         /// </summary>
-        public International International { get; private set; }
+        public InternationalFunding InternationalFunding { get; private set; }
 
         /// <summary>
-        /// Funding from exchange visitor government
+        /// Gets or sets the funding from exchange visitor government.
         /// </summary>
-        public string EVGovt { get; private set; }
+        public string ExchangeVisitorGovernment { get; private set; }
 
         /// <summary>
-        /// Funding from binational commission
+        /// Gets or sets the funding from binational commission.
         /// </summary>
         public string BinationalCommission { get; private set; }
 
         /// <summary>
-        /// Other organization funding
+        /// Gets or sets the other organization funding.
         /// </summary>
         public Other Other { get; private set; }
 
         /// <summary>
-        /// Personal funds
+        /// Gets or sets the exchange visitors personal funding.
         /// </summary>
         public string Personal { get; private set; }
 
@@ -59,15 +70,15 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 BinationalCommission = this.BinationalCommission,
                 Personal = this.Personal,
-                EVGovt = this.EVGovt,
+                EVGovt = this.ExchangeVisitorGovernment,
             };
-            if (this.USGovt != null)
+            if (this.USGovernmentFunding != null)
             {
-                instance.USGovt = this.USGovt.GetOtherFundsTypeUSGovt();
+                instance.USGovt = this.USGovernmentFunding.GetOtherFundsTypeUSGovt();
             }
-            if (this.International != null)
+            if (this.InternationalFunding != null)
             {
-                instance.International = this.International.GetOtherFundsTypeInternational();
+                instance.International = this.InternationalFunding.GetOtherFundsTypeInternational();
             }
             if(this.Other != null)
             {
@@ -86,15 +97,15 @@ namespace ECA.Business.Validation.Sevis.Finance
             {
                 BinationalCommission = this.BinationalCommission,
                 Personal = this.Personal,
-                EVGovt = this.EVGovt,
+                EVGovt = this.ExchangeVisitorGovernment,
             };
-            if (this.USGovt != null)
+            if (this.USGovernmentFunding != null)
             {
-                instance.USGovt = this.USGovt.GetOtherFundsNullableTypeUSGovt();
+                instance.USGovt = this.USGovernmentFunding.GetOtherFundsNullableTypeUSGovt();
             }
-            if (this.International != null)
+            if (this.InternationalFunding != null)
             {
-                instance.International = this.International.GetOtherFundsNullableTypeInternational();
+                instance.International = this.InternationalFunding.GetOtherFundsNullableTypeInternational();
             }
             if (this.Other != null)
             {

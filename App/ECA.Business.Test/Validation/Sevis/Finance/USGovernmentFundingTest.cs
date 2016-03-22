@@ -2,11 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
     [TestClass]
-    public class USGovtTest
+    public class USGovernmentFundingTest
     {
         [TestMethod]
         public void TestConstructor()
@@ -17,20 +18,50 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var amount2 = "amount 2";
             var otherName1 = "other 1";
             var otherName2 = "other 2";
-            var instance = new USGovt(org1, otherName1, amount1, org2, otherName2, amount2);
+            var instance = new USGovernmentFunding(org1, otherName1, amount1, org2, otherName2, amount2);
             Assert.AreEqual(org1, instance.Org1);
             Assert.AreEqual(org2, instance.Org2);
             Assert.AreEqual(amount1, instance.Amount1);
             Assert.AreEqual(amount2, instance.Amount2);
             Assert.AreEqual(otherName1, instance.OtherName1);
             Assert.AreEqual(otherName2, instance.OtherName2);
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonTestObject = JsonConvert.DeserializeObject<USGovernmentFunding>(json);
+            Assert.AreEqual(org1, jsonTestObject.Org1);
+            Assert.AreEqual(org2, jsonTestObject.Org2);
+            Assert.AreEqual(amount1, jsonTestObject.Amount1);
+            Assert.AreEqual(amount2, jsonTestObject.Amount2);
+            Assert.AreEqual(otherName1, jsonTestObject.OtherName1);
+            Assert.AreEqual(otherName2, jsonTestObject.OtherName2);
+        }
+
+        [TestMethod]
+        public void TestJsonSerialization()
+        {
+            var org1 = "org1";
+            var org2 = "org2";
+            var amount1 = "amount 1";
+            var amount2 = "amount 2";
+            var otherName1 = "other 1";
+            var otherName2 = "other 2";
+            var instance = new USGovernmentFunding(org1, otherName1, amount1, org2, otherName2, amount2);
+
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonTestObject = JsonConvert.DeserializeObject<USGovernmentFunding>(json);
+            Assert.AreEqual(org1, jsonTestObject.Org1);
+            Assert.AreEqual(org2, jsonTestObject.Org2);
+            Assert.AreEqual(amount1, jsonTestObject.Amount1);
+            Assert.AreEqual(amount2, jsonTestObject.Amount2);
+            Assert.AreEqual(otherName1, jsonTestObject.OtherName1);
+            Assert.AreEqual(otherName2, jsonTestObject.OtherName2);
         }
 
         [TestMethod]
         public void TestGetOtherFundsTypeUSGovt_USGovAgency1Only()
         {
             var agencyCode1 = GovAgencyCodeType.DOE;
-            var usGov = new USGovt(
+            var usGov = new USGovernmentFunding(
                org1: agencyCode1.ToString(),
                amount1: "amount 1",
                otherName1: null,
@@ -52,7 +83,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         {
             var agencyCode1 = GovAgencyCodeType.DOE;
             var agencyCode2 = GovAgencyCodeType.DOD;
-            var usGov = new USGovt(
+            var usGov = new USGovernmentFunding(
                org1: agencyCode1.ToString(),
                amount1: "amount 1",
                otherName1: null,
@@ -76,7 +107,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         public void TestGetOtherFundsTypeUSGovt_OtherUsGovAgency1()
         {
             var agencyCode1 = GovAgencyCodeType.OTHER;
-            var usGov = new USGovt(
+            var usGov = new USGovernmentFunding(
                org1: agencyCode1.ToString(),
                amount1: "amount 1",
                otherName1: "other 1 name",
@@ -98,7 +129,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         {
             var agencyCode1 = GovAgencyCodeType.OTHER;
             var agencyCode2 = GovAgencyCodeType.OTHER;
-            var usGov = new USGovt(
+            var usGov = new USGovernmentFunding(
                org1: agencyCode1.ToString(),
                amount1: "amount 1",
                otherName1: "other 1 name",
@@ -123,7 +154,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var agencyCode1 = GovAgencyCodeType.BBG;
             var agencyCode2 = GovAgencyCodeType.DOED;
 
-            var usGov = new USGovt(
+            var usGov = new USGovernmentFunding(
                org1: agencyCode1.ToString(),
                amount1: "amount 1",
                otherName1: "other 1 name",

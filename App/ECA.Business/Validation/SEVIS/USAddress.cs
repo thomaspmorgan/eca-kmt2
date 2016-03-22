@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECA.Business.Validation.Sevis
@@ -7,15 +8,27 @@ namespace ECA.Business.Validation.Sevis
     /// <summary>
     /// U.S. physical address
     /// </summary>
-    [Validator(typeof(AddressDTOValidator))]
     public class USAddress
-    {
+    { 
         /// <summary>
-        /// Creates a new default instance.
+        /// Creates a new USAddress instance.
         /// </summary>
-        public USAddress()
+        /// <param name="address1">The address 1 value.</param>
+        /// <param name="address2">The address 2 value.</param>
+        /// <param name="city">The city of the address.</param>
+        /// <param name="state">The state of the address.</param>
+        /// <param name="postalCode">The postal code of the address.</param>
+        /// <param name="explanationCode">The explanation code.</param>
+        /// <param name="explanation">The explanation.</param>
+        public USAddress(string address1, string address2, string city, string state, string postalCode, string explanationCode, string explanation)
         {
-            
+            this.Address1 = address1;
+            this.Address2 = address2;
+            this.City = city;
+            this.State = state;
+            this.PostalCode = postalCode;
+            this.Explanation = explanation;
+            this.ExplanationCode = explanationCode;
         }
 
         /// <summary>
@@ -59,6 +72,16 @@ namespace ECA.Business.Validation.Sevis
         /// <returns>A Sevis USAddress instance from this address.</returns>
         public USAddrDoctorType GetUSAddressDoctorType()
         {
+            Func<string, bool> isCodeSpecified = (value) =>
+            {
+                return !string.IsNullOrWhiteSpace(value);
+            };
+
+            USAddrDoctorTypeExplanationCode? explanationCodeInstance = null;
+            if (isCodeSpecified(this.ExplanationCode))
+            {
+                explanationCodeInstance = this.ExplanationCode.GetUSAddrDoctorTypeExplanationCode();
+            }
             return new USAddrDoctorType
             {
                 Address1 = this.Address1,
@@ -67,7 +90,8 @@ namespace ECA.Business.Validation.Sevis
                 PostalCode = this.PostalCode,
                 State = this.State.GetStateCodeType(),
                 Explanation = this.Explanation,
-                ExplanationCodeSpecified = false
+                ExplanationCodeSpecified = isCodeSpecified(this.ExplanationCode),
+                ExplanationCode = explanationCodeInstance
             };
         }
     }

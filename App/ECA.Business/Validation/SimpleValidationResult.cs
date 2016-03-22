@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace ECA.Business.Validation
 {
@@ -29,7 +30,7 @@ namespace ECA.Business.Validation
                 }
                 errors.Add(new SimpleValidationFailure(errorPath, error.ErrorMessage, error.PropertyName));
             }
-            this.Errors = errors;
+            this.Errors = errors.OrderBy(x => x.ErrorMessage);
         }
 
         /// <summary>
@@ -41,10 +42,17 @@ namespace ECA.Business.Validation
         {
             this.IsValid = isValid;
             this.Errors = errors ?? new List<SimpleValidationFailure>();
+            this.Errors = this.Errors.OrderBy(x => x.ErrorMessage);
         }
 
+        /// <summary>
+        /// Gets the Is Valid flag.
+        /// </summary>
         public bool IsValid { get; private set; }
 
+        /// <summary>
+        /// Gets the collection of errors.
+        /// </summary>
         public IEnumerable<SimpleValidationFailure> Errors { get; private set; }
     }
 }

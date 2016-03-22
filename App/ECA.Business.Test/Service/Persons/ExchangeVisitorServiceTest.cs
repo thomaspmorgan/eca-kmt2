@@ -2,17 +2,20 @@
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Models.Persons.ExchangeVisitor;
 using ECA.Business.Service;
-using ECA.Business.Service.Admin;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Finance;
 using ECA.Core.Exceptions;
+using ECA.Core.Settings;
 using ECA.Data;
 using FluentAssertions;
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,23 +26,26 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private ExchangeVisitorService service;
-
-        private Action<AddressDTO> usStateDeptAddressTester;
+        private AppSettings appSettings;
+        private NameValueCollection nameValueSettings;
+        private ConnectionStringSettingsCollection connectionStrings;
+        private AddressDTO cStreetAddress;
+        private string cStreetAddressJson;
 
         [TestInitialize]
         public void TestInit()
         {
+            nameValueSettings = new NameValueCollection();
+            connectionStrings = new ConnectionStringSettingsCollection();
+            appSettings = new AppSettings(nameValueSettings, connectionStrings);
+
+            cStreetAddress = new AddressDTO();
+            cStreetAddress.Street1 = "street1";
+            cStreetAddressJson = JsonConvert.SerializeObject(cStreetAddress);
+            nameValueSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, cStreetAddressJson);
+
             context = new TestEcaContext();
-            service = new ExchangeVisitorService(context);
-            usStateDeptAddressTester = (address) =>
-            {
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_ADDRESS_1, address.Street1);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_CITY, address.City);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_STATE, address.Division);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_POSTAL_CODE, address.PostalCode);
-                Assert.AreEqual(LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME, address.Country);
-                Assert.AreEqual(ExchangeVisitorService.SITE_OF_ACTIVITY_STATE_DEPT_NAME, address.LocationName);
-            };
+            service = new ExchangeVisitorService(context, appSettings);
         }
 
         #region GetExchangeVisitor
@@ -411,7 +417,7 @@ namespace ECA.Business.Test.Service.Persons
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,
-                genderCode: null,
+                gender: null,
                 permanentResidenceCountryCode: null,
                 phoneNumber: null,
                 remarks: null,
@@ -465,7 +471,7 @@ namespace ECA.Business.Test.Service.Persons
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,
-                genderCode: null,
+                gender: null,
                 permanentResidenceCountryCode: null,
                 phoneNumber: null,
                 remarks: null,
@@ -517,7 +523,7 @@ namespace ECA.Business.Test.Service.Persons
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,
-                genderCode: null,
+                gender: null,
                 permanentResidenceCountryCode: null,
                 phoneNumber: null,
                 remarks: null,
@@ -936,7 +942,9 @@ namespace ECA.Business.Test.Service.Persons
         public void TestGetStateDepartmentCStreetAddress()
         {
             var address = service.GetStateDepartmentCStreetAddress();
-            usStateDeptAddressTester(address);
+            Assert.AreEqual(cStreetAddressJson, JsonConvert.SerializeObject(address));
+            //sanity check
+            Assert.AreEqual(cStreetAddress.Street1, address.Street1);
         }
         #endregion
 
@@ -953,8 +961,8 @@ namespace ECA.Business.Test.Service.Persons
             {
                 var usFunding = new ExchangeVisitorFundingDTO
                 {
-                    Amount1 = "100",
-                    Amount2 = "101",
+                    Amount1 = 100m,
+                    Amount2 = 101m,
                     Org1 = "us org 1",
                     Org2 = "us org 2",
                     OtherName1 = "us other 1",
@@ -962,8 +970,8 @@ namespace ECA.Business.Test.Service.Persons
                 };
                 var internationalFunding = new ExchangeVisitorFundingDTO
                 {
-                    Amount1 = "200",
-                    Amount2 = "201",
+                    Amount1 = 200m,
+                    Amount2 = 200m,
                     Org1 = "international org 1",
                     Org2 = "international org 2",
                     OtherName1 = "international other 1",
@@ -989,22 +997,22 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.IsFalse(internationalFunding.IsEmpty());
                     Assert.IsNotNull(financialInfo);
                     Assert.IsNotNull(financialInfo.OtherFunds);
-                    Assert.IsNotNull(financialInfo.OtherFunds.USGovt);
-                    Assert.IsNotNull(financialInfo.OtherFunds.International);
+                    Assert.IsNotNull(financialInfo.OtherFunds.USGovernmentFunding);
+                    Assert.IsNotNull(financialInfo.OtherFunds.InternationalFunding);
 
-                    Assert.AreEqual(usFunding.Amount1, financialInfo.OtherFunds.USGovt.Amount1);
-                    Assert.AreEqual(usFunding.Amount2, financialInfo.OtherFunds.USGovt.Amount2);
-                    Assert.AreEqual(usFunding.Org1, financialInfo.OtherFunds.USGovt.Org1);
-                    Assert.AreEqual(usFunding.Org2, financialInfo.OtherFunds.USGovt.Org2);
-                    Assert.AreEqual(usFunding.OtherName1, financialInfo.OtherFunds.USGovt.OtherName1);
-                    Assert.AreEqual(usFunding.OtherName2, financialInfo.OtherFunds.USGovt.OtherName2);
+                    Assert.AreEqual(((int)usFunding.Amount1).ToString(), financialInfo.OtherFunds.USGovernmentFunding.Amount1);
+                    Assert.AreEqual(((int)usFunding.Amount2).ToString(), financialInfo.OtherFunds.USGovernmentFunding.Amount2);
+                    Assert.AreEqual(usFunding.Org1, financialInfo.OtherFunds.USGovernmentFunding.Org1);
+                    Assert.AreEqual(usFunding.Org2, financialInfo.OtherFunds.USGovernmentFunding.Org2);
+                    Assert.AreEqual(usFunding.OtherName1, financialInfo.OtherFunds.USGovernmentFunding.OtherName1);
+                    Assert.AreEqual(usFunding.OtherName2, financialInfo.OtherFunds.USGovernmentFunding.OtherName2);
 
-                    Assert.AreEqual(internationalFunding.Amount1, financialInfo.OtherFunds.International.Amount1);
-                    Assert.AreEqual(internationalFunding.Amount2, financialInfo.OtherFunds.International.Amount2);
-                    Assert.AreEqual(internationalFunding.Org1, financialInfo.OtherFunds.International.Org1);
-                    Assert.AreEqual(internationalFunding.Org2, financialInfo.OtherFunds.International.Org2);
-                    Assert.AreEqual(internationalFunding.OtherName1, financialInfo.OtherFunds.International.OtherName1);
-                    Assert.AreEqual(internationalFunding.OtherName2, financialInfo.OtherFunds.International.OtherName2);
+                    Assert.AreEqual(((int)internationalFunding.Amount1).ToString(), financialInfo.OtherFunds.InternationalFunding.Amount1);
+                    Assert.AreEqual(((int)internationalFunding.Amount2).ToString(), financialInfo.OtherFunds.InternationalFunding.Amount2);
+                    Assert.AreEqual(internationalFunding.Org1, financialInfo.OtherFunds.InternationalFunding.Org1);
+                    Assert.AreEqual(internationalFunding.Org2, financialInfo.OtherFunds.InternationalFunding.Org2);
+                    Assert.AreEqual(internationalFunding.OtherName1, financialInfo.OtherFunds.InternationalFunding.OtherName1);
+                    Assert.AreEqual(internationalFunding.OtherName2, financialInfo.OtherFunds.InternationalFunding.OtherName2);
                 };
                 var results = service.GetFinancialInfo(participantExchangeVisitor);
                 var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
@@ -1048,8 +1056,8 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.IsTrue(internationalFunding.IsEmpty());
                     Assert.IsNotNull(financialInfo);
                     Assert.IsNotNull(financialInfo.OtherFunds);
-                    Assert.IsNull(financialInfo.OtherFunds.USGovt);
-                    Assert.IsNull(financialInfo.OtherFunds.International);
+                    Assert.IsNull(financialInfo.OtherFunds.USGovernmentFunding);
+                    Assert.IsNull(financialInfo.OtherFunds.InternationalFunding);
                 };
                 var results = service.GetFinancialInfo(participantExchangeVisitor);
                 var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
@@ -1086,8 +1094,8 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     Assert.IsNotNull(financialInfo);
                     Assert.IsNotNull(financialInfo.OtherFunds);
-                    Assert.IsNull(financialInfo.OtherFunds.USGovt);
-                    Assert.IsNull(financialInfo.OtherFunds.International);
+                    Assert.IsNull(financialInfo.OtherFunds.USGovernmentFunding);
+                    Assert.IsNull(financialInfo.OtherFunds.InternationalFunding);
                 };
                 var results = service.GetFinancialInfo(participantExchangeVisitor);
                 var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);
@@ -1193,7 +1201,7 @@ namespace ECA.Business.Test.Service.Persons
             Action<FinancialInfo> tester = (financialInfo) =>
             {
                 Assert.IsNotNull(financialInfo);
-                Assert.AreEqual("10", financialInfo.OtherFunds.EVGovt);
+                Assert.AreEqual("10", financialInfo.OtherFunds.ExchangeVisitorGovernment);
             };
             var results = service.GetFinancialInfo(participantExchangeVisitor);
             var resultsAsync = await service.GetFinancialInfoAsync(participantExchangeVisitor);

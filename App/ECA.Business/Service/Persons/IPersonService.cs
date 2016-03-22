@@ -107,8 +107,8 @@ namespace ECA.Business.Service.Persons
         /// Creates a new person dependent
         /// </summary>
         /// <returns>The person that was created</returns>
-        Task<Person> CreateDependentAsync(NewPersonDependent person);
-
+        Task<Person> CreateDependentAsync(NewPersonDependent newDependent);
+        
         /// <summary>
         /// Updates the PII section of a person
         /// </summary>
@@ -152,11 +152,18 @@ namespace ECA.Business.Service.Persons
         Task<SimplePersonDTO> GetPersonByIdAsync(int personId);
 
         /// <summary>
+        /// Get a person dependent
+        /// </summary>
+        /// <param name="personId">The person Id</param>
+        /// <returns>The person dependent</returns>
+        Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId);
+        
+        /// <summary>
         /// Update a person dependent
         /// </summary>
         /// <param name="person">The dependent to update</param>
         /// <returns></returns>
-        Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person);
+        Task<Person> UpdatePersonDependentAsync(UpdatedPersonDependent person);
 
         /// <summary>
         /// Deletes a dependent from the person

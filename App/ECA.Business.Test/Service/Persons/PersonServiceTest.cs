@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Exceptions;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
@@ -1685,27 +1687,36 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateDependentAsync_CheckProperties()
         {
             var user = new User(1);
-            var fullName = new FullNameDTO
-            {
-                FirstName = "Jon",
-                LastName = "Doe",
-                Suffix = "Jr",
-                PassportName = "Jon Doe",
-                PreferredName = "Jonny"
-            };
+            int personId = 1;
+            var firstName = "first";
+            var lastName = "last";
+            var suffix = "jr";
+            var passport = "first last";
+            var preferred = "first last";
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
-            var cityOfBirth = 5;
-            var countryOfBirth = 32;
-            var permanentResidenceCountry = 55;
+            var emailAddress = "email@domain.com";
+            var placeOfBirth = new LocationDTO { CityId = 5, CountryId = 193 };
             var personTypeId = PersonType.Spouse.Id;
-            var countriesOfCitizenship = new List<Location>();
+            var countriesOfCitizenship = new List<int>();
 
-            var newPerson = new NewPersonDependent(
-                createdBy: user, fullName: fullName, dateOfBirth: dateOfBirth, gender: gender,
-                cityOfBirth: cityOfBirth, countryOfBirth: countryOfBirth, 
-                countriesOfCitizenship: countriesOfCitizenship, permanentResidenceCountryCode: permanentResidenceCountry, 
-                birthCountryReason: "", emailAddress: "", personTypeId: personTypeId);
+            var countryType = new LocationType
+            {
+                LocationTypeId = LocationType.Country.Id,
+                LocationTypeName = LocationType.Country.Value
+            };
+            var countryResidence = new Location
+            {
+                LocationId = 1,
+                LocationType = countryType,
+                LocationTypeId = countryType.LocationTypeId,
+                LocationName = "residence"
+            };
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, firstName: firstName, lastName: lastName, nameSuffix: suffix, 
+                passportName: passport, preferredName: preferred, genderId: gender, dateOfBirth: dateOfBirth, cityOfBirthId: placeOfBirth.CityId,
+                emailAddress: emailAddress, personTypeId: personTypeId, countriesOfCitizenship: countriesOfCitizenship, 
+                permanentResidenceCountryCode: countryResidence.LocationId, birthCountryReason: "");
 
             context.SetupActions.Add(() =>
             {
@@ -1713,12 +1724,12 @@ namespace ECA.Business.Test.Service.Persons
             });
             Action<Person> tester = (testPerson) =>
             {
-                Assert.AreEqual(newPerson.FullName.FirstName, testPerson.FirstName);
-                Assert.AreEqual(newPerson.FullName.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
                 Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
-                Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
-                Assert.AreEqual(newPerson.CityOfBirth, testPerson.PlaceOfBirthId);
-                Assert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship);
+                Assert.AreEqual(newPerson.GenderId, testPerson.GenderId);
+                Assert.AreEqual(newPerson.CityOfBirthId, testPerson.PlaceOfBirthId);
+                //Assert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).ToList());
                 Assert.AreEqual(newPerson.PersonTypeId, testPerson.PersonTypeId);
                 Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
                 Assert.AreEqual(user.Id, testPerson.History.RevisedBy);

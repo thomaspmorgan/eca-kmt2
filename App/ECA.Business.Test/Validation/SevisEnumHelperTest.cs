@@ -14,7 +14,7 @@ namespace ECA.Business.Test.Validation
         [TestInitialize]
         public void Test()
         {
-            
+
         }
 
         public string GetErrorMessage(Type t, string value)
@@ -269,5 +269,25 @@ namespace ECA.Business.Test.Validation
             a.ShouldThrow<CodeTypeConversionException>().WithMessage(GetErrorMessage(typeof(DependentCodeType), "Item" + value));
         }
         #endregion
+
+        #region USAddrDoctorTypeExplanationCode
+        [TestMethod]
+        public void TestGetUSAddrDoctorTypeExplanationCode()
+        {
+            var e = USAddrDoctorTypeExplanationCode.OM;
+            var value = e.ToString();
+            Assert.AreEqual(e, value.GetUSAddrDoctorTypeExplanationCode());
+        }
+
+
+        [TestMethod]
+        public void TesGetUSAddrDoctorTypeExplanationCode_StringNotSupported()
+        {
+            var value = "hello world";
+            Action a = () => value.GetUSAddrDoctorTypeExplanationCode();
+            a.ShouldThrow<CodeTypeConversionException>().WithMessage(GetErrorMessage(typeof(USAddrDoctorTypeExplanationCode), value));
+        }
+        #endregion
+
     }
 }

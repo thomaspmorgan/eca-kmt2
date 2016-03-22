@@ -25,10 +25,26 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
+        public void TestDefaultConstructor()
+        {
+            var validator = new AddressDTOValidator();
+            Assert.IsNotNull(validator.AddressNameDelegate);
+            Assert.AreEqual(AddressDTOValidator.C_STREET_ADDRESS, validator.AddressNameDelegate(null));
+        }
+
+        [TestMethod]
+        public void TestConstructor_AddressNameDelegate()
+        {
+            Func<AddressDTO, object> d = (a) => "hello world";
+            var validator = new AddressDTOValidator(d);
+            Assert.AreEqual(d(null), validator.AddressNameDelegate(null));
+        }
+
+        [TestMethod]
         public void TestStreet1_Null()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -45,7 +61,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestStreet1_ExceedsMaxLength()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -62,7 +78,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestStreet2_Null()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -76,7 +92,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestStreet2_ExceedsMaxLength()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -93,7 +109,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestCountry_IsNotUnitedStates()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -110,7 +126,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestPostalCode_Null()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -127,7 +143,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestPostalCode_AllDigitsExceedsLength()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -144,7 +160,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestPostalCode_DoesNotContainDigits()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -161,7 +177,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestPostalCode_DoesNotHaveRequiredNumberOfDigits()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -179,7 +195,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestCity_ExceedsMaxLength()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -196,7 +212,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestCity_IsEmpty()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -210,7 +226,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestCity_IsNull()
         {
             var name = "address name";
-            var validator = new AddressDTOValidator(name);
+            var validator = new AddressDTOValidator((a) => name);
             var instance = GetValidUSAddress();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);

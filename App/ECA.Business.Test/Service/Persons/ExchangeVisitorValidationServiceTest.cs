@@ -78,7 +78,8 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -148,6 +149,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.IsNull(commStatus);
                 Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsNull(participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
@@ -161,20 +163,21 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ProjectIsNotExchangeVisitor()
+        public async Task TestRunParticipantSevisValidation_ParticipantStatusIsNotInListOfTrackedParticipantStatuses()
         {
             var user = new User(1);
             var project = new Project
             {
                 ProjectId = 1,
-                VisitorTypeId = VisitorType.NotApplicable.Id
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
             };
             var participant = new Participant
             {
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                ParticipantStatusId = ParticipantStatus.NoFunds.Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -210,6 +213,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.IsNull(commStatus);
                 Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsNull(participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
@@ -221,6 +225,71 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
+
+        [TestMethod]
+        public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveParticipantStatus()
+        {
+            var user = new User(1);
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                ProjectId = project.ProjectId,
+                Project = project,
+                ParticipantTypeId = ParticipantType.Individual.Id,
+                ParticipantStatusId = null
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                Participant = participant,
+                ParticipantId = participant.ParticipantId,
+                SevisId = "N1234",
+                SevisValidationResult = "some string"
+            };
+
+            var exchangeVisitor = new ExchangeVisitor(
+                user: user,
+                sevisId: null,
+                person: null,
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
+                );
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+
+            var validationResult = new ValidationResult(new List<ValidationFailure>());
+            exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+            });
+            Action<ParticipantPersonSevisCommStatus> tester = (commStatus) =>
+            {
+                Assert.IsNull(commStatus);
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsNull(participantPerson.SevisValidationResult);
+            };
+            context.Revert();
+            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
+
+            context.Revert();
+            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            tester(result);
+            exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
+        }
+        
 
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ValidationSucceeds()
@@ -236,7 +305,8 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -305,7 +375,8 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -380,7 +451,8 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -452,7 +524,8 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -532,7 +605,8 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantId = 1,
                 ProjectId = project.ProjectId,
                 Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id
+                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
             };
             var participantPerson = new ParticipantPerson
             {
@@ -598,7 +672,67 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }
+
+        #region ShouldRunValidation
         
+        [TestMethod]
+        public void TestShouldRunValidation_ParticipantTypeIsNotForeignTravelingParticipant()
+        {
+            int? participantStatusId = ParticipantStatus.Active.Id;
+            var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            Func<Participant> getParticipant = () =>
+            {
+                return new Participant
+                {
+                    ParticipantStatusId = participantStatusId,
+                    ParticipantTypeId = participantTypeId
+                };
+            };
+
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant()));
+            participantTypeId = ParticipantType.LanguageOfficer.Id;
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant()));
+        }
+
+        [TestMethod]
+        public void TestShouldRunValidation_ParticipantStatusIsNotSetOnParticipant()
+        {
+            int? participantStatusId = ParticipantStatus.Active.Id;
+            var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            Func<Participant> getParticipant = () =>
+            {
+                return new Participant
+                {
+                    ParticipantStatusId = participantStatusId,
+                    ParticipantTypeId = participantTypeId
+                };
+            };
+
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant()));
+            participantStatusId = ParticipantStatus.Cancelled.Id;
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant()));
+        }
+
+        [TestMethod]
+        public void TestShouldRunValidation_ParticipantStatusIsNull()
+        {
+            int? participantStatusId = ParticipantStatus.Active.Id;
+            var participantTypeId = ParticipantType.ForeignTravelingParticipant.Id;
+            Func<Participant> getParticipant = () =>
+            {
+                return new Participant
+                {
+                    ParticipantStatusId = participantStatusId,
+                    ParticipantTypeId = participantTypeId
+                };
+            };
+
+            Assert.IsTrue(service.ShouldRunValidation(getParticipant()));
+            participantStatusId = null;
+            Assert.IsFalse(service.ShouldRunValidation(getParticipant()));
+        }
+
+        #endregion
     }
 }
 

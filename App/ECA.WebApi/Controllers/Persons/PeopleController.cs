@@ -49,7 +49,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="phoneNumberHandler">The phone number handler.</param>
         /// <param name="emailAddressHandler">The Email Address handler.</param>
         public PeopleController(
-            IPersonService service,
+            IPersonService service, 
             IPersonTypeService personTypeService,
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
@@ -196,22 +196,22 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Returns data associated with person dependent
         /// </summary>
-        /// <param name="personId">The person id to find</param>
+        /// <param name="dependentId">The dependent id to find</param>
         /// <returns></returns>
-        //[ResponseType(typeof(SimplePersonDependentDTO))]
-        //[Route("Person/{personId:int}/Dependent")]
-        //public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int personId)
-        //{
-        //    var person = await service.GetPersonByIdAsync(personId);
-        //    if (person != null)
-        //    {
-        //        return Ok(person);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+        [ResponseType(typeof(SimplePersonDependentDTO))]
+        [Route("Person/{dependentId:int}/Dependent")]
+        public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int dependentId)
+        {
+            var person = await service.GetPersonDependentByIdAsync(dependentId);
+            if (person != null)
+            {
+                return Ok(person);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
         /// <summary>
         /// Returns sorted, filtered, and paged people in the eca system.
@@ -262,25 +262,26 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Post method to create a person dependent
         /// </summary>
+        /// <param name="personId">The id of the person.</param>
         /// <param name="model">The model to create</param>
         /// <returns></returns>
-        //public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var currentUser = userProvider.GetCurrentUser();
-        //        var businessUser = userProvider.GetBusinessUser(currentUser);
-        //        var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
-        //        await service.SaveChangesAsync();
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //}
-
-
+        [Route("People/{personId:int}/Dependent")]
+        public async Task<IHttpActionResult> PostPersonDependentAsync(int personId, DependentBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
         #endregion
 
         #region Update
@@ -330,27 +331,6 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        //public async Task<IHttpActionResult> PutDependentAsync(UpdatedPersonDependentBindingModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var currentUser = userProvider.GetCurrentUser();
-        //        var businessUser = userProvider.GetBusinessUser(currentUser);
-        //        var person = await service.UpdatePersonDependentAsync(model.ToUpdatedPersonDependent(businessUser));
-        //        await service.SaveChangesAsync();
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //}
-
-        /// <summary>
         /// Put method to update a person's General Info
         /// </summary>
         /// <param name="model">The model to update</param>
@@ -372,6 +352,28 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Put method to update a person dependent
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("People/Dependent")]
+        public async Task<IHttpActionResult> PutDependentAsync(UpdatedPersonDependentBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdatePersonDependentAsync(model.ToUpdatePersonDependent(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
         #endregion
 
         #region Delete
@@ -382,14 +384,14 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="personId"></param>
         /// <param name="dependentId"></param>
         /// <returns></returns>
-        //[Route("People/{personId:int}/Dependent/{dependentId:int}")]
-        //[ResponseType(typeof(OkResult))]
-        //public async Task<IHttpActionResult> DeleteDependentAsync(int personId, int dependentId)
-        //{
-        //    await service.DeletePersonDependentByIdAsync(personId, dependentId);
-        //    await service.SaveChangesAsync();
-        //    return Ok();
-        //}
+        [Route("Person/{personId:int}/Dependent/{dependentId:int}")]
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> DeleteDependentAsync(int personId, int dependentId)
+        {
+            await service.DeletePersonDependentByIdAsync(personId, dependentId);
+            await service.SaveChangesAsync();
+            return Ok();
+        }
 
         #endregion
 
@@ -518,8 +520,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Adds a new phone number to the person.
         /// </summary>
-        /// <param name="model">The new phone number.</param>
         /// <param name="personId">The id of the person.</param>
+        /// <param name="model">The new phone number.</param>
         /// <returns>The saved phone number.</returns>
         [Route("People/{personId:int}/PhoneNumber")]
         [ResponseType(typeof(PhoneNumberDTO))]

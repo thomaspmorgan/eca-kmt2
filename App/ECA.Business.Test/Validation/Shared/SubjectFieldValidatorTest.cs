@@ -10,6 +10,32 @@ namespace ECA.Business.Test.Validation.Shared
     public class SubjectFieldValidatorTest
     {
         [TestMethod]
+        public void TestSubjectFieldOfCode_SubjectFieldCodeIsNull()
+        {
+            string subjectFieldCode = "00.0000";
+            string remarks = "remarks";
+            string degreeLevel = "level";
+            string foreignFieldOfStudy = "foreign";
+            Func<SubjectField> createEntity = () =>
+            {
+                return new SubjectField(subjectFieldCode: subjectFieldCode, foreignDegreeLevel: degreeLevel, foreignFieldOfStudy: foreignFieldOfStudy, remarks: remarks);
+            };
+
+            var instance = createEntity();
+            var validator = new SubjectFieldValidator();
+            var results = validator.Validate(instance);
+            Assert.IsTrue(results.IsValid);
+
+            subjectFieldCode = null;
+            instance = createEntity();
+            results = validator.Validate(instance);
+            Assert.IsFalse(results.IsValid);
+            Assert.AreEqual(1, results.Errors.Count);
+            Assert.AreEqual(SubjectFieldValidator.SUBJECT_FIELD_CODE_OF_STUDY_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(FieldOfStudyErrorPath));
+        }
+
+        [TestMethod]
         public void TestSubjectFieldOfCode_ContainsLetters()
         {
             string subjectFieldCode = "00.0000";

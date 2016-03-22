@@ -156,6 +156,7 @@
                         || errorTypeId == ConstantsService.sevisErrorType.citizenship.id
                         || errorTypeId == ConstantsService.sevisErrorType.address.id
                         || errorTypeId == ConstantsService.sevisErrorType.permanentCountryOfResidence.id
+                        || errorTypeId == ConstantsService.sevisErrorType.dependent.id
                         ) {
                         return StateService.goToPiiState(personId);
                     }

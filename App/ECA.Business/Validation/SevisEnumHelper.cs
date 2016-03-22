@@ -154,5 +154,17 @@ namespace ECA.Business.Validation
             }
             return GetCodeType<DependentCodeType>(value);
         }
+
+
+        /// <summary>
+        /// Returns the USAddrDoctorTypeExplanationCode for the given string value.
+        /// </summary>
+        /// <returns>The USAddrDoctorTypeExplanationCode for the given string value.</returns>
+        public static USAddrDoctorTypeExplanationCode GetUSAddrDoctorTypeExplanationCode(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            return GetCodeType<USAddrDoctorTypeExplanationCode>(value);
+        }
+
     }
 }

@@ -1,7 +1,5 @@
-﻿using ECA.Business.Queries.Models.Persons;
-using ECA.Business.Service;
+﻿using ECA.Business.Service;
 using ECA.Business.Service.Persons;
-using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -13,54 +11,74 @@ namespace ECA.WebApi.Models.Person
     public class DependentBindingModel
     {
         /// <summary>
-        /// Gets or sets the first name
+        /// Gets or sets the person id.
         /// </summary>
-        public FullNameDTO FullName { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the gender
-        /// </summary>
-        public int Gender { get; set; }
+        public int PersonId { get; set; }
 
         /// <summary>
-        /// Gets or sets the city of birth
+        /// Gets the person type id.
         /// </summary>
-        public int CityOfBirth { get; set; }
+        public int PersonTypeId { get; set; }
 
         /// <summary>
-        /// Gets or sets the date of birth
+        /// Gets and sets the first name
         /// </summary>
-        public DateTime DateOfBirth { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the city of birth
-        /// </summary>
-        public int CountryOfBirth { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets or sets the countries of citizenship
+        /// Gets and sets the last name
         /// </summary>
-        public List<Location> CountriesOfCitizenship { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
-        /// Gets or sets the premanent residence country code
+        /// Gets or sets the name suffix.
         /// </summary>
-        public int PermanentResidenceCountryCode { get; set; }
-        
+        public string NameSuffix { get; set; }
+
         /// <summary>
-        /// Gets or sets the birth country reason
+        /// Person passport name.
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public string PassportName { get; set; }
+
+        /// <summary>
+        /// Person preferred name.
+        /// </summary>
+        public string PreferredName { get; set; }
+
+        /// <summary>
+        /// Gets and sets the gender
+        /// </summary>
+        public int GenderId { get; set; }
+
+        /// <summary>
+        /// Gets and sets the date of birth
+        /// </summary>
+        public DateTime? DateOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets and sets the city of birth
+        /// </summary>
+        public int? CityOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the email address
         /// </summary>
         public string EmailAddress { get; set; }
-        
+
         /// <summary>
-        /// Gets or sets the dependent relationship id.
+        /// Gets and sets the countries of citizenship
         /// </summary>
-        public int PersonTypeId { get; set; }
+        public List<int> CountriesOfCitizenship { get; set; }
+
+        /// <summary>
+        /// Gets or sets the premanent residence country code
+        /// </summary>
+        public int PermanentResidenceCountryCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason
+        /// </summary>
+        public string BirthCountryReason { get; set; }
 
         /// <summary>
         /// Creates a new person dependent business object
@@ -71,16 +89,20 @@ namespace ECA.WebApi.Models.Person
         {
             return new NewPersonDependent(
                 createdBy: user,
-                fullName: this.FullName,
-                dateOfBirth: this.DateOfBirth,
-                gender: this.Gender,
-                cityOfBirth: this.CityOfBirth,
-                countryOfBirth: this.CountryOfBirth,                                
-                countriesOfCitizenship: this.CountriesOfCitizenship,
-                permanentResidenceCountryCode: this.PermanentResidenceCountryCode,
-                birthCountryReason: this.BirthCountryReason,
-                emailAddress: this.EmailAddress,
-                personTypeId: this.PersonTypeId);
+                personId: PersonId,
+                firstName: FirstName,
+                lastName: LastName,
+                nameSuffix: NameSuffix,
+                passportName: PassportName,
+                preferredName: PreferredName,
+                genderId: GenderId,
+                dateOfBirth: DateOfBirth,
+                cityOfBirthId: CityOfBirthId,
+                emailAddress: EmailAddress,
+                personTypeId: PersonTypeId,
+                countriesOfCitizenship: CountriesOfCitizenship,
+                permanentResidenceCountryCode: PermanentResidenceCountryCode,
+                birthCountryReason: BirthCountryReason);
         }
     }
 }

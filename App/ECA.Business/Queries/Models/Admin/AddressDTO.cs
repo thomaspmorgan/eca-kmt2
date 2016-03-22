@@ -177,14 +177,14 @@ namespace ECA.Business.Queries.Models.Admin
         public USAddress GetUSAddress()
         {
             throwIfCountryIsNotUnitedStates();
-            return new USAddress
-            {
-                Address1 = this.Street1,
-                Address2 = this.Street2,
-                City = this.City,
-                PostalCode = this.PostalCode,
-                State = this.Division
-            };
+            return new USAddress(
+                address1: this.Street1, 
+                address2: this.Street2, 
+                city: this.City, 
+                state: this.Division, 
+                postalCode: this.PostalCode, 
+                explanation: null, 
+                explanationCode: null);
         }
     }
 }

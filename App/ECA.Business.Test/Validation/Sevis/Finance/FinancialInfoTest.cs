@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Finance;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
@@ -14,15 +15,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            var usGovt = new USGovernmentFunding("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new InternationalFunding("international org 1", null, "internation org 1 value", null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             
             var programSponsorFunds = "prog sponsor funds";
@@ -41,21 +42,60 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
         }
 
         [TestMethod]
+        public void TestJsonSerialization()
+        {
+            string binationalCommission = "commission";
+            string personal = "peronsal";
+            string evGovt = "ev gov";
+            Other other = new Other("name", "amount");
+            var usGovt = new USGovernmentFunding("us gov 1", null, "us gov value 1", null, null, null);
+            var international = new InternationalFunding("international org 1", null, "internation org 1 value", null, null, null);
+
+            var otherFunds = new OtherFunds(
+                exchangeVisitorGovernment: evGovt,
+                binationalCommission: binationalCommission,
+                personal: personal,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
+                other: other);
+
+            var programSponsorFunds = "prog sponsor funds";
+            var receivedUsGovtFunds = true;
+            var printForm = true;
+            var instance = new FinancialInfo(
+                printForm,
+                receivedUsGovtFunds,
+                programSponsorFunds,
+                otherFunds);
+            var json = JsonConvert.SerializeObject(instance);
+            var jsonObject = JsonConvert.DeserializeObject<FinancialInfo>(json);
+            Assert.AreEqual(receivedUsGovtFunds, jsonObject.ReceivedUSGovtFunds);
+            Assert.AreEqual(printForm, jsonObject.PrintForm);
+            Assert.IsNotNull(jsonObject.OtherFunds);
+            Assert.IsNotNull(jsonObject.OtherFunds.InternationalFunding);
+            Assert.IsNotNull(jsonObject.OtherFunds.USGovernmentFunding);
+
+            //spot checks
+            Assert.AreEqual(usGovt.Org1, jsonObject.OtherFunds.USGovernmentFunding.Org1);
+            Assert.AreEqual(international.Org1, jsonObject.OtherFunds.InternationalFunding.Org1);
+        }
+
+        [TestMethod]
         public void TestConstructor_PrintFormIsFalse()
         {
             string binationalCommission = "commission";
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
 
             var programSponsorFunds = "prog sponsor funds";
@@ -78,15 +118,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
             var programSponsorFunds = "prog sponsor funds";
             var receivedUsGovtFunds = false;
@@ -108,15 +148,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
 
             var programSponsorFunds = "prog sponsor funds";
@@ -157,15 +197,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string personal = "peronsal";
             string evGovt = "ev gov";
             Other other = new Other("name", "amount");
-            USGovt usGovt = new USGovt(null, null, null, null, null, null);
-            International international = new International(null, null, null, null, null, null);
+            USGovernmentFunding usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            InternationalFunding international = new InternationalFunding(null, null, null, null, null, null);
 
             var otherFunds = new OtherFunds(
-                evGovt: evGovt,
+                exchangeVisitorGovernment: evGovt,
                 binationalCommission: binationalCommission,
                 personal: personal,
-                usGovt: usGovt,
-                international: international,
+                usGovernmentFunding: usGovt,
+                internationalFunding: international,
                 other: other);
 
             var programSponsorFunds = "prog sponsor funds";

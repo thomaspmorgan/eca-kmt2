@@ -34,14 +34,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             DateTime birthDate = DateTime.Now;
             string citizenshipCountryCode = "UK";
             string emailAddress = "email@isp.com";
-            FullName fullName = new FullName
-            {
-                FirstName = "first name",
-                LastName = "last name",
-                PassportName = "passport name",
-                PreferredName = "preferred name",
-                Suffix = FullNameValidator.SECOND_SUFFIX
-            };
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
             string gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
             string permanentResidenceCountryCode = "FR";
             string phoneNumber = "18505551212";
@@ -56,7 +56,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     birthDate: birthDate,
                     citizenshipCountryCode: citizenshipCountryCode,
                     emailAddress: emailAddress,
-                    genderCode: gender,
+                    gender: gender,
                     permanentResidenceCountryCode: permanentResidenceCountryCode,
                     phoneNumber: phoneNumber,
                     relationship: relationship,
@@ -77,7 +77,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count());
-            Assert.AreEqual(String.Format("Biographical:  The dependent named {0} {1} must have the relationship specified.", fullName.FirstName, fullName.LastName), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(DependentValidator.DEPENDENT_RELATIONSHIP_REQUIRED, fullName.FirstName, fullName.LastName), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(DependentErrorPath));
         }
         

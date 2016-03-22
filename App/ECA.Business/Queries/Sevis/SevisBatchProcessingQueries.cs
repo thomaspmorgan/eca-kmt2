@@ -20,7 +20,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to retrieve SEVIS batch processing dtos.</returns>
-        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOQuery(EcaContext context)
+        public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             return context.SevisBatchProcessings.Select(x => new SevisBatchProcessingDTO
@@ -33,7 +33,7 @@ namespace ECA.Business.Queries.Sevis
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
                 DownloadDispositionCode = x.DownloadDispositionCode
-            }).ToList();
+            }).ToList().AsQueryable();
         }
 
         public static SevisBatchProcessingDTO CreateGetSevisBatchProcessingDTOByIdQuery(EcaContext context, int batchId)
@@ -58,7 +58,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The SEVIS batch processing dtos.</returns>
-        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingQuery(EcaContext context)
+        public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetSevisBatchProcessingDTOQuery(context);
@@ -69,7 +69,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The SEVIS batch processing dtos.</returns>
-        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForUpload(EcaContext context)
+        public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForUpload(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var forUpload = context.SevisBatchProcessings.Where(x => x.SubmitDate == null && x.SendString != null);
@@ -84,7 +84,7 @@ namespace ECA.Business.Queries.Sevis
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
                 DownloadDispositionCode = x.DownloadDispositionCode
-            }).AsEnumerable();
+            }).AsQueryable();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The SEVIS batch processing dtos.</returns>
-        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForDownload(EcaContext context)
+        public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsForDownload(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var forUpload = context.SevisBatchProcessings.Where(x => x.RetrieveDate == null && x.TransactionLogString == null 
@@ -108,7 +108,7 @@ namespace ECA.Business.Queries.Sevis
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
                 DownloadDispositionCode = x.DownloadDispositionCode
-            }).AsEnumerable();
+            }).AsQueryable();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The SEVIS batch processing dtos.</returns>
-        public static IEnumerable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsToProcess(EcaContext context)
+        public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsToProcess(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var forUpload = context.SevisBatchProcessings.Where(x => x.DownloadDispositionCode == successCode &&
@@ -131,7 +131,7 @@ namespace ECA.Business.Queries.Sevis
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
                 DownloadDispositionCode = x.DownloadDispositionCode
-            }).AsEnumerable();
+            }).AsQueryable();
         }
 
         /// <summary>

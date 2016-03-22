@@ -213,7 +213,8 @@
 		removewNewPhoneNumberEventName: 'removeNewPhoneNumber',
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
-		searchDelimiter: ' '
+		searchDelimiter: ' ',
+		sevisStatuses: '[2, 3, 4, 5]'
 	};
 });
 

@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using Newtonsoft.Json;
 using System;
 
 namespace ECA.Business.Validation.Sevis.Finance
@@ -7,8 +8,8 @@ namespace ECA.Business.Validation.Sevis.Finance
     /// <summary>
     /// International organization funding is used to represent an exchange visitor's funding from international organizations.
     /// </summary>
-    [Validator(typeof(InternationalValidator))]
-    public class International : OrganizationFunding
+    [Validator(typeof(InternationalFundingValidator))]
+    public class InternationalFunding : OrganizationFunding
     {
         /// <summary>
         /// Creates a new instance with the given funding details.
@@ -19,7 +20,8 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <param name="org2">The second organization providing funding.  This value is a code.</param>
         /// <param name="otherName2">The name of the second organization if the second organization is 'OTHER'.</param>
         /// <param name="amount2">The second organization's funding amount in whole dollars.</param>
-        public International(
+        [JsonConstructor]
+        public InternationalFunding(
             string org1,
             string otherName1,
             string amount1,

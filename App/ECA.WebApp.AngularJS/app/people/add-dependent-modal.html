@@ -1,0 +1,159 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Dependent</h3>
+</div>
+<div class="modal-body">
+    <div class="spinner" ng-show="dependentsLoading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div ng-show="!dependentsLoading">
+        <form name="dependentForm" class="form-horizontal">
+            <div class="form-group row">
+                <div class="col-md-4 title-label">Relationship<span class="asterisk"> *</span></div>
+                <div class="col-md-8">
+                    <ui-select name="persontype" ng-model="dependent.personTypeId" theme="select2" required>
+                        <ui-select-match placeholder="Select relationship">
+                            <div>{{$select.selected.name}}</div>
+                        </ui-select-match>
+                        <ui-select-choices repeat="persontype.id as persontype in persontypes">
+                            <div ng-bind-html="persontype.name"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
+                <div class="col-md-8">
+                    <input type="text" name="firstName" class="form-control" ng-model="dependent.firstName" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
+                <div class="col-md-8">
+                    <input type="text" name="lastName" class="form-control" ng-model="dependent.lastName" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Name suffix</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="dependent.nameSuffix" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Passport name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="dependent.passportName" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 title-label">Preferred name</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="dependent.preferredName" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4 title-label">Gender<span class="asterisk"> *</span></div>
+                <div class="col-md-8">
+                    <ui-select name="gender" ng-model="dependent.genderId" theme="select2" ng-change="updateDependentGender()" required>
+                        <ui-select-match placeholder="Select gender">
+                            <div>{{$select.selected.value}}</div>
+                        </ui-select-match>
+                        <ui-select-choices repeat="gender.id as gender in genders">
+                            <div ng-bind-html="gender.value"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4 title-label">City of Birth<span class="asterisk"> *</span></div>
+                <div class="col-md-8">
+                    <ui-select ng-model="dependent.cityOfBirthId"
+                               theme="select2"
+                               name="cityOfBirthId"
+                               ui-validate="{isDependentPlaceOfBirthValid: 'isDependentPlaceOfBirthValid($value)'}">
+                        <ui-select-match placeholder="Select a city of birth...">
+                            {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
+                        </ui-select-match>
+                        <ui-select-choices refresh="searchDependentCities($select.search)" refresh-delay="250" repeat="city.id as city in cities">
+                            <div ng-bind-html="city.name | highlight: $select.search"></div>
+                            <div style="margin-left:10px;" class="small" ng-show="city.division">{{city.division}}</div>
+                            <div style="margin-left:10px;" class="small" ng-show="city.country">{{city.country}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="error" ng-show="dependentForm.cityOfBirthId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4 title-label">Date of Birth</div>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               name="dateOfBirth"
+                               id="dateOfBirth"
+                               datepicker-popup="dd-MMMM-yyyy"
+                               ng-model="dependent.dateOfBirth"
+                               is-open="datePickerOpen"
+                               max-date="maxDateOfBirth"
+                               close-text="Close"
+                               placeholder="{{dateOfBirthPlaceholder}}">
+                        <span class="input-group-btn">
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-click="openDatePicker($event)">
+                                <i class="material-icons md-18">event</i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4 title-label">Countries of Citizenship</div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <ui-select multiple ng-model="selectedCountriesOfCitizenship"
+                                       theme="select2" style="min-width: 200px;"
+                                       title="Choose a country">
+                                <ui-select-match placeholder="Select countries...">
+                                    <div>{{$item.name}}</div>
+                                </ui-select-match>
+                                <ui-select-choices refresh="searchDependentCountries($select.search)" refresh-delay="250" repeat="country in countriesCitizenship">
+                                    <div ng-bind-html="country.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="countryId">Permanent Residence Country<span class="asterisk"> *</span></label>
+                <select class="form-control"
+                        ng-options="t.id as t.name for t in countriesResidence"
+                        ng-model="dependent.permanentResidenceCountryCode"
+                        required />
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Birth Country Reason</div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="dependent.birthCountryReason" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-label">Email Address</div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="dependent.emailAddress" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button ng-click="onSaveDependentClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || view.isSavingNewDependent">
+            Save
+        </button>
+        <button ng-click="onCloseDependentClick()" class="btn btn-cancel">Close</button>
+    </div>
+</div>

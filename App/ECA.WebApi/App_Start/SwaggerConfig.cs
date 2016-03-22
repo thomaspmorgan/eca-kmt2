@@ -2,7 +2,6 @@ using System.Web.Http;
 using WebActivatorEx;
 using ECA.WebApi;
 using Swashbuckle.Application;
-using ECA.WebApi.Custom.SwaggerExtensions;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -92,6 +91,13 @@ namespace ECA.WebApi
                         //
                         //c.OrderActionGroupsBy(new DescendingAlphabeticComparer());
 
+                        // If you annotate Controllers and API Types with
+                        // Xml comments (http://msdn.microsoft.com/en-us/library/b2s063f7(v=vs.110).aspx), you can incorporate
+                        // those comments into the generated docs and UI. You can enable this by providing the path to one or
+                        // more Xml comment files.
+                        //
+                        //c.IncludeXmlComments(GetXmlCommentsPath());
+
                         // Swashbuckle makes a best attempt at generating Swagger compliant JSON schemas for the various types
                         // exposed in your API. However, there may be occasions when more control of the output is needed.
                         // This is supported through the "MapType" and "SchemaFilter" options:
@@ -104,15 +110,11 @@ namespace ECA.WebApi
                         // complex Schema, use a Schema filter.
                         //
                         //c.MapType<ProductType>(() => new Schema { type = "integer", format = "int32" });
-                        //
+
                         // If you want to post-modify "complex" Schemas once they've been generated, across the board or for a
                         // specific type, you can wire up one or more Schema filters.
                         //
                         //c.SchemaFilter<ApplySchemaVendorExtensions>();
-
-                        // Set this flag to omit schema property descriptions for any type properties decorated with the
-                        // Obsolete attribute 
-                        //c.IgnoreObsoleteProperties();
 
                         // In a Swagger 2.0 document, complex types are typically declared globally and referenced by unique
                         // Schema Id. By default, Swashbuckle does NOT use the full type name in Schema Ids. In most cases, this
@@ -120,7 +122,16 @@ namespace ECA.WebApi
                         // Swagger docs and UI. However, if you have multiple types in your API with the same class name, you'll
                         // need to opt out of this behavior to avoid Schema Id conflicts.
                         //
-                        c.UseFullTypeNameInSchemaIds();
+                        //c.UseFullTypeNameInSchemaIds();
+
+                        // Alternatively, you can provide your own custom strategy for inferring SchemaId's for
+                        // describing "complex" types in your API.
+                        //  
+                        //c.SchemaId(t => t.FullName.Contains('`') ? t.FullName.Substring(0, t.FullName.IndexOf('`')) : t.FullName);
+
+                        // Set this flag to omit schema property descriptions for any type properties decorated with the
+                        // Obsolete attribute 
+                        //c.IgnoreObsoleteProperties();
 
                         // In accordance with the built in JsonSerializer, Swashbuckle will, by default, describe enums as integers.
                         // You can change the serializer behavior by configuring the StringToEnumConverter globally or for a given
@@ -135,7 +146,6 @@ namespace ECA.WebApi
                         // Operation filters.
                         //
                         //c.OperationFilter<AddDefaultResponse>();
-                        c.OperationFilter<AddResourceAuthorizePermissionRequirement>();
                         //
                         // If you've defined an OAuth2 flow as described above, you could use a custom filter
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
@@ -150,19 +160,17 @@ namespace ECA.WebApi
                         //
                         //c.DocumentFilter<ApplyDocumentVendorExtensions>();
 
-                        // If you annonate Controllers and API Types with
-                        // Xml comments (http://msdn.microsoft.com/en-us/library/b2s063f7(v=vs.110).aspx), you can incorporate
-                        // those comments into the generated docs and UI. You can enable this by providing the path to one or
-                        // more Xml comment files.
-                        //
-                        c.IncludeXmlComments(GetXmlCommentsPath());
-
                         // In contrast to WebApi, Swagger 2.0 does not include the query string component when mapping a URL
                         // to an action. As a result, Swashbuckle will raise an exception if it encounters multiple actions
                         // with the same path (sans query string) and HTTP method. You can workaround this by providing a
                         // custom strategy to pick a winner or merge the descriptions for the purposes of the Swagger docs 
                         //
                         //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
+                        // Wrap the default SwaggerGenerator with additional behavior (e.g. caching) or provide an
+                        // alternative implementation for ISwaggerProvider with the CustomProvider option.
+                        //
+                        //c.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
                     })
                 .EnableSwaggerUi(c =>
                     {
@@ -176,7 +184,7 @@ namespace ECA.WebApi
                         // has loaded. The file must be included in your project as an "Embedded Resource", and then the resource's
                         // "Logical Name" is passed to the method as shown above.
                         //
-                        c.InjectJavaScript(thisAssembly, "ECA.WebApi.Content.swaggerauth.js");
+                        //c.InjectJavaScript(thisAssembly, "Swashbuckle.Dummy.SwaggerExtensions.testScript1.js");
 
                         // The swagger-ui renders boolean data types as a dropdown. By default, it provides "true" and "false"
                         // strings as the possible choices. You can use this option to change these to something else,
@@ -216,15 +224,6 @@ namespace ECA.WebApi
                         //
                         //c.EnableOAuth2Support("test-client-id", "test-realm", "Swagger UI");
                     });
-        }
-
-        /// <summary>
-        /// Returns the xml path for the web api comments.
-        /// </summary>
-        /// <returns>The xml path for the web api comments.</returns>
-        public static string GetXmlCommentsPath()
-        {
-            return System.String.Format(@"{0}\bin\ECA.WebApi.XML", System.AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }

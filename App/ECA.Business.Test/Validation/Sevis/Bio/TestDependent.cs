@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -15,7 +16,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                   birthDate: null,
                   citizenshipCountryCode: null,
                   emailAddress: null,
-                  genderCode: null,
+                  gender: null,
                   permanentResidenceCountryCode: null,
                   phoneNumber: null,
                   relationship: null,
@@ -31,31 +32,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         public override object GetSevisExhangeVisitorDependentInstance()
         {
-            throw new NotImplementedException();
-        }
-    }
-
-    [TestClass]
-    public class DependentTest
-    {
-        [TestMethod]
-        public void TestGetSetPersonId()
-        {
-            var id = 100;
-            var dependent = new TestDependent();
-            dependent.SetPersonId(id);
-            Assert.AreEqual(id, dependent.GetPersonId());
-            Assert.AreEqual(id.ToString(), dependent.UserDefinedB);
-        }
-
-        [TestMethod]
-        public void TestGetSetParticipantIdId()
-        {
-            var id = 10;
-            var dependent = new TestDependent();
-            dependent.SetParticipantId(id);
-            Assert.AreEqual(id, dependent.GetParticipantId());
-            Assert.AreEqual(id.ToString(), dependent.UserDefinedA);
+            return new SEVISEVBatchTypeExchangeVisitorDependent
+            {
+                Item = null,
+                UserDefinedA = null,
+                UserDefinedB = null
+            };
         }
     }
 }

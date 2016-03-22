@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Sevis.Model;
 using FluentValidation.Attributes;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Validation.Sevis.Finance
 {
@@ -9,6 +10,7 @@ namespace ECA.Business.Validation.Sevis.Finance
     [Validator(typeof(FinancialInfoValidator))]
     public class FinancialInfo : IFormPrintable
     {
+        [JsonConstructor]
         public FinancialInfo(
             bool printForm,
             bool receivedUSGovtFunds,

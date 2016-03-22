@@ -14,8 +14,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.BatchHeaderType" Collapsed="true">
-    <Position X="49" Y="1.5" Width="1.5" />
+  <Class Name="ECA.Business.Sevis.Model.BatchHeaderType">
+    <Position X="16.5" Y="0.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAABQAAAAAAAAACA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -85,14 +85,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.TippSignatureDatesTippSiteProgramOfficial" Collapsed="true">
-    <Position X="52.5" Y="7.5" Width="3.25" />
+    <Position X="49.25" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAACAAAAAAEAQAAAAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.TippSignatureDatesTippSiteTippPhase" Collapsed="true">
-    <Position X="54.25" Y="7.5" Width="2.75" />
+    <Position X="53" Y="9" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAQAAACAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -162,14 +162,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.ResidentialAddressTypeLCCoordinator" Collapsed="true">
-    <Position X="45.5" Y="4.5" Width="2.75" />
+    <Position X="47" Y="4.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AKAAAEAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAk=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.ResidentialAddressTypeHostFamily" Collapsed="true">
-    <Position X="43.75" Y="4.5" Width="2.5" />
+    <Position X="43" Y="4.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>oAAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAAIAKAAAAgA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -189,8 +189,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.OtherFundsNullableType" Collapsed="true">
-    <Position X="56" Y="2.5" Width="2" />
+  <Class Name="ECA.Business.Sevis.Model.OtherFundsNullableType">
+    <Position X="10.25" Y="16.25" Width="2" />
     <TypeIdentifier>
       <HashCode>BAAAAgAFCAgAAAAAAQAAAAAAAABCBAAAAAEAAAAgAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -203,8 +203,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.OtherFundsNullableTypeInternational" Collapsed="true">
-    <Position X="59" Y="2.5" Width="2.75" />
+  <Class Name="ECA.Business.Sevis.Model.OtherFundsNullableTypeInternational">
+    <Position X="10.75" Y="24.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAQAQAAAAAQAIAAAAEIAJIAAAAAABIAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -231,80 +231,10 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.IssueReasonType" Collapsed="true">
-    <Position X="50.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.USAddrDoctorResponseType" Collapsed="true">
-    <Position X="43.75" Y="8.5" Width="2.25" />
+  <Class Name="ECA.Business.Sevis.Model.USAddrDoctorResponseType">
+    <Position X="46.25" Y="9.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>CCABAAAAAAAAAAAIMAAEAAAAAACAAAABAAAABAABAAE=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.USAddressType" Collapsed="true">
-    <Position X="51.75" Y="8.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ICACAAAAAAAAAAAIMAAEAAAAAACAAAABAAAABAABAAE=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.USAddressOptionalType" Collapsed="true">
-    <Position X="49" Y="8.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>ICACAAAAAAAAAAAIMAAEAAAAAACAAAABAAAABAABAAE=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.USAddressCommuterNullableType" Collapsed="true">
-    <Position X="43.5" Y="9.25" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>ICACAAAAAAAAAAAIMAAEAAAAAACAAAABAAAABAABAAE=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.USAddressNullableType" Collapsed="true">
-    <Position X="49" Y="9.25" Width="2" />
-    <TypeIdentifier>
-      <HashCode>ICACAAAAAAAAAAAIMAAEAAAAAACAAAABAAAABAABAAE=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.SEVISResponse" Collapsed="true">
-    <Position X="43.75" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAABAAAAAAAAAAAAAAgAAAQAAIQBAAAQAAAACA=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.TravelType" Collapsed="true">
-    <Position X="57.75" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAgIAAAgMEAgAEACAIgQgACAAABTQBEACAAAgAwEAIA=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.TravelNullableType" Collapsed="true">
-    <Position X="56" Y="7.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAgAAAAgIEAgAEACAIAQgAAAAABQQBEAAAAAgAgAAIA=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.ForeignAddrType" Collapsed="true">
-    <Position X="49" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAIIAAEAAAAgCCAAAABAAAAAgABAAE=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.ForeignAddrNullableType" Collapsed="true">
-    <Position X="46.25" Y="2.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAIIAAEAAAAgCCAAAABAAAAAgABAAE=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -312,20 +242,6 @@
     <Position X="30.5" Y="16.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.DriverLicenseType" Collapsed="true">
-    <Position X="51.75" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>CAABAAAAAAAAAAAAMEAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ECA.Business.Sevis.Model.DriverLicenseNullableType" Collapsed="true">
-    <Position X="52.5" Y="1.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAMEAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -357,8 +273,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.ParticipantInfo" Collapsed="true">
-    <Position X="54.25" Y="3.5" Width="1.5" />
+  <Class Name="ECA.Business.Sevis.Model.ParticipantInfo">
+    <Position X="54.5" Y="11.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAgAAIFQAwAAAAAACAAAAQACCIAAAgAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -386,7 +302,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.OtherFundsTypeInternational">
-    <Position X="10.25" Y="16.25" Width="2.75" />
+    <Position X="12.75" Y="16.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAQIQAAAAAQAIAAAAEIAJIIAAAAABIAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -434,8 +350,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.EVPersonTypeSubjectField" Collapsed="true">
-    <Position X="43.25" Y="2.5" Width="2" />
+  <Class Name="ECA.Business.Sevis.Model.EVPersonTypeSubjectField">
+    <Position X="7.5" Y="7.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAIAAAAEAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -505,7 +421,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorDependentEndStatus">
-    <Position X="16.75" Y="24.25" Width="3.75" />
+    <Position X="16" Y="24.25" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAgAIAAAQIAAIAAAAAAAAEAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -532,8 +448,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgram" Collapsed="true">
-    <Position X="56" Y="4.5" Width="3" />
+  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgram">
+    <Position X="59.5" Y="11.5" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -553,29 +469,29 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgramEditSubject" Collapsed="true">
-    <Position X="43.75" Y="5.5" Width="3.75" />
+  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgramEditSubject">
+    <Position X="29" Y="21.75" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AEAAACAAAIAAAAEAAAQAAAAAAAEAAAAAAAAAAAAIgAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgramExtension" Collapsed="true">
-    <Position X="45.5" Y="5.5" Width="3.75" />
+    <Position X="43.25" Y="5.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAJAAQAAAAAQAAAAAAAEAAAgAAAAAAAAAgQA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgramMatriculate" Collapsed="true">
-    <Position X="47.25" Y="5.5" Width="3.75" />
+    <Position X="46.5" Y="3.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAQAAAAAAAAAAAgAAACAAAAAgQA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorProgramShorten" Collapsed="true">
-    <Position X="49" Y="5.5" Width="3.5" />
+    <Position X="50" Y="5.5" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAJAAQAAACAQAAAAAAAEAAAgEAAAAAAAAgQA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -609,8 +525,8 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorStatus" Collapsed="true">
-    <Position X="57" Y="5.75" Width="3" />
+  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorStatus">
+    <Position X="60.75" Y="8.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -638,7 +554,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorTIPP" Collapsed="true">
-    <Position X="47.25" Y="6.5" Width="2.75" />
+    <Position X="39.75" Y="7.25" Width="4" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -652,7 +568,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorTIPPAddTIPP" Collapsed="true">
-    <Position X="49" Y="6.5" Width="3.5" />
+    <Position X="47" Y="6.5" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIgAAAAAAAAAAAAAAIAAACQAAAAQAAA=</HashCode>
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
@@ -665,7 +581,7 @@
       <FileName>Sevis\Model\create-updateexchangevisitor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorTIPPDeletePhase" Collapsed="true">
+  <Class Name="ECA.Business.Sevis.Model.SEVISEVBatchTypeExchangeVisitorTIPPDeletePhase">
     <Position X="64.5" Y="8" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>

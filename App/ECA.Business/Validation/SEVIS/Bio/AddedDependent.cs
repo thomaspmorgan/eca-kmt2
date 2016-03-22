@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -14,6 +15,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// </summary>
     public class AddedDependent : Dependent
     {
+        [JsonConstructor]
         public AddedDependent(
                 FullName fullName,
                 string birthCity,
@@ -22,7 +24,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 DateTime? birthDate,
                 string citizenshipCountryCode,
                 string emailAddress,
-                string genderCode,
+                string gender,
                 string permanentResidenceCountryCode,
                 string phoneNumber,
                 string relationship,
@@ -40,7 +42,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: emailAddress,
-                genderCode: genderCode,
+                gender: gender,
                 permanentResidenceCountryCode: permanentResidenceCountryCode,
                 phoneNumber: phoneNumber,
                 relationship: relationship,
@@ -84,7 +86,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
-                printForm = this.PrintForm
+                printForm = this.PrintForm,
             };
         }
 
@@ -101,7 +103,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
 
-            return new EVPersonTypeDependent
+            var dependent = new EVPersonTypeDependent
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
@@ -113,9 +115,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
-                UserDefinedA = this.UserDefinedA,
-                UserDefinedB = this.UserDefinedB,
+                
             };
+            var sevisKey = new ParticipantSevisKey(this);
+            sevisKey.SetUserDefinedFields(dependent);
+            return dependent;
         }
     }
 }

@@ -203,16 +203,16 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="personId">The person Id</param>
         /// <returns>The person dependent</returns>
-        private async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId)
+        public async Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int dependentId)
         {
-            this.logger.Trace("Retrieving person with id {0}.", personId);
-            return await CreateGetSimplePersonDependent(personId).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieving person with id {0}.", dependentId);
+            return await CreateGetSimplePersonDependent(dependentId).FirstOrDefaultAsync();
         }
 
-        private IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependent(int personId)
+        private IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependent(int dependentId)
         {
             var query = PersonQueries.CreateGetSimplePersonDependentDTOsQuery(this.Context);
-            return query.Where(p => p.PersonId == personId);
+            return query.Where(p => p.PersonId == dependentId);
         }
         
         /// <summary>
@@ -220,79 +220,60 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="newPersonDependent">The person dependent to create</param>
         /// <returns>The person create</returns>
-        public Task<Person> CreateDependentAsync(NewPersonDependent newPersonDependent)
+        public async Task<Person> CreateDependentAsync(NewPersonDependent newDependent)
         {
-            return Task.Run(() => CreatePersonDependent(newPersonDependent, newPersonDependent.CountriesOfCitizenship));
-        }
-        
-        /// <summary>
-        /// Creates a person dependent
-        /// </summary>
-        /// <param name="newPerson"></param>
-        /// <param name="countriesOfCitizenship"></param>
-        /// <returns></returns>
-        private Person CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
-        {
-            HashSet<EmailAddress> emails = new HashSet<EmailAddress>();
-            EmailAddress email = new EmailAddress { Address = newPerson.EmailAddress };
-            emails.Add(email);
-
-            var person = new Person
+            Contract.Requires(newDependent != null, "The dependent must not be null.");
+            var citizenship = await GetLocationsByIdAsync(newDependent.CountriesOfCitizenship);
+            // create dependent
+            var person = CreatePersonDependent(newDependent, citizenship);
+            // add dependent to person family
+            var dependent = new PersonFamily
             {
-                FirstName = newPerson.FullName.FirstName,
-                LastName = newPerson.FullName.LastName,
-                GenderId = newPerson.Gender,
-                DateOfBirth = newPerson.DateOfBirth,
-                PlaceOfBirthId = newPerson.CityOfBirth,
-                CountriesOfCitizenship = countriesOfCitizenship,
-                EmailAddresses = emails,
-                PersonTypeId = newPerson.PersonTypeId
+                PersonId = newDependent.PersonId,
+                RelatedPersonId = person.PersonId
             };
+            //this.Context.PersonFamilies.Add(dependent);
 
-            newPerson.Audit.SetHistory(person);
-            this.Context.People.Add(person);
-            this.logger.Trace("Creating new person dependent {0}.", newPerson);
+            this.logger.Trace("Creating new person dependent {0}.", newDependent);                        
             return person;
         }
-
+        
         /// <summary>
         /// Update a person dependent
         /// </summary>
         /// <param name="person">The dependent to update</param>
         /// <returns>The updated dependent</returns>
-        public async Task<SimplePersonDependentDTO> UpdatePersonDependentAsync(UpdatedPersonDependent person)
+        public async Task<Person> UpdatePersonDependentAsync(UpdatedPersonDependent updatedDependent)
         {
-            var personToUpdate = await GetPersonDependentByIdAsync(person.PersonId);
-            var countriesOfCitizenship = await GetLocationsByIdAsync(person.CountriesOfCitizenship.Select(x => (int)x.CountryId).ToList());
-            DoDependentUpdate(person, personToUpdate, countriesOfCitizenship);
+            var personToUpdate = await GetPersonModelByIdAsync(updatedDependent.PersonId);
+            Location cityOfBirth = null;
+            if (updatedDependent.CityOfBirthId.HasValue)
+            {
+                cityOfBirth = await GetLocationByIdAsync(updatedDependent.CityOfBirthId.Value);
+                throwIfLocationNotFound(cityOfBirth, updatedDependent.CityOfBirthId.Value);
+            }
+            var countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
+            DoDependentUpdate(updatedDependent, personToUpdate, cityOfBirth, countriesOfCitizenship);
+
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, SimplePersonDependentDTO person, List<Location> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship)
         {
-            person.FullName = updateDependent.FullName;
+            person.FirstName = updateDependent.FirstName;
+            person.LastName = updateDependent.LastName;
+            person.NameSuffix = updateDependent.NameSuffix;
+            person.FullName = updateDependent.PreferredName;
+            //person.PassportName = updateDependent.PassportName;
             person.DateOfBirth = updateDependent.DateOfBirth;
-            person.Gender = updateDependent.Gender;
-            person.CityOfBirth = updateDependent.CityOfBirth;
-            person.CountryOfBirth = updateDependent.CountryOfBirth;
-            person.CountriesOfCitizenship = updateDependent.CountriesOfCitizenship;
-            person.PermanentResidenceCountryCode = updateDependent.PermanentResidenceCountryCode;
-            person.BirthCountryReason = updateDependent.BirthCountryReason;
-            person.EmailAddress = updateDependent.EmailAddress;
+            person.GenderId = updateDependent.GenderId;
+            person.PlaceOfBirthId = cityOfBirth != null ? cityOfBirth.LocationId : 0;
+            //person.Addresses = addresses;
+            //person.EmailAddresses = emails;
             person.PersonTypeId = updateDependent.PersonTypeId;
+            //person.BirthCountryReason = updateDependent.BirthCountryReason;
             updateDependent.Audit.SetHistory(person);
-            SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
-        }
-
-        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, SimplePersonDependentDTO person)
-        {
-            Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
-            Contract.Requires(person != null, "The person entity must not be null.");
-            person.CountriesOfCitizenship.Clear();
-            countriesOfCitizenship.ForEach(x =>
-            {
-                person.CountriesOfCitizenship.Add(x);
-            });
+            SetCountriesOfCitizenship(countriesOfCitizenship, person);
         }
 
         /// <summary>
@@ -628,6 +609,35 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Creates a person dependent
+        /// </summary>
+        /// <param name="newPerson">The person to create</param>
+        /// <param name="countriesOfCitizenship">The countries of citizenship</param>
+        /// <returns></returns>
+        private Person CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
+        {
+            var person = new Person
+            {
+                FirstName = newPerson.FirstName,
+                LastName = newPerson.LastName,
+                NameSuffix = newPerson.NameSuffix,
+                FullName = newPerson.PassportName,
+                GenderId = newPerson.GenderId,
+                DateOfBirth = newPerson.DateOfBirth,
+                PlaceOfBirthId = newPerson.CityOfBirthId,
+                PersonTypeId = newPerson.PersonTypeId,
+                CountriesOfCitizenship = countriesOfCitizenship,
+                //EmailAddresses = newPerson.EmailAddress;
+            };
+            
+            newPerson.Audit.SetHistory(person);
+            this.Context.People.Add(person);
+            
+            this.logger.Trace("Creating new person {0}.", newPerson);
+            return person;
+        }
+        
+        /// <summary>
         /// Create a participant
         /// </summary>
         /// <param name="person">Person to associate with participant</param>
@@ -668,12 +678,12 @@ namespace ECA.Business.Service.Persons
         private async Task<Person> GetPersonModelByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
-            return await CreateGetPersonById(personId).FirstOrDefaultAsync();
+            return await CreateGetPersonById(personId);
         }
 
-        private IQueryable<Person> CreateGetPersonById(int personId)
+        private async Task<Person> CreateGetPersonById(int personId)
         {
-            return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
+            return await Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
         }
 
         /// <summary>
