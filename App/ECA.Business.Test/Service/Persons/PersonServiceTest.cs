@@ -1714,7 +1714,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, firstName: firstName, lastName: lastName, nameSuffix: suffix, 
-                passportName: passport, preferredName: preferred, gender: gender, dateOfBirth: dateOfBirth, cityOfBirth: placeOfBirth.CityId,
+                passportName: passport, preferredName: preferred, genderId: gender, dateOfBirth: dateOfBirth, cityOfBirthId: placeOfBirth.CityId,
                 emailAddress: emailAddress, personTypeId: personTypeId, countriesOfCitizenship: countriesOfCitizenship, 
                 permanentResidenceCountryCode: countryResidence.LocationId, birthCountryReason: "");
 
