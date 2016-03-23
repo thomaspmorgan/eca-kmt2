@@ -30,6 +30,7 @@
                             <div class="form-group" ng-class="{ 'has-warning': view.locationExists, 'has-feedback': view.locationExists}">
                                 <label for="locationName">Name<span class="asterisk"> *</span></label>
                                 <input name="locationName"
+                                       id="locationName"
                                        ng-model="view.newLocation.name"
                                        form-element
                                        guidance="The name of the location."
@@ -39,7 +40,6 @@
                                        ng-model-options="{debounce: 1000}"
                                        ng-change="view.onNameChange()"
                                        placeholder="Enter location name."
-                                       id="locationName"
                                        required />
                                 <span class="form-control-feedback" ng-show="view.locationExists"><i class="material-icons md-24">error</i></span>
                                 <div ng-show="form.addLocationForm.locationName.$dirty || form.addLocationForm.locationName.$error.required">
