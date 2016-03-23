@@ -503,6 +503,8 @@ namespace ECA.Business.Service.Persons
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
             var participant = CreateParticipant(person, newPerson.ParticipantTypeId, project);
+            var defaultExchangeVisitorFunding = await GetDefaultExchangeVisitorFunding(project.ProjectId);
+            CreateParticipantExchangeVisitor(participant, project, defaultExchangeVisitorFunding);
             this.validator.ValidateCreate(GetPersonServiceValidationEntity(
                 person: person,
                 dateOfBirth: newPerson.DateOfBirth,
@@ -651,18 +653,55 @@ namespace ECA.Business.Service.Persons
                 Participant = participant
             };
             participant.ParticipantPerson = participantPerson;
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                Participant = participant
-            };
-            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
             participant.Project = project;
             person.Participations.Add(participant);
             this.Context.Participants.Add(participant);
             this.Context.ParticipantPersons.Add(participantPerson);
-            this.Context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             this.logger.Trace("Creating new participant {0}.", person);
             return participant;
+        }
+
+        private void CreateParticipantExchangeVisitor(Participant participant, Project project, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
+        {
+            if (project.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
+            {
+                var participantExchangeVisitor = new ParticipantExchangeVisitor
+                {
+                    Participant = participant
+                };
+
+                if (defaultExchangeVisitorFunding != null)
+                {
+                    participantExchangeVisitor.FundingSponsor = defaultExchangeVisitorFunding.FundingSponsor;
+                    participantExchangeVisitor.FundingPersonal = defaultExchangeVisitorFunding.FundingPersonal;
+                    participantExchangeVisitor.FundingVisGovt = defaultExchangeVisitorFunding.FundingVisGovt;
+                    participantExchangeVisitor.FundingVisBNC = defaultExchangeVisitorFunding.FundingVisBNC;
+                    participantExchangeVisitor.FundingGovtAgency1 = defaultExchangeVisitorFunding.FundingGovtAgency1;
+                    participantExchangeVisitor.GovtAgency1Id = defaultExchangeVisitorFunding.GovtAgency1Id;
+                    participantExchangeVisitor.GovtAgency1OtherName = defaultExchangeVisitorFunding.GovtAgency1OtherName;
+                    participantExchangeVisitor.FundingGovtAgency2 = defaultExchangeVisitorFunding.FundingGovtAgency2;
+                    participantExchangeVisitor.GovtAgency2Id = defaultExchangeVisitorFunding.GovtAgency2Id;
+                    participantExchangeVisitor.GovtAgency2OtherName = defaultExchangeVisitorFunding.GovtAgency2OtherName;
+                    participantExchangeVisitor.FundingIntlOrg1 = defaultExchangeVisitorFunding.FundingIntlOrg1;
+                    participantExchangeVisitor.IntlOrg1Id = defaultExchangeVisitorFunding.IntlOrg1Id;
+                    participantExchangeVisitor.IntlOrg1OtherName = defaultExchangeVisitorFunding.IntlOrg1OtherName;
+                    participantExchangeVisitor.FundingIntlOrg2 = defaultExchangeVisitorFunding.FundingIntlOrg2;
+                    participantExchangeVisitor.IntlOrg2Id = defaultExchangeVisitorFunding.IntlOrg2Id;
+                    participantExchangeVisitor.IntlOrg2OtherName = defaultExchangeVisitorFunding.IntlOrg2OtherName;
+                    participantExchangeVisitor.FundingOther = defaultExchangeVisitorFunding.FundingOther;
+                    participantExchangeVisitor.OtherName = defaultExchangeVisitorFunding.OtherName;
+                    participantExchangeVisitor.FundingTotal = defaultExchangeVisitorFunding.FundingTotal;
+
+                }
+
+                participant.ParticipantExchangeVisitor = participantExchangeVisitor;
+                this.Context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
+            }
+        }
+
+        private async Task<DefaultExchangeVisitorFunding> GetDefaultExchangeVisitorFunding(int projectId)
+        {
+            return await Context.DefaultExchangeVisitorFunding.FindAsync(projectId);
         }
 
         /// <summary>
