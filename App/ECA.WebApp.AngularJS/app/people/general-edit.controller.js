@@ -26,8 +26,6 @@ angular.module('staticApp')
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
-              $scope.sevisStatus.statusName = data.sevisStatus;
-              $scope.sevisStatus.statusNameId = data.sevisStatusId;
               $scope.editView.selectedProminentCategories = $scope.general.prominentCategories.map(function (obj) {
                   var prominentCategory = {};
                   prominentCategory.id = obj.id;

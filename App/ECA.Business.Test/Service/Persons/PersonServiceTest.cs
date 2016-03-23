@@ -169,7 +169,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
-                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetGeneralById(person.PersonId);
@@ -287,7 +286,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
-                Assert.AreEqual(participant.ParticipantPerson.ParticipantPersonSevisCommStatuses.FirstOrDefault().SevisCommStatus.SevisCommStatusName, serviceResult.SevisStatus);
             };
 
             var result = this.service.GetPiiById(person.PersonId);

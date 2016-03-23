@@ -16,7 +16,8 @@ angular.module('staticApp')
         $modal,
         ConstantsService,
         DependentService,
-        LocationService
+        LocationService,
+        NotificationService
         ) {
 
       $scope.view = {};
@@ -66,6 +67,22 @@ angular.module('staticApp')
           });
       };
       
+      $scope.view.onDeleteDependentClick = function (index) {
+          $scope.view.isDeletingDependent = true;
+          var dependent = $scope.model.dependants[index];
+          return DependentService.delete($scope.view.params.personId, dependent.id)
+          .then(function () {
+              NotificationService.showSuccessMessage("Successfully deleted dependent.");
+              $scope.view.isDeletingDependent = false;
+              removeDependentFromView(index);
+          })
+          .catch(function () {
+              var message = "Unable to delete dependent.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      };
+
       function loadCities(search) {
           if (search || $scope.dependent) {
               var params = {
@@ -86,6 +103,10 @@ angular.module('staticApp')
                     return $scope.cities;
                 });
           }
+      }
+
+      function removeDependentFromView(index) {
+          $scope.$emit(ConstantsService.removeNewDependentEventName, index);
       }
 
       $scope.$on(ConstantsService.removeNewDependentEventName, function (event, newDependent) {

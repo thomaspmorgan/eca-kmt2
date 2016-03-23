@@ -76,8 +76,6 @@ angular.module('staticApp')
           return PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
-                 $scope.sevisStatus.statusName = data.sevisStatus;
-                 $scope.sevisStatus.statusNameId = data.sevisStatusId;
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }

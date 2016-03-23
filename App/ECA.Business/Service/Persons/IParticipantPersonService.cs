@@ -47,6 +47,20 @@ namespace ECA.Business.Service.Persons
         System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int projectId, int participantId);
 
         /// <summary>
+        /// Returns the participantPerson by id
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The participantPerson</returns>
+        SimpleParticipantPersonDTO GetParticipantPersonById(int personId);
+
+        /// <summary>
+        /// Returns a participantPerson asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The participantPerson</returns>
+        Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId);
+
+        /// <summary>
         /// Updates a participant person with given updated participant information.
         /// </summary>
         /// <param name="updatedPerson">The updated participant person.</param>
@@ -86,6 +100,26 @@ namespace ECA.Business.Service.Persons
         public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int projectId, int participantId)
         {
             return Task.FromResult<SimpleParticipantPersonDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public SimpleParticipantPersonDTO GetParticipantPersonById(int personId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId)
+        {
+            return null;
         }
 
         /// <summary>

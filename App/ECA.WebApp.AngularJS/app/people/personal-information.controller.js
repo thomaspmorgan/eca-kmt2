@@ -4,7 +4,8 @@
  * Controller for the person information page
  */
 angular.module('staticApp')
-  .controller('PersonInformationCtrl', function ($scope, $stateParams, $state, $timeout, $q, $filter, smoothScroll, MessageBox, StateService, ConstantsService) {
+  .controller('PersonInformationCtrl', function ($scope, $stateParams, $state, $timeout, $q, $filter, $log,
+                                                smoothScroll, MessageBox, StateService, ConstantsService, ParticipantPersonsService) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
@@ -47,6 +48,15 @@ angular.module('staticApp')
               $scope.edit.EduEmp = response;
           });
       }
+      
+      ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+          .then(function (data) {
+              $scope.sevisStatus.statusName = data.data.sevisStatus;
+              $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+          }, function (error) {
+              $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+              NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+          });
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
@@ -104,7 +114,7 @@ angular.module('staticApp')
           $scope.showContact = false;
           $scope.showEduEmp = false;
           $scope.showEvalNotes = false;
-              }
+        }
 
       function scrollToSection(sectionId, callbackBefore, callbackAfter) {
               $timeout(function () {

@@ -263,7 +263,6 @@ namespace ECA.Business.Queries.Persons
                             PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
                             ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
-                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
                             SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
             return query;
@@ -300,7 +299,6 @@ namespace ECA.Business.Queries.Persons
                             PersonId = person.PersonId,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
                             ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
-                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
                             SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
             return query;
@@ -335,8 +333,6 @@ namespace ECA.Business.Queries.Persons
                             CurrentStatus = hasCurrentParticipation ? currentParticipant.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
                             ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
-                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
-                            SevisStatusId = currentParticipant == null ? 0 : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId,
                             SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
 
