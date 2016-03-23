@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Projects;
 using System.Threading.Tasks;
 using ECA.Data;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Projects
 {
@@ -169,5 +170,135 @@ namespace ECA.Business.Test.Service.Projects
         }
         #endregion
 
+        #region Put
+        [TestMethod]
+        [ExpectedException(typeof(ModelNotFoundException))]
+        public async Task TestUpdateAsync_ModelNotFound()
+        {
+            var updatedDefaultExchangeVisitorFunding = new UpdatedDefaultExchangeVisitorFunding(
+                new Business.Service.User(1),
+                1,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+            await service.UpdateAsync(updatedDefaultExchangeVisitorFunding);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckProperties()
+        {
+            var govtAgency1 = new USGovernmentAgency
+            {
+                AgencyId = 1,
+                Description = "govtAgency1"
+            };
+
+            var govtAgency2 = new USGovernmentAgency
+            {
+                AgencyId = 2,
+                Description = "govtAgency2"
+            };
+
+            context.USGovernmentAgencies.Add(govtAgency1);
+            context.USGovernmentAgencies.Add(govtAgency2);
+
+            var intlOrg1 = new InternationalOrganization
+            {
+                OrganizationId = 1,
+                Description = "intlOrg1"
+            };
+
+            var intlOrg2 = new InternationalOrganization
+            {
+                OrganizationId = 2,
+                Description = "intlOrg2"
+            };
+
+            context.InternationalOrganizations.Add(intlOrg1);
+            context.InternationalOrganizations.Add(intlOrg2);
+
+            var initialExchangeVisitorFunding = new DefaultExchangeVisitorFunding
+            {
+                ProjectId = 1,
+                FundingSponsor = 0,
+                FundingPersonal = 0,
+                FundingVisGovt = 0,
+                FundingVisBNC = 0,
+                FundingGovtAgency1 = 0,
+                FundingGovtAgency2 = 0,
+                FundingIntlOrg1 = 0,
+                FundingIntlOrg2 = 0,
+                FundingOther = 0,
+                FundingTotal = 0
+            };
+            context.DefaultExchangeVisitorFunding.Add(initialExchangeVisitorFunding);
+
+            var updatedDefaultExchangeVisitorFunding = new UpdatedDefaultExchangeVisitorFunding(
+               new Business.Service.User(1),
+               1,
+               2,
+               3,
+               4,
+               5,
+               6,
+               govtAgency1.AgencyId,
+               "Govt Agency 1",
+               7,
+               govtAgency2.AgencyId,
+               "Govt Agency 2",
+               8,
+               intlOrg1.OrganizationId,
+               "Intl Org 1",
+               9,
+               intlOrg2.OrganizationId,
+               "Intl Org 2",
+               10,
+               "Other Name",
+               55);
+
+            await service.UpdateAsync(updatedDefaultExchangeVisitorFunding);
+
+            var defaultExchangeVisitorFunding = context.DefaultExchangeVisitorFunding.Find(initialExchangeVisitorFunding.ProjectId);
+
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.ProjectId, defaultExchangeVisitorFunding.ProjectId);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingSponsor, defaultExchangeVisitorFunding.FundingSponsor);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingPersonal, defaultExchangeVisitorFunding.FundingPersonal);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingVisGovt, defaultExchangeVisitorFunding.FundingVisGovt);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingVisBNC, defaultExchangeVisitorFunding.FundingVisBNC);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingGovtAgency1, defaultExchangeVisitorFunding.FundingGovtAgency1);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingGovtAgency2, defaultExchangeVisitorFunding.FundingGovtAgency2);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingIntlOrg1, defaultExchangeVisitorFunding.FundingIntlOrg1);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingIntlOrg2, defaultExchangeVisitorFunding.FundingIntlOrg2);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingOther, defaultExchangeVisitorFunding.FundingOther);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.FundingTotal, defaultExchangeVisitorFunding.FundingTotal);
+
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.GovtAgency1OtherName, defaultExchangeVisitorFunding.GovtAgency1OtherName);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.GovtAgency2OtherName, defaultExchangeVisitorFunding.GovtAgency2OtherName);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.IntlOrg1OtherName, defaultExchangeVisitorFunding.IntlOrg1OtherName);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.IntlOrg2OtherName, defaultExchangeVisitorFunding.IntlOrg2OtherName);
+            Assert.AreEqual(updatedDefaultExchangeVisitorFunding.OtherName, defaultExchangeVisitorFunding.OtherName);
+
+            Assert.AreEqual(govtAgency1.AgencyId, defaultExchangeVisitorFunding.GovtAgency1Id);
+            Assert.AreEqual(govtAgency2.AgencyId, defaultExchangeVisitorFunding.GovtAgency2Id);
+            Assert.AreEqual(intlOrg1.OrganizationId, defaultExchangeVisitorFunding.IntlOrg1Id);
+            Assert.AreEqual(intlOrg2.OrganizationId, defaultExchangeVisitorFunding.IntlOrg2Id);
+        }
+        #endregion
     }
 }
