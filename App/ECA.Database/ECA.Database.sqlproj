@@ -273,6 +273,28 @@
     <Build Include="dbo\Tables\OrganizationStatus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationStatus.staticdata.sql" />
     <Build Include="Sevis\Tables\StudentTermination.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.BirthCountry.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.CapGapExtensionType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.DependentCancellationReason.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.DependentTermination.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.DropBelowFullCourseReason.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.EducationLevel.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.EmploymentTime.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.EndProgramReason.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.ExchangeVisitorPosition.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.ExchangeVisitorTerminationReason.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.FieldOfStudy.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.InternationalOrganization.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.OccupationalCategory.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.Position.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.ProgramCategory.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.ProgramSubject.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.StudentCancellation.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.StudentCreation.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.StudentReprint.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.StudentSecondaryMajorMinor.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.StudentTermination.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\sevis.USGovernmentAgency.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

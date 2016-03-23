@@ -86,7 +86,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
-                printForm = this.PrintForm
+                printForm = this.PrintForm,
             };
         }
 

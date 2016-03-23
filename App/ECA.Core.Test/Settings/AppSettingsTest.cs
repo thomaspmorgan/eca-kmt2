@@ -140,6 +140,78 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_SevisSiteOfActivityAddressDTO()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, value);
+            Assert.AreEqual(value, settings.SevisSiteOfActivityAddressDTO);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisPassphrase()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_PASSPHRASE, value);
+            Assert.AreEqual(value, settings.SevisPassphrase);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisThumbprint()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_THUMBPRINT, value);
+            Assert.AreEqual(value, settings.SevisThumbprint);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisOrgId()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_ORGID_KEY, value);
+            Assert.AreEqual(value, settings.SevisOrgId);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisUserId()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_USERID_KEY, value);
+            Assert.AreEqual(value, settings.SevisUserId);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisDownloadUri()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_DOWNLOAD_URI_KEY, value);
+            Assert.AreEqual(value, settings.SevisDownloadUri);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisUploadUri()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.SEVIS_UPLOAD_URI_KEY, value);
+            Assert.AreEqual(value, settings.SevisUploadUri);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_IdleDurationInSeconds()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.IDLE_DURATION_IN_SECONDS, value);
+            Assert.AreEqual(value, settings.IdleDurationInSeconds);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_IdleTimeoutInSeconds()
+        {
+            var value = "value";
+            appSettings.Add(AppSettings.IDLE_TIMEOUT_IN_SECONDS, value);
+            Assert.AreEqual(value, settings.IdleTimeoutInSeconds);
+        }
+
+        [TestMethod]
         public void TestConstructor_ZeroArgument_AppSettings()
         {
             var testSettings = new AppSettings();

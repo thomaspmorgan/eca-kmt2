@@ -7,7 +7,19 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, FilterService, NotificationService, $q, DateTimeService) {
+  .controller('personPiiEditCtrl', function (
+      $rootScope,
+      $scope,
+      $timeout,
+      PersonService,
+      LookupService,
+      LocationService,
+      ConstantsService,
+      $stateParams,
+      FilterService,
+      NotificationService,
+      $q,
+      DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
@@ -58,17 +70,7 @@ angular.module('staticApp')
           }
       }
 
-      PersonService.getPersonById($stateParams.personId)
-        .then(function (data) {
-            $scope.person = data;
-            loadPii(data.personId);
-            $scope.personIdDeferred.resolve(data.personId);
-            PersonService.getContactInfoById(data.personId)
-              .then(function (data) {
-                  $scope.contactInfo = data;
-              });
-        });
-
+      loadPii($stateParams.personId);
       function loadPii(personId) {
           $scope.edit.piiLoading = true;
           return PersonService.getPiiById(personId)
@@ -89,7 +91,6 @@ angular.module('staticApp')
                  if ($scope.pii.dateOfBirth) {
                      $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
                  }
-                 
                  return loadCities(null)
                  .then(function () {
                      $scope.edit.piiLoading = false;
@@ -186,9 +187,10 @@ angular.module('staticApp')
           setupPii();
 
           PersonService.updatePii($scope.pii, $scope.person.personId)
-              .then(function () {
+              .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
+                  $scope.$parent.onPersonPiiUpdated();
                   $scope.edit.Pii = false;
               },
               function (error) {

@@ -80,6 +80,10 @@ namespace ECA.Core.Settings
 
         public const string SEVIS_PASSPHRASE = SEVIS_PREFIX + "Passphrase";
 
+        /// <summary>
+        /// The sevis site of activity address key.
+        /// </summary>
+        public const string SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO = SEVIS_PREFIX + "SiteOfActivityAddressDTO";
         #endregion
 
         #region Database Constants
@@ -234,6 +238,11 @@ namespace ECA.Core.Settings
         /// Gets the azure SEVIS Client Certificate Passphrase
         /// </summary>
         public string SevisPassphrase { get { return GetAppSetting(SEVIS_PASSPHRASE); } }
+
+        /// <summary>
+        /// Gets the azure SEVIS site of activity.
+        /// </summary>
+        public string SevisSiteOfActivityAddressDTO { get { return GetAppSetting(SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO); } }
 
         /// <summary>
         /// Gets the active directory client id.

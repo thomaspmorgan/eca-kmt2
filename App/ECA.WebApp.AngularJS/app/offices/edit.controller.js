@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('staticApp')
-  .controller('OfficeEditCtrl', function ($scope, $state, $stateParams, $q, $log, $modal, FilterService, LookupService, OfficeService, StateService, NotificationService) {
+  .controller('OfficeEditCtrl', function ($scope, $state, $stateParams, $q, $log, $modal, FilterService, NavigationService, LookupService, OfficeService, StateService, NotificationService) {
 
       $scope.view = {};
       $scope.view.selectedThemes = [];
@@ -44,6 +44,7 @@ angular.module('staticApp')
 
           OfficeService.update(office)
             .then(function () {
+                NavigationService.updateBreadcrumbs();
                 StateService.goToOfficeState(office.officeId, { reload: true });
             }, function () {
                 NotificationService.showErrorMessage('Unable to save office.');
