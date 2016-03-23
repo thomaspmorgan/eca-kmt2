@@ -232,6 +232,7 @@
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
+    <Compile Include="Queries\Sevis\ReadyToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
@@ -536,7 +537,8 @@
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
-    <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
+    <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />
+    <Compile Include="Service\Sevis\StagedSevisBatch.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
     <Compile Include="Sevis\Model\sevistranslog.cs">
       <DependentUpon>SevisTransLog.xsd</DependentUpon>
