@@ -8,9 +8,11 @@
     </div>
     <div ng-show="!edit.contactsLoading">
         <div class="row">
-            <div class="pull-right">
-                <button ng-click="saveEditContact()" class="btn btn-success" ng-disabled="contactForm.$pristine">Save</button>
-                <button ng-click="cancelEditContact()" class="btn btn-cancel">Cancel</button>
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <button ng-click="saveEditContact()" class="btn btn-success" ng-disabled="contactForm.$pristine">Save</button>
+                    <button ng-click="cancelEditContact()" class="btn btn-cancel">Cancel</button>
+                </div>
             </div>
         </div>
         <form name="contactForm" class="form-horizontal">
