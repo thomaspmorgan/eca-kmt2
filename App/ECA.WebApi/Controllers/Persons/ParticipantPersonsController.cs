@@ -79,16 +79,7 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int projectId, int participantId) 
         {
             var participantPerson = await this.service.GetParticipantPersonByIdAsync(projectId, participantId);
-            if (participantPerson != null)
-            {
-                return Ok(participantPerson);
-            }
-            else
-            {
-                var participant = await this.participantService.GetParticipantByIdAsync(participantId);
-                participantPerson = await DoCreateOrUpdateParticipantPersonAsync(projectId, participant);
-                return Ok(participantPerson);
-            }
+            return Ok(participantPerson);
         }
 
         /// <summary>
