@@ -6,6 +6,9 @@
     },
     {
       "filePath": "../ECA.WebJobs.Search.Index.All/ECA.WebJobs.Search.Index.All.csproj"
+    },
+    {
+      "filePath": "../ECA.WebJobs.Sevis.Staging/ECA.WebJobs.Sevis.Staging.csproj"
     }
   ]
 }

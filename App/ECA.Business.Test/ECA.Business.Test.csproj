@@ -339,6 +339,7 @@
     <Compile Include="Service\Reports\ReportServiceTest.cs" />
     <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingServiceTest.cs" />
+    <Compile Include="Service\Sevis\StagedSevisBatchTest.cs" />
     <Compile Include="Service\UserTest.cs" />
     <Compile Include="Service\UpdateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

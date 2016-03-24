@@ -150,10 +150,10 @@ namespace ECA.Business.Queries.Sevis
 
         //#endregion
 
-        public static IQueryable<ReadyToSubmitParticipantDTO> CreateGetReadyToSubmitParticipantDTOsQuery(EcaContext context)
+        public static IQueryable<ReadyToSubmitParticipantDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var readyToSubmitSevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id;
+            var statusId = SevisCommStatus.QueuedToSubmit.Id;
 
             var query = from participantPerson in context.ParticipantPersons
                         let participant = participantPerson.Participant
@@ -161,14 +161,14 @@ namespace ECA.Business.Queries.Sevis
                                         .OrderByDescending(x => x.AddedOn)
                                         .FirstOrDefault()
 
-                        where latestStatus.SevisCommStatusId == readyToSubmitSevisCommStatusId
+                        where latestStatus.SevisCommStatusId == statusId
                         select new ReadyToSubmitParticipantDTO
                         {
                             ParticipantId = participantPerson.ParticipantId,
                             ProjectId = participant.ProjectId,
                             SevisId = participantPerson.SevisId
                         };
-            return query;
+            return query.OrderBy(x => x.ParticipantId);
         }
     }
 }

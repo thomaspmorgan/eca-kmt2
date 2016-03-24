@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -44,7 +45,7 @@ namespace ECA.Business.Service.Sevis
         ///// <param name="batchId">Batch ID</param>
         ///// <param name="user">User</param>
         //Task<IQueryable<ParticipantSevisBatchProcessingResultDTO>> UpdateParticipantPersonSevisBatchStatusAsync(User user, int batchId);
-        
+
         ///// <summary>
         ///// Retrieves the  SevisBatchProcessing dto with the given id.
         ///// </summary>
@@ -90,6 +91,20 @@ namespace ECA.Business.Service.Sevis
         ///// <param name="user"></param>
         ///// <returns></returns>
         //string GetSevisBatchCreateUpdateXML(int programId, User user);
+
+        /// <summary>
+        /// Stages all queued to submit sevis participants into sevis batches that can then be sent to sevis for processing.
+        /// </summary>
+        /// <param name="user">The user performing the staging.</param>
+        /// <returns>The list of staged sevis batches.</returns>
+        List<StagedSevisBatch> StageBatches(User user);
+
+        /// <summary>
+        /// Stages all queued to submit sevis participants into sevis batches that can then be sent to sevis for processing.
+        /// </summary>
+        /// <param name="user">The user performing the staging.</param>
+        /// <returns>The list of staged sevis batches.</returns>
+        Task<List<StagedSevisBatch>> StageBatchesAsync(User user);
     }
 
     /// <summary>
@@ -167,6 +182,28 @@ namespace ECA.Business.Service.Sevis
         public Task<int> SaveChangesAsync()
         {
             return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public List<StagedSevisBatch> StageBatches(User user)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Task<List<StagedSevisBatch>> StageBatchesAsync(User user)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            return Task.FromResult<List<StagedSevisBatch>>(null);
         }
 
         ///// <summary>

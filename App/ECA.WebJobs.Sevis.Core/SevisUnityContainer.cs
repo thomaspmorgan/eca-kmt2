@@ -15,7 +15,6 @@ namespace ECA.WebJobs.Sevis.Core
     /// </summary>
     public class SevisUnityContainer : UnityContainer
     {
-        private IBusinessValidator<Object, UpdatedParticipantPersonValidationEntity> participantPersonValidator;
 
         /// <summary>
         /// Creates a new instance.
@@ -30,10 +29,10 @@ namespace ECA.WebJobs.Sevis.Core
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
 
-            this.RegisterType<ParticipantService>(new InjectionFactory((c) =>
+            this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
-                var service = new ParticipantService(context, null);
+                var service = new ExchangeVisitorService(context, appSettings, null);
                 return service;
             }));
             
@@ -42,9 +41,7 @@ namespace ECA.WebJobs.Sevis.Core
             this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
-                var participantService = c.Resolve<ParticipantService>();
-                var participantPersonSevisService = c.Resolve<ParticipantPersonsSevisService>();
-                var service = new SevisBatchProcessingService(context, participantService, participantPersonSevisService, null);
+                var service = new SevisBatchProcessingService(context, c.Resolve<IExchangeVisitorService>(), appSettings.SevisOrgId);
                 return service;
             }));
         }
