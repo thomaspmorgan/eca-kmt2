@@ -147,6 +147,7 @@
     <Compile Include="Configuration\BookmarkConfiguration.cs" />
     <Compile Include="Configuration\DataPointCategoryPropertyConfiguration.cs" />
     <Compile Include="Configuration\DataPointConfigurationConfiguration.cs" />
+    <Compile Include="Configuration\DefaultExchangeVisitorFundingConfiguration.cs" />
     <Compile Include="Configuration\FieldOfStudyConfiguration.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="DataPointCategoryProperty.cs" />
     <Compile Include="DataPointConfiguration.cs" />
     <Compile Include="DataPointProperty.cs" />
+    <Compile Include="DefaultExchangeVisitorFunding.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

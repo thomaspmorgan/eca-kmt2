@@ -1476,7 +1476,6 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var firstName = "first";
             var lastName = "last";
-            var projectId = 1;
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
@@ -1487,9 +1486,16 @@ namespace ECA.Business.Test.Service.Persons
             var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
+
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: projectId,
+                projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
                 firstName: firstName,
                 lastName: lastName,
@@ -1504,7 +1510,82 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                context.Projects.Add(project);
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
+                Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
+                Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
+                Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
+                Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+                Assert.AreEqual(personTypeId, testPerson.PersonTypeId);
+                Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
+                Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
 
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(0, context.ParticipantExchangeVisitors.Count());
+                Assert.AreEqual(1, testPerson.Participations.Count);
+
+                var participant = testPerson.Participations.First();
+                Assert.IsTrue(Object.ReferenceEquals(participant, context.Participants.First()));
+                Assert.IsNotNull(participant.ParticipantPerson);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantPerson, context.ParticipantPersons.First()));
+
+                Assert.IsNull(participant.ParticipantExchangeVisitor);
+            };
+            context.Revert();
+            var person = await service.CreateAsync(newPerson);
+            tester(person);
+            validator.Verify(x => x.ValidateCreate(It.IsAny<PersonServiceValidationEntity>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_ExchangeVisitor()
+        {
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = true;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
+            var countriesOfCitizenship = new List<int>();
+
+
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: project.ProjectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
             });
             Action<Person> tester = (testPerson) =>
             {
@@ -1541,25 +1622,55 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestCreateAsync_DateOfBirthEstimated()
+        public async Task TestCreateAsync_ExchangeVisitorWithDefaults()
         {
             var user = new User(1);
             var firstName = "first";
             var lastName = "last";
-            var projectId = 1;
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
             var isDateOfBirthUnknown = true;
-            var isDateOfBirthEstimated = false;
+            var isDateOfBirthEstimated = true;
             var isPlaceOfBirthUnknown = true;
             var cityOfBirth = 5;
             var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
+
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.ExchangeVisitor.Id
+            };
+
+            var defaultExchangeVisitorFunding = new DefaultExchangeVisitorFunding
+            {
+                ProjectId = project.ProjectId,
+                FundingSponsor = 1,
+                FundingPersonal = 2,
+                FundingVisGovt = 3,
+                FundingVisBNC = 4,
+                FundingGovtAgency1 = 5,
+                GovtAgency1Id = 1,
+                GovtAgency1OtherName = "govt agency 1 other name",
+                FundingGovtAgency2 = 6,
+                GovtAgency2Id = 2,
+                GovtAgency2OtherName = "govt agency 2 other name",
+                FundingIntlOrg1 = 7,
+                IntlOrg1Id = 3,
+                IntlOrg1OtherName = "intl org 1 other name",
+                FundingIntlOrg2 = 8,
+                IntlOrg2Id = 4,
+                IntlOrg2OtherName = "intl org 2 other name",
+                FundingOther = 9,
+                OtherName = "other name",
+                FundingTotal = 55
+        };
+
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: projectId,
+                projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
                 firstName: firstName,
                 lastName: lastName,
@@ -1574,7 +1685,103 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
+                context.Projects.Add(project);
+                context.DefaultExchangeVisitorFunding.Add(defaultExchangeVisitorFunding);
+            });
+            Action<Person> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.Gender, testPerson.GenderId);
+                Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
+                Assert.AreEqual(newPerson.IsDateOfBirthEstimated, testPerson.IsDateOfBirthEstimated);
+                Assert.AreEqual(newPerson.IsDateOfBirthUnknown, testPerson.IsDateOfBirthUnknown);
+                Assert.AreEqual(newPerson.IsPlaceOfBirthUnknown, testPerson.IsPlaceOfBirthUnknown);
+                Assert.AreEqual(personTypeId, testPerson.PersonTypeId);
+                Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
+                Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
 
+                Assert.AreEqual(1, context.Participants.Count());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(1, context.ParticipantExchangeVisitors.Count());
+                Assert.AreEqual(1, testPerson.Participations.Count);
+
+                var participant = testPerson.Participations.First();
+                Assert.IsTrue(Object.ReferenceEquals(participant, context.Participants.First()));
+                Assert.IsNotNull(participant.ParticipantPerson);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantPerson, context.ParticipantPersons.First()));
+
+                Assert.IsNotNull(participant.ParticipantExchangeVisitor);
+                Assert.IsTrue(Object.ReferenceEquals(participant.ParticipantExchangeVisitor, context.ParticipantExchangeVisitors.First()));
+
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingSponsor, participant.ParticipantExchangeVisitor.FundingSponsor);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingPersonal, participant.ParticipantExchangeVisitor.FundingPersonal);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingVisGovt, participant.ParticipantExchangeVisitor.FundingVisGovt);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingVisBNC, participant.ParticipantExchangeVisitor.FundingVisBNC);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingGovtAgency1, participant.ParticipantExchangeVisitor.FundingGovtAgency1);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingGovtAgency2, participant.ParticipantExchangeVisitor.FundingGovtAgency2);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingIntlOrg1, participant.ParticipantExchangeVisitor.FundingIntlOrg1);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingIntlOrg2, participant.ParticipantExchangeVisitor.FundingIntlOrg2);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingOther, participant.ParticipantExchangeVisitor.FundingOther);
+                Assert.AreEqual(defaultExchangeVisitorFunding.FundingTotal, participant.ParticipantExchangeVisitor.FundingTotal);
+
+                Assert.AreEqual(defaultExchangeVisitorFunding.GovtAgency1Id, participant.ParticipantExchangeVisitor.GovtAgency1Id);
+                Assert.AreEqual(defaultExchangeVisitorFunding.GovtAgency1OtherName, participant.ParticipantExchangeVisitor.GovtAgency1OtherName);
+                Assert.AreEqual(defaultExchangeVisitorFunding.GovtAgency2Id, participant.ParticipantExchangeVisitor.GovtAgency2Id);
+                Assert.AreEqual(defaultExchangeVisitorFunding.GovtAgency2OtherName, participant.ParticipantExchangeVisitor.GovtAgency2OtherName);
+                Assert.AreEqual(defaultExchangeVisitorFunding.IntlOrg1Id, participant.ParticipantExchangeVisitor.IntlOrg1Id);
+                Assert.AreEqual(defaultExchangeVisitorFunding.IntlOrg1OtherName, participant.ParticipantExchangeVisitor.IntlOrg1OtherName);
+                Assert.AreEqual(defaultExchangeVisitorFunding.IntlOrg2Id, participant.ParticipantExchangeVisitor.IntlOrg2Id);
+                Assert.AreEqual(defaultExchangeVisitorFunding.IntlOrg2OtherName, participant.ParticipantExchangeVisitor.IntlOrg2OtherName);
+            };
+            context.Revert();
+            var person = await service.CreateAsync(newPerson);
+            tester(person);
+            validator.Verify(x => x.ValidateCreate(It.IsAny<PersonServiceValidationEntity>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_DateOfBirthEstimated()
+        {
+            var user = new User(1);
+            var firstName = "first";
+            var lastName = "last";
+            var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            var isDateOfBirthUnknown = true;
+            var isDateOfBirthEstimated = false;
+            var isPlaceOfBirthUnknown = true;
+            var cityOfBirth = 5;
+            var personTypeId = PersonType.Participant.Id;
+            var countriesOfCitizenship = new List<int>();
+
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+
+            var newPerson = new NewPerson(
+                createdBy: user,
+                projectId: project.ProjectId,
+                participantTypeId: participantTypeId,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                isDateOfBirthUnknown: isDateOfBirthUnknown,
+                isDateOfBirthEstimated: isDateOfBirthEstimated,
+                isPlaceOfBirthUnknown: isPlaceOfBirthUnknown,
+                cityOfBirth: cityOfBirth,
+                personTypeId: personTypeId,
+                countriesOfCitizenship: countriesOfCitizenship);
+
+            context.SetupActions.Add(() =>
+            {
+                context.Projects.Add(project);
             });
             Action<Person> tester = (testPerson) =>
             {
@@ -1593,7 +1800,6 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var firstName = "first";
             var lastName = "last";
-            var projectId = 1;
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
@@ -1604,9 +1810,15 @@ namespace ECA.Business.Test.Service.Persons
             var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: projectId,
+                projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
                 firstName: firstName,
                 lastName: lastName,
@@ -1621,7 +1833,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
-
+                context.Projects.Add(project);
             });
             Action<Person> tester = (testPerson) =>
             {
@@ -1640,7 +1852,6 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var firstName = "first";
             var lastName = "last";
-            var projectId = 1;
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
@@ -1651,9 +1862,15 @@ namespace ECA.Business.Test.Service.Persons
             var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: projectId,
+                projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
                 firstName: firstName,
                 lastName: lastName,
@@ -1668,7 +1885,7 @@ namespace ECA.Business.Test.Service.Persons
 
             context.SetupActions.Add(() =>
             {
-
+                context.Projects.Add(project);
             });
             Action<Person> tester = (testPerson) =>
             {
@@ -1749,7 +1966,6 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var firstName = "first";
             var lastName = "last";
-            var projectId = 1;
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
@@ -1760,9 +1976,15 @@ namespace ECA.Business.Test.Service.Persons
             var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int>();
 
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: projectId,
+                projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
                 firstName: firstName,
                 lastName: lastName,
@@ -1777,6 +1999,7 @@ namespace ECA.Business.Test.Service.Persons
             context.SetupActions.Add(() =>
             {
                 context.Locations.Add(city);
+                context.Projects.Add(project);
             });
             Action<Person> tester = (testPerson) =>
             {
@@ -1798,7 +2021,6 @@ namespace ECA.Business.Test.Service.Persons
             var user = new User(1);
             var firstName = "first";
             var lastName = "last";
-            var projectId = 1;
             var participantTypeId = ParticipantType.ForeignNonTravelingParticipant.Id;
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
@@ -1809,9 +2031,15 @@ namespace ECA.Business.Test.Service.Persons
             var personTypeId = PersonType.Participant.Id;
             var countriesOfCitizenship = new List<int> { country.LocationId };
 
+            var project = new Project
+            {
+                ProjectId = 1,
+                VisitorTypeId = VisitorType.NotApplicable.Id
+            };
+
             var newPerson = new NewPerson(
                 createdBy: user,
-                projectId: projectId,
+                projectId: project.ProjectId,
                 participantTypeId: participantTypeId,
                 firstName: firstName,
                 lastName: lastName,
@@ -1826,6 +2054,7 @@ namespace ECA.Business.Test.Service.Persons
             context.SetupActions.Add(() =>
             {
                 context.Locations.Add(country);
+                context.Projects.Add(project);
             });
             Action<Person> tester = (testPerson) =>
             {

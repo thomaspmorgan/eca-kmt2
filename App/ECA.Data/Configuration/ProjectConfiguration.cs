@@ -88,6 +88,7 @@ namespace ECA.Data.Configuration
                   p.MapRightKey("ObjectiveId");
                   p.ToTable("ProjectObjective");
               });
+            HasOptional(a => a.DefaultExchangeVisitorFunding).WithRequired(p => p.Project).WillCascadeOnDelete(false);
         }
     }
 }

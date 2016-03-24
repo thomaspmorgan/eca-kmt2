@@ -5,6 +5,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace ECA.Business.Test
 {
 	using System;
@@ -235,6 +254,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///DataPointConfigurationId
 			return Task.FromResult<ECA.Data.DataPointConfiguration>(this.SingleOrDefault(x => x.DataPointConfigurationId.Equals(keyValues.First())));
+		}
+	}
+	public class DefaultExchangeVisitorFundingTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.DefaultExchangeVisitorFunding>
+	{
+		public override ECA.Data.DefaultExchangeVisitorFunding Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProjectId
+			return this.SingleOrDefault(x => x.ProjectId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.DefaultExchangeVisitorFunding> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProjectId
+			return Task.FromResult<ECA.Data.DefaultExchangeVisitorFunding>(this.SingleOrDefault(x => x.ProjectId.Equals(keyValues.First())));
 		}
 	}
 	public class EducationLevelTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.EducationLevel>
@@ -1037,14 +1071,14 @@ namespace ECA.Business.Test
 		public override ECA.Data.SevisBatchProcessing Find(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///BatchId
-			return this.SingleOrDefault(x => x.BatchId.Equals(keyValues.First()));
+			///Id
+			return this.SingleOrDefault(x => x.Id.Equals(keyValues.First()));
 		}
 		public override Task<ECA.Data.SevisBatchProcessing> FindAsync(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///BatchId
-			return Task.FromResult<ECA.Data.SevisBatchProcessing>(this.SingleOrDefault(x => x.BatchId.Equals(keyValues.First())));
+			///Id
+			return Task.FromResult<ECA.Data.SevisBatchProcessing>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
 		}
 	}
 	public class SevisCommStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SevisCommStatus>
@@ -1237,6 +1271,7 @@ namespace ECA.Business.Test
 			this.Courses = new CourseTestDbSet();
 			this.DataPointCategoryProperties = new DataPointCategoryPropertyTestDbSet();
 			this.DataPointConfigurations = new DataPointConfigurationTestDbSet();
+			this.DefaultExchangeVisitorFunding = new DefaultExchangeVisitorFundingTestDbSet();
 			this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
 			this.EmailAddressTypes = new EmailAddressTypeTestDbSet();

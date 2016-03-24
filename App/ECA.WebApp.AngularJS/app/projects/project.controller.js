@@ -16,7 +16,8 @@ angular.module('staticApp')
       NotificationService,
       OfficeService,
       orderByFilter,
-      DataPointConfigurationService) {
+      DataPointConfigurationService,
+      DefaultExchangeVisitorFundingService) {
 
       $scope.project = {};
       $scope.modalForm = {};
@@ -36,6 +37,7 @@ angular.module('staticApp')
       $scope.data.loadProjectByIdPromise = $q.defer();
       $scope.data.loadOfficeSettingsPromise = $q.defer();
       $scope.data.loadDataPointConfigurationsPromise = $q.defer();
+      $scope.data.loadDefaultExchangeVisitorFundingPromise = $q.defer();
 
       $scope.tabs = {
           overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
@@ -89,6 +91,15 @@ angular.module('staticApp')
                 $log.error('Unable to load office settings.');
                 NotificationService.showErrorMessage('Unable to load office settings.');
             });
+            // only load if visitor type is exchange visitor
+            if ($scope.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
+                DefaultExchangeVisitorFundingService.getDefaultExchangeVisitorFundingById($stateParams.projectId)
+                .then(function (response) {
+                    var data = response.data;
+                    $scope.data.loadDefaultExchangeVisitorFundingPromise.resolve(data);
+                })
+                .catch(function () { });
+            }
         });
 
       var editStateName = StateService.stateNames.edit.project;

@@ -16,7 +16,12 @@ namespace ECA.Data
         /// The Id of the batch record
         /// </summary>
         [Key]
-        public int BatchId { get; set; }
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Batch Id string.
+        /// </summary>
+        public string BatchId { get; set; }
 
         /// <summary>
         /// Date of SEVIS Batch Submission

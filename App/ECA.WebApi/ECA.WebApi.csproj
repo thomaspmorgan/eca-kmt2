@@ -558,6 +558,7 @@
     <Compile Include="Controllers\Persons\ParticipantExchangeVisitorsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsSevisController.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsController.cs" />
+    <Compile Include="Controllers\Projects\DefaultExchangeVisitorFundingController.cs" />
     <Compile Include="Models\Admin\AppSettingsViewModel.cs" />
     <Compile Include="Models\Admin\CreateOrganizationBindingModel.cs" />
     <Compile Include="Models\Admin\DataPointConfigurationBindingModel.cs" />
@@ -575,6 +576,7 @@
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedPersonDependentBindingModel.cs" />
+    <Compile Include="Models\Projects\UpdatedDefaultExchangeVisitorFundingBindingModel.cs" />
     <Compile Include="Models\Search\DeleteIndexBindingModel.cs" />
     <Compile Include="Models\Search\DocumentSuggestResponseViewModel.cs" />
     <Compile Include="Models\Search\ECASearchParametersBindingModel.cs" />
@@ -827,6 +829,7 @@
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.5\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.9\tools\webjobs.targets')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets')" />
+  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

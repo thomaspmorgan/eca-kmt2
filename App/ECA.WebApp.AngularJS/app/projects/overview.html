@@ -31,6 +31,94 @@
                 <div class="col-md-4 title-label">Visitor Type</div>
                 <div class="col-md-8">{{project.visitorTypeName}}</div>
             </div>
+            <div ng-if="project.visitorTypeId === constants.visitorType.exchangeVisitor.id">
+                <div class="row">
+                    <div class="col-md-4 title-label">Sevis Funding</div>
+                    <div class="col-md-8">
+                        <a ng-click="showSevisFunding = !showSevisFunding">
+                            <i class="material-icons md-dark md-24 pull-right" ng-show="showSevisFunding">expand_more</i>
+                            <i class="material-icons md-dark md-24 pull-right ng-hide" ng-show="!showSevisFunding">expand_less</i>
+                        </a>
+                    </div>
+                </div>
+                <div ng-show="showSevisFunding">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">Sponser</div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingSponsor}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">Personal</div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingPersonal}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">Vis. Gov't</div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingVisGovt}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">Vis. BNC</div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingVisBNC}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">
+                            <a popover="{{view.sevisFunding.govtAgency1Name + ' - ' + view.sevisFunding.govtAgency1OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.govtAgency1Id">Gov't Agency 1</a>
+                            <span ng-if="!view.sevisFunding.govtAgency1Id">Gov't Agency 1</span>
+                        </div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingGovtAgency1}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">
+                            <a popover="{{view.sevisFunding.govtAgency2Name + ' - ' + view.sevisFunding.govtAgency2OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.govtAgency2Id">Gov't Agency 2</a>
+                            <span ng-if="!view.sevisFunding.govtAgency2Id">Gov't Agency 2</span>
+                        </div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingGovtAgency2}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">
+                            <a popover="{{view.sevisFunding.intlOrg1Name + ' - ' + view.sevisFunding.intlOrg1OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.intlOrg1Id">Int'l Org 1</a>
+                            <span ng-if="!view.sevisFunding.intlOrg1Id">Int'l Org 1</span>
+                        </div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingIntlOrg1}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">
+                            <a popover="{{view.sevisFunding.intlOrg2Name + ' - ' + view.sevisFunding.intlOrg2OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.intlOrg2Id">Int'l Org 2</a>
+                            <span ng-if="!view.sevisFunding.intlOrg2Id">Int'l Org 2</span>
+                        </div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingIntlOrg2}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">
+                            <a popover="{{view.sevisFunding.otherName}}" popover-placement="bottom" ng-if="view.sevisFunding.otherName.length > 0">Other Org</a>
+                            <span ng-if="view.sevisFunding.otherName.length === 0">Other Org</span>
+                        </div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingOther}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4 title-label">Total</div>
+                        <div class="col-md-4"><span class="pull-right">$</span></div>
+                        <div class="col-md-3"><span class="pull-right">{{view.sevisFunding.fundingTotal}}</span></div>
+                    </div>
+                </div>
+            </div>
             <div class="row" ng-show="view.dataPointConfigurations[constants.dataPointProperty.themes.id]">
                 <div class="col-md-4 title-label">Themes</div>
                 <div class="col-md-8 simple-list">
@@ -148,6 +236,7 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12"></div>
     </div>
     <div class="row">
         <h4 class="tab-subheader">Snapshot</h4>

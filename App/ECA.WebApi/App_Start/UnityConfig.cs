@@ -201,6 +201,7 @@ namespace ECA.WebApi.App_Start
             {
                 return new ExchangeVisitorValidationService(c.Resolve<EcaContext>(), c.Resolve<IExchangeVisitorService>(), null, null);
             }));
+            container.RegisterType<IDefaultExchangeVisitorFundingService, DefaultExchangeVisitorFundingService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

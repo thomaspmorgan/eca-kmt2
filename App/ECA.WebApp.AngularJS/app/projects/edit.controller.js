@@ -30,7 +30,8 @@ angular.module('staticApp')
         OfficeService,
         FilterService,
         StateService,
-        NotificationService) {
+        NotificationService,
+        DefaultExchangeVisitorFundingService) {
 
       console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
       $scope.$parent.isInEditViewState = true;
@@ -249,6 +250,10 @@ angular.module('staticApp')
           }
       });
 
+      $scope.$parent.data.loadDefaultExchangeVisitorFundingPromise.promise.then(function (defaultVisitorExchangeFunding) {
+          $scope.editView.sevisFunding = defaultVisitorExchangeFunding;
+      });
+
       $scope.editView.onAddPointsOfContactClick = function () {
           var modalInstance = $modal.open({
               animation: true,
@@ -299,6 +304,22 @@ angular.module('staticApp')
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
+      }
+
+      $scope.editView.visitorTypeSelected = function (visitorTypeId) {
+          if (!$scope.editView.sevisFunding && visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
+              $scope.editView.sevisFunding = {};
+              $scope.editView.sevisFunding.fundingSponsor = 0;
+              $scope.editView.sevisFunding.fundingPersonal = 0;
+              $scope.editView.sevisFunding.fundingVisGovt = 0;
+              $scope.editView.sevisFunding.fundingVisBNC = 0;
+              $scope.editView.sevisFunding.fundingGovtAgency1 = 0;
+              $scope.editView.sevisFunding.fundingGovtAgency2 = 0;
+              $scope.editView.sevisFunding.fundingIntlOrg1 = 0;
+              $scope.editView.sevisFunding.fundingIntlOrg2 = 0;
+              $scope.editView.sevisFunding.fundingOther = 0;
+              $scope.editView.sevisFunding.total = 0;
+          }
       }
 
       function onFormValidStateChange() {
@@ -455,8 +476,37 @@ angular.module('staticApp')
                 $scope.$parent.project = response.data;
                 showSaveSuccess();
                 NavigationService.updateBreadcrumbs();
+                if ($scope.$parent.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
+                    $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
+                    DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
+                        .then(function () {
                 goToProjectOverview();
-            }, function (error) {
+                        }, errorCallback);
+                } else {
+                    goToProjectOverview();
+                }
+            }, errorCallback)
+            .then(function () {
+                $scope.editView.isSaving = false;
+                enableProjectStatusButton();
+            });
+
+      }
+
+      function getSevisFundingTotal() {
+          var total = $scope.editView.sevisFunding.fundingSponsor +
+          $scope.editView.sevisFunding.fundingPersonal +
+          $scope.editView.sevisFunding.fundingVisGovt +
+          $scope.editView.sevisFunding.fundingVisBNC +
+          $scope.editView.sevisFunding.fundingGovtAgency1 +
+          $scope.editView.sevisFunding.fundingGovtAgency2 +
+          $scope.editView.sevisFunding.fundingIntlOrg1 +
+          $scope.editView.sevisFunding.fundingIntlOrg2 +
+          $scope.editView.sevisFunding.fundingOther;
+          return total;
+      }
+
+      function errorCallback(error) {
                 showProjectEditCancelButton();
                 if (error.status === 400) {
                     if (error.data.message && error.data.modelState) {
@@ -472,11 +522,6 @@ angular.module('staticApp')
                         NotificationService.showErrorMessage(error.data);
                     }
                 }
-            })
-            .then(function () {
-                $scope.editView.isSaving = false;
-                enableProjectStatusButton();
-            });
       }
 
       function showSaveSuccess() {
@@ -720,6 +765,46 @@ angular.module('staticApp')
               });
       }
 
+      function loadUSGovernmentAgencies() {
+          var usGovernmentAgenciesFilter = FilterService.add('editProject-usGovernmentAgencies');
+          usGovernmentAgenciesFilter = usGovernmentAgenciesFilter.skip(0).take(maxLimit);
+          return LookupService.getSevisUSGovernmentAgencies(usGovernmentAgenciesFilter.toParams())
+          .then(function (response) {
+              if (response.data.total > maxLimit) {
+                  var message = "The number of USGovernmentAgencies loaded is less than the total number.  Some USGovernmentAgencies may not be shown."
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              }
+              $scope.editView.usGovernmentAgencies = response.data.results;
+              return $scope.editView.usGovernmentAgencies;
+          })
+          .catch(function (response) {
+              var message = "Unable to load USGovernmentAgencies.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+
+      function loadInternationalOrganizations() {
+          var internationalOrganizationsFilter = FilterService.add('editProject-internationalOrganizations');
+          internationalOrganizationsFilter = internationalOrganizationsFilter.skip(0).take(maxLimit);
+          return LookupService.getSevisInternationalOrganizations(internationalOrganizationsFilter.toParams())
+          .then(function (response) {
+              if (response.data.total > maxLimit) {
+                  var message = "The number of InternationalOrganizations loaded is less than the total number.  Some InternationalOrganizations may not be shown."
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              }
+              $scope.editView.internationalOrganizations = response.data.results;
+              return $scope.editView.internationalOrganizations;
+          })
+          .catch(function (response) {
+              var message = "Unable to load InternationalOrganizations.";
+              $log.error(message);
+              NotificationService.showErrorMessage(message);
+          });
+      }
+
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var projectId = $stateParams.projectId;
@@ -744,6 +829,10 @@ angular.module('staticApp')
       $scope.editView.isLoading = true;
       $scope.$parent.data.loadProjectByIdPromise.promise.then(function (project) {
           BrowserService.setDocumentTitleByProject(project, 'Edit');
+          if (project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
+              loadUSGovernmentAgencies();
+              loadInternationalOrganizations();
+          }
           $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadVisitorTypes(), loadGoals(null)])
           .then(function (results) {
               //results is an array

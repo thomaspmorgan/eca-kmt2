@@ -193,6 +193,7 @@
     <Compile Include="Queries\Admin\EmailAddressQueries.cs" />
     <Compile Include="Queries\Admin\SnapshotQueries.cs" />
     <Compile Include="Queries\Itineraries\ItineraryStopQueries.cs" />
+    <Compile Include="Queries\Models\Admin\DefaultExchangeVisitorFundingDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationHierarchyDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryDTO.cs" />
     <Compile Include="Queries\Itineraries\ItineraryQueries.cs" />
@@ -232,6 +233,8 @@
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
+    <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
+    <Compile Include="Queries\Sevis\ReadyToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
@@ -460,6 +463,8 @@
     <Compile Include="Service\Programs\WebsiteDTO.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
+    <Compile Include="Service\Projects\DefaultExchangeVisitorFundingService.cs" />
+    <Compile Include="Service\Projects\IDefaultExchangeVisitorFundingService.cs" />
     <Compile Include="Service\Projects\IProjectStatusService.cs" />
     <Compile Include="Service\Admin\MaritalStatusService.cs" />
     <Compile Include="Service\Fundings\MoneyFlowValidationEntity.cs" />
@@ -533,10 +538,12 @@
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
     <Compile Include="Service\Projects\TravelService.cs" />
+    <Compile Include="Service\Projects\UpdatedDefaultExchangeVisitorFunding.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
-    <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
+    <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />
+    <Compile Include="Service\Sevis\StagedSevisBatch.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
     <Compile Include="Sevis\Model\sevistranslog.cs">
       <DependentUpon>SevisTransLog.xsd</DependentUpon>

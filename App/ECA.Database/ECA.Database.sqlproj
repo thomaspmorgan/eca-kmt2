@@ -271,6 +271,7 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.PersonType.staticdata.sql" />
     <Build Include="dbo\Tables\OrganizationStatus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationStatus.staticdata.sql" />
+    <Build Include="dbo\Tables\DefaultExchangeVisitorFunding.sql" />
     <Build Include="Sevis\Tables\StudentTermination.sql" />
     <None Include="Scripts\PostDeploy\StaticData\sevis.BirthCountry.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\sevis.CapGapExtensionType.staticdata.sql" />

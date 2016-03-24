@@ -81,6 +81,10 @@ angular.module('staticApp')
           $scope.view.isLoading = false;
 
       });
+      $scope.$parent.data.loadDefaultExchangeVisitorFundingPromise.promise.then(function (defaultVisitorExchangeFunding) {
+          $scope.view.sevisFunding = defaultVisitorExchangeFunding;
+      });
+
 
       var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       var labelIndex = 0;

@@ -218,6 +218,7 @@
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
+    <Compile Include="Queries\Sevis\SevisBatchProcessingQueriesTest.cs" />
     <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
     <Compile Include="Search\ProjectDocumentServiceTest.cs" />
     <Compile Include="Search\ProgramDocumentServiceTest.cs" />
@@ -336,9 +337,11 @@
     <Compile Include="Service\Admin\AdditionalLocationTest.cs" />
     <Compile Include="Service\Admin\EcaLocationTest.cs" />
     <Compile Include="Service\Admin\UpdatedLocationTest.cs" />
+    <Compile Include="Service\Projects\DefaultExchangeVisitorFundingServiceTest.cs" />
     <Compile Include="Service\Reports\ReportServiceTest.cs" />
     <Compile Include="Service\DeleteTest.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingServiceTest.cs" />
+    <Compile Include="Service\Sevis\StagedSevisBatchTest.cs" />
     <Compile Include="Service\UserTest.cs" />
     <Compile Include="Service\UpdateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

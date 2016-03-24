@@ -268,6 +268,12 @@ namespace ECA.Data
         public virtual ICollection<Itinerary> Itineraries { get; set; }
 
         /// <summary>
+        /// reference to the DefaultExchangeVisitorFunding for this project
+        /// </summary>
+        [ForeignKey("ProjectId")]
+        public DefaultExchangeVisitorFunding DefaultExchangeVisitorFunding { get; set; }
+
+        /// <summary>
         /// Gets or sets the history.
         /// </summary>
         public History History { get; set; }

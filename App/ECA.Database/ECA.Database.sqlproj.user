@@ -3,7 +3,5 @@
   <PropertyGroup>
     <StartupScript>(Blank)</StartupScript>
     <StartAction>StartNone</StartAction>
-    <TargetConnectionString>Data Source=PENGUIN;Initial Catalog=ECA_Local;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
-    <TargetDatabase>ECA_Local</TargetDatabase>
   </PropertyGroup>
 </Project>

@@ -55,21 +55,7 @@ namespace ECA.WebApi.Controllers.Persons
         public async Task<IHttpActionResult> GetParticipantExchangeVisitorByIdAsync(int projectId, int participantId) 
         {
             var participantExchangeVisitor = await service.GetParticipantExchangeVisitorByIdAsync(projectId, participantId);
-            if (participantExchangeVisitor != null)
-            {
-                return Ok(participantExchangeVisitor);
-            }
-            else
-            {
-                var participant = await participantService.GetParticipantByIdAsync(participantId);
-                if (participant != null)
-                {
-                    var newParticipantExchangeVisitor = await NewParticipantExchangeVisitorAsync(projectId, participantId);
-                    return Ok(newParticipantExchangeVisitor);
-                }
-                else
-                    return NotFound();
-            }
+            return Ok(participantExchangeVisitor);
         }
 
 
