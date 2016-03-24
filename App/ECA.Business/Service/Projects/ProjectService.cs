@@ -364,6 +364,17 @@ namespace ECA.Business.Service.Projects
             var regionLocationTypeIds = LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionIds.ToList()).ToList();
             this.logger.Trace("Loaded region location types.");
 
+            var existingDefaultExchangeVisitorFunding = Context.DefaultExchangeVisitorFunding.Find(updatedProject.ProjectId);
+            this.logger.Trace("Loaded existing default exchange visitor funding.");
+
+            var participantsWithoutParticipantExchangeVisitor = new List<Participant>();
+            if (updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id && 
+                projectToUpdate.VisitorTypeId != VisitorType.ExchangeVisitor.Id)
+            {
+                participantsWithoutParticipantExchangeVisitor = GetParticipantsWithoutParticipantExchangeVisitor(updatedProject.ProjectId).ToList();
+                this.logger.Trace("Loaded participant ids without a participant exchange visitor record.");
+            }
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -380,7 +391,7 @@ namespace ECA.Business.Service.Projects
                 regionLocationTypeIds: regionLocationTypeIds,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
-            DoUpdate(updatedProject, projectToUpdate);
+            DoUpdate(updatedProject, projectToUpdate, existingDefaultExchangeVisitorFunding, participantsWithoutParticipantExchangeVisitor);
         }
 
         /// <summary>
@@ -431,6 +442,17 @@ namespace ECA.Business.Service.Projects
             var regionLocationTypeIds = await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, updatedProject.RegionIds.ToList()).ToListAsync();
             this.logger.Trace("Loaded region location types.");
 
+            var existingDefaultExchangeVisitorFunding = await Context.DefaultExchangeVisitorFunding.FindAsync(updatedProject.ProjectId);
+            this.logger.Trace("Loaded existing default exchange visitor funding.");
+
+            var participantsWithoutParticipantExchangeVisitor = new List<Participant>();
+            if (updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id &&
+                projectToUpdate.VisitorTypeId != VisitorType.ExchangeVisitor.Id)
+            {
+                participantsWithoutParticipantExchangeVisitor = await GetParticipantsWithoutParticipantExchangeVisitor(updatedProject.ProjectId).ToListAsync();
+                this.logger.Trace("Loaded participant ids without a participant exchange visitor record.");
+            }
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -447,10 +469,10 @@ namespace ECA.Business.Service.Projects
                 regionLocationTypeIds: regionLocationTypeIds,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
-            DoUpdate(updatedProject, projectToUpdate);
+            DoUpdate(updatedProject, projectToUpdate, existingDefaultExchangeVisitorFunding, participantsWithoutParticipantExchangeVisitor);
         }
 
-        private void DoUpdate(PublishedProject updatedProject, Project projectToUpdate)
+        private void DoUpdate(PublishedProject updatedProject, Project projectToUpdate, DefaultExchangeVisitorFunding existingDefaultExchangeVisitorFunding, List<Participant> participantsWithoutParticipantExchangeVisitor)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
@@ -461,7 +483,8 @@ namespace ECA.Business.Service.Projects
             SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
             SetLocations<Project>(updatedProject.LocationIds.ToList(), projectToUpdate, x => x.Locations);
             SetRegions(updatedProject.RegionIds.ToList(), projectToUpdate);
-            CreateDefaultExchangeVisitorFunding(updatedProject, projectToUpdate);
+            CreateDefaultExchangeVisitorFunding(updatedProject, projectToUpdate, existingDefaultExchangeVisitorFunding);
+            CreateParticipantExchangeVisitors(participantsWithoutParticipantExchangeVisitor);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;
@@ -478,10 +501,9 @@ namespace ECA.Business.Service.Projects
             updatedProject.Audit.SetHistory(projectToUpdate);
         }
 
-        private async void CreateDefaultExchangeVisitorFunding(PublishedProject updatedProject, Project projectToUpdate)
+        private void CreateDefaultExchangeVisitorFunding(PublishedProject updatedProject, Project projectToUpdate, DefaultExchangeVisitorFunding existingDefaultExchangeVisitorFunding)
         {
-            var existingRecord = await Context.DefaultExchangeVisitorFunding.FindAsync(updatedProject.ProjectId);
-            if (existingRecord == null && updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
+            if (existingDefaultExchangeVisitorFunding == null && updatedProject.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
             {
                 var defaultExchangeVisitorFunding = new DefaultExchangeVisitorFunding
                 {
@@ -489,6 +511,34 @@ namespace ECA.Business.Service.Projects
                 };
                 projectToUpdate.DefaultExchangeVisitorFunding = defaultExchangeVisitorFunding;
                 Context.DefaultExchangeVisitorFunding.Add(defaultExchangeVisitorFunding);
+            }
+        }
+
+        private IQueryable<Participant> GetParticipantsWithoutParticipantExchangeVisitor(int projectId)
+        {
+            return Context.Participants.Where(x => x.ProjectId == projectId &&
+                                                   x.ParticipantExchangeVisitor == null &&
+                                                   x.ParticipantType.IsPerson).Include(x => x.ParticipantPerson);
+        }
+
+        private void CreateParticipantExchangeVisitors(List<Participant> participants)
+        {
+            foreach(var participant in participants)
+            {
+                if (participant.ParticipantPerson == null)
+                {
+                    var participantPerson = new ParticipantPerson
+                    {
+                        Participant = participant
+                    };
+                    Context.ParticipantPersons.Add(participantPerson);
+                }
+                var participantExchangeVisitor = new ParticipantExchangeVisitor
+                {
+                    Participant = participant,
+                    ParticipantPerson = participant.ParticipantPerson
+                };
+                Context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
             }
         }
 

@@ -2997,6 +2997,7 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(updatedProject.ProjectId, projectToUpdate.ProjectId);
                 Assert.AreEqual(updatedProject.ProjectStatusId, projectToUpdate.ProjectStatusId);
                 Assert.AreEqual(updatedProject.StartDate, projectToUpdate.StartDate);
+                Assert.IsNull(projectToUpdate.DefaultExchangeVisitorFunding);
             };
             context.Revert();
             service.Update(updatedProject);
@@ -3560,7 +3561,162 @@ namespace ECA.Business.Test.Service.Projects
             tester();
         }
 
+        [TestMethod]
+        public async Task TestUpdate_CheckDefaultExchangeVisitorFunding()
+        {
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            context.SetupActions.Add(() =>
+            {
+                office = new Organization();
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id,
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
 
+            });
+
+            var regionIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdateId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: null,
+                objectiveIds: null,
+                regionIds: regionIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: VisitorType.ExchangeVisitor.Id,
+                usParticipantsEst: 3,
+                nonUsParticipantsEst: 4,
+                usParticipantsActual: 5,
+                nonUsParticipantsActual: 6
+                );
+
+            Action tester = () =>
+            {
+                Assert.IsNotNull(projectToUpdate.DefaultExchangeVisitorFunding);
+            };
+            context.Revert();
+            service.Update(updatedProject);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate_ParticipantExchangeVisitor()
+        {
+            var projectToUpdateId = 1;
+            Project projectToUpdate = null;
+            Program program = null;
+            Organization office = null;
+            Participant participant = null;
+            ParticipantType participantType = null;
+            context.SetupActions.Add(() =>
+            {
+                office = new Organization();
+
+                participantType = new ParticipantType
+                {
+                    ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
+                    Name = ParticipantType.ForeignTravelingParticipant.Value,
+                    IsPerson = true
+                };
+                participant = new Participant
+                {
+                    ParticipantId = 1,
+                    ParticipantTypeId = participantType.ParticipantTypeId,
+                    ParticipantType = participantType,
+                    ProjectId = projectToUpdateId
+                };
+                projectToUpdate = new Project
+                {
+                    ProjectId = projectToUpdateId,
+                    ProjectStatusId = ProjectStatus.Other.Id,
+                    VisitorTypeId = VisitorType.NotApplicable.Id
+                };
+                program = new Program
+                {
+                    ProgramId = 1
+                };
+                office.OwnerPrograms.Add(program);
+                program.Owner = office;
+                context.Organizations.Add(office);
+                context.ParticipantTypes.Add(participantType);
+                context.Participants.Add(participant);
+                projectToUpdate.ProgramId = program.ProgramId;
+                projectToUpdate.ParentProgram = program;
+                projectToUpdate.Participants.Add(participant);
+                program.Projects.Add(projectToUpdate);
+                context.Programs.Add(program);
+                context.Projects.Add(projectToUpdate);
+
+            });
+
+            var regionIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdateId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                locationIds: null,
+                objectiveIds: null,
+                regionIds: regionIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0),
+                visitorTypeId: VisitorType.ExchangeVisitor.Id,
+                usParticipantsEst: 3,
+                nonUsParticipantsEst: 4,
+                usParticipantsActual: 5,
+                nonUsParticipantsActual: 6
+                );
+
+            Action tester = () =>
+            {
+                Assert.IsNotNull(context.ParticipantPersons.FirstOrDefault());
+                Assert.IsNotNull(context.ParticipantExchangeVisitors.FirstOrDefault());
+                Assert.AreEqual(1, context.ParticipantPersons.Count());
+                Assert.AreEqual(1, context.ParticipantExchangeVisitors.Count());
+            };
+            context.Revert();
+            service.Update(updatedProject);
+            tester();
+
+            context.Revert();
+            await service.UpdateAsync(updatedProject);
+            tester();
+        }
         #endregion
 
         #region Participants
