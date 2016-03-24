@@ -5,6 +5,7 @@ using ECA.Business.Sevis.Model;
 using ECA.Data;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Validation.Sevis;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
@@ -46,8 +47,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReason = "reason";
             var relationship = DependentCodeType.Item01.ToString();
 
-            var userDefinedA = "a";
-            var userDefinedB = "b";
             var dependent = new AddedDependent(
                 fullName: fullName,
                 birthCity: birthCity,
@@ -67,11 +66,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 personId: personId
                 );
 
-            var modifiedParticipantDependent = new ModifiedParticipantDependent(dependent, userDefinedA, userDefinedB);
+            var modifiedParticipantDependent = new ModifiedParticipantDependent(dependent);
 
             Assert.IsTrue(Object.ReferenceEquals(dependent, modifiedParticipantDependent.Dependent));
-            Assert.AreEqual(userDefinedA, modifiedParticipantDependent.UserDefinedA);
-            Assert.AreEqual(userDefinedB, modifiedParticipantDependent.UserDefinedB);
         }
 
         [TestMethod]
@@ -128,13 +125,17 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 personId: personId
                 );
 
-            var modifiedParticipantDependent = new ModifiedParticipantDependent(dependent: dependent, userDefinedA: "a", userDefinedB: "b");
+            var modifiedParticipantDependent = new ModifiedParticipantDependent(dependent: dependent);
 
             var instance = modifiedParticipantDependent.GetSEVISEVBatchTypeExchangeVisitorDependent();
             Assert.IsNotNull(instance.Item);
             Assert.IsInstanceOfType(instance.Item, typeof(SEVISEVBatchTypeExchangeVisitorDependentAdd));
-            Assert.AreEqual(modifiedParticipantDependent.UserDefinedA, instance.UserDefinedA);
-            Assert.AreEqual(modifiedParticipantDependent.UserDefinedB, instance.UserDefinedB);
+            Assert.IsNotNull(instance.UserDefinedA);
+            Assert.IsNotNull(instance.UserDefinedB);
+
+            var key = new ParticipantSevisKey(instance.UserDefinedA, instance.UserDefinedB);
+            Assert.AreEqual(participantId, key.ParticipantId);
+            Assert.AreEqual(personId, key.PersonId);
         }
     }
 }

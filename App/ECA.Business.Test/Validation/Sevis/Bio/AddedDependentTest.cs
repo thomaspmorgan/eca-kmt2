@@ -66,8 +66,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 personId,
                 participantId
                 );
-            Assert.AreEqual(personId, instance.GetPersonId());
-            Assert.AreEqual(participantId, instance.GetParticipantId());
+            Assert.AreEqual(personId, instance.PersonId);
+            Assert.AreEqual(participantId, instance.ParticipantId);
             Assert.AreEqual(birthCity, instance.BirthCity);
             Assert.AreEqual(birthCountryCode, instance.BirthCountryCode);
             Assert.AreEqual(birthDate, instance.BirthDate);
@@ -85,8 +85,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var json = JsonConvert.SerializeObject(instance);
             var jsonObject = JsonConvert.DeserializeObject<AddedDependent>(json);
-            Assert.AreEqual(personId, jsonObject.GetPersonId());
-            Assert.AreEqual(participantId, jsonObject.GetParticipantId());
+            Assert.AreEqual(personId, jsonObject.PersonId);
+            Assert.AreEqual(participantId, jsonObject.ParticipantId);
             Assert.AreEqual(birthCity, jsonObject.BirthCity);
             Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
             Assert.AreEqual(birthDate, jsonObject.BirthDate);
@@ -158,8 +158,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             var json = JsonConvert.SerializeObject(instance);
             var jsonObject = JsonConvert.DeserializeObject<AddedDependent>(json);
-            Assert.AreEqual(personId, jsonObject.GetPersonId());
-            Assert.AreEqual(participantId, jsonObject.GetParticipantId());
+            Assert.AreEqual(personId, jsonObject.PersonId);
+            Assert.AreEqual(participantId, jsonObject.ParticipantId);
             Assert.AreEqual(birthCity, jsonObject.BirthCity);
             Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
             Assert.AreEqual(birthDate, jsonObject.BirthDate);
@@ -300,8 +300,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 personId: personId
                 );
             var instance = dependent.GetEVPersonTypeDependent();
-            Assert.AreEqual(participantId.ToString(), instance.UserDefinedA);
-            Assert.AreEqual(personId.ToString(), instance.UserDefinedB);
             
             Assert.AreEqual(dependent.BirthCity, instance.BirthCity);
             Assert.AreEqual(dependent.BirthCountryCode.GetBirthCntryCodeType(), instance.BirthCountryCode);
@@ -311,9 +309,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(dependent.Gender.GetEVGenderCodeType(), instance.Gender);
             Assert.AreEqual(dependent.PermanentResidenceCountryCode.GetCountryCodeWithType(), instance.PermanentResidenceCountryCode);
             Assert.AreEqual(dependent.Relationship.GetDependentCodeType(), instance.Relationship);
-            Assert.AreEqual(dependent.UserDefinedA, instance.UserDefinedA);
-            Assert.AreEqual(dependent.UserDefinedB, instance.UserDefinedB);
+            Assert.IsNotNull(instance.UserDefinedA);
+            Assert.IsNotNull(instance.UserDefinedB);
             Assert.IsFalse(instance.BirthCountryReasonSpecified);
+
+            var key = new ParticipantSevisKey(instance.UserDefinedA, instance.UserDefinedB);
+            Assert.AreEqual(participantId, key.ParticipantId);
+            Assert.AreEqual(personId, key.PersonId);
         }
     }
 }

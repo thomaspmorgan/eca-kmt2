@@ -259,6 +259,9 @@ namespace ECA.Business.Validation.Sevis
             instance.requestID = this.Person.ParticipantId.ToString();
             instance.SubjectField = this.Person.SubjectField.GetEVPersonTypeSubjectField();
             SetDependents(instance);
+
+            var key = new ParticipantSevisKey(this.Person);
+            key.SetUserDefinedFields(instance);
             return instance;
         }
 
@@ -300,11 +303,15 @@ namespace ECA.Business.Validation.Sevis
             };
             visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical()));
             visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo()));
-            foreach(var dependent in this.Dependents)
+            foreach (var dependent in this.Dependents)
             {
-                var modifiedDependent = new ModifiedParticipantDependent(dependent, null, null);
+                var modifiedDependent = new ModifiedParticipantDependent(dependent);
                 visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent()));
             }
+
+            var exchangeVisitorProgram = new SEVISEVBatchTypeExchangeVisitorProgram();
+            exchangeVisitorProgram.Item = this.Person.SubjectField.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
+            visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram));
 
             return visitors;
         }

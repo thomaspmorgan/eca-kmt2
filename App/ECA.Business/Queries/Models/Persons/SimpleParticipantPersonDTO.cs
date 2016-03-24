@@ -92,15 +92,15 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant status id.
         /// </summary>
         public int? ParticipantStatusId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the participant Sevis Status id
+        /// </summary>
+        public int? SevisStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets the participant Sevis Status
         /// </summary>
         public string SevisStatus { get; set; }
-
-        /// <summary>
-        /// Gets or sets the participant Sevis Status id
-        /// </summary>
-        public int? SevisStatusId { get; set; }
     }
 }

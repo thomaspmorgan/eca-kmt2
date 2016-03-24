@@ -15,7 +15,7 @@
     </div>
 </div>
 <h4 class="tab-subheader">Sub-Programs List</h4>
-<div ng-show="!subprograms.length">
+<div ng-show="!subprograms.length && !subprogramsLoading">
     <p>No subprograms to show</p>
 </div>
 <div ng-show="subprograms.length">
@@ -110,7 +110,7 @@
             </tr>
         </thead>
         <tbody class="list2">
-            <tr rowspan="6" ng-show="!projects.length">
+            <tr rowspan="6" ng-show="!projects.length && !projectsLoading">
                 <td>
                     <p>No projects to show</p>
                 </td>

@@ -7,7 +7,7 @@ using System.Linq;
 namespace ECA.Business.Test.Validation.Sevis.Finance
 {
     [TestClass]
-    public class InternationalValidatorTest
+    public class InternationalFundingValidatorTest
     {
 
         [TestMethod]
@@ -19,9 +19,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
              {
-                 return new International(
+                 return new InternationalFunding(
                      org1: org1,
                      otherName1: otherName1,
                      amount1: amount1,
@@ -30,9 +30,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                      amount2: amount2
                  );
              };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
-            org1 = new string('a', InternationalValidator.ORG_CODE_MAX_LENGTH);
+            org1 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH);
             amount1 = "1";
             var instance = createEntity();
             var result = validator.Validate(instance);
@@ -43,15 +43,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
 
-            org1 = new string('a', InternationalValidator.ORG_CODE_MAX_LENGTH + 1);
+            org1 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -64,9 +64,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -75,21 +75,21 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
 
-            org1 = InternationalValidator.OTHER_ORG_CODE;
+            org1 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount1 = "1";
-            otherName1 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            otherName1 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH);
             var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            otherName1 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
+            otherName1 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.OTHER_ORG_1_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.OTHER_ORG_1_NAME_REQUIRED, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -102,9 +102,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -113,11 +113,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
 
-            org1 = InternationalValidator.OTHER_ORG_CODE;
+            org1 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount1 = "1";
-            otherName1 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            otherName1 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH);
             var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -127,7 +127,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.OTHER_ORG_1_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.OTHER_ORG_1_NAME_REQUIRED, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -140,9 +140,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -151,7 +151,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             org1 = "abc";
             amount1 = "1234";
             var instance = createEntity();
@@ -164,7 +164,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(InternationalValidator.AMOUNT_ERROR_MESSAGE, "1", InternationalValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "1", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -177,9 +177,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -188,7 +188,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
             org1 = "abc";
             amount1 = "1234";
@@ -196,12 +196,12 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            amount1 = new string('3', InternationalValidator.AMOUNT_MAX_LENGTH + 1);
+            amount1 = new string('3', InternationalFundingValidator.AMOUNT_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "1", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -215,9 +215,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -226,7 +226,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             org1 = "abc";
             amount1 = "1234";
             var instance = createEntity();
@@ -239,7 +239,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.AMOUNT_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "1", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -252,9 +252,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -263,10 +263,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
             org1 = "abc";
             amount1 = "1";
+            org2 = "xyz";
             amount2 = "1234";
             var instance = createEntity();
             var result = validator.Validate(instance);
@@ -275,7 +276,10 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             amount2 = null;
             instance = createEntity();
             result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
         [TestMethod]
@@ -287,9 +291,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -298,10 +302,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
             org1 = "abc";
             amount1 = "1";
+            org2 = "xyz";
             amount2 = "1234";
             var instance = createEntity();
             var result = validator.Validate(instance);
@@ -312,7 +317,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(InternationalValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -325,9 +330,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -336,21 +341,22 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
             org1 = "abc";
             amount1 = "1";
+            org2 = "xyz";
             amount2 = "1234";
             var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            amount2 = new string('1', InternationalValidator.AMOUNT_MAX_LENGTH + 1);
+            amount2 = new string('1', InternationalFundingValidator.AMOUNT_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(InternationalValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -363,9 +369,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -374,7 +380,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
             org1 = "abc";
             amount1 = "1";
@@ -390,7 +396,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(InternationalValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -403,9 +409,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -414,7 +420,7 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             org1 = "abc";
             amount1 = "1";
             org2 = null;
@@ -423,13 +429,13 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            org2 = InternationalValidator.OTHER_ORG_CODE;
+            org2 = InternationalFundingValidator.OTHER_ORG_CODE;
             otherName2 = "a";
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(InternationalValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(InternationalFundingValidator.AMOUNT_ERROR_MESSAGE, "2", InternationalFundingValidator.AMOUNT_MAX_LENGTH), result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -443,9 +449,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -454,11 +460,11 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
-            org1 = new string('a', InternationalValidator.ORG_CODE_MAX_LENGTH);
+            org1 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH);
             amount1 = "1";
-            org2 = new string('a', InternationalValidator.ORG_CODE_MAX_LENGTH);
+            org2 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH);
             amount2 = "1";
             var instance = createEntity();
             var result = validator.Validate(instance);
@@ -470,15 +476,15 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
 
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
 
-            org2 = new string('a', InternationalValidator.ORG_CODE_MAX_LENGTH + 1);
+            org2 = new string('a', InternationalFundingValidator.ORG_CODE_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -491,9 +497,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -502,26 +508,26 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
 
-            org1 = InternationalValidator.OTHER_ORG_CODE;
+            org1 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount1 = "1";
-            otherName1 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            otherName1 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
-            org2 = InternationalValidator.OTHER_ORG_CODE;
+            org2 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount2 = "1";
-            otherName2 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            otherName2 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH);
             var instance = createEntity();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
-            otherName2 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
+            otherName2 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH + 1);
             instance = createEntity();
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.OTHER_ORG_2_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.OTHER_ORG_2_NAME_REQUIRED, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
 
@@ -534,9 +540,9 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             string amount2 = null;
             string org2 = null;
             string otherName2 = null;
-            Func<International> createEntity = () =>
+            Func<InternationalFunding> createEntity = () =>
             {
-                return new International(
+                return new InternationalFunding(
                     org1: org1,
                     otherName1: otherName1,
                     amount1: amount1,
@@ -545,17 +551,17 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
                     amount2: amount2
                 );
             };
-            var validator = new InternationalValidator();
+            var validator = new InternationalFundingValidator();
             
 
-            org1 = InternationalValidator.OTHER_ORG_CODE;
+            org1 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount1 = "1";
-            otherName1 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            otherName1 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
 
-            org2 = InternationalValidator.OTHER_ORG_CODE;
+            org2 = InternationalFundingValidator.OTHER_ORG_CODE;
             amount2 = "1";
-            otherName2 = new string('a', InternationalValidator.OTHER_ORG_NAME_MAX_LENGTH);
+            otherName2 = new string('a', InternationalFundingValidator.OTHER_ORG_NAME_MAX_LENGTH);
 
             var instance = createEntity();
             var result = validator.Validate(instance);
@@ -566,7 +572,85 @@ namespace ECA.Business.Test.Validation.Sevis.Finance
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(InternationalValidator.OTHER_ORG_2_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(InternationalFundingValidator.OTHER_ORG_2_NAME_REQUIRED, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
+        }
+
+        [TestMethod]
+        public void TestAmount1NotNull_Org1IsNull()
+        {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<InternationalFunding> createEntity = () =>
+            {
+                return new InternationalFunding(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
+            var validator = new InternationalFundingValidator();
+
+            org1 = "abc";
+            amount1 = "1";
+
+            var instance = createEntity();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            org1 = null;
+            instance = createEntity();
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(InternationalFundingValidator.ORG_1_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
+        }
+
+        [TestMethod]
+        public void TestAmount2NotNull_Org2IsNull()
+        {
+            string amount1 = null;
+            string org1 = null;
+            string otherName1 = null;
+            string amount2 = null;
+            string org2 = null;
+            string otherName2 = null;
+            Func<InternationalFunding> createEntity = () =>
+            {
+                return new InternationalFunding(
+                    org1: org1,
+                    otherName1: otherName1,
+                    amount1: amount1,
+                    org2: org2,
+                    otherName2: otherName2,
+                    amount2: amount2
+                );
+            };
+            var validator = new InternationalFundingValidator();
+
+            org1 = "abc";
+            amount1 = "1";
+
+            org2 = "xyz";
+            amount2 = "2";
+            var instance = createEntity();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            org2 = null;
+            instance = createEntity();
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(InternationalFundingValidator.ORG_2_CODE_NOT_SPECIFIED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FundingErrorPath));
         }
     }

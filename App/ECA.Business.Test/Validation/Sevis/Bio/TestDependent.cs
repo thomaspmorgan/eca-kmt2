@@ -35,33 +35,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             return new SEVISEVBatchTypeExchangeVisitorDependent
             {
                 Item = null,
-                UserDefinedA = this.UserDefinedA,
-                UserDefinedB = this.UserDefinedB
+                UserDefinedA = null,
+                UserDefinedB = null
             };
-        }
-    }
-
-    [TestClass]
-    public class DependentTest
-    {
-        [TestMethod]
-        public void TestGetSetPersonId()
-        {
-            var id = 100;
-            var dependent = new TestDependent();
-            dependent.SetPersonId(id);
-            Assert.AreEqual(id, dependent.GetPersonId());
-            Assert.AreEqual(id.ToString(), dependent.UserDefinedB);
-        }
-
-        [TestMethod]
-        public void TestGetSetParticipantIdId()
-        {
-            var id = 10;
-            var dependent = new TestDependent();
-            dependent.SetParticipantId(id);
-            Assert.AreEqual(id, dependent.GetParticipantId());
-            Assert.AreEqual(id.ToString(), dependent.UserDefinedA);
         }
     }
 }

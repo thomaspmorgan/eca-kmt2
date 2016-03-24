@@ -7,11 +7,24 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personPiiEditCtrl', function ($scope, $timeout, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q, DateTimeService) {
+  .controller('personPiiEditCtrl', function (
+      $rootScope,
+      $scope,
+      $timeout,
+      PersonService,
+      LookupService,
+      LocationService,
+      ParticipantPersonsService,
+      ConstantsService,
+      $stateParams,
+      FilterService,
+      NotificationService,
+      $q,
+      DateTimeService) {
 
       $scope.pii = {};
       $scope.selectedCountriesOfCitizenship = [];
-      $scope.piiLoading = true;
+      $scope.edit.piiLoading = true;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
       $scope.unknownCountryId = 0;
@@ -58,24 +71,12 @@ angular.module('staticApp')
           }
       }
 
-      PersonService.getPersonById($stateParams.personId)
-        .then(function (data) {
-            $scope.person = data;
-            loadPii(data.personId);
-            $scope.personIdDeferred.resolve(data.personId);
-            PersonService.getContactInfoById(data.personId)
-              .then(function (data) {
-                  $scope.contactInfo = data;
-              });
-        });
-
+      loadPii($stateParams.personId);
       function loadPii(personId) {
-          $scope.piiLoading = true;
+          $scope.edit.piiLoading = true;
           return PersonService.getPiiById(personId)
              .then(function (data) {
                  $scope.pii = data;
-                 $scope.sevisStatus.statusName = data.sevisStatus;
-                 $scope.sevisStatus.statusNameId = data.sevisStatusId;
                  if ($scope.pii.placeOfBirth) {
                      $scope.pii.cityOfBirthId = $scope.pii.placeOfBirth.id;
                  }
@@ -89,13 +90,12 @@ angular.module('staticApp')
                  if ($scope.pii.dateOfBirth) {
                      $scope.pii.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.pii.dateOfBirth).toDate();
                  }
-                 
                  return loadCities(null)
                  .then(function () {
-                     $scope.piiLoading = false;
+                     $scope.edit.piiLoading = false;
                  })
                  .catch(function() {
-                     $scope.piiLoading = false;
+                     $scope.edit.piiLoading = false;
                  });
              });
       };
@@ -153,24 +153,30 @@ angular.module('staticApp')
           }
       }
 
+      var countriesFilter = FilterService.add('pii_edit_countries_filter');
       function loadCountries(search) {
+          countriesFilter.reset();
+          countriesFilter = countriesFilter.skip(0).take(30).equal('locationTypeId', ConstantsService.locationType.country.id);
           if (search) {
-              var params = {
-                  limit: 30,
-                  filter: [
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id }
-                  ]
-              };
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              }
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.countries = data.results;
-                    return $scope.countries;
-                });
+              countriesFilter = countriesFilter.like('name', search);
           }
+          return LocationService.get(countriesFilter.toParams())
+            .then(function (data) {
+                $scope.countries = data.results;
+                return $scope.countries;
+            });
       }
+
+      function getParticipantPerson() {
+          ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+              .then(function (data) {
+                  $scope.sevisStatus.statusName = data.data.sevisStatus;
+                  $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+              }, function (error) {
+                  $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+              });
+      };
 
       LookupService.getAllGenders({ limit: 300 })
          .then(function (data) {
@@ -191,9 +197,11 @@ angular.module('staticApp')
           setupPii();
 
           PersonService.updatePii($scope.pii, $scope.person.personId)
-              .then(function () {
+              .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
+                  getParticipantPerson();
+                  $scope.$parent.onPersonPiiUpdated();
                   $scope.edit.Pii = false;
               },
               function (error) {

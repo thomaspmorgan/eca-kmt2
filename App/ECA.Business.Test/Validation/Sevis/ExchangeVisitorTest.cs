@@ -102,8 +102,8 @@ namespace ECA.Business.Test.Validation.Sevis
         public FinancialInfo GetFinancialInfo()
         {
             var other = new Other(null, null);
-            var usGovt = new USGovt(null, null, null, null, null, null);
-            var international = new International(null, null, null, null, null, null);
+            var usGovt = new USGovernmentFunding(null, null, null, null, null, null);
+            var international = new InternationalFunding(null, null, null, null, null, null);
             var otherFunds = new OtherFunds(null, null, null, usGovt, international, other);
 
             var programSponsorFunds = "100";
@@ -392,7 +392,12 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(endDate, instance.PrgEndDate);
             Assert.IsTrue(instance.printForm);
             Assert.AreEqual(person.ParticipantId.ToString(), instance.requestID);
+            Assert.IsNotNull(instance.UserDefinedA);
+            Assert.IsNotNull(instance.UserDefinedB);
 
+            var key = new ParticipantSevisKey(instance.UserDefinedA, instance.UserDefinedB);
+            Assert.AreEqual(person.ParticipantId, key.ParticipantId);
+            Assert.AreEqual(person.PersonId, key.PersonId);
         }
 
         [TestMethod]
@@ -792,7 +797,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
         #region GetSEVISEVBatchTypeExchangeVisitor1Collection
         [TestMethod]
-        public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection_CheckBiographical()
+        public void TestGetSEVISEVBatchTypeExchangeVisitor1Collection()
         {
             var userId = 10;
             var user = new User(userId);
@@ -827,24 +832,39 @@ namespace ECA.Business.Test.Validation.Sevis
             };
 
             var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().ToList();
+            Assert.AreEqual(4, list.Count);
+            list.ForEach(x => propertyTester(x));
 
             var personVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorBiographical>(list).FirstOrDefault();
-            Assert.IsNotNull(personVisitorItem);
-            propertyTester(personVisitorItem);
 
             var financialVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorFinancialInfo>(list).FirstOrDefault();
             Assert.IsNotNull(financialVisitorItem);
-            propertyTester(financialVisitorItem);
 
             var dependentVisitorItemsCount = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).Count();
             Assert.AreEqual(1, dependentVisitorItemsCount);
 
             var dependentVisitorItem = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorDependent>(list).FirstOrDefault();
             Assert.IsNotNull(dependentVisitorItem);
-            propertyTester(dependentVisitorItem);
             Assert.IsNotNull(dependentVisitorItem.Item);
             Assert.IsNull(dependentVisitorItem.UserDefinedA);
             Assert.IsNull(dependentVisitorItem.UserDefinedB);
+
+            var exchangeVisitorPrograms = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorProgram>(list).ToList();
+            Assert.AreEqual(1, exchangeVisitorPrograms.Count);
+            
+
+            var exchangeVisitorProgramItems = exchangeVisitorPrograms
+                .Select(x => x.Item)
+                .Where(x => x.GetType() == typeof(SEVISEVBatchTypeExchangeVisitorProgram))
+                .Select(x => (SEVISEVBatchTypeExchangeVisitorProgram)x)
+                .ToList();
+
+            Assert.AreEqual(1, exchangeVisitorPrograms.Count);
+            var editSubjectExchangeVisitorProgramItem = exchangeVisitorProgramItems
+                .ToList<SEVISEVBatchTypeExchangeVisitorProgram>()
+                .Where(x => x.Item.GetType() == typeof(SEVISEVBatchTypeExchangeVisitorProgramEditSubject))
+                .FirstOrDefault();
+            Assert.IsNotNull(editSubjectExchangeVisitorProgramItem);
         }
 
         private IQueryable<SEVISEVBatchTypeExchangeVisitor1> CreateGetItemQuery<T>(List<SEVISEVBatchTypeExchangeVisitor1> items)
@@ -1023,7 +1043,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             exchangeVisitor.AddToBatch(evBatchType);
             Assert.AreEqual(0, evBatchType.CreateEV.Count());
-            Assert.AreEqual(2, evBatchType.UpdateEV.Count());
+            Assert.AreEqual(3, evBatchType.UpdateEV.Count());
         }
         #endregion
 
@@ -1137,7 +1157,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 programStartDate: startDate,
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
-            var expected = 2;
+            var expected = 3;
             Assert.AreEqual(expected, exchangeVisitor.GetBatchRecordCount());
             Assert.AreEqual(expected, exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().Count());
         }

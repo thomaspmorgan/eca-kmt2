@@ -543,6 +543,9 @@
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessing.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
+    <Compile Include="Sevis\Model\sevistranslog.cs">
+      <DependentUpon>SevisTransLog.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Validation\SevisEnumHelper.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\IBiographical.cs" />
@@ -551,20 +554,17 @@
     <Compile Include="Validation\Sevis\Bio\DependentValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
+    <Compile Include="Validation\Sevis\ParticipantSevisKey.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
     <Compile Include="Validation\Sevis\Finance\OrganizationFunding.cs" />
     <Compile Include="Validation\Sevis\IFormPrintable.cs" />
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
-    <Compile Include="Validation\Sevis\IRequestIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ISevisIdentifable.cs" />
-    <Compile Include="Validation\Sevis\IUserDefinable.cs" />
-    <Compile Include="Validation\Sevis\IUserIdentifiable.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
     <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
-    <Compile Include="Validation\ComplexClassValidationAttribute.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\AddressErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\BirthDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\CitizenshipErrorPath.cs" />
@@ -588,8 +588,8 @@
     <Compile Include="Validation\Sevis\ExchangeVisitorValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\FullNameValidator.cs" />
-    <Compile Include="Validation\Sevis\Finance\International.cs" />
-    <Compile Include="Validation\Sevis\Finance\InternationalValidator.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalFunding.cs" />
+    <Compile Include="Validation\Sevis\Finance\InternationalFundingValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\Other.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFunds.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidator.cs" />
@@ -598,8 +598,8 @@
     <Compile Include="Validation\Sevis\SubjectFieldValidator.cs" />
     <Compile Include="Validation\Sevis\AddressDTOValidator.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
-    <Compile Include="Validation\Sevis\Finance\USGovt.cs" />
-    <Compile Include="Validation\Sevis\Finance\USGovtValidator.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovernmentFunding.cs" />
+    <Compile Include="Validation\Sevis\Finance\USGovernmentFundingValidator.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfo.cs" />
     <Compile Include="Validation\Sevis\Bio\FullName.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
@@ -611,6 +611,10 @@
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
     <Compile Include="Validation\Sevis\USAddress.cs" />
+    <None Include="Translog.cd" />
+    <None Include="Sevis\Model\SevisTransLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

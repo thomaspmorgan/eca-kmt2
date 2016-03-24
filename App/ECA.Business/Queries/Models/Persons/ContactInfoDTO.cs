@@ -1,10 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Persons
 {
@@ -67,10 +63,5 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant's sevis id
         /// </summary>
         public string SevisId { get; set; }
-
-        /// <summary>
-        /// Sevis Status (person participants only)
-        /// </summary>
-        public string SevisStatus { get; set; }
     }
 }

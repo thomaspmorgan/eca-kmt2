@@ -22,11 +22,11 @@ angular.module('staticApp')
           update: function (dependent, id) {
               return DragonBreath.save(dependent, 'people/dependent');
           },
-          create: function (dependent) {
-              return DragonBreath.create(dependent, 'people/dependent');
+          create: function (dependent, personId) {
+              return DragonBreath.create(dependent, 'people/' + personId + '/dependent');
           },
           delete: function (personId, dependentId) {
-              return DragonBreath.create(dependent, 'person/' + personId + '/dependent/' + dependentId);
+              return DragonBreath.delete('person/' + personId + '/dependent/' + dependentId);
           }
       };
   });

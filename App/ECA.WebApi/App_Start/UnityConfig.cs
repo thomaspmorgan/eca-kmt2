@@ -194,7 +194,8 @@ namespace ECA.WebApi.App_Start
             container.RegisterType<IItineraryStopService, ItineraryStopService>(new HierarchicalLifetimeManager());
             container.RegisterType<IExchangeVisitorService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
-                return new ExchangeVisitorService(c.Resolve<EcaContext>(), null);
+                var appSettings = new AppSettings();
+                return new ExchangeVisitorService(c.Resolve<EcaContext>(), appSettings, null);
             }));
             container.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {

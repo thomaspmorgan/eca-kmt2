@@ -127,6 +127,7 @@
                                    ng-model="editView.selectedCategories" 
                                    ui-validate="{minimum: 'editView.validateMinimumCategories($value)', maximum: 'editView.validateMaximumCategories($value)'}"
                                    theme="select2" 
+                                   ng-model-options="{allowInvalid: true}"
                                    title="Choose a category." 
                                    style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
@@ -136,12 +137,12 @@
                                 <div ng-bind-html="category.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                    </div>
-                    <div ng-show="form.projectForm.categories.$error.minimum">
-                        <span class="error">Please select at least {{editView.minimumRequiredFoci}} {{editView.categoryLabel}}.</span>
-                    </div>
-                    <div ng-show="form.projectForm.categories.$error.maximum">
-                        <span class="error">You may only select up to {{editView.maximumRequiredFoci}} {{editView.categoryLabel}}.</span>
+                        <div ng-show="form.projectForm.categories.$error.minimum">
+                            <span class="error">Please select at least {{editView.minimumRequiredFoci}} {{editView.categoryLabel}}.</span>
+                        </div>
+                        <div ng-show="form.projectForm.categories.$error.maximum">
+                            <span class="error">You may only select up to {{editView.maximumRequiredFoci}} {{editView.categoryLabel}}.</span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row" ng-show="editView.showObjectiveJustification">
@@ -162,9 +163,9 @@
                                 <div ng-bind-html="objective.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                    </div>
-                    <div ng-show="form.projectForm.objectives.$error.minimum">
-                        <span class="error">Please select at least one {{editView.objectiveLabel}}.</span>
+                        <div ng-show="form.projectForm.objectives.$error.minimum">
+                            <span class="error">Please select at least one {{editView.objectiveLabel}}.</span>
+                        </div>
                     </div>
                 </div>
             </div>

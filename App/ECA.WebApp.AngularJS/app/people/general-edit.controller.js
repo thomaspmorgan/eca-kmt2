@@ -7,13 +7,13 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, NotificationService, LookupService) {
+  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, ParticipantPersonsService, NotificationService, LookupService) {
 
       $scope.general = [];
       $scope.editView = [];
       $scope.editView.prominentCategories = [];
       $scope.editView.selectedProminentCategories = [];
-      $scope.loadingGeneral = true;
+      $scope.edit.loadingGeneral = true;
 
       $scope.personIdDeferred.promise
         .then(function (personId) {
@@ -22,19 +22,17 @@ angular.module('staticApp')
       });
 
       function loadGeneral(personId) {
-          $scope.loadingGeneral = true;
+          $scope.edit.loadingGeneral = true;
           PersonService.getGeneralById(personId)
           .then(function (data) {
               $scope.general = data;
-              $scope.sevisStatus.statusName = data.sevisStatus;
-              $scope.sevisStatus.statusNameId = data.sevisStatusId;
               $scope.editView.selectedProminentCategories = $scope.general.prominentCategories.map(function (obj) {
                   var prominentCategory = {};
                   prominentCategory.id = obj.id;
                   prominentCategory.name = obj.value;
                   return prominentCategory;
               });
-              $scope.loadingGeneral = false;
+              $scope.edit.loadingGeneral = false;
           });
       };
 
@@ -43,6 +41,17 @@ angular.module('staticApp')
         .then(function (data) {
             $scope.editView.prominentCategories = data.data.results;
         });
+     };
+
+     function getParticipantPerson() {
+         ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+             .then(function (data) {
+                 $scope.sevisStatus.statusName = data.data.sevisStatus;
+                 $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+             }, function (error) {
+                 $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+                 NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+             });
      };
 
       $scope.cancelEditGeneral = function () {
@@ -55,6 +64,7 @@ angular.module('staticApp')
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
+              getParticipantPerson();
               $scope.edit.General = false;
           }, 
             function (error) {

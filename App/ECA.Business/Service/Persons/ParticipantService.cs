@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Data.Entity;
-using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using NLog;
 using ECA.Core.Exceptions;
 

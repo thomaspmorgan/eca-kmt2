@@ -51,7 +51,7 @@ angular.module('staticApp')
       };
 
       $scope.updateDependentGender = function () {
-          $scope.dependent.gender = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
+          $scope.dependent.genderId = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
       };
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -98,7 +98,6 @@ angular.module('staticApp')
       }
 
       function loadDependentCitizenshipCountries(search) {
-          if (search) {
               var params = {
                   limit: 300,
                   filter: [
@@ -115,7 +114,6 @@ angular.module('staticApp')
                     return $scope.countriesCitizenship;
                 });
           }
-      }
 
       function loadResidenceCountries() {
           var params = {
@@ -133,13 +131,22 @@ angular.module('staticApp')
       }
 
       LookupService.getAllGenders({
-          limit: 300,
-          filter: [{
-              property: 'id', comparison: ConstantsService.inComparisonType, value: [1,2] }]
-         })
-         .then(function (data) {
-             $scope.genders = data.results;
-         });
+            limit: 300,
+            filter: [{
+                property: 'id', comparison: ConstantsService.inComparisonType, value: [1, 2]
+            }]
+        })
+        .then(function (data) {
+            $scope.genders = data.results;
+        });
+
+      LookupService.getPersonTypes({
+            limit: 300,
+            filter: [{ property: 'isDependentPersonType', comparison: 'eq', value: true }]
+        })
+        .then(function (data) {
+            $scope.persontypes = data.data.results;
+        });
       
       $scope.cancelEditDependent = function () {
           loadDependent($scope.person.personId);

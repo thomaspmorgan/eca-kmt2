@@ -70,6 +70,9 @@ angular.module('staticApp')
           getLocationTypes: function (params) {
               return DragonBreath.getCached(params, 'locations/types');
           },
+          getPersonTypes: function (params) {
+              return DragonBreath.getCached(params, 'people/types');
+          },
           getParticipantTypes: function (params) {
               return DragonBreath.getCached(params, 'participanttypes');
           },

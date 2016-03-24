@@ -115,14 +115,9 @@ namespace ECA.Business.Queries.Persons
 
                         let hasGender = person.Gender != null
                         let gender = person.Gender
-
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
                         let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
-
-                        let hasCountryOfBirth = hasPlaceOfBirth && cityOfBirth.Country != null
-                        let countryOfBirthId = hasCountryOfBirth ? cityOfBirth.Country.CountryId : 0
-                        
                         let PermanentResidenceAddress = (from address in person.Addresses
                                                          let addressType = address.AddressType
 
@@ -160,22 +155,16 @@ namespace ECA.Business.Queries.Persons
                         select new SimplePersonDependentDTO
                         {
                             PersonId = person.PersonId,
-                            FullName = new FullNameDTO
-                                            {
-                                                FirstName = person.FirstName,
-                                                LastName = person.LastName,
-                                                Suffix = person.NameSuffix,
-                                                PassportName = "",
-                                                PreferredName = ""
-                                            },
+                            PersonTypeId = person.PersonTypeId,
+                            FirstName = person.FirstName,
+                            LastName = person.LastName,
+                            NameSuffix = person.NameSuffix,
                             DateOfBirth = person.DateOfBirth,
                             GenderId = hasGender ? gender.GenderId : 0,
-                            PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
+                            CityOfBirthId = hasPlaceOfBirth ? locationOfBirth.CityId : null,
+                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).ToList(),
                             PermanentResidenceCountryCode = PermanentResidenceAddress.LocationId,
-                            BirthCountryReason = "TODO",
-                            EmailAddress = person.EmailAddresses.Where(x => x.IsPrimary == true).Select(x => x.Address).FirstOrDefault(),
-                            PersonTypeId = person.PersonTypeId
+                            BirthCountryReason = "TODO"
                         };
             return query;
         }
@@ -274,7 +263,6 @@ namespace ECA.Business.Queries.Persons
                             PlaceOfBirth = hasPlaceOfBirth ? locationOfBirth : null,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
                             ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
-                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
                             SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
             return query;
@@ -311,7 +299,6 @@ namespace ECA.Business.Queries.Persons
                             PersonId = person.PersonId,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
                             ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
-                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
                             SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
             return query;
@@ -346,8 +333,6 @@ namespace ECA.Business.Queries.Persons
                             CurrentStatus = hasCurrentParticipation ? currentParticipant.Status.Status : UNKNOWN_PARTICIPANT_STATUS,
                             ParticipantId = currentParticipant == null ? 0 : currentParticipant.ParticipantId,
                             ProjectId = currentParticipant == null ? 0 : currentParticipant.ProjectId,
-                            SevisStatus = currentParticipant == null ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
-                            SevisStatusId = currentParticipant == null ? 0 : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : currentParticipant.ParticipantPerson.ParticipantPersonSevisCommStatuses.OrderByDescending(p => p.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId,
                             SevisId = currentParticipant == null ? "" : currentParticipant.ParticipantPerson.SevisId
                         };
 

@@ -1,68 +1,68 @@
 ﻿<div ng-controller="personPiiViewCtrl">
-    <div ng-show="piiLoading">
+    <div ng-show="edit.piiLoading">
         <div class="spinner">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
     </div>
-    <div ng-show="!piiLoading">
+    <div ng-show="!edit.piiLoading">
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-4 title-label">Names & Alternatives</div>
                 <div class="col-md-8">
-                    <div class="row">
+                    <div class="row" style="border:none">
                         <div class="form-group row" ng-show="pii.firstName">
-                            <label class="col-md-4 title-label">First name</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">First name</label>
+                            <div class="col-md-7">
                                 {{pii.firstName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.lastName">
-                            <label class="col-md-4 title-label">Last name</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Last name</label>
+                            <div class="col-md-7">
                                 {{pii.lastName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.namePrefix">
-                            <label class="col-md-4 title-label">Name prefix</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Name prefix</label>
+                            <div class="col-md-7">
                                 {{pii.namePrefix}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.nameSuffix">
-                            <label class="col-md-4 title-label">Name suffix</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Name suffix</label>
+                            <div class="col-md-7">
                                 {{pii.nameSuffix}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.givenName">
-                            <label class="col-md-4 title-label">Given name</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Given name</label>
+                            <div class="col-md-7">
                                 {{pii.givenName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.familyName">
-                            <label class="col-md-4 title-label">Family name</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Family name</label>
+                            <div class="col-md-7">
                                 {{pii.familyName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.middleName">
-                            <label class="col-md-4 title-label">Middle name</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Middle name</label>
+                            <div class="col-md-7">
                                 {{pii.middleName}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.patronym">
-                            <label class="col-md-4 title-label">Patronym</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Patronym</label>
+                            <div class="col-md-7">
                                 {{pii.patronym}}
                             </div>
                         </div>
                         <div class="form-group row" ng-show="pii.alias">
-                            <label class="col-md-4 title-label">Alias</label>
-                            <div class="col-md-8">
+                            <label class="col-md-5 title-label">Alias</label>
+                            <div class="col-md-7">
                                 {{pii.alias}}
                             </div>
                         </div>

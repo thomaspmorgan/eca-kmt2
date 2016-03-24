@@ -262,10 +262,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Post method to create a person dependent
         /// </summary>
+        /// <param name="personId">The id of the person.</param>
         /// <param name="model">The model to create</param>
         /// <returns></returns>
-        [Route("People/Dependent")]
-        public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
+        [Route("People/{personId:int}/Dependent")]
+        public async Task<IHttpActionResult> PostPersonDependentAsync(int personId, DependentBindingModel model)
         {
             if (ModelState.IsValid)
             {
@@ -363,7 +364,7 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var person = await service.UpdatePersonDependentAsync(model.ToUpdatedPersonDependent(businessUser));
+                var person = await service.UpdatePersonDependentAsync(model.ToUpdatePersonDependent(businessUser));
                 await service.SaveChangesAsync();
                 return Ok();
             }
@@ -519,8 +520,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Adds a new phone number to the person.
         /// </summary>
-        /// <param name="model">The new phone number.</param>
         /// <param name="personId">The id of the person.</param>
+        /// <param name="model">The new phone number.</param>
         /// <returns>The saved phone number.</returns>
         [Route("People/{personId:int}/PhoneNumber")]
         [ResponseType(typeof(PhoneNumberDTO))]

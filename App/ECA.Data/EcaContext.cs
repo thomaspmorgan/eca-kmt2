@@ -248,6 +248,11 @@ namespace ECA.Data
         /// </summary>
         public DbSet<Person> People { get; set; }
 
+        ///// <summary>
+        ///// Gets or sets people dependents.
+        ///// </summary>
+        //public DbSet<PersonFamily> PersonFamilies { get; set; }
+
         /// <summary>
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
@@ -452,6 +457,9 @@ namespace ECA.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Configurations.AddFromAssembly(typeof(EcaContext).Assembly);
+            
+            //modelBuilder.Entity<PersonFamily>()
+            //    .HasMany(e => e.Dependents);            
         }
 
         /// <summary>

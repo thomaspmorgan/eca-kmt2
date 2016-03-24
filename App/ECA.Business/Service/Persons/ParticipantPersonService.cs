@@ -111,6 +111,31 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved participantPerson by id [{0}].", participantId);
             return participant;
         }
+
+        /// <summary>
+        /// Returns a participantPerson
+        /// </summary>
+        /// <param name="participantId">The participantId to lookup</param>
+        /// <returns>The participantPerson</returns>
+        public SimpleParticipantPersonDTO GetParticipantPersonById(int personId)
+        {
+            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefault();
+            this.logger.Trace("Retrieved participantPerson by id [{0}].", personId);
+            return participant;
+        }
+
+        /// <summary>
+        /// Returns a participantPerson asyncronously
+        /// </summary>
+        /// <param name="participantId">The participantId to lookup</param>
+        /// <returns>The participantPerson</returns>
+        public Task<SimpleParticipantPersonDTO> GetParticipantPersonByIdAsync(int personId)
+        {
+            var participant = ParticipantPersonQueries.CreateGetParticipantPersonDTOByIdQuery(this.Context, personId).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieved participantPerson by id [{0}].", personId);
+            return participant;
+        }
+
         #endregion
 
         #region Update

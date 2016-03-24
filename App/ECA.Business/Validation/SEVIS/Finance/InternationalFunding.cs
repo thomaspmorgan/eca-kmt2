@@ -6,10 +6,10 @@ using System;
 namespace ECA.Business.Validation.Sevis.Finance
 {
     /// <summary>
-    /// USGovt funding is used to represent an exchange visitor's funding from a US government agency.
+    /// International organization funding is used to represent an exchange visitor's funding from international organizations.
     /// </summary>
-    [Validator(typeof(USGovtValidator))]
-    public class USGovt : OrganizationFunding
+    [Validator(typeof(InternationalFundingValidator))]
+    public class InternationalFunding : OrganizationFunding
     {
         /// <summary>
         /// Creates a new instance with the given funding details.
@@ -21,13 +21,13 @@ namespace ECA.Business.Validation.Sevis.Finance
         /// <param name="otherName2">The name of the second organization if the second organization is 'OTHER'.</param>
         /// <param name="amount2">The second organization's funding amount in whole dollars.</param>
         [JsonConstructor]
-        public USGovt(
-             string org1,
-             string otherName1,
-             string amount1,
-             string org2,
-             string otherName2,
-             string amount2)
+        public InternationalFunding(
+            string org1,
+            string otherName1,
+            string amount1,
+            string org2,
+            string otherName2,
+            string amount2)
             : base(
                  org1: org1,
                  otherName1: otherName1,
@@ -40,16 +40,16 @@ namespace ECA.Business.Validation.Sevis.Finance
         }
 
         /// <summary>
-        /// Returns the sevis exchange visitor USGovt funding instance.
+        /// Returns a sevis exchange visitor OtherFundsTypeInternational model instance.
         /// </summary>
-        /// <returns>The sevis exchange visitor USGovt funding instance.</returns>
-        public OtherFundsTypeUSGovt GetOtherFundsTypeUSGovt()
+        /// <returns>A sevis exchange visitor OtherFundsTypeInternational model instance.</returns>
+        public OtherFundsTypeInternational GetOtherFundsTypeInternational()
         {
-            Func<string, GovAgencyCodeType> getGovAgencyCode = (code) =>
+            Func<string, InternationalOrgCodeType> getOrgCode = (code) =>
             {
-                return code.GetGovAgencyCodeType();
+                return code.GetInternationalOrgCodeType();
             };
-            var instance = new OtherFundsTypeUSGovt
+            var instance = new OtherFundsTypeInternational
             {
                 Amount1 = this.Amount1,
                 Amount2 = this.Amount2,
@@ -60,11 +60,11 @@ namespace ECA.Business.Validation.Sevis.Finance
 
             if (!String.IsNullOrWhiteSpace(this.Org1))
             {
-                instance.Org1 = getGovAgencyCode(this.Org1);
+                instance.Org1 = getOrgCode(this.Org1);
             }
             if (!String.IsNullOrWhiteSpace(this.Org2))
             {
-                instance.Org2 = getGovAgencyCode(this.Org2);
+                instance.Org2 = getOrgCode(this.Org2);
                 instance.Org2Specified = true;
             }
             if (!String.IsNullOrWhiteSpace(this.OtherName2))
@@ -75,12 +75,12 @@ namespace ECA.Business.Validation.Sevis.Finance
         }
 
         /// <summary>
-        /// Returns a OtherFundsNullableTypeUSGovt instance from this USGovt funding instance.
+        /// Returns a OtherFundsNullableTypeInternational instance from this USGovt funding instance.
         /// </summary>
-        /// <returns>A OtherFundsNullableTypeUSGovt instance from this USGovt funding instance.</returns>
-        public OtherFundsNullableTypeUSGovt GetOtherFundsNullableTypeUSGovt()
+        /// <returns>A OtherFundsNullableTypeInternational instance from this USGovt funding instance.</returns>
+        public OtherFundsNullableTypeInternational GetOtherFundsNullableTypeInternational()
         {
-            var instance = new OtherFundsNullableTypeUSGovt
+            var instance = new OtherFundsNullableTypeInternational
             {
                 Amount1 = this.Amount1,
                 Amount2 = this.Amount2,

@@ -32,14 +32,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Creates a new ParticipantPersonsSevisController with the given service.
         /// </summary>
-        /// <param name="participantService">participant person sevis service.</param>
-        /// <param name="userProvider">user provider</param>
-        /// <param name="visitorService">The exchange visitor service.</param>
-        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IExchangeVisitorService visitorService, IUserProvider userProvider)
+        /// <param name="participantService">The participant person sevis service.</param>
+        /// <param name="userProvider">The user provider</param>
+        public ParticipantPersonsSevisController(IParticipantPersonsSevisService participantService, IUserProvider userProvider)
         {
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
-            Contract.Requires(visitorService != null, "The visitor service must not be null.");
-            this.visitorService = visitorService;
             this.participantService = participantService;
             this.userProvider = userProvider;
         }
@@ -113,22 +110,5 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
-
-        /// <summary>
-        /// Manually run the participant service verification.
-        /// </summary>
-        /// <param name="projectId">The project id the participant is on.</param>
-        /// <param name="participantId">The participant to verify by id.</param>
-        /// <returns>An ok result.</returns>
-        [Route("Project/{projectId:int}/Participant/{participantId:int}/Profile")]
-        //[ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
-        //[ResponseType(typeof(ExchangeVisitor))]
-        public async Task<IHttpActionResult> GetExchangeVisitorProfileAsync(int projectId, int participantId)
-        {
-            var user = this.userProvider.GetCurrentUser();
-            var businessUser = this.userProvider.GetBusinessUser(user);
-            var model = await visitorService.GetExchangeVisitorAsync(businessUser, projectId, participantId);            
-            return Ok(model);
-        } 
     }
 }

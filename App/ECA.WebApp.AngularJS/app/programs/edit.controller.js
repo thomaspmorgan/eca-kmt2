@@ -22,6 +22,7 @@ angular.module('staticApp')
         NotificationService,
         LookupService,
         ConstantsService,
+        NavigationService,
         StateService,
         AuthService,
         OfficeService,
@@ -270,6 +271,7 @@ angular.module('staticApp')
               $scope.view.originalProgram = angular.copy(updatedProgram);
               $scope.view.program = updatedProgram;
               $scope.view.isSaving = false;
+              NavigationService.updateBreadcrumbs();
               return StateService.goToProgramState($scope.view.program.id, { reload: true });
           })
           .catch(function (response) {

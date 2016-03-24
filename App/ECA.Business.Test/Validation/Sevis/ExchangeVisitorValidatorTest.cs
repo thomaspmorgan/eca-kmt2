@@ -1396,7 +1396,7 @@ namespace ECA.Business.Test.Validation.Sevis
             
             Func<AddedDependent> createDependentEntity = () =>
             {
-                var badPhoneNumber = new string('1', PersonValidator.MAX_PHONE_NUMBER_LENGTH + 1);
+                var badPhoneNumber = "abc";
                 return new AddedDependent(
                     fullName: fullName,
                     birthCity: birthCity,

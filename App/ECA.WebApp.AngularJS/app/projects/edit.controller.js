@@ -23,6 +23,7 @@ angular.module('staticApp')
         ProgramService,
         TableService,
         LocationService,
+        NavigationService,
         LookupService,
         ConstantsService,
         AuthService,
@@ -474,11 +475,12 @@ angular.module('staticApp')
             .then(function (response) {
                 $scope.$parent.project = response.data;
                 showSaveSuccess();
+                NavigationService.updateBreadcrumbs();
                 if ($scope.$parent.project.visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
                     $scope.editView.sevisFunding.fundingTotal = getSevisFundingTotal();
                     DefaultExchangeVisitorFundingService.updateDefaultExchangeVisitorFunding($stateParams.projectId, $scope.editView.sevisFunding)
                         .then(function () {
-                            goToProjectOverview();
+                goToProjectOverview();
                         }, errorCallback);
                 } else {
                     goToProjectOverview();
@@ -505,21 +507,21 @@ angular.module('staticApp')
       }
 
       function errorCallback(error) {
-        showProjectEditCancelButton();
-        if (error.status === 400) {
-            if (error.data.message && error.data.modelState) {
-                for (var key in error.data.modelState) {
-                    NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                showProjectEditCancelButton();
+                if (error.status === 400) {
+                    if (error.data.message && error.data.modelState) {
+                        for (var key in error.data.modelState) {
+                            NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                        }
+                    }
+                    else if (error.data.Message && error.data.ValidationErrors) {
+                        for (var key in error.data.ValidationErrors) {
+                            NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                        }
+                    } else {
+                        NotificationService.showErrorMessage(error.data);
+                    }
                 }
-            }
-            else if (error.data.Message && error.data.ValidationErrors) {
-                for (var key in error.data.ValidationErrors) {
-                    NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
-                }
-            } else {
-                NotificationService.showErrorMessage(error.data);
-            }
-        }
       }
 
       function showSaveSuccess() {

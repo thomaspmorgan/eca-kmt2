@@ -77,7 +77,7 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevis;
         }
-
+        
         #endregion
 
         #region update
