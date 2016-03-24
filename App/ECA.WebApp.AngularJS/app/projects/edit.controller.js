@@ -480,6 +480,8 @@ angular.module('staticApp')
                         .then(function () {
                             goToProjectOverview();
                         }, errorCallback);
+                } else {
+                    goToProjectOverview();
                 }
             }, errorCallback)
             .then(function () {
