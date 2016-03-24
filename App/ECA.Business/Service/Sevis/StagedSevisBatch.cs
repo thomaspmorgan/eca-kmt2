@@ -39,7 +39,9 @@ namespace ECA.Business.Service.Sevis
             int maxCreateExchangeVisitorRecordsPerBatch = MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT,
             int maxUpdateExchangeVisitorRecordPerBatch = MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT)
         {
-            this.BatchId = batchId;
+            Contract.Requires(batchId != Guid.Empty, "The batch id must not be the empty guid.");
+
+            this.BatchId = GetBatchId(batchId);
             this.exchangeVisitors = new List<ExchangeVisitor>();
             this.SevisBatchProcessing = new SevisBatchProcessing
             {
@@ -61,7 +63,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Gets the batch id.
         /// </summary>
-        public Guid BatchId { get; private set; }
+        public string BatchId { get; private set; }
 
         /// <summary>
         /// Gets or sets the sevis batch processing entity framework model.
@@ -169,6 +171,21 @@ namespace ECA.Business.Service.Sevis
                 }
             }
             this.exchangeVisitors.Add(exchangeVisitor);
+        }
+
+        /// <summary>
+        /// Returns the batch id from the given guid.
+        /// </summary>
+        /// <param name="guid">The batch id guid.</param>
+        /// <returns>The guid to convert to a batch id.</returns>
+        public string GetBatchId(Guid guid)
+        {
+            Contract.Requires(guid != Guid.Empty, "The provided guid must not be the empty guid.");
+            var maxLength = 14;
+            var guidString = guid.ToString();
+            guidString = guidString.Replace("-", String.Empty);            
+            var index = guidString.Length - maxLength;
+            return guidString.Substring(index);
         }
     }
 }

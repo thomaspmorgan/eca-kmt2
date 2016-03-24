@@ -19,9 +19,9 @@ namespace ECA.Data
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the Batch Id guid.
+        /// Gets or sets the Batch Id string.
         /// </summary>
-        public Guid BatchId { get; set; }
+        public string BatchId { get; set; }
 
         /// <summary>
         /// Date of SEVIS Batch Submission

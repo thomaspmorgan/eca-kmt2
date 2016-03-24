@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[SevisBatchProcessing]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-	[BatchId] UNIQUEIDENTIFIER NOT NULL,
+	[BatchId] NVARCHAR(14) NOT NULL,
     [SubmitDate] DATETIMEOFFSET NULL, 
     [RetrieveDate] DATETIMEOFFSET NULL, 
     [SendXml] XML NULL, 

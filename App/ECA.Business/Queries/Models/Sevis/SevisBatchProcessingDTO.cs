@@ -9,9 +9,14 @@ namespace ECA.Business.Queries.Models.Sevis
     public class SevisBatchProcessingDTO
     {
         /// <summary>
-        /// Gets or sets the batch Id.
+        /// Gets or sets the Id.
         /// </summary>
-        public int BatchId { get; set; }
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the batch id.
+        /// </summary>
+        public string BatchId { get; set; }
 
         /// <summary>
         /// Date of SEVIS Batch Submission
@@ -27,29 +32,11 @@ namespace ECA.Business.Queries.Models.Sevis
         /// Storage for SEVIS Submission XML
         /// </summary>
         public string SendString { get; set; }
-
-        /// <summary>
-        /// Property to save/retrieve XML submission string as an XElement
-        /// </summary>
-        public XElement SendXml
-        {
-            get { return (SendString != null ? XElement.Parse(SendString) : null); }
-            set { SendString = value != null ? value.ToString() : "<root></root>"; }
-        }
-
+        
         /// <summary>
         /// Storage for SEVIS Transaction Log XML
         /// </summary>
-        public string TransactionLogString { get; set; }
-
-        /// <summary>
-        /// Property to save/retrieve XML transaction log string as an XElement
-        /// </summary>
-        public XElement TransactionLogXml
-        {
-            get { return (TransactionLogString != null ? XElement.Parse(TransactionLogString) : null); }
-            set { TransactionLogString = value != null ? value.ToString() : "<root></root>"; }
-        }
+        public string TransactionLogString { get; set; }        
         
         /// <summary>
         /// Error code for SEVIS Upload (submission)

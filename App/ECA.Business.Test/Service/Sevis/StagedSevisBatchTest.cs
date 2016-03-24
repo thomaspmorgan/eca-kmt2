@@ -99,15 +99,16 @@ namespace ECA.Business.Test.Service.Sevis
             var maxCreated = 10;
             var maxUpdated = 20;
             var instance = new StagedSevisBatch(batchId, user, orgId, maxCreated, maxUpdated);
-            Assert.AreEqual(batchId, instance.BatchId);
+            Assert.IsNotNull(instance.BatchId);
+            Assert.AreEqual(instance.GetBatchId(batchId), instance.BatchId);
 
             Assert.IsNotNull(instance.SevisBatchProcessing);
-            Assert.AreEqual(batchId, instance.SevisBatchProcessing.BatchId);
+            Assert.AreEqual(instance.GetBatchId(batchId), instance.SevisBatchProcessing.BatchId);
 
             Assert.IsNotNull(instance.SEVISBatchCreateUpdateEV);
             Assert.AreEqual(user.Id.ToString(), instance.SEVISBatchCreateUpdateEV.userID);
             Assert.IsNotNull(instance.SEVISBatchCreateUpdateEV.BatchHeader);
-            Assert.AreEqual(batchId.ToString(), instance.SEVISBatchCreateUpdateEV.BatchHeader.BatchID);
+            Assert.AreEqual(instance.GetBatchId(batchId), instance.SEVISBatchCreateUpdateEV.BatchHeader.BatchID);
             Assert.AreEqual(orgId, instance.SEVISBatchCreateUpdateEV.BatchHeader.OrgID);
 
             Assert.IsNotNull(instance.SEVISBatchCreateUpdateEV.CreateEV);
@@ -272,6 +273,22 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsNull(instance.SevisBatchProcessing.SendXml);
             instance.SerializeSEVISBatchCreateUpdateEV();
             Assert.IsNotNull(instance.SevisBatchProcessing.SendXml);
+        }
+
+        [TestMethod]
+        public void TestGetBatchId()
+        {
+            var guid = Guid.NewGuid();
+            var expectedBatchId = guid.ToString();
+            expectedBatchId = expectedBatchId.Replace("-", String.Empty);
+            var maxLength = 14;
+            var index = expectedBatchId.Length - maxLength;
+
+            expectedBatchId = expectedBatchId.Substring(index);
+            Assert.IsTrue(guid.ToString().Replace("-", String.Empty).EndsWith(expectedBatchId));
+            Assert.AreEqual(maxLength, expectedBatchId.Length);
+            Assert.IsFalse(expectedBatchId.Contains("-"));
+            
         }
     }
 }

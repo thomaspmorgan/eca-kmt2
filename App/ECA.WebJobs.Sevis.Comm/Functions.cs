@@ -40,33 +40,51 @@ namespace ECA.WebJobs.Sevis.Comm
 
             Console.WriteLine("Starting SEVIS Batch Processing");
 
-            // Check for Uploads to send 
-            var batchesToBeSent = service.GetSevisBatchesToUpload();
-            Console.WriteLine(String.Format("Sevis Batches to Upload: [{0}]", batchesToBeSent.Count()));
+            //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
+            //and returned in the dtos.
 
             var batchComm = new SevisComm(settings);
-
-            foreach (var batch in batchesToBeSent)
+            var dtoToUpload = await service.GetNextBatchToUploadAsync();
+            while(dtoToUpload != null)
             {
-                HttpResponseMessage status = new HttpResponseMessage();
-                try
-                {
-                    status = await batchComm.UploadAsync(batch.SendXml, batch.BatchId);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(String.Format("Exception: {0}", e.Message));
-                }
-                if (status.IsSuccessStatusCode)
-                {
-                    var updatedBatch = new UpdatedSevisBatchProcessing(batch);
-                    updatedBatch.SubmitDate = DateTime.Now;
-                    await service.UpdateAsync(updatedBatch);
-                    Console.WriteLine("SEVIS Upload successful");
-                }
-                else
-                    Console.WriteLine("SEVIS Upload failed, error: {0}", status.StatusCode.ToString());
+                //do the send here
+
+                //not sure what else we need from the upload response yet
+                await service.BatchHasBeenSentAsync(dtoToUpload.Id);
+                await service.SaveChangesAsync();
+                dtoToUpload = await service.GetNextBatchToUploadAsync();
             }
+
+            var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
+            while(batchByIdToDownload != null)
+            {
+
+                //processing methods here or possibly another webjob
+                //await service.ProcessTransactionLogAsync(string.Empty);
+                batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
+            }
+
+            //foreach (var batch in batchesToBeSent)
+            //{
+            //    HttpResponseMessage status = new HttpResponseMessage();
+            //    try
+            //    {
+            //        status = await batchComm.UploadAsync(batch.SendXml, batch.BatchId);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(String.Format("Exception: {0}", e.Message));
+            //    }
+            //    if (status.IsSuccessStatusCode)
+            //    {
+            //        var updatedBatch = new UpdatedSevisBatchProcessing(batch);
+            //        updatedBatch.SubmitDate = DateTime.Now;
+            //        await service.UpdateAsync(updatedBatch);
+            //        Console.WriteLine("SEVIS Upload successful");
+            //    }
+            //    else
+            //        Console.WriteLine("SEVIS Upload failed, error: {0}", status.StatusCode.ToString());
+            //}
 
             // Check for Downloads to get
 
