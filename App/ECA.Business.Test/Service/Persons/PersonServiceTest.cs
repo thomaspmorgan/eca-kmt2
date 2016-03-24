@@ -1917,15 +1917,11 @@ namespace ECA.Business.Test.Service.Persons
         //    var countryResidence = 193;
         //    bool isTravellingWithParticipant = true;
 
-        //    var newPerson = new NewPersonDependent(createdBy: user, personId: personId, personTypeId: personTypeId, 
+        //    var newPerson = new NewPersonDependent(createdBy: user, personId: personId, personTypeId: personTypeId,
         //        firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
-        //        dateOfBirth: dateOfBirth, locationOfBirthId: placeOfBirth, residenceLocationId: countryResidence, birthCountryReason: birthCountryReason, 
+        //        dateOfBirth: dateOfBirth, locationOfBirthId: placeOfBirth, residenceLocationId: countryResidence, birthCountryReason: birthCountryReason,
         //        countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
-
-        //    context.SetupActions.Add(() =>
-        //    {
-
-        //    });
+            
         //    Action<PersonDependent> tester = (testPerson) =>
         //    {
         //        Assert.AreEqual(newPerson.PersonId, testPerson.PersonId);
