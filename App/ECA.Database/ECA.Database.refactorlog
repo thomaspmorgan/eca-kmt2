@@ -1155,4 +1155,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ProjectId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="3caff5a7-c757-40d8-b370-7e8c38759733" ChangeDateTime="03/23/2016 16:09:22">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[BatchId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id" />
+  </Operation>
 </Operations>

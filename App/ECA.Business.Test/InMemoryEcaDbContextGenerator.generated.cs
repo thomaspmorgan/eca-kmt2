@@ -1071,14 +1071,14 @@ namespace ECA.Business.Test
 		public override ECA.Data.SevisBatchProcessing Find(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///BatchId
-			return this.SingleOrDefault(x => x.BatchId.Equals(keyValues.First()));
+			///Id
+			return this.SingleOrDefault(x => x.Id.Equals(keyValues.First()));
 		}
 		public override Task<ECA.Data.SevisBatchProcessing> FindAsync(params object[] keyValues)
 		{
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///BatchId
-			return Task.FromResult<ECA.Data.SevisBatchProcessing>(this.SingleOrDefault(x => x.BatchId.Equals(keyValues.First())));
+			///Id
+			return Task.FromResult<ECA.Data.SevisBatchProcessing>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
 		}
 	}
 	public class SevisCommStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SevisCommStatus>
