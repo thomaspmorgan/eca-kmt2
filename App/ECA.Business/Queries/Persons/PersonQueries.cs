@@ -111,26 +111,19 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
 
-            var query = from person in context.People
+            var query = from person in context.PersonDependents
 
-                        let hasGender = person.Gender != null
-                        let gender = person.Gender
-                        let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
-                        let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
-                        let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
-                        let PermanentResidenceAddress = (from address in person.Addresses
+                        let locationOfBirth = locationsQuery.Where(x => x.Id == person.PlaceOfBirth_LocationId).FirstOrDefault()
+                        let PermanentResidence = (from address in context.Addresses
                                                          let addressType = address.AddressType
-
                                                          let location = address.Location
-
                                                          let hasCity = location.City != null
                                                          let city = location.City
-
                                                          let hasCountry = location.Country != null
                                                          let country = location.Country
-
                                                          let hasDivision = location.Division != null
                                                          let division = location.Division
+                                                  where address.LocationId == person.Residence_LocationId
                                                          select new AddressDTO
                                                          {
                                                              AddressId = address.AddressId,
@@ -149,22 +142,26 @@ namespace ECA.Business.Queries.Persons
                                                              OrganizationId = address.OrganizationId,
                                                              PersonId = address.PersonId,
                                                          }).FirstOrDefault()
-
-                        where person.PersonType.IsDependentPersonType == true
-
+                                                         
                         select new SimplePersonDependentDTO
                         {
+                            DependentId = person.DependentId,
                             PersonId = person.PersonId,
+                            SevisId = person.SevisId,
                             PersonTypeId = person.PersonTypeId,
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NameSuffix = person.NameSuffix,
+                            PassportName = person.PassportName,
+                            PreferredName = person.PreferredName,
+                            GenderId = person.GenderId,
                             DateOfBirth = person.DateOfBirth,
-                            GenderId = hasGender ? gender.GenderId : 0,
-                            CityOfBirthId = hasPlaceOfBirth ? locationOfBirth.CityId : null,
-                            CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).ToList(),
-                            PermanentResidenceCountryCode = PermanentResidenceAddress.LocationId,
-                            BirthCountryReason = "TODO"
+                            PlaceOfBirth_LocationId = person.PlaceOfBirth_LocationId,
+                            Residence_LocationId = person.Residence_LocationId,
+                            BirthCountryReason = person.BirthCountryReason,
+                            IsTravellingWithParticipant = person.IsTravellingWithParticipant,
+                            IsDeleted = person.IsDeleted,
+                            IsSevisDeleted = person.IsSevisDeleted
                         };
             return query;
         }

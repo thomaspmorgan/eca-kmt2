@@ -248,10 +248,10 @@ namespace ECA.Data
         /// </summary>
         public DbSet<Person> People { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets people dependents.
-        ///// </summary>
-        //public DbSet<PersonFamily> PersonFamilies { get; set; }
+        /// <summary>
+        /// Gets or sets people dependents.
+        /// </summary>
+        public DbSet<PersonDependent> PersonDependents { get; set; }
 
         /// <summary>
         /// Gets or sets EvaluationNotes for a Person

@@ -139,7 +139,6 @@
     <Build Include="dbo\Tables\ParticipantStatus.sql" />
     <Build Include="dbo\Tables\ParticipantType.sql" />
     <Build Include="dbo\Tables\Person.sql" />
-    <Build Include="dbo\Tables\PersonFamily.sql" />
     <Build Include="dbo\Tables\PhoneNumber.sql" />
     <Build Include="dbo\Tables\PhoneNumberType.sql" />
     <Build Include="dbo\Tables\ProfessionEducation.sql" />
@@ -295,6 +294,7 @@
     <None Include="Scripts\PostDeploy\StaticData\sevis.StudentSecondaryMajorMinor.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\sevis.StudentTermination.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\sevis.USGovernmentAgency.staticdata.sql" />
+    <Build Include="dbo\Tables\PersonDependent.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
