@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personContactEditCtrl', function ($scope, PersonService, NotificationService, $stateParams, $log, $q) {
+  .controller('personContactEditCtrl', function ($scope, PersonService, ParticipantPersonsService, NotificationService, $stateParams, $log, $q) {
 
       $scope.edit.contactsLoading = true;
 
@@ -29,11 +29,23 @@ angular.module('staticApp')
           $scope.edit.Contact = false;
       };
 
+      function getParticipantPerson() {
+          ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+              .then(function (data) {
+                  $scope.sevisStatus.statusName = data.data.sevisStatus;
+                  $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+              }, function (error) {
+                  $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+              });
+      };
+
       $scope.saveEditContact = function () {
           PersonService.updateContactInfo($scope.contactInfo, $stateParams.personId)
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
               loadContactInfo($stateParams.personId);
+              getParticipantPerson();
               $scope.edit.Contact = false;
           },
             function (error) {

@@ -7,7 +7,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, NotificationService, LookupService) {
+  .controller('personGeneralEditCtrl', function ($scope, $log, $stateParams, PersonService, ParticipantPersonsService, NotificationService, LookupService) {
 
       $scope.general = [];
       $scope.editView = [];
@@ -43,6 +43,17 @@ angular.module('staticApp')
         });
      };
 
+     function getParticipantPerson() {
+         ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+             .then(function (data) {
+                 $scope.sevisStatus.statusName = data.data.sevisStatus;
+                 $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+             }, function (error) {
+                 $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+                 NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+             });
+     };
+
       $scope.cancelEditGeneral = function () {
           $scope.edit.General = false;
       };
@@ -53,6 +64,7 @@ angular.module('staticApp')
           .then(function () {
               NotificationService.showSuccessMessage("The edit was successful.");
               loadGeneral($scope.general.personId);
+              getParticipantPerson();
               $scope.edit.General = false;
           }, 
             function (error) {

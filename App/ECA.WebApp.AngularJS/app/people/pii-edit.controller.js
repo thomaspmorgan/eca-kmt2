@@ -14,6 +14,7 @@ angular.module('staticApp')
       PersonService,
       LookupService,
       LocationService,
+      ParticipantPersonsService,
       ConstantsService,
       $stateParams,
       FilterService,
@@ -166,6 +167,17 @@ angular.module('staticApp')
             });
       }
 
+      function getParticipantPerson() {
+          ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+              .then(function (data) {
+                  $scope.sevisStatus.statusName = data.data.sevisStatus;
+                  $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+              }, function (error) {
+                  $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+                  NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+              });
+      };
+
       LookupService.getAllGenders({ limit: 300 })
          .then(function (data) {
              $scope.genders = data.results;
@@ -188,6 +200,7 @@ angular.module('staticApp')
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
                   loadPii($scope.person.personId);
+                  getParticipantPerson();
                   $scope.$parent.onPersonPiiUpdated();
                   $scope.edit.Pii = false;
               },
