@@ -215,9 +215,6 @@ namespace ECA.Business.Queries.Persons
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
                             PersonId = dependent.PersonId,
                             ParticipantId = participantId,
-                            MailAddress = null,
-                            PhoneNumber = null,
-                            PhoneNumberId = null,
                             Relationship = relationshipCode,
                             PersonTypeId = relationship != null ? relationship.PersonTypeId : -1,
                             SevisId = dependent.SevisId

@@ -76,6 +76,18 @@ namespace ECA.Data
         public virtual Contact Contact { get; set; }
 
         /// <summary>
+        /// Gets or sets the dependent id.
+        /// </summary>
+        [Column("Dependent_DependentId")]
+        public int? DependentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dependent.
+        /// </summary>
+        [ForeignKey("DependentId")]
+        public virtual PersonDependent Dependent { get; set; }
+
+        /// <summary>
         /// Gets or sets the history.
         /// </summary>
         public History History { get; set; }

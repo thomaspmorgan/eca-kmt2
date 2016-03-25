@@ -3,6 +3,7 @@
 	[EmailAddressTypeId] INT NOT NULL,
     [Address]           NVARCHAR (100) NOT NULL,
     [Contact_ContactId] INT            NULL,
+	[Dependent_DependentId] INT            NULL,
     [Person_PersonId]   INT            NULL,
     [History_CreatedBy] INT NOT NULL DEFAULT 1, 
     [History_CreatedOn] DATETIMEOFFSET NOT NULL DEFAULT sysdatetimeoffset(), 
@@ -12,6 +13,7 @@
     CONSTRAINT [PK_dbo.EmailAddress] PRIMARY KEY CLUSTERED ([EmailAddressId] ASC),
     CONSTRAINT [FK_dbo.EmailAddress_dbo.Contact_Contact_ContactId] FOREIGN KEY ([Contact_ContactId]) REFERENCES [dbo].[Contact] ([ContactId]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.EmailAddress_dbo.Person_Person_PersonId] FOREIGN KEY ([Person_PersonId]) REFERENCES [dbo].[Person] ([PersonId]) ON DELETE CASCADE, 
+	CONSTRAINT [FK_dbo.EmailAddress_dbo.PersonDependent_PersonDependent_DependentId] FOREIGN KEY ([Dependent_DependentId]) REFERENCES [dbo].[PersonDependent] ([DependentId]) ON DELETE CASCADE, 
     CONSTRAINT [FK_EmailAddress_ToEmailAddressType] FOREIGN KEY ([EmailAddressTypeId]) REFERENCES [EmailAddressType]([EmailAddressTypeId]) ON DELETE CASCADE
 );
 
