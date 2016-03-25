@@ -8,7 +8,8 @@
     [TransactionLogXml] XML NULL, 
     [UploadDispositionCode] NCHAR(5) NULL, 
     [ProcessDispositionCode] NCHAR(5) NULL, 
-    [DownloadDispositionCode] NCHAR(5) NULL
+    [DownloadDispositionCode] NCHAR(5) NULL, 
+    CONSTRAINT [CK_SevisBatchProcessing_BatchId] UNIQUE (BatchId)
 )
 
 GO
