@@ -112,13 +112,13 @@ namespace ECA.Business.Queries.Persons
                             BirthCountryReason = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
-                            PhoneNumber = phoneNumber != null 
+                            PhoneNumber = phoneNumber != null
                                 ? phoneNumber.Number
                                     .Replace(" ", string.Empty)
                                     .Replace("-", string.Empty)
                                     .Replace("+", string.Empty)
                                     .Replace("(", string.Empty)
-                                    .Replace(")", string.Empty)  
+                                    .Replace(")", string.Empty)
                                 : null,
                             MailAddress = mailAddress,
                         };
@@ -152,42 +152,75 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<DependentBiographicalDTO> CreateGetParticipantDependentsBiographicalQuery(EcaContext context, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var biographies = CreateGetBiographicalDataQuery(context);
+            var maleGenderCode = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var femaleGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE;
+
             var familyMemberIds = context.Participants
                 .Where(x => x.ParticipantId == participantId && x.PersonId.HasValue)
-                .SelectMany(x => x.Person.Family.Select(f => f.PersonId));
+                .SelectMany(x => x.Person.Family.Select(f => f.DependentId));
 
-            var query = from biography in biographies
+            var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
+            var emailAddressQuery = EmailAddressQueries.CreateGetEmailAddressDTOQuery(context);
 
-                        join person in context.People
-                        on biography.PersonId equals person.PersonId
+            var query = from dependent in context.PersonDependents
 
-                        let personType = person.PersonType
+                        let gender = context.Genders.Where(x => x.GenderId == dependent.GenderId).FirstOrDefault()
+                        let sevisGender = gender != null && (gender.SevisGenderCode == maleGenderCode || gender.SevisGenderCode == femaleGenderCode) ? gender.SevisGenderCode : null
 
-                        where familyMemberIds.Contains(biography.PersonId)
+                        let residenceCountry = context.Locations.Where(x => x.LocationId == dependent.Residence_LocationId).FirstOrDefault()
+                        let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
+                        let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
+
+                        let birthCity = context.Locations.Where(x => x.LocationId == dependent.PlaceOfBirth_LocationId).FirstOrDefault()
+                        let birthCountry = birthCity != null ? birthCity.Country : null
+                        let sevisBirthCountry = birthCountry != null ? birthCountry.BirthCountry : null
+                        let sevisBirthCountryCode = sevisBirthCountry != null ? sevisBirthCountry.CountryCode : null
+
+                        let birthDate = dependent.DateOfBirth
+
+                        let numberOfCitizenships = dependent.CountriesOfCitizenship.Count()
+                        let countryOfCitizenship = dependent.CountriesOfCitizenship.FirstOrDefault()
+                        let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.BirthCountry : null
+                        let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
+
+                        let relationship = context.PersonTypes.Where(x => x.PersonTypeId == dependent.PersonTypeId).FirstOrDefault()
+                        let relationshipCode = relationship != null ? relationship.SevisDependentTypeCode : null
+
+                        let emailAddress = dependent.EmailAddresses
+                            .OrderByDescending(x => x.IsPrimary)
+                            .FirstOrDefault()
+
+                        where familyMemberIds.Contains(dependent.DependentId)
                         select new DependentBiographicalDTO
                         {
-                            PermanentResidenceAddressId = biography.PermanentResidenceAddressId,
-                            BirthCity = biography.BirthCity,
-                            BirthCountryCode = biography.BirthCountryCode,
-                            BirthCountryReason = biography.BirthCountryReason,
-                            BirthDate = biography.BirthDate,
-                            CitizenshipCountryCode = biography.CitizenshipCountryCode,
-                            EmailAddress = biography.EmailAddress,
-                            EmailAddressId = biography.EmailAddressId,
-                            FullName = biography.FullName,
-                            Gender = biography.Gender,
-                            GenderId = biography.GenderId,
-                            NumberOfCitizenships = biography.NumberOfCitizenships,
-                            PermanentResidenceCountryCode = biography.PermanentResidenceCountryCode,
-                            PersonId = biography.PersonId,
+                            PermanentResidenceAddressId = null,
+                            BirthCity = birthCity.LocationName,
+                            BirthCountryCode = sevisBirthCountryCode,
+                            BirthCountryReason = dependent.BirthCountryReason,
+                            BirthDate = birthDate,
+                            CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
+                            EmailAddress = emailAddress != null ? emailAddress.Address : null,
+                            EmailAddressId = emailAddress != null ? emailAddress.EmailAddressId : default(int?),
+                            FullName = new FullNameDTO
+                            {
+                                FirstName = dependent.FirstName,
+                                LastName = dependent.LastName,
+                                Suffix = dependent.NameSuffix,
+                                PassportName = dependent.PassportName,
+                                PreferredName = dependent.PreferredName
+                            },
+                            Gender = gender != null && sevisGender != null ? sevisGender : null,
+                            GenderId = gender.GenderId,
+                            NumberOfCitizenships = numberOfCitizenships,
+                            PermanentResidenceCountryCode = residenceSevisCountryCode,
+                            PersonId = dependent.PersonId,
                             ParticipantId = participantId,
-                            MailAddress = biography.MailAddress,
-                            PhoneNumber = biography.PhoneNumber,
-                            PhoneNumberId = biography.PhoneNumberId,
-                            Relationship = personType.SevisDependentTypeCode,
-                            PersonTypeId = personType.PersonTypeId,
-                            SevisId = null //this will change when the dependents are storing their sevis ids
+                            MailAddress = null,
+                            PhoneNumber = null,
+                            PhoneNumberId = null,
+                            Relationship = relationshipCode,
+                            PersonTypeId = relationship != null ? relationship.PersonTypeId : -1,
+                            SevisId = dependent.SevisId
                         };
             return query;
 
@@ -234,7 +267,7 @@ namespace ECA.Business.Queries.Persons
                         let secondIternationalFundingOrg = visitor.IntlOrg2
 
                         let hasFirstInternationalFunding = visitor.FundingIntlOrg1.HasValue && visitor.FundingIntlOrg1.Value > 0
-                        let hasSecondInternationalFunding= visitor.FundingIntlOrg2.HasValue && visitor.FundingIntlOrg2.Value > 0
+                        let hasSecondInternationalFunding = visitor.FundingIntlOrg2.HasValue && visitor.FundingIntlOrg2.Value > 0
 
                         let otherName1 = firstInternationalFundingOrg == null
                             || (firstInternationalFundingOrg != null && firstInternationalFundingOrg.OrganizationCode == InternationalFundingValidator.OTHER_ORG_CODE)

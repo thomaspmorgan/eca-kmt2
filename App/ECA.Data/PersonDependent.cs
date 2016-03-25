@@ -10,6 +10,8 @@ namespace ECA.Data
         public PersonDependent()
         {
             this.History = new History();
+            this.CountriesOfCitizenship = new HashSet<Location>();
+            this.EmailAddresses = new HashSet<EmailAddress>();
         }
 
         #region Constants
