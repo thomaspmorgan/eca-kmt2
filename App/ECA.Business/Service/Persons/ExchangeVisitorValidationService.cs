@@ -244,6 +244,15 @@ namespace ECA.Business.Service.Persons
                 }
             }
         }
+
+        /// <summary>
+        /// Returns the ExchangeVisitor validator object.
+        /// </summary>
+        /// <returns>The ExchangeVisitor validator.</returns>
+        public AbstractValidator<ExchangeVisitor> GetValidator()
+        {
+            return this.ExchangeVisitorValidator;
+        }
         #endregion
     }
 }

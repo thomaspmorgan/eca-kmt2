@@ -4,6 +4,7 @@ using ECA.Business.Test.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Bio;
 using FluentAssertions;
+using ECA.Business.Sevis.Model.TransLog;
 
 namespace ECA.Business.Test.Validation
 {
@@ -63,6 +64,46 @@ namespace ECA.Business.Test.Validation
             var userDefinedB = "B" + personId.ToString();
 
             var key = new ParticipantSevisKey(userDefinedA, userDefinedB);
+            Assert.AreEqual(personId, key.PersonId);
+            Assert.AreEqual(participantId, key.ParticipantId);
+        }
+
+        [TestMethod]
+        public void TestConstructor_TransactionLogTypeBatchDetailProcessRecordDependent()
+        {
+            var participantId = 10;
+            var personId = 20;
+
+            var userDefinedA = participantId.ToString();
+            var userDefinedB = "B" + personId.ToString();
+
+            var dependent = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                UserDefinedA = userDefinedA,
+                UserDefinedB = userDefinedB
+            };
+
+            var key = new ParticipantSevisKey(dependent);
+            Assert.AreEqual(personId, key.PersonId);
+            Assert.AreEqual(participantId, key.ParticipantId);
+        }
+
+        [TestMethod]
+        public void TestConstructor_TransactionLogTypeBatchDetailProcessRecord()
+        {
+            var participantId = 10;
+            var personId = 20;
+
+            var userDefinedA = participantId.ToString();
+            var userDefinedB = "B" + personId.ToString();
+
+            var dependent = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                UserDefinedA = userDefinedA,
+                UserDefinedB = userDefinedB
+            };
+
+            var key = new ParticipantSevisKey(dependent);
             Assert.AreEqual(personId, key.PersonId);
             Assert.AreEqual(participantId, key.ParticipantId);
         }

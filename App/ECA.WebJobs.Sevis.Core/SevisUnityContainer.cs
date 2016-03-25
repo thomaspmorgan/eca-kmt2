@@ -1,12 +1,11 @@
-﻿using ECA.Core.Settings;
+﻿using ECA.Business.Service.Persons;
+using ECA.Business.Service.Sevis;
+using ECA.Core.Settings;
 using ECA.Data;
 using Microsoft.Practices.Unity;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
-using ECA.Business.Service.Sevis;
-using ECA.Business.Service.Persons;
-using ECA.Business.Validation;
 
 namespace ECA.WebJobs.Sevis.Core
 {
@@ -15,7 +14,6 @@ namespace ECA.WebJobs.Sevis.Core
     /// </summary>
     public class SevisUnityContainer : UnityContainer
     {
-
         /// <summary>
         /// Creates a new instance.
         /// </summary>
@@ -24,24 +22,44 @@ namespace ECA.WebJobs.Sevis.Core
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             var connectionString = GetConnectionString(appSettings);
-            
+            this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
+
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
 
             this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
             {
-                var context = c.Resolve<EcaContext>();
-                var service = new ExchangeVisitorService(context, appSettings, null);
+                var service = new ExchangeVisitorService(context: c.Resolve<EcaContext>(), appSettings: appSettings, saveActions: null);
                 return service;
             }));
-            
+
+            this.RegisterType<IExchangeVisitorValidationService>(new InjectionFactory((c) =>
+            {
+                var context = c.Resolve<EcaContext>();
+                var service = new ExchangeVisitorValidationService(
+                    context: c.Resolve<EcaContext>(),
+                    exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
+                    exchangeVisitorValidator: null, 
+                    saveActions: null
+                    );
+                return service;
+            }));
             
             //Register the SEVIS Batch Processing service
             this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
-                var service = new SevisBatchProcessingService(context, c.Resolve<IExchangeVisitorService>(), appSettings.SevisOrgId);
+                var service = new SevisBatchProcessingService(
+                    context: c.Resolve<EcaContext>(),
+                    exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
+                    notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),
+                    exchangeVisitorValidationService: c.Resolve<IExchangeVisitorValidationService>(),
+                    sevisOrgId: appSettings.SevisOrgId,
+                    maxCreateExchangeVisitorRecordsPerBatch: 20,
+                    maxUpdateExchangeVisitorRecordsPerBatch: 20,
+                    saveActions: null
+                    );
                 return service;
             }));
         }

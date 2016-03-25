@@ -47,6 +47,12 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public void TestGetValidator()
+        {
+            Assert.IsTrue(Object.ReferenceEquals(exchangeVisitorValidator.Object, service.GetValidator()));
+        }
+
+        [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantDoesNotExist()
         {
 
