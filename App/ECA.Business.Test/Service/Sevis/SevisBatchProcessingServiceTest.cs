@@ -346,12 +346,14 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(result.Count, context.SaveChangesCalledCount);
             tester(result);
             exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            exchangeVisitorValidationService.Verify(x => x.SaveChanges(), Times.Once());
 
             context.Revert();
             var resultAsync = await service.StageBatchesAsync(user);
             tester(resultAsync);
             Assert.AreEqual(result.Count * 2, context.SaveChangesCalledCount);
             exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            exchangeVisitorValidationService.Verify(x => x.SaveChangesAsync(), Times.Once());
             notificationService.Verify(x => x.NotifyNumberOfParticipantsToStage(It.IsAny<int>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStagedSevisBatchCreated(It.IsAny<StagedSevisBatch>()), Times.Never());
             notificationService.Verify(x => x.NotifyInvalidExchangeVisitor(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
@@ -1137,6 +1139,91 @@ namespace ECA.Business.Test.Service.Sevis
             Func<Task> f = () => service.BatchHasBeenRetrievedAsync(xml);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+        #endregion
+
+        #region GetNextBatchToProcess
+        [TestMethod]
+        public async Task TestGetNextBatchIdToProcess()
+        {
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+
+            Action<int?> tester = (id) =>
+            {
+                Assert.IsTrue(id.HasValue);
+                Assert.AreEqual(model.Id, id.Value);
+            };
+            var result = service.GetNextBatchIdToProcess();
+            tester(result);
+            var asyncResult = await service.GetNextBatchIdToProcessAsync();
+            tester(asyncResult);
+        }
+
+        [TestMethod]
+        public async Task GetNextBatchIdToProcess_DoesNotHaveRetrieveDate()
+        {
+
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = null,
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+
+            Action<int?> tester = (id) =>
+            {
+                Assert.IsFalse(id.HasValue);
+            };
+            var result = service.GetNextBatchIdToProcess();
+            tester(result);
+            var asyncResult = await service.GetNextBatchIdToProcessAsync();
+            tester(asyncResult);
+        }
+
+        [TestMethod]
+        public async Task TestGetNextBatchIdToProcess_DoesNotHaveTransactionLogString()
+        {
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = null,
+                UploadDispositionCode = "upload code",
+            };
+            context.SevisBatchProcessings.Add(model);
+
+            Action<int?> tester = (id) =>
+            {
+                Assert.IsFalse(id.HasValue);
+            };
+            var result = service.GetNextBatchIdToProcess();
+            tester(result);
+            var asyncResult = await service.GetNextBatchIdToProcessAsync();
+            tester(asyncResult);
         }
         #endregion
 

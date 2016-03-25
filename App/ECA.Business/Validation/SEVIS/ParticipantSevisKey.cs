@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Sevis.Model;
+using ECA.Business.Sevis.Model.TransLog;
 using ECA.Business.Validation.Sevis.Bio;
 using System;
 using System.Diagnostics.Contracts;
@@ -40,6 +41,26 @@ namespace ECA.Business.Validation.Sevis
             : this(person.ParticipantId, person.PersonId)
         {
             Contract.Requires(person != null, "The person must not be null.");
+        }
+
+        /// <summary>
+        /// Creates a new ParticipantSevisKey with the given transaction log batch process record.
+        /// </summary>
+        /// <param name="transactionLog">The sevis transaction log.</param>
+        public ParticipantSevisKey(TransactionLogTypeBatchDetailProcessRecord record)
+            : this(record.UserDefinedA, record.UserDefinedB)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+        }
+
+        /// <summary>
+        /// Creates a new ParticipantSevisKey with the given transaction log batch process depeendent record.
+        /// </summary>
+        /// <param name="transactionLog">The sevis transaction log.</param>
+        public ParticipantSevisKey(TransactionLogTypeBatchDetailProcessRecordDependent record)
+            : this(record.UserDefinedA, record.UserDefinedB)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
         }
 
         /// <summary>

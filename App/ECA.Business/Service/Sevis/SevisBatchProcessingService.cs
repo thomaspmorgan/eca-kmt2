@@ -86,7 +86,7 @@ namespace ECA.Business.Service.Sevis
             this.MaxCreateExchangeVisitorRecordsPerBatch = maxCreateExchangeVisitorRecordsPerBatch;
             this.MaxUpdateExchangeVisitorRecordsPerBatch = maxUpdateExchangeVisitorRecordsPerBatch;
 
-        }        
+        }
 
         /// <summary>
         /// Gets the maximum number of records to place in the sevis create exchange visitor array before serialization.
@@ -143,6 +143,26 @@ namespace ECA.Business.Service.Sevis
         private IQueryable<string> CreateGetNextBatchByBatchIdToDownload()
         {
             return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context).OrderBy(x => x.Id).Select(x => x.BatchId);
+        }
+
+        /// <summary>
+        /// Returns the id of the next batch to process or null if there are no other batches to process.
+        /// </summary>
+        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
+        public int? GetNextBatchIdToProcess()
+        {
+            int? id = CreateGetNextSevisBatchIdToProcessQuery().FirstOrDefault();
+            return id;
+        }
+
+        /// <summary>
+        /// Returns the id of the next batch to process or null if there are no other batches to process.
+        /// </summary>
+        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
+        public async Task<int?> GetNextBatchIdToProcessAsync()
+        {
+            int? id = await CreateGetNextSevisBatchIdToProcessQuery().FirstOrDefaultAsync();
+            return id;
         }
         #endregion
 
@@ -208,17 +228,35 @@ namespace ECA.Business.Service.Sevis
 
         #region Process Transaction Log
 
-        public void ProcessTransactionLog(string xml)
+        public void ProcessTransactionLog(int id)
         {
-            var instance = DeserializeTransactionLogType(xml);
-            ProcessTransactionLog(xml, instance);
+            var batchToProcess = CreateGetSevisBatchToProcessById(id).FirstOrDefault();
+            if (batchToProcess != null)
+            {
+
+            }
         }
 
-        public Task ProcessTransactionLogAsync(string xml)
+        public async Task ProcessTransactionLogAsync(int id)
         {
-            var instance = DeserializeTransactionLogType(xml);
-            return ProcessTransactionLogAsync(xml, instance);
+            var batchToProcess = await CreateGetSevisBatchToProcessById(id).FirstOrDefaultAsync();
+            if (batchToProcess != null)
+            {
+
+            }
         }
+
+        //public void ProcessTransactionLog(string xml)
+        //{
+        //    var instance = DeserializeTransactionLogType(xml);
+        //    ProcessTransactionLog(xml, instance);
+        //}
+
+        //public Task ProcessTransactionLogAsync(string xml)
+        //{
+        //    var instance = DeserializeTransactionLogType(xml);
+        //    return ProcessTransactionLogAsync(xml, instance);
+        //}
 
         private TransactionLogType DeserializeTransactionLogType(string xml)
         {
@@ -231,17 +269,6 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        private void ProcessTransactionLog(string xml, TransactionLogType transactionLog)
-        {
-            var batchId = transactionLog.BatchHeader.BatchID;
-
-        }
-
-        private async Task ProcessTransactionLogAsync(string xml, TransactionLogType transactionLog)
-        {
-
-        }
-
         /// <summary>
         /// Update a participant record with sevis batch results
         /// </summary>
@@ -249,26 +276,26 @@ namespace ECA.Business.Service.Sevis
         /// <param name="status"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
-        {
-            var result = new ParticipantSevisBatchProcessingResultDTO();
+        //private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
+        //{
+        //    var result = new ParticipantSevisBatchProcessingResultDTO();
 
-            var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
-            participantPersonDTO.SevisBatchResult = json;
+        //    var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
+        //    participantPersonDTO.SevisBatchResult = json;
 
-            result.ParticipantId = participantID;
-            result.ProjectId = participantPersonDTO.Participant.ProjectId;
-            if (status == "1")
-            {
-                result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
-            }
-            else
-            {
-                result.SevisCommStatus = SevisCommStatus.BatchRequestUnsuccessful.Value;
-            }
+        //    result.ParticipantId = participantID;
+        //    result.ProjectId = participantPersonDTO.Participant.ProjectId;
+        //    if (status == "1")
+        //    {
+        //        result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
+        //    }
+        //    else
+        //    {
+        //        result.SevisCommStatus = SevisCommStatus.BatchRequestUnsuccessful.Value;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByTransactionLogQuery(TransactionLogType transactionLog)
         {
@@ -279,6 +306,24 @@ namespace ECA.Business.Service.Sevis
         private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
         {
             return this.Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
+        }
+
+        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchToProcessQuery()
+        {
+            return this.Context.SevisBatchProcessings
+                .Where(x => x.RetrieveDate.HasValue)
+                .Where(x => x.TransactionLogString != null)
+                .OrderBy(x => x.BatchId);
+        }
+
+        private IQueryable<int?> CreateGetNextSevisBatchIdToProcessQuery()
+        {
+            return CreateGetSevisBatchToProcessQuery().Select(x => (int?)x.Id);
+        }
+
+        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchToProcessById(int id)
+        {
+            return CreateGetSevisBatchToProcessQuery().Where(x => x.Id == id);
         }
 
         #endregion
@@ -424,13 +469,15 @@ namespace ECA.Business.Service.Sevis
         private void HandleInvalidExchangeVisitor(User user, int projectId, int participantId)
         {
             this.exchangeVisitorValidationService.RunParticipantSevisValidation(user, projectId, participantId);
+            this.exchangeVisitorValidationService.SaveChanges();
         }
 
         private async Task HandleInvalidExchangeVisitorAsync(User user, int projectId, int participantId)
         {
             await this.exchangeVisitorValidationService.RunParticipantSevisValidationAsync(user, projectId, participantId);
+            await this.exchangeVisitorValidationService.SaveChangesAsync();
         }
-        
+
         private void PersistStagedSevisBatches(List<StagedSevisBatch> stagedSevisBatches)
         {
             foreach (var stagedSevisBatch in stagedSevisBatches)

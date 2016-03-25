@@ -63,19 +63,7 @@ namespace ECA.Business.Service.Sevis
         /// Indicates the batch has been successfully uploaded.
         /// </summary>
         /// <param name="batchId">The id of the batch.</param>
-        Task BatchHasBeenSentAsync(int batchId);
-
-        /// <summary>
-        /// Process the given transaction log as a string.
-        /// </summary>
-        /// <param name="xml">The transaction log as a string.</param>
-        void ProcessTransactionLog(string xml);
-
-        /// <summary>
-        /// Process the given transaction log as a string.
-        /// </summary>
-        /// <param name="xml">The transaction log as a string.</param>
-        Task ProcessTransactionLogAsync(string xml);
+        Task BatchHasBeenSentAsync(int batchId);        
 
         /// <summary>
         /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
@@ -88,6 +76,18 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="xml">The transaction log as xml.</param>
         Task BatchHasBeenRetrievedAsync(string xml);
+
+        /// <summary>
+        /// Returns the id of the next batch to process or null if there are no other batches to process.
+        /// </summary>
+        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
+        int? GetNextBatchIdToProcess();
+
+        /// <summary>
+        /// Returns the id of the next batch to process or null if there are no other batches to process.
+        /// </summary>
+        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
+        Task<int?> GetNextBatchIdToProcessAsync();
     }
 
     /// <summary>
@@ -151,6 +151,24 @@ namespace ECA.Business.Service.Sevis
         public Task<string> GetNextBatchByBatchIdToDownloadAsync()
         {
             return Task.FromResult<string>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int? GetNextBatchIdToProcess()
+        {
+            return 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task<int?> GetNextBatchIdToProcessAsync()
+        {
+            return Task.FromResult<int?>(1);
         }
 
         /// <summary>
