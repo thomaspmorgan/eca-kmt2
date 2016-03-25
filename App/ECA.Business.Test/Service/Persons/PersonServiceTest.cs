@@ -1,8 +1,6 @@
 ﻿using ECA.Business.Exceptions;
-using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service;
-using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
@@ -211,13 +209,17 @@ namespace ECA.Business.Test.Service.Persons
                 MaritalStatus = new MaritalStatus(),
                 PlaceOfBirth = new Location()
             };
-            var dependant1 = new Person
+            var dependent = new PersonDependent
             {
+                DependentId = 1,
                 PersonId = 2,
-                Gender = gender,
+                PersonTypeId = PersonType.Spouse.Id,
                 FirstName = "firstName",
                 LastName = "lastName",
+                NameSuffix = "nameSuffix",
                 DateOfBirth = DateTime.Now,
+                GenderId = gender.GenderId,
+                Person = person
             };
             var status = new ParticipantStatus
             {
@@ -262,8 +264,8 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.People.Add(dependant1);
-            person.Family.Add(dependant1);
+            context.PersonDependents.Add(dependent);
+            person.Family.Add(dependent);
 
             Action<PiiDTO> tester = (serviceResult) =>
             {
@@ -283,7 +285,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
-                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
+                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependents.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
             };
@@ -589,7 +591,7 @@ namespace ECA.Business.Test.Service.Persons
         //        MaritalStatus = new MaritalStatus(),
         //        PlaceOfBirth = new Location()
         //    };
-        //    var dependant1 = new Person
+        //    var dependent1 = new Person
         //    {
         //        PersonId = 2,
         //        Gender = gender,
@@ -640,15 +642,15 @@ namespace ECA.Business.Test.Service.Persons
         //    context.ParticipantPersons.Add(participantPerson);
         //    context.Genders.Add(gender);
         //    context.People.Add(person);
-        //    context.People.Add(dependant1);
-        //    person.Family.Add(dependant1);
+        //    context.People.Add(dependent1);
+        //    person.Family.Add(dependent1);
                 
-        //    await service.DeletePersonDependentByIdAsync(person.PersonId, dependant1.PersonId);
+        //    await service.DeletePersonDependentByIdAsync(person.PersonId, dependent1.PersonId);
         //    await service.SaveChangesAsync();
 
         //    Action<PiiDTO> tester = (serviceResult) =>
         //    {
-        //        Assert.IsTrue(serviceResult.Dependants.Count() == 0);
+        //        Assert.IsTrue(serviceResult.dependents.Count() == 0);
         //    };
             
         //    var result = this.service.GetPiiById(person.PersonId);

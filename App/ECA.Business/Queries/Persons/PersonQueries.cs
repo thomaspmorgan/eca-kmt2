@@ -5,6 +5,7 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -24,20 +25,18 @@ namespace ECA.Business.Queries.Persons
         /// Creates a query to get the simple person dto's participating family member.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="dependentPersonId">The dependent person id.</param>
+        /// <param name="dependentId">The dependent id.</param>
         /// <returns>The simple person dto query of the participating family member.</returns>
-        public static IQueryable<SimplePersonDTO> CreateGetRelatedPersonByDependentFamilyMemberQuery(EcaContext context, int dependentPersonId)
+        public static IQueryable<SimplePersonDTO> CreateGetRelatedPersonByDependentFamilyMemberQuery(EcaContext context, int dependentId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             
-            var participantTypeId = PersonType.Participant.Id;
             var personDTOQuery = CreateGetSimplePersonDTOsQuery(context);
 
-            var query = from person in context.People
-                        let participantFamilyMember = person.Family.Where(x => x.PersonTypeId == participantTypeId).FirstOrDefault()
+            var query = from dependent in context.PersonDependents
+                        let participantFamilyMember = dependent.Person
                         let participantFamilyMemberDTO = participantFamilyMember != null ? personDTOQuery.Where(x => x.PersonId == participantFamilyMember.PersonId).FirstOrDefault() : null
-                        where person.PersonType.IsDependentPersonType
-                        && person.PersonId == dependentPersonId
+                        where dependent.DependentId == dependentId
                         select participantFamilyMemberDTO;
             return query;
         }
@@ -67,9 +66,7 @@ namespace ECA.Business.Queries.Persons
 
                         let hasDivisionOfBirth = hasPlaceOfBirth && cityOfBirth.Division != null
                         let divisionOfBirthName = hasDivisionOfBirth ? cityOfBirth.Division.LocationName : null
-
-                        where person.PersonType.IsDependentPersonType == false
-
+                        
                         select new SimplePersonDTO
                         {
                             Alias = person.Alias,
@@ -197,7 +194,9 @@ namespace ECA.Business.Queries.Persons
                         let hasPlaceOfBirth = person.PlaceOfBirthId.HasValue
                         let cityOfBirth = hasPlaceOfBirth ? person.PlaceOfBirth : null
                         let locationOfBirth = hasPlaceOfBirth ? locationsQuery.Where(x => x.Id == person.PlaceOfBirthId).FirstOrDefault() : null
+
                         where person.PersonId == personId
+
                         select new PiiDTO
                         {
                             Gender = person.Gender.GenderName,
@@ -206,7 +205,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
-                            Dependants = person.Family.Select(x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName) }),
+                            Dependents = person.Family.Select(x => new SimpleLookupDTO() { Id = x.DependentId, Value = (x.LastName + ", " + x.FirstName) }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,

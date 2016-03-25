@@ -168,7 +168,7 @@ angular.module('staticApp')
       }
 
       function getParticipantPerson() {
-          ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
+          ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
               .then(function (data) {
                   $scope.sevisStatus.statusName = data.data.sevisStatus;
                   $scope.sevisStatus.statusNameId = data.data.sevisStatusId;

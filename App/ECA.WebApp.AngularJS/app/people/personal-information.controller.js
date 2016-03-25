@@ -49,14 +49,14 @@ angular.module('staticApp')
           });
       }
       
-      ParticipantPersonsService.getParticipantPersonsById($stateParams.personId)
-          .then(function (data) {
-              $scope.sevisStatus.statusName = data.data.sevisStatus;
-              $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
-          }, function (error) {
-              $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
-              NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
-          });
+      //ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
+      //    .then(function (data) {
+      //        $scope.sevisStatus.statusName = data.data.sevisStatus;
+      //        $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+      //    }, function (error) {
+      //        $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+      //        NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+      //    });
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();

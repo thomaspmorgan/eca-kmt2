@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
     public class PersonDependent : IHistorical
     {
+        public PersonDependent()
+        {
+            this.History = new History();
+        }
+
+        #region Constants
+
         /// <summary>
         /// Gets the max length of the first name.
         /// </summary>
@@ -15,6 +23,11 @@ namespace ECA.Data
         /// Gets the max length of a person's last name.
         /// </summary>
         public const int LAST_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of a SEVIS id.
+        /// </summary>
+        public const int SEVIS_ID_MAX_LENGTH = 15;
 
         /// <summary>
         /// Gets max length of the name suffix.
@@ -36,6 +49,7 @@ namespace ECA.Data
         /// </summary>
         public const int BIRTH_COUNTRY_REASON_MAX_LENGTH = 100;
 
+        #endregion
 
         /// <summary>
         /// Gets or sets the dependent id.
@@ -51,6 +65,7 @@ namespace ECA.Data
         /// <summary>
         /// the SEVIS ID (assigned by SEVIS)
         /// </summary>
+        [MaxLength(SEVIS_ID_MAX_LENGTH)]
         public string SevisId { get; set; }
 
         /// <summary>
@@ -135,7 +150,11 @@ namespace ECA.Data
         public bool IsSevisDeleted { get; set; }
         
         public ICollection<Location> CountriesOfCitizenship { get; set; }
+
         public ICollection<EmailAddress> EmailAddresses { get; set; }
+
+        [ForeignKey("PersonId")]
+        public virtual Person Person { get; set; }
 
         /// <summary>
         /// create/update time and user

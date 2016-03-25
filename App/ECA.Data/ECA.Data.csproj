@@ -158,6 +158,7 @@
     <Compile Include="Configuration\ParticipantConfiguration.cs" />
     <Compile Include="Configuration\ParticipantExchangeVisitorConfiguration.cs" />
     <Compile Include="Configuration\ParticipantPersonSevisCommStatusesConfiguration.cs" />
+    <Compile Include="Configuration\PersonDependentConfiguration.cs" />
     <Compile Include="Configuration\PersonLanguageProficienciesConfiguration.cs" />
     <Compile Include="Configuration\ParticipantPersonConfiguration.cs" />
     <Compile Include="Configuration\PersonConfiguration.cs" />

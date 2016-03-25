@@ -21,209 +21,209 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         #region Dependent
-        [TestMethod]
-        public void TestCreateGetParticipantDependentsBiographicalQuery()
-        {
-            var spousePersonType = new PersonType
-            {
-                PersonTypeId = 150,
-                IsDependentPersonType = true,
-                SevisDependentTypeCode = "spouse dependent code",
-                Name = "spouse"
-            };
-            var sevisCountryOfCitizenship = new BirthCountry
-            {
-                BirthCountryId = 1000978,
-                CountryCode = "country of citizenship code"
-            };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
-            var sevisBirthCountry = new BirthCountry
-            {
-                BirthCountryId = 698,
-                CountryCode = "birth country code"
-            };
-            var countryOfBirth = new Location
-            {
-                LocationId = 42,
-                LocationName = "country of birth",
-                BirthCountryId = sevisBirthCountry.BirthCountryId,
-                BirthCountry = sevisBirthCountry
-            };
-            var cityOfBirth = new Location
-            {
-                LocationId = 55,
-                LocationName = "city of birth",
-                Country = countryOfBirth,
-                CountryId = countryOfBirth.LocationId,
-                LocationTypeId = LocationType.City.Id
-            };
-            var gender = new Gender
-            {
-                GenderId = 1,
-                GenderName = "gender",
-                SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
-            };
-            var dependent = new Data.Person
-            {
-                PersonId = 100,
-                FullName = "full name",
-                Alias = "alias",
-                FirstName = "first name",
-                LastName = "last name",
-                NameSuffix = "suffix",
-                MiddleName = "middle",
-                Gender = gender,
-                GenderId = gender.GenderId,
-                PlaceOfBirth = cityOfBirth,
-                PlaceOfBirthId = cityOfBirth.LocationId,
-                PersonTypeId = spousePersonType.PersonTypeId,
-                PersonType = spousePersonType
-            };
-            dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
+        //[TestMethod]
+        //public void TestCreateGetParticipantDependentsBiographicalQuery()
+        //{
+        //    var spousePersonType = new PersonType
+        //    {
+        //        PersonTypeId = 150,
+        //        IsDependentPersonType = true,
+        //        SevisDependentTypeCode = "spouse dependent code",
+        //        Name = "spouse"
+        //    };
+        //    var sevisCountryOfCitizenship = new BirthCountry
+        //    {
+        //        BirthCountryId = 1000978,
+        //        CountryCode = "country of citizenship code"
+        //    };
+        //    var countryOfCitizenship = new Location
+        //    {
+        //        LocationId = 87,
+        //        LocationName = "citizenship",
+        //        BirthCountry = sevisCountryOfCitizenship,
+        //        BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
+        //    };
+        //    var sevisBirthCountry = new BirthCountry
+        //    {
+        //        BirthCountryId = 698,
+        //        CountryCode = "birth country code"
+        //    };
+        //    var countryOfBirth = new Location
+        //    {
+        //        LocationId = 42,
+        //        LocationName = "country of birth",
+        //        BirthCountryId = sevisBirthCountry.BirthCountryId,
+        //        BirthCountry = sevisBirthCountry
+        //    };
+        //    var cityOfBirth = new Location
+        //    {
+        //        LocationId = 55,
+        //        LocationName = "city of birth",
+        //        Country = countryOfBirth,
+        //        CountryId = countryOfBirth.LocationId,
+        //        LocationTypeId = LocationType.City.Id
+        //    };
+        //    var gender = new Gender
+        //    {
+        //        GenderId = 1,
+        //        GenderName = "gender",
+        //        SevisGenderCode = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE
+        //    };
+        //    var dependent = new Data.Person
+        //    {
+        //        PersonId = 100,
+        //        FullName = "full name",
+        //        Alias = "alias",
+        //        FirstName = "first name",
+        //        LastName = "last name",
+        //        NameSuffix = "suffix",
+        //        MiddleName = "middle",
+        //        Gender = gender,
+        //        GenderId = gender.GenderId,
+        //        PlaceOfBirth = cityOfBirth,
+        //        PlaceOfBirthId = cityOfBirth.LocationId,
+        //        PersonTypeId = spousePersonType.PersonTypeId,
+        //        PersonType = spousePersonType
+        //    };
+        //    dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
 
-            var sevisResidenceCountry = new BirthCountry
-            {
-                BirthCountryId = 90,
-                CountryCode = "sevis country code",
-                CountryName = "sevis country name"
-            };
-            var addressCountry = new Location
-            {
-                LocationId = 29,
-                LocationName = "address country",
-                BirthCountry = sevisResidenceCountry,
-                BirthCountryId = sevisResidenceCountry.BirthCountryId
-            };
-            var addressLocation = new Location
-            {
-                LocationId = 16,
-                Country = addressCountry,
-                CountryId = addressCountry.LocationId,
-            };
-            var residenceAddressType = new AddressType
-            {
-                AddressTypeId = 1,
-                AddressName = "address type"
-            };
-            var residenceAddress = new Address
-            {
-                AddressId = 12,
-                LocationId = addressLocation.LocationId,
-                Location = addressLocation,
-                AddressTypeId = residenceAddressType.AddressTypeId,
-                AddressType = residenceAddressType,
-                Person = dependent,
-                PersonId = dependent.PersonId
-            };
-            dependent.Addresses.Add(residenceAddress);
+        //    var sevisResidenceCountry = new BirthCountry
+        //    {
+        //        BirthCountryId = 90,
+        //        CountryCode = "sevis country code",
+        //        CountryName = "sevis country name"
+        //    };
+        //    var addressCountry = new Location
+        //    {
+        //        LocationId = 29,
+        //        LocationName = "address country",
+        //        BirthCountry = sevisResidenceCountry,
+        //        BirthCountryId = sevisResidenceCountry.BirthCountryId
+        //    };
+        //    var addressLocation = new Location
+        //    {
+        //        LocationId = 16,
+        //        Country = addressCountry,
+        //        CountryId = addressCountry.LocationId,
+        //    };
+        //    var residenceAddressType = new AddressType
+        //    {
+        //        AddressTypeId = 1,
+        //        AddressName = "address type"
+        //    };
+        //    var residenceAddress = new Address
+        //    {
+        //        AddressId = 12,
+        //        LocationId = addressLocation.LocationId,
+        //        Location = addressLocation,
+        //        AddressTypeId = residenceAddressType.AddressTypeId,
+        //        AddressType = residenceAddressType,
+        //        Person = dependent,
+        //        PersonId = dependent.PersonId
+        //    };
+        //    dependent.Addresses.Add(residenceAddress);
 
-            var emailAddressType = new EmailAddressType
-            {
-                EmailAddressTypeId = 2,
-                EmailAddressTypeName = "email address Type"
-            };
-            var email = new EmailAddress
-            {
-                EmailAddressId = 250,
-                Address = "someone@isp.com",
-                Person = dependent,
-                PersonId = dependent.PersonId,
-                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
-                EmailAddressType = emailAddressType
-            };
-            dependent.EmailAddresses.Add(email);
-            var phoneNumberType = new PhoneNumberType
-            {
-                PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
-                PhoneNumberTypeName = PhoneNumberType.Visiting.Value
-            };
-            var phoneNumber = new PhoneNumber
-            {
-                PhoneNumberId = 8562,
-                Person = dependent,
-                PersonId = dependent.PersonId,
-                Number = "1234567890",
-                PhoneNumberType = phoneNumberType,
-                PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
-            };
+        //    var emailAddressType = new EmailAddressType
+        //    {
+        //        EmailAddressTypeId = 2,
+        //        EmailAddressTypeName = "email address Type"
+        //    };
+        //    var email = new EmailAddress
+        //    {
+        //        EmailAddressId = 250,
+        //        Address = "someone@isp.com",
+        //        Person = dependent,
+        //        PersonId = dependent.PersonId,
+        //        EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+        //        EmailAddressType = emailAddressType
+        //    };
+        //    dependent.EmailAddresses.Add(email);
+        //    var phoneNumberType = new PhoneNumberType
+        //    {
+        //        PhoneNumberTypeId = PhoneNumberType.Visiting.Id,
+        //        PhoneNumberTypeName = PhoneNumberType.Visiting.Value
+        //    };
+        //    var phoneNumber = new PhoneNumber
+        //    {
+        //        PhoneNumberId = 8562,
+        //        Person = dependent,
+        //        PersonId = dependent.PersonId,
+        //        Number = "1234567890",
+        //        PhoneNumberType = phoneNumberType,
+        //        PhoneNumberTypeId = phoneNumberType.PhoneNumberTypeId
+        //    };
 
-            var participatingPerson = new Data.Person
-            {
-                PersonId = dependent.PersonId + 1,
-            };
-            participatingPerson.Family.Add(dependent);
-            dependent.Family.Add(participatingPerson);
-            var participant = new Participant
-            {
-                ParticipantId = 10,
-                PersonId = participatingPerson.PersonId,
-                Person = participatingPerson,
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                Participant = participant,
-            };
-            participant.ParticipantPerson = participantPerson;
+        //    var participatingPerson = new Data.Person
+        //    {
+        //        PersonId = dependent.PersonId + 1,
+        //    };
+        //    participatingPerson.Family.Add(dependent);
+        //    dependent.Family.Add(participatingPerson);
+        //    var participant = new Participant
+        //    {
+        //        ParticipantId = 10,
+        //        PersonId = participatingPerson.PersonId,
+        //        Person = participatingPerson,
+        //    };
+        //    var participantPerson = new ParticipantPerson
+        //    {
+        //        ParticipantId = participant.ParticipantId,
+        //        Participant = participant,
+        //    };
+        //    participant.ParticipantPerson = participantPerson;
 
-            dependent.PhoneNumbers.Add(phoneNumber);
-            context.PersonTypes.Add(spousePersonType);
-            context.AddressTypes.Add(residenceAddressType);
-            context.BirthCountries.Add(sevisResidenceCountry);
-            context.PhoneNumbers.Add(phoneNumber);
-            context.PhoneNumberTypes.Add(phoneNumberType);
-            context.EmailAddressTypes.Add(emailAddressType);
-            context.EmailAddresses.Add(email);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            context.Genders.Add(gender);
-            context.People.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
-            context.Locations.Add(cityOfBirth);
-            context.Locations.Add(countryOfBirth);
-            context.Locations.Add(addressLocation);
-            context.Addresses.Add(residenceAddress);
-            context.Locations.Add(addressCountry);
-            context.BirthCountries.Add(sevisBirthCountry);
-            context.BirthCountries.Add(sevisCountryOfCitizenship);
+        //    dependent.PhoneNumbers.Add(phoneNumber);
+        //    context.PersonTypes.Add(spousePersonType);
+        //    context.AddressTypes.Add(residenceAddressType);
+        //    context.BirthCountries.Add(sevisResidenceCountry);
+        //    context.PhoneNumbers.Add(phoneNumber);
+        //    context.PhoneNumberTypes.Add(phoneNumberType);
+        //    context.EmailAddressTypes.Add(emailAddressType);
+        //    context.EmailAddresses.Add(email);
+        //    context.Participants.Add(participant);
+        //    context.ParticipantPersons.Add(participantPerson);
+        //    context.Genders.Add(gender);
+        //    context.People.Add(dependent);
+        //    context.Locations.Add(countryOfCitizenship);
+        //    context.Locations.Add(cityOfBirth);
+        //    context.Locations.Add(countryOfBirth);
+        //    context.Locations.Add(addressLocation);
+        //    context.Addresses.Add(residenceAddress);
+        //    context.Locations.Add(addressCountry);
+        //    context.BirthCountries.Add(sevisBirthCountry);
+        //    context.BirthCountries.Add(sevisCountryOfCitizenship);
 
-            var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
-            Assert.AreEqual(1, result.Count);
-            var biography = result.First();
-            Assert.AreEqual(dependent.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
-            Assert.AreEqual(dependent.Alias, biography.FullName.PreferredName);
-            Assert.AreEqual(dependent.FirstName, biography.FullName.FirstName);
-            Assert.AreEqual(dependent.LastName, biography.FullName.LastName);
-            Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
-            Assert.AreEqual(dependent.MiddleName, biography.FullName.MiddleName);
-            Assert.IsNull(biography.FullName.PassportName);
-            Assert.AreEqual(dependent.PersonId, biography.PersonId);
-            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
-            Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
-            Assert.AreEqual(gender.GenderId, biography.GenderId);
-            Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
-            Assert.AreEqual(phoneNumber.PhoneNumberId, biography.PhoneNumberId);
-            Assert.AreEqual(phoneNumber.Number, biography.PhoneNumber);
-            Assert.AreEqual(spousePersonType.PersonTypeId, biography.PersonTypeId);
-            Assert.AreEqual(spousePersonType.SevisDependentTypeCode, biography.Relationship);
-            Assert.AreEqual(participant.ParticipantId, biography.ParticipantId);
+        //    var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
+        //    Assert.AreEqual(1, result.Count);
+        //    var biography = result.First();
+        //    Assert.AreEqual(dependent.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
+        //    Assert.AreEqual(dependent.Alias, biography.FullName.PreferredName);
+        //    Assert.AreEqual(dependent.FirstName, biography.FullName.FirstName);
+        //    Assert.AreEqual(dependent.LastName, biography.FullName.LastName);
+        //    Assert.AreEqual(dependent.NameSuffix, biography.FullName.Suffix);
+        //    Assert.AreEqual(dependent.MiddleName, biography.FullName.MiddleName);
+        //    Assert.IsNull(biography.FullName.PassportName);
+        //    Assert.AreEqual(dependent.PersonId, biography.PersonId);
+        //    Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
+        //    Assert.AreEqual(email.EmailAddressId, biography.EmailAddressId);
+        //    Assert.AreEqual(gender.GenderId, biography.GenderId);
+        //    Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
+        //    Assert.AreEqual(phoneNumber.PhoneNumberId, biography.PhoneNumberId);
+        //    Assert.AreEqual(phoneNumber.Number, biography.PhoneNumber);
+        //    Assert.AreEqual(spousePersonType.PersonTypeId, biography.PersonTypeId);
+        //    Assert.AreEqual(spousePersonType.SevisDependentTypeCode, biography.Relationship);
+        //    Assert.AreEqual(participant.ParticipantId, biography.ParticipantId);
 
-            Assert.AreEqual(email.Address, biography.EmailAddress);
+        //    Assert.AreEqual(email.Address, biography.EmailAddress);
 
-            Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
+        //    Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
 
-            Assert.AreEqual(cityOfBirth.LocationName, biography.BirthCity);
-            Assert.AreEqual(sevisBirthCountry.CountryCode, biography.BirthCountryCode);
-            Assert.AreEqual(sevisResidenceCountry.CountryCode, biography.PermanentResidenceCountryCode);
-            Assert.IsNull(biography.BirthCountryReason);
-            Assert.IsNull(biography.SevisId);
-        }
+        //    Assert.AreEqual(cityOfBirth.LocationName, biography.BirthCity);
+        //    Assert.AreEqual(sevisBirthCountry.CountryCode, biography.BirthCountryCode);
+        //    Assert.AreEqual(sevisResidenceCountry.CountryCode, biography.PermanentResidenceCountryCode);
+        //    Assert.IsNull(biography.BirthCountryReason);
+        //    Assert.IsNull(biography.SevisId);
+        //}
 
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_ParticipantDoesNotHaveDependents()

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
 
 namespace ECA.Data
 {
@@ -457,9 +453,6 @@ namespace ECA.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Configurations.AddFromAssembly(typeof(EcaContext).Assembly);
-            
-            //modelBuilder.Entity<PersonFamily>()
-            //    .HasMany(e => e.Dependents);            
         }
 
         /// <summary>
@@ -483,8 +476,7 @@ namespace ECA.Data
         {
             return base.Entry(x);
         }
-
-
+        
         /// <summary>
         /// Wraps the DbContext.Entry method to retrieve a context entry.  This is useful for unit testing.
         /// </summary>
