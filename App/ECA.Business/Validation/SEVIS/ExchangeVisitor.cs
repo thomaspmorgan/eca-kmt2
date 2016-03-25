@@ -296,6 +296,7 @@ namespace ECA.Business.Validation.Sevis
             return new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented
             };
         }
     }

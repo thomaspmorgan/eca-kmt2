@@ -61,7 +61,7 @@ namespace ECA.Data
         /// Gets or sets the person id.
         /// </summary>
         public int PersonId { get; set; }
-
+        
         /// <summary>
         /// the SEVIS ID (assigned by SEVIS)
         /// </summary>
