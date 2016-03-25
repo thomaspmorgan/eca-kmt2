@@ -204,6 +204,10 @@ namespace ECA.Business.Service.Sevis
 
         }
 
+        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
+        {
+            return this.Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
+        }
 
         /// <summary>
         /// Update a participant record with sevis batch results
