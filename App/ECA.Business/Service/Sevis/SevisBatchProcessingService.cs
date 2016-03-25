@@ -331,6 +331,7 @@ namespace ECA.Business.Service.Sevis
                 ParticipantPerson = participantPerson,
                 SevisCommStatusId = commStatusId
             };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             return sevisCommStatus;
         }

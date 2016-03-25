@@ -24,12 +24,12 @@ namespace ECA.WebJobs.Sevis.Staging
         //https://azure.microsoft.com/en-us/documentation/articles/websites-dotnet-webjobs-sdk/#schedule
         //https://github.com/Azure/azure-webjobs-sdk-extensions
        
-        //run at startup and once every 20 secs in debug or once every 15 mins in release
+        //run at startup and once every 20 secs in debug or once every 5 mins in release
         public async Task ProcessTimer(
 #if DEBUG
             [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
 #else
-            [TimerTrigger("00:15:00", RunOnStartup = true)] TimerInfo info
+            [TimerTrigger("00:05:00", RunOnStartup = true)] TimerInfo info
 #endif   
             )
         {

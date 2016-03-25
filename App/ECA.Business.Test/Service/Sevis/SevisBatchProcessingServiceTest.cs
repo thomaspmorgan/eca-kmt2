@@ -1241,7 +1241,29 @@ namespace ECA.Business.Test.Service.Sevis
         #endregion
 
         #region Process Transaction Log
+        [TestMethod]
+        public void TestAddSevisResultCommStatus_IsSuccess()
+        {
+            var resultType = new ResultType
+            {
+                status = true
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
 
+            service.AddSevisResultCommStatus(resultType, participantPerson);
+            Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+            Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
+            Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), participantPerson.ParticipantPersonSevisCommStatuses.First()));
+
+            var firstStatus = context.ParticipantPersonSevisCommStatuses.First();
+            Assert.AreEqual(SevisCommStatus.BatchRequestSuccessful.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
+        }
         #endregion
     }
 }
