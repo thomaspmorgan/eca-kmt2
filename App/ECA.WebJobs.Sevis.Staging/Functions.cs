@@ -12,7 +12,7 @@ using Microsoft.Azure.WebJobs.Extensions.Timers;
 
 namespace ECA.WebJobs.Sevis.Staging
 {
-    public class Functions
+    public class Functions : IDisposable
     {
         private ISevisBatchProcessingService service;
         public Functions(ISevisBatchProcessingService service)
@@ -45,5 +45,34 @@ namespace ECA.WebJobs.Sevis.Staging
             await this.service.StageBatchesAsync(user);
             Console.WriteLine("Finished staging participants into sevis batches.");
         }
+
+        #region IDispose
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {  
+                if (this.service is IDisposable)
+                {
+                    Console.WriteLine("Disposing of service " + this.service.GetType());
+                    ((IDisposable)this.service).Dispose();
+                }
+            }
+        }
+
+        #endregion
     }
 }

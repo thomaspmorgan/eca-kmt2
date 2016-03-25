@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using ECA.Data;
 using ECA.Core.Service;
+using ECA.Business.Validation.Sevis;
+using FluentValidation;
 
 namespace ECA.Business.Service.Persons
 {
@@ -26,5 +28,11 @@ namespace ECA.Business.Service.Persons
         /// <param name="participantId">The id of the participant to run validation for.</param>
         /// <returns>The new sevis comm status of the participant.</returns>
         Task<ParticipantPersonSevisCommStatus> RunParticipantSevisValidationAsync(User user, int projectId, int participantId);
+
+        /// <summary>
+        /// Returns the validator for the ExchangeVisitor.
+        /// </summary>
+        /// <returns>The validator.</returns>
+        AbstractValidator<ExchangeVisitor> GetValidator();
     }
 }
