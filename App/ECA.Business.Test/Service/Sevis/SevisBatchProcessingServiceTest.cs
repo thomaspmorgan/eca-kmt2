@@ -20,6 +20,9 @@ using ECA.Business.Queries.Models.Sevis;
 using ECA.Core.Exceptions;
 using FluentValidation;
 using FluentValidation.Results;
+using ECA.Business.Sevis.Model.TransLog;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -113,6 +116,28 @@ namespace ECA.Business.Test.Service.Sevis
                 personId,
                 participantId);
             return person;
+        }
+
+        private TransactionLogType GetTransactionLogType(string xml)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var stringReader = new StringReader(xml))
+            {
+                var serializer = new XmlSerializer(typeof(TransactionLogType));
+                var transactionLogType = (TransactionLogType)serializer.Deserialize(stringReader);
+                return transactionLogType;
+            }
+        }
+
+        private string GetXml(TransactionLogType transactionLog)
+        {
+            using (var textWriter = new StringWriter())
+            {
+                var serializer = new XmlSerializer(typeof(TransactionLogType));
+                serializer.Serialize(textWriter, transactionLog);
+                var xml = textWriter.ToString();
+                return xml;
+            }
         }
 
         #region Constructor
@@ -436,7 +461,7 @@ namespace ECA.Business.Test.Service.Sevis
             notificationService.Verify(x => x.NotifyStagedSevisBatchesFinished(It.IsAny<List<StagedSevisBatch>>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyInvalidExchangeVisitor(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
-        
+
         [TestMethod]
         public async Task TestStageBatches_HasMaxCreateAndUpdateExchangeVisitors()
         {
@@ -1054,8 +1079,69 @@ namespace ECA.Business.Test.Service.Sevis
             Action a = () => service.BatchHasBeenSent(id);
             Func<Task> f = () => service.BatchHasBeenSentAsync(id);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);            
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
+
+        [TestMethod]
+        public async Task TestBatchHasBeenRetrieved()
+        {
+            var id = 1;
+            var batchId = "batch Id";
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = batchId
+                }
+            };
+            SevisBatchProcessing instance = null;
+            context.SetupActions.Add(() =>
+            {
+                instance = new SevisBatchProcessing
+                {
+                    BatchId = batchId,
+                    Id = id
+                };
+                context.SevisBatchProcessings.Add(instance);
+            });
+            var xml = GetXml(transactionLog);
+            Action tester = () =>
+            {
+                Assert.AreEqual(instance.TransactionLogString, xml);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(instance.RetrieveDate.Value, 20000);
+            };
+
+            context.Revert();
+            service.BatchHasBeenRetrieved(xml);
+            tester();
+
+            context.Revert();
+            await service.BatchHasBeenRetrievedAsync(xml);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestBatchHasBeenRetrieved_BatchDoesNotExist()
+        {
+            var batchId = "batch Id";
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = batchId
+                }
+            };
+            var xml = GetXml(transactionLog);
+            var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId);
+            Action a = () => service.BatchHasBeenRetrieved(xml);
+            Func<Task> f = () => service.BatchHasBeenRetrievedAsync(xml);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        }
+        #endregion
+
+        #region Process Transaction Log
+
         #endregion
     }
 }

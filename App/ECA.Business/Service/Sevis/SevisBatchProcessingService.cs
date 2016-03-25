@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Sevis
         private IExchangeVisitorValidationService exchangeVisitorValidationService;
         private string sevisOrgId;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly Action<SevisBatchProcessing, int> throwIfSevisBatchProcessingNotFound;
+        private readonly Action<SevisBatchProcessing, object> throwIfSevisBatchProcessingNotFound;
         private readonly Func<List<StagedSevisBatch>, User, StagedSevisBatch> getNewStagedSevisBatch;
 
         /// <summary>
@@ -151,28 +151,58 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Indicates the batch has been successfully uploaded.
         /// </summary>
-        /// <param name="batchId">The id of the batch.</param>
-        public void BatchHasBeenSent(int batchId)
+        /// <param name="id">The id of the batch.</param>
+        public void BatchHasBeenSent(int id)
         {
-            var batch = this.Context.SevisBatchProcessings.Find(batchId);
-            throwIfSevisBatchProcessingNotFound(batch, batchId);
+            var batch = this.Context.SevisBatchProcessings.Find(id);
+            throwIfSevisBatchProcessingNotFound(batch, id);
             DoBatchHasBeenSent(batch);
         }
 
         /// <summary>
         /// Indicates the batch has been successfully uploaded.
         /// </summary>
-        /// <param name="batchId">The id of the batch.</param>
-        public async Task BatchHasBeenSentAsync(int batchId)
+        /// <param name="id">The id of the batch.</param>
+        public async Task BatchHasBeenSentAsync(int id)
         {
-            var batch = await this.Context.SevisBatchProcessings.FindAsync(batchId);
-            throwIfSevisBatchProcessingNotFound(batch, batchId);
+            var batch = await this.Context.SevisBatchProcessings.FindAsync(id);
+            throwIfSevisBatchProcessingNotFound(batch, id);
             DoBatchHasBeenSent(batch);
         }
 
         private void DoBatchHasBeenSent(SevisBatchProcessing batch)
         {
             batch.SubmitDate = DateTimeOffset.UtcNow;
+        }
+
+        /// <summary>
+        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        /// </summary>
+        /// <param name="xml">The transaction log as xml.</param>
+        public void BatchHasBeenRetrieved(string xml)
+        {
+            var transactionLog = DeserializeTransactionLogType(xml);
+            var batch = CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefault();
+            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            DoBatchHasBeenRetrieved(xml, transactionLog, batch);
+        }
+
+        /// <summary>
+        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        /// </summary>
+        /// <param name="xml">The transaction log as xml.</param>
+        public async Task BatchHasBeenRetrievedAsync(string xml)
+        {
+            var transactionLog = DeserializeTransactionLogType(xml);
+            var batch = await CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefaultAsync();
+            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            DoBatchHasBeenRetrieved(xml, transactionLog, batch);
+        }
+
+        private void DoBatchHasBeenRetrieved(string xml, TransactionLogType transactionLog, SevisBatchProcessing sevisBatchProcessing)
+        {
+            sevisBatchProcessing.RetrieveDate = DateTimeOffset.UtcNow;
+            sevisBatchProcessing.TransactionLogString = xml;
         }
         #endregion
 
@@ -212,11 +242,6 @@ namespace ECA.Business.Service.Sevis
 
         }
 
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
-        {
-            return this.Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
-        }
-
         /// <summary>
         /// Update a participant record with sevis batch results
         /// </summary>
@@ -245,6 +270,16 @@ namespace ECA.Business.Service.Sevis
             return result;
         }
 
+        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByTransactionLogQuery(TransactionLogType transactionLog)
+        {
+            Contract.Requires(transactionLog != null, "The transaction log must not be null.");
+            return CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID);
+        }
+
+        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
+        {
+            return this.Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
+        }
 
         #endregion
 

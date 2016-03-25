@@ -76,6 +76,18 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="xml">The transaction log as a string.</param>
         Task ProcessTransactionLogAsync(string xml);
+
+        /// <summary>
+        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        /// </summary>
+        /// <param name="xml">The transaction log as xml.</param>
+        void BatchHasBeenRetrieved(string xml);
+
+        /// <summary>
+        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        /// </summary>
+        /// <param name="xml">The transaction log as xml.</param>
+        Task BatchHasBeenRetrievedAsync(string xml);
     }
 
     /// <summary>
@@ -84,6 +96,26 @@ namespace ECA.Business.Service.Sevis
     [ContractClassFor(typeof(ISevisBatchProcessingService))]
     public abstract class SevisBatchProcessingServiceContract : ISevisBatchProcessingService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xml"></param>
+        public void BatchHasBeenRetrieved(string xml)
+        {
+            Contract.Requires(xml != null, "The given xml must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public Task BatchHasBeenRetrievedAsync(string xml)
+        {
+            Contract.Requires(xml != null, "The given xml must not be null.");
+            return Task.FromResult<object>(null);
+        }
+
         /// <summary>
         /// 
         /// </summary>

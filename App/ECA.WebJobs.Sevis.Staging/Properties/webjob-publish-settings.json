@@ -1,9 +1,9 @@
 ﻿{
   "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
   "webJobName": "SevisStaging",
-  "startTime": "2016-03-24T00:00:00-06:00",
+  "startTime": null,
   "endTime": null,
-  "jobRecurrenceFrequency": "Minute",
-  "interval": 15,
-  "runMode": "Scheduled"
+  "jobRecurrenceFrequency": null,
+  "interval": null,
+  "runMode": "OnDemand"
 }
