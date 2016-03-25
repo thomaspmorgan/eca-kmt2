@@ -28,6 +28,6 @@ angular.module('staticApp')
           },
           getParticipantPersonById: function (id) {
               return DragonBreath.get('project/participantPersons', id);
-          } */
+          }
       };
   });
