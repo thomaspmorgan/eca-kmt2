@@ -23,18 +23,7 @@ namespace ECA.Business.Service.Sevis
             this.ProcessDispositionCode = processDispositionCode;
             this.DownloadDispositionCode = downloadDispositionCode;
         }
-
-        public UpdatedSevisBatchProcessing(SevisBatchProcessingDTO batchProcessing)
-        {
-            this.BatchId = batchProcessing.BatchId;
-            this.SubmitDate = batchProcessing.SubmitDate;
-            this.RetrieveDate = batchProcessing.RetrieveDate;
-            this.SendXml = batchProcessing.SendXml;
-            this.TransactionLogXml = batchProcessing.TransactionLogXml;
-            this.UploadDispositionCode = batchProcessing.UploadDispositionCode;
-            this.ProcessDispositionCode = batchProcessing.ProcessDispositionCode;
-            this.DownloadDispositionCode = batchProcessing.DownloadDispositionCode;
-        }
+        
 
         /// <summary>
         /// Gets or sets the batch Id.

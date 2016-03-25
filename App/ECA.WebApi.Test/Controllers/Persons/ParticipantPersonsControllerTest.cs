@@ -51,46 +51,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantPersonByIdAsync_NotFound()
-        {
-            var participant = new ParticipantDTO
-            {
-                ParticipantId = 10,
-                StatusId = ParticipantStatus.Active.Id,
-                ParticipantTypeId = ParticipantType.Other.Id,
-                ProjectId = 20
-
-            };
-            Action<UpdatedParticipantPerson> callback = (dto) =>
-            {
-                Assert.IsNull(dto.HomeInstitutionAddressId);
-                Assert.IsNull(dto.HomeInstitutionId);
-                Assert.IsNull(dto.HostInstitutionId);
-                Assert.IsNull(dto.HostInstitutionAddressId);
-                Assert.AreEqual(participant.ParticipantId, dto.ParticipantId);
-                Assert.AreEqual(participant.StatusId, dto.ParticipantStatusId);
-                Assert.AreEqual(participant.ParticipantTypeId, dto.ParticipantTypeId);
-            };
-
-            participantService.Setup(x => x.GetParticipantByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(participant);
-            service.Setup(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(null);
-            service.Setup(x => x.CreateOrUpdateAsync(It.IsAny<UpdatedParticipantPerson>()))
-                .Returns(Task.FromResult<object>(null))
-                .Callback(callback);
-            
-            var response = await controller.GetParticipantPersonByIdAsync(participant.ProjectId, participant.ParticipantId);
-
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<SimpleParticipantPersonDTO>));
-            participantService.Verify(x => x.GetParticipantByIdAsync(It.IsAny<int>()), Times.Once());
-
-            service.Verify(x => x.GetParticipantPersonByIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
-            service.Verify(x => x.CreateOrUpdateAsync(It.IsAny<UpdatedParticipantPerson>()), Times.Once());            
-            service.Verify(x => x.SaveChangesAsync(), Times.Once());
-        }
-
-        [TestMethod]
         public async Task TestGetParticipantPersonsByProjectIdAsync()
         {
             var response = await controller.GetParticipantPersonsByProjectIdAsync(1, new PagingQueryBindingModel<SimpleParticipantPersonDTO>());

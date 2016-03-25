@@ -1148,11 +1148,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="NonUsParticipantsActual" />
   </Operation>
-  <Operation Name="Rename Refactor" Key="64cc2872-3958-456b-9d6e-98a1008b1661" ChangeDateTime="03/10/2016 19:32:33">
-    <Property Name="ElementName" Value="[dbo].[DefaultProjectExchangeVisitiorFunding].[Id]" />
-    <Property Name="ElementType" Value="SqlSimpleColumn" />
-    <Property Name="ParentElementName" Value="[dbo].[DefaultProjectExchangeVisitiorFunding]" />
+  <Operation Name="Rename Refactor" Key="780fa6ce-73c9-48ed-a50f-3bf1fcacc164" ChangeDateTime="03/24/2016 16:41:28">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[IX_PersonDependent_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="ProjectId" />
+    <Property Name="NewName" Value="[PK_dbo.PersonDependent]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9d5a92be-dafa-4700-a991-c2462f5926f2" ChangeDateTime="03/24/2016 16:42:43">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[IX_PersonDependent_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_DependentId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c6b0a349-065f-46e8-aaae-4c223af0198e" ChangeDateTime="03/24/2016 16:43:11">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[IX_PersonDependent_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_PersonId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="31f6e837-e330-4fe9-a9ee-369b953272b1" ChangeDateTime="03/24/2016 16:45:04">
+    <Property Name="ElementName" Value="[dbo].[FK_PersonDependent_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.PersonFamily_dbo.Person_PersonId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c9d23dd5-56de-4155-953f-3731a1c84750" ChangeDateTime="03/24/2016 16:45:15">
+    <Property Name="ElementName" Value="[dbo].[FK_dbo.PersonFamily_dbo.Person_PersonId]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.PersonDependent_dbo.Person_PersonId]" />
   </Operation>
 </Operations>

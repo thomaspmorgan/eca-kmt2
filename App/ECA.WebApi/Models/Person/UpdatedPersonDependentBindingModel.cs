@@ -11,22 +11,32 @@ namespace ECA.WebApi.Models.Person
     public class UpdatedPersonDependentBindingModel
     {
         /// <summary>
+        /// Gets or sets the dependent id.
+        /// </summary>
+        public int DependentId { get; set; }
+
+        /// <summary>
         /// Gets or sets the person id.
         /// </summary>
         public int PersonId { get; set; }
 
         /// <summary>
-        /// Gets the person type id.
+        /// the SEVIS ID (assigned by SEVIS)
+        /// </summary>
+        public string SevisId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person type id.
         /// </summary>
         public int PersonTypeId { get; set; }
 
         /// <summary>
-        /// Gets and sets the first name
+        /// Gets or sets FirstName.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets and sets the last name
+        /// Gets or sets last name.
         /// </summary>
         public string LastName { get; set; }
 
@@ -36,34 +46,39 @@ namespace ECA.WebApi.Models.Person
         public string NameSuffix { get; set; }
 
         /// <summary>
-        /// Person passport name.
+        /// Gets or sets passport name.
         /// </summary>
         public string PassportName { get; set; }
 
         /// <summary>
-        /// Person preferred name.
+        /// Gets or sets preferred name.
         /// </summary>
         public string PreferredName { get; set; }
 
         /// <summary>
-        /// Gets and sets the gender
+        /// Gets or sets the gender id.
         /// </summary>
         public int GenderId { get; set; }
 
         /// <summary>
-        /// Gets and sets the date of birth
+        /// Gets or sets the date of birth.
         /// </summary>
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// Gets and sets the city of birth
+        /// Gets or sets the place of birth.
         /// </summary>
-        public int? CityOfBirthId { get; set; }
+        public int PlaceOfBirth_LocationId { get; set; }
 
         /// <summary>
-        /// Gets or sets the email address
+        /// Gets or sets the country of residence.
         /// </summary>
-        public string EmailAddress { get; set; }
+        public int Residence_LocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason.
+        /// </summary>
+        public string BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship
@@ -71,14 +86,19 @@ namespace ECA.WebApi.Models.Person
         public List<int> CountriesOfCitizenship { get; set; }
 
         /// <summary>
-        /// Gets or sets the premanent residence country code
+        /// Gets or sets depended travelling with participant
         /// </summary>
-        public int PermanentResidenceCountryCode { get; set; }
+        public bool IsTravellingWithParticipant { get; set; }
 
         /// <summary>
-        /// Gets or sets the birth country reason
+        /// Gets or sets depended was delete in ECA
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// Gets or sets depended was delete in SEVIS
+        /// </summary>
+        public bool IsSevisDeleted { get; set; }
 
         /// <summary>
         /// Returns a business layer UpdatedPersonDependent instance
@@ -89,7 +109,10 @@ namespace ECA.WebApi.Models.Person
         {
             var model = new UpdatedPersonDependent(
                 updater: user,
+                dependentId: DependentId,
                 personId: PersonId,
+                personTypeId: PersonTypeId,
+                sevisId: SevisId,
                 firstName: FirstName,
                 lastName: LastName,
                 nameSuffix: NameSuffix,
@@ -97,12 +120,13 @@ namespace ECA.WebApi.Models.Person
                 preferredName: PreferredName,
                 genderId: GenderId,
                 dateOfBirth: DateOfBirth,
-                cityOfBirthId: CityOfBirthId,
-                emailAddress: EmailAddress,
-                personTypeId: PersonTypeId,
+                locationOfBirthId: PlaceOfBirth_LocationId,
+                residenceLocationId: Residence_LocationId,
+                birthCountryReason: BirthCountryReason,
                 countriesOfCitizenship: CountriesOfCitizenship,
-                permanentResidenceCountryCode: PermanentResidenceCountryCode,
-                birthCountryReason: BirthCountryReason);
+                isTravelWithParticipant: IsTravellingWithParticipant,
+                isDeleted: IsDeleted,
+                isSevisDeleted: IsSevisDeleted);
             return model;
         }
     }

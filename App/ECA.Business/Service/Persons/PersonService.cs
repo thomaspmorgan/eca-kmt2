@@ -220,21 +220,14 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="newPersonDependent">The person dependent to create</param>
         /// <returns>The person create</returns>
-        public async Task<Person> CreateDependentAsync(NewPersonDependent newDependent)
+        public async Task<PersonDependent> CreateDependentAsync(NewPersonDependent newDependent)
         {
             Contract.Requires(newDependent != null, "The dependent must not be null.");
             var citizenship = await GetLocationsByIdAsync(newDependent.CountriesOfCitizenship);
-            // create dependent
-            var person = CreatePersonDependent(newDependent, citizenship);
-            // add dependent to person family
-            var dependent = new PersonFamily
-            {
-                PersonId = newDependent.PersonId,
-                RelatedPersonId = person.PersonId
-            };
-            //this.Context.PersonFamilies.Add(dependent);
 
+            var person = CreatePersonDependent(newDependent, citizenship);
             this.logger.Trace("Creating new person dependent {0}.", newDependent);                        
+
             return person;
         }
         
@@ -243,37 +236,30 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="person">The dependent to update</param>
         /// <returns>The updated dependent</returns>
-        public async Task<Person> UpdatePersonDependentAsync(UpdatedPersonDependent updatedDependent)
+        public async Task<PersonDependent> UpdatePersonDependentAsync(UpdatedPersonDependent updatedDependent)
         {
-            var personToUpdate = await GetPersonModelByIdAsync(updatedDependent.PersonId);
-            Location cityOfBirth = null;
-            if (updatedDependent.CityOfBirthId.HasValue)
-            {
-                cityOfBirth = await GetLocationByIdAsync(updatedDependent.CityOfBirthId.Value);
-                throwIfLocationNotFound(cityOfBirth, updatedDependent.CityOfBirthId.Value);
-            }
+            var personToUpdate = await GetPersonDependentModelByIdAsync(updatedDependent.DependentId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
-            DoDependentUpdate(updatedDependent, personToUpdate, cityOfBirth, countriesOfCitizenship);
+            DoDependentUpdate(updatedDependent, personToUpdate, countriesOfCitizenship);
 
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, Person person, Location cityOfBirth, List<Location> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent person, List<Location> countriesOfCitizenship)
         {
+            person.PersonTypeId = updateDependent.PersonTypeId;
             person.FirstName = updateDependent.FirstName;
             person.LastName = updateDependent.LastName;
             person.NameSuffix = updateDependent.NameSuffix;
-            person.FullName = updateDependent.PreferredName;
-            //person.PassportName = updateDependent.PassportName;
-            person.DateOfBirth = updateDependent.DateOfBirth;
+            person.PassportName = updateDependent.PassportName;
+            person.PreferredName = updateDependent.PreferredName;
             person.GenderId = updateDependent.GenderId;
-            person.PlaceOfBirthId = cityOfBirth != null ? cityOfBirth.LocationId : 0;
-            //person.Addresses = addresses;
-            //person.EmailAddresses = emails;
-            person.PersonTypeId = updateDependent.PersonTypeId;
-            //person.BirthCountryReason = updateDependent.BirthCountryReason;
+            person.DateOfBirth = updateDependent.DateOfBirth;
+            person.PlaceOfBirth_LocationId = updateDependent.PlaceOfBirth_LocationId;
+            person.Residence_LocationId = updateDependent.Residence_LocationId;
+            person.BirthCountryReason = updateDependent.BirthCountryReason;
             updateDependent.Audit.SetHistory(person);
-            SetCountriesOfCitizenship(countriesOfCitizenship, person);
+            SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
         }
 
         /// <summary>
@@ -616,26 +602,28 @@ namespace ECA.Business.Service.Persons
         /// <param name="newPerson">The person to create</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         /// <returns></returns>
-        private Person CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
+        private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
         {
-            var person = new Person
+            var person = new PersonDependent
             {
+                PersonId = newPerson.PersonId,
+                PersonTypeId = newPerson.PersonTypeId,
                 FirstName = newPerson.FirstName,
                 LastName = newPerson.LastName,
                 NameSuffix = newPerson.NameSuffix,
-                FullName = newPerson.PassportName,
+                PassportName = newPerson.PassportName,
+                PreferredName = newPerson.PreferredName,
                 GenderId = newPerson.GenderId,
                 DateOfBirth = newPerson.DateOfBirth,
-                PlaceOfBirthId = newPerson.CityOfBirthId,
-                PersonTypeId = newPerson.PersonTypeId,
-                CountriesOfCitizenship = countriesOfCitizenship,
-                //EmailAddresses = newPerson.EmailAddress;
+                PlaceOfBirth_LocationId = newPerson.PlaceOfBirth_LocationId,
+                Residence_LocationId = newPerson.Residence_LocationId,
+                BirthCountryReason = newPerson.BirthCountryReason,
+                CountriesOfCitizenship = countriesOfCitizenship
             };
-            
+
             newPerson.Audit.SetHistory(person);
-            this.Context.People.Add(person);
-            
-            this.logger.Trace("Creating new person {0}.", newPerson);
+            this.Context.PersonDependents.Add(person);
+            this.logger.Trace("Creating new person dependent {0}.", newPerson);
             return person;
         }
         
@@ -726,6 +714,22 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Get the person dependent by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person model</returns>
+        private async Task<PersonDependent> GetPersonDependentModelByIdAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with id {0}.", personId);
+            return await CreateGetPersonDependentById(personId);
+        }
+
+        private async Task<PersonDependent> CreateGetPersonDependentById(int personId)
+        {
+            return await Context.PersonDependents.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
+        }
+        
+        /// <summary>
         /// Get the person by id 
         /// </summary>
         /// <param name="personId">The person id to lookup</param>
@@ -740,6 +744,17 @@ namespace ECA.Business.Service.Persons
         {
             var query = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context);
             return query.Where(p => p.PersonId == personId);
+        }
+        
+        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, PersonDependent person)
+        {
+            Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
+            Contract.Requires(person != null, "The person entity must not be null.");
+            person.CountriesOfCitizenship.Clear();
+            countriesOfCitizenship.ForEach(x =>
+            {
+                person.CountriesOfCitizenship.Add(x);
+            });
         }
 
         private void SetCountriesOfCitizenship(List<Location> countriesOfCitizenship, Person person)

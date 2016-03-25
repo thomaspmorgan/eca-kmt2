@@ -185,7 +185,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IAddressable.cs" />
-    <Compile Include="PersonFamily.cs" />
+    <Compile Include="PersonDependent.cs" />
     <Compile Include="PersonType.cs" />
     <Compile Include="SevisBatchProcessing.cs" />
     <Compile Include="OrganizationRole.cs" />

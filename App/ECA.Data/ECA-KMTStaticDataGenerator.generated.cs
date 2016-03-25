@@ -1765,6 +1765,10 @@ namespace ECA.Data
 		/// Returns the Form I-515A Issued lookup with id 14.
 		/// </summary>
 		public static StaticLookup FormI515aIssued { get { return new StaticLookup("Form I-515A Issued", 14); } }
+		/// <summary>
+		/// Returns the Pending Sevis Send lookup with id 15.
+		/// </summary>
+		public static StaticLookup PendingSevisSend { get { return new StaticLookup("Pending Sevis Send", 15); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1786,6 +1790,7 @@ namespace ECA.Data
 			if (12 == id) return SevisCommStatus.BatchRequestSuccessful;
 			if (13 == id) return SevisCommStatus.BatchRequestUnsuccessful;
 			if (14 == id) return SevisCommStatus.FormI515aIssued;
+			if (15 == id) return SevisCommStatus.PendingSevisSend;
 			return null;
 		}
 		///<summary>
@@ -1809,6 +1814,7 @@ namespace ECA.Data
 			if ("Batch Request Successful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchRequestSuccessful;
 			if ("Batch Request Unsuccessful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchRequestUnsuccessful;
 			if ("Form I-515A Issued".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.FormI515aIssued;
+			if ("Pending Sevis Send".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.PendingSevisSend;
 			return null;
 		}
 

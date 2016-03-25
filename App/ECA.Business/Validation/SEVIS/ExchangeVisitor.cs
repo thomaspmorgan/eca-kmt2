@@ -181,46 +181,6 @@ namespace ECA.Business.Validation.Sevis
         }
 
         /// <summary>
-        /// Add this exchange visitor sevis model representations to the given batch.
-        /// </summary>
-        /// <param name="batch">The batch object to add this model to.</param>
-        public void AddToBatch(SEVISEVBatchType batch)
-        {
-            Contract.Requires(batch != null, "The batch must not be null.");
-            Contract.Requires(batch.CreateEV != null, "The create array must not be null.");
-            Contract.Requires(batch.UpdateEV != null, "The update array must not be null.");
-            if (!String.IsNullOrWhiteSpace(this.SevisId))
-            {
-                var updates = batch.UpdateEV.ToList();
-                updates.AddRange(GetSEVISEVBatchTypeExchangeVisitor1Collection().ToList());
-                batch.UpdateEV = updates.ToArray();
-            }
-            else
-            {
-                var creates = batch.CreateEV.ToList();
-                creates.Add(GetSEVISBatchTypeExchangeVisitor());
-                batch.CreateEV = creates.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Returns the number of records that would be added to a sevis batch record.  This is useful
-        /// when determining whether a batch submission will exceed the maximum number of records that could be sent.
-        /// </summary>
-        /// <returns>The number of records that would be added to a batch submission.</returns>
-        public int GetBatchRecordCount()
-        {
-            if (!String.IsNullOrWhiteSpace(this.SevisId))
-            {
-                return GetSEVISEVBatchTypeExchangeVisitor1Collection().Count();
-            }
-            else
-            {
-                return 1;
-            }
-        }
-
-        /// <summary>
         /// Returns the Sevis model to create a new exchange visitor.
         /// </summary>
         /// <returns>The sevis model to create a new exchange visitor.</returns>
