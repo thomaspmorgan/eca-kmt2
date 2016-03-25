@@ -20,6 +20,8 @@ using System.IO;
 using System.Xml.Serialization;
 using FluentValidation;
 using FluentValidation.Results;
+using ECA.Core.Generation;
+using Newtonsoft.Json.Serialization;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -231,8 +233,13 @@ namespace ECA.Business.Service.Sevis
         public void ProcessTransactionLog(int id)
         {
             var batchToProcess = CreateGetSevisBatchToProcessById(id).FirstOrDefault();
-            if (batchToProcess != null)
+            if (batchToProcess != null && batchToProcess.TransactionLogString != null)
             {
+                var transactionLog = DeserializeTransactionLogType(batchToProcess.TransactionLogString);
+                ProcessDownload(transactionLog.BatchDetail.Download, batchToProcess);
+                ProcessUpload(transactionLog.BatchDetail.Upload, batchToProcess);
+                ProcessBatchDetailProcess(transactionLog.BatchDetail.Process, batchToProcess);
+
 
             }
         }
@@ -240,23 +247,93 @@ namespace ECA.Business.Service.Sevis
         public async Task ProcessTransactionLogAsync(int id)
         {
             var batchToProcess = await CreateGetSevisBatchToProcessById(id).FirstOrDefaultAsync();
-            if (batchToProcess != null)
+            if (batchToProcess != null && batchToProcess.TransactionLogString != null)
             {
 
             }
         }
 
-        //public void ProcessTransactionLog(string xml)
-        //{
-        //    var instance = DeserializeTransactionLogType(xml);
-        //    ProcessTransactionLog(xml, instance);
-        //}
+        public void ProcessUpload(TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
+        {
+            if(uploadDetail != null)
+            {
+                batch.UploadDispositionCode = uploadDetail.resultCode;
+            }
+        }
 
-        //public Task ProcessTransactionLogAsync(string xml)
-        //{
-        //    var instance = DeserializeTransactionLogType(xml);
-        //    return ProcessTransactionLogAsync(xml, instance);
-        //}
+        public void ProcessDownload(TransactionLogTypeBatchDetailDownload downloadDetail, SevisBatchProcessing batch)
+        {
+            if(downloadDetail != null)
+            {
+                batch.DownloadDispositionCode = downloadDetail.resultCode;
+            }
+        }
+
+        public void ProcessBatchDetailProcess(TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
+        {
+            foreach(var record in process.Record)
+            {
+                var participantKey = new ParticipantSevisKey(record);
+                var participant = Context.Participants.Find(participantKey.ParticipantId);
+                var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
+                UpdateParticipant(participant, participantPerson, record, batch);
+            }
+        }
+
+        public void UpdateParticipant(Participant participant, ParticipantPerson participantPerson, TransactionLogTypeBatchDetailProcessRecord record, SevisBatchProcessing batch)
+        {
+            var result = record.Result;
+            AddSevisResultCommStatus(record.Result, participantPerson);
+            //sevis was successfull
+            if (result.status)
+            {
+                participantPerson.SevisId = record.sevisID;
+                participantPerson.SevisBatchResult = null;
+                
+            }//sevis was not successful
+            else
+            {
+                participantPerson.SevisBatchResult = GetSevisBatchErrorResultAsJson(result);
+            }
+        }
+
+        public string GetSevisBatchErrorResultAsJson(ResultType resultType)
+        {
+            var instance = new SimpleSevisBatchErrorResult();
+            instance.ErrorCode = resultType.ErrorCode;
+            instance.ErrorMessage = resultType.ErrorMessage;
+            return JsonConvert.SerializeObject(new List<SimpleSevisBatchErrorResult> { instance }, GetSerializerSettings());
+        }
+
+        /// <summary>
+        /// Returns the serializer settings for the json serializer.
+        /// </summary>
+        /// <returns>The settings for the json serializer.</returns>
+        private static JsonSerializerSettings GetSerializerSettings()
+        {
+            return new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+        }
+
+        public ParticipantPersonSevisCommStatus AddSevisResultCommStatus(ResultType resultType, ParticipantPerson participantPerson)
+        {
+            int commStatusId = SevisCommStatus.BatchRequestUnsuccessful.Id;
+            if (resultType.status)
+            {
+                commStatusId = SevisCommStatus.BatchRequestSuccessful.Id;
+            }
+            var sevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                ParticipantId = participantPerson.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatusId = commStatusId
+            };
+            Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
+            return sevisCommStatus;
+        }
 
         private TransactionLogType DeserializeTransactionLogType(string xml)
         {
@@ -268,34 +345,6 @@ namespace ECA.Business.Service.Sevis
                 return transactionLogType;
             }
         }
-
-        /// <summary>
-        /// Update a participant record with sevis batch results
-        /// </summary>
-        /// <param name="participantID"></param>
-        /// <param name="status"></param>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        //private async Task<ParticipantSevisBatchProcessingResultDTO> UpdateParticipant(int participantID, string status, string json)
-        //{
-        //    var result = new ParticipantSevisBatchProcessingResultDTO();
-
-        //    var participantPersonDTO = await Context.ParticipantPersons.FindAsync(participantID);
-        //    participantPersonDTO.SevisBatchResult = json;
-
-        //    result.ParticipantId = participantID;
-        //    result.ProjectId = participantPersonDTO.Participant.ProjectId;
-        //    if (status == "1")
-        //    {
-        //        result.SevisCommStatus = SevisCommStatus.BatchRequestSuccessful.Value;
-        //    }
-        //    else
-        //    {
-        //        result.SevisCommStatus = SevisCommStatus.BatchRequestUnsuccessful.Value;
-        //    }
-
-        //    return result;
-        //}
 
         private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByTransactionLogQuery(TransactionLogType transactionLog)
         {

@@ -20,8 +20,9 @@ namespace ECA.WebJobs.Sevis.Core
         /// <param name="exchangeVisitor">The exchange visitor that failed validation.</param>
         public void NotifyInvalidExchangeVisitor(ExchangeVisitor exchangeVisitor)
         {
-            Console.WriteLine("Invalid ExchangeVisitor failed validation.");
-            Console.WriteLine(exchangeVisitor.ToJson());
+            var participantId = exchangeVisitor != null && exchangeVisitor.Person != null ? exchangeVisitor.Person.ParticipantId : -1;
+            var personId = exchangeVisitor != null && exchangeVisitor.Person != null ? exchangeVisitor.Person.PersonId : -1;
+            Console.WriteLine(String.Format("ExchangeVisitor with participant id [{0}] and person id [{1}] failed validation.", participantId, personId));
         }
 
         /// <summary>

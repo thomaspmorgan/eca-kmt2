@@ -1225,6 +1225,19 @@ namespace ECA.Business.Test.Service.Sevis
             var asyncResult = await service.GetNextBatchIdToProcessAsync();
             tester(asyncResult);
         }
+
+        [TestMethod]
+        public async Task TestGetNextBatchIdToProcess_NoBatches()
+        {
+            Action<int?> tester = (id) =>
+            {
+                Assert.IsFalse(id.HasValue);
+            };
+            var result = service.GetNextBatchIdToProcess();
+            tester(result);
+            var asyncResult = await service.GetNextBatchIdToProcessAsync();
+            tester(asyncResult);
+        }
         #endregion
 
         #region Process Transaction Log
