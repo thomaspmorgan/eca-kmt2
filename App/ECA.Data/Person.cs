@@ -76,8 +76,7 @@ namespace ECA.Data
             Addresses = new HashSet<Address>();
             Activities = new HashSet<Activity>();
             EvaluationNotes = new HashSet<PersonEvaluationNote>();
-            Family = new HashSet<Person>();
-            OtherFamily = new HashSet<Person>();
+            Family = new HashSet<PersonDependent>();
             Impacts = new HashSet<Impact>();
             History = new History();
             Participations = new HashSet<Participant>();
@@ -222,8 +221,7 @@ namespace ECA.Data
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Activity> Activities { get; set; }
         public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
-        public virtual ICollection<Person> Family { get; set; }
-        public ICollection<Person> OtherFamily { get; set; }
+        public virtual ICollection<PersonDependent> Family { get; set; }
         public ICollection<Impact> Impacts { get; set; }
         public ICollection<Participant> Participations { get; set; }
         public int? MaritalStatusId { get; set; }

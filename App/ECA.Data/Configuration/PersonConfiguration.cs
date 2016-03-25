@@ -12,14 +12,7 @@ namespace ECA.Data.Configuration
         /// </summary>
         public PersonConfiguration()
         {
-            HasMany(x => x.Family)
-                .WithMany(x => x.OtherFamily)
-                .Map(x =>
-                {
-                    x.ToTable("PersonFamily");
-                    x.MapLeftKey("PersonId");
-                    x.MapRightKey("RelatedPersonId");
-                });
+            
             HasMany<Location>(p => p.CountriesOfCitizenship)
                 .WithMany(t => t.BirthPlacePeople)
                 .Map(p =>
@@ -28,7 +21,7 @@ namespace ECA.Data.Configuration
                     p.MapRightKey("LocationId");
                     p.ToTable("CitizenCountry");
                 });
-
+            
             HasOptional(x => x.PlaceOfBirth).WithMany().HasForeignKey(x => x.PlaceOfBirthId).WillCascadeOnDelete(false);
             Property(x => x.PlaceOfBirthId).HasColumnName("PlaceOfBirth_LocationId");
 

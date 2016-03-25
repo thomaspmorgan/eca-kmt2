@@ -26,7 +26,7 @@ angular.module('staticApp')
           getParticipantPersonsById: function (projectId, id) {
               return DragonBreath.get('project/' + projectId, '/participantPersons', id);
           },
-          getParticipantPersonsById: function (id) {
+          getParticipantPersonById: function (id) {
               return DragonBreath.get('project/participantPersons', id);
           }
       };

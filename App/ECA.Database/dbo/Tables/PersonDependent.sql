@@ -16,14 +16,12 @@
 	[IsTravellingWithParticipant] [bit] NULL,
 	[IsDeleted] [bit] NULL,
 	[IsSevisDeleted] [bit] NULL,
-    CONSTRAINT [PK_PersonDependent] PRIMARY KEY ([DependentId], [PersonId])
+	[History_CreatedBy] [int] NOT NULL,
+	[History_CreatedOn] [datetimeoffset](7) NOT NULL,
+	[History_RevisedBy] [int] NOT NULL,
+	[History_RevisedOn] [datetimeoffset](7) NOT NULL,
+    CONSTRAINT [PK_PersonDependent] PRIMARY KEY ([DependentId]), 
+    CONSTRAINT [FK_PersonDependent_Person] FOREIGN KEY ([PersonId]) REFERENCES [Person]([PersonId])
 )
 
 GO
-
-
-CREATE INDEX [IX_DependentId] ON [dbo].[PersonDependent] ([DependentId])
-
-GO
-
-CREATE INDEX [IX_PersonId] ON [dbo].[PersonDependent] ([PersonId])

@@ -31,35 +31,31 @@ namespace ECA.Business.Test.Queries.Persons
                 PersonTypeId = PersonType.Spouse.Id,
                 IsDependentPersonType = true
             };
-            var dependent = new Person
+            var gender = new Gender
             {
-                PersonId = 10,
-                PersonTypeId = spousePersonType.PersonTypeId,
-                PersonType = spousePersonType
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
             };
-            
             var person = new Person
             {
+                PersonId = 10,
                 PersonTypeId = participantPersonType.PersonTypeId,
-                PersonType = participantPersonType,
-                PersonId = 1,
-                Alias = "alias",
-                FamilyName = "family",
-                FirstName = "firstName",
-                GivenName = "givenName",
-                LastName = "lastName",
-                MiddleName = "middleName",
-                NamePrefix = "Mr.",
-                NameSuffix = "III",
-                Patronym = "patronym",
-                Gender = new Gender
-                {
-                    GenderId = Gender.Female.Id,
-                    GenderName = Gender.Female.Value
-                }
+                GenderId = gender.GenderId,
+                Gender = gender,
+                PersonType = participantPersonType
             };
-            dependent.Family.Add(person);
-            person.Family.Add(dependent);
+            
+            var dependent = new PersonDependent
+            {
+                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentId = 2,
+                PersonId = person.PersonId,
+                FirstName = "firstName",
+                LastName = "lastName",
+                NameSuffix = "III",
+                GenderId = gender.GenderId,
+                Person = person
+            };
 
             var status = new ParticipantStatus
             {
@@ -73,13 +69,13 @@ namespace ECA.Business.Test.Queries.Persons
             };
             context.ParticipantStatuses.Add(status);
             person.Participations.Add(participant);
+            person.Family.Add(dependent);
             context.People.Add(person);
-            context.People.Add(dependent);
-            context.Genders.Add(person.Gender);
+            context.PersonDependents.Add(dependent);
             context.PersonTypes.Add(spousePersonType);
             context.PersonTypes.Add(participantPersonType);
 
-            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.DependentId).FirstOrDefault();
             Assert.IsNotNull(result);
             Assert.AreEqual(person.PersonId, result.PersonId);
         }
@@ -92,11 +88,20 @@ namespace ECA.Business.Test.Queries.Persons
                 PersonTypeId = PersonType.Spouse.Id,
                 IsDependentPersonType = true
             };
-            var dependent = new Person
+            var gender = new Gender
             {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+            var dependent = new PersonDependent
+            {
+                DependentId = 1,
                 PersonId = 10,
                 PersonTypeId = spousePersonType.PersonTypeId,
-                PersonType = spousePersonType
+                FirstName = "firstName",
+                LastName = "lastName",
+                NameSuffix = "III",
+                GenderId = gender.GenderId
             };
 
             var person = new Person
@@ -119,7 +124,7 @@ namespace ECA.Business.Test.Queries.Persons
                     GenderName = Gender.Female.Value
                 }
             };
-            dependent.Family.Add(person);
+            //dependent.People.Add(person);
             person.Family.Add(dependent);
 
             var status = new ParticipantStatus
@@ -135,7 +140,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantStatuses.Add(status);
             person.Participations.Add(participant);
             context.People.Add(person);
-            context.People.Add(dependent);
+            context.PersonDependents.Add(dependent);
             context.Genders.Add(person.Gender);
             context.PersonTypes.Add(spousePersonType);
 

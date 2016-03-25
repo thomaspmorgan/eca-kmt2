@@ -17,7 +17,7 @@ namespace ECA.Business.Queries.Models.Persons
         {
             CountriesOfCitizenship = new List<SimpleLookupDTO>();
             Addresses = new List<AddressDTO>();
-            Dependants = new List<SimpleLookupDTO>();
+            Dependents = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets dependants
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> Dependants { get; set; }
+        public IEnumerable<SimpleLookupDTO> Dependents { get; set; }
 
         /// <summary>
         /// Gets and sets first name

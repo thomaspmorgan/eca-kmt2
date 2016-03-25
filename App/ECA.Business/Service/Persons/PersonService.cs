@@ -169,6 +169,14 @@ namespace ECA.Business.Service.Persons
             }
         }
 
+        private void DoDeleteDependent(PersonDependent dependentToDelete)
+        {
+            if (dependentToDelete != null)
+            {
+                Context.PersonDependents.Remove(dependentToDelete);
+            }
+        }
+
         /// <summary>
         /// Update general
         /// </summary>
@@ -271,9 +279,9 @@ namespace ECA.Business.Service.Persons
         public async Task DeletePersonDependentByIdAsync(int personId, int dependentId)
         {
             var person = await Context.People.FindAsync(personId);
-            var dependent = await Context.People.FindAsync(dependentId);
+            var dependent = await Context.PersonDependents.FindAsync(dependentId);
             person.Family.Remove(dependent);
-            DoDelete(dependent);
+            DoDeleteDependent(dependent);
         }
         
         #endregion
