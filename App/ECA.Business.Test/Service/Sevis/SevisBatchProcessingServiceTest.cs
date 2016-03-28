@@ -23,6 +23,8 @@ using FluentValidation.Results;
 using ECA.Business.Sevis.Model.TransLog;
 using System.IO;
 using System.Xml.Serialization;
+using ECA.Business.Sevis.Model;
+using Newtonsoft.Json;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -176,10 +178,10 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public async Task TestStageBatches_OneExchangeVisitor_DoesNotHaveSevisId()
         {
+            var user = new User(1);
             var personId = 10;
             var participantId = 1;
             var projectId = 2;
-            var user = new User(1);
             Participant participant = null;
             ParticipantPerson participantPerson = null;
             var status = new ParticipantPersonSevisCommStatus
@@ -279,10 +281,10 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public async Task TestStageBatches_ExchangeVisitorIsNotValid()
         {
+            var user = new User(1);
             var personId = 10;
             var participantId = 1;
             var projectId = 2;
-            var user = new User(1);
             Participant participant = null;
             ParticipantPerson participantPerson = null;
             var status = new ParticipantPersonSevisCommStatus
@@ -363,10 +365,10 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public async Task TestStageBatches_OneExchangeVisitor_HasSevisId()
         {
+            var user = new User(1);
             var personId = 10;
             var participantId = 1;
             var projectId = 2;
-            var user = new User(1);
             Participant participant = null;
             ParticipantPerson participantPerson = null;
             var status = new ParticipantPersonSevisCommStatus
@@ -467,9 +469,9 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public async Task TestStageBatches_HasMaxCreateAndUpdateExchangeVisitors()
         {
+            var user = new User(1);
             var personId = 10;
             var projectId = 500;
-            var user = new User(1);
             var siteOfActivity = new AddressDTO
             {
                 Division = "DC",
@@ -607,9 +609,9 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public async Task TestStageBatches_HasMoreThanMaxCreateAndUpdateExchangeVisitors()
         {
+            var user = new User(1);
             var personId = 10;
             var projectId = 500;
-            var user = new User(1);
             var siteOfActivity = new AddressDTO
             {
                 Division = "DC",
@@ -765,9 +767,9 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
+                var user = new User(1);
                 var participantId = 1;
                 var projectId = 2;
-                var user = new User(1);
                 Participant participant = null;
                 ParticipantPerson participantPerson = null;
                 var readyToSubmitStatus = new ParticipantPersonSevisCommStatus
@@ -826,6 +828,7 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public void TestGetAccomodatingSevisBatch_NoSevisBatches()
         {
+            var user = new User(1);
             var batches = new List<StagedSevisBatch>();
             var status = new ParticipantPersonSevisCommStatus
             {
@@ -841,7 +844,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: new User(1),
+                user: user,
                 sevisId: null,
                 person: GetPerson(1, 2),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
@@ -856,6 +859,7 @@ namespace ECA.Business.Test.Service.Sevis
         [TestMethod]
         public void TestGetAccomodatingSevisBatch_SevisBatchIsSaved()
         {
+            var user = new User(1);
             var batches = new List<StagedSevisBatch>();
             batches.Add(new StagedSevisBatch(Guid.NewGuid(), new User(1), "orgId")
             {
@@ -875,7 +879,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: new User(1),
+                user: user,
                 sevisId: null,
                 person: GetPerson(1, 2),
                 financialInfo: new Business.Validation.Sevis.Finance.FinancialInfo(true, true, null, null),
@@ -970,7 +974,63 @@ namespace ECA.Business.Test.Service.Sevis
                 SendString = "send string",
                 SubmitDate = null,
                 TransactionLogString = "transaction log",
-                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
+
+            Action<SevisBatchProcessingDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+                Assert.AreEqual(model.Id, dto.Id);
+            };
+            var result = service.GetNextBatchToUpload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToUploadAsync();
+            tester(asyncResult);
+        }
+
+        [TestMethod]
+        public async Task TestGetNextBatchToUpload_HasUploadFailureCode()
+        {
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = DispositionCode.GeneralUploadDownloadFailure.Code
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
+
+            Action<SevisBatchProcessingDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+                Assert.AreEqual(model.Id, dto.Id);
+            };
+            var result = service.GetNextBatchToUpload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchToUploadAsync();
+            tester(asyncResult);
+        }
+
+        [TestMethod]
+        public async Task TestGetNextBatchToUpload_HasBatchNeverSubmittedFailureCode()
+        {
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
             };
             context.SevisBatchProcessings.Add(model);
             Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(context).Count());
@@ -999,14 +1059,75 @@ namespace ECA.Business.Test.Service.Sevis
             var asyncResult = await service.GetNextBatchToUploadAsync();
             tester(asyncResult);
         }
+        #endregion
+
+        #region GetNextByBatchIdToDownload
 
         [TestMethod]
-        public async Task TestGetNextBatchByBatchIdToDownload_HasRecord()
+        public async Task TestGetNextBatchByBatchIdToDownload_DoesNotHaveRetrieveDate()
         {
             var model = new SevisBatchProcessing
             {
                 BatchId = "batch id",
                 DownloadDispositionCode = "download code",
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = null,
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
+
+            Action<string> tester = (s) =>
+            {
+                Assert.IsNotNull(s);
+                Assert.AreEqual(model.BatchId, s);
+            };
+            var result = service.GetNextBatchByBatchIdToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchByBatchIdToDownloadAsync();
+            tester(asyncResult);
+        }
+
+        [TestMethod]
+        public async Task TestGetNextBatchByBatchIdToDownload_HasGeneralUploadDownloadFailure()
+        {
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = DispositionCode.GeneralUploadDownloadFailure.Code,
+                Id = 1,
+                ProcessDispositionCode = "process code",
+                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
+                SendString = "send string",
+                SubmitDate = DateTimeOffset.UtcNow,
+                TransactionLogString = "transaction log",
+                UploadDispositionCode = "upload code"
+            };
+            context.SevisBatchProcessings.Add(model);
+            Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
+
+            Action<string> tester = (s) =>
+            {
+                Assert.IsNotNull(s);
+                Assert.AreEqual(model.BatchId, s);
+            };
+            var result = service.GetNextBatchByBatchIdToDownload();
+            tester(result);
+            var asyncResult = await service.GetNextBatchByBatchIdToDownloadAsync();
+            tester(asyncResult);
+        }
+
+        [TestMethod]
+        public async Task TestGetNextBatchByBatchIdToDownload_HasBatchNotYetProcessedDownloadCode()
+        {
+            var model = new SevisBatchProcessing
+            {
+                BatchId = "batch id",
+                DownloadDispositionCode = DispositionCode.BatchNotYetProcessed.Code,
                 Id = 1,
                 ProcessDispositionCode = "process code",
                 RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
@@ -1044,203 +1165,124 @@ namespace ECA.Business.Test.Service.Sevis
         #endregion
 
         #region Update
-        [TestMethod]
-        public async Task TestBatchHasBeenSent()
-        {
-            var id = 1;
-            SevisBatchProcessing batch = null;
+        //[TestMethod]
+        //public async Task TestBatchHasBeenSent()
+        //{
+        //    var id = 1;
+        //    SevisBatchProcessing batch = null;
 
-            context.SetupActions.Add(() =>
-            {
-                batch = new SevisBatchProcessing
-                {
-                    Id = id,
-                };
-                context.SevisBatchProcessings.Add(batch);
-            });
-            Action tester = () =>
-            {
-                Assert.AreEqual(1, context.SevisBatchProcessings.Count());
-                Assert.IsTrue(Object.ReferenceEquals(batch, context.SevisBatchProcessings.First()));
-                DateTimeOffset.UtcNow.Should().BeCloseTo(batch.SubmitDate.Value, 20000);
-            };
-            context.Revert();
-            service.BatchHasBeenSent(id);
-            tester();
+        //    context.SetupActions.Add(() =>
+        //    {
+        //        batch = new SevisBatchProcessing
+        //        {
+        //            Id = id,
+        //        };
+        //        context.SevisBatchProcessings.Add(batch);
+        //    });
+        //    Action tester = () =>
+        //    {
+        //        Assert.AreEqual(1, context.SevisBatchProcessings.Count());
+        //        Assert.IsTrue(Object.ReferenceEquals(batch, context.SevisBatchProcessings.First()));
+        //        DateTimeOffset.UtcNow.Should().BeCloseTo(batch.SubmitDate.Value, 20000);
+        //    };
+        //    context.Revert();
+        //    service.BatchHasBeenSent(id);
+        //    tester();
 
-            context.Revert();
-            await service.BatchHasBeenSentAsync(id);
-            tester();
-        }
+        //    context.Revert();
+        //    await service.BatchHasBeenSentAsync(id);
+        //    tester();
+        //}
 
-        [TestMethod]
-        public async Task TestBatchHasBeenSent_ModelDoesNotExist()
-        {
-            var id = 1;
-            var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", id);
-            Action a = () => service.BatchHasBeenSent(id);
-            Func<Task> f = () => service.BatchHasBeenSentAsync(id);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
+        //[TestMethod]
+        //public async Task TestBatchHasBeenSent_ModelDoesNotExist()
+        //{
+        //    var id = 1;
+        //    var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", id);
+        //    Action a = () => service.BatchHasBeenSent(id);
+        //    Func<Task> f = () => service.BatchHasBeenSentAsync(id);
+        //    a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        //    f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        //}
 
-        [TestMethod]
-        public async Task TestBatchHasBeenRetrieved()
-        {
-            var id = 1;
-            var batchId = "batch Id";
-            var transactionLog = new TransactionLogType
-            {
-                BatchHeader = new TransactionLogTypeBatchHeader
-                {
-                    BatchID = batchId
-                }
-            };
-            SevisBatchProcessing instance = null;
-            context.SetupActions.Add(() =>
-            {
-                instance = new SevisBatchProcessing
-                {
-                    BatchId = batchId,
-                    Id = id
-                };
-                context.SevisBatchProcessings.Add(instance);
-            });
-            var xml = GetXml(transactionLog);
-            Action tester = () =>
-            {
-                Assert.AreEqual(instance.TransactionLogString, xml);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(instance.RetrieveDate.Value, 20000);
-            };
+        //[TestMethod]
+        //public async Task TestBatchHasBeenRetrieved()
+        //{
+        //    var id = 1;
+        //    var batchId = "batch Id";
+        //    var transactionLog = new TransactionLogType
+        //    {
+        //        BatchHeader = new TransactionLogTypeBatchHeader
+        //        {
+        //            BatchID = batchId
+        //        }
+        //    };
+        //    SevisBatchProcessing instance = null;
+        //    context.SetupActions.Add(() =>
+        //    {
+        //        instance = new SevisBatchProcessing
+        //        {
+        //            BatchId = batchId,
+        //            Id = id
+        //        };
+        //        context.SevisBatchProcessings.Add(instance);
+        //    });
+        //    var xml = GetXml(transactionLog);
+        //    Action tester = () =>
+        //    {
+        //        Assert.AreEqual(instance.TransactionLogString, xml);
+        //        DateTimeOffset.UtcNow.Should().BeCloseTo(instance.RetrieveDate.Value, 20000);
+        //    };
 
-            context.Revert();
-            service.BatchHasBeenRetrieved(xml);
-            tester();
+        //    context.Revert();
+        //    service.BatchHasBeenRetrieved(xml);
+        //    tester();
 
-            context.Revert();
-            await service.BatchHasBeenRetrievedAsync(xml);
-            tester();
-        }
+        //    context.Revert();
+        //    await service.BatchHasBeenRetrievedAsync(xml);
+        //    tester();
+        //}
 
-        [TestMethod]
-        public async Task TestBatchHasBeenRetrieved_BatchDoesNotExist()
-        {
-            var batchId = "batch Id";
-            var transactionLog = new TransactionLogType
-            {
-                BatchHeader = new TransactionLogTypeBatchHeader
-                {
-                    BatchID = batchId
-                }
-            };
-            var xml = GetXml(transactionLog);
-            var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId);
-            Action a = () => service.BatchHasBeenRetrieved(xml);
-            Func<Task> f = () => service.BatchHasBeenRetrievedAsync(xml);
-            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        }
-        #endregion
-
-        #region GetNextBatchToProcess
-        [TestMethod]
-        public async Task TestGetNextBatchIdToProcess()
-        {
-            var model = new SevisBatchProcessing
-            {
-                BatchId = "batch id",
-                DownloadDispositionCode = "download code",
-                Id = 1,
-                ProcessDispositionCode = "process code",
-                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                SendString = "send string",
-                SubmitDate = DateTimeOffset.UtcNow,
-                TransactionLogString = "transaction log",
-                UploadDispositionCode = "upload code"
-            };
-            context.SevisBatchProcessings.Add(model);
-
-            Action<int?> tester = (id) =>
-            {
-                Assert.IsTrue(id.HasValue);
-                Assert.AreEqual(model.Id, id.Value);
-            };
-            var result = service.GetNextBatchIdToProcess();
-            tester(result);
-            var asyncResult = await service.GetNextBatchIdToProcessAsync();
-            tester(asyncResult);
-        }
-
-        [TestMethod]
-        public async Task GetNextBatchIdToProcess_DoesNotHaveRetrieveDate()
-        {
-
-            var model = new SevisBatchProcessing
-            {
-                BatchId = "batch id",
-                DownloadDispositionCode = "download code",
-                Id = 1,
-                ProcessDispositionCode = "process code",
-                RetrieveDate = null,
-                SendString = "send string",
-                SubmitDate = DateTimeOffset.UtcNow,
-                TransactionLogString = "transaction log",
-                UploadDispositionCode = "upload code"
-            };
-            context.SevisBatchProcessings.Add(model);
-
-            Action<int?> tester = (id) =>
-            {
-                Assert.IsFalse(id.HasValue);
-            };
-            var result = service.GetNextBatchIdToProcess();
-            tester(result);
-            var asyncResult = await service.GetNextBatchIdToProcessAsync();
-            tester(asyncResult);
-        }
-
-        [TestMethod]
-        public async Task TestGetNextBatchIdToProcess_DoesNotHaveTransactionLogString()
-        {
-            var model = new SevisBatchProcessing
-            {
-                BatchId = "batch id",
-                DownloadDispositionCode = "download code",
-                Id = 1,
-                ProcessDispositionCode = "process code",
-                RetrieveDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                SendString = "send string",
-                SubmitDate = DateTimeOffset.UtcNow,
-                TransactionLogString = null,
-                UploadDispositionCode = "upload code",
-            };
-            context.SevisBatchProcessings.Add(model);
-
-            Action<int?> tester = (id) =>
-            {
-                Assert.IsFalse(id.HasValue);
-            };
-            var result = service.GetNextBatchIdToProcess();
-            tester(result);
-            var asyncResult = await service.GetNextBatchIdToProcessAsync();
-            tester(asyncResult);
-        }
-
-        [TestMethod]
-        public async Task TestGetNextBatchIdToProcess_NoBatches()
-        {
-            Action<int?> tester = (id) =>
-            {
-                Assert.IsFalse(id.HasValue);
-            };
-            var result = service.GetNextBatchIdToProcess();
-            tester(result);
-            var asyncResult = await service.GetNextBatchIdToProcessAsync();
-            tester(asyncResult);
-        }
+        //[TestMethod]
+        //public async Task TestBatchHasBeenRetrieved_BatchDoesNotExist()
+        //{
+        //    var batchId = "batch Id";
+        //    var transactionLog = new TransactionLogType
+        //    {
+        //        BatchHeader = new TransactionLogTypeBatchHeader
+        //        {
+        //            BatchID = batchId
+        //        }
+        //    };
+        //    var xml = GetXml(transactionLog);
+        //    var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId);
+        //    Action a = () => service.BatchHasBeenRetrieved(xml);
+        //    Func<Task> f = () => service.BatchHasBeenRetrievedAsync(xml);
+        //    a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        //    f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+        //}
         #endregion
 
         #region Process Transaction Log
+        [TestMethod]
+        public void TestGetSevisBatchErrorResultAsJson()
+        {
+            var resultType = new ResultType
+            {
+                ErrorCode = "error code",
+                ErrorMessage = "error message",
+                status = true,
+                statusSpecified = true
+            };
+            var json = service.GetSevisBatchErrorResultAsJson(resultType);
+            Assert.IsNotNull(json);
+            var jsonAsArray = JsonConvert.DeserializeObject<List<SimpleSevisBatchErrorResult>>(json);
+            Assert.IsNotNull(jsonAsArray);
+            Assert.AreEqual(1, jsonAsArray.Count);
+            Assert.AreEqual(resultType.ErrorCode, jsonAsArray.First().ErrorCode);
+            Assert.AreEqual(resultType.ErrorMessage, jsonAsArray.First().ErrorMessage);
+        }
+
         [TestMethod]
         public void TestAddSevisResultCommStatus_IsSuccess()
         {
@@ -1264,6 +1306,799 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
             DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
         }
+
+        [TestMethod]
+        public void TestAddSevisResultCommStatus_IsError()
+        {
+            var resultType = new ResultType
+            {
+                status = false
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+
+            service.AddSevisResultCommStatus(resultType, participantPerson);
+            Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+            Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
+            Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), participantPerson.ParticipantPersonSevisCommStatuses.First()));
+
+            var firstStatus = context.ParticipantPersonSevisCommStatuses.First();
+            Assert.AreEqual(SevisCommStatus.BatchRequestUnsuccessful.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
+        }
+
+        [TestMethod]
+        public void TestUpdateDependent_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUserId = 2;
+            var user = new User(1);
+            var dependentRecord = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "sevis id"
+            };
+            var personDependent = new PersonDependent
+            {
+
+            };
+            personDependent.History.CreatedBy = otherUserId;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUserId;
+            personDependent.History.RevisedOn = yesterday;
+
+            service.UpdateDependent(user, dependentRecord, personDependent);
+            Assert.AreEqual(dependentRecord.dependentSevisID, personDependent.SevisId);
+            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
+            Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
+            Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(personDependent.History.RevisedOn, 20000);
+        }
+
+        [TestMethod]
+        public void TestUpdateDependent_RecordIsNull()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUserId = 2;
+            var user = new User(1);
+            var personDependent = new PersonDependent
+            {
+
+            };
+            personDependent.History.CreatedBy = otherUserId;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUserId;
+            personDependent.History.RevisedOn = yesterday;
+
+            service.UpdateDependent(user, null, personDependent);
+            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
+            Assert.AreEqual(yesterday, personDependent.History.RevisedOn);
+            Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
+            Assert.AreEqual(otherUserId, personDependent.History.RevisedBy);
+        }
+
+        [TestMethod]
+        public void TestUpdateDependent_DependentIsNull()
+        {
+            var user = new User(1);
+            var dependentRecord = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "sevis id"
+            };
+            service.UpdateDependent(user, dependentRecord, null);
+        }
+
+        [TestMethod]
+        public void TestUpdateParticipant_IsSuccess()
+        {
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisBatchResult = "sevis batch result",
+            };
+            participantPerson.History.CreatedBy = otherUser.Id;
+            participantPerson.History.CreatedOn = yesterday;
+            participantPerson.History.RevisedBy = otherUser.Id;
+            participantPerson.History.RevisedOn = yesterday;
+
+            participant.ParticipantPerson = participantPerson;
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = null
+            };
+
+            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent>(), record);
+            Assert.AreEqual(record.sevisID, participantPerson.SevisId);
+            Assert.IsNull(participantPerson.SevisBatchResult);
+            Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
+            Assert.AreEqual(otherUser.Id, participantPerson.History.CreatedBy);
+            Assert.AreEqual(user.Id, participantPerson.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(participantPerson.History.RevisedOn, 20000);
+
+            Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
+            var firstStatus = participantPerson.ParticipantPersonSevisCommStatuses.First();
+            Assert.AreEqual(SevisCommStatus.BatchRequestSuccessful.Id, firstStatus.SevisCommStatusId);
+            firstStatus.AddedOn.Should().BeCloseTo(DateTimeOffset.UtcNow, 20000);
+        }
+
+        [TestMethod]
+        public void TestUpdateParticipant_IsError()
+        {
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisBatchResult = "sevis batch result",
+            };
+            participantPerson.History.CreatedBy = otherUser.Id;
+            participantPerson.History.CreatedOn = yesterday;
+            participantPerson.History.RevisedBy = otherUser.Id;
+            participantPerson.History.RevisedOn = yesterday;
+
+            participant.ParticipantPerson = participantPerson;
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = false
+                },
+                Dependent = null
+            };
+
+            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent>(), record);
+            Assert.IsNull(participantPerson.SevisId);
+
+            Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
+            Assert.AreEqual(otherUser.Id, participantPerson.History.CreatedBy);
+            Assert.AreEqual(user.Id, participantPerson.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(participantPerson.History.RevisedOn, 20000);
+
+            Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
+            var firstStatus = participantPerson.ParticipantPersonSevisCommStatuses.First();
+            Assert.AreEqual(SevisCommStatus.BatchRequestUnsuccessful.Id, firstStatus.SevisCommStatusId);
+            firstStatus.AddedOn.Should().BeCloseTo(DateTimeOffset.UtcNow, 20000);
+
+            Assert.IsNotNull(participantPerson.SevisBatchResult);
+            var json = JsonConvert.DeserializeObject<List<SimpleSevisBatchErrorResult>>(participantPerson.SevisBatchResult);
+            Assert.AreEqual(1, json.Count);
+        }
+
+        [TestMethod]
+        public void TestUpdateParticipant_CheckDependentHasOneDependent_SuccessfulSevisRequest()
+        {
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+
+            var person = new Data.Person
+            {
+                PersonId = 10,
+
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisBatchResult = "sevis batch result",
+            };
+            participantPerson.History.CreatedBy = otherUser.Id;
+            participantPerson.History.CreatedOn = yesterday;
+            participantPerson.History.RevisedBy = otherUser.Id;
+            participantPerson.History.RevisedOn = yesterday;
+            participant.ParticipantPerson = participantPerson;
+            var personDependent = new PersonDependent
+            {
+                DependentId = 250,
+                Person = person,
+                PersonId = person.PersonId,
+                SevisId = null
+            };
+            personDependent.History.CreatedBy = otherUser.Id;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUser.Id;
+            personDependent.History.RevisedOn = yesterday;
+            var processedDepenent = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "dep sevis id",
+            };
+            SetUserDefinedFields(processedDepenent, participant.ParticipantId, personDependent.DependentId);
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent>
+                {
+                    processedDepenent
+                }.ToArray()
+            };
+
+            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent> { personDependent }, record);
+            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
+            Assert.AreEqual(otherUser.Id, personDependent.History.CreatedBy);
+            Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(personDependent.History.RevisedOn, 20000);
+            Assert.AreEqual(processedDepenent.dependentSevisID, personDependent.SevisId);
+        }
+
+        [TestMethod]
+        public void TestUpdateParticipant_MultipleDependents_SuccessfulSevisRequest()
+        {
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+
+            var person = new Data.Person
+            {
+                PersonId = 10,
+
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1
+            };
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                SevisBatchResult = "sevis batch result",
+            };
+            participantPerson.History.CreatedBy = otherUser.Id;
+            participantPerson.History.CreatedOn = yesterday;
+            participantPerson.History.RevisedBy = otherUser.Id;
+            participantPerson.History.RevisedOn = yesterday;
+            participant.ParticipantPerson = participantPerson;
+            var personDependentToUpdate = new PersonDependent
+            {
+                DependentId = 250,
+                Person = person,
+                PersonId = person.PersonId,
+                SevisId = null
+            };
+            personDependentToUpdate.History.CreatedBy = otherUser.Id;
+            personDependentToUpdate.History.CreatedOn = yesterday;
+            personDependentToUpdate.History.RevisedBy = otherUser.Id;
+            personDependentToUpdate.History.RevisedOn = yesterday;
+            var otherPersonDependent = new PersonDependent
+            {
+                DependentId = 251
+            };
+            var processedDepenent = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "dep sevis id",
+            };
+            SetUserDefinedFields(processedDepenent, participant.ParticipantId, personDependentToUpdate.DependentId);
+
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent>
+                {
+                    processedDepenent
+                }.ToArray()
+            };
+
+            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent> { personDependentToUpdate, otherPersonDependent }, record);
+
+            Assert.IsNull(otherPersonDependent.SevisId);
+            Assert.AreEqual(processedDepenent.dependentSevisID, personDependentToUpdate.SevisId);
+        }
+
+        [TestMethod]
+        public async Task TestProcessBatchDetailProcess()
+        {
+            var sevisId = "sevis id";
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Data.Person person = null;
+            SevisBatchProcessing batch = null;
+            var participantId = 1;
+            var personId = 2;
+            context.SetupActions.Add(() =>
+            {
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = "hello",
+                    Id = 1
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId
+                };
+                participantPerson = new ParticipantPerson
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Participant = participant,
+                    SevisBatchResult = "sevis batch result",
+                };
+                participantPerson.History.CreatedBy = otherUser.Id;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedBy = otherUser.Id;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participant.ParticipantPerson = participantPerson;
+                person = new Data.Person
+                {
+                    PersonId = personId
+                };
+                participant.Person = person;
+                participant.PersonId = person.PersonId;
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.People.Add(person);
+                context.SevisBatchProcessings.Add(batch);
+            });
+
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = sevisId,
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = null,
+            };
+            SetUserDefinedFields(record, participantId, personId);
+            var processDetail = new TransactionLogTypeBatchDetailProcess
+            {
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
+                resultCode = "result code"
+            };
+            Action tester = () =>
+            {
+                Assert.AreEqual(sevisId, participantPerson.SevisId);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(processDetail.resultCode, batch.ProcessDispositionCode);
+            };
+            context.Revert();
+            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            tester();
+
+            context.Revert();
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestProcessBatchDetailProcess_ProcessIsNull()
+        {
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Data.Person person = null;
+            SevisBatchProcessing batch = null;
+
+            var participantId = 1;
+            var personId = 2;
+            context.SetupActions.Add(() =>
+            {
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = "hello",
+                    Id = 1
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId
+                };
+                participantPerson = new ParticipantPerson
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Participant = participant,
+                    SevisBatchResult = "sevis batch result",
+                };
+                participantPerson.History.CreatedBy = otherUser.Id;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedBy = otherUser.Id;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participant.ParticipantPerson = participantPerson;
+                person = new Data.Person
+                {
+                    PersonId = personId
+                };
+                participant.Person = person;
+                participant.PersonId = person.PersonId;
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.People.Add(person);
+                context.SevisBatchProcessings.Add(batch);
+            });
+            Action tester = () =>
+            {
+                Assert.IsNull(participantPerson.SevisId);
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+
+            context.Revert();
+            service.ProcessBatchDetailProcess(user, null, batch);
+            tester();
+
+            context.Revert();
+            await service.ProcessBatchDetailProcessAsync(user, null, batch);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestProcessBatchDetailProcess_NoRecords()
+        {
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Data.Person person = null;
+            SevisBatchProcessing batch = null;
+
+            var participantId = 1;
+            var personId = 2;
+            context.SetupActions.Add(() =>
+            {
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = "hello",
+                    Id = 1
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId
+                };
+                participantPerson = new ParticipantPerson
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Participant = participant,
+                    SevisBatchResult = "sevis batch result",
+                };
+                participantPerson.History.CreatedBy = otherUser.Id;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedBy = otherUser.Id;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participant.ParticipantPerson = participantPerson;
+                person = new Data.Person
+                {
+                    PersonId = personId
+                };
+                participant.Person = person;
+                participant.PersonId = person.PersonId;
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.People.Add(person);
+                context.SevisBatchProcessings.Add(batch);
+            });
+            Action tester = () =>
+            {
+                Assert.IsNull(participantPerson.SevisId);
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+
+            var processDetail = new TransactionLogTypeBatchDetailProcess
+            {
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord>().ToArray()
+            };
+            context.Revert();
+            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            tester();
+
+            context.Revert();
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            tester();
+        }
+
+        [TestMethod]
+        public void TestProcessDownload()
+        {
+            var sevisBatch = new SevisBatchProcessing
+            {
+
+            };
+            var user = new User(1);
+            var downloadDetail = new TransactionLogTypeBatchDetailDownload
+            {
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+            };
+
+            service.ProcessDownload(user, downloadDetail, sevisBatch);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(sevisBatch.RetrieveDate.Value, 20000);
+            Assert.AreEqual(downloadDetail.resultCode, sevisBatch.DownloadDispositionCode);
+            Assert.IsNull(sevisBatch.UploadDispositionCode);
+            Assert.IsNull(sevisBatch.ProcessDispositionCode);
+        }
+
+        [TestMethod]
+        public void TestProcessDownload_NullTransactionLogTypeBatchDetailDownload()
+        {
+            var sevisBatch = new SevisBatchProcessing
+            {
+
+            };
+            var user = new User(1);
+
+            service.ProcessDownload(user, null, sevisBatch);
+            Assert.IsNull(sevisBatch.RetrieveDate);
+            Assert.IsNull(sevisBatch.DownloadDispositionCode);
+            Assert.IsNull(sevisBatch.UploadDispositionCode);
+            Assert.IsNull(sevisBatch.ProcessDispositionCode);
+        }
+
+        [TestMethod]
+        public void TestProcessUpload()
+        {
+            var sevisBatch = new SevisBatchProcessing
+            {
+
+            };
+            var user = new User(1);
+            var today = DateTime.UtcNow;
+            var uploadDetail = new TransactionLogTypeBatchDetailUpload
+            {
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                dateTimeStamp = today
+            };
+
+            service.ProcessUpload(user, uploadDetail, sevisBatch);
+            Assert.AreEqual(today, sevisBatch.SubmitDate);
+            Assert.AreEqual(uploadDetail.resultCode, sevisBatch.UploadDispositionCode);
+            Assert.IsNull(sevisBatch.DownloadDispositionCode);
+            Assert.IsNull(sevisBatch.ProcessDispositionCode);
+        }
+
+        [TestMethod]
+        public void TestProcessUpload_NullTransactionLogTypeBatchDetailDownload()
+        {
+            var sevisBatch = new SevisBatchProcessing
+            {
+
+            };
+            var user = new User(1);
+
+            service.ProcessUpload(user, null, sevisBatch);
+            Assert.IsNull(sevisBatch.SubmitDate);
+            Assert.IsNull(sevisBatch.DownloadDispositionCode);
+            Assert.IsNull(sevisBatch.UploadDispositionCode);
+            Assert.IsNull(sevisBatch.ProcessDispositionCode);
+        }
+
+        [TestMethod]
+        public async Task TestProcessTransactionLog_HasProcessRecords()
+        {
+            var batchId = "hello";
+            var sevisId = "sevis id";
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Data.Person person = null;
+            SevisBatchProcessing batch = null;
+
+            var participantId = 1;
+            var personId = 2;
+            context.SetupActions.Add(() =>
+            {
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = batchId,
+                    Id = 1
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId
+                };
+                participantPerson = new ParticipantPerson
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Participant = participant,
+                    SevisBatchResult = "sevis batch result",
+                };
+                participantPerson.History.CreatedBy = otherUser.Id;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedBy = otherUser.Id;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participant.ParticipantPerson = participantPerson;
+                person = new Data.Person
+                {
+                    PersonId = personId
+                };
+                participant.Person = person;
+                participant.PersonId = person.PersonId;
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.People.Add(person);
+                context.SevisBatchProcessings.Add(batch);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(sevisId, participantPerson.SevisId);
+                Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = sevisId,
+                Result = new ResultType
+                {
+                    status = true,
+                    statusSpecified = true
+                }
+            };
+            SetUserDefinedFields(record, participantId, personId);
+            var processDetail = new TransactionLogTypeBatchDetailProcess
+            {
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray()
+            };
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = batchId
+                },
+                BatchDetail = new TransactionLogTypeBatchDetail
+                {
+                    Process = processDetail
+                }
+            };
+            var xml = GetXml(transactionLog);
+
+            context.Revert();
+            service.ProcessTransactionLog(user, xml);
+            tester();
+
+            context.Revert();
+            await service.ProcessTransactionLogAsync(user, xml);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestProcessTransactionLog_HasDownloadRecord()
+        {
+            var batchId = "hello";
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            var downloadDispositionCode = DispositionCode.DuplicateBatchId.Code;
+            SevisBatchProcessing batch = null;
+            context.SetupActions.Add(() =>
+            {
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = batchId,
+                    Id = 1
+                };
+                context.SevisBatchProcessings.Add(batch);
+            });
+            Action tester = () =>
+            {
+                DateTimeOffset.UtcNow.Should().BeCloseTo(batch.RetrieveDate.Value, 20000);
+                Assert.AreEqual(downloadDispositionCode, batch.DownloadDispositionCode);
+            };
+
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = batchId
+                },
+                BatchDetail = new TransactionLogTypeBatchDetail
+                {
+                    Download = new TransactionLogTypeBatchDetailDownload
+                    {
+                        resultCode = downloadDispositionCode
+                    }
+                }
+            };
+            var xml = GetXml(transactionLog);
+
+            context.Revert();
+            service.ProcessTransactionLog(user, xml);
+            tester();
+
+            context.Revert();
+            await service.ProcessTransactionLogAsync(user, xml);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestProcessTransactionLog_HasUploadRecord()
+        {
+            var yesterDay = DateTime.UtcNow.AddDays(-1.0);
+            var batchId = "hello";
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            var dispositionCode = DispositionCode.DuplicateBatchId.Code;
+            SevisBatchProcessing batch = null;
+            context.SetupActions.Add(() =>
+            {
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = batchId,
+                    Id = 1
+                };
+                context.SevisBatchProcessings.Add(batch);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(yesterDay, batch.SubmitDate);
+                Assert.AreEqual(dispositionCode, batch.UploadDispositionCode);
+            };
+
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = batchId
+                },
+                BatchDetail = new TransactionLogTypeBatchDetail
+                {
+                    Upload = new TransactionLogTypeBatchDetailUpload
+                    {
+                        dateTimeStamp = yesterDay,
+                        resultCode = dispositionCode
+                    }
+                }
+            };
+            var xml = GetXml(transactionLog);
+
+            context.Revert();
+            service.ProcessTransactionLog(user, xml);
+            tester();
+
+            context.Revert();
+            await service.ProcessTransactionLogAsync(user, xml);
+            tester();
+        }
         #endregion
+
+        public void SetUserDefinedFields(TransactionLogTypeBatchDetailProcessRecord record, int participantId, int personId)
+        {
+            record.UserDefinedA = participantId.ToString();
+            record.UserDefinedB = "B" + personId.ToString();
+        }
+
+        public void SetUserDefinedFields(TransactionLogTypeBatchDetailProcessRecordDependent record, int participantId, int personId)
+        {
+            record.UserDefinedA = participantId.ToString();
+            record.UserDefinedB = "B" + personId.ToString();
+        }
     }
 }

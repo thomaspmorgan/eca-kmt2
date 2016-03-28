@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Sevis;
+using ECA.Business.Sevis.Model;
 using ECA.Data;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -45,7 +46,15 @@ namespace ECA.Business.Queries.Sevis
         public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsToUploadQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return CreateGetSevisBatchProcessingDTOQuery(context).Where(x => !x.SubmitDate.HasValue);
+            var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
+            var batchNeverSubmittedFailureCode = DispositionCode.BatchNeverSubmitted.Code;
+            var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
+                        where !dto.SubmitDate.HasValue 
+                        || dto.UploadDispositionCode == generalUploadDownloadFailureCode
+                        || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode
+                        orderby dto.Id
+                        select dto;
+            return query;
         }
 
         /// <summary>
@@ -56,7 +65,15 @@ namespace ECA.Business.Queries.Sevis
         public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsToDownloadQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            return CreateGetSevisBatchProcessingDTOQuery(context).Where(x => x.SubmitDate.HasValue);
+            var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
+            var batchNotYetProcessedCode = DispositionCode.BatchNotYetProcessed.Code;
+            var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
+                        where !dto.RetrieveDate.HasValue
+                        || dto.DownloadDispositionCode == generalUploadDownloadFailureCode
+                        || dto.DownloadDispositionCode == batchNotYetProcessedCode
+                        orderby dto.Id
+                        select dto;
+            return query;
         }
 
         #endregion

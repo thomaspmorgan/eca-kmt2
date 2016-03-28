@@ -121,7 +121,7 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchRecordToUploadQuery()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context).OrderBy(x => x.Id);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context);
         }
 
         /// <summary>
@@ -144,156 +144,225 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<string> CreateGetNextBatchByBatchIdToDownload()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context).OrderBy(x => x.Id).Select(x => x.BatchId);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context).Select(x => x.BatchId);
         }
 
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        public int? GetNextBatchIdToProcess()
-        {
-            int? id = CreateGetNextSevisBatchIdToProcessQuery().FirstOrDefault();
-            return id;
-        }
 
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        public async Task<int?> GetNextBatchIdToProcessAsync()
-        {
-            int? id = await CreateGetNextSevisBatchIdToProcessQuery().FirstOrDefaultAsync();
-            return id;
-        }
         #endregion
 
         #region Update
 
-        /// <summary>
-        /// Indicates the batch has been successfully uploaded.
-        /// </summary>
-        /// <param name="id">The id of the batch.</param>
-        public void BatchHasBeenSent(int id)
-        {
-            var batch = this.Context.SevisBatchProcessings.Find(id);
-            throwIfSevisBatchProcessingNotFound(batch, id);
-            DoBatchHasBeenSent(batch);
-        }
+        ///// <summary>
+        ///// Indicates the batch has been successfully uploaded.
+        ///// </summary>
+        ///// <param name="id">The id of the batch.</param>
+        //public void BatchHasBeenSent(int id, string uploadDispositionCode)
+        //{
+        //    var batch = this.Context.SevisBatchProcessings.Find(id);
+        //    throwIfSevisBatchProcessingNotFound(batch, id);
+        //    DoBatchHasBeenSent(batch);
+        //}
 
-        /// <summary>
-        /// Indicates the batch has been successfully uploaded.
-        /// </summary>
-        /// <param name="id">The id of the batch.</param>
-        public async Task BatchHasBeenSentAsync(int id)
-        {
-            var batch = await this.Context.SevisBatchProcessings.FindAsync(id);
-            throwIfSevisBatchProcessingNotFound(batch, id);
-            DoBatchHasBeenSent(batch);
-        }
+        ///// <summary>
+        ///// Indicates the batch has been successfully uploaded.
+        ///// </summary>
+        ///// <param name="id">The id of the batch.</param>
+        //public async Task BatchHasBeenSentAsync(int id, string uploadDispositionCode)
+        //{
+        //    var batch = await this.Context.SevisBatchProcessings.FindAsync(id);
+        //    throwIfSevisBatchProcessingNotFound(batch, id);
+        //    DoBatchHasBeenSent(batch);
+        //}
 
-        private void DoBatchHasBeenSent(SevisBatchProcessing batch)
-        {
-            batch.SubmitDate = DateTimeOffset.UtcNow;
-        }
+        //private void DoBatchHasBeenSent(SevisBatchProcessing batch, string uploadDispositionCode)
+        //{
+        //    batch.SubmitDate = DateTimeOffset.UtcNow;
+        //}
 
-        /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        public void BatchHasBeenRetrieved(string xml)
-        {
-            var transactionLog = DeserializeTransactionLogType(xml);
-            var batch = CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefault();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
-            DoBatchHasBeenRetrieved(xml, transactionLog, batch);
-        }
+        ///// <summary>
+        ///// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        ///// </summary>
+        ///// <param name="xml">The transaction log as xml.</param>
+        //public void BatchHasBeenRetrieved(string xml)
+        //{
+        //    var transactionLog = DeserializeTransactionLogType(xml);
+        //    var batch = CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefault();
+        //    throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+        //    DoBatchHasBeenRetrieved(xml, transactionLog, batch);
+        //}
 
-        /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        public async Task BatchHasBeenRetrievedAsync(string xml)
-        {
-            var transactionLog = DeserializeTransactionLogType(xml);
-            var batch = await CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefaultAsync();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
-            DoBatchHasBeenRetrieved(xml, transactionLog, batch);
-        }
+        ///// <summary>
+        ///// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        ///// </summary>
+        ///// <param name="xml">The transaction log as xml.</param>
+        //public async Task BatchHasBeenRetrievedAsync(string xml)
+        //{
+        //    var transactionLog = DeserializeTransactionLogType(xml);
+        //    var batch = await CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefaultAsync();
+        //    throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+        //    DoBatchHasBeenRetrieved(xml, transactionLog, batch);
+        //}
 
-        private void DoBatchHasBeenRetrieved(string xml, TransactionLogType transactionLog, SevisBatchProcessing sevisBatchProcessing)
-        {
-            sevisBatchProcessing.RetrieveDate = DateTimeOffset.UtcNow;
-            sevisBatchProcessing.TransactionLogString = xml;
-        }
+        //private void DoBatchHasBeenRetrieved(string xml, TransactionLogType transactionLog, SevisBatchProcessing sevisBatchProcessing)
+        //{
+        //    sevisBatchProcessing.RetrieveDate = DateTimeOffset.UtcNow;
+        //    sevisBatchProcessing.TransactionLogString = xml;
+        //}
         #endregion
 
         #region Process Transaction Log
 
-        public void ProcessTransactionLog(int id)
+        //public void ProcessTransactionLog(int id)
+        //{
+        //    var batchToProcess = CreateGetSevisBatchToProcessById(id).FirstOrDefault();
+        //    if (batchToProcess != null && batchToProcess.TransactionLogString != null)
+        //    {
+
+
+
+
+        //    }
+        //}
+
+        //public async Task ProcessTransactionLogAsync(int id)
+        //{
+        //    var batchToProcess = await CreateGetSevisBatchToProcessById(id).FirstOrDefaultAsync();
+        //    if (batchToProcess != null && batchToProcess.TransactionLogString != null)
+        //    {
+
+        //    }
+        //}
+
+        public void ProcessTransactionLog(User user, string xml)
         {
-            var batchToProcess = CreateGetSevisBatchToProcessById(id).FirstOrDefault();
-            if (batchToProcess != null && batchToProcess.TransactionLogString != null)
+            var transactionLog = DeserializeTransactionLogType(xml);
+            ProcessTransactionLog(user, xml, transactionLog);
+        }
+
+        public Task ProcessTransactionLogAsync(User user, string xml)
+        {
+            var transactionLog = DeserializeTransactionLogType(xml);
+            return ProcessTransactionLogAsync(user, xml, transactionLog);
+        }
+
+        public void ProcessTransactionLog(User user, string xml, TransactionLogType transactionLog)
+        {
+            var batch = CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefault();
+            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            if(transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
             {
-                var transactionLog = DeserializeTransactionLogType(batchToProcess.TransactionLogString);
-                ProcessDownload(transactionLog.BatchDetail.Download, batchToProcess);
-                ProcessUpload(transactionLog.BatchDetail.Upload, batchToProcess);
-                ProcessBatchDetailProcess(transactionLog.BatchDetail.Process, batchToProcess);
+                ProcessBatchDetailProcess(user, transactionLog.BatchDetail.Process, batch);
+            }
+            DoProcessTransactionLog(user, xml, transactionLog, batch);
+        }
 
+        public async Task ProcessTransactionLogAsync(User user, string xml, TransactionLogType transactionLog)
+        {
+            var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefaultAsync();
+            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
+            {
+                await ProcessBatchDetailProcessAsync(user, transactionLog.BatchDetail.Process, batch);
+            }
+            DoProcessTransactionLog(user, xml, transactionLog, batch);            
+        }
 
+        private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
+        {
+            ProcessDownload(user, transactionLog.BatchDetail.Download, batch);
+            ProcessUpload(user, transactionLog.BatchDetail.Upload, batch);
+            batch.TransactionLogString = xml;
+        }
+
+        public void ProcessUpload(User user, TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
+        {
+            if (uploadDetail != null)
+            {
+                batch.UploadDispositionCode = uploadDetail.DispositionCode.Code;
+                batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
             }
         }
 
-        public async Task ProcessTransactionLogAsync(int id)
+        public void ProcessDownload(User user, TransactionLogTypeBatchDetailDownload downloadDetail, SevisBatchProcessing batch)
         {
-            var batchToProcess = await CreateGetSevisBatchToProcessById(id).FirstOrDefaultAsync();
-            if (batchToProcess != null && batchToProcess.TransactionLogString != null)
+            if (downloadDetail != null)
             {
-
+                batch.DownloadDispositionCode = downloadDetail.DispositionCode.Code;
+                batch.RetrieveDate = DateTimeOffset.UtcNow;
             }
         }
 
-        public void ProcessUpload(TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
+        public void ProcessBatchDetailProcess(User user, TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
         {
-            if(uploadDetail != null)
+            if (process != null)
             {
-                batch.UploadDispositionCode = uploadDetail.resultCode;
+                batch.ProcessDispositionCode = process.resultCode;
+                foreach (var record in process.Record)
+                {
+                    var participantKey = new ParticipantSevisKey(record);
+                    var participant = CreateGetParticipantAndDependentsQuery(participantKey.ParticipantId).FirstOrDefault();
+                    var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
+
+                    var dependents = participant.Person.Family.ToList();
+                    UpdateParticipant(user, participant, participantPerson, dependents, record);
+                }
             }
         }
 
-        public void ProcessDownload(TransactionLogTypeBatchDetailDownload downloadDetail, SevisBatchProcessing batch)
+        public async Task ProcessBatchDetailProcessAsync(User user, TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
         {
-            if(downloadDetail != null)
+            if (process != null)
             {
-                batch.DownloadDispositionCode = downloadDetail.resultCode;
+                batch.ProcessDispositionCode = process.resultCode;
+                foreach (var record in process.Record)
+                {
+                    var participantKey = new ParticipantSevisKey(record);
+                    var participant = await CreateGetParticipantAndDependentsQuery(participantKey.ParticipantId).FirstOrDefaultAsync();
+                    var participantPerson = await Context.ParticipantPersons.FindAsync(participantKey.ParticipantId);
+
+                    var dependents = participant.Person.Family.ToList();
+                    UpdateParticipant(user, participant, participantPerson, dependents, record);
+                }
             }
         }
 
-        public void ProcessBatchDetailProcess(TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
-        {
-            foreach(var record in process.Record)
-            {
-                var participantKey = new ParticipantSevisKey(record);
-                var participant = Context.Participants.Find(participantKey.ParticipantId);
-                var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
-                UpdateParticipant(participant, participantPerson, record, batch);
-            }
-        }
-
-        public void UpdateParticipant(Participant participant, ParticipantPerson participantPerson, TransactionLogTypeBatchDetailProcessRecord record, SevisBatchProcessing batch)
+        public void UpdateParticipant(User user, Participant participant, ParticipantPerson participantPerson, List<PersonDependent> dependents, TransactionLogTypeBatchDetailProcessRecord record)
         {
             var result = record.Result;
             AddSevisResultCommStatus(record.Result, participantPerson);
-            //sevis was successfull
+            var update = new Update(user);
+            update.SetHistory(participantPerson);
+            //sevis was successful
             if (result.status)
-            {
+            {                
                 participantPerson.SevisId = record.sevisID;
-                participantPerson.SevisBatchResult = null;
-                
+                participantPerson.SevisBatchResult = null;     
+                if(record.Dependent != null)
+                {
+                    foreach (var processedDependent in record.Dependent)
+                    {
+                        var participantSevisKey = new ParticipantSevisKey(processedDependent);
+                        var dependentToUpdateQuery = (from dependent in dependents
+                                                     where dependent.SevisId == processedDependent.dependentSevisID
+                                                     || dependent.DependentId == participantSevisKey.PersonId
+                                                     select dependent).FirstOrDefault();
+                        UpdateDependent(user, processedDependent, dependentToUpdateQuery);
+                    }
+                }   
             }//sevis was not successful
             else
             {
                 participantPerson.SevisBatchResult = GetSevisBatchErrorResultAsJson(result);
+            }
+        }
+
+        public void UpdateDependent(User user, TransactionLogTypeBatchDetailProcessRecordDependent dependentRecord, PersonDependent dependent)
+        {
+            if (dependent != null && dependentRecord != null)
+            {
+                dependent.SevisId = dependentRecord.dependentSevisID;
+                var update = new Update(user);
+                update.SetHistory(dependent);
             }
         }
 
@@ -347,33 +416,19 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByTransactionLogQuery(TransactionLogType transactionLog)
-        {
-            Contract.Requires(transactionLog != null, "The transaction log must not be null.");
-            return CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID);
-        }
-
         private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
         {
-            return this.Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
+            return Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
         }
 
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchToProcessQuery()
-        {
-            return this.Context.SevisBatchProcessings
-                .Where(x => x.RetrieveDate.HasValue)
-                .Where(x => x.TransactionLogString != null)
-                .OrderBy(x => x.BatchId);
-        }
 
-        private IQueryable<int?> CreateGetNextSevisBatchIdToProcessQuery()
+        private IQueryable<Participant> CreateGetParticipantAndDependentsQuery(int participantId)
         {
-            return CreateGetSevisBatchToProcessQuery().Select(x => (int?)x.Id);
-        }
-
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchToProcessById(int id)
-        {
-            return CreateGetSevisBatchToProcessQuery().Where(x => x.Id == id);
+            var query = Context.Participants
+                .Include(x => x.Person)
+                .Include(x => x.Person.Family)
+                .Where(x => x.ParticipantId == participantId);
+            return query;
         }
 
         #endregion
