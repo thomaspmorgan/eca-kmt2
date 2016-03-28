@@ -1326,7 +1326,7 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), participantPerson.ParticipantPersonSevisCommStatuses.First()));
 
             var firstStatus = context.ParticipantPersonSevisCommStatuses.First();
-            Assert.AreEqual(SevisCommStatus.BatchRequestUnsuccessful.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(SevisCommStatus.InformationRequired.Id, firstStatus.SevisCommStatusId);
             Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
             DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
         }
@@ -1479,7 +1479,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
             var firstStatus = participantPerson.ParticipantPersonSevisCommStatuses.First();
-            Assert.AreEqual(SevisCommStatus.BatchRequestUnsuccessful.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(SevisCommStatus.InformationRequired.Id, firstStatus.SevisCommStatusId);
             firstStatus.AddedOn.Should().BeCloseTo(DateTimeOffset.UtcNow, 20000);
 
             Assert.IsNotNull(participantPerson.SevisBatchResult);

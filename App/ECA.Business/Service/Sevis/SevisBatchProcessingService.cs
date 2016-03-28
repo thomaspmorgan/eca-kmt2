@@ -376,7 +376,7 @@ namespace ECA.Business.Service.Sevis
         /// <returns>The new sevis comm status added to the participant.</returns>
         public ParticipantPersonSevisCommStatus AddSevisResultCommStatus(ResultType resultType, ParticipantPerson participantPerson)
         {
-            int commStatusId = SevisCommStatus.BatchRequestUnsuccessful.Id;
+            int commStatusId = SevisCommStatus.InformationRequired.Id;
             if (resultType.status)
             {
                 commStatusId = SevisCommStatus.BatchRequestSuccessful.Id;
