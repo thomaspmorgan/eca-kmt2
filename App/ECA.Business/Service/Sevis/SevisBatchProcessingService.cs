@@ -150,101 +150,36 @@ namespace ECA.Business.Service.Sevis
 
         #endregion
 
-        #region Update
-
-        ///// <summary>
-        ///// Indicates the batch has been successfully uploaded.
-        ///// </summary>
-        ///// <param name="id">The id of the batch.</param>
-        //public void BatchHasBeenSent(int id, string uploadDispositionCode)
-        //{
-        //    var batch = this.Context.SevisBatchProcessings.Find(id);
-        //    throwIfSevisBatchProcessingNotFound(batch, id);
-        //    DoBatchHasBeenSent(batch);
-        //}
-
-        ///// <summary>
-        ///// Indicates the batch has been successfully uploaded.
-        ///// </summary>
-        ///// <param name="id">The id of the batch.</param>
-        //public async Task BatchHasBeenSentAsync(int id, string uploadDispositionCode)
-        //{
-        //    var batch = await this.Context.SevisBatchProcessings.FindAsync(id);
-        //    throwIfSevisBatchProcessingNotFound(batch, id);
-        //    DoBatchHasBeenSent(batch);
-        //}
-
-        //private void DoBatchHasBeenSent(SevisBatchProcessing batch, string uploadDispositionCode)
-        //{
-        //    batch.SubmitDate = DateTimeOffset.UtcNow;
-        //}
-
-        ///// <summary>
-        ///// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        ///// </summary>
-        ///// <param name="xml">The transaction log as xml.</param>
-        //public void BatchHasBeenRetrieved(string xml)
-        //{
-        //    var transactionLog = DeserializeTransactionLogType(xml);
-        //    var batch = CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefault();
-        //    throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
-        //    DoBatchHasBeenRetrieved(xml, transactionLog, batch);
-        //}
-
-        ///// <summary>
-        ///// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        ///// </summary>
-        ///// <param name="xml">The transaction log as xml.</param>
-        //public async Task BatchHasBeenRetrievedAsync(string xml)
-        //{
-        //    var transactionLog = DeserializeTransactionLogType(xml);
-        //    var batch = await CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefaultAsync();
-        //    throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
-        //    DoBatchHasBeenRetrieved(xml, transactionLog, batch);
-        //}
-
-        //private void DoBatchHasBeenRetrieved(string xml, TransactionLogType transactionLog, SevisBatchProcessing sevisBatchProcessing)
-        //{
-        //    sevisBatchProcessing.RetrieveDate = DateTimeOffset.UtcNow;
-        //    sevisBatchProcessing.TransactionLogString = xml;
-        //}
-        #endregion
-
         #region Process Transaction Log
 
-        //public void ProcessTransactionLog(int id)
-        //{
-        //    var batchToProcess = CreateGetSevisBatchToProcessById(id).FirstOrDefault();
-        //    if (batchToProcess != null && batchToProcess.TransactionLogString != null)
-        //    {
-
-
-
-
-        //    }
-        //}
-
-        //public async Task ProcessTransactionLogAsync(int id)
-        //{
-        //    var batchToProcess = await CreateGetSevisBatchToProcessById(id).FirstOrDefaultAsync();
-        //    if (batchToProcess != null && batchToProcess.TransactionLogString != null)
-        //    {
-
-        //    }
-        //}
-
+        /// <summary>
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
+        /// </summary>
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
         public void ProcessTransactionLog(User user, string xml)
         {
             var transactionLog = DeserializeTransactionLogType(xml);
             ProcessTransactionLog(user, xml, transactionLog);
         }
 
+        /// <summary>
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
+        /// </summary>
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
         public Task ProcessTransactionLogAsync(User user, string xml)
         {
             var transactionLog = DeserializeTransactionLogType(xml);
             return ProcessTransactionLogAsync(user, xml, transactionLog);
         }
 
+        /// <summary>
+        /// Processes the given transaction log and its original xml
+        /// </summary>
+        /// <param name="user">The user performing the transaction.</param>
+        /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="transactionLog">The deserialized transaction log.</param>
         public void ProcessTransactionLog(User user, string xml, TransactionLogType transactionLog)
         {
             var batch = CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefault();
@@ -256,6 +191,12 @@ namespace ECA.Business.Service.Sevis
             DoProcessTransactionLog(user, xml, transactionLog, batch);
         }
 
+        /// <summary>
+        /// Processes the given transaction log and its original xml
+        /// </summary>
+        /// <param name="user">The user performing the transaction.</param>
+        /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="transactionLog">The deserialized transaction log.</param>
         public async Task ProcessTransactionLogAsync(User user, string xml, TransactionLogType transactionLog)
         {
             var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefaultAsync();
@@ -269,12 +210,17 @@ namespace ECA.Business.Service.Sevis
 
         private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
         {
-            ProcessDownload(user, transactionLog.BatchDetail.Download, batch);
-            ProcessUpload(user, transactionLog.BatchDetail.Upload, batch);
+            ProcessDownload(transactionLog.BatchDetail.Download, batch);
+            ProcessUpload(transactionLog.BatchDetail.Upload, batch);
             batch.TransactionLogString = xml;
         }
 
-        public void ProcessUpload(User user, TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
+        /// <summary>
+        /// Updates the given sevis batch with the upload details.
+        /// </summary>
+        /// <param name="uploadDetail">The upload details from the transaction log.</param>
+        /// <param name="batch">The batch to update.</param>
+        public void ProcessUpload(TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
         {
             if (uploadDetail != null)
             {
@@ -283,7 +229,12 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        public void ProcessDownload(User user, TransactionLogTypeBatchDetailDownload downloadDetail, SevisBatchProcessing batch)
+        /// <summary>
+        /// Updates the given sevis batch with the download details.
+        /// </summary>
+        /// <param name="downloadDetail">The download details from the transction log.</param>
+        /// <param name="batch">The batch to update.</param>
+        public void ProcessDownload(TransactionLogTypeBatchDetailDownload downloadDetail, SevisBatchProcessing batch)
         {
             if (downloadDetail != null)
             {
@@ -292,6 +243,12 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
+        /// <summary>
+        /// Updates the participants and dependents with the given process details from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the transaction log.</param>
+        /// <param name="process">The process details from the transaction log.</param>
+        /// <param name="batch">The batch to update.</param>
         public void ProcessBatchDetailProcess(User user, TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
         {
             if (process != null)
@@ -304,11 +261,17 @@ namespace ECA.Business.Service.Sevis
                     var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
 
                     var dependents = participant.Person.Family.ToList();
-                    UpdateParticipant(user, participant, participantPerson, dependents, record);
+                    UpdateParticipant(user, participantPerson, dependents, record);
                 }
             }
         }
 
+        /// <summary>
+        /// Updates the participants and dependents with the given process details from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the transaction log.</param>
+        /// <param name="process">The process details from the transaction log.</param>
+        /// <param name="batch">The batch to update.</param>
         public async Task ProcessBatchDetailProcessAsync(User user, TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
         {
             if (process != null)
@@ -321,12 +284,20 @@ namespace ECA.Business.Service.Sevis
                     var participantPerson = await Context.ParticipantPersons.FindAsync(participantKey.ParticipantId);
 
                     var dependents = participant.Person.Family.ToList();
-                    UpdateParticipant(user, participant, participantPerson, dependents, record);
+                    UpdateParticipant(user, participantPerson, dependents, record);
                 }
             }
         }
 
-        public void UpdateParticipant(User user, Participant participant, ParticipantPerson participantPerson, List<PersonDependent> dependents, TransactionLogTypeBatchDetailProcessRecord record)
+        /// <summary>
+        /// Updates the participant and the dependents with the given transaction log or reports the transaction log errors to
+        /// the participant person.
+        /// </summary>
+        /// <param name="user">The user processing the transaction log.</param>
+        /// <param name="participantPerson">The participant person to update.</param>
+        /// <param name="dependents">The dependents of the participant.</param>
+        /// <param name="record">The record from the transaction log to process.</param>
+        public void UpdateParticipant(User user, ParticipantPerson participantPerson, List<PersonDependent> dependents, TransactionLogTypeBatchDetailProcessRecord record)
         {
             var result = record.Result;
             AddSevisResultCommStatus(record.Result, participantPerson);
@@ -356,6 +327,12 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
+        /// <summary>
+        /// Updates the dependent with the depenent record from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the dependents.</param>
+        /// <param name="dependentRecord">The dependent record from the transaction log.</param>
+        /// <param name="dependent">The dependent to update.</param>
         public void UpdateDependent(User user, TransactionLogTypeBatchDetailProcessRecordDependent dependentRecord, PersonDependent dependent)
         {
             if (dependent != null && dependentRecord != null)
@@ -366,6 +343,11 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
+        /// <summary>
+        /// Creates a json string from the given result type.
+        /// </summary>
+        /// <param name="resultType">The result type.</param>
+        /// <returns>The json string.</returns>
         public string GetSevisBatchErrorResultAsJson(ResultType resultType)
         {
             var instance = new SimpleSevisBatchErrorResult();
@@ -386,6 +368,12 @@ namespace ECA.Business.Service.Sevis
             };
         }
 
+        /// <summary>
+        /// Adds a sevis comm status to the participant based on the sevis transaction log result type.
+        /// </summary>
+        /// <param name="resultType">The transaction log result.</param>
+        /// <param name="participantPerson">The participant to add the status to.</param>
+        /// <returns>The new sevis comm status added to the participant.</returns>
         public ParticipantPersonSevisCommStatus AddSevisResultCommStatus(ResultType resultType, ParticipantPerson participantPerson)
         {
             int commStatusId = SevisCommStatus.BatchRequestUnsuccessful.Id;

@@ -51,8 +51,21 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the staging.</param>
         /// <returns>The list of staged sevis batches.</returns>
-        Task<List<StagedSevisBatch>> StageBatchesAsync(User user);        
-        
+        Task<List<StagedSevisBatch>> StageBatchesAsync(User user);
+
+        /// <summary>
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
+        /// </summary>
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        void ProcessTransactionLog(User user, string xml);
+
+        /// <summary>
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
+        /// </summary>
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        Task ProcessTransactionLogAsync(User user, string xml);
     }
 
     /// <summary>
@@ -109,10 +122,34 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <param name="xml"></param>
+        public void ProcessTransactionLog(User user, string xml)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(xml != null, "The xml must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
         public Task ProcessTransactionLogAsync(string xml)
         {
+            Contract.Requires(xml != null, "The xml must not be null.");
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public Task ProcessTransactionLogAsync(User user, string xml)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
             return Task.FromResult<object>(null);
         }

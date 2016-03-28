@@ -1423,7 +1423,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Dependent = null
             };
 
-            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent>(), record);
+            service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
             Assert.AreEqual(record.sevisID, participantPerson.SevisId);
             Assert.IsNull(participantPerson.SevisBatchResult);
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
@@ -1469,7 +1469,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Dependent = null
             };
 
-            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent>(), record);
+            service.UpdateParticipant(user,  participantPerson, new List<PersonDependent>(), record);
             Assert.IsNull(participantPerson.SevisId);
 
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
@@ -1543,7 +1543,7 @@ namespace ECA.Business.Test.Service.Sevis
                 }.ToArray()
             };
 
-            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent> { personDependent }, record);
+            service.UpdateParticipant(user,  participantPerson, new List<PersonDependent> { personDependent }, record);
             Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
             Assert.AreEqual(otherUser.Id, personDependent.History.CreatedBy);
             Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
@@ -1612,7 +1612,7 @@ namespace ECA.Business.Test.Service.Sevis
                 }.ToArray()
             };
 
-            service.UpdateParticipant(user, participant, participantPerson, new List<PersonDependent> { personDependentToUpdate, otherPersonDependent }, record);
+            service.UpdateParticipant(user, participantPerson, new List<PersonDependent> { personDependentToUpdate, otherPersonDependent }, record);
 
             Assert.IsNull(otherPersonDependent.SevisId);
             Assert.AreEqual(processedDepenent.dependentSevisID, personDependentToUpdate.SevisId);
@@ -1831,13 +1831,12 @@ namespace ECA.Business.Test.Service.Sevis
             {
 
             };
-            var user = new User(1);
             var downloadDetail = new TransactionLogTypeBatchDetailDownload
             {
                 resultCode = DispositionCode.BusinessRuleViolations.Code,
             };
 
-            service.ProcessDownload(user, downloadDetail, sevisBatch);
+            service.ProcessDownload(downloadDetail, sevisBatch);
             DateTimeOffset.UtcNow.Should().BeCloseTo(sevisBatch.RetrieveDate.Value, 20000);
             Assert.AreEqual(downloadDetail.resultCode, sevisBatch.DownloadDispositionCode);
             Assert.IsNull(sevisBatch.UploadDispositionCode);
@@ -1851,9 +1850,8 @@ namespace ECA.Business.Test.Service.Sevis
             {
 
             };
-            var user = new User(1);
 
-            service.ProcessDownload(user, null, sevisBatch);
+            service.ProcessDownload(null, sevisBatch);
             Assert.IsNull(sevisBatch.RetrieveDate);
             Assert.IsNull(sevisBatch.DownloadDispositionCode);
             Assert.IsNull(sevisBatch.UploadDispositionCode);
@@ -1867,7 +1865,6 @@ namespace ECA.Business.Test.Service.Sevis
             {
 
             };
-            var user = new User(1);
             var today = DateTime.UtcNow;
             var uploadDetail = new TransactionLogTypeBatchDetailUpload
             {
@@ -1875,7 +1872,7 @@ namespace ECA.Business.Test.Service.Sevis
                 dateTimeStamp = today
             };
 
-            service.ProcessUpload(user, uploadDetail, sevisBatch);
+            service.ProcessUpload(uploadDetail, sevisBatch);
             Assert.AreEqual(today, sevisBatch.SubmitDate);
             Assert.AreEqual(uploadDetail.resultCode, sevisBatch.UploadDispositionCode);
             Assert.IsNull(sevisBatch.DownloadDispositionCode);
@@ -1889,9 +1886,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
 
             };
-            var user = new User(1);
-
-            service.ProcessUpload(user, null, sevisBatch);
+            service.ProcessUpload(null, sevisBatch);
             Assert.IsNull(sevisBatch.SubmitDate);
             Assert.IsNull(sevisBatch.DownloadDispositionCode);
             Assert.IsNull(sevisBatch.UploadDispositionCode);
