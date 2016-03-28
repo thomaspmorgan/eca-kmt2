@@ -25,9 +25,6 @@ angular.module('staticApp')
           return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
-                 if ($scope.dependent.placeOfBirth) {
-                     $scope.dependent.cityOfBirthId = $scope.dependent.placeOfBirth.id;
-                 }
                  $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
                      var location = {};
                      location.id = obj.id;
@@ -38,8 +35,6 @@ angular.module('staticApp')
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
                  
-                 loadResidenceCountries();
-
                  return loadDependentCities(null)
                  .then(function () {
                      $scope.dependentLoading = false;
@@ -86,8 +81,8 @@ angular.module('staticApp')
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
               }
-              else if ($scope.dependent.cityOfBirthId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.cityOfBirthId });
+              else if ($scope.dependent.placeOfBirth_LocationId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirth_LocationId });
               }
               return LocationService.get(params)
                 .then(function (data) {
@@ -115,20 +110,18 @@ angular.module('staticApp')
                 });
           }
 
-      function loadResidenceCountries() {
-          var params = {
-              limit: 300,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-                { property: 'isActive', comparison: 'eq', value: true }
-              ]};
+        var params = {
+            limit: 300,
+            filter: [
+            { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+            { property: 'isActive', comparison: 'eq', value: true }
+            ]};
 
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.countriesResidence = data.results;
-                    return $scope.countriesResidence;
-                });
-      }
+            return LocationService.get(params)
+            .then(function (data) {
+                $scope.countriesResidence = data.results;
+                return $scope.countriesResidence;
+            });
 
       LookupService.getAllGenders({
             limit: 300,

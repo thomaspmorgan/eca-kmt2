@@ -220,7 +220,7 @@ namespace ECA.Business.Service.Persons
         private IQueryable<SimplePersonDependentDTO> CreateGetSimplePersonDependent(int dependentId)
         {
             var query = PersonQueries.CreateGetSimplePersonDependentDTOsQuery(this.Context);
-            return query.Where(p => p.PersonId == dependentId);
+            return query.Where(p => p.DependentId == dependentId);
         }
         
         /// <summary>

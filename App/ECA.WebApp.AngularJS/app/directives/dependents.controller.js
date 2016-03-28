@@ -69,7 +69,7 @@ angular.module('staticApp')
       
       $scope.view.onDeleteDependentClick = function (index) {
           $scope.view.isDeletingDependent = true;
-          var dependent = $scope.model.dependants[index];
+          var dependent = $scope.model.dependents[index];
           return DependentService.delete($scope.view.params.personId, dependent.id)
           .then(function () {
               NotificationService.showSuccessMessage("Successfully deleted dependent.");
@@ -94,8 +94,8 @@ angular.module('staticApp')
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
               }
-              else if ($scope.dependent.cityOfBirthId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.cityOfBirthId });
+              else if ($scope.dependent.placeOfBirth_LocationId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirth_LocationId });
               }
               return LocationService.get(params)
                 .then(function (data) {
