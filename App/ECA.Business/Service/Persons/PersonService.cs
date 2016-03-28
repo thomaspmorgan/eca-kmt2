@@ -168,15 +168,7 @@ namespace ECA.Business.Service.Persons
                 Context.People.Remove(personToDelete);
             }
         }
-
-        private void DoDeleteDependent(PersonDependent dependentToDelete)
-        {
-            if (dependentToDelete != null)
-            {
-                Context.PersonDependents.Remove(dependentToDelete);
-            }
-        }
-
+        
         /// <summary>
         /// Update general
         /// </summary>
@@ -223,6 +215,11 @@ namespace ECA.Business.Service.Persons
             return query.Where(p => p.DependentId == dependentId);
         }
         
+        private async Task<PersonDependent> GetPersonDependentAsync(int dependentId)
+        {
+            return await Context.PersonDependents.FindAsync(dependentId);
+        }
+
         /// <summary>
         /// Create a person dependent
         /// </summary>
@@ -247,7 +244,11 @@ namespace ECA.Business.Service.Persons
         public async Task<PersonDependent> UpdatePersonDependentAsync(UpdatedPersonDependent updatedDependent)
         {
             var personToUpdate = await GetPersonDependentModelByIdAsync(updatedDependent.DependentId);
-            var countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
+            var countriesOfCitizenship = new List<Location>();
+            if (updatedDependent.CountriesOfCitizenship != null)
+            {
+                countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
+            }
             DoDependentUpdate(updatedDependent, personToUpdate, countriesOfCitizenship);
 
             return personToUpdate;
@@ -266,6 +267,8 @@ namespace ECA.Business.Service.Persons
             person.PlaceOfBirth_LocationId = updateDependent.PlaceOfBirth_LocationId;
             person.Residence_LocationId = updateDependent.Residence_LocationId;
             person.BirthCountryReason = updateDependent.BirthCountryReason;
+            person.IsTravellingWithParticipant = updateDependent.IsTravellingWithParticipant;
+            person.IsDeleted = updateDependent.IsDeleted;
             updateDependent.Audit.SetHistory(person);
             SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
         }
@@ -273,15 +276,13 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Deletes a dependent from a person family
         /// </summary>
-        /// <param name="personId"></param>
         /// <param name="dependentId"></param>
         /// <returns></returns>
-        public async Task DeletePersonDependentByIdAsync(int personId, int dependentId)
+        public async Task DeletePersonDependentByIdAsync(int dependentId)
         {
-            var person = await Context.People.FindAsync(personId);
-            var dependent = await Context.PersonDependents.FindAsync(dependentId);
-            person.Family.Remove(dependent);
-            DoDeleteDependent(dependent);
+            var dependent = await GetPersonDependentAsync(dependentId);
+
+            //person.Family.Remove(dependent);
         }
         
         #endregion
@@ -724,17 +725,17 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Get the person dependent by id 
         /// </summary>
-        /// <param name="personId">The person id to lookup</param>
+        /// <param name="dependentId">The person id to lookup</param>
         /// <returns>The person model</returns>
-        private async Task<PersonDependent> GetPersonDependentModelByIdAsync(int personId)
+        private async Task<PersonDependent> GetPersonDependentModelByIdAsync(int dependentId)
         {
-            this.logger.Trace("Retrieving person with id {0}.", personId);
-            return await CreateGetPersonDependentById(personId);
+            this.logger.Trace("Retrieving dependent with id {0}.", dependentId);
+            return await CreateGetPersonDependentById(dependentId);
         }
 
-        private async Task<PersonDependent> CreateGetPersonDependentById(int personId)
+        private async Task<PersonDependent> CreateGetPersonDependentById(int dependentId)
         {
-            return await Context.PersonDependents.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
+            return await Context.PersonDependents.Where(x => x.DependentId == dependentId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
         }
         
         /// <summary>

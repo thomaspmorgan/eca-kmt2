@@ -25,8 +25,8 @@ angular.module('staticApp')
           create: function (dependent, personId) {
               return DragonBreath.create(dependent, 'people/' + personId + '/dependent');
           },
-          delete: function (personId, dependentId) {
-              return DragonBreath.delete('person/' + personId + '/dependent/' + dependentId);
+          delete: function (dependentId) {
+              return DragonBreath.delete('person/dependent/' + dependentId);
           }
       };
   });

@@ -63,8 +63,8 @@ namespace ECA.Business.Service.Persons
             this.BirthCountryReason = birthCountryReason;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsTravellingWithParticipant = isTravelWithParticipant;
-            this.IsDeleted = IsDeleted;
-            this.IsSevisDeleted = IsSevisDeleted;
+            this.IsDeleted = isDeleted;
+            this.IsSevisDeleted = isSevisDeleted;
             this.Audit = new Create(updater);
         }
 

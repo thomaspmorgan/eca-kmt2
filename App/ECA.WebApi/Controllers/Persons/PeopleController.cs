@@ -376,26 +376,7 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         #endregion
-
-        #region Delete
-
-        /// <summary>
-        /// Deletes a dependent from the person.
-        /// </summary>
-        /// <param name="personId"></param>
-        /// <param name="dependentId"></param>
-        /// <returns></returns>
-        [Route("Person/{personId:int}/Dependent/{dependentId:int}")]
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeleteDependentAsync(int personId, int dependentId)
-        {
-            await service.DeletePersonDependentByIdAsync(personId, dependentId);
-            await service.SaveChangesAsync();
-            return Ok();
-        }
-
-        #endregion
-
+        
         #region Address
         /// <summary>
         /// Adds a new address to the person.

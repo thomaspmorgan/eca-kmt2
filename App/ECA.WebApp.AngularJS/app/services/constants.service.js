@@ -1,4 +1,23 @@
-﻿angular.module('staticApp').factory('ConstantsService', function() {
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -203,6 +222,7 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		removeNewAddressEventName: 'removeNewAddress',
+		removeNewDependentEventName: 'newDependent',
 		removeNewEducationEventName: 'removeNewEducation',
 		removeNewEmailAddressEventName: 'removeNewEmailAddress',
 		removeNewEmploymentEventName: 'removeNewEmployment',
@@ -214,8 +234,9 @@
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
-		sevisStatuses: '[2, 3, 4, 5]',
+		sevisStatuses: '[2, 3, 4, 5, 15]',
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
+
 

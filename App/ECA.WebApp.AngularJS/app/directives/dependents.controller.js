@@ -17,7 +17,8 @@ angular.module('staticApp')
         ConstantsService,
         DependentService,
         LocationService,
-        NotificationService
+        NotificationService,
+        DateTimeService
         ) {
 
       $scope.view = {};
@@ -67,22 +68,51 @@ angular.module('staticApp')
           });
       };
       
+      function saveEditDependent(dependent) {
+          return DependentService.update(dependent, dependent.personId)
+              .then(function (response) {
+                  NotificationService.showSuccessMessage("The dependent delete was successful.");
+              },
+              function (error) {
+                  if (error.status == 400) {
+                      if (error.data.message && error.data.modelState) {
+                          for (var key in error.data.modelState) {
+                              NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                          }
+                      }
+                      else if (error.data.Message && error.data.ValidationErrors) {
+                          for (var key in error.data.ValidationErrors) {
+                              NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                          }
+                      } else {
+                          NotificationService.showErrorMessage(error.data);
+                      }
+                  } else {
+                      if (error) {
+                          NotificationService.showErrorMessage(error.status + ': ' + error.statusText);
+                      }
+                  }
+              });
+      };
+      
       $scope.view.onDeleteDependentClick = function (index) {
           $scope.view.isDeletingDependent = true;
-          var dependent = $scope.model.dependents[index];
-          return DependentService.delete($scope.view.params.personId, dependent.id)
-          .then(function () {
-              NotificationService.showSuccessMessage("Successfully deleted dependent.");
-              $scope.view.isDeletingDependent = false;
-              removeDependentFromView(index);
+          var obj = $scope.model.dependents[index];
+          $scope.dependent = {};
+          return DependentService.getDependentById(obj.id)
+             .then(function (data) {
+                 $scope.dependent = data;
+                 $scope.dependent.isDeleted = true;
+                 saveEditDependent($scope.dependent);
+                 removeDependentFromView(index);
           })
           .catch(function () {
               var message = "Unable to delete dependent.";
               $log.error(message);
               NotificationService.showErrorMessage(message);
-          });
+          });          
       };
-
+      
       function loadCities(search) {
           if (search || $scope.dependent) {
               var params = {
