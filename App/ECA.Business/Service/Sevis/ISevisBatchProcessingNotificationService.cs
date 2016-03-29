@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Sevis;
+﻿using ECA.Business.Sevis.Model;
+using ECA.Business.Validation.Sevis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,5 +36,34 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="exchangeVisitor">The invalid exchange visitor.</param>
         void NotifyInvalidExchangeVisitor(ExchangeVisitor exchangeVisitor);
+
+        /// <summary>
+        /// Executed when a batch has been uploaded to the sevis api.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that was uploaded.</param>
+        /// <param name="dispositionCode">The upload disposition code.</param>
+        void NotifyUploadedBatchProcessed(string batchId, DispositionCode dispositionCode);
+
+        /// <summary>
+        /// Executed when a batch has been downloaded from the sevis api.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that was downloaded.</param>
+        /// <param name="dispositionCode">The disposition code of the batch.</param>
+        void NotifyDownloadedBatchProcessed(string batchId, DispositionCode dispositionCode);
+
+        /// <summary>
+        /// Executed when the batch details of the transaction log have been processed.
+        /// </summary>
+        /// <param name="batchId">The id of the batch.</param>
+        /// <param name="dispositionCode">The process disposition code.</param>
+        void NotifyFinishedProcessingSevisBatchDetails(string batchId, DispositionCode dispositionCode);
+
+        /// <summary>
+        /// Executed when the batch details of the transaction log are being processed.
+        /// </summary>
+        /// <param name="errorCount">The number of participants that failed the sevis create or update.</param>
+        /// <param name="successCount">The number of participants that succeeded the sevis create or update.</param>
+        /// <param name="batchId">The id of the batch.</param>
+        void NotifyStartedProcessingSevisBatchDetails(string batchId, int successCount, int errorCount);
     }
 }

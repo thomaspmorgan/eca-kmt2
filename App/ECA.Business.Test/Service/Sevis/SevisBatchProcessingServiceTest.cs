@@ -120,17 +120,6 @@ namespace ECA.Business.Test.Service.Sevis
             return person;
         }
 
-        private TransactionLogType GetTransactionLogType(string xml)
-        {
-            using (var memoryStream = new MemoryStream())
-            using (var stringReader = new StringReader(xml))
-            {
-                var serializer = new XmlSerializer(typeof(TransactionLogType));
-                var transactionLogType = (TransactionLogType)serializer.Deserialize(stringReader);
-                return transactionLogType;
-            }
-        }
-
         private string GetXml(TransactionLogType transactionLog)
         {
             using (var textWriter = new StringWriter())
@@ -1166,105 +1155,6 @@ namespace ECA.Business.Test.Service.Sevis
         }
         #endregion
 
-        #region Update
-        //[TestMethod]
-        //public async Task TestBatchHasBeenSent()
-        //{
-        //    var id = 1;
-        //    SevisBatchProcessing batch = null;
-
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        batch = new SevisBatchProcessing
-        //        {
-        //            Id = id,
-        //        };
-        //        context.SevisBatchProcessings.Add(batch);
-        //    });
-        //    Action tester = () =>
-        //    {
-        //        Assert.AreEqual(1, context.SevisBatchProcessings.Count());
-        //        Assert.IsTrue(Object.ReferenceEquals(batch, context.SevisBatchProcessings.First()));
-        //        DateTimeOffset.UtcNow.Should().BeCloseTo(batch.SubmitDate.Value, 20000);
-        //    };
-        //    context.Revert();
-        //    service.BatchHasBeenSent(id);
-        //    tester();
-
-        //    context.Revert();
-        //    await service.BatchHasBeenSentAsync(id);
-        //    tester();
-        //}
-
-        //[TestMethod]
-        //public async Task TestBatchHasBeenSent_ModelDoesNotExist()
-        //{
-        //    var id = 1;
-        //    var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", id);
-        //    Action a = () => service.BatchHasBeenSent(id);
-        //    Func<Task> f = () => service.BatchHasBeenSentAsync(id);
-        //    a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        //    f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        //}
-
-        //[TestMethod]
-        //public async Task TestBatchHasBeenRetrieved()
-        //{
-        //    var id = 1;
-        //    var batchId = "batch Id";
-        //    var transactionLog = new TransactionLogType
-        //    {
-        //        BatchHeader = new TransactionLogTypeBatchHeader
-        //        {
-        //            BatchID = batchId
-        //        }
-        //    };
-        //    SevisBatchProcessing instance = null;
-        //    context.SetupActions.Add(() =>
-        //    {
-        //        instance = new SevisBatchProcessing
-        //        {
-        //            BatchId = batchId,
-        //            Id = id
-        //        };
-        //        context.SevisBatchProcessings.Add(instance);
-        //    });
-        //    var xml = GetXml(transactionLog);
-        //    Action tester = () =>
-        //    {
-        //        Assert.AreEqual(instance.TransactionLogString, xml);
-        //        DateTimeOffset.UtcNow.Should().BeCloseTo(instance.RetrieveDate.Value, 20000);
-        //    };
-
-        //    context.Revert();
-        //    service.BatchHasBeenRetrieved(xml);
-        //    tester();
-
-        //    context.Revert();
-        //    await service.BatchHasBeenRetrievedAsync(xml);
-        //    tester();
-        //}
-
-        //[TestMethod]
-        //public async Task TestBatchHasBeenRetrieved_BatchDoesNotExist()
-        //{
-        //    var batchId = "batch Id";
-        //    var transactionLog = new TransactionLogType
-        //    {
-        //        BatchHeader = new TransactionLogTypeBatchHeader
-        //        {
-        //            BatchID = batchId
-        //        }
-        //    };
-        //    var xml = GetXml(transactionLog);
-        //    var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId);
-        //    Action a = () => service.BatchHasBeenRetrieved(xml);
-        //    Func<Task> f = () => service.BatchHasBeenRetrievedAsync(xml);
-        //    a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        //    f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
-        //}
-        #endregion
-
         #region Process Transaction Log
         [TestMethod]
         public void TestGetSevisBatchErrorResultAsJson()
@@ -1471,7 +1361,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Dependent = null
             };
 
-            service.UpdateParticipant(user,  participantPerson, new List<PersonDependent>(), record);
+            service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
             Assert.IsNull(participantPerson.SevisId);
 
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
@@ -1545,7 +1435,7 @@ namespace ECA.Business.Test.Service.Sevis
                 }.ToArray()
             };
 
-            service.UpdateParticipant(user,  participantPerson, new List<PersonDependent> { personDependent }, record);
+            service.UpdateParticipant(user, participantPerson, new List<PersonDependent> { personDependent }, record);
             Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
             Assert.AreEqual(otherUser.Id, personDependent.History.CreatedBy);
             Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
@@ -1681,7 +1571,12 @@ namespace ECA.Business.Test.Service.Sevis
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
-                resultCode = "result code"
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                {
+                    Failure = "1",
+                    Success = "2"
+                }
             };
             Action tester = () =>
             {
@@ -1692,10 +1587,14 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch);
             tester();
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
 
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
             tester();
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -1754,10 +1653,14 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessBatchDetailProcess(user, null, batch);
             tester();
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
 
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, null, batch);
             tester();
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
 
         [TestMethod]
@@ -1815,15 +1718,25 @@ namespace ECA.Business.Test.Service.Sevis
 
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
-                Record = new List<TransactionLogTypeBatchDetailProcessRecord>().ToArray()
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord>().ToArray(),
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                {
+                    Failure = "1",
+                    Success = "2"
+                }
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch);
             tester();
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
 
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
             tester();
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -1843,6 +1756,7 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(downloadDetail.resultCode, sevisBatch.DownloadDispositionCode);
             Assert.IsNull(sevisBatch.UploadDispositionCode);
             Assert.IsNull(sevisBatch.ProcessDispositionCode);
+            notificationService.Verify(x => x.NotifyDownloadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -1915,10 +1829,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);
             tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
 
             context.Revert();
             await service.ProcessUploadAsync(uploadDetail, sevisBatch);
             tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -1960,10 +1876,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);
             tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
 
             context.Revert();
             await service.ProcessUploadAsync(uploadDetail, sevisBatch);
             tester();
+            notificationService.Verify(x => x.NotifyUploadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -2052,6 +1970,7 @@ namespace ECA.Business.Test.Service.Sevis
             });
             Action tester = () =>
             {
+                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
                 Assert.AreEqual(sevisId, participantPerson.SevisId);
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
             };
@@ -2067,7 +1986,8 @@ namespace ECA.Business.Test.Service.Sevis
             SetUserDefinedFields(record, participantId, personId);
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
-                Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray()
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
+                resultCode = DispositionCode.DocumentNameInvalid.Code
             };
             var transactionLog = new TransactionLogType
             {
@@ -2085,10 +2005,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessTransactionLog(user, xml);
             tester();
+            Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
             await service.ProcessTransactionLogAsync(user, xml);
             tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
 
         [TestMethod]
@@ -2134,10 +2056,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessTransactionLog(user, xml);
             tester();
+            Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
             await service.ProcessTransactionLogAsync(user, xml);
             tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
 
         [TestMethod]
@@ -2185,12 +2109,35 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessTransactionLog(user, xml);
             tester();
+            Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
             await service.ProcessTransactionLogAsync(user, xml);
             tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
         #endregion
+
+        [TestMethod]
+        public void TestDelete()
+        {
+            var batchToRemove = new SevisBatchProcessing
+            {
+
+            };
+            context.SevisBatchProcessings.Add(batchToRemove);
+
+            Assert.AreEqual(1, context.SevisBatchProcessings.Count());
+            service.DeleteBatch(batchToRemove);
+            Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+        }
+
+        [TestMethod]
+        public void TestDelete_NullBatch()
+        {
+            Action a = () => service.DeleteBatch(null);
+            a.ShouldNotThrow();
+        }
 
         public void SetUserDefinedFields(TransactionLogTypeBatchDetailProcessRecord record, int participantId, int personId)
         {
