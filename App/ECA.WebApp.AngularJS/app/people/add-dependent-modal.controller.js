@@ -7,9 +7,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AddDependentModalCtrl', function ($scope, $timeout, $modalInstance,
+  .controller('AddDependentModalCtrl', function ($scope, $timeout, $modalInstance, $stateParams,
           PersonService, DependentService, LookupService, LocationService, ConstantsService,
-          $stateParams, NotificationService, FilterService, $q, DateTimeService) {
+          NotificationService, FilterService, $q, DateTimeService) {
 
       $scope.dependent = getNewDependent();
       $scope.dependent.projectId = parseInt($stateParams.projectId, 10);
@@ -22,9 +22,10 @@ angular.module('staticApp')
 
       function saveNewDependent() {
           setupDependent();
-          return DependentService.create($scope.dependent, $scope.dependent.personId)
+          return DependentService.create($scope.dependent, $stateParams.personId)
               .then(function (response) {
                   NotificationService.showSuccessMessage("Finished adding dependent.");
+                  return response.data;
               },
               function (error) {
                   if (error.status == 400) {
@@ -49,6 +50,7 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
+          $scope.dependent.personId = $stateParams.personId;
           $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
@@ -83,7 +85,7 @@ angular.module('staticApp')
               start: 0,
               limit: 25,
               filter: [{ property: 'name', comparison: 'like', value: val },
-                       { property: 'countryId', comparison: 'eq', value: $scope.pii.countryOfBirthId },
+                       { property: 'countryId', comparison: 'eq', value: $scope.dependent.countryOfBirthId },
                        { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
           }).then(function (data) {
               $scope.cities = data.results;
@@ -128,21 +130,18 @@ angular.module('staticApp')
                 });
           }
 
-      function loadResidenceCountries() {
-          var params = {
-              limit: 300,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-                { property: 'isActive', comparison: 'eq', value: true }
-              ]
-          };
+        var params = {
+            limit: 300,
+            filter: [
+            { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+            { property: 'isActive', comparison: 'eq', value: true }
+            ]
+        };
 
-          return LocationService.get(params)
-            .then(function (data) {
-                $scope.countriesResidence = data.results;
-                return $scope.countriesResidence;
-            });
-      }
+        LocationService.get(params)
+          .then(function (data) {
+             $scope.countriesResidence = data.results;
+        });
 
       LookupService.getAllGenders({
           limit: 300,

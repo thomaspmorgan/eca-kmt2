@@ -262,11 +262,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Post method to create a person dependent
         /// </summary>
-        /// <param name="personId">The id of the person.</param>
         /// <param name="model">The model to create</param>
+        /// <param name="personId">The id of the person.</param>
         /// <returns></returns>
+        [ResponseType(typeof(PersonDependent))]
         [Route("People/{personId:int}/Dependent")]
-        public async Task<IHttpActionResult> PostPersonDependentAsync(int personId, DependentBindingModel model)
+        public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model, int personId)
         {
             if (ModelState.IsValid)
             {
@@ -274,7 +275,7 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
                 await service.SaveChangesAsync();
-                return Ok();
+                return Ok(person);
             }
             else
             {
@@ -375,26 +376,7 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         #endregion
-
-        #region Delete
-
-        /// <summary>
-        /// Deletes a dependent from the person.
-        /// </summary>
-        /// <param name="personId"></param>
-        /// <param name="dependentId"></param>
-        /// <returns></returns>
-        [Route("Person/{personId:int}/Dependent/{dependentId:int}")]
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeleteDependentAsync(int personId, int dependentId)
-        {
-            await service.DeletePersonDependentByIdAsync(personId, dependentId);
-            await service.SaveChangesAsync();
-            return Ok();
-        }
-
-        #endregion
-
+        
         #region Address
         /// <summary>
         /// Adds a new address to the person.

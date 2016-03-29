@@ -7,7 +7,7 @@
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <div ng-show="!dependentsLoading">
+    <div in-context-form ng-show="!dependentsLoading">
         <form name="dependentForm" class="form-horizontal">
             <div class="form-group row">
                 <div class="col-md-4 title-label">Relationship<span class="asterisk"> *</span></div>
@@ -68,7 +68,7 @@
             <div class="form-group row">
                 <div class="col-md-4 title-label">City of Birth<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
-                    <ui-select ng-model="dependent.cityOfBirthId"
+                    <ui-select ng-model="dependent.placeOfBirth_LocationId"
                                theme="select2"
                                name="cityOfBirthId"
                                ui-validate="{isDependentPlaceOfBirthValid: 'isDependentPlaceOfBirthValid($value)'}">
@@ -81,7 +81,7 @@
                             <div style="margin-left:10px;" class="small" ng-show="city.country">{{city.country}}</div>
                         </ui-select-choices>
                     </ui-select>
-                    <div class="error" ng-show="dependentForm.cityOfBirthId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
+                    <div class="error" ng-show="dependentForm.placeOfBirth_LocationId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
                 </div>
             </div>
             <div class="form-group row">
@@ -128,19 +128,21 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="countryId">Permanent Residence Country<span class="asterisk"> *</span></label>
-                <select class="form-control"
-                        ng-options="t.id as t.name for t in countriesResidence"
-                        ng-model="dependent.permanentResidenceCountryCode"
-                        required />
+                <div class="col-md-4 title-label" for="countryId">Permanent Residence Country<span class="asterisk"> *</span></div>
+                <div class="col-md-8">
+                    <select class="form-control"
+                            ng-options="t.id as t.name for t in countriesResidence"
+                            ng-model="dependent.residence_LocationId"
+                            required />
+                </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col-md-4 title-label">Birth Country Reason</div>
                 <div class="col-md-8">
                     <input type="text" class="form-control" ng-model="dependent.birthCountryReason" />
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col-md-4 title-label">Email Address</div>
                 <div class="col-md-8">
                     <input type="text" class="form-control" ng-model="dependent.emailAddress" />

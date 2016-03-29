@@ -50,7 +50,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
         public async Task TestPutDefaultExchangeVisitorFunding_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PutDefaultExchangeVisitorFunding(1, new UpdatedDefaultExchangeVisitorFundingBindingModel());
+            var response = await controller.PutDefaultExchangeVisitorFunding(new UpdatedDefaultExchangeVisitorFundingBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -60,7 +60,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.UpdateAsync(It.IsAny<UpdatedDefaultExchangeVisitorFunding>())).Returns(Task.FromResult<object>(null));
             service.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
-            var response = await controller.PutDefaultExchangeVisitorFunding(1, new UpdatedDefaultExchangeVisitorFundingBindingModel());
+            var response = await controller.PutDefaultExchangeVisitorFunding(new UpdatedDefaultExchangeVisitorFundingBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<DefaultExchangeVisitorFundingDTO>));
             service.Verify(x => x.SaveChangesAsync(), Times.Once());
         }

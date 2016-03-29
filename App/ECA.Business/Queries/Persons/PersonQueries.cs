@@ -4,8 +4,6 @@ using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -99,7 +97,7 @@ namespace ECA.Business.Queries.Persons
         }
 
         /// <summary>
-        /// Returns a query capable of retrieving dependents from the given context. A FullName value is also calculated for the dependent.
+        /// Returns a query capable of retrieving dependents from the given context.
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <returns>The query to retrieve dependents from the context</returns>
@@ -108,9 +106,9 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
 
-            var query = from person in context.PersonDependents
+            var query = from dependent in context.PersonDependents
 
-                        let locationOfBirth = locationsQuery.Where(x => x.Id == person.PlaceOfBirth_LocationId).FirstOrDefault()
+                        let locationOfBirth = locationsQuery.Where(x => x.Id == dependent.PlaceOfBirth_LocationId).FirstOrDefault()
                         let PermanentResidence = (from address in context.Addresses
                                                          let addressType = address.AddressType
                                                          let location = address.Location
@@ -120,7 +118,7 @@ namespace ECA.Business.Queries.Persons
                                                          let country = location.Country
                                                          let hasDivision = location.Division != null
                                                          let division = location.Division
-                                                  where address.LocationId == person.Residence_LocationId
+                                                  where address.LocationId == dependent.Residence_LocationId
                                                          select new AddressDTO
                                                          {
                                                              AddressId = address.AddressId,
@@ -139,26 +137,26 @@ namespace ECA.Business.Queries.Persons
                                                              OrganizationId = address.OrganizationId,
                                                              PersonId = address.PersonId,
                                                          }).FirstOrDefault()
-                                                         
+                        where dependent.IsDeleted == false
                         select new SimplePersonDependentDTO
                         {
-                            DependentId = person.DependentId,
-                            PersonId = person.PersonId,
-                            SevisId = person.SevisId,
-                            PersonTypeId = person.PersonTypeId,
-                            FirstName = person.FirstName,
-                            LastName = person.LastName,
-                            NameSuffix = person.NameSuffix,
-                            PassportName = person.PassportName,
-                            PreferredName = person.PreferredName,
-                            GenderId = person.GenderId,
-                            DateOfBirth = person.DateOfBirth,
-                            PlaceOfBirth_LocationId = person.PlaceOfBirth_LocationId,
-                            Residence_LocationId = person.Residence_LocationId,
-                            BirthCountryReason = person.BirthCountryReason,
-                            IsTravellingWithParticipant = person.IsTravellingWithParticipant,
-                            IsDeleted = person.IsDeleted,
-                            IsSevisDeleted = person.IsSevisDeleted
+                            DependentId = dependent.DependentId,
+                            PersonId = dependent.PersonId,
+                            SevisId = dependent.SevisId,
+                            PersonTypeId = dependent.PersonTypeId,
+                            FirstName = dependent.FirstName,
+                            LastName = dependent.LastName,
+                            NameSuffix = dependent.NameSuffix,
+                            PassportName = dependent.PassportName,
+                            PreferredName = dependent.PreferredName,
+                            GenderId = dependent.GenderId,
+                            DateOfBirth = dependent.DateOfBirth,
+                            PlaceOfBirth_LocationId = dependent.PlaceOfBirth_LocationId,
+                            Residence_LocationId = dependent.Residence_LocationId,
+                            BirthCountryReason = dependent.BirthCountryReason,
+                            IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
+                            IsDeleted = dependent.IsDeleted,
+                            IsSevisDeleted = dependent.IsSevisDeleted
                         };
             return query;
         }
@@ -205,7 +203,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
-                            Dependents = person.Family.Select(x => new SimpleLookupDTO() { Id = x.DependentId, Value = (x.LastName + ", " + x.FirstName) }),
+                            Dependents = person.Family.Where(x => x.IsDeleted == false).Select(x => new SimpleLookupDTO() { Id = x.DependentId, Value = (x.LastName + ", " + x.FirstName) }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,

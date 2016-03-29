@@ -7,17 +7,17 @@
         <a ng-click="view.onAddDependentClick()" ng-show="editMode">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;">({{model.dependants.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;">({{model.dependents.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseDependents">
-        <div ng-repeat="dependent in model.dependants">
+        <div ng-repeat="dependent in model.dependents">
             <div ng-controller="DependentsCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <div ng-class="{true: 'row', false: 'row2'}[editMode]">
+                <div class="row">
                     <div>
                         <span>{{dependent.value}}</span>
                         <div class="pull-right" ng-show="editMode">

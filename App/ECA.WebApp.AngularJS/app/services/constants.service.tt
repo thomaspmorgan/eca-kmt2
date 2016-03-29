@@ -50,7 +50,7 @@
 	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
 	otherConstants["saveProgramEventName"] = "saveProgram";
 	otherConstants["cancelProgramChangesEventName"] = "cancelProgramEdit";
-	otherConstants["sevisStatuses"] = "[2, 3, 4, 5]";
+	otherConstants["sevisStatuses"] = "[2, 3, 4, 5, 15]";
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
@@ -66,6 +66,7 @@
 	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
 	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
 	otherConstants["itineraryStopExpandedEventName"] = "itineraryStopExpanded";
+	otherConstants["removeNewDependentEventName"] = "newDependent";
 
 	otherConstants["ascending"] = SortDirection.Ascending.Value;
 	otherConstants["descending"] = SortDirection.Descending.Value;
