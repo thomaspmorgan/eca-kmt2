@@ -15,7 +15,6 @@ namespace ECA.Business.Queries.Sevis
     public static class SevisBatchProcessingQueries
     {
         #region SevisBatchProcessingDTOs
-        private const string successCode = "S0000";
         /// <summary>
         /// Returns a query to get SEVIS batch processing dtos from the given context.
         /// </summary>
@@ -78,6 +77,26 @@ namespace ECA.Business.Queries.Sevis
 
         #endregion
 
+        /// <summary>
+        /// Returns a query to retrieve participants that are included in a batch with the given batch id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="batchId">The sevis batch id.</param>
+        /// <returns>The ParticipantPersons that are part of a sevis batch with the given id.</returns>
+        public static IQueryable<ParticipantPerson> CreateGetParticipantPersonsByBatchId(EcaContext context, string batchId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from commStatus in context.ParticipantPersonSevisCommStatuses
+                        where commStatus.BatchId == batchId
+                        select commStatus.ParticipantPerson;
+            return query.Distinct();
+        } 
+
+        /// <summary>
+        /// Returns a query to get participants that are queued to submit.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to get participants that are queued to submit.</returns>
         public static IQueryable<ReadyToSubmitParticipantDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");

@@ -262,6 +262,7 @@ namespace ECA.Business.Test.Service.Sevis
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
                 Assert.AreEqual(SevisCommStatus.PendingSevisSend.Id, addedCommStatus.SevisCommStatusId);
+                Assert.AreEqual(firstBatch.BatchId, addedCommStatus.BatchId);
             };
             context.Revert();
             var result = service.StageBatches(user);
@@ -449,6 +450,7 @@ namespace ECA.Business.Test.Service.Sevis
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
                 Assert.AreEqual(SevisCommStatus.PendingSevisSend.Id, addedCommStatus.SevisCommStatusId);
+                Assert.AreEqual(firstBatch.BatchId, addedCommStatus.BatchId);
             };
             context.Revert();
             var result = service.StageBatches(user);
@@ -1284,7 +1286,7 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestAddSevisResultCommStatus_IsSuccess()
+        public void TestAddResultTypeSevisCommStatus_IsSuccess()
         {
             var resultType = new ResultType
             {
@@ -1296,19 +1298,19 @@ namespace ECA.Business.Test.Service.Sevis
             };
             Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
 
-            service.AddSevisResultCommStatus(resultType, participantPerson);
+            service.AddResultTypeSevisCommStatus(resultType, participantPerson);
             Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
             Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
             Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), participantPerson.ParticipantPersonSevisCommStatuses.First()));
 
             var firstStatus = context.ParticipantPersonSevisCommStatuses.First();
-            Assert.AreEqual(SevisCommStatus.BatchRequestSuccessful.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(SevisCommStatus.CreatedByBatch.Id, firstStatus.SevisCommStatusId);
             Assert.AreEqual(participantPerson.ParticipantId, firstStatus.ParticipantId);
             DateTimeOffset.UtcNow.Should().BeCloseTo(firstStatus.AddedOn, 20000);
         }
 
         [TestMethod]
-        public void TestAddSevisResultCommStatus_IsError()
+        public void TestAddResultTypeSevisCommStatus_IsError()
         {
             var resultType = new ResultType
             {
@@ -1320,7 +1322,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
             Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
 
-            service.AddSevisResultCommStatus(resultType, participantPerson);
+            service.AddResultTypeSevisCommStatus(resultType, participantPerson);
             Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
             Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
             Assert.IsTrue(Object.ReferenceEquals(context.ParticipantPersonSevisCommStatuses.First(), participantPerson.ParticipantPersonSevisCommStatuses.First()));
@@ -1433,7 +1435,7 @@ namespace ECA.Business.Test.Service.Sevis
 
             Assert.AreEqual(1, participantPerson.ParticipantPersonSevisCommStatuses.Count());
             var firstStatus = participantPerson.ParticipantPersonSevisCommStatuses.First();
-            Assert.AreEqual(SevisCommStatus.BatchRequestSuccessful.Id, firstStatus.SevisCommStatusId);
+            Assert.AreEqual(SevisCommStatus.CreatedByBatch.Id, firstStatus.SevisCommStatusId);
             firstStatus.AddedOn.Should().BeCloseTo(DateTimeOffset.UtcNow, 20000);
         }
 
@@ -1859,28 +1861,113 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestProcessUpload()
+        public async Task TestProcessUpload()
         {
-            var sevisBatch = new SevisBatchProcessing
+            var participantId = 1;
+            var batchId = "batchId";
+            SevisBatchProcessing sevisBatch = null;
+            var today = DateTime.UtcNow;
+            var uploadDetail = new TransactionLogTypeBatchDetailUpload
             {
-
+                resultCode = DispositionCode.Success.Code,
+                dateTimeStamp = today
             };
+            ParticipantPerson person = null;
+            ParticipantPersonSevisCommStatus sentByBatch = null;
+
+            context.SetupActions.Add(() =>
+            {
+                person = new ParticipantPerson
+                {
+                    ParticipantId = participantId
+                };
+                sentByBatch = new ParticipantPersonSevisCommStatus
+                {
+                    BatchId = batchId,
+                    AddedOn = DateTimeOffset.UtcNow,
+                    ParticipantId = participantId,
+                    ParticipantPerson = person,
+                    SevisCommStatusId = SevisCommStatus.SentByBatch.Id
+                };
+                person.ParticipantPersonSevisCommStatuses.Add(sentByBatch);
+                sevisBatch = new SevisBatchProcessing
+                {
+                    BatchId = batchId
+                };
+                context.ParticipantPersonSevisCommStatuses.Add(sentByBatch);
+                context.ParticipantPersons.Add(person);
+                context.SevisBatchProcessings.Add(sevisBatch);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(today, sevisBatch.SubmitDate);
+                Assert.AreEqual(uploadDetail.resultCode, sevisBatch.UploadDispositionCode);
+                Assert.IsNull(sevisBatch.DownloadDispositionCode);
+                Assert.IsNull(sevisBatch.ProcessDispositionCode);
+                Assert.AreEqual(2, context.ParticipantPersonSevisCommStatuses.Count());
+
+                var addedCommStatus = context.ParticipantPersonSevisCommStatuses.Last();
+                Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
+                Assert.AreEqual(batchId, addedCommStatus.BatchId);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
+                Assert.AreEqual(SevisCommStatus.SentByBatch.Id, addedCommStatus.SevisCommStatusId);
+            };
+            context.Revert();
+            service.ProcessUpload(uploadDetail, sevisBatch);
+            tester();
+
+            context.Revert();
+            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
+            tester();
+        }
+
+        [TestMethod]
+        public async Task TestProcessUpload_DispositionCodeIsNotSuccess()
+        {
+            var participantId = 1;
+            var batchId = "batchId";
+            SevisBatchProcessing sevisBatch = null;
             var today = DateTime.UtcNow;
             var uploadDetail = new TransactionLogTypeBatchDetailUpload
             {
                 resultCode = DispositionCode.BusinessRuleViolations.Code,
                 dateTimeStamp = today
             };
+            ParticipantPerson person = null;
 
+
+            context.SetupActions.Add(() =>
+            {
+                person = new ParticipantPerson
+                {
+                    ParticipantId = participantId
+                };
+                sevisBatch = new SevisBatchProcessing
+                {
+                    BatchId = batchId
+                };
+                context.ParticipantPersons.Add(person);
+                context.SevisBatchProcessings.Add(sevisBatch);
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(today, sevisBatch.SubmitDate);
+                Assert.AreEqual(uploadDetail.resultCode, sevisBatch.UploadDispositionCode);
+                Assert.IsNull(sevisBatch.DownloadDispositionCode);
+                Assert.IsNull(sevisBatch.ProcessDispositionCode);
+                Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+            };
+            context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);
-            Assert.AreEqual(today, sevisBatch.SubmitDate);
-            Assert.AreEqual(uploadDetail.resultCode, sevisBatch.UploadDispositionCode);
-            Assert.IsNull(sevisBatch.DownloadDispositionCode);
-            Assert.IsNull(sevisBatch.ProcessDispositionCode);
+            tester();
+
+            context.Revert();
+            await service.ProcessUploadAsync(uploadDetail, sevisBatch);
+            tester();
         }
 
         [TestMethod]
-        public void TestProcessUpload_NullTransactionLogTypeBatchDetailDownload()
+        public void TestProcessUpload_NullTransactionLogTypeBatchDetailUpload()
         {
             var sevisBatch = new SevisBatchProcessing
             {
@@ -1891,6 +1978,27 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsNull(sevisBatch.DownloadDispositionCode);
             Assert.IsNull(sevisBatch.UploadDispositionCode);
             Assert.IsNull(sevisBatch.ProcessDispositionCode);
+        }
+
+        [TestMethod]
+        public async Task TestProcessTransactionLog_SevisBatchProcessingDoesNotExist()
+        {
+            var batchId = "hello";
+            var user = new User(1);
+
+            var message = String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId);
+            var transactionLog = new TransactionLogType
+            {
+                BatchHeader = new TransactionLogTypeBatchHeader
+                {
+                    BatchID = batchId
+                },
+            };
+            var xml = GetXml(transactionLog);
+            Action a = () => service.ProcessTransactionLog(user, xml);
+            Func<Task> f = () => service.ProcessTransactionLogAsync(user, xml);
+            a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
+            f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]

@@ -212,6 +212,14 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_SystemUserId()
+        {
+            var value = "1";
+            appSettings.Add(AppSettings.SYSTEM_USER_ID_KEY, value);
+            Assert.AreEqual(value, settings.SystemUserId);
+        }
+
+        [TestMethod]
         public void TestConstructor_ZeroArgument_AppSettings()
         {
             var testSettings = new AppSettings();

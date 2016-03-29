@@ -7,6 +7,18 @@ namespace ECA.Core.Settings
 {
     public class AppSettings
     {
+        #region System
+        /// <summary>
+        /// The active directory settings prefix.
+        /// </summary>
+        public const string SYSTEM_PREFIX = "system.";
+
+        /// <summary>
+        /// The active directory tenant id.
+        /// </summary>
+        public const string SYSTEM_USER_ID_KEY = SYSTEM_PREFIX + "UserId";
+        #endregion
+
         #region AD Constants
         /// <summary>
         /// The active directory settings prefix.
@@ -253,6 +265,11 @@ namespace ECA.Core.Settings
         /// Gets the active directory tenant id.
         /// </summary>
         public string AdTenantId { get { return GetAppSetting(AD_TENANT_ID); } }
+
+        /// <summary>
+        /// Gets the id of the system user.  Useful for webjobs, system activities, etc.
+        /// </summary>
+        public string SystemUserId { get { return GetAppSetting(SYSTEM_USER_ID_KEY); } }
 
         public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS);  } }
 
