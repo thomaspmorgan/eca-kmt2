@@ -21,6 +21,8 @@ namespace ECA.WebJobs.Sevis.Core
         public SevisUnityContainer(AppSettings appSettings)
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
+            this.RegisterInstance<AppSettings>(appSettings);
+
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
 
@@ -56,8 +58,8 @@ namespace ECA.WebJobs.Sevis.Core
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),
                     exchangeVisitorValidationService: c.Resolve<IExchangeVisitorValidationService>(),
                     sevisOrgId: appSettings.SevisOrgId,
-                    maxCreateExchangeVisitorRecordsPerBatch: 20,
-                    maxUpdateExchangeVisitorRecordsPerBatch: 20,
+                    maxCreateExchangeVisitorRecordsPerBatch: Int32.Parse(appSettings.MaxCreateExchangeVisitorRecordsPerBatch),
+                    maxUpdateExchangeVisitorRecordsPerBatch: Int32.Parse(appSettings.MaxUpdateExchangeVisitorRecordsPerBatch),
                     saveActions: null
                     );
                 return service;

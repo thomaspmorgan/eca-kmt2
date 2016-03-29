@@ -547,9 +547,12 @@
     <Compile Include="Service\Sevis\SimpleSevisBatchErrorResult.cs" />
     <Compile Include="Service\Sevis\StagedSevisBatch.cs" />
     <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
+    <Compile Include="Sevis\Model\BatchDetailType.cs" />
     <Compile Include="Sevis\Model\sevistranslog.cs">
       <DependentUpon>SevisTransLog.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Sevis\Model\DispositionCode.cs" />
+    <Compile Include="Sevis\Model\TransactionLogTypeBatchDetailDownload.cs" />
     <Compile Include="Validation\SevisEnumHelper.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\IBiographical.cs" />

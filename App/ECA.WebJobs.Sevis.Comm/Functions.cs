@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Net.Http;
 using ECA.WebJobs.Sevis;
 using ECA.Business.Sevis;
+using ECA.Business.Service;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -39,6 +40,7 @@ namespace ECA.WebJobs.Sevis.Comm
             Contract.Requires(settings != null, "The settings must not be null.");
 
             Console.WriteLine("Starting SEVIS Batch Processing");
+            var systemUser = new User(Int32.Parse(settings.SystemUserId));
 
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
             //and returned in the dtos.
@@ -49,8 +51,8 @@ namespace ECA.WebJobs.Sevis.Comm
             {
                 //do the send here
 
-                //not sure what else we need from the upload response yet
-                await service.BatchHasBeenSentAsync(dtoToUpload.Id);
+                string transactionLogXml = null;
+                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml);
                 await service.SaveChangesAsync();
                 dtoToUpload = await service.GetNextBatchToUploadAsync();
             }

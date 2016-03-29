@@ -212,6 +212,7 @@
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\FullNameDTOTest.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTOTest.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTOTest.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisBatchProcessDTOTest.cs" />
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
@@ -352,6 +353,7 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
+    <Compile Include="Sevis\Model\DispositionCodeTest.cs" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />

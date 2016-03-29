@@ -50,8 +50,7 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.AreEqual(model.UploadDispositionCode, firstResult.UploadDispositionCode);
         }
         #endregion
-
-
+        
         #region CreateGetSevisBatchProcessingDTOsToUploadQuery
         [TestMethod]
         public void TestCreateGetSevisBatchProcessingDTOsToUploadQuery_DoesNotHaveSubmitDate()
@@ -233,6 +232,105 @@ namespace ECA.Business.Test.Queries.Sevis
             var results = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(context).ToList();
             Assert.AreEqual(0, results.Count);
         }
+        #endregion
+
+        #region CreateGetParticipantPersonsByBatchId
+        [TestMethod]
+        public void TestCreateGetParticipantPersonsByBatchId()
+        {
+            var batchId = "batchId";
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            var readyToSubmit = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId
+            };
+            var queuedToSubmit = new ParticipantPersonSevisCommStatus
+            {
+                Id = 2,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId
+            };
+            var pendingSevisSend = new ParticipantPersonSevisCommStatus
+            {
+                Id = 3,
+                SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId,
+                BatchId = batchId
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(readyToSubmit);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(queuedToSubmit);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
+
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(readyToSubmit);
+            context.ParticipantPersonSevisCommStatuses.Add(queuedToSubmit);
+            context.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
+            var results = SevisBatchProcessingQueries.CreateGetParticipantPersonsByBatchId(context, batchId).ToList();
+            Assert.AreEqual(1, results.Count);
+            Assert.IsTrue(Object.ReferenceEquals(participantPerson, results.First()));
+        }
+
+        [TestMethod]
+        public void TestCreateGetParticipantPersonsByBatchId_EnsureDistinct()
+        {
+            var batchId = "batchId";
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = 1
+            };
+            var readyToSubmit = new ParticipantPersonSevisCommStatus
+            {
+                Id = 1,
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId
+            };
+            var queuedToSubmit = new ParticipantPersonSevisCommStatus
+            {
+                Id = 2,
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId
+            };
+            var pendingSevisSend = new ParticipantPersonSevisCommStatus
+            {
+                Id = 3,
+                SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId,
+                BatchId = batchId
+            };
+            var otherBatchCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                Id = 3,
+                SevisCommStatusId = SevisCommStatus.SentToDhs.Id,
+                ParticipantPerson = participantPerson,
+                ParticipantId = participantPerson.ParticipantId,
+                BatchId = batchId
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(readyToSubmit);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(queuedToSubmit);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(otherBatchCommStatus);
+
+            context.ParticipantPersons.Add(participantPerson);
+            context.ParticipantPersonSevisCommStatuses.Add(readyToSubmit);
+            context.ParticipantPersonSevisCommStatuses.Add(queuedToSubmit);
+            context.ParticipantPersonSevisCommStatuses.Add(pendingSevisSend);
+            context.ParticipantPersonSevisCommStatuses.Add(otherBatchCommStatus);
+            var results = SevisBatchProcessingQueries.CreateGetParticipantPersonsByBatchId(context, batchId).ToList();
+            Assert.AreEqual(1, results.Count);
+            Assert.IsTrue(Object.ReferenceEquals(participantPerson, results.First()));
+        }
+
         #endregion
     }
 }

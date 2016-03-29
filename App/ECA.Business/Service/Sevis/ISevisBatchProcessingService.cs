@@ -54,40 +54,18 @@ namespace ECA.Business.Service.Sevis
         Task<List<StagedSevisBatch>> StageBatchesAsync(User user);
 
         /// <summary>
-        /// Indicates the batch has been successfully uploaded.
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
-        /// <param name="batchId">The id of the batch.</param>
-        void BatchHasBeenSent(int batchId);
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        void ProcessTransactionLog(User user, string xml);
 
         /// <summary>
-        /// Indicates the batch has been successfully uploaded.
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
-        /// <param name="batchId">The id of the batch.</param>
-        Task BatchHasBeenSentAsync(int batchId);        
-
-        /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        void BatchHasBeenRetrieved(string xml);
-
-        /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        Task BatchHasBeenRetrievedAsync(string xml);
-
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        int? GetNextBatchIdToProcess();
-
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        Task<int?> GetNextBatchIdToProcessAsync();
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        Task ProcessTransactionLogAsync(User user, string xml);
     }
 
     /// <summary>
@@ -96,45 +74,6 @@ namespace ECA.Business.Service.Sevis
     [ContractClassFor(typeof(ISevisBatchProcessingService))]
     public abstract class SevisBatchProcessingServiceContract : ISevisBatchProcessingService
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="xml"></param>
-        public void BatchHasBeenRetrieved(string xml)
-        {
-            Contract.Requires(xml != null, "The given xml must not be null.");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="xml"></param>
-        /// <returns></returns>
-        public Task BatchHasBeenRetrievedAsync(string xml)
-        {
-            Contract.Requires(xml != null, "The given xml must not be null.");
-            return Task.FromResult<object>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="batchId"></param>
-        public void BatchHasBeenSent(int batchId)
-        {
-            
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="batchId"></param>
-        /// <returns></returns>
-        public Task BatchHasBeenSentAsync(int batchId)
-        {
-            return Task.FromResult<object>(null);
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -151,25 +90,7 @@ namespace ECA.Business.Service.Sevis
         public Task<string> GetNextBatchByBatchIdToDownloadAsync()
         {
             return Task.FromResult<string>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int? GetNextBatchIdToProcess()
-        {
-            return 1;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Task<int?> GetNextBatchIdToProcessAsync()
-        {
-            return Task.FromResult<int?>(1);
-        }
+        }        
 
         /// <summary>
         /// 
@@ -201,10 +122,34 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <param name="xml"></param>
+        public void ProcessTransactionLog(User user, string xml)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(xml != null, "The xml must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
         public Task ProcessTransactionLogAsync(string xml)
         {
+            Contract.Requires(xml != null, "The xml must not be null.");
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public Task ProcessTransactionLogAsync(User user, string xml)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
             return Task.FromResult<object>(null);
         }

@@ -7,6 +7,18 @@ namespace ECA.Core.Settings
 {
     public class AppSettings
     {
+        #region System
+        /// <summary>
+        /// The active directory settings prefix.
+        /// </summary>
+        public const string SYSTEM_PREFIX = "system.";
+
+        /// <summary>
+        /// The active directory tenant id.
+        /// </summary>
+        public const string SYSTEM_USER_ID_KEY = SYSTEM_PREFIX + "UserId";
+        #endregion
+
         #region AD Constants
         /// <summary>
         /// The active directory settings prefix.
@@ -84,6 +96,19 @@ namespace ECA.Core.Settings
         /// The sevis site of activity address key.
         /// </summary>
         public const string SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO = SEVIS_PREFIX + "SiteOfActivityAddressDTO";
+
+        /// <summary>
+        /// The max create exchange visitor records per batch key.  This setting is used to adjust the number of 
+        /// create exchange visitors are added to a sevis batch.
+        /// </summary>
+        public const string SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH = SEVIS_PREFIX + "MaxCreateExchangeVisitorRecordsPerBatch";
+
+        /// <summary>
+        /// The max update exchange visitor records per batch key.  This setting is used to adjust the number of 
+        /// update exchange visitors are added to a sevis batch.
+        /// </summary>
+        public const string SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH = SEVIS_PREFIX + "MaxUpdateExchangeVisitorRecordsPerBatch";
+
         #endregion
 
         #region Database Constants
@@ -245,6 +270,16 @@ namespace ECA.Core.Settings
         public string SevisSiteOfActivityAddressDTO { get { return GetAppSetting(SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO); } }
 
         /// <summary>
+        /// Gets the maximum number of create exchange visitors records to add to a batch.
+        /// </summary>
+        public string MaxCreateExchangeVisitorRecordsPerBatch { get { return GetAppSetting(SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH); } }
+
+        /// <summary>
+        /// Gets the maximum number of update exchange visitors records to add to a batch.
+        /// </summary>
+        public string MaxUpdateExchangeVisitorRecordsPerBatch { get { return GetAppSetting(SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH); } }
+
+        /// <summary>
         /// Gets the active directory client id.
         /// </summary>
         public string AdClientId { get { return GetAppSetting(AD_CLIENT_ID); } }
@@ -253,6 +288,11 @@ namespace ECA.Core.Settings
         /// Gets the active directory tenant id.
         /// </summary>
         public string AdTenantId { get { return GetAppSetting(AD_TENANT_ID); } }
+
+        /// <summary>
+        /// Gets the id of the system user.  Useful for webjobs, system activities, etc.
+        /// </summary>
+        public string SystemUserId { get { return GetAppSetting(SYSTEM_USER_ID_KEY); } }
 
         public string IdleDurationInSeconds { get { return GetAppSetting(IDLE_DURATION_IN_SECONDS);  } }
 
