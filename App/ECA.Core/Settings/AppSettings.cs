@@ -96,6 +96,19 @@ namespace ECA.Core.Settings
         /// The sevis site of activity address key.
         /// </summary>
         public const string SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO = SEVIS_PREFIX + "SiteOfActivityAddressDTO";
+
+        /// <summary>
+        /// The max create exchange visitor records per batch key.  This setting is used to adjust the number of 
+        /// create exchange visitors are added to a sevis batch.
+        /// </summary>
+        public const string SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH = SEVIS_PREFIX + "MaxCreateExchangeVisitorRecordsPerBatch";
+
+        /// <summary>
+        /// The max update exchange visitor records per batch key.  This setting is used to adjust the number of 
+        /// update exchange visitors are added to a sevis batch.
+        /// </summary>
+        public const string SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH = SEVIS_PREFIX + "MaxUpdateExchangeVisitorRecordsPerBatch";
+
         #endregion
 
         #region Database Constants
@@ -255,6 +268,16 @@ namespace ECA.Core.Settings
         /// Gets the azure SEVIS site of activity.
         /// </summary>
         public string SevisSiteOfActivityAddressDTO { get { return GetAppSetting(SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO); } }
+
+        /// <summary>
+        /// Gets the maximum number of create exchange visitors records to add to a batch.
+        /// </summary>
+        public string MaxCreateExchangeVisitorRecordsPerBatch { get { return GetAppSetting(SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH); } }
+
+        /// <summary>
+        /// Gets the maximum number of update exchange visitors records to add to a batch.
+        /// </summary>
+        public string MaxUpdateExchangeVisitorRecordsPerBatch { get { return GetAppSetting(SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH); } }
 
         /// <summary>
         /// Gets the active directory client id.

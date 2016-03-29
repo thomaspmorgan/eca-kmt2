@@ -32,7 +32,7 @@ namespace ECA.WebJobs.Sevis.Core
         public void NotifyNumberOfParticipantsToStage(int numberOfParticipants)
         {
             stagingStopwatch = Stopwatch.StartNew();
-            Console.WriteLine(String.Format("Found {0} participants to stage for sevis.", numberOfParticipants));
+            Console.WriteLine(String.Format("Found [{0}] participants to stage for sevis.", numberOfParticipants));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ECA.WebJobs.Sevis.Core
         public void NotifyStagedSevisBatchesFinished(List<StagedSevisBatch> batches)
         {
             stagingStopwatch.Stop();
-            Console.WriteLine(String.Format("Finished staging [{0}]  sevis batches in [{1}].", batches.Count(), stagingStopwatch.Elapsed));
+            Console.WriteLine(String.Format("Finished staging [{0}] sevis batches in [{1}].", batches.Count(), stagingStopwatch.Elapsed));
         }
     }
 }

@@ -220,6 +220,22 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_MaxCreateExchangeVisitorRecordsPerBatch()
+        {
+            var value = "2";
+            appSettings.Add(AppSettings.SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, value);
+            Assert.AreEqual(value, settings.MaxCreateExchangeVisitorRecordsPerBatch);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_MaxUpdateExchangeVisitorRecordsPerBatch()
+        {
+            var value = "3";
+            appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, value);
+            Assert.AreEqual(value, settings.MaxUpdateExchangeVisitorRecordsPerBatch);
+        }
+
+        [TestMethod]
         public void TestConstructor_ZeroArgument_AppSettings()
         {
             var testSettings = new AppSettings();
