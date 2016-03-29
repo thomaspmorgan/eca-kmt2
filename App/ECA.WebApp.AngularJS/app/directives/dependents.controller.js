@@ -105,6 +105,7 @@ angular.module('staticApp')
                  $scope.dependent.isDeleted = true;
                  saveEditDependent($scope.dependent);
                  removeDependentFromView(index);
+                 $scope.view.isDeletingDependent = false;
           })
           .catch(function () {
               var message = "Unable to delete dependent.";
@@ -139,13 +140,10 @@ angular.module('staticApp')
           $scope.$emit(ConstantsService.removeNewDependentEventName, index);
       }
 
-      $scope.$on(ConstantsService.removeNewDependentEventName, function (event, newDependent) {
-          console.assert($scope.model, 'The scope person must exist.  It should be set by the directive.');
+      $scope.$on(ConstantsService.removeNewDependentEventName, function (event, index) {
+          console.assert($scope.view, 'The scope must exist.  It should be set by the directive.');
           console.assert($scope.model.dependents instanceof Array, 'The entity dependents is defined but must be an array.');
-
-          var dependents = $scope.model.dependents;
-          var index = dependents.indexOf(newDependent);
-          var removedItems = dependents.splice(index, 1);
-          $log.info('Removed one new dependent at index ' + index);
+          $scope.model.dependents.splice(index, 1);
+          $log.info('Removed dependent at index ' + index);
       });
   });
