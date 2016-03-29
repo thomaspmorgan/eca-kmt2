@@ -32,10 +32,17 @@ namespace ECA.Business.Service.Sevis
     public class SevisBatchProcessingService : DbContextService<EcaContext>, ISevisBatchProcessingService
     {
         /// <summary>
+        /// The DS2019 file content type.
+        /// </summary>
+        public const string DS2019_CONTENT_TYPE = "application/pdf";
+
+        /// <summary>
         /// The number of queued to submit participants to page.
         /// </summary>
         private const int QUERY_BATCH_SIZE = 50;
 
+        private IDS2019FileProvider fileProvider;
+        private IDummyCloudStorage cloudStorageService;
         private ISevisBatchProcessingNotificationService notificationService;
         private IExchangeVisitorService exchangeVisitorService;
         private IExchangeVisitorValidationService exchangeVisitorValidationService;
@@ -55,6 +62,8 @@ namespace ECA.Business.Service.Sevis
         /// <param name="saveActions">The save actions.</param>
         public SevisBatchProcessingService(
             EcaContext context,
+            IDS2019FileProvider fileProvider,
+            IDummyCloudStorage cloudStorageService,
             IExchangeVisitorService exchangeVisitorService,
             ISevisBatchProcessingNotificationService notificationService,
             IExchangeVisitorValidationService exchangeVisitorValidationService,
@@ -68,6 +77,8 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             Contract.Requires(sevisOrgId != null, "The sevis org id must not be null.");
             Contract.Requires(notificationService != null, "The notification service must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(cloudStorageService != null, "The cloud storage service must not be null.");
             throwIfSevisBatchProcessingNotFound = (sevisBatchProcessing, batchId) =>
             {
                 if (sevisBatchProcessing == null)
@@ -81,6 +92,8 @@ namespace ECA.Business.Service.Sevis
                 batches.Add(stagedSevisBatch);
                 return stagedSevisBatch;
             };
+            this.fileProvider = fileProvider;
+            this.cloudStorageService = cloudStorageService;
             this.notificationService = notificationService;
             this.exchangeVisitorService = exchangeVisitorService;
             this.exchangeVisitorValidationService = exchangeVisitorValidationService;
@@ -323,6 +336,13 @@ namespace ECA.Business.Service.Sevis
 
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
+                    var ds2019Contents = fileProvider.GetDS2019File(participant.ParticipantId, batch.BatchId, record.sevisID);
+                    if (ds2019Contents != null && ds2019Contents.Length > 0)
+                    {
+                        var url = SaveDS2019Form(participant.ParticipantId, record.sevisID, ds2019Contents);
+                        participantPerson.DS2019FileUrl = url;
+                    }
+                    
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
@@ -349,6 +369,12 @@ namespace ECA.Business.Service.Sevis
 
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
+                    var ds2019Contents = await fileProvider.GetDS2019FileAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
+                    if(ds2019Contents != null && ds2019Contents.Length > 0)
+                    {
+                        var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, ds2019Contents);
+                        participantPerson.DS2019FileUrl = url;
+                    }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
@@ -690,6 +716,47 @@ namespace ECA.Business.Service.Sevis
             Context.SevisBatchProcessings.Add(stagedSevisBatch.SevisBatchProcessing);
             return stagedSevisBatch;
         }
+        #endregion
+
+        #region DS2019
+        /// <summary>
+        /// Saves the DS2019 form given by sevis.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <param name="fileContents">The file contents.</param>
+        /// <returns>The url of the saved file.</returns>
+        public string SaveDS2019Form(int participantId, string sevisId, byte[] fileContents)
+        {
+            var fileName = GetDS2019FileName(participantId, sevisId);
+            return cloudStorageService.SaveFile(fileName, fileContents, DS2019_CONTENT_TYPE);
+        }
+
+        /// <summary>
+        /// Saves the DS2019 form given by sevis.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <param name="fileContents">The file contents.</param>
+        /// /// <returns>The url of the saved file.</returns>
+        public async Task<string> SaveDS2019FormAsync(int participantId, string sevisId, byte[] fileContents)
+        {
+            var fileName = GetDS2019FileName(participantId, sevisId);
+            return await cloudStorageService.SaveFileAsync(fileName, fileContents, DS2019_CONTENT_TYPE);
+        }
+
+        /// <summary>
+        /// Returns the DS2019 file name for the participant id and sevis id.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <returns></returns>
+        public static string GetDS2019FileName(int participantId, string sevisId)
+        {
+            Contract.Requires(sevisId != null, "The sevis id must not be null.");
+            return string.Format("{0}_{1}.{2}", participantId, sevisId, "pdf");
+        }
+        
         #endregion
     }
 }

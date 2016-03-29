@@ -541,6 +541,8 @@
     <Compile Include="Service\Projects\UpdatedDefaultExchangeVisitorFunding.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
+    <Compile Include="Service\Sevis\IDS2019FileProvider.cs" />
+    <Compile Include="Service\Sevis\IDummyCloudStorage.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingNotificationService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />

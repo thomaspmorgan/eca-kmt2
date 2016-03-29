@@ -6,9 +6,23 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace ECA.WebJobs.Sevis.Core
 {
+    public class DummyCloudStorage : IDummyCloudStorage
+    {
+        public string SaveFile(string fileName, byte[] contents, string contentType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> SaveFileAsync(string fileName, byte[] contents, string contentType)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// The SevisUnityContainer is a unity container that can be used across multiple webjobs dealing with SEVIS.
     /// </summary>
@@ -25,7 +39,8 @@ namespace ECA.WebJobs.Sevis.Core
 
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
-
+            this.RegisterType<IDS2019FileProvider, ZipArchiveDS2019FileProvider>();
+            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>(); 
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
@@ -54,6 +69,8 @@ namespace ECA.WebJobs.Sevis.Core
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
                     context: c.Resolve<EcaContext>(),
+                    fileProvider: c.Resolve<IDS2019FileProvider>(),
+                    cloudStorageService: c.Resolve<IDummyCloudStorage>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),
                     exchangeVisitorValidationService: c.Resolve<IExchangeVisitorValidationService>(),

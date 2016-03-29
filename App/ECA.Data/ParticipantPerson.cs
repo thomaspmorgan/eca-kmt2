@@ -134,6 +134,11 @@ namespace ECA.Data
         public string SevisBatchResult { get; set; }
 
         /// <summary>
+        /// Gets or sets the ds 2019 file url.
+        /// </summary>
+        public string DS2019FileUrl { get; set; }
+
+        /// <summary>
         /// Collection of SEVIS communication statuses
         /// </summary>
         public ICollection<ParticipantPersonSevisCommStatus> ParticipantPersonSevisCommStatuses { get; set; }
