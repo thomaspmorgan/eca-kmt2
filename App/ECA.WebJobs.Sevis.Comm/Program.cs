@@ -11,15 +11,24 @@ namespace ECA.WebJobs.Sevis.Comm
     {
         static void Main()
         {
+            //var unityContainer = new SevisUnityContainer(new AppSettings());
+            //var config = new JobHostConfiguration
+            //{
+            //    JobActivator = new UnityWebJobActivator(unityContainer)
+            //};
+            //var sevisService = unityContainer.Resolve<ISevisBatchProcessingService>();
+            //var host = new JobHost(config);
+            //// The following code ensures that the WebJob will be running continuously
+            //host.CallAsync(typeof(Functions).GetMethod("ManualTrigger"), new { service = sevisService, settings = new AppSettings() }).Wait();
+
             var unityContainer = new SevisUnityContainer(new AppSettings());
             var config = new JobHostConfiguration
             {
-                JobActivator = new UnityWebJobActivator(unityContainer)
+                JobActivator = new UnityWebJobActivator(unityContainer),
             };
-            var sevisService = unityContainer.Resolve<ISevisBatchProcessingService>();
+            config.UseTimers();
             var host = new JobHost(config);
-            // The following code ensures that the WebJob will be running continuously
-            host.CallAsync(typeof(Functions).GetMethod("ManualTrigger"), new { service = sevisService, settings = new AppSettings() }).Wait();
+            host.RunAndBlock();
         }
     }
 }

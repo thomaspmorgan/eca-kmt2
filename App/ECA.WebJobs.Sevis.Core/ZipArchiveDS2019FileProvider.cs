@@ -21,7 +21,7 @@ namespace ECA.WebJobs.Sevis.Core
         /// <returns>The file contents.</returns>
         public byte[] GetDS2019File(int participantId, string batchId, string sevisId)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace ECA.WebJobs.Sevis.Core
         /// <returns>The file contents.</returns>
         public Task<byte[]> GetDS2019FileAsync(int participantId, string batchId, string sevisId)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

@@ -36,10 +36,10 @@ namespace ECA.WebJobs.Sevis.Core
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             this.RegisterInstance<AppSettings>(appSettings);
+            this.RegisterType<ZipArchiveDS2019FileProvider>();
 
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
-            this.RegisterType<IDS2019FileProvider, ZipArchiveDS2019FileProvider>();
             this.RegisterType<IDummyCloudStorage, DummyCloudStorage>(); 
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
@@ -69,7 +69,6 @@ namespace ECA.WebJobs.Sevis.Core
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
                     context: c.Resolve<EcaContext>(),
-                    fileProvider: c.Resolve<IDS2019FileProvider>(),
                     cloudStorageService: c.Resolve<IDummyCloudStorage>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),

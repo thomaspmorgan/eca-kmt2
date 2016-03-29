@@ -9,6 +9,7 @@ using System.Net.Http;
 using ECA.WebJobs.Sevis;
 using ECA.Business.Sevis;
 using ECA.Business.Service;
+using ECA.WebJobs.Sevis.Core;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -16,17 +17,34 @@ namespace ECA.WebJobs.Sevis.Comm
     {
         // This function will be triggered based on the schedule you have set for this WebJob
 
-        /// <summary>
-        /// The manual trigger method.
-        /// </summary>
-        /// <param name="service">The SEVIS batch services to get and update batches.</param>
-        /// <param name="settings">The app settings.</param>
-        [NoAutomaticTrigger]
-        public async Task ManualTrigger(ISevisBatchProcessingService service, AppSettings settings)
+        private ISevisBatchProcessingService service;
+        private AppSettings appSettings;
+        private ZipArchiveDS2019FileProvider fileProvider;
+
+        public Functions(ISevisBatchProcessingService service, AppSettings appSettings, ZipArchiveDS2019FileProvider fileProvider)
         {
-            Contract.Requires(service != null, "The SEVIS service must not be null.");
-            Contract.Requires(settings != null, "The settings must not be null.");
-            await Process(service, settings);
+            this.service = service;
+            this.appSettings = appSettings;
+            this.fileProvider = fileProvider;
+
+        }
+
+        /// <summary>
+        /// Process batch sevis batches using the service.  In a debug build this will run every 20 seconds.  In a release build it will run every 5 mins.
+        /// </summary>
+        /// <param name="info">The timer trigger instance.</param>
+        /// <returns>The task</returns>
+        public async Task ProcessTimer(
+#if DEBUG
+            [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
+#else
+            [TimerTrigger("00:05:00", RunOnStartup = true)] TimerInfo info
+#endif   
+            )
+        {
+            await Process(this.service, this.appSettings);
+            var nextOccurrenceMessage = info.FormatNextOccurrences(1);
+            Console.WriteLine(nextOccurrenceMessage);
         }
 
         /// <summary>
@@ -47,18 +65,18 @@ namespace ECA.WebJobs.Sevis.Comm
 
             var batchComm = new SevisComm(settings);
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
-            while(dtoToUpload != null)
+            while (dtoToUpload != null)
             {
                 //do the send here
 
                 string transactionLogXml = null;
-                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml);
+                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, this.fileProvider);
                 await service.SaveChangesAsync();
                 dtoToUpload = await service.GetNextBatchToUploadAsync();
             }
 
             var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            while(batchByIdToDownload != null)
+            while (batchByIdToDownload != null)
             {
 
                 //processing methods here or possibly another webjob

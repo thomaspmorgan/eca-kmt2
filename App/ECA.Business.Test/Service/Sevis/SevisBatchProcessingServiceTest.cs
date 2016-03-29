@@ -58,7 +58,6 @@ namespace ECA.Business.Test.Service.Sevis
             exchangeVisitorValidationService.Setup(x => x.GetValidator()).Returns(validator.Object);
             service = new SevisBatchProcessingService(
                 context: context,
-                fileProvider: fileProvider.Object,
                 cloudStorageService: cloudStorageService.Object,
                 exchangeVisitorService: exchangeVisitorService.Object,
                 notificationService: notificationService.Object,
@@ -144,7 +143,6 @@ namespace ECA.Business.Test.Service.Sevis
             var instance = new SevisBatchProcessingService(
                 context: context,
                 cloudStorageService: cloudStorageService.Object,
-                fileProvider: fileProvider.Object,
                 exchangeVisitorService: exchangeVisitorService.Object,
                 exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
                 sevisOrgId: orgId,
@@ -162,7 +160,6 @@ namespace ECA.Business.Test.Service.Sevis
             var instance = new SevisBatchProcessingService(
                 context: context,
                 cloudStorageService: cloudStorageService.Object,
-                fileProvider: fileProvider.Object,
                 exchangeVisitorService: exchangeVisitorService.Object,
                 exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
                 notificationService: notificationService.Object,
@@ -1602,7 +1599,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(url, participantPerson.DS2019FileUrl);
             };
             context.Revert();
-            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
@@ -1610,7 +1607,7 @@ namespace ECA.Business.Test.Service.Sevis
             fileProvider.Verify(x => x.GetDS2019File(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
@@ -1696,13 +1693,13 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.IsNull(participantPerson.DS2019FileUrl);
             };
             context.Revert();
-            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
             tester();
             cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019File(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
             tester();
             cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019FileAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
@@ -1785,13 +1782,13 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.IsNull(participantPerson.DS2019FileUrl);
             };
             context.Revert();
-            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
             tester();
             cloudStorageService.Verify(x => x.SaveFile(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019File(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
             tester();
             cloudStorageService.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>()), Times.Exactly(0));
             fileProvider.Verify(x => x.GetDS2019FileAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
@@ -1877,10 +1874,10 @@ namespace ECA.Business.Test.Service.Sevis
                 .Returns(Task.FromResult<byte[]>(new byte[0])).Callback(fileProviderCallback);
 
             context.Revert();
-            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
 
         }
 
@@ -1973,10 +1970,10 @@ namespace ECA.Business.Test.Service.Sevis
                 .Callback(cloudStorageCallback);
 
             context.Revert();
-            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
 
         }
 
@@ -2034,7 +2031,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
 
             context.Revert();
-            service.ProcessBatchDetailProcess(user, null, batch);
+            service.ProcessBatchDetailProcess(user, null, batch, fileProvider.Object);
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
@@ -2042,7 +2039,7 @@ namespace ECA.Business.Test.Service.Sevis
             fileProvider.Verify(x => x.GetDS2019File(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(0));
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, null, batch);
+            await service.ProcessBatchDetailProcessAsync(user, null, batch, fileProvider.Object);
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
@@ -2114,7 +2111,7 @@ namespace ECA.Business.Test.Service.Sevis
                 }
             };
             context.Revert();
-            service.ProcessBatchDetailProcess(user, processDetail, batch);
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
@@ -2122,7 +2119,7 @@ namespace ECA.Business.Test.Service.Sevis
             fileProvider.Verify(x => x.GetDS2019File(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(0));
 
             context.Revert();
-            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
             tester();
             notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
             notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
@@ -2304,8 +2301,8 @@ namespace ECA.Business.Test.Service.Sevis
                 },
             };
             var xml = GetXml(transactionLog);
-            Action a = () => service.ProcessTransactionLog(user, xml);
-            Func<Task> f = () => service.ProcessTransactionLogAsync(user, xml);
+            Action a = () => service.ProcessTransactionLog(user, xml, fileProvider.Object);
+            Func<Task> f = () => service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
@@ -2394,12 +2391,12 @@ namespace ECA.Business.Test.Service.Sevis
             var xml = GetXml(transactionLog);
 
             context.Revert();
-            service.ProcessTransactionLog(user, xml);
+            service.ProcessTransactionLog(user, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
-            await service.ProcessTransactionLogAsync(user, xml);
+            await service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
@@ -2445,12 +2442,12 @@ namespace ECA.Business.Test.Service.Sevis
             var xml = GetXml(transactionLog);
 
             context.Revert();
-            service.ProcessTransactionLog(user, xml);
+            service.ProcessTransactionLog(user, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
-            await service.ProcessTransactionLogAsync(user, xml);
+            await service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
@@ -2498,12 +2495,12 @@ namespace ECA.Business.Test.Service.Sevis
             var xml = GetXml(transactionLog);
 
             context.Revert();
-            service.ProcessTransactionLog(user, xml);
+            service.ProcessTransactionLog(user, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
-            await service.ProcessTransactionLogAsync(user, xml);
+            await service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
