@@ -25,12 +25,14 @@ angular.module('staticApp')
           return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
-                 $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
-                     var location = {};
-                     location.id = obj.id;
-                     location.name = obj.value;
-                     return location;
-                 });
+                 if ($scope.dependent.countriesOfCitizenship) {
+                     $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
+                         var location = {};
+                         location.id = obj.id;
+                         location.name = obj.value;
+                         return location;
+                     });
+                 }                 
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
@@ -81,8 +83,8 @@ angular.module('staticApp')
               if (search) {
                   params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
               }
-              else if ($scope.dependent.placeOfBirth_LocationId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirth_LocationId });
+              else if ($scope.dependent.placeOfBirthId) {
+                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirthId });
               }
               return LocationService.get(params)
                 .then(function (data) {
@@ -93,57 +95,60 @@ angular.module('staticApp')
       }
 
       function loadDependentCitizenshipCountries(search) {
-              var params = {
-                  limit: 300,
-                  filter: [
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-                    { property: 'isActive', comparison: 'eq', value: true }
-                  ]
-              };
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              }
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.countriesCitizenship = data.results;
-                    return $scope.countriesCitizenship;
-                });
+          var params = {
+              limit: 300,
+              filter: [
+                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+                { property: 'isActive', comparison: 'eq', value: true }
+              ]
+          };
+          if (search) {
+              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
           }
-
-        var params = {
-            limit: 300,
-            filter: [
-            { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-            { property: 'isActive', comparison: 'eq', value: true }
-            ]};
-
-            return LocationService.get(params)
+          return LocationService.get(params)
             .then(function (data) {
-                $scope.countriesResidence = data.results;
-                return $scope.countriesResidence;
+                $scope.countriesCitizenship = data.results;
+                return $scope.countriesCitizenship;
             });
+      }
 
-      LookupService.getAllGenders({
-            limit: 300,
-            filter: [{
-                property: 'id', comparison: ConstantsService.inComparisonType, value: [1, 2]
-            }]
-        })
-        .then(function (data) {
-            $scope.genders = data.results;
-        });
+      function loadResidenceCountries() {
+          var params = {
+              limit: 300,
+              filter: [
+              { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+              { property: 'isActive', comparison: 'eq', value: true }
+              ]
+          };
 
-      LookupService.getPersonTypes({
-            limit: 300,
-            filter: [{ property: 'isDependentPersonType', comparison: 'eq', value: true }]
-        })
-        .then(function (data) {
-            $scope.persontypes = data.data.results;
-        });
-      
-      $scope.cancelEditDependent = function () {
-          loadDependent($scope.person.personId);
-      };
+          return LocationService.get(params)
+          .then(function (data) {
+              $scope.countriesResidence = data.results;
+              return $scope.countriesResidence;
+          });
+      }
+
+      function loadGenders() {
+          LookupService.getAllGenders({
+              limit: 300,
+              filter: [{
+                  property: 'id', comparison: ConstantsService.inComparisonType, value: [1, 2]
+              }]
+          })
+          .then(function (data) {
+              $scope.genders = data.results;
+          });
+      }
+
+      function loadDependentTypes() {
+          LookupService.getDependentTypes({
+              limit: 300,
+              filter: [{ property: 'sevisDependentTypeCode', comparison: ConstantsService.isNotNullComparisonType }]
+          })
+          .then(function (data) {
+              $scope.dependenttypes = data.data.results;
+          });
+      }
 
       function saveEditDependent() {
           setupDependent();
@@ -182,6 +187,12 @@ angular.module('staticApp')
           }
       };
 
+      $scope.openDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.datePickerOpen = true;
+      };
+
       $scope.onSaveDependentClick = function () {
           return saveEditDependent()
               .then(function (dependent) {
@@ -192,5 +203,7 @@ angular.module('staticApp')
       $scope.onCloseDependentClick = function () {
           $modalInstance.dismiss('cancel');
       }
+
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()])
 
   });

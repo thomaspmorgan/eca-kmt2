@@ -108,7 +108,7 @@ namespace ECA.Business.Queries.Persons
 
             var query = from dependent in context.PersonDependents
 
-                        let locationOfBirth = locationsQuery.Where(x => x.Id == dependent.PlaceOfBirth_LocationId).FirstOrDefault()
+                        let locationOfBirth = locationsQuery.Where(x => x.Id == dependent.PlaceOfBirthId).FirstOrDefault()
                         let PermanentResidence = (from address in context.Addresses
                                                          let addressType = address.AddressType
                                                          let location = address.Location
@@ -118,7 +118,7 @@ namespace ECA.Business.Queries.Persons
                                                          let country = location.Country
                                                          let hasDivision = location.Division != null
                                                          let division = location.Division
-                                                  where address.LocationId == dependent.Residence_LocationId
+                                                  where address.LocationId == dependent.PlaceOfResidenceId
                                                          select new AddressDTO
                                                          {
                                                              AddressId = address.AddressId,
@@ -143,7 +143,7 @@ namespace ECA.Business.Queries.Persons
                             DependentId = dependent.DependentId,
                             PersonId = dependent.PersonId,
                             SevisId = dependent.SevisId,
-                            PersonTypeId = dependent.PersonTypeId,
+                            DependentTypeId = dependent.DependentTypeId,
                             FirstName = dependent.FirstName,
                             LastName = dependent.LastName,
                             NameSuffix = dependent.NameSuffix,
@@ -151,8 +151,8 @@ namespace ECA.Business.Queries.Persons
                             PreferredName = dependent.PreferredName,
                             GenderId = dependent.GenderId,
                             DateOfBirth = dependent.DateOfBirth,
-                            PlaceOfBirth_LocationId = dependent.PlaceOfBirth_LocationId,
-                            Residence_LocationId = dependent.Residence_LocationId,
+                            PlaceOfBirthId = dependent.PlaceOfBirthId,
+                            PlaceOfResidenceId = dependent.PlaceOfResidenceId,
                             BirthCountryReason = dependent.BirthCountryReason,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
                             IsDeleted = dependent.IsDeleted,

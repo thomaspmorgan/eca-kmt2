@@ -267,8 +267,8 @@
     <Build Include="dbo\Tables\ItineraryStopParticipant.sql" />
     <Build Include="dbo\Stored Procedures\GetOrganizationsByRoleId.sql" />
     <Build Include="dbo\Tables\ItineraryParticipant.sql" />
-    <Build Include="dbo\Tables\PersonType.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.PersonType.staticdata.sql" />
+    <Build Include="dbo\Tables\DependentType.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.DependentType.staticdata.sql" />
     <Build Include="dbo\Tables\OrganizationStatus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationStatus.staticdata.sql" />
     <Build Include="dbo\Tables\DefaultExchangeVisitorFunding.sql" />

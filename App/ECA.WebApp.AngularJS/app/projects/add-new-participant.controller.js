@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AddNewParticipantCtrl', function ($q, $scope, $stateParams, $modalInstance, personTypeId, LookupService, LocationService, ConstantsService, PersonService, ProjectService, NotificationService, OrganizationService) {
+  .controller('AddNewParticipantCtrl', function ($q, $scope, $stateParams, $modalInstance, LookupService, LocationService, ConstantsService, PersonService, ProjectService, NotificationService, OrganizationService) {
 
       $scope.personTabActive = true;
 
@@ -18,12 +18,6 @@ angular.module('staticApp')
       $scope.newPerson.selectedDuplicate = undefined;
       $scope.newPerson.isDateOfBirthUnknown = false;
       $scope.newPerson.isPlaceOfBirthUnknown = false;
-      if (personTypeId) {
-          $scope.newPerson.personTypeId = personTypeId;
-      }
-      else {
-          $log.info('The person type must either be resolved as an int or null.  If null the combobox needs to be displayed to allow the choice.');
-      }
 
       $scope.unknownCountry = 'Unknown';
 

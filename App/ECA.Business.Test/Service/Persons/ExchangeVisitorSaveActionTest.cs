@@ -41,6 +41,11 @@ namespace ECA.Business.Test.Service.Persons
 
     }
 
+    public class PersonDependentProxyClass : ECA.Data.PersonDependent
+    {
+
+    }
+
     public class PhoneNumberProxyClass : ECA.Data.PhoneNumber
     {
 
@@ -1075,8 +1080,7 @@ namespace ECA.Business.Test.Service.Persons
 
                 var person = new PersonProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 1
                 };
                 list.Add(person);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
@@ -1115,8 +1119,7 @@ namespace ECA.Business.Test.Service.Persons
 
                 var person = new PersonProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 1
                 };
                 list.Add(person);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
@@ -1153,8 +1156,7 @@ namespace ECA.Business.Test.Service.Persons
 
                 var person = new PersonProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 1
                 };
                 list.Add(person);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
@@ -1187,13 +1189,12 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
-                var dependent = new PersonProxyClass
+                var dependent = new PersonDependentProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Spouse.Id
+                    DependentId = 1,
+                    DependentTypeId = DependentType.Spouse.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -1232,13 +1233,12 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
-                var dependent = new PersonProxyClass
+                var dependent = new PersonDependentProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Child.Id
+                    DependentId = 1,
+                    DependentTypeId = DependentType.Child.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -1277,8 +1277,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var phoneNumber = new PhoneNumberProxyClass
                 {
@@ -1320,8 +1319,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var phoneNumber = new PhoneNumberProxyClass
                 {
@@ -1354,8 +1352,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var email = new EmailAddressProxyClass
                 {
@@ -1397,8 +1394,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var email = new EmailAddressProxyClass
                 {
@@ -1431,8 +1427,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var address = new AddressProxyClass
                 {
@@ -1474,8 +1469,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var address = new AddressProxyClass
                 {
@@ -1508,8 +1502,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
 
                 var location = new LocationProxyClass
@@ -1559,8 +1552,7 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var location = new LocationProxyClass
                 {
@@ -1587,8 +1579,7 @@ namespace ECA.Business.Test.Service.Persons
             var list = new List<object>();
             var person = new PersonProxyClass
             {
-                PersonId = 2,
-                PersonTypeId = -1
+                PersonId = 2
             };
             list.Add(person);
             var message = "The person by person type is not supported.";
@@ -1619,13 +1610,12 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
-                var dependent = new PersonProxyClass
+                var dependent = new PersonDependentProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Spouse.Id
+                    DependentId = 1,
+                    DependentTypeId = DependentType.Spouse.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -1661,13 +1651,12 @@ namespace ECA.Business.Test.Service.Persons
                 var list = new List<object>();
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
-                var dependent = new PersonProxyClass
+                var dependent = new PersonDependentProxyClass
                 {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Spouse.Id
+                    DependentId = 1,
+                    DependentTypeId = DependentType.Spouse.Id
                 };
                 list.Add(dependent);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
@@ -1880,8 +1869,7 @@ namespace ECA.Business.Test.Service.Persons
                 var participantId = 2;                
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var address = new Address
                 {
@@ -1966,8 +1954,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 var participatingPerson = new PersonProxyClass
                 {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
+                    PersonId = 2
                 };
                 var address = new Address
                 {

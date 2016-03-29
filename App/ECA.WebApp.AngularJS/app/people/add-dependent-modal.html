@@ -68,7 +68,7 @@
             <div class="form-group row">
                 <div class="col-md-4 title-label">City of Birth<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
-                    <ui-select ng-model="dependent.placeOfBirth_LocationId"
+                    <ui-select ng-model="dependent.placeOfBirthId"
                                theme="select2"
                                name="cityOfBirthId"
                                ui-validate="{isDependentPlaceOfBirthValid: 'isDependentPlaceOfBirthValid($value)'}">
@@ -81,7 +81,7 @@
                             <div style="margin-left:10px;" class="small" ng-show="city.country">{{city.country}}</div>
                         </ui-select-choices>
                     </ui-select>
-                    <div class="error" ng-show="dependentForm.placeOfBirth_LocationId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
+                    <div class="error" ng-show="dependentForm.placeOfBirthId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
                 </div>
             </div>
             <div class="form-group row">
@@ -132,7 +132,7 @@
                 <div class="col-md-8">
                     <select class="form-control"
                             ng-options="t.id as t.name for t in countriesResidence"
-                            ng-model="dependent.residence_LocationId"
+                            ng-model="dependent.placeOfResidenceId"
                             required />
                 </div>
             </div>

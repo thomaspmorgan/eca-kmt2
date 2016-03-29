@@ -10,7 +10,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="createdBy">User that created the person</param>
         /// <param name="personId">The parent person id</param>
-        /// <param name="personTypeId">The person type id</param>
+        /// <param name="dependentTypeId">The dependent type id</param>
         /// <param name="firstName">The first name</param>
         /// <param name="lastName">The last name</param>
         /// <param name="nameSuffix">The name suffix</param>
@@ -18,15 +18,15 @@ namespace ECA.Business.Service.Persons
         /// <param name="preferredName">The preferred name</param>
         /// <param name="genderId">The gender</param>
         /// <param name="dateOfBirth">The date of birth</param>
-        /// <param name="locationOfBirthId">The city of birth</param>
-        /// <param name="residenceLocationId">The permanent residence country code</param>
+        /// <param name="placeOfBirthId">The city of birth</param>
+        /// <param name="placeOfResidenceId">The permanent residence country code</param>
         /// <param name="birthCountryReason">The birth country reason</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         /// <param name="isTravelWithParticipant">If dependent is travelling with a participant</param>
         public NewPersonDependent(
             User createdBy,
             int personId,
-            int personTypeId,
+            int dependentTypeId,
             string firstName,
             string lastName,
             string nameSuffix,
@@ -34,14 +34,14 @@ namespace ECA.Business.Service.Persons
             string preferredName,
             int genderId,
             DateTime dateOfBirth,
-            int locationOfBirthId,
-            int residenceLocationId,
+            int placeOfBirthId,
+            int placeOfResidenceId,
             string birthCountryReason,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant)
         {
             this.PersonId = personId;
-            this.PersonTypeId = personTypeId;
+            this.DependentTypeId = dependentTypeId;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.NameSuffix = nameSuffix;
@@ -49,8 +49,8 @@ namespace ECA.Business.Service.Persons
             this.PreferredName = preferredName;
             this.GenderId = genderId;
             this.DateOfBirth = dateOfBirth;
-            this.PlaceOfBirth_LocationId = locationOfBirthId;            
-            this.Residence_LocationId = residenceLocationId;
+            this.PlaceOfBirthId = placeOfBirthId;
+            this.PlaceOfResidenceId = placeOfResidenceId;
             this.BirthCountryReason = birthCountryReason;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsTravellingWithParticipant = isTravelWithParticipant;
@@ -63,9 +63,9 @@ namespace ECA.Business.Service.Persons
         public int PersonId { get; set; }
         
         /// <summary>
-        /// Gets or sets the person type id.
+        /// Gets or sets the dependent type id.
         /// </summary>
-        public int PersonTypeId { get; set; }
+        public int DependentTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.
@@ -105,12 +105,12 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the place of birth.
         /// </summary>
-        public int PlaceOfBirth_LocationId { get; set; }
+        public int PlaceOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
-        public int Residence_LocationId { get; set; }
+        public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.

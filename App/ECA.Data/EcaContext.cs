@@ -49,7 +49,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the person types.
         /// </summary>
-        public DbSet<PersonType> PersonTypes { get; set; }
+        public DbSet<DependentType> DependentTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the addresses.

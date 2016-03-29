@@ -19,9 +19,9 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
         public string Relationship { get; set; }
 
         /// <summary>
-        /// Gets or sets the person type id.
+        /// Gets or sets the dependent type id.
         /// </summary>
-        public int PersonTypeId { get; set; }
+        public int DependentTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets the sevis id.

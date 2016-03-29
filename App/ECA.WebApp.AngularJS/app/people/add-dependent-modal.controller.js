@@ -130,36 +130,44 @@ angular.module('staticApp')
                 });
           }
 
-        var params = {
-            limit: 300,
-            filter: [
-            { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-            { property: 'isActive', comparison: 'eq', value: true }
-            ]
-        };
+        function loadResidenceCountries() {
+            var params = {
+                limit: 300,
+                filter: [
+                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
+                { property: 'isActive', comparison: 'eq', value: true }
+                ]
+            };
 
-        LocationService.get(params)
-          .then(function (data) {
-             $scope.countriesResidence = data.results;
-        });
+            return LocationService.get(params)
+            .then(function (data) {
+                $scope.countriesResidence = data.results;
+                return $scope.countriesResidence;
+            });
+        }
 
-      LookupService.getAllGenders({
-          limit: 300,
-          filter: [{
-              property: 'id', comparison: ConstantsService.inComparisonType, value: [1, 2]
-          }]
-      })
-        .then(function (data) {
-            $scope.genders = data.results;
-        });
+        function loadGenders() {
+            LookupService.getAllGenders({
+                limit: 300,
+                filter: [{
+                    property: 'id', comparison: ConstantsService.inComparisonType, value: [1, 2]
+                }]
+            })
+            .then(function (data) {
+                $scope.genders = data.results;
+            });
+        }
 
-      LookupService.getPersonTypes({
-          limit: 300,
-          filter: [{ property: 'isDependentPersonType', comparison: 'eq', value: true }]
-      })
-        .then(function (data) {
-            $scope.persontypes = data.data.results;
-        });
+        function loadDependentTypes() {
+            LookupService.getDependentTypes({
+                limit: 300,
+                filter: [{ property: 'sevisDependentTypeCode', comparison: ConstantsService.isNotNullComparisonType }]
+            })
+            .then(function (data) {
+                $scope.dependenttypes = data.data.results;
+            });
+        }
+
 
       function getNewDependent() {
           return {
@@ -176,5 +184,8 @@ angular.module('staticApp')
       $scope.onCloseDependentClick = function () {
           $modalInstance.dismiss('cancel');
       }
+
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()])
+
 
   });

@@ -1183,4 +1183,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[FK_dbo.PersonDependent_dbo.Person_PersonId]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="44128ae4-7dab-4a66-b2e5-65ad78b02c54" ChangeDateTime="03/29/2016 15:08:00">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[PersonTypeId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DependentTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="78e50dfb-6045-48a8-92f8-157c5c3e8fef" ChangeDateTime="03/29/2016 15:08:18">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[PlaceOfBirth_LocationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlaceOfBirthId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e59bcb5f-f0a1-4e3d-ad84-3787b9d9d7dc" ChangeDateTime="03/29/2016 15:08:30">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[Residence_LocationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlaceOfResidenceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0c5792f4-5efb-450e-9cff-fd24d39972aa" ChangeDateTime="03/29/2016 15:26:26">
+    <Property Name="ElementName" Value="[dbo].[PersonType].[PersonTypeId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DependentTypeId" />
+  </Operation>
 </Operations>

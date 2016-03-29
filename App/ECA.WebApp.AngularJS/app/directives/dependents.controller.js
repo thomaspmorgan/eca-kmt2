@@ -114,28 +114,6 @@ angular.module('staticApp')
           });          
       };
       
-      function loadCities(search) {
-          if (search || $scope.dependent) {
-              var params = {
-                  limit: 30,
-                  filter: [
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
-                  ]
-              };
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              }
-              else if ($scope.dependent.placeOfBirth_LocationId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirth_LocationId });
-              }
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.cities = data.results;
-                    return $scope.cities;
-                });
-          }
-      }
-
       function removeDependentFromView(index) {
           $scope.$emit(ConstantsService.removeNewDependentEventName, index);
       }
