@@ -20,7 +20,7 @@ namespace ECA.WebJobs.Sevis.Core
         /// </summary>
         /// <param name="batchId">The batch id.</param>
         /// <param name="dispositionCode">The disposition code.</param>
-        public void NotifyBatchDetailProcessed(string batchId, DispositionCode dispositionCode)
+        public void NotifyFinishedProcessingSevisBatchDetails(string batchId, DispositionCode dispositionCode)
         {
             Console.WriteLine("The batch details for batch id [{0}] were processed with the disposition code [{1}] ({2}).", batchId, dispositionCode.Code, dispositionCode.Description);
         }
@@ -83,6 +83,17 @@ namespace ECA.WebJobs.Sevis.Core
         public void NotifyUploadedBatchProcessed(string batchId, DispositionCode dispositionCode)
         {
             Console.WriteLine("The uploaded batch with id [{0}] was processed with the disposition code [{1}] ({2}).", batchId, dispositionCode.Code, dispositionCode.Description);
+        }
+
+        /// <summary>
+        /// Writes to the console batch that has begun updating participants and how many success and failure records the batch contains.
+        /// </summary>
+        /// <param name="batchId">The id of the batch.</param>
+        /// <param name="successCount">The number of successful batch create or update records.</param>
+        /// <param name="errorCount">The number of failed batch create or updates.</param>
+        public void NotifyStartedProcessingSevisBatchDetails(string batchId, int successCount, int errorCount)
+        {
+            Console.WriteLine("Began processing sevis batch with id [{0}].  There are [{1}] successful batch records, and [{2}] failed batch records.", batchId, successCount, errorCount);
         }
     }
 }

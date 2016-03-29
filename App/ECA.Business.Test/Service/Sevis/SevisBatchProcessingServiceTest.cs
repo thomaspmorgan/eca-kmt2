@@ -1361,7 +1361,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Dependent = null
             };
 
-            service.UpdateParticipant(user,  participantPerson, new List<PersonDependent>(), record);
+            service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
             Assert.IsNull(participantPerson.SevisId);
 
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
@@ -1435,7 +1435,7 @@ namespace ECA.Business.Test.Service.Sevis
                 }.ToArray()
             };
 
-            service.UpdateParticipant(user,  participantPerson, new List<PersonDependent> { personDependent }, record);
+            service.UpdateParticipant(user, participantPerson, new List<PersonDependent> { personDependent }, record);
             Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
             Assert.AreEqual(otherUser.Id, personDependent.History.CreatedBy);
             Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
@@ -1571,7 +1571,12 @@ namespace ECA.Business.Test.Service.Sevis
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
-                resultCode = DispositionCode.BusinessRuleViolations.Code
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                {
+                    Failure = "1",
+                    Success = "2"
+                }
             };
             Action tester = () =>
             {
@@ -1582,12 +1587,14 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch);
             tester();
-            notificationService.Verify(x => x.NotifyBatchDetailProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
 
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
             tester();
-            notificationService.Verify(x => x.NotifyBatchDetailProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -1646,12 +1653,14 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessBatchDetailProcess(user, null, batch);
             tester();
-            notificationService.Verify(x => x.NotifyBatchDetailProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
 
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, null, batch);
             tester();
-            notificationService.Verify(x => x.NotifyBatchDetailProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(0));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
 
         [TestMethod]
@@ -1710,17 +1719,24 @@ namespace ECA.Business.Test.Service.Sevis
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord>().ToArray(),
-                resultCode = DispositionCode.BusinessRuleViolations.Code
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                {
+                    Failure = "1",
+                    Success = "2"
+                }
             };
             context.Revert();
             service.ProcessBatchDetailProcess(user, processDetail, batch);
             tester();
-            notificationService.Verify(x => x.NotifyBatchDetailProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(1));
 
             context.Revert();
             await service.ProcessBatchDetailProcessAsync(user, processDetail, batch);
             tester();
-            notificationService.Verify(x => x.NotifyBatchDetailProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+            notificationService.Verify(x => x.NotifyFinishedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(2));
+            notificationService.Verify(x => x.NotifyStartedProcessingSevisBatchDetails(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -1954,6 +1970,7 @@ namespace ECA.Business.Test.Service.Sevis
             });
             Action tester = () =>
             {
+                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
                 Assert.AreEqual(sevisId, participantPerson.SevisId);
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
             };
@@ -1988,10 +2005,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessTransactionLog(user, xml);
             tester();
+            Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
             await service.ProcessTransactionLogAsync(user, xml);
             tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
 
         [TestMethod]
@@ -2037,10 +2056,12 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessTransactionLog(user, xml);
             tester();
+            Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
             await service.ProcessTransactionLogAsync(user, xml);
             tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
 
         [TestMethod]
@@ -2088,12 +2109,35 @@ namespace ECA.Business.Test.Service.Sevis
             context.Revert();
             service.ProcessTransactionLog(user, xml);
             tester();
+            Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
             await service.ProcessTransactionLogAsync(user, xml);
             tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
         #endregion
+
+        [TestMethod]
+        public void TestDelete()
+        {
+            var batchToRemove = new SevisBatchProcessing
+            {
+
+            };
+            context.SevisBatchProcessings.Add(batchToRemove);
+
+            Assert.AreEqual(1, context.SevisBatchProcessings.Count());
+            service.DeleteBatch(batchToRemove);
+            Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+        }
+
+        [TestMethod]
+        public void TestDelete_NullBatch()
+        {
+            Action a = () => service.DeleteBatch(null);
+            a.ShouldNotThrow();
+        }
 
         public void SetUserDefinedFields(TransactionLogTypeBatchDetailProcessRecord record, int participantId, int personId)
         {

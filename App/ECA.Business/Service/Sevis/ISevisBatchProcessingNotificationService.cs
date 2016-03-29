@@ -56,6 +56,14 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="batchId">The id of the batch.</param>
         /// <param name="dispositionCode">The process disposition code.</param>
-        void NotifyBatchDetailProcessed(string batchId, DispositionCode dispositionCode);
+        void NotifyFinishedProcessingSevisBatchDetails(string batchId, DispositionCode dispositionCode);
+
+        /// <summary>
+        /// Executed when the batch details of the transaction log are being processed.
+        /// </summary>
+        /// <param name="errorCount">The number of participants that failed the sevis create or update.</param>
+        /// <param name="successCount">The number of participants that succeeded the sevis create or update.</param>
+        /// <param name="batchId">The id of the batch.</param>
+        void NotifyStartedProcessingSevisBatchDetails(string batchId, int successCount, int errorCount);
     }
 }

@@ -181,12 +181,14 @@ namespace ECA.Business.Service.Sevis
         {
             var batch = CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefault();
             throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            ProcessUpload(transactionLog.BatchDetail.Upload, batch);
+            DoProcessTransactionLog(user, xml, transactionLog, batch);
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
             {
                 ProcessBatchDetailProcess(user, transactionLog.BatchDetail.Process, batch);
+                DeleteBatch(batch);
             }
-            ProcessUpload(transactionLog.BatchDetail.Upload, batch);
-            DoProcessTransactionLog(user, xml, transactionLog, batch);
+            this.Context.SaveChanges();
         }
 
         /// <summary>
@@ -199,12 +201,26 @@ namespace ECA.Business.Service.Sevis
         {
             var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefaultAsync();
             throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            await ProcessUploadAsync(transactionLog.BatchDetail.Upload, batch);
+            DoProcessTransactionLog(user, xml, transactionLog, batch);
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
             {
                 await ProcessBatchDetailProcessAsync(user, transactionLog.BatchDetail.Process, batch);
+                DeleteBatch(batch);
             }
-            await ProcessUploadAsync(transactionLog.BatchDetail.Upload, batch);
-            DoProcessTransactionLog(user, xml, transactionLog, batch);
+            await this.Context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Sets the entity state to deleted so that when the context is saved, the given batch is removed.
+        /// </summary>
+        /// <param name="batch">The batch to delete.</param>
+        public void DeleteBatch(SevisBatchProcessing batch)
+        {
+            if (batch != null)
+            {
+                Context.SevisBatchProcessings.Remove(batch);
+            }
         }
 
         private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
@@ -296,7 +312,9 @@ namespace ECA.Business.Service.Sevis
         {
             if (process != null)
             {
-                batch.ProcessDispositionCode = process.resultCode;
+                DoNotifyStartedProcessingBatchDetailProcessed(batch, process);
+                var dispositionCode = DispositionCode.ToDispositionCode(process.resultCode);
+                batch.ProcessDispositionCode = dispositionCode.Code;
                 foreach (var record in process.Record)
                 {
                     var participantKey = new ParticipantSevisKey(record);
@@ -306,7 +324,7 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
                 }
-                notificationService.NotifyBatchDetailProcessed(batch.BatchId, process.DispositionCode);
+                notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
         }
 
@@ -320,7 +338,9 @@ namespace ECA.Business.Service.Sevis
         {
             if (process != null)
             {
-                batch.ProcessDispositionCode = process.resultCode;
+                DoNotifyStartedProcessingBatchDetailProcessed(batch, process);
+                var dispositionCode = DispositionCode.ToDispositionCode(process.resultCode);
+                batch.ProcessDispositionCode = dispositionCode.Code;
                 foreach (var record in process.Record)
                 {
                     var participantKey = new ParticipantSevisKey(record);
@@ -330,7 +350,15 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
                 }
-                notificationService.NotifyBatchDetailProcessed(batch.BatchId, process.DispositionCode);
+                notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
+            }
+        }
+
+        private void DoNotifyStartedProcessingBatchDetailProcessed(SevisBatchProcessing batch, TransactionLogTypeBatchDetailProcess process)
+        {
+            if (process != null && process.RecordCount != null && batch != null)
+            {
+                notificationService.NotifyStartedProcessingSevisBatchDetails(batch.BatchId, Int32.Parse(process.RecordCount.Success), Int32.Parse(process.RecordCount.Failure));
             }
         }
 
@@ -469,38 +497,7 @@ namespace ECA.Business.Service.Sevis
             return SevisBatchProcessingQueries.CreateGetParticipantPersonsByBatchId(this.Context, batchId).Select(x => x.ParticipantId);
         }
 
-        #endregion
-
-        #region Delete
-        /// <summary>
-        /// Deletes the SEVIS Batch Processing record with the given id.
-        /// </summary>
-        /// <param name="batchId">The id of the SEVIS Batch Processing record to delete.</param>
-        public void Delete(int batchId)
-        {
-            var sevisBatchProcessing = Context.SevisBatchProcessings.Find(batchId);
-            DoDelete(sevisBatchProcessing);
-        }
-
-        /// <summary>
-        /// Deletes the SEVIS Batch Processing record with the given id.
-        /// </summary>
-        /// <param name="phoneNumberId">The id of the SEVIS Batch Processing record to delete.</param>
-        public async Task DeleteAsync(int batchId)
-        {
-            var sevisBatchProcessing = await Context.SevisBatchProcessings.FindAsync(batchId);
-            DoDelete(sevisBatchProcessing);
-        }
-
-        private void DoDelete(SevisBatchProcessing sevisBatchProcessingToDelete)
-        {
-            if (sevisBatchProcessingToDelete != null)
-            {
-                Context.SevisBatchProcessings.Remove(sevisBatchProcessingToDelete);
-            }
-        }
-
-        #endregion
+        #endregion        
 
         #region Staging
         /// <summary>
