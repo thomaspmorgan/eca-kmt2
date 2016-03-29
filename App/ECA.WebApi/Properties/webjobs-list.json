@@ -9,9 +9,9 @@
     },
     {
       "filePath": "../ECA.WebJobs.Sevis.Staging/ECA.WebJobs.Sevis.Staging.csproj"
-    },
-    {
-      "filePath": "../ECA.WebJobs.Sevis.Comm/ECA.WebJobs.Sevis.Comm.csproj"
-    }
+    }//,
+    //{
+    //  "filePath": "../ECA.WebJobs.Sevis.Comm/ECA.WebJobs.Sevis.Comm.csproj"
+    //}
   ]
 }
