@@ -231,6 +231,7 @@ namespace ECA.Business.Service.Sevis
                     var participantIds = CreateGetParticipantIdsByBatchId(batch.BatchId).ToList();
                     AddSuccessfulUploadSevisCommStatus(participantIds, batch);
                 }
+                notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
         }
 
@@ -252,6 +253,7 @@ namespace ECA.Business.Service.Sevis
                     var participantIds = await CreateGetParticipantIdsByBatchId(batch.BatchId).ToListAsync();
                     AddSuccessfulUploadSevisCommStatus(participantIds, batch);
                 }
+                notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
         }
 
@@ -280,6 +282,7 @@ namespace ECA.Business.Service.Sevis
             {
                 batch.DownloadDispositionCode = downloadDetail.DispositionCode.Code;
                 batch.RetrieveDate = DateTimeOffset.UtcNow;
+                notificationService.NotifyDownloadedBatchProcessed(batch.BatchId, downloadDetail.DispositionCode);
             }
         }
 
@@ -303,6 +306,7 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
                 }
+                notificationService.NotifyBatchDetailProcessed(batch.BatchId, process.DispositionCode);
             }
         }
 
@@ -326,6 +330,7 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
                 }
+                notificationService.NotifyBatchDetailProcessed(batch.BatchId, process.DispositionCode);
             }
         }
 
