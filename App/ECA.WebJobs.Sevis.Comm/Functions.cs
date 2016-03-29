@@ -30,10 +30,10 @@ namespace ECA.WebJobs.Sevis.Comm
         }
 
         /// <summary>
-        /// Process batch sevis batches using the service.  In a debug build this will run every 20 seconds.  In a release build it will run every 5 mins.
+        /// Send, recieve, and process sevis batches using the service.  In a debug build this will run every 20 seconds.  In a release build it will run every 5 mins.
         /// </summary>
         /// <param name="info">The timer trigger instance.</param>
-        /// <returns>The task</returns>
+        /// <returns>The task<./returns>
         public async Task ProcessTimer(
 #if DEBUG
             [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
@@ -42,7 +42,7 @@ namespace ECA.WebJobs.Sevis.Comm
 #endif   
             )
         {
-            await Process(this.service, this.appSettings);
+            await ProcessAsync(this.service, this.appSettings, this.fileProvider);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             Console.WriteLine(nextOccurrenceMessage);
         }
@@ -52,7 +52,7 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The SEVIS batch services to get and update batches.</param>
         /// <param name="settings">The app settings.</param>
-        public async Task Process(ISevisBatchProcessingService service, AppSettings settings)
+        public async Task ProcessAsync(ISevisBatchProcessingService service, AppSettings settings, ZipArchiveDS2019FileProvider fileProvider)
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
@@ -70,7 +70,7 @@ namespace ECA.WebJobs.Sevis.Comm
                 //do the send here
 
                 string transactionLogXml = null;
-                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, this.fileProvider);
+                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
                 await service.SaveChangesAsync();
                 dtoToUpload = await service.GetNextBatchToUploadAsync();
             }
