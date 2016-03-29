@@ -91,6 +91,9 @@
 	otherConstants["updateBreadcrumbsEventName"] = "updateBreadcrumbs";
 
 	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
+
+	otherConstants["otherInternationalOrganizationId"] = Convert.ToString(18);
+	otherConstants["otherUSGovernmentAgencyId"] = Convert.ToString(22);
 	WriteTypes(types, otherConstants);
 #>
 

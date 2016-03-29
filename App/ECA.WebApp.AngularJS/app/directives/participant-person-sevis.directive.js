@@ -200,10 +200,10 @@
                     });
 
                     if ($scope.view.FundingEdit) {
-                        $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == 22);
-                        $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == 22);
-                        $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == 18);
-                        $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == 18);
+                        $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
+                        $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
+                        $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantService.otherInternationalOrganizationId);
+                        $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
                     }
                 };
 
