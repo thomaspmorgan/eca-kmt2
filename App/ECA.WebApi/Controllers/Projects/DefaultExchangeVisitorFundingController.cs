@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using CAM.Data;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Projects;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Security;
@@ -59,19 +60,19 @@ namespace ECA.WebApi.Controllers.Projects
         /// <summary>
         /// Updates default exchange visitor funding
         /// </summary>
-        /// <param name="projectId">The project id</param>
         /// <param name="model">The new model</param>
         /// <returns>The saved default exchange visitor funding</returns>
         [Route("Project/{projectId:int}/DefaultExchangeVisitorFunding")]
-        public async Task<IHttpActionResult> PutDefaultExchangeVisitorFunding(int projectId, [FromBody]UpdatedDefaultExchangeVisitorFundingBindingModel model)
+        [ResourceAuthorize(Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(UpdatedDefaultExchangeVisitorFundingBindingModel), "ProjectId")]
+        public async Task<IHttpActionResult> PutDefaultExchangeVisitorFunding([FromBody]UpdatedDefaultExchangeVisitorFundingBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                await service.UpdateAsync(model.ToUpdatedDefaultExchangeVisitorFunding(businessUser, projectId));
+                await service.UpdateAsync(model.ToUpdatedDefaultExchangeVisitorFunding(businessUser, model.ProjectId));
                 await service.SaveChangesAsync();
-                var dto = await service.GetDefaultExchangeVisitorFundingAsync(projectId);
+                var dto = await service.GetDefaultExchangeVisitorFundingAsync(model.ProjectId);
                 return Ok(dto);
             } 
             else
