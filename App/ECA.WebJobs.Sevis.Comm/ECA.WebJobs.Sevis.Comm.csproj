@@ -186,6 +186,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\kmtapi-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-prod.pubxml" />
+    <None Include="Properties\PublishProfiles\kmtapi-qa.pubxml" />
+    <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
