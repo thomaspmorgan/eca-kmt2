@@ -214,6 +214,8 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		officeFocusSettingName: 'Focus',
 		officeJustificationSettingName: 'Justification',
 		officeObjectiveSettingName: 'Objective',
+		otherInternationalOrganizationId: '18',
+		otherUSGovernmentAgencyId: '22',
 		primaryAddressChangedEventName: 'primaryAddressChanged',
 		primaryEmailAddressChangedEventName: 'primaryEmailAddressChanged',
 		primaryLanguageProficiencyChangedEventName: 'primaryLanguageProficiencyChanged',

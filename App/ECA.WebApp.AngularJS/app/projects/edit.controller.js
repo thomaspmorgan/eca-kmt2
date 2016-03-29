@@ -322,6 +322,14 @@ angular.module('staticApp')
           }
       }
 
+      $scope.editView.showOtherInput = function (selectedId, otherId, model) {
+          var isOther = selectedId === parseInt(otherId);
+          if (!isOther) {
+              $scope.editView.sevisFunding[model] = "";
+          }
+          return isOther;
+      }
+
       function onFormValidStateChange() {
           var isInvalid = $scope.form.projectForm.$invalid;
           if (isInvalid) {
