@@ -1,15 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Core.Settings;
-using Moq;
+﻿using ECA.Business.Service;
 using ECA.Business.Service.Sevis;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Threading.Tasks;
-using ECA.Business.Service;
+using ECA.Core.Settings;
+using ECA.WebJobs.Sevis.Comm;
+using ECA.WebJobs.Sevis.Core;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Timers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ECA.WebJobs.Sevis.Staging.Test
 {
@@ -34,6 +36,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
+        private ZipArchiveDS2019FileProvider fileProvider;
 
         [TestInitialize]
         public void TestInit()
@@ -61,9 +64,22 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SYSTEM_USER_ID_KEY, userId.ToString());
             appSettings.Add(AppSettings.SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
+            appSettings.Add(AppSettings.SEVIS_UPLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchUpload");
+            appSettings.Add(AppSettings.SEVIS_DOWNLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchDownload");
+            appSettings.Add(AppSettings.SEVIS_ORGID_KEY, "org id");
+            appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
+            appSettings.Add(AppSettings.SEVIS_USERID_KEY, "10");
+            appSettings.Add(AppSettings.SEVIS_THUMBPRINT, "f14e780d72921fda4b8079d887114dfd1922d624");
+            appSettings.Add(AppSettings.SEVIS_PASSPHRASE, "none");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
             await instance.ProcessTimer(timerInfo);
-            service.Verify(x => x.StageBatchesAsync(It.IsAny<User>()), Times.Once());
+            
+        }
+
+        [TestMethod]
+        public void TestGetFileProvider()
+        {
+            Assert.IsInstanceOfType(instance.GetFileProvider(), typeof(ZipArchiveDS2019FileProvider));
         }
 
         [TestMethod]

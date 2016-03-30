@@ -13,19 +13,25 @@ using ECA.WebJobs.Sevis.Core;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
+    /// <summary>
+    /// The Function class is responsible for processing sevis batches on a schedule.
+    /// </summary>
     public class Functions : IDisposable
     {
         // This function will be triggered based on the schedule you have set for this WebJob
 
         private ISevisBatchProcessingService service;
         private AppSettings appSettings;
-        private ZipArchiveDS2019FileProvider fileProvider;
 
-        public Functions(ISevisBatchProcessingService service, AppSettings appSettings, ZipArchiveDS2019FileProvider fileProvider)
+        /// <summary>
+        /// Creates a new Functions instance.
+        /// </summary>
+        /// <param name="service">The sevis batch processing service.</param>
+        /// <param name="appSettings">The app settings.</param>
+        public Functions(ISevisBatchProcessingService service, AppSettings appSettings)
         {
             this.service = service;
             this.appSettings = appSettings;
-            this.fileProvider = fileProvider;
 
         }
 
@@ -42,7 +48,7 @@ namespace ECA.WebJobs.Sevis.Comm
 #endif   
             )
         {
-            await ProcessAsync(this.service, this.appSettings, this.fileProvider);
+            await ProcessAsync(this.service, this.appSettings);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             Console.WriteLine(nextOccurrenceMessage);
         }
@@ -52,7 +58,7 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The SEVIS batch services to get and update batches.</param>
         /// <param name="settings">The app settings.</param>
-        public async Task ProcessAsync(ISevisBatchProcessingService service, AppSettings settings, ZipArchiveDS2019FileProvider fileProvider)
+        public async Task ProcessAsync(ISevisBatchProcessingService service, AppSettings settings)
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
@@ -70,6 +76,7 @@ namespace ECA.WebJobs.Sevis.Comm
                 //do the send here
 
                 string transactionLogXml = null;
+                var fileProvider = GetFileProvider();
                 await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
                 await service.SaveChangesAsync();
                 dtoToUpload = await service.GetNextBatchToUploadAsync();
@@ -118,6 +125,24 @@ namespace ECA.WebJobs.Sevis.Comm
 
         }
 
+        /// <summary>
+        /// Returns a DS2019FileProvider.  Change this method to provide the list of files when ready.
+        /// </summary>
+        /// <returns>The file provider.</returns>
+        public IDS2019FileProvider GetFileProvider()
+        {
+            return new ZipArchiveDS2019FileProvider();
+        }
+
+        /// <summary>
+        /// Returns the system user.
+        /// </summary>
+        /// <returns>The system user.</returns>
+        public User GetSystemUser()
+        {
+            return new User(Int32.Parse(this.appSettings.SystemUserId));
+        }
+
         #region IDispose
 
         /// <summary>
@@ -135,15 +160,15 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            //if (disposing)
-            //{
-            //        if (service is IDisposable)
-            //        {
-            //            Console.WriteLine("Disposing of service " + service.GetType());
-            //            ((IDisposable)service).Dispose();
-            //        }
-            //    }
-            //}
+            if (disposing)
+            {
+                if (this.service is IDisposable)
+                {
+                    Console.WriteLine("Disposing of service " + this.service.GetType());
+                    ((IDisposable)this.service).Dispose();
+                    this.service = null;
+                }
+            }
         }
 
         #endregion
