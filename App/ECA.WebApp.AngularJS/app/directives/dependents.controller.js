@@ -63,11 +63,15 @@ angular.module('staticApp')
               templateUrl: 'app/people/add-dependent-modal.html',
               controller: 'AddDependentModalCtrl',
               size: 'md',
-              resolve: {}
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
           });
-          addDependentModalInstance.result.then(function (addedDependent) {
+          addDependentModalInstance.result.then(function (dependent) {
               $log.info('Finished adding dependent.');
-              $modal.close([addedDependent]);
+              addDependentToView(dependent);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -89,9 +93,9 @@ angular.module('staticApp')
                   }
               }
           });
-          editDependentModalInstance.result.then(function (updatedDependent) {
+          editDependentModalInstance.result.then(function (dependent) {
               $log.info('Finished updating dependent.');
-              $modal.close([updatedDependent]);
+              updateDependentView(dependent);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -126,6 +130,11 @@ angular.module('staticApp')
           $scope.model.dependents.splice(index, 1);
           $log.info('Removed dependent at index ' + index);
       });
+
+      //function updateDependents(id, dependent) {
+      //    var index = $scope.model.dependents.map(function (e) { return e.dependentId }).indexOf(id);
+      //    $scope.model.dependents[index] = dependent;
+      //};
 
       //$scope.$on("reloadDependents", function (e, a) {
       //    $scope.model.dependents[a.data.dependentId] = a.data;
