@@ -25,6 +25,7 @@ using System.IO;
 using System.Xml.Serialization;
 using ECA.Business.Sevis.Model;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -2646,6 +2647,180 @@ namespace ECA.Business.Test.Service.Sevis
             await service.SaveDS2019FormAsync(participantId, sevisId, fileContents);
         }
         #endregion
+
+        #region Dispose
+        [TestMethod]
+        public void TestDispose_Context()
+        {
+            var serviceToDispose = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
+                cloudStorageService: cloudStorageService.Object,
+                exchangeVisitorService: exchangeVisitorService.Object,
+                notificationService: notificationService.Object,
+                exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var contextField = typeof(SevisBatchProcessingService).GetProperty("Context", BindingFlags.NonPublic | BindingFlags.Instance);
+            var contextValue = contextField.GetValue(serviceToDispose);
+            Assert.IsNotNull(contextField);
+            Assert.IsNotNull(contextValue);
+
+            serviceToDispose.Dispose();
+            contextValue = contextField.GetValue(serviceToDispose);
+            Assert.IsNull(contextValue);
+        }
+
+        [TestMethod]
+        public void TestDispose_CloudStorageService()
+        {
+            var disposableService = new Mock<IDummyCloudStorage>();
+            var disposable = disposableService.As<IDisposable>();
+
+            var serviceToDispose = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
+                cloudStorageService: disposableService.Object,
+                exchangeVisitorService: exchangeVisitorService.Object,
+                notificationService: notificationService.Object,
+                exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var serviceField = typeof(SevisBatchProcessingService).GetField("cloudStorageService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNotNull(serviceField);
+            Assert.IsNotNull(serviceValue);
+
+            serviceToDispose.Dispose();
+            serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNull(serviceValue);
+            disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_ExchangeVisitorService()
+        {
+            var disposableService = new Mock<IExchangeVisitorService>();
+            var disposable = disposableService.As<IDisposable>();
+
+            var serviceToDispose = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
+                cloudStorageService: cloudStorageService.Object,
+                exchangeVisitorService: disposableService.Object,
+                notificationService: notificationService.Object,
+                exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var serviceField = typeof(SevisBatchProcessingService).GetField("exchangeVisitorService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNotNull(serviceField);
+            Assert.IsNotNull(serviceValue);
+
+            serviceToDispose.Dispose();
+            serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNull(serviceValue);
+            disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_ExchangeVisitorValidationService()
+        {
+            var disposableService = new Mock<IExchangeVisitorValidationService>();
+            var disposable = disposableService.As<IDisposable>();
+
+            var serviceToDispose = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
+                cloudStorageService: cloudStorageService.Object,
+                exchangeVisitorService: exchangeVisitorService.Object,
+                notificationService: notificationService.Object,
+                exchangeVisitorValidationService: disposableService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var serviceField = typeof(SevisBatchProcessingService).GetField("exchangeVisitorValidationService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNotNull(serviceField);
+            Assert.IsNotNull(serviceValue);
+
+            serviceToDispose.Dispose();
+            serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNull(serviceValue);
+            disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_NotificationService()
+        {
+            var disposableService = new Mock<ISevisBatchProcessingNotificationService>();
+            var disposable = disposableService.As<IDisposable>();
+
+            var serviceToDispose = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
+                cloudStorageService: cloudStorageService.Object,
+                exchangeVisitorService: exchangeVisitorService.Object,
+                notificationService: disposableService.Object,
+                exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var serviceField = typeof(SevisBatchProcessingService).GetField("notificationService", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNotNull(serviceField);
+            Assert.IsNotNull(serviceValue);
+
+            serviceToDispose.Dispose();
+            serviceValue = serviceField.GetValue(serviceToDispose);
+            Assert.IsNull(serviceValue);
+            disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_NoDisposableServices()
+        {
+            
+            var serviceToDispose = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
+                cloudStorageService: cloudStorageService.Object,
+                exchangeVisitorService: exchangeVisitorService.Object,
+                notificationService: notificationService.Object,
+                exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var serviceNames = new List<string>
+            {
+                "notificationService",
+                "exchangeVisitorValidationService",
+                "exchangeVisitorService",
+                "cloudStorageService"
+            };
+            foreach(var name in serviceNames)
+            {
+                var serviceField = typeof(SevisBatchProcessingService).GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
+                var serviceValue = serviceField.GetValue(serviceToDispose);
+                Assert.IsNotNull(serviceField);
+                Assert.IsNotNull(serviceValue);
+
+                serviceToDispose.Dispose();
+                serviceValue = serviceField.GetValue(serviceToDispose);
+                Assert.IsNotNull(serviceValue);
+            }
+        }
+        #endregion
+
 
         public void SetUserDefinedFields(TransactionLogTypeBatchDetailProcessRecord record, int participantId, int personId)
         {

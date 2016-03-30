@@ -764,10 +764,10 @@ namespace ECA.Business.Service.Sevis
         public void DeleteProcessedBatches()
         {
             var count = CreateGetProcessedSevisBatchIdsForDeletionQuery().Count();
-            while(count > 0)
+            while (count > 0)
             {
                 var ids = CreateGetProcessedSevisBatchIdsForDeletionQuery().Take(() => QUERY_BATCH_SIZE).ToList();
-                foreach(var id in ids)
+                foreach (var id in ids)
                 {
                     var batch = Context.SevisBatchProcessings.Find(id);
                     var batchId = batch.BatchId;
@@ -784,7 +784,7 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <returns>The task.</returns>
         public async Task DeleteProcessedBatchesAsync()
-        {   
+        {
             var count = await CreateGetProcessedSevisBatchIdsForDeletionQuery().CountAsync();
             while (count > 0)
             {
@@ -801,12 +801,42 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        
+
         private IQueryable<int> CreateGetProcessedSevisBatchIdsForDeletionQuery()
         {
             var days = this.numberOfDaysToKeepProcessedBatches > 0 ? -1.0 * this.numberOfDaysToKeepProcessedBatches : this.numberOfDaysToKeepProcessedBatches;
             var cutOffDate = DateTimeOffset.UtcNow.AddDays(days);
             return SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(this.Context, cutOffDate).OrderBy(x => x);
+        }
+        #endregion
+
+        #region Dispose
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                if (this.cloudStorageService is IDisposable)
+                {
+                    ((IDisposable)this.cloudStorageService).Dispose();
+                    this.cloudStorageService = null;
+                }
+                if (this.exchangeVisitorService is IDisposable)
+                {
+                    ((IDisposable)this.exchangeVisitorService).Dispose();
+                    this.exchangeVisitorService = null;
+                }
+                if (this.exchangeVisitorValidationService is IDisposable)
+                {
+                    ((IDisposable)this.exchangeVisitorValidationService).Dispose();
+                    this.exchangeVisitorValidationService = null;
+                }
+                if (this.notificationService is IDisposable)
+                {
+                    ((IDisposable)this.notificationService).Dispose();
+                    this.notificationService = null;
+                }                
+            }
         }
         #endregion
     }
