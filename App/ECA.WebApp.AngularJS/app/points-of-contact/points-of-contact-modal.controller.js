@@ -58,7 +58,9 @@ angular.module('staticApp')
       }
 
       $scope.view.onFullNameChange = function () {
-          return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
+          if ($scope.view.newPointOfContact.fullName && $scope.view.newPointOfContact.fullName.length > 0) {
+              return loadPointsOfContactByFullName($scope.view.newPointOfContact.fullName);
+          }
       }
 
       $scope.view.isValidEmail = function ($value, $index) {
@@ -141,46 +143,50 @@ angular.module('staticApp')
 
       var likePointsOfContactByFullNameFilter = FilterService.add('points-of-contact-model-search-by-full-name-filter');
       function loadPointsOfContactByFullName(fullName) {
-          likePointsOfContactByFullNameFilter.reset();
-          likePointsOfContactByFullNameFilter = likePointsOfContactByFullNameFilter
-              .skip(0)
-              .take(1)
-              .equal('fullName', fullName);
-          $scope.view.isLoadingPointsOfContactByFullName = true;
-          var params = likePointsOfContactByFullNameFilter.toParams();
-          return ContactsService.get(params)
-          .then(function (response) {
-              $scope.view.likePointsOfContactByFullName = response.data.results;
-              $scope.view.isLoadingPointsOfContactByFullName = false;
-              $scope.view.likePointsOfContactByFullNameTotal = response.data.total;
-              return $scope.view.likePointsOfContactByFullName;
-          })
-          .catch(function (response) {
-              $scope.view.isLoadingPointsOfContactByFullName = false;
-              var mesage = "Unable to load like points of contact.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
+          if (fullName && fullName.length > 0) {
+              likePointsOfContactByFullNameFilter.reset();
+              likePointsOfContactByFullNameFilter = likePointsOfContactByFullNameFilter
+                  .skip(0)
+                  .take(1)
+                  .equal('fullName', fullName);
+              $scope.view.isLoadingPointsOfContactByFullName = true;
+              var params = likePointsOfContactByFullNameFilter.toParams();
+              return ContactsService.get(params)
+              .then(function (response) {
+                  $scope.view.likePointsOfContactByFullName = response.data.results;
+                  $scope.view.isLoadingPointsOfContactByFullName = false;
+                  $scope.view.likePointsOfContactByFullNameTotal = response.data.total;
+                  return $scope.view.likePointsOfContactByFullName;
+              })
+              .catch(function (response) {
+                  $scope.view.isLoadingPointsOfContactByFullName = false;
+                  var mesage = "Unable to load like points of contact.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              });
+          }
       }
 
       var likePointsOfContactByEmailFilter = FilterService.add('points-of-contact-model-search-by-email-filter');
       function loadPointsOfContactByEmail(emailAddress) {
-          likePointsOfContactByEmailFilter.reset();
-          likePointsOfContactByEmailFilter = likePointsOfContactByEmailFilter
-              .skip(0)
-              .take(1)
-              .containsAny('emailAddressValues', [emailAddress]);
-          var params = likePointsOfContactByEmailFilter.toParams();
-          return ContactsService.get(params)
-          .then(function (response) {
-              $scope.view.likePointsOfContactByEmail = response.data.results;
-              return $scope.view.likePointsOfContactByEmail;
-          })
-          .catch(function (response) {
-              var mesage = "Unable to load like points of contact.";
-              NotificationService.showErrorMessage(message);
-              $log.error(message);
-          });
+          if (emailAddress && emailAddress.length > 0) {
+              likePointsOfContactByEmailFilter.reset();
+              likePointsOfContactByEmailFilter = likePointsOfContactByEmailFilter
+                  .skip(0)
+                  .take(1)
+                  .containsAny('emailAddressValues', [emailAddress]);
+              var params = likePointsOfContactByEmailFilter.toParams();
+              return ContactsService.get(params)
+              .then(function (response) {
+                  $scope.view.likePointsOfContactByEmail = response.data.results;
+                  return $scope.view.likePointsOfContactByEmail;
+              })
+              .catch(function (response) {
+                  var mesage = "Unable to load like points of contact.";
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              });
+          }
       }
 
       function loadEmailAddressTypes() {
