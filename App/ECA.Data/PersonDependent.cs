@@ -71,9 +71,10 @@ namespace ECA.Data
         public string SevisId { get; set; }
 
         /// <summary>
-        /// Gets or sets the person type id.
+        /// Gets or sets the dependent type id.
         /// </summary>
-        public int PersonTypeId { get; set; }
+        [Column("DependentTypeId")]
+        public int DependentTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.
@@ -122,13 +123,13 @@ namespace ECA.Data
         /// Gets or sets the place of birth.
         /// </summary>
         [Required]
-        public int PlaceOfBirth_LocationId { get; set; }
+        public int PlaceOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
         [Required]
-        public int Residence_LocationId { get; set; }
+        public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.
@@ -152,8 +153,13 @@ namespace ECA.Data
         public bool IsSevisDeleted { get; set; }
         
         public ICollection<Location> CountriesOfCitizenship { get; set; }
-
         public ICollection<EmailAddress> EmailAddresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dependent type.
+        /// </summary>
+        [ForeignKey("DependentTypeId")]
+        public virtual DependentType DependentType { get; set; }
 
         [ForeignKey("PersonId")]
         public virtual Person Person { get; set; }

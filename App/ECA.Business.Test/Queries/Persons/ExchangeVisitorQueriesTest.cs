@@ -24,10 +24,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_CheckProperties()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -86,15 +85,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId,
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId,
                 IsTravellingWithParticipant = true,
                 IsDeleted = true,
             };
@@ -150,7 +149,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -169,7 +168,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(email.Address, biography.EmailAddress);
             Assert.AreEqual(gender.GenderId, biography.GenderId);
             Assert.AreEqual(gender.SevisGenderCode, biography.Gender);
-            Assert.AreEqual(spousePersonType.PersonTypeId, biography.PersonTypeId);
+            Assert.AreEqual(spousePersonType.DependentTypeId, biography.DependentTypeId);
             Assert.AreEqual(spousePersonType.SevisDependentTypeCode, biography.Relationship);
             Assert.AreEqual(participant.ParticipantId, biography.ParticipantId);
             Assert.AreEqual(dependent.SevisId, biography.SevisId);
@@ -190,10 +189,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_GenderIsNotValid()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -252,15 +250,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
 
@@ -314,7 +312,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -324,10 +322,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_ResidenceCountryIsNotSet()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -374,15 +371,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = 0
+                PlaceOfResidenceId = 0
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
 
@@ -433,7 +430,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -443,10 +440,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_ZeroCountriesOfCitizenship()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -499,15 +495,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
 
             var person = new Data.Person
@@ -559,7 +555,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -570,10 +566,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_TwoCitizenshipCountries()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -639,15 +634,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
             dependent.CountriesOfCitizenship.Add(otherCountryOfCitizenship);
@@ -703,7 +698,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -714,10 +709,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_NoEmailAddresses()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -776,15 +770,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
 
@@ -821,7 +815,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -832,10 +826,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetParticipantDependentsBiographicalQuery_CheckUsesPrimaryEmailAddress()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var sevisCountryOfCitizenship = new BirthCountry
             {
@@ -894,15 +887,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
 
@@ -962,7 +955,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
@@ -1029,15 +1022,15 @@ namespace ECA.Business.Test.Queries.Persons
                 LastName = "last name",
                 NameSuffix = "suffix",
                 GenderId = gender.GenderId,
-                PersonTypeId = 0,
+                DependentTypeId = 0,
                 SevisId = "dependent sevis Id",
                 PassportName = "passport name",
                 BirthCountryReason = "birth country reason",
                 DateOfBirth = DateTime.UtcNow,
                 DependentId = 350,
-                PlaceOfBirth_LocationId = cityOfBirth.LocationId,
+                PlaceOfBirthId = cityOfBirth.LocationId,
                 PreferredName = "preferred name",
-                Residence_LocationId = sevisResidenceLocation.LocationId
+                PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
 
@@ -1095,7 +1088,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(context, participant.ParticipantId).ToList();
             Assert.AreEqual(1, result.Count);
             Assert.IsNull(result.First().Relationship);
-            Assert.AreEqual(-1, result.First().PersonTypeId);
+            Assert.AreEqual(-1, result.First().DependentTypeId);
         }
 
         [TestMethod]

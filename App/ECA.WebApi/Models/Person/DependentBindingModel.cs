@@ -16,9 +16,9 @@ namespace ECA.WebApi.Models.Person
         public int PersonId { get; set; }
 
         /// <summary>
-        /// Gets or sets the person type id.
+        /// Gets or sets the dependent type id.
         /// </summary>
-        public int PersonTypeId { get; set; }
+        public int DependentTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.
@@ -58,12 +58,12 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the place of birth.
         /// </summary>
-        public int PlaceOfBirth_LocationId { get; set; }
+        public int PlaceOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
-        public int Residence_LocationId { get; set; }
+        public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.
@@ -90,7 +90,7 @@ namespace ECA.WebApi.Models.Person
             return new NewPersonDependent(
                 createdBy: user,
                 personId: PersonId,
-                personTypeId: PersonTypeId,
+                dependentTypeId: DependentTypeId,
                 firstName: FirstName,
                 lastName: LastName,
                 nameSuffix: NameSuffix,
@@ -98,8 +98,8 @@ namespace ECA.WebApi.Models.Person
                 preferredName: PreferredName,
                 genderId: GenderId,
                 dateOfBirth: DateOfBirth,
-                locationOfBirthId: PlaceOfBirth_LocationId,
-                residenceLocationId: Residence_LocationId,
+                placeOfBirthId: PlaceOfBirthId,
+                placeOfResidenceId: PlaceOfResidenceId,
                 birthCountryReason: BirthCountryReason,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 isTravelWithParticipant: IsTravellingWithParticipant);

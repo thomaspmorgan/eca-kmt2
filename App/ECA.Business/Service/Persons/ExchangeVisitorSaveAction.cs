@@ -711,52 +711,24 @@ namespace ECA.Business.Service.Persons
         private int? GetParticipantId(Person person)
         {
             int? participantId = null;
-            if (person.PersonTypeId == PersonType.Participant.Id)
+            var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
+            if (dto != null && dto.ParticipantId.HasValue)
             {
-                var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
+                participantId = dto.ParticipantId.Value;
             }
-            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id)
-            {
-                var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
-            }
-            else
-            {
-                throw new NotSupportedException("The person by person type is not supported.");
-            }
+
             return participantId;
         }
 
         private async Task<int?> GetParticipantIdAsync(Person person)
         {
             int? participantId = null;
-            if (person.PersonTypeId == PersonType.Participant.Id)
+            var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
+            if (dto != null && dto.ParticipantId.HasValue)
             {
-                var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
+                participantId = dto.ParticipantId.Value;
             }
-            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id) //here
-            {
-                var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
-            }
-            else
-            {
-                throw new NotSupportedException("The person by person type is not supported.");
-            }
+
             return participantId;
         }
 

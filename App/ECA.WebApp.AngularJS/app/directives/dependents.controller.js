@@ -29,45 +29,6 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadDependentsPromise = $q.defer();
 
-      $scope.view.onAddDependentClick = function () {
-          $scope.dependentLoading = false;
-          var addDependentModalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'app/people/add-dependent-modal.html',
-              controller: 'AddDependentModalCtrl',
-              size: 'md',
-              resolve: {}
-          });
-          addDependentModalInstance.result.then(function (addedDependent) {
-              $log.info('Finished adding dependent.');
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
-      };
-
-      $scope.view.onEditDependentClick = function (dependent) {
-          $scope.dependentLoading = false;
-          dependent.original = angular.copy(dependent);
-          dependent.currentlyEditing = true;
-
-          var editDependentModalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'app/people/edit-dependent-modal.html',
-              controller: 'EditDependentModalCtrl',
-              size: 'md',
-              resolve: {
-                  dependent: function () {
-                      return dependent;
-                  }
-              }
-          });
-          editDependentModalInstance.result.then(function (updatedDependent) {
-              $log.info('Finished updating dependent.');
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
-      };
-      
       function saveEditDependent(dependent) {
           return DependentService.update(dependent, dependent.personId)
               .then(function (response) {
@@ -94,6 +55,51 @@ angular.module('staticApp')
                   }
               });
       };
+
+      $scope.view.onAddDependentClick = function () {
+          $scope.dependentLoading = false;
+          var addDependentModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/people/add-dependent-modal.html',
+              controller: 'AddDependentModalCtrl',
+              size: 'md',
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
+          });
+          addDependentModalInstance.result.then(function (dependent) {
+              $log.info('Finished adding dependent.');
+              addDependentToView(dependent);
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      };
+
+      $scope.view.onEditDependentClick = function (dependent) {
+          $scope.dependentLoading = false;
+          dependent.original = angular.copy(dependent);
+          dependent.currentlyEditing = true;
+
+          var editDependentModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/people/edit-dependent-modal.html',
+              controller: 'EditDependentModalCtrl',
+              size: 'md',
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
+          });
+          editDependentModalInstance.result.then(function (dependent) {
+              $log.info('Finished updating dependent.');
+              updateDependentView(dependent);
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      };
       
       $scope.view.onDeleteDependentClick = function (index) {
           $scope.view.isDeletingDependent = true;
@@ -114,28 +120,6 @@ angular.module('staticApp')
           });          
       };
       
-      function loadCities(search) {
-          if (search || $scope.dependent) {
-              var params = {
-                  limit: 30,
-                  filter: [
-                    { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.city.id }
-                  ]
-              };
-              if (search) {
-                  params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-              }
-              else if ($scope.dependent.placeOfBirth_LocationId) {
-                  params.filter.push({ property: 'id', comparison: ConstantsService.equalComparisonType, value: $scope.dependent.placeOfBirth_LocationId });
-              }
-              return LocationService.get(params)
-                .then(function (data) {
-                    $scope.cities = data.results;
-                    return $scope.cities;
-                });
-          }
-      }
-
       function removeDependentFromView(index) {
           $scope.$emit(ConstantsService.removeNewDependentEventName, index);
       }
@@ -146,4 +130,14 @@ angular.module('staticApp')
           $scope.model.dependents.splice(index, 1);
           $log.info('Removed dependent at index ' + index);
       });
+
+      //function updateDependents(id, dependent) {
+      //    var index = $scope.model.dependents.map(function (e) { return e.dependentId }).indexOf(id);
+      //    $scope.model.dependents[index] = dependent;
+      //};
+
+      //$scope.$on("reloadDependents", function (e, a) {
+      //    $scope.model.dependents[a.data.dependentId] = a.data;
+      //});
+
   });

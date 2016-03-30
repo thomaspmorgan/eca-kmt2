@@ -17,7 +17,7 @@ namespace ECA.WebApi.Test.Models.Person
             int dependentId = 2;
             int personId = 1;
             var sevisId = "N000000001";
-            var personTypeId = PersonType.Spouse.Id;
+            var dependentTypeId = DependentType.Child.Id;
             var firstName = "first";
             var lastName = "last";
             var suffix = "jr";
@@ -38,7 +38,7 @@ namespace ECA.WebApi.Test.Models.Person
                 DependentId = dependentId,
                 PersonId = personId,
                 SevisId = sevisId,
-                PersonTypeId = personTypeId,
+                DependentTypeId = dependentTypeId,
                 FirstName = firstName,
                 LastName = lastName,
                 NameSuffix = suffix,
@@ -46,8 +46,8 @@ namespace ECA.WebApi.Test.Models.Person
                 PreferredName = preferred,
                 GenderId = gender,
                 DateOfBirth = dateOfBirth,
-                PlaceOfBirth_LocationId = placeOfBirth,
-                Residence_LocationId = permanentResidenceCountryCode,
+                PlaceOfBirthId = placeOfBirth,
+                PlaceOfResidenceId = permanentResidenceCountryCode,
                 BirthCountryReason = birthCountryReason,
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsTravellingWithParticipant = isTravellingWithParticipant,
@@ -58,7 +58,7 @@ namespace ECA.WebApi.Test.Models.Person
             var instance = model.ToUpdatePersonDependent(user);
             Assert.AreEqual(model.DependentId, instance.DependentId);
             Assert.AreEqual(model.PersonId, instance.PersonId);
-            Assert.AreEqual(model.PersonTypeId, instance.PersonTypeId);
+            Assert.AreEqual(model.DependentTypeId, instance.DependentTypeId);
             Assert.AreEqual(model.FirstName, instance.FirstName);
             Assert.AreEqual(model.LastName, instance.LastName);
             Assert.AreEqual(model.NameSuffix, instance.NameSuffix);
@@ -66,8 +66,8 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.PreferredName, instance.PreferredName);
             Assert.AreEqual(model.GenderId, instance.GenderId);
             Assert.AreEqual(model.DateOfBirth, instance.DateOfBirth);
-            Assert.AreEqual(model.PlaceOfBirth_LocationId, instance.PlaceOfBirth_LocationId);
-            Assert.AreEqual(model.Residence_LocationId, instance.Residence_LocationId);
+            Assert.AreEqual(model.PlaceOfBirthId, instance.PlaceOfBirthId);
+            Assert.AreEqual(model.PlaceOfResidenceId, instance.PlaceOfResidenceId);
             Assert.AreEqual(model.BirthCountryReason, instance.BirthCountryReason);
             CollectionAssert.AreEqual(model.CountriesOfCitizenship, instance.CountriesOfCitizenship);
             Assert.AreEqual(model.IsTravellingWithParticipant, instance.IsTravellingWithParticipant);
