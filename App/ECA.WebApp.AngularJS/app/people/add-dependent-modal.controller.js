@@ -80,19 +80,6 @@ angular.module('staticApp')
           return loadDependentCitizenshipCountries(search);
       }
 
-      $scope.getCities = function (val) {
-          return LocationService.get({
-              start: 0,
-              limit: 25,
-              filter: [{ property: 'name', comparison: 'like', value: val },
-                       { property: 'countryId', comparison: 'eq', value: $scope.dependent.countryOfBirthId },
-                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
-          }).then(function (data) {
-              $scope.cities = data.results;
-              return $scope.cities;
-          });
-      }
-
       function loadDependentCities(search) {
           if (search) {
               var params = {
@@ -168,16 +155,35 @@ angular.module('staticApp')
             });
         }
 
+        $scope.getCities = function (val) {
+            return LocationService.get({
+                start: 0,
+                limit: 25,
+                filter: [{ property: 'name', comparison: 'like', value: val },
+                         { property: 'countryId', comparison: 'eq', value: $scope.dependent.countryOfBirthId },
+                         { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
+            }).then(function (data) {
+                $scope.cities = data.results;
+                return $scope.cities;
+            });
+        }
 
       function getNewDependent() {
           return {
           };
       }
 
+      $scope.openDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.datePickerOpen = true;
+      };
+
       $scope.onSaveDependentClick = function () {
           return saveNewDependent()
               .then(function (dependent) {
                   $modalInstance.close(dependent);
+                  //$rootScope.$broadcast('reloadDependents', dependent);
               });
       }
 
@@ -185,7 +191,5 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()])
-
-
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()]);
   });

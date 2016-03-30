@@ -8,8 +8,8 @@
  */
 angular.module('staticApp')
   .controller('EditDependentModalCtrl', function ($scope, $timeout, $modalInstance,
-          PersonService, DependentService, LookupService, LocationService, ConstantsService,
-          $stateParams, NotificationService, FilterService, $q, DateTimeService, dependent) {
+          PersonService, DependentService, LookupService, LocationService, ConstantsService, $stateParams,
+          NotificationService, FilterService, $q, DateTimeService, dependent) {
       
       $scope.dependent = loadDependent(dependent.id);
       $scope.selectedCountriesOfCitizenship = [];
@@ -197,6 +197,7 @@ angular.module('staticApp')
           return saveEditDependent()
               .then(function (dependent) {
                   $modalInstance.close(dependent);
+                  //$rootScope.$broadcast('reloadDependents', dependent);
               });
       }
 
@@ -204,6 +205,5 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()])
-
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()]);
   });

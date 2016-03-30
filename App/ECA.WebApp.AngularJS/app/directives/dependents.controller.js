@@ -29,45 +29,6 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadDependentsPromise = $q.defer();
 
-      $scope.view.onAddDependentClick = function () {
-          $scope.dependentLoading = false;
-          var addDependentModalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'app/people/add-dependent-modal.html',
-              controller: 'AddDependentModalCtrl',
-              size: 'md',
-              resolve: {}
-          });
-          addDependentModalInstance.result.then(function (addedDependent) {
-              $log.info('Finished adding dependent.');
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
-      };
-
-      $scope.view.onEditDependentClick = function (dependent) {
-          $scope.dependentLoading = false;
-          dependent.original = angular.copy(dependent);
-          dependent.currentlyEditing = true;
-
-          var editDependentModalInstance = $modal.open({
-              animation: true,
-              templateUrl: 'app/people/edit-dependent-modal.html',
-              controller: 'EditDependentModalCtrl',
-              size: 'md',
-              resolve: {
-                  dependent: function () {
-                      return dependent;
-                  }
-              }
-          });
-          editDependentModalInstance.result.then(function (updatedDependent) {
-              $log.info('Finished updating dependent.');
-          }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-          });
-      };
-      
       function saveEditDependent(dependent) {
           return DependentService.update(dependent, dependent.personId)
               .then(function (response) {
@@ -93,6 +54,47 @@ angular.module('staticApp')
                       }
                   }
               });
+      };
+
+      $scope.view.onAddDependentClick = function () {
+          $scope.dependentLoading = false;
+          var addDependentModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/people/add-dependent-modal.html',
+              controller: 'AddDependentModalCtrl',
+              size: 'md',
+              resolve: {}
+          });
+          addDependentModalInstance.result.then(function (addedDependent) {
+              $log.info('Finished adding dependent.');
+              $modal.close([addedDependent]);
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
+      };
+
+      $scope.view.onEditDependentClick = function (dependent) {
+          $scope.dependentLoading = false;
+          dependent.original = angular.copy(dependent);
+          dependent.currentlyEditing = true;
+
+          var editDependentModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/people/edit-dependent-modal.html',
+              controller: 'EditDependentModalCtrl',
+              size: 'md',
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
+          });
+          editDependentModalInstance.result.then(function (updatedDependent) {
+              $log.info('Finished updating dependent.');
+              $modal.close([updatedDependent]);
+          }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+          });
       };
       
       $scope.view.onDeleteDependentClick = function (index) {
@@ -124,4 +126,9 @@ angular.module('staticApp')
           $scope.model.dependents.splice(index, 1);
           $log.info('Removed dependent at index ' + index);
       });
+
+      //$scope.$on("reloadDependents", function (e, a) {
+      //    $scope.model.dependents[a.data.dependentId] = a.data;
+      //});
+
   });
