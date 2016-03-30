@@ -61,6 +61,11 @@ namespace ECA.Business.Test.Service.Persons
 
     }
 
+    public class PersonDependentProxyClass : ECA.Data.PersonDependent
+    {
+
+    }
+
     [TestClass]
     public class ExchangeVisitorSaveActionTest
     {
@@ -133,6 +138,32 @@ namespace ECA.Business.Test.Service.Persons
                     return entries;
                 };
                 context.People.Add(entity);
+                var entities = saveAction.GetModifiedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetModifiedParticipants_PersonDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PersonDependentProxyClass
+                {
+                    PersonId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Modified
+                    });
+                    return entries;
+                };
+                context.PersonDependents.Add(entity);
                 var entities = saveAction.GetModifiedEntities(context);
                 Assert.AreEqual(1, entities.Count);
                 Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
@@ -472,6 +503,58 @@ namespace ECA.Business.Test.Service.Persons
                     return entries;
                 };
                 context.People.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_PersonDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PersonDependent
+                {
+                    PersonId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.PersonDependents.Add(entity);
+                var entities = saveAction.GetCreatedEntities(context);
+                Assert.AreEqual(1, entities.Count);
+                Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCreatedEntities_PersonDependentProxy()
+        {
+            using (ShimsContext.Create())
+            {
+                var entity = new PersonDependentProxyClass
+                {
+                    PersonId = 1,
+                };
+                System.Data.Entity.Infrastructure.Fakes.ShimDbChangeTracker.AllInstances.Entries = (tracker) =>
+                {
+                    var entries = new List<DbEntityEntry>();
+                    entries.Add(new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                    {
+                        EntityGet = () => entity,
+                        StateGet = () => EntityState.Added
+                    });
+                    return entries;
+                };
+                context.PersonDependents.Add(entity);
                 var entities = saveAction.GetCreatedEntities(context);
                 Assert.AreEqual(1, entities.Count);
                 Assert.IsTrue(Object.ReferenceEquals(entity, entities.First()));
@@ -953,7 +1036,7 @@ namespace ECA.Business.Test.Service.Persons
         public void GetCreatedAndModifiedEntityTypes()
         {
             var types = saveAction.GetCreatedAndModifiedEntityTypes();
-            Assert.AreEqual(8, types.Count);
+            Assert.AreEqual(9, types.Count);
             Assert.IsTrue(types.Contains(typeof(Location)));
             Assert.IsTrue(types.Contains(typeof(Participant)));
             Assert.IsTrue(types.Contains(typeof(Person)));
@@ -962,6 +1045,7 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsTrue(types.Contains(typeof(PhoneNumber)));
             Assert.IsTrue(types.Contains(typeof(EmailAddress)));
             Assert.IsTrue(types.Contains(typeof(Address)));
+            Assert.IsTrue(types.Contains(typeof(PersonDependent)));
         }
         #endregion
 
@@ -1105,6 +1189,54 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetParticipantIds_PersonDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                
+                var person = new PersonProxyClass
+                {
+                    PersonId = 1,
+                };
+                var personDependent = new PersonDependentProxyClass
+                {
+                    DependentId = 1,
+                    Person = person,
+                    PersonId = person.PersonId
+                };
+                list.Add(personDependent);
+                context.People.Add(person);
+                saveAction.Context = context;
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = person.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
         public async Task TestGetParticipantIds_Person_IsNotParticipating()
         {
             using (ShimsContext.Create())
@@ -1203,6 +1335,11 @@ namespace ECA.Business.Test.Service.Persons
                     });
                     return peopleDtos.AsQueryable();
                 };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
                 context.People.Add(participatingPerson);
                 context.PhoneNumbers.Add(phoneNumber);
                 saveAction.Context = context;
@@ -1250,7 +1387,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantIds_EmailAddress()
+        public async Task TestGetParticipantIds_EmailAddress_BelongsToPerson()
         {
             using (ShimsContext.Create())
             {
@@ -1278,7 +1415,67 @@ namespace ECA.Business.Test.Service.Persons
                     });
                     return peopleDtos.AsQueryable();
                 };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+
                 context.People.Add(participatingPerson);
+                context.EmailAddresses.Add(email);
+                saveAction.Context = context;
+                Action<List<int>> tester = (ids) =>
+                {
+                    Assert.AreEqual(1, ids.Count);
+                    Assert.AreEqual(participantId, ids.First());
+                };
+                var participantIds = saveAction.GetParticipantIds(list);
+                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
+                tester(participantIds);
+                tester(participantIdsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantIds_EmailAddress_BelongsToDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var participantId = 2;
+
+                var list = new List<object>();
+                var person = new Person
+                {
+                    PersonId = 20,
+                };
+                var personDependent = new PersonDependentProxyClass
+                {
+                    DependentId = 1,
+                    PersonId = person.PersonId,
+                    Person = person
+                };
+                var email = new EmailAddressProxyClass
+                {
+                    EmailAddressId = 3,
+                    Dependent = personDependent,
+                    DependentId = personDependent.DependentId
+                };
+                list.Add(email);
+                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
+                {
+                    var peopleDtos = new List<SimplePersonDTO>();
+                    peopleDtos.Add(new SimplePersonDTO
+                    {
+                        PersonId = personDependent.PersonId,
+                        ParticipantId = participantId
+                    });
+                    return peopleDtos.AsQueryable();
+                };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
+                context.People.Add(person);
+                context.PersonDependents.Add(personDependent);
                 context.EmailAddresses.Add(email);
                 saveAction.Context = context;
                 Action<List<int>> tester = (ids) =>
@@ -1353,6 +1550,10 @@ namespace ECA.Business.Test.Service.Persons
                     });
                     return peopleDtos.AsQueryable();
                 };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
                 context.People.Add(participatingPerson);
                 context.Addresses.Add(address);
                 saveAction.Context = context;
@@ -1435,6 +1636,10 @@ namespace ECA.Business.Test.Service.Persons
                     });
                     return peopleDtos.AsQueryable();
                 };
+                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
+                {
+                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
+                });
                 context.People.Add(participatingPerson);
                 context.Addresses.Add(address);
                 context.Locations.Add(location);
@@ -2077,7 +2282,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetPersonIdByEmailAddress()
+        public async Task TestGetPersonIdByEmailAddress_EmailIsForPerson()
         {
             using (ShimsContext.Create())
             {
@@ -2107,6 +2312,109 @@ namespace ECA.Business.Test.Service.Persons
                 Action<int?> tester = (personId) =>
                 {
                     Assert.AreEqual(email.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByEmailAddress(context, email);
+                var resultAsync = await saveAction.GetPersonIdByEmailAddressAsync(context, email);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByEmailAddress_EmailIsForPersonDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var person = new Person
+                {
+                    PersonId = 100
+                };
+                var dependent = new PersonDependent
+                {
+                    DependentId = 2,
+                    PersonId = person.PersonId,
+                    Person = person
+                };
+                var email = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                    DependentId = 2,
+                    Dependent = dependent
+                };
+                context.GetLocalDelegate = () => email;
+                context.People.Add(person);
+                context.PersonDependents.Add(dependent);
+                context.EmailAddresses.Add(email);
+                saveAction.Context = context;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.DependentId), property);
+                    return email.DependentId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(person.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByEmailAddress(context, email);
+                var resultAsync = await saveAction.GetPersonIdByEmailAddressAsync(context, email);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByEmailAddress_EmailIsForPersonDependent_DependentDoesNotHavePerson()
+        {
+            using (ShimsContext.Create())
+            {
+                var dependent = new PersonDependent
+                {
+                    DependentId = 2,
+                };
+                var email = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                    DependentId = 2,
+                    Dependent = dependent
+                };
+                context.GetLocalDelegate = () => email;
+                context.PersonDependents.Add(dependent);
+                context.EmailAddresses.Add(email);
+                saveAction.Context = context;
+
+                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
+                propertyValues.GetValueOf1String<int?>((property) =>
+                {
+                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.DependentId), property);
+                    return email.DependentId;
+                });
+
+                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
+                dbEntityEntry.GetDatabaseValues = () => propertyValues;
+                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
+
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
+                {
+                    return dbEntityEntry;
+                });
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.IsNull(personId);
                 };
 
                 var result = saveAction.GetPersonIdByEmailAddress(context, email);
