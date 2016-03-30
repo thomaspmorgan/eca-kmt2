@@ -69,6 +69,7 @@ namespace ECA.WebJobs.Sevis.Core
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
                     context: c.Resolve<EcaContext>(),
+                    numberOfDaysToKeepProcessedBatches: Double.Parse(appSettings.NumberOfDaysToKeepProcessedSevisBatchRecords),
                     cloudStorageService: c.Resolve<IDummyCloudStorage>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),

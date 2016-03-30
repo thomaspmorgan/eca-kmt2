@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Sevis;
 using ECA.Business.Sevis.Model;
 using ECA.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -116,6 +117,27 @@ namespace ECA.Business.Queries.Sevis
                             SevisId = participantPerson.SevisId
                         };
             return query.OrderBy(x => x.ParticipantId);
+        }
+
+        /// <summary>
+        /// Creates a query to retrieve SevisBatchProcessing model Ids that have completed processing successfully and
+        /// are older than the given cut off date.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="cutOffDate">The latest restreival date of a sevis batch process.  All successful batches after this date will not
+        /// be deleted.</param>
+        /// <returns></returns>
+        public static IQueryable<int> CreateGetProcessedSevisBatchIdsForDeletionQuery(EcaContext context, DateTimeOffset cutOffDate)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var successCode = DispositionCode.Success.Code;
+            var query = from batch in context.SevisBatchProcessings
+                        where batch.DownloadDispositionCode == successCode
+                        && batch.UploadDispositionCode == successCode
+                        && batch.ProcessDispositionCode == successCode
+                        && batch.RetrieveDate < cutOffDate
+                        select batch.Id;
+            return query;
         }
     }
 }

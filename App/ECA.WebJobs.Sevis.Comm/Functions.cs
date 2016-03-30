@@ -71,24 +71,24 @@ namespace ECA.WebJobs.Sevis.Comm
 
             var batchComm = new SevisComm(settings);
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
-            while (dtoToUpload != null)
-            {
-                //do the send here
+            //while (dtoToUpload != null)
+            //{
+            //    //do the send here
 
-                //string transactionLogXml = null;
-                //var fileProvider = GetFileProvider();
-                //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
-                dtoToUpload = await service.GetNextBatchToUploadAsync();
-            }
+            //    //string transactionLogXml = null;
+            //    //var fileProvider = GetFileProvider();
+            //    //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
+            //    dtoToUpload = await service.GetNextBatchToUploadAsync();
+            //}
 
             var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            while (batchByIdToDownload != null)
-            {
+            //while (batchByIdToDownload != null)
+            //{
 
-                //processing methods here or possibly another webjob
-                //await service.ProcessTransactionLogAsync(string.Empty);
-                batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            }
+            //    //processing methods here or possibly another webjob
+            //    //await service.ProcessTransactionLogAsync(string.Empty);
+            //    batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
+            //}
 
             //foreach (var batch in batchesToBeSent)
             //{

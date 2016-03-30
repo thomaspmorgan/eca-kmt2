@@ -46,6 +46,7 @@ namespace ECA.Business.Service.Sevis
         private IExchangeVisitorService exchangeVisitorService;
         private IExchangeVisitorValidationService exchangeVisitorValidationService;
         private string sevisOrgId;
+        private double numberOfDaysToKeepProcessedBatches;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<SevisBatchProcessing, object> throwIfSevisBatchProcessingNotFound;
         private readonly Func<List<StagedSevisBatch>, User, StagedSevisBatch> getNewStagedSevisBatch;
@@ -58,6 +59,12 @@ namespace ECA.Business.Service.Sevis
         /// <param name="queryBatchSize">The number of ready to submit participants to query in a batch. </param>
         /// <param name="participantBatchSize">The number of participants to process in a sevis batch.</param>
         /// <param name="sevisOrgId">The organization id to send in a sevis batch.</param>
+        /// <param name="cloudStorageService">The cloud storage service used to save ds2019 files.</param>
+        /// <param name="exchangeVisitorValidationService">The exchange visitor validation service.</param>
+        /// <param name="maxCreateExchangeVisitorRecordsPerBatch">The maximum number of records to place in a CreateEV sevis batch.</param>
+        /// <param name="maxUpdateExchangeVisitorRecordsPerBatch">The maximum number of records to place in the UpdateEV sevis batch.</param>
+        /// <param name="notificationService">The notification service.</param>
+        /// <param name="numberOfDaysToKeepProcessedBatches">The number of days to keep successfully processed sevis batches, after which they should be permanently deleted.</param>
         /// <param name="saveActions">The save actions.</param>
         public SevisBatchProcessingService(
             EcaContext context,
@@ -66,6 +73,7 @@ namespace ECA.Business.Service.Sevis
             ISevisBatchProcessingNotificationService notificationService,
             IExchangeVisitorValidationService exchangeVisitorValidationService,
             string sevisOrgId,
+            double numberOfDaysToKeepProcessedBatches,
             int maxCreateExchangeVisitorRecordsPerBatch = StagedSevisBatch.MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT,
             int maxUpdateExchangeVisitorRecordsPerBatch = StagedSevisBatch.MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT,
             List<ISaveAction> saveActions = null)
@@ -89,6 +97,7 @@ namespace ECA.Business.Service.Sevis
                 batches.Add(stagedSevisBatch);
                 return stagedSevisBatch;
             };
+            this.numberOfDaysToKeepProcessedBatches = numberOfDaysToKeepProcessedBatches;
             this.cloudStorageService = cloudStorageService;
             this.notificationService = notificationService;
             this.exchangeVisitorService = exchangeVisitorService;
@@ -198,7 +207,6 @@ namespace ECA.Business.Service.Sevis
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
             {
                 ProcessBatchDetailProcess(user, transactionLog.BatchDetail.Process, batch, fileProvider);
-                DeleteBatch(batch);
             }
             this.Context.SaveChanges();
         }
@@ -219,21 +227,8 @@ namespace ECA.Business.Service.Sevis
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
             {
                 await ProcessBatchDetailProcessAsync(user, transactionLog.BatchDetail.Process, batch, fileProvider);
-                DeleteBatch(batch);
             }
             await this.Context.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Sets the entity state to deleted so that when the context is saved, the given batch is removed.
-        /// </summary>
-        /// <param name="batch">The batch to delete.</param>
-        public void DeleteBatch(SevisBatchProcessing batch)
-        {
-            if (batch != null)
-            {
-                Context.SevisBatchProcessings.Remove(batch);
-            }
         }
 
         private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
@@ -343,7 +338,7 @@ namespace ECA.Business.Service.Sevis
                         var url = SaveDS2019Form(participant.ParticipantId, record.sevisID, ds2019Contents);
                         participantPerson.DS2019FileUrl = url;
                     }
-                    
+
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
@@ -372,7 +367,7 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, dependents, record);
                     var ds2019Contents = await fileProvider.GetDS2019FileAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
-                    if(ds2019Contents != null && ds2019Contents.Length > 0)
+                    if (ds2019Contents != null && ds2019Contents.Length > 0)
                     {
                         var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, ds2019Contents);
                         participantPerson.DS2019FileUrl = url;
@@ -758,7 +753,33 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(sevisId != null, "The sevis id must not be null.");
             return string.Format("{0}_{1}.{2}", participantId, sevisId, "pdf");
         }
-        
+
+        #endregion
+
+        #region Delete
+        public void DeleteProcessedBatches()
+        {
+            var ids = CreateGetProcessedSevisBatchIdsForDeletionQuery().ToList();
+            DoDeleteProcessedBatches(ids);
+        }
+
+        public async Task DeleteProcessedBatchesAsync()
+        {
+            var ids = await CreateGetProcessedSevisBatchIdsForDeletionQuery().ToListAsync();
+            DoDeleteProcessedBatches(ids);
+        }
+
+        private void DoDeleteProcessedBatches(IEnumerable<int> batchIds)
+        {
+
+        }
+
+        private IQueryable<int> CreateGetProcessedSevisBatchIdsForDeletionQuery()
+        {
+            var days = this.numberOfDaysToKeepProcessedBatches > 0 ? -1.0 * this.numberOfDaysToKeepProcessedBatches : this.numberOfDaysToKeepProcessedBatches;
+            var cutOffDate = DateTimeOffset.UtcNow.AddDays(days);
+            return SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(this.Context, cutOffDate);
+        }
         #endregion
     }
 }

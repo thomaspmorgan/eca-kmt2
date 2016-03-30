@@ -41,6 +41,7 @@ namespace ECA.Business.Test.Service.Sevis
         private Mock<AbstractValidator<ExchangeVisitor>> validator;
         private int maxCreateExchangeVisitorBatchSize = 10;
         private int maxUpdateExchangeVisitorBatchSize = 10;
+        private double numberOfDaysToKeep = 1.0;
         private string orgId;
 
         [TestInitialize]
@@ -58,6 +59,7 @@ namespace ECA.Business.Test.Service.Sevis
             exchangeVisitorValidationService.Setup(x => x.GetValidator()).Returns(validator.Object);
             service = new SevisBatchProcessingService(
                 context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
                 cloudStorageService: cloudStorageService.Object,
                 exchangeVisitorService: exchangeVisitorService.Object,
                 notificationService: notificationService.Object,
@@ -142,6 +144,7 @@ namespace ECA.Business.Test.Service.Sevis
         {
             var instance = new SevisBatchProcessingService(
                 context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
                 cloudStorageService: cloudStorageService.Object,
                 exchangeVisitorService: exchangeVisitorService.Object,
                 exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
@@ -159,6 +162,7 @@ namespace ECA.Business.Test.Service.Sevis
         {
             var instance = new SevisBatchProcessingService(
                 context: context,
+                numberOfDaysToKeepProcessedBatches: numberOfDaysToKeep,
                 cloudStorageService: cloudStorageService.Object,
                 exchangeVisitorService: exchangeVisitorService.Object,
                 exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
@@ -2358,7 +2362,7 @@ namespace ECA.Business.Test.Service.Sevis
             });
             Action tester = () =>
             {
-                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+                Assert.AreEqual(1, context.SevisBatchProcessings.Count());
                 Assert.AreEqual(sevisId, participantPerson.SevisId);
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
             };
@@ -2507,26 +2511,7 @@ namespace ECA.Business.Test.Service.Sevis
         #endregion
 
         #region Delete
-        [TestMethod]
-        public void TestDelete()
-        {
-            var batchToRemove = new SevisBatchProcessing
-            {
 
-            };
-            context.SevisBatchProcessings.Add(batchToRemove);
-
-            Assert.AreEqual(1, context.SevisBatchProcessings.Count());
-            service.DeleteBatch(batchToRemove);
-            Assert.AreEqual(0, context.SevisBatchProcessings.Count());
-        }
-
-        [TestMethod]
-        public void TestDelete_NullBatch()
-        {
-            Action a = () => service.DeleteBatch(null);
-            a.ShouldNotThrow();
-        }
 
         #endregion
 
