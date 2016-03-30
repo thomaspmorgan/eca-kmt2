@@ -32,7 +32,8 @@ namespace ECA.Business.Validation.Sevis.Bio
                 AddressDTO usAddress,
                 bool printForm,
                 int personId,
-                int participantId
+                int participantId,
+                bool isTravelingWithParticipant
             )
             : base(
                 fullName: fullName,
@@ -50,7 +51,8 @@ namespace ECA.Business.Validation.Sevis.Bio
                 usAddress: usAddress,
                 printForm: printForm,
                 participantId: participantId,
-                personId: personId
+                personId: personId,
+                isTravelingWithParticipant: isTravelingWithParticipant
                 )
         {
 
@@ -73,6 +75,12 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.Relationship != null, "The relationship should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
 
+            var formPurpose = EVPrintReasonType.Item08;
+            if (this.IsTravelingWithParticipant)
+            {
+                formPurpose = EVPrintReasonType.Item06;
+            }
+
             return new SEVISEVBatchTypeExchangeVisitorDependentAdd
             {
                 BirthCity = this.BirthCity,
@@ -81,7 +89,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 BirthDate = this.BirthDate.Value,
                 CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                 EmailAddress = this.EmailAddress,
-                FormPurpose = EVPrintReasonType.Item06,
+                FormPurpose = formPurpose,
                 FullName = this.FullName.GetNameType(),
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
@@ -102,7 +110,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
-
             var dependent = new EVPersonTypeDependent
             {
                 BirthCity = this.BirthCity,
@@ -115,7 +122,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                 Gender = this.Gender.GetEVGenderCodeType(),
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
-                
             };
             var sevisKey = new ParticipantSevisKey(this);
             sevisKey.SetUserDefinedFields(dependent);

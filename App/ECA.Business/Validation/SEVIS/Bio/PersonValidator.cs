@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation.Sevis.ErrorPaths;
+using ECA.Data;
 using FluentValidation;
 using System.Text.RegularExpressions;
 
@@ -47,6 +48,11 @@ namespace ECA.Business.Validation.Sevis.Bio
         public const string SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE = "The participant's field of study is required.";
 
         /// <summary>
+        /// The error message to format when a participant's email address is required.
+        /// </summary>
+        public static string EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE = "A '{0}' email address is required.";
+
+        /// <summary>
         /// Creates a new default instance.
         /// </summary>
         public PersonValidator()
@@ -73,6 +79,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithMessage(SUBJECT_FIELD_REQUIRED_ERROR_MESSAGE)
                 .WithState(x => new FieldOfStudyErrorPath())
                 .SetValidator(new SubjectFieldValidator());
+
+            RuleFor(x => x.EmailAddress)
+                .NotNull()
+                .WithMessage(EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE, EmailAddressType.Personal.Value)
+                .WithState(x => new EmailErrorPath());
         }
     }
 }
