@@ -3,6 +3,7 @@ using ECA.Core.Settings;
 using ECA.WebJobs.Core;
 using ECA.WebJobs.Sevis.Core;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Timers;
 using Microsoft.Practices.Unity;
 
 namespace ECA.WebJobs.Sevis.Staging
@@ -13,8 +14,7 @@ namespace ECA.WebJobs.Sevis.Staging
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
         public static void Main()
-        {
-            
+        {   
             var unityContainer = new SevisUnityContainer(new AppSettings());
             var config = new JobHostConfiguration
             {
@@ -22,10 +22,6 @@ namespace ECA.WebJobs.Sevis.Staging
             };
             config.UseTimers();
             var host = new JobHost(config);
-            //var service = unityContainer.Resolve<ISevisBatchProcessingService>();
-            // The following code will invoke a function called ManualTrigger and 
-            // pass in data (value in this case) to the function
-            //host.CallAsync(typeof(Functions).GetMethod("ProcessTimer")).Wait();
             host.RunAndBlock();
         }
     }

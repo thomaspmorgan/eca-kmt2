@@ -212,6 +212,38 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_SystemUserId()
+        {
+            var value = "1";
+            appSettings.Add(AppSettings.SYSTEM_USER_ID_KEY, value);
+            Assert.AreEqual(value, settings.SystemUserId);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_MaxCreateExchangeVisitorRecordsPerBatch()
+        {
+            var value = "2";
+            appSettings.Add(AppSettings.SEVIS_MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, value);
+            Assert.AreEqual(value, settings.MaxCreateExchangeVisitorRecordsPerBatch);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_MaxUpdateExchangeVisitorRecordsPerBatch()
+        {
+            var value = "3";
+            appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, value);
+            Assert.AreEqual(value, settings.MaxUpdateExchangeVisitorRecordsPerBatch);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_NumberOfDaysToKeepProcessedSevisBatchRecords()
+        {
+            var value = "3";
+            appSettings.Add(AppSettings.NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS, value);
+            Assert.AreEqual(value, settings.NumberOfDaysToKeepProcessedSevisBatchRecords);
+        }
+
+        [TestMethod]
         public void TestConstructor_ZeroArgument_AppSettings()
         {
             var testSettings = new AppSettings();

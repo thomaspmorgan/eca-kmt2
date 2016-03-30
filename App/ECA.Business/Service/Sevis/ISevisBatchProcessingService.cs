@@ -54,40 +54,34 @@ namespace ECA.Business.Service.Sevis
         Task<List<StagedSevisBatch>> StageBatchesAsync(User user);
 
         /// <summary>
-        /// Indicates the batch has been successfully uploaded.
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
-        /// <param name="batchId">The id of the batch.</param>
-        void BatchHasBeenSent(int batchId);
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        /// <param name="fileProvider">The ds 2019 file provider.</param>
+        void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
-        /// Indicates the batch has been successfully uploaded.
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
-        /// <param name="batchId">The id of the batch.</param>
-        Task BatchHasBeenSentAsync(int batchId);        
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        /// <param name="fileProvider">The ds 2019 file provider.</param>
+        Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        /// Deletes all processed batches from the context.
         /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        void BatchHasBeenRetrieved(string xml);
+        /// <returns>The task.</returns>
+        void DeleteProcessedBatches();
 
         /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
+        /// Deletes all processed batches from the context.
         /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        Task BatchHasBeenRetrievedAsync(string xml);
+        /// <returns>The task.</returns>
+        Task DeleteProcessedBatchesAsync();
 
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        int? GetNextBatchIdToProcess();
 
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        Task<int?> GetNextBatchIdToProcessAsync();
     }
 
     /// <summary>
@@ -99,28 +93,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="xml"></param>
-        public void BatchHasBeenRetrieved(string xml)
-        {
-            Contract.Requires(xml != null, "The given xml must not be null.");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="xml"></param>
-        /// <returns></returns>
-        public Task BatchHasBeenRetrievedAsync(string xml)
-        {
-            Contract.Requires(xml != null, "The given xml must not be null.");
-            return Task.FromResult<object>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="batchId"></param>
-        public void BatchHasBeenSent(int batchId)
+        public void DeleteProcessedBatches()
         {
             
         }
@@ -128,9 +101,8 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="batchId"></param>
         /// <returns></returns>
-        public Task BatchHasBeenSentAsync(int batchId)
+        public Task DeleteProcessedBatchesAsync()
         {
             return Task.FromResult<object>(null);
         }
@@ -151,25 +123,7 @@ namespace ECA.Business.Service.Sevis
         public Task<string> GetNextBatchByBatchIdToDownloadAsync()
         {
             return Task.FromResult<string>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int? GetNextBatchIdToProcess()
-        {
-            return 1;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Task<int?> GetNextBatchIdToProcessAsync()
-        {
-            return Task.FromResult<int?>(1);
-        }
+        }        
 
         /// <summary>
         /// 
@@ -192,20 +146,28 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <param name="fileProvider"></param>
         /// <param name="xml"></param>
-        public void ProcessTransactionLog(string xml)
+        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
         {
+            Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
         }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <param name="fileProvider"></param>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Task ProcessTransactionLogAsync(string xml)
+        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
         {
+            Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
             return Task.FromResult<object>(null);
         }
 

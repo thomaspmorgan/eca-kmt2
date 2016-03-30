@@ -1754,21 +1754,21 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup RtiRequestUnsuccessful { get { return new StaticLookup("RTI Request Unsuccessful", 11); } }
 		/// <summary>
-		/// Returns the Batch Request Successful lookup with id 12.
+		/// Returns the Form I-515A Issued lookup with id 12.
 		/// </summary>
-		public static StaticLookup BatchRequestSuccessful { get { return new StaticLookup("Batch Request Successful", 12); } }
+		public static StaticLookup FormI515aIssued { get { return new StaticLookup("Form I-515A Issued", 12); } }
 		/// <summary>
-		/// Returns the Batch Request Unsuccessful lookup with id 13.
+		/// Returns the Pending Sevis Send lookup with id 13.
 		/// </summary>
-		public static StaticLookup BatchRequestUnsuccessful { get { return new StaticLookup("Batch Request Unsuccessful", 13); } }
+		public static StaticLookup PendingSevisSend { get { return new StaticLookup("Pending Sevis Send", 13); } }
 		/// <summary>
-		/// Returns the Form I-515A Issued lookup with id 14.
+		/// Returns the Sent By Batch lookup with id 14.
 		/// </summary>
-		public static StaticLookup FormI515aIssued { get { return new StaticLookup("Form I-515A Issued", 14); } }
+		public static StaticLookup SentByBatch { get { return new StaticLookup("Sent By Batch", 14); } }
 		/// <summary>
-		/// Returns the Pending Sevis Send lookup with id 15.
+		/// Returns the Created By Batch lookup with id 15.
 		/// </summary>
-		public static StaticLookup PendingSevisSend { get { return new StaticLookup("Pending Sevis Send", 15); } }
+		public static StaticLookup CreatedByBatch { get { return new StaticLookup("Created By Batch", 15); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1787,10 +1787,10 @@ namespace ECA.Data
 			if (9 == id) return SevisCommStatus.Ds2019Printed;
 			if (10 == id) return SevisCommStatus.RtiRequestSuccessful;
 			if (11 == id) return SevisCommStatus.RtiRequestUnsuccessful;
-			if (12 == id) return SevisCommStatus.BatchRequestSuccessful;
-			if (13 == id) return SevisCommStatus.BatchRequestUnsuccessful;
-			if (14 == id) return SevisCommStatus.FormI515aIssued;
-			if (15 == id) return SevisCommStatus.PendingSevisSend;
+			if (12 == id) return SevisCommStatus.FormI515aIssued;
+			if (13 == id) return SevisCommStatus.PendingSevisSend;
+			if (14 == id) return SevisCommStatus.SentByBatch;
+			if (15 == id) return SevisCommStatus.CreatedByBatch;
 			return null;
 		}
 		///<summary>
@@ -1811,10 +1811,10 @@ namespace ECA.Data
 			if ("DS-2019 Printed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.Ds2019Printed;
 			if ("RTI Request Successful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.RtiRequestSuccessful;
 			if ("RTI Request Unsuccessful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.RtiRequestUnsuccessful;
-			if ("Batch Request Successful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchRequestSuccessful;
-			if ("Batch Request Unsuccessful".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.BatchRequestUnsuccessful;
 			if ("Form I-515A Issued".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.FormI515aIssued;
 			if ("Pending Sevis Send".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.PendingSevisSend;
+			if ("Sent By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentByBatch;
+			if ("Created By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.CreatedByBatch;
 			return null;
 		}
 

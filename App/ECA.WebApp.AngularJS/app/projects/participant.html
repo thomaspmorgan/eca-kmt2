@@ -6,19 +6,15 @@
 </div>
 <div ng-show="!view.isLoading">
     <div ng-cloak class="row row4" ng-if="!view.editingEstParticipants">
-        <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
-        <div class="col-md-2 subsubheading">{{project.usParticipantsEst}}</div>
-        <div class="col-md-2 project-color subsubheading">Non-US:</div>
-        <div class="col-md-2 subsubheading pull-left">{{project.nonUsParticipantsEst}}</div>
-        <div class="col-md-2 "><a ng-show="permissions.editProject" ng-click="view.editingEstParticipants=!view.editingEstParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
+        <div class="col-md-5 subsubheading"><span class="project-color">Total Participants Estimated,  US: </span> {{project.usParticipantsEst}}</div>
+        <div class="col-md-4 subsubheading"><span class="project-color">Non-US: </span>{{project.nonUsParticipantsEst}}</div>
+        <div class="col-md-3 pull-left"><a ng-show="permissions.editProject" ng-click="view.editingEstParticipants=!view.editingEstParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
     </div>
     <form name="form.numEstParticipantsForm">
         <div class="row row4" ng-if="view.editingEstParticipants">
-            <div class="col-md-4 project-color subsubheading">Total Participants Estimated,  US:</div>
-            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.usParticipantsEst" /></div>
-            <div class="col-md-2 project-color subsubheading">Non-US:</div>
-            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.nonUsParticipantsEst" /></div>
-            <div class="col-md-2 pull-right">
+            <div class="col-md-5 subsubheading"><span class="project-color">Total Participants Estimated,  US:</span> <input type="number" min="0" maxlength="4" ng-model="project.usParticipantsEst" /></div>
+            <div class="col-md-4 subsubheading"><span class="project-color">Non-US: </span> <input type="number" min="0" maxlength="4" ng-model="project.nonUsParticipantsEst" /></div>
+            <div class="col-md-3 pull-left">
                 <button class="btn-xs btn-success"
                         ng-click="view.saveEstParticipants()"
                         ng-disabled="form.numEstParticipantsForm.$invalid || !form.numEstParticipantsForm.$dirty">
@@ -31,19 +27,15 @@
         </div>
     </form>
     <div ng-cloak class="row row4" ng-if="!view.editingActualParticipants && !view.hasRealActualParticipants">
-        <div class="col-md-4 project-color subsubheading tab-subheader">Total Participants Actual,  US:</div>
-        <div class="col-md-2 subsubheading">{{project.usParticipantsActual}}</div>
-        <div class="col-md-2 project-color subsubheading">Non-US:</div>
-        <div class="col-md-2 subsubheading">{{project.nonUsParticipantsActual}}</div>
-        <div class="col-md-2 pull-left"><a ng-click="view.editingActualParticipants=!view.editingActualParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
+        <div class="col-md-5 subsubheading tab-subheader"><span class="project-color">Total Participants Actual, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; US: </span> {{project.usParticipantsActual}}</div>
+        <div class="col-md-4 subsubheading"><span class="project-color">Non-US: </span> {{project.nonUsParticipantsActual}}</div>
+        <div class="col-md-3 pull-left"><a ng-click="view.editingActualParticipants=!view.editingActualParticipants"><i class="material-icons md-dark md-24 pull-left">edit</i></a></div>
     </div>
     <form name="form.numActualParticipantsForm">
         <div class="row row4" ng-if="view.editingActualParticipants && !view.hasRealActualParticipants">
-            <div class="col-md-4 project-color subsubheading">Total Participants Actual,  US:</div>
-            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.usParticipantsActual" /></div>
-            <div class="col-md-2 project-color subsubheading">Non-US:</div>
-            <div class="col-md-2 subsubheading text-right"><input type="number" min="0" ng-model="project.nonUsParticipantsActual" /></div>
-            <div class="col-md-2 pull-right">
+            <div class="col-md-5 subsubheading"><span class="project-color">Total Participants Actual, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; US: </span> <input type="number" min="0" maxlength="4" ng-model="project.usParticipantsActual" /> </div>
+            <div class="col-md-4 subsubheading"><span class="project-color">Non-US: </span><input type="number" min="0" ng-model="project.nonUsParticipantsActual" /></div>
+            <div class="col-md-3 pull-left">
                 <button class="btn-xs btn-success"
                         ng-click="view.saveActualParticipants()"
                         ng-disabled="form.numActualParticipantsForm.$invalid || !form.numActualParticipantsForm.$dirty">

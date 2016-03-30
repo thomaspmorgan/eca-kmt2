@@ -32,14 +32,21 @@ namespace ECA.Business.Service.Sevis
     public class SevisBatchProcessingService : DbContextService<EcaContext>, ISevisBatchProcessingService
     {
         /// <summary>
+        /// The DS2019 file content type.
+        /// </summary>
+        public const string DS2019_CONTENT_TYPE = "application/pdf";
+
+        /// <summary>
         /// The number of queued to submit participants to page.
         /// </summary>
-        private const int QUERY_BATCH_SIZE = 50;
+        public const int QUERY_BATCH_SIZE = 20;
 
+        private IDummyCloudStorage cloudStorageService;
         private ISevisBatchProcessingNotificationService notificationService;
         private IExchangeVisitorService exchangeVisitorService;
         private IExchangeVisitorValidationService exchangeVisitorValidationService;
         private string sevisOrgId;
+        private double numberOfDaysToKeepProcessedBatches;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<SevisBatchProcessing, object> throwIfSevisBatchProcessingNotFound;
         private readonly Func<List<StagedSevisBatch>, User, StagedSevisBatch> getNewStagedSevisBatch;
@@ -52,13 +59,21 @@ namespace ECA.Business.Service.Sevis
         /// <param name="queryBatchSize">The number of ready to submit participants to query in a batch. </param>
         /// <param name="participantBatchSize">The number of participants to process in a sevis batch.</param>
         /// <param name="sevisOrgId">The organization id to send in a sevis batch.</param>
+        /// <param name="cloudStorageService">The cloud storage service used to save ds2019 files.</param>
+        /// <param name="exchangeVisitorValidationService">The exchange visitor validation service.</param>
+        /// <param name="maxCreateExchangeVisitorRecordsPerBatch">The maximum number of records to place in a CreateEV sevis batch.</param>
+        /// <param name="maxUpdateExchangeVisitorRecordsPerBatch">The maximum number of records to place in the UpdateEV sevis batch.</param>
+        /// <param name="notificationService">The notification service.</param>
+        /// <param name="numberOfDaysToKeepProcessedBatches">The number of days to keep successfully processed sevis batches, after which they should be permanently deleted.</param>
         /// <param name="saveActions">The save actions.</param>
         public SevisBatchProcessingService(
             EcaContext context,
+            IDummyCloudStorage cloudStorageService,
             IExchangeVisitorService exchangeVisitorService,
             ISevisBatchProcessingNotificationService notificationService,
             IExchangeVisitorValidationService exchangeVisitorValidationService,
             string sevisOrgId,
+            double numberOfDaysToKeepProcessedBatches,
             int maxCreateExchangeVisitorRecordsPerBatch = StagedSevisBatch.MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT,
             int maxUpdateExchangeVisitorRecordsPerBatch = StagedSevisBatch.MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT,
             List<ISaveAction> saveActions = null)
@@ -68,6 +83,7 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(exchangeVisitorService != null, "The exchange visitor service must not be null.");
             Contract.Requires(sevisOrgId != null, "The sevis org id must not be null.");
             Contract.Requires(notificationService != null, "The notification service must not be null.");
+            Contract.Requires(cloudStorageService != null, "The cloud storage service must not be null.");
             throwIfSevisBatchProcessingNotFound = (sevisBatchProcessing, batchId) =>
             {
                 if (sevisBatchProcessing == null)
@@ -81,13 +97,14 @@ namespace ECA.Business.Service.Sevis
                 batches.Add(stagedSevisBatch);
                 return stagedSevisBatch;
             };
+            this.numberOfDaysToKeepProcessedBatches = numberOfDaysToKeepProcessedBatches;
+            this.cloudStorageService = cloudStorageService;
             this.notificationService = notificationService;
             this.exchangeVisitorService = exchangeVisitorService;
             this.exchangeVisitorValidationService = exchangeVisitorValidationService;
             this.sevisOrgId = sevisOrgId;
             this.MaxCreateExchangeVisitorRecordsPerBatch = maxCreateExchangeVisitorRecordsPerBatch;
             this.MaxUpdateExchangeVisitorRecordsPerBatch = maxUpdateExchangeVisitorRecordsPerBatch;
-
         }
 
         /// <summary>
@@ -121,7 +138,7 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchRecordToUploadQuery()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context).OrderBy(x => x.Id);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context);
         }
 
         /// <summary>
@@ -144,152 +161,261 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<string> CreateGetNextBatchByBatchIdToDownload()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context).OrderBy(x => x.Id).Select(x => x.BatchId);
-        }
-
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        public int? GetNextBatchIdToProcess()
-        {
-            int? id = CreateGetNextSevisBatchIdToProcessQuery().FirstOrDefault();
-            return id;
-        }
-
-        /// <summary>
-        /// Returns the id of the next batch to process or null if there are no other batches to process.
-        /// </summary>
-        /// <returns>The id of the next batch to process or null if there are no other batches to process.</returns>
-        public async Task<int?> GetNextBatchIdToProcessAsync()
-        {
-            int? id = await CreateGetNextSevisBatchIdToProcessQuery().FirstOrDefaultAsync();
-            return id;
-        }
-        #endregion
-
-        #region Update
-
-        /// <summary>
-        /// Indicates the batch has been successfully uploaded.
-        /// </summary>
-        /// <param name="id">The id of the batch.</param>
-        public void BatchHasBeenSent(int id)
-        {
-            var batch = this.Context.SevisBatchProcessings.Find(id);
-            throwIfSevisBatchProcessingNotFound(batch, id);
-            DoBatchHasBeenSent(batch);
-        }
-
-        /// <summary>
-        /// Indicates the batch has been successfully uploaded.
-        /// </summary>
-        /// <param name="id">The id of the batch.</param>
-        public async Task BatchHasBeenSentAsync(int id)
-        {
-            var batch = await this.Context.SevisBatchProcessings.FindAsync(id);
-            throwIfSevisBatchProcessingNotFound(batch, id);
-            DoBatchHasBeenSent(batch);
-        }
-
-        private void DoBatchHasBeenSent(SevisBatchProcessing batch)
-        {
-            batch.SubmitDate = DateTimeOffset.UtcNow;
-        }
-
-        /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        public void BatchHasBeenRetrieved(string xml)
-        {
-            var transactionLog = DeserializeTransactionLogType(xml);
-            var batch = CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefault();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
-            DoBatchHasBeenRetrieved(xml, transactionLog, batch);
-        }
-
-        /// <summary>
-        /// Saves the given transaction log as xml to the appropriate SevisBatchProcessing model.
-        /// </summary>
-        /// <param name="xml">The transaction log as xml.</param>
-        public async Task BatchHasBeenRetrievedAsync(string xml)
-        {
-            var transactionLog = DeserializeTransactionLogType(xml);
-            var batch = await CreateGetSevisBatchProcessingByTransactionLogQuery(transactionLog).FirstOrDefaultAsync();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
-            DoBatchHasBeenRetrieved(xml, transactionLog, batch);
-        }
-
-        private void DoBatchHasBeenRetrieved(string xml, TransactionLogType transactionLog, SevisBatchProcessing sevisBatchProcessing)
-        {
-            sevisBatchProcessing.RetrieveDate = DateTimeOffset.UtcNow;
-            sevisBatchProcessing.TransactionLogString = xml;
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context).Select(x => x.BatchId);
         }
         #endregion
 
         #region Process Transaction Log
 
-        public void ProcessTransactionLog(int id)
+        /// <summary>
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
+        /// </summary>
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        /// <param name="fileProvider">The file provider.</param>
+        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
         {
-            var batchToProcess = CreateGetSevisBatchToProcessById(id).FirstOrDefault();
-            if (batchToProcess != null && batchToProcess.TransactionLogString != null)
-            {
-                var transactionLog = DeserializeTransactionLogType(batchToProcess.TransactionLogString);
-                ProcessDownload(transactionLog.BatchDetail.Download, batchToProcess);
-                ProcessUpload(transactionLog.BatchDetail.Upload, batchToProcess);
-                ProcessBatchDetailProcess(transactionLog.BatchDetail.Process, batchToProcess);
-
-
-            }
+            var transactionLog = DeserializeTransactionLogType(xml);
+            ProcessTransactionLog(user, xml, transactionLog, fileProvider);
         }
 
-        public async Task ProcessTransactionLogAsync(int id)
+        /// <summary>
+        /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
+        /// </summary>
+        /// <param name="user">The user performing the processing.</param>
+        /// <param name="xml">The sevis transaction log xml as a string.</param>
+        /// <param name="fileProvider">The file provider.</param>
+        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
         {
-            var batchToProcess = await CreateGetSevisBatchToProcessById(id).FirstOrDefaultAsync();
-            if (batchToProcess != null && batchToProcess.TransactionLogString != null)
-            {
-
-            }
+            var transactionLog = DeserializeTransactionLogType(xml);
+            return ProcessTransactionLogAsync(user, xml, transactionLog, fileProvider);
         }
 
+        /// <summary>
+        /// Processes the given transaction log and its original xml
+        /// </summary>
+        /// <param name="user">The user performing the transaction.</param>
+        /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="transactionLog">The deserialized transaction log.</param>
+        /// <param name="fileProvider">The file provider.</param>
+        public void ProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
+        {
+            var batch = CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefault();
+            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            ProcessUpload(transactionLog.BatchDetail.Upload, batch);
+            DoProcessTransactionLog(user, xml, transactionLog, batch);
+            if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
+            {
+                ProcessBatchDetailProcess(user, transactionLog.BatchDetail.Process, batch, fileProvider);
+            }
+            this.Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Processes the given transaction log and its original xml
+        /// </summary>
+        /// <param name="user">The user performing the transaction.</param>
+        /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="transactionLog">The deserialized transaction log.</param>
+        /// <param name="fileProvider">The file provider.</param>
+        public async Task ProcessTransactionLogAsync(User user, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
+        {
+            var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefaultAsync();
+            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            await ProcessUploadAsync(transactionLog.BatchDetail.Upload, batch);
+            DoProcessTransactionLog(user, xml, transactionLog, batch);
+            if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
+            {
+                await ProcessBatchDetailProcessAsync(user, transactionLog.BatchDetail.Process, batch, fileProvider);
+            }
+            await this.Context.SaveChangesAsync();
+        }
+
+        private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
+        {
+            ProcessDownload(transactionLog.BatchDetail.Download, batch);
+            batch.TransactionLogString = xml;
+        }
+
+        /// <summary>
+        /// Updates the given sevis batch with the upload details.
+        /// </summary>
+        /// <param name="uploadDetail">The upload details from the transaction log.</param>
+        /// <param name="batch">The batch to update.</param>
         public void ProcessUpload(TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
         {
-            if(uploadDetail != null)
+            if (uploadDetail != null)
             {
-                batch.UploadDispositionCode = uploadDetail.resultCode;
+                var dispositionCode = uploadDetail.DispositionCode;
+                batch.UploadDispositionCode = dispositionCode.Code;
+                batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
+
+                if (dispositionCode == DispositionCode.Success)
+                {
+                    var participantIds = CreateGetParticipantIdsByBatchId(batch.BatchId).ToList();
+                    AddSuccessfulUploadSevisCommStatus(participantIds, batch);
+                }
+                notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
         }
 
+        /// <summary>
+        /// Updates the given sevis batch with the upload details.
+        /// </summary>
+        /// <param name="uploadDetail">The upload details from the transaction log.</param>
+        /// <param name="batch">The batch to update.</param>
+        public async Task ProcessUploadAsync(TransactionLogTypeBatchDetailUpload uploadDetail, SevisBatchProcessing batch)
+        {
+            if (uploadDetail != null)
+            {
+                var dispositionCode = uploadDetail.DispositionCode;
+                batch.UploadDispositionCode = dispositionCode.Code;
+                batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
+
+                if (dispositionCode == DispositionCode.Success)
+                {
+                    var participantIds = await CreateGetParticipantIdsByBatchId(batch.BatchId).ToListAsync();
+                    AddSuccessfulUploadSevisCommStatus(participantIds, batch);
+                }
+                notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
+            }
+        }
+
+        private void AddSuccessfulUploadSevisCommStatus(List<int> participantIds, SevisBatchProcessing batch)
+        {
+            foreach (var id in participantIds)
+            {
+                Context.ParticipantPersonSevisCommStatuses.Add(new ParticipantPersonSevisCommStatus
+                {
+                    AddedOn = DateTimeOffset.UtcNow,
+                    BatchId = batch.BatchId,
+                    ParticipantId = id,
+                    SevisCommStatusId = SevisCommStatus.SentByBatch.Id
+                });
+            }
+        }
+
+        /// <summary>
+        /// Updates the given sevis batch with the download details.
+        /// </summary>
+        /// <param name="downloadDetail">The download details from the transction log.</param>
+        /// <param name="batch">The batch to update.</param>
         public void ProcessDownload(TransactionLogTypeBatchDetailDownload downloadDetail, SevisBatchProcessing batch)
         {
-            if(downloadDetail != null)
+            if (downloadDetail != null)
             {
-                batch.DownloadDispositionCode = downloadDetail.resultCode;
+                batch.DownloadDispositionCode = downloadDetail.DispositionCode.Code;
+                batch.RetrieveDate = DateTimeOffset.UtcNow;
+                notificationService.NotifyDownloadedBatchProcessed(batch.BatchId, downloadDetail.DispositionCode);
             }
         }
 
-        public void ProcessBatchDetailProcess(TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch)
+        /// <summary>
+        /// Updates the participants and dependents with the given process details from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the transaction log.</param>
+        /// <param name="process">The process details from the transaction log.</param>
+        /// <param name="fileProvider">The file provider.</param>
+        /// <param name="batch">The batch to update.</param>
+        public void ProcessBatchDetailProcess(User user, TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch, IDS2019FileProvider fileProvider)
         {
-            foreach(var record in process.Record)
+            if (process != null)
             {
-                var participantKey = new ParticipantSevisKey(record);
-                var participant = Context.Participants.Find(participantKey.ParticipantId);
-                var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
-                UpdateParticipant(participant, participantPerson, record, batch);
+                DoNotifyStartedProcessingBatchDetailProcessed(batch, process);
+                var dispositionCode = DispositionCode.ToDispositionCode(process.resultCode);
+                batch.ProcessDispositionCode = dispositionCode.Code;
+                foreach (var record in process.Record)
+                {
+                    var participantKey = new ParticipantSevisKey(record);
+                    var participant = CreateGetParticipantAndDependentsQuery(participantKey.ParticipantId).FirstOrDefault();
+                    var participantPerson = Context.ParticipantPersons.Find(participantKey.ParticipantId);
+
+                    var dependents = participant.Person.Family.ToList();
+                    UpdateParticipant(user, participantPerson, dependents, record);
+                    var ds2019Contents = fileProvider.GetDS2019File(participant.ParticipantId, batch.BatchId, record.sevisID);
+                    if (ds2019Contents != null && ds2019Contents.Length > 0)
+                    {
+                        var url = SaveDS2019Form(participant.ParticipantId, record.sevisID, ds2019Contents);
+                        participantPerson.DS2019FileUrl = url;
+                    }
+
+                }
+                notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
         }
 
-        public void UpdateParticipant(Participant participant, ParticipantPerson participantPerson, TransactionLogTypeBatchDetailProcessRecord record, SevisBatchProcessing batch)
+        /// <summary>
+        /// Updates the participants and dependents with the given process details from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the transaction log.</param>
+        /// <param name="process">The process details from the transaction log.</param>
+        /// <param name="fileProvider">The file provider.</param>
+        /// <param name="batch">The batch to update.</param>
+        public async Task ProcessBatchDetailProcessAsync(User user, TransactionLogTypeBatchDetailProcess process, SevisBatchProcessing batch, IDS2019FileProvider fileProvider)
+        {
+            if (process != null)
+            {
+                DoNotifyStartedProcessingBatchDetailProcessed(batch, process);
+                var dispositionCode = DispositionCode.ToDispositionCode(process.resultCode);
+                batch.ProcessDispositionCode = dispositionCode.Code;
+                foreach (var record in process.Record)
+                {
+                    var participantKey = new ParticipantSevisKey(record);
+                    var participant = await CreateGetParticipantAndDependentsQuery(participantKey.ParticipantId).FirstOrDefaultAsync();
+                    var participantPerson = await Context.ParticipantPersons.FindAsync(participantKey.ParticipantId);
+
+                    var dependents = participant.Person.Family.ToList();
+                    UpdateParticipant(user, participantPerson, dependents, record);
+                    var ds2019Contents = await fileProvider.GetDS2019FileAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
+                    if (ds2019Contents != null && ds2019Contents.Length > 0)
+                    {
+                        var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, ds2019Contents);
+                        participantPerson.DS2019FileUrl = url;
+                    }
+                }
+                notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
+            }
+        }
+
+        private void DoNotifyStartedProcessingBatchDetailProcessed(SevisBatchProcessing batch, TransactionLogTypeBatchDetailProcess process)
+        {
+            if (process != null && process.RecordCount != null && batch != null)
+            {
+                notificationService.NotifyStartedProcessingSevisBatchDetails(batch.BatchId, Int32.Parse(process.RecordCount.Success), Int32.Parse(process.RecordCount.Failure));
+            }
+        }
+
+        /// <summary>
+        /// Updates the participant and the dependents with the given transaction log or reports the transaction log errors to
+        /// the participant person.
+        /// </summary>
+        /// <param name="user">The user processing the transaction log.</param>
+        /// <param name="participantPerson">The participant person to update.</param>
+        /// <param name="dependents">The dependents of the participant.</param>
+        /// <param name="record">The record from the transaction log to process.</param>
+        public void UpdateParticipant(User user, ParticipantPerson participantPerson, List<PersonDependent> dependents, TransactionLogTypeBatchDetailProcessRecord record)
         {
             var result = record.Result;
-            AddSevisResultCommStatus(record.Result, participantPerson);
-            //sevis was successfull
+            AddResultTypeSevisCommStatus(record.Result, participantPerson);
+            var update = new Update(user);
+            update.SetHistory(participantPerson);
+            //sevis was successful
             if (result.status)
             {
                 participantPerson.SevisId = record.sevisID;
                 participantPerson.SevisBatchResult = null;
-                
+                if (record.Dependent != null)
+                {
+                    foreach (var processedDependent in record.Dependent)
+                    {
+                        var participantSevisKey = new ParticipantSevisKey(processedDependent);
+                        var dependentToUpdateQuery = (from dependent in dependents
+                                                      where dependent.SevisId == processedDependent.dependentSevisID
+                                                      || dependent.DependentId == participantSevisKey.PersonId
+                                                      select dependent).FirstOrDefault();
+                        UpdateDependent(user, processedDependent, dependentToUpdateQuery);
+                    }
+                }
             }//sevis was not successful
             else
             {
@@ -297,6 +423,27 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
+        /// <summary>
+        /// Updates the dependent with the depenent record from the transaction log.
+        /// </summary>
+        /// <param name="user">The user processing the dependents.</param>
+        /// <param name="dependentRecord">The dependent record from the transaction log.</param>
+        /// <param name="dependent">The dependent to update.</param>
+        public void UpdateDependent(User user, TransactionLogTypeBatchDetailProcessRecordDependent dependentRecord, PersonDependent dependent)
+        {
+            if (dependent != null && dependentRecord != null)
+            {
+                dependent.SevisId = dependentRecord.dependentSevisID;
+                var update = new Update(user);
+                update.SetHistory(dependent);
+            }
+        }
+
+        /// <summary>
+        /// Creates a json string from the given result type.
+        /// </summary>
+        /// <param name="resultType">The result type.</param>
+        /// <returns>The json string.</returns>
         public string GetSevisBatchErrorResultAsJson(ResultType resultType)
         {
             var instance = new SimpleSevisBatchErrorResult();
@@ -317,12 +464,18 @@ namespace ECA.Business.Service.Sevis
             };
         }
 
-        public ParticipantPersonSevisCommStatus AddSevisResultCommStatus(ResultType resultType, ParticipantPerson participantPerson)
+        /// <summary>
+        /// Adds a sevis comm status to the participant based on the sevis transaction log result type.
+        /// </summary>
+        /// <param name="resultType">The transaction log result.</param>
+        /// <param name="participantPerson">The participant to add the status to.</param>
+        /// <returns>The new sevis comm status added to the participant.</returns>
+        public ParticipantPersonSevisCommStatus AddResultTypeSevisCommStatus(ResultType resultType, ParticipantPerson participantPerson)
         {
-            int commStatusId = SevisCommStatus.BatchRequestUnsuccessful.Id;
+            int commStatusId = SevisCommStatus.InformationRequired.Id;
             if (resultType.status)
             {
-                commStatusId = SevisCommStatus.BatchRequestSuccessful.Id;
+                commStatusId = SevisCommStatus.CreatedByBatch.Id;
             }
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
             {
@@ -347,67 +500,27 @@ namespace ECA.Business.Service.Sevis
             }
         }
 
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByTransactionLogQuery(TransactionLogType transactionLog)
-        {
-            Contract.Requires(transactionLog != null, "The transaction log must not be null.");
-            return CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID);
-        }
-
         private IQueryable<SevisBatchProcessing> CreateGetSevisBatchProcessingByBatchIdQuery(string batchId)
         {
-            return this.Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
+            return Context.SevisBatchProcessings.Where(x => x.BatchId == batchId);
         }
 
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchToProcessQuery()
+
+        private IQueryable<Participant> CreateGetParticipantAndDependentsQuery(int participantId)
         {
-            return this.Context.SevisBatchProcessings
-                .Where(x => x.RetrieveDate.HasValue)
-                .Where(x => x.TransactionLogString != null)
-                .OrderBy(x => x.BatchId);
+            var query = Context.Participants
+                .Include(x => x.Person)
+                .Include(x => x.Person.Family)
+                .Where(x => x.ParticipantId == participantId);
+            return query;
         }
 
-        private IQueryable<int?> CreateGetNextSevisBatchIdToProcessQuery()
+        private IQueryable<int> CreateGetParticipantIdsByBatchId(string batchId)
         {
-            return CreateGetSevisBatchToProcessQuery().Select(x => (int?)x.Id);
+            return SevisBatchProcessingQueries.CreateGetParticipantPersonsByBatchId(this.Context, batchId).Select(x => x.ParticipantId);
         }
 
-        private IQueryable<SevisBatchProcessing> CreateGetSevisBatchToProcessById(int id)
-        {
-            return CreateGetSevisBatchToProcessQuery().Where(x => x.Id == id);
-        }
-
-        #endregion
-
-        #region Delete
-        /// <summary>
-        /// Deletes the SEVIS Batch Processing record with the given id.
-        /// </summary>
-        /// <param name="batchId">The id of the SEVIS Batch Processing record to delete.</param>
-        public void Delete(int batchId)
-        {
-            var sevisBatchProcessing = Context.SevisBatchProcessings.Find(batchId);
-            DoDelete(sevisBatchProcessing);
-        }
-
-        /// <summary>
-        /// Deletes the SEVIS Batch Processing record with the given id.
-        /// </summary>
-        /// <param name="phoneNumberId">The id of the SEVIS Batch Processing record to delete.</param>
-        public async Task DeleteAsync(int batchId)
-        {
-            var sevisBatchProcessing = await Context.SevisBatchProcessings.FindAsync(batchId);
-            DoDelete(sevisBatchProcessing);
-        }
-
-        private void DoDelete(SevisBatchProcessing sevisBatchProcessingToDelete)
-        {
-            if (sevisBatchProcessingToDelete != null)
-            {
-                Context.SevisBatchProcessings.Remove(sevisBatchProcessingToDelete);
-            }
-        }
-
-        #endregion
+        #endregion        
 
         #region Staging
         /// <summary>
@@ -447,7 +560,7 @@ namespace ECA.Business.Service.Sevis
                             this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
                         }
                         stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
-                        AddPendingSendToSevisStatus(participant.ParticipantId);
+                        AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId);
                     }
                     else
                     {
@@ -500,7 +613,7 @@ namespace ECA.Business.Service.Sevis
                             this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
                         }
                         stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
-                        AddPendingSendToSevisStatus(participant.ParticipantId);
+                        AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId);
                     }
                     else
                     {
@@ -575,13 +688,14 @@ namespace ECA.Business.Service.Sevis
             return null;
         }
 
-        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId)
+        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, string batchId)
         {
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
             {
                 ParticipantId = participantId,
                 AddedOn = DateTimeOffset.UtcNow,
                 SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id,
+                BatchId = batchId
             };
             Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             return sevisCommStatus;
@@ -598,6 +712,131 @@ namespace ECA.Business.Service.Sevis
                 maxUpdateExchangeVisitorRecordPerBatch: this.MaxUpdateExchangeVisitorRecordsPerBatch);
             Context.SevisBatchProcessings.Add(stagedSevisBatch.SevisBatchProcessing);
             return stagedSevisBatch;
+        }
+        #endregion
+
+        #region DS2019
+        /// <summary>
+        /// Saves the DS2019 form given by sevis.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <param name="fileContents">The file contents.</param>
+        /// <returns>The url of the saved file.</returns>
+        public string SaveDS2019Form(int participantId, string sevisId, byte[] fileContents)
+        {
+            var fileName = GetDS2019FileName(participantId, sevisId);
+            return this.cloudStorageService.SaveFile(fileName, fileContents, DS2019_CONTENT_TYPE);
+        }
+
+        /// <summary>
+        /// Saves the DS2019 form given by sevis.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <param name="fileContents">The file contents.</param>
+        /// /// <returns>The url of the saved file.</returns>
+        public async Task<string> SaveDS2019FormAsync(int participantId, string sevisId, byte[] fileContents)
+        {
+            var fileName = GetDS2019FileName(participantId, sevisId);
+            return await cloudStorageService.SaveFileAsync(fileName, fileContents, DS2019_CONTENT_TYPE);
+        }
+
+        /// <summary>
+        /// Returns the DS2019 file name for the participant id and sevis id.
+        /// </summary>
+        /// <param name="participantId">The participant id.</param>
+        /// <param name="sevisId">The sevis id.</param>
+        /// <returns></returns>
+        public static string GetDS2019FileName(int participantId, string sevisId)
+        {
+            Contract.Requires(sevisId != null, "The sevis id must not be null.");
+            return string.Format("{0}_{1}.{2}", participantId, sevisId, "pdf");
+        }
+
+        #endregion
+
+        #region Delete
+        /// <summary>
+        /// Deletes all processed batches from the context whose retrieval date is older than the number of days to keep.
+        /// </summary>
+        /// <returns>The task.</returns>
+        public void DeleteProcessedBatches()
+        {
+            var count = CreateGetProcessedSevisBatchIdsForDeletionQuery().Count();
+            while (count > 0)
+            {
+                var ids = CreateGetProcessedSevisBatchIdsForDeletionQuery().Take(() => QUERY_BATCH_SIZE).ToList();
+                foreach (var id in ids)
+                {
+                    var batch = Context.SevisBatchProcessings.Find(id);
+                    var batchId = batch.BatchId;
+                    Context.SevisBatchProcessings.Remove(batch);
+                    this.notificationService.NotifyDeletedSevisBatchProcessing(id, batchId);
+                }
+                Context.SaveChanges();
+                count = CreateGetProcessedSevisBatchIdsForDeletionQuery().Count();
+            }
+        }
+
+        /// <summary>
+        /// Deletes all processed batches from the context whose retrieval date is older than the number of days to keep.
+        /// </summary>
+        /// <returns>The task.</returns>
+        public async Task DeleteProcessedBatchesAsync()
+        {
+            var count = await CreateGetProcessedSevisBatchIdsForDeletionQuery().CountAsync();
+            while (count > 0)
+            {
+                var ids = await CreateGetProcessedSevisBatchIdsForDeletionQuery().Take(() => QUERY_BATCH_SIZE).ToListAsync();
+                foreach (var id in ids)
+                {
+                    var batch = await Context.SevisBatchProcessings.FindAsync(id);
+                    var batchId = batch.BatchId;
+                    Context.SevisBatchProcessings.Remove(batch);
+                    this.notificationService.NotifyDeletedSevisBatchProcessing(id, batchId);
+                }
+                await Context.SaveChangesAsync();
+                count = await CreateGetProcessedSevisBatchIdsForDeletionQuery().CountAsync();
+            }
+        }
+
+
+        private IQueryable<int> CreateGetProcessedSevisBatchIdsForDeletionQuery()
+        {
+            var days = this.numberOfDaysToKeepProcessedBatches > 0 ? -1.0 * this.numberOfDaysToKeepProcessedBatches : this.numberOfDaysToKeepProcessedBatches;
+            var cutOffDate = DateTimeOffset.UtcNow.AddDays(days);
+            return SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(this.Context, cutOffDate).OrderBy(x => x);
+        }
+        #endregion
+
+        #region Dispose
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                if (this.cloudStorageService is IDisposable)
+                {
+                    ((IDisposable)this.cloudStorageService).Dispose();
+                    this.cloudStorageService = null;
+                }
+                if (this.exchangeVisitorService is IDisposable)
+                {
+                    ((IDisposable)this.exchangeVisitorService).Dispose();
+                    this.exchangeVisitorService = null;
+                }
+                if (this.exchangeVisitorValidationService is IDisposable)
+                {
+                    ((IDisposable)this.exchangeVisitorValidationService).Dispose();
+                    this.exchangeVisitorValidationService = null;
+                }
+                if (this.notificationService is IDisposable)
+                {
+                    ((IDisposable)this.notificationService).Dispose();
+                    this.notificationService = null;
+                }                
+            }
         }
         #endregion
     }

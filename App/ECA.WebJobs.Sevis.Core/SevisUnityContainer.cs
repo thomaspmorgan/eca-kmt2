@@ -6,9 +6,23 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace ECA.WebJobs.Sevis.Core
 {
+    public class DummyCloudStorage : IDummyCloudStorage
+    {
+        public string SaveFile(string fileName, byte[] contents, string contentType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> SaveFileAsync(string fileName, byte[] contents, string contentType)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// The SevisUnityContainer is a unity container that can be used across multiple webjobs dealing with SEVIS.
     /// </summary>
@@ -21,9 +35,12 @@ namespace ECA.WebJobs.Sevis.Core
         public SevisUnityContainer(AppSettings appSettings)
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
+            this.RegisterInstance<AppSettings>(appSettings);
+            this.RegisterType<ZipArchiveDS2019FileProvider>();
+
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
-
+            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>(); 
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
@@ -52,12 +69,14 @@ namespace ECA.WebJobs.Sevis.Core
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
                     context: c.Resolve<EcaContext>(),
+                    numberOfDaysToKeepProcessedBatches: Double.Parse(appSettings.NumberOfDaysToKeepProcessedSevisBatchRecords),
+                    cloudStorageService: c.Resolve<IDummyCloudStorage>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),
                     exchangeVisitorValidationService: c.Resolve<IExchangeVisitorValidationService>(),
                     sevisOrgId: appSettings.SevisOrgId,
-                    maxCreateExchangeVisitorRecordsPerBatch: 20,
-                    maxUpdateExchangeVisitorRecordsPerBatch: 20,
+                    maxCreateExchangeVisitorRecordsPerBatch: Int32.Parse(appSettings.MaxCreateExchangeVisitorRecordsPerBatch),
+                    maxUpdateExchangeVisitorRecordsPerBatch: Int32.Parse(appSettings.MaxUpdateExchangeVisitorRecordsPerBatch),
                     saveActions: null
                     );
                 return service;
