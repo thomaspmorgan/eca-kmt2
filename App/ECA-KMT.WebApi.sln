@@ -82,6 +82,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Staging",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Staging.Test", "ECA.WebJobs.Sevis.Staging.Test\ECA.WebJobs.Sevis.Staging.Test.csproj", "{3F7CE702-E2E1-41B6-B17C-CE43E62E663F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebJobs.Sevis.Comm", "ECA.WebJobs.Sevis.Comm\ECA.WebJobs.Sevis.Comm.csproj", "{6580153B-A136-4D77-8C69-22DD602103DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -262,6 +264,12 @@ Global
 		{3F7CE702-E2E1-41B6-B17C-CE43E62E663F}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{3F7CE702-E2E1-41B6-B17C-CE43E62E663F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F7CE702-E2E1-41B6-B17C-CE43E62E663F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6580153B-A136-4D77-8C69-22DD602103DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6580153B-A136-4D77-8C69-22DD602103DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6580153B-A136-4D77-8C69-22DD602103DC}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{6580153B-A136-4D77-8C69-22DD602103DC}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{6580153B-A136-4D77-8C69-22DD602103DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6580153B-A136-4D77-8C69-22DD602103DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,5 +303,6 @@ Global
 		{2988E91B-813B-4D9D-A623-488C35E4E5A1} = {547CB910-1116-4A9D-A5F2-57553270C16A}
 		{89D4F413-926E-463F-A62A-3C0E24AD01E0} = {547CB910-1116-4A9D-A5F2-57553270C16A}
 		{3F7CE702-E2E1-41B6-B17C-CE43E62E663F} = {851C49BD-532B-4F4B-A7FB-E7D6E3F33BA5}
+		{6580153B-A136-4D77-8C69-22DD602103DC} = {547CB910-1116-4A9D-A5F2-57553270C16A}
 	EndGlobalSection
 EndGlobal
