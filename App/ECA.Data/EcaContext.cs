@@ -47,7 +47,7 @@ namespace ECA.Data
         public DbSet<Actor> Actors { get; set; }
 
         /// <summary>
-        /// Gets or sets the person types.
+        /// Gets or sets the dependent types.
         /// </summary>
         public DbSet<DependentType> DependentTypes { get; set; }
 

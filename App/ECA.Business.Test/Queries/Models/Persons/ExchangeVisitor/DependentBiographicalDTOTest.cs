@@ -128,7 +128,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
                 Relationship = "relationship",
-                SevisId = string.Empty
+                SevisId = string.Empty,
             };
             var instance = dto.GetDependent(usAddress, remarks);
             Assert.IsInstanceOfType(instance, typeof(AddedDependent));
@@ -210,7 +210,9 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 PhoneNumber = "123-456-7890",
                 PhoneNumberId = 50,
                 Relationship = "relationship",
-                SevisId = "sevisId"
+                SevisId = "sevisId",
+                IsDeleted = true,
+                IsTravelingWithParticipant = true
             };
             var instance = dto.GetAddedDependent(usAddress);
             Assert.IsTrue(object.ReferenceEquals(mailAddress, instance.MailAddress));
@@ -226,6 +228,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.AreEqual(dto.PhoneNumber, instance.PhoneNumber);
             Assert.IsTrue(instance.PrintForm);
             Assert.AreEqual(dto.Relationship, instance.Relationship);
+            Assert.AreEqual(dto.IsTravelingWithParticipant, instance.IsTravelingWithParticipant);
 
             Assert.AreEqual(dto.FullName.FirstName, instance.FullName.FirstName);
             Assert.AreEqual(dto.FullName.LastName, instance.FullName.LastName);
@@ -321,7 +324,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.AreEqual(dto.Relationship, instance.Relationship);
             Assert.AreEqual(dto.SevisId, instance.SevisId);
             Assert.AreEqual(remarks, instance.Remarks);
-            
+            Assert.AreEqual(dto.IsDeleted, instance.IsDeleted);
 
             Assert.AreEqual(dto.FullName.FirstName, instance.FullName.FirstName);
             Assert.AreEqual(dto.FullName.LastName, instance.FullName.LastName);

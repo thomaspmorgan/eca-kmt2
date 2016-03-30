@@ -48,6 +48,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var printForm = true;
             var birthCountryReason = "reason";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
             var instance = new AddedDependent(
                 fullName,
                 birthCity,
@@ -64,7 +65,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 usAddress,
                 printForm,
                 personId,
-                participantId
+                participantId,
+                isTravelingWithParticipant
                 );
             Assert.AreEqual(personId, instance.PersonId);
             Assert.AreEqual(participantId, instance.ParticipantId);
@@ -79,28 +81,10 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(printForm, instance.PrintForm);
             Assert.AreEqual(birthCountryReason, instance.BirthCountryReason);
             Assert.AreEqual(relationship, instance.Relationship);
+            Assert.AreEqual(isTravelingWithParticipant, instance.IsTravelingWithParticipant);
             Assert.IsTrue(Object.ReferenceEquals(fullName, instance.FullName));
             Assert.IsTrue(Object.ReferenceEquals(mailAddress, instance.MailAddress));
             Assert.IsTrue(Object.ReferenceEquals(usAddress, instance.USAddress));
-
-            var json = JsonConvert.SerializeObject(instance);
-            var jsonObject = JsonConvert.DeserializeObject<AddedDependent>(json);
-            Assert.AreEqual(personId, jsonObject.PersonId);
-            Assert.AreEqual(participantId, jsonObject.ParticipantId);
-            Assert.AreEqual(birthCity, jsonObject.BirthCity);
-            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
-            Assert.AreEqual(birthDate, jsonObject.BirthDate);
-            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
-            Assert.AreEqual(email, jsonObject.EmailAddress);
-            Assert.AreEqual(gender, jsonObject.Gender);
-            Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
-            Assert.AreEqual(phone, jsonObject.PhoneNumber);
-            Assert.AreEqual(printForm, jsonObject.PrintForm);
-            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
-            Assert.AreEqual(relationship, jsonObject.Relationship);
-            Assert.IsNotNull(jsonObject.FullName);
-            Assert.IsNotNull(jsonObject.MailAddress);
-            Assert.IsNotNull(jsonObject.USAddress);
         }
 
         [TestMethod]
@@ -137,6 +121,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var printForm = true;
             var birthCountryReason = "reason";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
             var instance = new AddedDependent(
                 fullName,
                 birthCity,
@@ -153,7 +138,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 usAddress,
                 printForm,
                 personId,
-                participantId
+                participantId,
+                isTravelingWithParticipant
                 );
 
             var json = JsonConvert.SerializeObject(instance);
@@ -171,6 +157,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(printForm, jsonObject.PrintForm);
             Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
             Assert.AreEqual(relationship, jsonObject.Relationship);
+            Assert.AreEqual(isTravelingWithParticipant, jsonObject.IsTravelingWithParticipant);
             Assert.IsNotNull(jsonObject.FullName);
             Assert.IsNotNull(jsonObject.MailAddress);
             Assert.IsNotNull(jsonObject.USAddress);
@@ -178,7 +165,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
 
         [TestMethod]
-        public void TestGetSevisExhangeVisitorDependentInstance()
+        public void TestGetSevisExhangeVisitorDependentInstance_IsTravelingWithParticipant()
         {
             var personId = 100;
             var participantId = 200;
@@ -211,6 +198,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var printForm = true;
             var birthCountryReason = "reason";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
             var dependent = new AddedDependent(
                 fullName: fullName,
                 birthCity: birthCity,
@@ -227,7 +215,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 usAddress: usAddress,
                 printForm: printForm,
                 participantId: participantId,
-                personId: personId
+                personId: personId,
+                isTravelingWithParticipant: isTravelingWithParticipant
                 );
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
@@ -245,6 +234,68 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(dependent.PrintForm, sevisModel.printForm);
             Assert.AreEqual(EVPrintReasonType.Item06, sevisModel.FormPurpose);
             Assert.IsFalse(sevisModel.BirthCountryReasonSpecified);
+        }
+
+        [TestMethod]
+        public void TestGetSevisExhangeVisitorDependentInstance_IsNotTravelingWithParticipant()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReason = "reason";
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = false;
+            var dependent = new AddedDependent(
+                fullName: fullName,
+                birthCity: birthCity,
+                birthCountryCode: birthCountryCode,
+                birthCountryReason: birthCountryReason,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: email,
+                gender: gender,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: phone,
+                relationship: relationship,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                participantId: participantId,
+                personId: personId,
+                isTravelingWithParticipant: isTravelingWithParticipant
+                );
+
+            var instance = dependent.GetSevisExhangeVisitorDependentInstance();
+            Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentAdd));
+            var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentAdd)instance;
+
+            Assert.AreEqual(EVPrintReasonType.Item08, sevisModel.FormPurpose);
         }
 
         [TestMethod]
@@ -281,6 +332,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var printForm = true;
             var birthCountryReason = "reason";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            
             var dependent = new AddedDependent(
                 fullName: fullName,
                 birthCity: birthCity,
@@ -297,10 +350,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 usAddress: usAddress,
                 printForm: printForm,
                 participantId: participantId,
-                personId: personId
+                personId: personId,
+                isTravelingWithParticipant: isTravelingWithParticipant
                 );
             var instance = dependent.GetEVPersonTypeDependent();
-            
+
             Assert.AreEqual(dependent.BirthCity, instance.BirthCity);
             Assert.AreEqual(dependent.BirthCountryCode.GetBirthCntryCodeType(), instance.BirthCountryCode);
             Assert.AreEqual(dependent.BirthDate, instance.BirthDate);

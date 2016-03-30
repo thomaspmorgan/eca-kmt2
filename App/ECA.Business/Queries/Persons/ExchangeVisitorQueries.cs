@@ -35,6 +35,7 @@ namespace ECA.Business.Queries.Persons
             var hostAddressTypeId = AddressType.Host.Id;
             var homeAddressTypeId = AddressType.Home.Id;
             var visitingPhoneNumberTypeId = Data.PhoneNumberType.Visiting.Id;
+            var personalEmailTypeId = EmailAddressType.Personal.Id;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -60,6 +61,7 @@ namespace ECA.Business.Queries.Persons
 
                         let emailAddress = emailAddressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.EmailAddressTypeId == personalEmailTypeId)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
@@ -201,6 +203,8 @@ namespace ECA.Business.Queries.Persons
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             EmailAddressId = emailAddress != null ? emailAddress.EmailAddressId : default(int?),
+                            IsTravelingWithParticipant = dependent.IsTravellingWithParticipant,
+                            IsDeleted = dependent.IsDeleted,
                             FullName = new FullNameDTO
                             {
                                 FirstName = dependent.FirstName,

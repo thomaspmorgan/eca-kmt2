@@ -33,6 +33,16 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
         /// this dependent back to a participant and then back to the participant person.
         /// </summary>
         public int ParticipantId { get; set; }    
+
+        /// <summary>
+        /// Gets or sets whether the dependent is traveling with the participant.
+        /// </summary>
+        public bool IsTravelingWithParticipant { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the dependent has been deleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
         
         /// <summary>
         /// Returns the dependent instance from this dto.  If the sevis id has a value, an UpdatedDependent is returned, otherwise,
@@ -80,7 +90,8 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
                 usAddress: usAddress,
                 printForm: true,
                 participantId: this.ParticipantId,
-                personId: this.PersonId
+                personId: this.PersonId,
+                isTravelingWithParticipant: this.IsTravelingWithParticipant
                 );
         }
 
@@ -114,7 +125,9 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
                 participantId: this.ParticipantId,
                 personId: this.PersonId,
                 remarks: remarks,
-                sevisId: this.SevisId
+                sevisId: this.SevisId,
+                isTravelingWithParticipant: this.IsTravelingWithParticipant,
+                isDeleted: this.IsDeleted
                 );
         }
     }

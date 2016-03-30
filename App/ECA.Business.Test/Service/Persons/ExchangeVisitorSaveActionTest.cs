@@ -1065,7 +1065,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsNotDependent()
+        public async Task TestGetParticipantIds_Person()
         {
             using (ShimsContext.Create())
             {
@@ -1076,7 +1076,6 @@ namespace ECA.Business.Test.Service.Persons
                 var person = new PersonProxyClass
                 {
                     PersonId = 1,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 list.Add(person);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
@@ -1106,7 +1105,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsNotDependent_IsNotParticipating()
+        public async Task TestGetParticipantIds_Person_IsNotParticipating()
         {
             using (ShimsContext.Create())
             {
@@ -1116,7 +1115,6 @@ namespace ECA.Business.Test.Service.Persons
                 var person = new PersonProxyClass
                 {
                     PersonId = 1,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 list.Add(person);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
@@ -1145,7 +1143,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsNotDependent_PersonDoesNotExist()
+        public async Task TestGetParticipantIds_Person_PersonDoesNotExist()
         {
             using (ShimsContext.Create())
             {
@@ -1154,7 +1152,6 @@ namespace ECA.Business.Test.Service.Persons
                 var person = new PersonProxyClass
                 {
                     PersonId = 1,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 list.Add(person);
                 ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetSimplePersonDTOsQueryEcaContext = (ctx) =>
@@ -1178,96 +1175,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsSpouseDependent()
-        {
-            using (ShimsContext.Create())
-            {
-                var participantId = 2;
-
-                var list = new List<object>();
-                var participatingPerson = new PersonProxyClass
-                {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
-                };
-                var dependent = new PersonProxyClass
-                {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Spouse.Id
-                };
-                list.Add(dependent);
-                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
-                {
-                    var peopleDtos = new List<SimplePersonDTO>();
-                    peopleDtos.Add(new SimplePersonDTO
-                    {
-                        PersonId = participatingPerson.PersonId,
-                        ParticipantId = participantId
-                    });
-                    return peopleDtos.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
-                {
-                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
-                });
-                Action<List<int>> tester = (ids) =>
-                {
-                    Assert.AreEqual(1, ids.Count);
-                    Assert.AreEqual(participantId, ids.First());
-                };
-                var participantIds = saveAction.GetParticipantIds(list);
-                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
-                tester(participantIds);
-                tester(participantIdsAsync);
-            }
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsChildDependent()
-        {
-            using (ShimsContext.Create())
-            {
-                var participantId = 2;
-
-                var list = new List<object>();
-                var participatingPerson = new PersonProxyClass
-                {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
-                };
-                var dependent = new PersonProxyClass
-                {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Child.Id
-                };
-                list.Add(dependent);
-                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
-                {
-                    var peopleDtos = new List<SimplePersonDTO>();
-                    peopleDtos.Add(new SimplePersonDTO
-                    {
-                        PersonId = participatingPerson.PersonId,
-                        ParticipantId = participantId
-                    });
-                    return peopleDtos.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
-                {
-                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
-                });
-                Action<List<int>> tester = (ids) =>
-                {
-                    Assert.AreEqual(1, ids.Count);
-                    Assert.AreEqual(participantId, ids.First());
-                };
-                var participantIds = saveAction.GetParticipantIds(list);
-                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
-                tester(participantIds);
-                tester(participantIdsAsync);
-            }
-        }
-
-        [TestMethod]
         public async Task TestGetParticipantIds_PhoneNumber()
         {
             using (ShimsContext.Create())
@@ -1278,7 +1185,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var phoneNumber = new PhoneNumberProxyClass
                 {
@@ -1321,7 +1227,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var phoneNumber = new PhoneNumberProxyClass
                 {
@@ -1355,7 +1260,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var email = new EmailAddressProxyClass
                 {
@@ -1398,7 +1302,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var email = new EmailAddressProxyClass
                 {
@@ -1432,7 +1335,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var address = new AddressProxyClass
                 {
@@ -1475,7 +1377,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var address = new AddressProxyClass
                 {
@@ -1509,7 +1410,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
 
                 var location = new LocationProxyClass
@@ -1560,7 +1460,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var location = new LocationProxyClass
                 {
@@ -1580,23 +1479,7 @@ namespace ECA.Business.Test.Service.Persons
                 tester(participantIdsAsync);
             }
         }
-
-        [TestMethod]
-        public async Task TestGetParticipantIds_Person_PersonTypeIsNotSupported()
-        {
-            var list = new List<object>();
-            var person = new PersonProxyClass
-            {
-                PersonId = 2,
-                PersonTypeId = -1
-            };
-            list.Add(person);
-            var message = "The person by person type is not supported.";
-            Action a = () => saveAction.GetParticipantIds(list);
-            Func<Task> f = () => saveAction.GetParticipantIdsAsync(list);
-            a.ShouldThrow<NotSupportedException>().WithMessage(message);
-            f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
+        
 
         [TestMethod]
         public async Task TestGetParticipantIds_TheObjectTypeIsNotSupported()
@@ -1609,85 +1492,6 @@ namespace ECA.Business.Test.Service.Persons
             Func<Task> f = () => saveAction.GetParticipantIdsAsync(list);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsDependent_IsNotParticipating()
-        {
-            using (ShimsContext.Create())
-            {
-                var list = new List<object>();
-                var participatingPerson = new PersonProxyClass
-                {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
-                };
-                var dependent = new PersonProxyClass
-                {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Spouse.Id
-                };
-                list.Add(dependent);
-                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
-                {
-                    var peopleDtos = new List<SimplePersonDTO>();
-                    peopleDtos.Add(new SimplePersonDTO
-                    {
-                        PersonId = participatingPerson.PersonId,
-                        ParticipantId = null
-                    });
-                    return peopleDtos.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
-                {
-                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
-                });
-                Action<List<int>> tester = (ids) =>
-                {
-                    Assert.AreEqual(0, ids.Count);
-                };
-                var participantIds = saveAction.GetParticipantIds(list);
-                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
-                tester(participantIds);
-                tester(participantIdsAsync);
-            }
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipantIds_Person_IsDependent_PersonDoesNotExist()
-        {
-            using (ShimsContext.Create())
-            {
-                var list = new List<object>();
-                var participatingPerson = new PersonProxyClass
-                {
-                    PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
-                };
-                var dependent = new PersonProxyClass
-                {
-                    PersonId = 1,
-                    PersonTypeId = PersonType.Spouse.Id
-                };
-                list.Add(dependent);
-                ECA.Business.Queries.Persons.Fakes.ShimPersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQueryEcaContextInt32 = (ctx, personId) =>
-                {
-                    var peopleDtos = new List<SimplePersonDTO>();
-                    return peopleDtos.AsQueryable();
-                };
-                System.Data.Entity.Fakes.ShimQueryableExtensions.FirstOrDefaultAsyncOf1IQueryableOfM0<SimplePersonDTO>((src) =>
-                {
-                    return Task<SimplePersonDTO>.FromResult(src.FirstOrDefault());
-                });
-                Action<List<int>> tester = (ids) =>
-                {
-                    Assert.AreEqual(0, ids.Count);
-                };
-                var participantIds = saveAction.GetParticipantIds(list);
-                var participantIdsAsync = await saveAction.GetParticipantIdsAsync(list);
-                tester(participantIds);
-                tester(participantIdsAsync);
-            }
         }
         #endregion
 
@@ -1881,7 +1685,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var address = new Address
                 {
@@ -1967,7 +1770,6 @@ namespace ECA.Business.Test.Service.Persons
                 var participatingPerson = new PersonProxyClass
                 {
                     PersonId = 2,
-                    PersonTypeId = PersonType.Participant.Id
                 };
                 var address = new Address
                 {
