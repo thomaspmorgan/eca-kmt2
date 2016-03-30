@@ -614,7 +614,8 @@ namespace ECA.Business.Service.Persons
                 PlaceOfBirthId = newPerson.PlaceOfBirthId,
                 PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
                 BirthCountryReason = newPerson.BirthCountryReason,
-                CountriesOfCitizenship = countriesOfCitizenship
+                CountriesOfCitizenship = countriesOfCitizenship,
+                IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
             };
 
             newPerson.Audit.SetHistory(person);
