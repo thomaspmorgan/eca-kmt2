@@ -324,8 +324,8 @@ angular.module('staticApp')
 
       $scope.editView.showOtherInput = function (selectedId, otherId, model) {
           var isOther = selectedId === parseInt(otherId);
-          if (!isOther) {
-              $scope.editView.sevisFunding[model] = "";
+          if (!isOther && $scope.editView.sevisFunding) {
+              $scope.editView.sevisFunding[model] = undefined;
           }
           return isOther;
       }
