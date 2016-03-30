@@ -75,10 +75,9 @@ namespace ECA.WebJobs.Sevis.Comm
             {
                 //do the send here
 
-                string transactionLogXml = null;
-                var fileProvider = GetFileProvider();
-                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
-                await service.SaveChangesAsync();
+                //string transactionLogXml = null;
+                //var fileProvider = GetFileProvider();
+                //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
                 dtoToUpload = await service.GetNextBatchToUploadAsync();
             }
 
