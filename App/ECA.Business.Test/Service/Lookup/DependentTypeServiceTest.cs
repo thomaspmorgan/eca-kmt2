@@ -11,7 +11,7 @@ using ECA.Core.DynamicLinq.Sorter;
 namespace ECA.Business.Test.Service.Lookup
 {
     [TestClass]
-    public class PersonTypeServiceTest
+    public class DependentTypeServiceTest
     {
         private TestEcaContext context;
         private DependentTypeService service;
