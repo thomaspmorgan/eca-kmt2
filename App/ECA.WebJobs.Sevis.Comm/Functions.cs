@@ -90,6 +90,8 @@ namespace ECA.WebJobs.Sevis.Comm
             //    batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
             //}
 
+            await service.DeleteProcessedBatchesAsync();
+
             //foreach (var batch in batchesToBeSent)
             //{
             //    HttpResponseMessage status = new HttpResponseMessage();

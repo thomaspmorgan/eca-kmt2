@@ -2511,7 +2511,105 @@ namespace ECA.Business.Test.Service.Sevis
         #endregion
 
         #region Delete
+        [TestMethod]
+        public async Task TestDeleteProcessedBatches()
+        {
+            var numberToCreate = SevisBatchProcessingService.QUERY_BATCH_SIZE + 1;
+            var processingDate = DateTime.UtcNow.AddDays(-2.0 * numberOfDaysToKeep);
+            context.SetupActions.Add(() =>
+            {
+                for (var i = 0; i < numberToCreate; i++)
+                {
+                    var batch = new SevisBatchProcessing
+                    {
+                        Id = i,
+                        RetrieveDate = processingDate,
+                        DownloadDispositionCode = DispositionCode.Success.Code,
+                        UploadDispositionCode = DispositionCode.Success.Code,
+                        ProcessDispositionCode = DispositionCode.Success.Code
+                    };
+                    context.SevisBatchProcessings.Add(batch);
+                }
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+            };
+            context.Revert();
+            service.DeleteProcessedBatches();
+            tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
+            notificationService.Verify(x => x.NotifyDeletedSevisBatchProcessing(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(numberToCreate));
 
+            context.Revert();
+            await service.DeleteProcessedBatchesAsync();
+            tester();
+            Assert.AreEqual(4, context.SaveChangesCalledCount);
+            notificationService.Verify(x => x.NotifyDeletedSevisBatchProcessing(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(numberToCreate * 2));
+        }
+
+        [TestMethod]
+        public async Task TestDeleteProcessedBatches_NumberOfDaysToKeepIsNegative()
+        {
+            service = new SevisBatchProcessingService(
+                context: context,
+                numberOfDaysToKeepProcessedBatches: -1.0 * numberOfDaysToKeep,
+                cloudStorageService: cloudStorageService.Object,
+                exchangeVisitorService: exchangeVisitorService.Object,
+                notificationService: notificationService.Object,
+                exchangeVisitorValidationService: exchangeVisitorValidationService.Object,
+                sevisOrgId: orgId,
+                maxCreateExchangeVisitorRecordsPerBatch: maxCreateExchangeVisitorBatchSize,
+                maxUpdateExchangeVisitorRecordsPerBatch: maxUpdateExchangeVisitorBatchSize);
+
+            var processingDate = DateTime.UtcNow.AddDays(-2.0 * numberOfDaysToKeep);
+            context.SetupActions.Add(() =>
+            {
+                for (var i = 0; i < SevisBatchProcessingService.QUERY_BATCH_SIZE + 1; i++)
+                {
+                    var batch = new SevisBatchProcessing
+                    {
+                        Id = i,
+                        RetrieveDate = processingDate,
+                        DownloadDispositionCode = DispositionCode.Success.Code,
+                        UploadDispositionCode = DispositionCode.Success.Code,
+                        ProcessDispositionCode = DispositionCode.Success.Code
+                    };
+                    context.SevisBatchProcessings.Add(batch);
+                }
+            });
+            Action tester = () =>
+            {
+                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+            };
+            context.Revert();
+            service.DeleteProcessedBatches();
+            tester();
+            Assert.AreEqual(2, context.SaveChangesCalledCount);
+
+            context.Revert();
+            await service.DeleteProcessedBatchesAsync();
+            tester();
+            Assert.AreEqual(4, context.SaveChangesCalledCount);
+        }
+
+        [TestMethod]
+        public async Task TestDeleteProcessedBatches_NoBatches()
+        {
+            Action tester = () =>
+            {
+                Assert.AreEqual(0, context.SevisBatchProcessings.Count());
+            };
+            context.Revert();
+            service.DeleteProcessedBatches();
+            tester();
+            Assert.AreEqual(0, context.SaveChangesCalledCount);
+
+            context.Revert();
+            await service.DeleteProcessedBatchesAsync();
+            tester();
+            Assert.AreEqual(0, context.SaveChangesCalledCount);
+        }
 
         #endregion
 

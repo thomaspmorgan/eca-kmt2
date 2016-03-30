@@ -68,6 +68,20 @@ namespace ECA.Business.Service.Sevis
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The ds 2019 file provider.</param>
         Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider);
+
+        /// <summary>
+        /// Deletes all processed batches from the context.
+        /// </summary>
+        /// <returns>The task.</returns>
+        void DeleteProcessedBatches();
+
+        /// <summary>
+        /// Deletes all processed batches from the context.
+        /// </summary>
+        /// <returns>The task.</returns>
+        Task DeleteProcessedBatchesAsync();
+
+
     }
 
     /// <summary>
@@ -76,6 +90,23 @@ namespace ECA.Business.Service.Sevis
     [ContractClassFor(typeof(ISevisBatchProcessingService))]
     public abstract class SevisBatchProcessingServiceContract : ISevisBatchProcessingService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DeleteProcessedBatches()
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task DeleteProcessedBatchesAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
+
         /// <summary>
         /// 
         /// </summary>

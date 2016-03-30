@@ -86,7 +86,7 @@ namespace ECA.WebJobs.Sevis.Core
         }
 
         /// <summary>
-        /// Writes to the console batch that has begun updating participants and how many success and failure records the batch contains.
+        /// Writes to the console a batch that has begun updating participants and how many success and failure records the batch contains.
         /// </summary>
         /// <param name="batchId">The id of the batch.</param>
         /// <param name="successCount">The number of successful batch create or update records.</param>
@@ -94,6 +94,16 @@ namespace ECA.WebJobs.Sevis.Core
         public void NotifyStartedProcessingSevisBatchDetails(string batchId, int successCount, int errorCount)
         {
             Console.WriteLine("Began processing sevis batch with id [{0}].  There are [{1}] successful batch records, and [{2}] failed batch records.", batchId, successCount, errorCount);
+        }
+
+        /// <summary>
+        /// Writes to the console a batch that has been deleted.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="batchId"></param>
+        public void NotifyDeletedSevisBatchProcessing(int id, string batchId)
+        {
+            Console.WriteLine(String.Format("Deleted sevis processing batch with id [{0}] and batch id [{1}].", id, batchId));
         }
     }
 }

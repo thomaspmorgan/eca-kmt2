@@ -39,7 +39,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// The number of queued to submit participants to page.
         /// </summary>
-        private const int QUERY_BATCH_SIZE = 50;
+        public const int QUERY_BATCH_SIZE = 20;
 
         private IDummyCloudStorage cloudStorageService;
         private ISevisBatchProcessingNotificationService notificationService;
@@ -757,28 +757,56 @@ namespace ECA.Business.Service.Sevis
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Deletes all processed batches from the context whose retrieval date is older than the number of days to keep.
+        /// </summary>
+        /// <returns>The task.</returns>
         public void DeleteProcessedBatches()
         {
-            var ids = CreateGetProcessedSevisBatchIdsForDeletionQuery().ToList();
-            DoDeleteProcessedBatches(ids);
+            var count = CreateGetProcessedSevisBatchIdsForDeletionQuery().Count();
+            while(count > 0)
+            {
+                var ids = CreateGetProcessedSevisBatchIdsForDeletionQuery().Take(() => QUERY_BATCH_SIZE).ToList();
+                foreach(var id in ids)
+                {
+                    var batch = Context.SevisBatchProcessings.Find(id);
+                    var batchId = batch.BatchId;
+                    Context.SevisBatchProcessings.Remove(batch);
+                    this.notificationService.NotifyDeletedSevisBatchProcessing(id, batchId);
+                }
+                Context.SaveChanges();
+                count = CreateGetProcessedSevisBatchIdsForDeletionQuery().Count();
+            }
         }
 
+        /// <summary>
+        /// Deletes all processed batches from the context whose retrieval date is older than the number of days to keep.
+        /// </summary>
+        /// <returns>The task.</returns>
         public async Task DeleteProcessedBatchesAsync()
-        {
-            var ids = await CreateGetProcessedSevisBatchIdsForDeletionQuery().ToListAsync();
-            DoDeleteProcessedBatches(ids);
+        {   
+            var count = await CreateGetProcessedSevisBatchIdsForDeletionQuery().CountAsync();
+            while (count > 0)
+            {
+                var ids = await CreateGetProcessedSevisBatchIdsForDeletionQuery().Take(() => QUERY_BATCH_SIZE).ToListAsync();
+                foreach (var id in ids)
+                {
+                    var batch = await Context.SevisBatchProcessings.FindAsync(id);
+                    var batchId = batch.BatchId;
+                    Context.SevisBatchProcessings.Remove(batch);
+                    this.notificationService.NotifyDeletedSevisBatchProcessing(id, batchId);
+                }
+                await Context.SaveChangesAsync();
+                count = await CreateGetProcessedSevisBatchIdsForDeletionQuery().CountAsync();
+            }
         }
 
-        private void DoDeleteProcessedBatches(IEnumerable<int> batchIds)
-        {
-
-        }
-
+        
         private IQueryable<int> CreateGetProcessedSevisBatchIdsForDeletionQuery()
         {
             var days = this.numberOfDaysToKeepProcessedBatches > 0 ? -1.0 * this.numberOfDaysToKeepProcessedBatches : this.numberOfDaysToKeepProcessedBatches;
             var cutOffDate = DateTimeOffset.UtcNow.AddDays(days);
-            return SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(this.Context, cutOffDate);
+            return SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(this.Context, cutOffDate).OrderBy(x => x);
         }
         #endregion
     }

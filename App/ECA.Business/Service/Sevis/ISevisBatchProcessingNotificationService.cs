@@ -65,5 +65,12 @@ namespace ECA.Business.Service.Sevis
         /// <param name="successCount">The number of participants that succeeded the sevis create or update.</param>
         /// <param name="batchId">The id of the batch.</param>
         void NotifyStartedProcessingSevisBatchDetails(string batchId, int successCount, int errorCount);
+
+        /// <summary>
+        /// Exeucted when a batch has been deleted.
+        /// </summary>
+        /// <param name="id">The id of the batch.</param>
+        /// <param name="batchId">The batch id.</param>
+        void NotifyDeletedSevisBatchProcessing(int id, string batchId);
     }
 }
