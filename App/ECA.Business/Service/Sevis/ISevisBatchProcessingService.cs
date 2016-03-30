@@ -58,14 +58,30 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
-        void ProcessTransactionLog(User user, string xml);
+        /// <param name="fileProvider">The ds 2019 file provider.</param>
+        void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
-        Task ProcessTransactionLogAsync(User user, string xml);
+        /// <param name="fileProvider">The ds 2019 file provider.</param>
+        Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider);
+
+        /// <summary>
+        /// Deletes all processed batches from the context.
+        /// </summary>
+        /// <returns>The task.</returns>
+        void DeleteProcessedBatches();
+
+        /// <summary>
+        /// Deletes all processed batches from the context.
+        /// </summary>
+        /// <returns>The task.</returns>
+        Task DeleteProcessedBatchesAsync();
+
+
     }
 
     /// <summary>
@@ -74,6 +90,23 @@ namespace ECA.Business.Service.Sevis
     [ContractClassFor(typeof(ISevisBatchProcessingService))]
     public abstract class SevisBatchProcessingServiceContract : ISevisBatchProcessingService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DeleteProcessedBatches()
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task DeleteProcessedBatchesAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -113,44 +146,28 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
+        /// <param name="fileProvider"></param>
         /// <param name="xml"></param>
-        public void ProcessTransactionLog(string xml)
+        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
         {
+            Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="fileProvider"></param>
         /// <param name="xml"></param>
-        public void ProcessTransactionLog(User user, string xml)
+        /// <returns></returns>
+        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="xml"></param>
-        /// <returns></returns>
-        public Task ProcessTransactionLogAsync(string xml)
-        {
-            Contract.Requires(xml != null, "The xml must not be null.");
-            return Task.FromResult<object>(null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="xml"></param>
-        /// <returns></returns>
-        public Task ProcessTransactionLogAsync(User user, string xml)
-        {
-            Contract.Requires(user != null, "The user must not be null.");
-            Contract.Requires(xml != null, "The xml must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
             return Task.FromResult<object>(null);
         }
 

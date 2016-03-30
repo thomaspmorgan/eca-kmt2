@@ -237,7 +237,7 @@
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" ng-model="editView.sevisFunding.govtAgency1OtherName" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.govtAgency1OtherName" maxlength="60" ng-show="editView.showOtherInput(editView.sevisFunding.govtAgency1Id, constants.otherUSGovernmentAgencyId, 'govtAgency1OtherName')"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
@@ -256,7 +256,7 @@
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" ng-model="editView.sevisFunding.govtAgency2OtherName" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.govtAgency2OtherName" maxlength="60" ng-show="editView.showOtherInput(editView.sevisFunding.govtAgency2Id, constants.otherUSGovernmentAgencyId, 'govtAgency2OtherName')"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
@@ -275,7 +275,7 @@
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" ng-model="editView.sevisFunding.intlOrg1OtherName" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.intlOrg1OtherName" maxlength="60" ng-show="editView.showOtherInput(editView.sevisFunding.intlOrg1Id, constants.otherInternationalOrganizationId, 'intlOrg1OtherName')"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>
@@ -294,7 +294,7 @@
                                 </ui-select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" ng-model="editView.sevisFunding.intlOrg2OtherName" maxlength="60"/>
+                                <input type="text" class="form-control" ng-model="editView.sevisFunding.intlOrg2OtherName" maxlength="60" ng-show="editView.showOtherInput(editView.sevisFunding.intlOrg2Id, constants.otherInternationalOrganizationId, 'intlOrg2OtherName')"/>
                             </div>
                             <div class="col-md-3 input-group">
                                 <span class="input-group-addon" style="color: #20292b;">$</span>

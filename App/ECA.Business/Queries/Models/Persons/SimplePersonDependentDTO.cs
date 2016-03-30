@@ -28,7 +28,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the person type id.
         /// </summary>
-        public int PersonTypeId { get; set; }
+        public int DependentTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.
@@ -68,12 +68,12 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the place of birth.
         /// </summary>
-        public int PlaceOfBirth_LocationId { get; set; }
+        public int PlaceOfBirthId { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
-        public int Residence_LocationId { get; set; }
+        public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.

@@ -28,10 +28,10 @@ namespace ECA.WebApi.Controllers.Persons
     {
         private static ExpressionSorter<SimplePersonDTO> DEFAULT_PEOPLE_SORTER = new ExpressionSorter<SimplePersonDTO>(x => x.LastName, SortDirection.Ascending);
 
-        private static ExpressionSorter<PersonTypeDTO> DEFAULT_PERSON_TYPE_SORTER = new ExpressionSorter<PersonTypeDTO>(x => x.Name, SortDirection.Ascending);
+        private static ExpressionSorter<DependentTypeDTO> DEFAULT_PERSON_TYPE_SORTER = new ExpressionSorter<DependentTypeDTO>(x => x.Name, SortDirection.Ascending);
 
         private IPersonService service;
-        private IPersonTypeService personTypeService;
+        private IDependentTypeService dependentTypeService;
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
         private IEmailAddressHandler emailAddressHandler;
@@ -50,7 +50,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="emailAddressHandler">The Email Address handler.</param>
         public PeopleController(
             IPersonService service, 
-            IPersonTypeService personTypeService,
+            IDependentTypeService personTypeService,
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
             ISocialMediaPresenceModelHandler socialMediaHandler,
@@ -65,7 +65,7 @@ namespace ECA.WebApi.Controllers.Persons
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
-            this.personTypeService = personTypeService;
+            this.dependentTypeService = personTypeService;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
             this.emailAddressHandler = emailAddressHandler;
@@ -78,13 +78,13 @@ namespace ECA.WebApi.Controllers.Persons
         /// Returns the person types in the system.
         /// </summary>
         /// <returns>The person types.</returns>
-        [ResponseType(typeof(PagingQueryBindingModel<PersonTypeDTO>))]
+        [ResponseType(typeof(PagingQueryBindingModel<DependentTypeDTO>))]
         [Route("People/Types")]
-        public async Task<IHttpActionResult> GetPersonTypesAsync([FromUri]PagingQueryBindingModel<PersonTypeDTO> model)
+        public async Task<IHttpActionResult> GetDependentTypesAsync([FromUri]PagingQueryBindingModel<DependentTypeDTO> model)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.personTypeService.GetAsync(model.ToQueryableOperator(DEFAULT_PERSON_TYPE_SORTER));
+                var results = await this.dependentTypeService.GetAsync(model.ToQueryableOperator(DEFAULT_PERSON_TYPE_SORTER));
                 return Ok(results);
             }
             else

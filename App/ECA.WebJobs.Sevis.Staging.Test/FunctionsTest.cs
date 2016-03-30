@@ -67,7 +67,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         }
 
         [TestMethod]
-        public void TestDispose_Context()
+        public void TestDispose_Service()
         {
             var disposableService = new Mock<ISevisBatchProcessingService>();
             var disposable = disposableService.As<IDisposable>();

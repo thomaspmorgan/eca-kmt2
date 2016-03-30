@@ -46,6 +46,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string permanentResidenceCountryCode = "FR";
             string phoneNumber = "18505551212";
             string relationship = "relations";
+            var isTravelingWithParticipant = true;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -63,6 +64,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     mailAddress: mailAddress,
                     usAddress: usAddress,
                     printForm: true,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
                     participantId: 20);
             };

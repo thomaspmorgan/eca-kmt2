@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Data;
 using ECA.Business.Queries.Sevis;
+using ECA.Business.Sevis.Model;
 
 namespace ECA.Business.Test.Queries.Sevis
 {
@@ -331,6 +332,145 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.IsTrue(Object.ReferenceEquals(participantPerson, results.First()));
         }
 
+        #endregion
+
+        #region CreateGetProcessedSevisBatchIdsForDeletionQuery
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.Success.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(1, results.Count());
+            Assert.AreEqual(batch.Id, results.First());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulProcessDispositionCode()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.BatchNeverSubmitted.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulUploadDispositionCode()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
+                ProcessDispositionCode = DispositionCode.Success.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulDownloadDispositionCode()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.BatchNeverSubmitted.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.Success.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_ProcessDispositionCodeIsNull()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = null
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_UploadDispositionCodeIsNull()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = null,
+                ProcessDispositionCode = DispositionCode.Success.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DownloadDispositionCodeIsNull()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = null,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.Success.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_SevisBatchIsAfterCutoffDate()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.Success.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(0, results.Count());
+        }
         #endregion
     }
 }

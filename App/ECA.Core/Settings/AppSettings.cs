@@ -109,6 +109,11 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH = SEVIS_PREFIX + "MaxUpdateExchangeVisitorRecordsPerBatch";
 
+        /// <summary>
+        /// The number of days to keep processed sevic batch records in days.
+        /// </summary>
+        public const string NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS = SEVIS_PREFIX + "NumberOfDaysToKeepProcessedSevisBatchRecords";
+
         #endregion
 
         #region Database Constants
@@ -278,6 +283,11 @@ namespace ECA.Core.Settings
         /// Gets the maximum number of update exchange visitors records to add to a batch.
         /// </summary>
         public string MaxUpdateExchangeVisitorRecordsPerBatch { get { return GetAppSetting(SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH); } }
+
+        /// <summary>
+        /// Gets the number of days to keep processed sevis batch records.
+        /// </summary>
+        public string NumberOfDaysToKeepProcessedSevisBatchRecords { get { return GetAppSetting(NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS); } }
 
         /// <summary>
         /// Gets the active directory client id.

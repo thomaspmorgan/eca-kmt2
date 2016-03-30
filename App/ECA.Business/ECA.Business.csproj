@@ -289,9 +289,9 @@
     <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryStop.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
-    <Compile Include="Service\Lookup\IPersonTypeService.cs" />
-    <Compile Include="Service\Lookup\PersonTypeDTO.cs" />
-    <Compile Include="Service\Lookup\PersonTypeService.cs" />
+    <Compile Include="Service\Lookup\IDependentTypeService.cs" />
+    <Compile Include="Service\Lookup\DependentTypeDTO.cs" />
+    <Compile Include="Service\Lookup\DependentTypeService.cs" />
     <Compile Include="Service\Lookup\IVisitorTypeService.cs" />
     <Compile Include="Service\Lookup\VisitorTypeService.cs" />
     <Compile Include="Service\Lookup\StudentCreationService.cs" />
@@ -541,6 +541,8 @@
     <Compile Include="Service\Projects\UpdatedDefaultExchangeVisitorFunding.cs" />
     <Compile Include="Service\Reports\IReportService.cs" />
     <Compile Include="Service\Reports\ReportService.cs" />
+    <Compile Include="Service\Sevis\IDS2019FileProvider.cs" />
+    <Compile Include="Service\Sevis\IDummyCloudStorage.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingNotificationService.cs" />
     <Compile Include="Service\Sevis\ISevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />

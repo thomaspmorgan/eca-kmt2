@@ -37,6 +37,11 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			languageProficiencies: {id: 9, value: "Language Proficiencies"},
 			phoneNumbers: {id: 10, value: "Phone Numbers"}
 		},
+		dependentType: {
+			participant: {id: 1, value: "Participant"},
+			spouse: {id: 2, value: "Spouse"},
+			child: {id: 3, value: "Child"}
+		},
 		emailAddressType: {
 			home: {id: 1, value: "Home"},
 			homeEmergency: {id: 2, value: "Home Emergency"},
@@ -114,11 +119,6 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			search: {id: 12, value: "Search"},
 			editSevis: {id: 13, value: "Edit Sevis"},
 			sendToSevis: {id: 14, value: "Send To Sevis"}
-		},
-		personType: {
-			participant: {id: 1, value: "Participant"},
-			spouse: {id: 2, value: "Spouse"},
-			child: {id: 3, value: "Child"}
 		},
 		phoneNumberType: {
 			home: {id: 1, value: "Home"},
@@ -214,6 +214,8 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		officeFocusSettingName: 'Focus',
 		officeJustificationSettingName: 'Justification',
 		officeObjectiveSettingName: 'Objective',
+		otherInternationalOrganizationId: '18',
+		otherUSGovernmentAgencyId: '22',
 		primaryAddressChangedEventName: 'primaryAddressChanged',
 		primaryEmailAddressChangedEventName: 'primaryEmailAddressChanged',
 		primaryLanguageProficiencyChangedEventName: 'primaryLanguageProficiencyChanged',
@@ -234,7 +236,7 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		saveProgramEventName: 'saveProgram',
 		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' ',
-		sevisStatuses: '[2, 3, 4, 5, 15]',
+		sevisStatusIds: '2,3,4,5,15',
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });

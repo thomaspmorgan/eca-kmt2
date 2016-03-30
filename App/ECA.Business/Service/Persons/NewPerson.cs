@@ -1,6 +1,4 @@
-﻿using ECA.Core.Exceptions;
-using ECA.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -25,7 +23,6 @@ namespace ECA.Business.Service.Persons
         /// <param name="isDateOfBirthEstimated">Denotes date of birth estimated.</param>
         /// <param name="isPlaceOfBirthUnknown">Denotes place of birth unknown.</param>
         /// <param name="cityOfBirth">The city of birth</param>
-        /// <param name="personTypeId">The person type id</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         public NewPerson(
             User createdBy,
@@ -39,15 +36,9 @@ namespace ECA.Business.Service.Persons
             bool? isDateOfBirthEstimated,
             bool? isPlaceOfBirthUnknown,
             int? cityOfBirth,
-            int personTypeId,
             List<int> countriesOfCitizenship)
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");
-            if(PersonType.GetStaticLookup(personTypeId) == null)
-            {
-                throw new UnknownStaticLookupException(String.Format("The person type id [{0}] is not recognized.", personTypeId));
-            }
-            this.PersonTypeId = personTypeId;
             this.ProjectId = projectId;
             this.ParticipantTypeId = participantTypeId;
             this.FirstName = firstName;
@@ -61,12 +52,7 @@ namespace ECA.Business.Service.Persons
             this.IsPlaceOfBirthUnknown = isPlaceOfBirthUnknown;
             this.Audit = new Create(createdBy);
         }
-
-        /// <summary>
-        /// Gets the person type id.
-        /// </summary>
-        public int PersonTypeId { get; private set; }
-
+        
         /// <summary>
         /// Gets and sets the project id
         /// </summary>

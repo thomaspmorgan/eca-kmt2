@@ -14,8 +14,7 @@ namespace ECA.WebJobs.Sevis.Staging
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
         public static void Main()
-        {
-            
+        {   
             var unityContainer = new SevisUnityContainer(new AppSettings());
             var config = new JobHostConfiguration
             {

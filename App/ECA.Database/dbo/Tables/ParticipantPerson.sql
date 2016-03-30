@@ -20,6 +20,7 @@
     [EndDate] DATETIMEOFFSET NULL, 
     [SevisValidationResult] NVARCHAR(MAX) NULL, 
     [SevisBatchResult] NVARCHAR(MAX) NULL, 
+    [DS2019FileUrl] NVARCHAR(4000) NULL, 
     CONSTRAINT [FK_ParticipantPerson_HostInstitution_ToOrganization] FOREIGN KEY ([HostInstitutionId]) REFERENCES [Organization]([OrganizationId]), 
     CONSTRAINT [FK_ParticipantPerson_HomeInstitution_ToOrganization] FOREIGN KEY ([HomeInstitutionId]) REFERENCES [Organization]([OrganizationId]), 
 	CONSTRAINT [FK_ParticipantPerson_HomeInstitutionAddress_ToAddress] FOREIGN KEY ([HomeInstitutionAddressId]) REFERENCES [Address]([AddressId]), 

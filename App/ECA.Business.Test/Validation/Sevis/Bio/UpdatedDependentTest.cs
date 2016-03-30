@@ -49,6 +49,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = true;
 
             var instance = new UpdatedDependent(
                 fullName,
@@ -68,7 +70,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 sevisId,
                 remarks,
                 personId,
-                participantId
+                participantId,
+                isTravelingWithParticipant,
+                isDeleted
                 );
             Assert.AreEqual(personId, instance.PersonId);
             Assert.AreEqual(participantId, instance.ParticipantId);
@@ -85,30 +89,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(sevisId, instance.SevisId);
             Assert.AreEqual(remarks, instance.Remarks);
             Assert.AreEqual(relationship, instance.Relationship);
+            Assert.AreEqual(isTravelingWithParticipant, instance.IsTravelingWithParticipant);
+            Assert.AreEqual(isDeleted, instance.IsDeleted);
             Assert.IsTrue(Object.ReferenceEquals(fullName, instance.FullName));
             Assert.IsTrue(Object.ReferenceEquals(mailAddress, instance.MailAddress));
             Assert.IsTrue(Object.ReferenceEquals(usAddress, instance.USAddress));
-
-            var json = JsonConvert.SerializeObject(instance);
-            var jsonObject = JsonConvert.DeserializeObject<UpdatedDependent>(json);
-            Assert.AreEqual(personId, jsonObject.PersonId);
-            Assert.AreEqual(participantId, jsonObject.ParticipantId);
-            Assert.AreEqual(birthCity, jsonObject.BirthCity);
-            Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
-            Assert.AreEqual(birthDate, jsonObject.BirthDate);
-            Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
-            Assert.AreEqual(email, jsonObject.EmailAddress);
-            Assert.AreEqual(gender, jsonObject.Gender);
-            Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
-            Assert.AreEqual(phone, jsonObject.PhoneNumber);
-            Assert.AreEqual(printForm, jsonObject.PrintForm);
-            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
-            Assert.AreEqual(relationship, jsonObject.Relationship);
-            Assert.AreEqual(sevisId, jsonObject.SevisId);
-            Assert.AreEqual(remarks, jsonObject.Remarks);
-            Assert.IsNotNull(jsonObject.FullName);
-            Assert.IsNotNull(jsonObject.MailAddress);
-            Assert.IsNotNull(jsonObject.USAddress);
         }
 
         [TestMethod]
@@ -147,6 +132,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = true;
 
             var instance = new UpdatedDependent(
                 fullName,
@@ -166,7 +153,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 sevisId,
                 remarks,
                 personId,
-                participantId
+                participantId,
+                isTravelingWithParticipant,
+                isDeleted
                 );
 
             var json = JsonConvert.SerializeObject(instance);
@@ -184,6 +173,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(printForm, jsonObject.PrintForm);
             Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
             Assert.AreEqual(relationship, jsonObject.Relationship);
+            Assert.AreEqual(isTravelingWithParticipant, jsonObject.IsTravelingWithParticipant);
+            Assert.AreEqual(isDeleted, jsonObject.IsDeleted);
             Assert.AreEqual(sevisId, jsonObject.SevisId);
             Assert.AreEqual(remarks, jsonObject.Remarks);
             Assert.IsNotNull(jsonObject.FullName);
@@ -192,7 +183,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         }
 
         [TestMethod]
-        public void TestGetSevisExhangeVisitorDependentInstance()
+        public void TestGetSevisExhangeVisitorDependentInstance_IsNotDeleted()
         {
             var personId = 100;
             var participantId = 200;
@@ -227,6 +218,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = false;
 
             var dependent = new UpdatedDependent(
                 fullName: fullName,
@@ -246,7 +239,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 sevisId: sevisId,
                 remarks: remarks,
                 participantId: participantId,
-                personId: personId
+                personId: personId,
+                isDeleted: isDeleted,
+                isTravelingWithParticipant: isTravelingWithParticipant
                 );
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
@@ -267,6 +262,74 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             Assert.IsTrue(sevisModel.RelationshipSpecified);            
             Assert.IsTrue(sevisModel.BirthCountryReasonSpecified);
+        }
+
+        [TestMethod]
+        public void TestGetSevisExhangeVisitorDependentInstance_IsDeleted()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReason = "reason";
+            var sevisId = "sevis id";
+            var remarks = "remarks";
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = true;
+
+            var dependent = new UpdatedDependent(
+                fullName: fullName,
+                birthCity: birthCity,
+                birthCountryCode: birthCountryCode,
+                birthCountryReason: birthCountryReason,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: email,
+                gender: gender,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: phone,
+                relationship: relationship,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                sevisId: sevisId,
+                remarks: remarks,
+                participantId: participantId,
+                personId: personId,
+                isDeleted: isDeleted,
+                isTravelingWithParticipant: isTravelingWithParticipant
+                );
+
+            var instance = dependent.GetSevisExhangeVisitorDependentInstance();
+            Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentDelete));
+            var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentDelete)instance;
+            Assert.AreEqual(sevisId, sevisModel.dependentSevisID);
         }
 
         [TestMethod]
@@ -305,6 +368,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = false;
 
             var dependent = new UpdatedDependent(
                 fullName: fullName,
@@ -324,7 +389,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 sevisId: sevisId,
                 remarks: remarks,
                 participantId: participantId,
-                personId: personId
+                personId: personId,
+                isDeleted: isDeleted,
+                isTravelingWithParticipant: isTravelingWithParticipant
                 );
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
@@ -370,6 +437,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = false;
 
             var dependent = new UpdatedDependent(
                 fullName: fullName,
@@ -389,7 +458,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 sevisId: sevisId,
                 remarks: remarks,
                 participantId: participantId,
-                personId: personId
+                personId: personId,
+                isDeleted: isDeleted,
+                isTravelingWithParticipant: isTravelingWithParticipant
                 );
 
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();

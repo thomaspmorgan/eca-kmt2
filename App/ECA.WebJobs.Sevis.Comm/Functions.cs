@@ -9,24 +9,48 @@ using System.Net.Http;
 using ECA.WebJobs.Sevis;
 using ECA.Business.Sevis;
 using ECA.Business.Service;
+using ECA.WebJobs.Sevis.Core;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
+    /// <summary>
+    /// The Function class is responsible for processing sevis batches on a schedule.
+    /// </summary>
     public class Functions : IDisposable
     {
         // This function will be triggered based on the schedule you have set for this WebJob
 
+        private ISevisBatchProcessingService service;
+        private AppSettings appSettings;
+
         /// <summary>
-        /// The manual trigger method.
+        /// Creates a new Functions instance.
         /// </summary>
-        /// <param name="service">The SEVIS batch services to get and update batches.</param>
-        /// <param name="settings">The app settings.</param>
-        [NoAutomaticTrigger]
-        public async Task ManualTrigger(ISevisBatchProcessingService service, AppSettings settings)
+        /// <param name="service">The sevis batch processing service.</param>
+        /// <param name="appSettings">The app settings.</param>
+        public Functions(ISevisBatchProcessingService service, AppSettings appSettings)
         {
-            Contract.Requires(service != null, "The SEVIS service must not be null.");
-            Contract.Requires(settings != null, "The settings must not be null.");
-            await Process(service, settings);
+            this.service = service;
+            this.appSettings = appSettings;
+
+        }
+
+        /// <summary>
+        /// Send, recieve, and process sevis batches using the service.  In a debug build this will run every 20 seconds.  In a release build it will run every 5 mins.
+        /// </summary>
+        /// <param name="info">The timer trigger instance.</param>
+        /// <returns>The task<./returns>
+        public async Task ProcessTimer(
+#if DEBUG
+            [TimerTrigger("00:00:20", RunOnStartup = true)] TimerInfo info
+#else
+            [TimerTrigger("00:05:00", RunOnStartup = true)] TimerInfo info
+#endif   
+            )
+        {
+            await ProcessAsync(this.service, this.appSettings);
+            var nextOccurrenceMessage = info.FormatNextOccurrences(1);
+            Console.WriteLine(nextOccurrenceMessage);
         }
 
         /// <summary>
@@ -34,7 +58,7 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The SEVIS batch services to get and update batches.</param>
         /// <param name="settings">The app settings.</param>
-        public async Task Process(ISevisBatchProcessingService service, AppSettings settings)
+        public async Task ProcessAsync(ISevisBatchProcessingService service, AppSettings settings)
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
@@ -47,24 +71,26 @@ namespace ECA.WebJobs.Sevis.Comm
 
             var batchComm = new SevisComm(settings);
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
-            while(dtoToUpload != null)
-            {
-                //do the send here
+            //while (dtoToUpload != null)
+            //{
+            //    //do the send here
 
-                string transactionLogXml = null;
-                await service.ProcessTransactionLogAsync(systemUser, transactionLogXml);
-                await service.SaveChangesAsync();
-                dtoToUpload = await service.GetNextBatchToUploadAsync();
-            }
+            //    //string transactionLogXml = null;
+            //    //var fileProvider = GetFileProvider();
+            //    //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
+            //    dtoToUpload = await service.GetNextBatchToUploadAsync();
+            //}
 
             var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            while(batchByIdToDownload != null)
-            {
+            //while (batchByIdToDownload != null)
+            //{
 
-                //processing methods here or possibly another webjob
-                //await service.ProcessTransactionLogAsync(string.Empty);
-                batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            }
+            //    //processing methods here or possibly another webjob
+            //    //await service.ProcessTransactionLogAsync(string.Empty);
+            //    batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
+            //}
+
+            await service.DeleteProcessedBatchesAsync();
 
             //foreach (var batch in batchesToBeSent)
             //{
@@ -100,6 +126,24 @@ namespace ECA.WebJobs.Sevis.Comm
 
         }
 
+        /// <summary>
+        /// Returns a DS2019FileProvider.  Change this method to provide the list of files when ready.
+        /// </summary>
+        /// <returns>The file provider.</returns>
+        public IDS2019FileProvider GetFileProvider()
+        {
+            return new ZipArchiveDS2019FileProvider();
+        }
+
+        /// <summary>
+        /// Returns the system user.
+        /// </summary>
+        /// <returns>The system user.</returns>
+        public User GetSystemUser()
+        {
+            return new User(Int32.Parse(this.appSettings.SystemUserId));
+        }
+
         #region IDispose
 
         /// <summary>
@@ -117,15 +161,15 @@ namespace ECA.WebJobs.Sevis.Comm
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            //if (disposing)
-            //{
-            //        if (service is IDisposable)
-            //        {
-            //            Console.WriteLine("Disposing of service " + service.GetType());
-            //            ((IDisposable)service).Dispose();
-            //        }
-            //    }
-            //}
+            if (disposing)
+            {
+                if (this.service is IDisposable)
+                {
+                    Console.WriteLine("Disposing of service " + this.service.GetType());
+                    ((IDisposable)this.service).Dispose();
+                    this.service = null;
+                }
+            }
         }
 
         #endregion

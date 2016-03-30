@@ -33,7 +33,7 @@
 	types.Add(typeof(DataPointCategory));
 	types.Add(typeof(DataPointProperty));
 	types.Add(typeof(VisitorType));
-	types.Add(typeof(PersonType));
+	types.Add(typeof(DependentType));
 	types.Add(typeof(ECA.Business.Validation.Sevis.ErrorPaths.SevisErrorType));
 
 	types = types.OrderBy(x => x.Name).ToList();
@@ -50,7 +50,7 @@
 	otherConstants["cancelProjectEventName"] = "cancelProjectEdit";
 	otherConstants["saveProgramEventName"] = "saveProgram";
 	otherConstants["cancelProgramChangesEventName"] = "cancelProgramEdit";
-	otherConstants["sevisStatuses"] = "[2, 3, 4, 5, 15]";
+	otherConstants["sevisStatusIds"] = "2,3,4,5,15";
 
 	otherConstants["removeNewAddressEventName"] = "removeNewAddress";
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
@@ -91,6 +91,9 @@
 	otherConstants["updateBreadcrumbsEventName"] = "updateBreadcrumbs";
 
 	otherConstants["maxNumericValue"] = (Int32.MaxValue).ToString();
+
+	otherConstants["otherInternationalOrganizationId"] = Convert.ToString(18);
+	otherConstants["otherUSGovernmentAgencyId"] = Convert.ToString(22);
 	WriteTypes(types, otherConstants);
 #>
 

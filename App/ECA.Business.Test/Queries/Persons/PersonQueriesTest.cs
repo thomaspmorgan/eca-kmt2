@@ -21,15 +21,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_CheckProperties()
         {
-            var participantPersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Participant.Id,
-                IsDependentPersonType = false
-            };
-            var spousePersonType = new PersonType
-            {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var gender = new Gender
             {
@@ -39,15 +33,13 @@ namespace ECA.Business.Test.Queries.Persons
             var person = new Person
             {
                 PersonId = 10,
-                PersonTypeId = participantPersonType.PersonTypeId,
                 GenderId = gender.GenderId,
-                Gender = gender,
-                PersonType = participantPersonType
+                Gender = gender
             };
             
             var dependent = new PersonDependent
             {
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 DependentId = 2,
                 PersonId = person.PersonId,
                 FirstName = "firstName",
@@ -72,8 +64,7 @@ namespace ECA.Business.Test.Queries.Persons
             person.Family.Add(dependent);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonTypes.Add(spousePersonType);
-            context.PersonTypes.Add(participantPersonType);
+            context.DependentTypes.Add(spousePersonType);
 
             var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.DependentId).FirstOrDefault();
             Assert.IsNotNull(result);
@@ -83,10 +74,9 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DependentDoesNotHaveParticipantFamilyMember()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
             var gender = new Gender
             {
@@ -97,7 +87,7 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 DependentId = 1,
                 PersonId = 10,
-                PersonTypeId = spousePersonType.PersonTypeId,
+                DependentTypeId = spousePersonType.DependentTypeId,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NameSuffix = "III",
@@ -106,8 +96,6 @@ namespace ECA.Business.Test.Queries.Persons
 
             var person = new Person
             {
-                PersonTypeId = spousePersonType.PersonTypeId,
-                PersonType = spousePersonType,
                 PersonId = 1,
                 Alias = "alias",
                 FamilyName = "family",
@@ -124,7 +112,6 @@ namespace ECA.Business.Test.Queries.Persons
                     GenderName = Gender.Female.Value
                 }
             };
-            //dependent.People.Add(person);
             person.Family.Add(dependent);
 
             var status = new ParticipantStatus
@@ -142,30 +129,29 @@ namespace ECA.Business.Test.Queries.Persons
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
             context.Genders.Add(person.Gender);
-            context.PersonTypes.Add(spousePersonType);
+            context.DependentTypes.Add(spousePersonType);
 
-            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.DependentId).FirstOrDefault();
             Assert.IsNull(result);
         }
 
         [TestMethod]
         public void TestCreateGetRelatedPersonByDependentFamilyMemberQuery_DepdendentDoesNotHaveFamily()
         {
-            var spousePersonType = new PersonType
+            var spousePersonType = new DependentType
             {
-                PersonTypeId = PersonType.Spouse.Id,
-                IsDependentPersonType = true
+                DependentTypeId = DependentType.Spouse.Id
             };
-            var dependent = new Person
+            var dependent = new PersonDependent
             {
-                PersonId = 10,
-                PersonTypeId = spousePersonType.PersonTypeId,
-                PersonType = spousePersonType
+                DependentId = 10,
+                DependentTypeId = spousePersonType.DependentTypeId,
+                DependentType = spousePersonType
             };
-            context.People.Add(dependent);
-            context.PersonTypes.Add(spousePersonType);
+            context.PersonDependents.Add(dependent);
+            context.DependentTypes.Add(spousePersonType);
 
-            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.PersonId).FirstOrDefault();
+            var result = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(context, dependent.DependentId).FirstOrDefault();
             Assert.IsNull(result);
         }
 
@@ -180,11 +166,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_HasCurrentParticipation()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 Alias = "alias",
@@ -200,8 +181,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var activeStatus = new ParticipantStatus
             {
@@ -249,11 +229,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_DoesNotHaveCurrentParticipation()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 Alias = "alias",
@@ -269,8 +244,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             context.People.Add(person);
             context.Genders.Add(person.Gender);
@@ -283,11 +257,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CheckNames()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 Alias = "alias",
@@ -304,8 +273,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var status = new ParticipantStatus
             {
@@ -337,11 +305,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CheckDateOfBirth()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 DateOfBirth = DateTime.UtcNow,
@@ -351,8 +314,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var status = new ParticipantStatus
             {
@@ -377,11 +339,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CheckDateOfBirthIsUnknown()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 IsDateOfBirthUnknown = true,
@@ -390,8 +347,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var status = new ParticipantStatus
             {
@@ -434,11 +390,6 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = country,
                 CountryId = country.LocationId
             };
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
 
@@ -448,7 +399,6 @@ namespace ECA.Business.Test.Queries.Persons
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
                 },
-                PersonType = ptype,
                 PlaceOfBirth = city,
                 PlaceOfBirthId = city.LocationId
             };
@@ -480,11 +430,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_PlaceOfBirthIsUnknown()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 FullName = "fullname",
@@ -493,8 +438,7 @@ namespace ECA.Business.Test.Queries.Persons
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
                 },
-                IsPlaceOfBirthUnknown = true,
-                PersonType = ptype
+                IsPlaceOfBirthUnknown = true
             };
             var status = new ParticipantStatus
             {
@@ -514,8 +458,7 @@ namespace ECA.Business.Test.Queries.Persons
             var result = PersonQueries.CreateGetSimplePersonDTOsQuery(context).First();
             Assert.AreEqual(result.IsPlaceOfBirthUnknown, result.IsPlaceOfBirthUnknown);
         }
-
-
+        
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CheckPlaceOfBirth_OnlyHasCity()
         {
@@ -524,21 +467,14 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "city",
                 LocationId = 3,
             };
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
-
                 FullName = "fullname",
                 Gender = new Gender
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
                 },
-                PersonType = ptype,
                 PlaceOfBirth = city,
                 PlaceOfBirthId = city.LocationId
             };
@@ -568,11 +504,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_DoesNotHavePlaceOfBirth()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 FullName = "fullname",
@@ -580,8 +511,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var status = new ParticipantStatus
             {
@@ -606,11 +536,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipantion_StatusNameIsNull()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 Alias = "alias",
@@ -626,8 +551,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var status = new ParticipantStatus
             {
@@ -650,11 +574,6 @@ namespace ECA.Business.Test.Queries.Persons
         [TestMethod]
         public void TestCreateGetSimplePersonDTOsQuery_CurrentParticipation_StatusIsNull()
         {
-            var ptype = new PersonType
-            {
-                IsDependentPersonType = false,
-                PersonTypeId = PersonType.Participant.Id
-            };
             var person = new Person
             {
                 Alias = "alias",
@@ -670,8 +589,7 @@ namespace ECA.Business.Test.Queries.Persons
                 {
                     GenderId = Gender.Female.Id,
                     GenderName = Gender.Female.Value
-                },
-                PersonType = ptype
+                }
             };
             var participant = new Participant
             {

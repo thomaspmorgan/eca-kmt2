@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-4 title-label">
-                            <a popover="{{view.sevisFunding.govtAgency1Name + ' - ' + view.sevisFunding.govtAgency1OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.govtAgency1Id">Gov't Agency 1</a>
+                            <a popover="{{view.sevisFunding.govtAgency1Name + (view.sevisFunding.govtAgency1OtherName.length >  0 ? (' - ' + view.sevisFunding.govtAgency1OtherName) : '')}}" popover-placement="bottom" ng-if="view.sevisFunding.govtAgency1Id">Gov't Agency 1</a>
                             <span ng-if="!view.sevisFunding.govtAgency1Id">Gov't Agency 1</span>
                         </div>
                         <div class="col-md-4"><span class="pull-right">$</span></div>
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-4 title-label">
-                            <a popover="{{view.sevisFunding.govtAgency2Name + ' - ' + view.sevisFunding.govtAgency2OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.govtAgency2Id">Gov't Agency 2</a>
+                            <a popover="{{view.sevisFunding.govtAgency2Name + (view.sevisFunding.govtAgency2OtherName.length >  0 ? (' - ' + view.sevisFunding.govtAgency2OtherName) : '')}}" popover-placement="bottom" ng-if="view.sevisFunding.govtAgency2Id">Gov't Agency 2</a>
                             <span ng-if="!view.sevisFunding.govtAgency2Id">Gov't Agency 2</span>
                         </div>
                         <div class="col-md-4"><span class="pull-right">$</span></div>
@@ -87,7 +87,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-4 title-label">
-                            <a popover="{{view.sevisFunding.intlOrg1Name + ' - ' + view.sevisFunding.intlOrg1OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.intlOrg1Id">Int'l Org 1</a>
+                            <a popover="{{view.sevisFunding.intlOrg1Name + (view.sevisFunding.intlOrg1OtherName.length > 0 ? (' - ' + view.sevisFunding.intlOrg1OtherName) : '')}}" popover-placement="bottom" ng-if="view.sevisFunding.intlOrg1Id">Int'l Org 1</a>
                             <span ng-if="!view.sevisFunding.intlOrg1Id">Int'l Org 1</span>
                         </div>
                         <div class="col-md-4"><span class="pull-right">$</span></div>
@@ -96,7 +96,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-4 title-label">
-                            <a popover="{{view.sevisFunding.intlOrg2Name + ' - ' + view.sevisFunding.intlOrg2OtherName}}" popover-placement="bottom" ng-if="view.sevisFunding.intlOrg2Id">Int'l Org 2</a>
+                            <a popover="{{view.sevisFunding.intlOrg2Name + (view.sevisFunding.intlOrg2OtherName.length > 0 ? (' - ' + view.sevisFunding.intlOrg2OtherName) : '')}}" popover-placement="bottom" ng-if="view.sevisFunding.intlOrg2Id">Int'l Org 2</a>
                             <span ng-if="!view.sevisFunding.intlOrg2Id">Int'l Org 2</span>
                         </div>
                         <div class="col-md-4"><span class="pull-right">$</span></div>

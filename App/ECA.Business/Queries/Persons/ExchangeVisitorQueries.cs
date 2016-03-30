@@ -35,6 +35,7 @@ namespace ECA.Business.Queries.Persons
             var hostAddressTypeId = AddressType.Host.Id;
             var homeAddressTypeId = AddressType.Home.Id;
             var visitingPhoneNumberTypeId = Data.PhoneNumberType.Visiting.Id;
+            var personalEmailTypeId = EmailAddressType.Personal.Id;
             var query = from person in context.People
 
                         let gender = person.Gender
@@ -60,6 +61,7 @@ namespace ECA.Business.Queries.Persons
 
                         let emailAddress = emailAddressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.EmailAddressTypeId == personalEmailTypeId)
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
@@ -167,11 +169,11 @@ namespace ECA.Business.Queries.Persons
                         let gender = context.Genders.Where(x => x.GenderId == dependent.GenderId).FirstOrDefault()
                         let sevisGender = gender != null && (gender.SevisGenderCode == maleGenderCode || gender.SevisGenderCode == femaleGenderCode) ? gender.SevisGenderCode : null
 
-                        let residenceCountry = context.Locations.Where(x => x.LocationId == dependent.Residence_LocationId).FirstOrDefault()
+                        let residenceCountry = context.Locations.Where(x => x.LocationId == dependent.PlaceOfResidenceId).FirstOrDefault()
                         let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
 
-                        let birthCity = context.Locations.Where(x => x.LocationId == dependent.PlaceOfBirth_LocationId).FirstOrDefault()
+                        let birthCity = context.Locations.Where(x => x.LocationId == dependent.PlaceOfBirthId).FirstOrDefault()
                         let birthCountry = birthCity != null ? birthCity.Country : null
                         let sevisBirthCountry = birthCountry != null ? birthCountry.BirthCountry : null
                         let sevisBirthCountryCode = sevisBirthCountry != null ? sevisBirthCountry.CountryCode : null
@@ -183,7 +185,7 @@ namespace ECA.Business.Queries.Persons
                         let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.BirthCountry : null
                         let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
 
-                        let relationship = context.PersonTypes.Where(x => x.PersonTypeId == dependent.PersonTypeId).FirstOrDefault()
+                        let relationship = context.DependentTypes.Where(x => x.DependentTypeId == dependent.DependentTypeId).FirstOrDefault()
                         let relationshipCode = relationship != null ? relationship.SevisDependentTypeCode : null
 
                         let emailAddress = dependent.EmailAddresses
@@ -201,6 +203,8 @@ namespace ECA.Business.Queries.Persons
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             EmailAddressId = emailAddress != null ? emailAddress.EmailAddressId : default(int?),
+                            IsTravelingWithParticipant = dependent.IsTravellingWithParticipant,
+                            IsDeleted = dependent.IsDeleted,
                             FullName = new FullNameDTO
                             {
                                 FirstName = dependent.FirstName,
@@ -216,7 +220,7 @@ namespace ECA.Business.Queries.Persons
                             PersonId = dependent.PersonId,
                             ParticipantId = participantId,
                             Relationship = relationshipCode,
-                            PersonTypeId = relationship != null ? relationship.PersonTypeId : -1,
+                            DependentTypeId = relationship != null ? relationship.DependentTypeId : -1,
                             SevisId = dependent.SevisId
                         };
             return query;

@@ -188,19 +188,7 @@ namespace ECA.Data
         /// Can the participant be contacted? (agreement to contact is in place)
         /// </summary>
         public bool HasContactAgreement { get; set; }
-
-        /// <summary>
-        /// Gets or sets the person type id.
-        /// </summary>
-        [Column("PersonTypeId")]
-        public int PersonTypeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the person type.
-        /// </summary>
-        [ForeignKey("PersonTypeId")]
-        public virtual PersonType PersonType { get; set; }
-
+        
         [InverseProperty("CitizensOfCountry")]
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }

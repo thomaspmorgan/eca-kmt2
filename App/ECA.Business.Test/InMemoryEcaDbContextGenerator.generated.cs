@@ -5,25 +5,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 namespace ECA.Business.Test
 {
 	using System;
@@ -269,6 +250,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ProjectId
 			return Task.FromResult<ECA.Data.DefaultExchangeVisitorFunding>(this.SingleOrDefault(x => x.ProjectId.Equals(keyValues.First())));
+		}
+	}
+	public class DependentTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.DependentType>
+	{
+		public override ECA.Data.DependentType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DependentTypeId
+			return this.SingleOrDefault(x => x.DependentTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.DependentType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///DependentTypeId
+			return Task.FromResult<ECA.Data.DependentType>(this.SingleOrDefault(x => x.DependentTypeId.Equals(keyValues.First())));
 		}
 	}
 	public class EducationLevelTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.EducationLevel>
@@ -886,21 +882,6 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.PersonLanguageProficiency>(this.SingleOrDefault(x => x.LanguageId.Equals(keyValues.First())));
 		}
 	}
-	public class PersonTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonType>
-	{
-		public override ECA.Data.PersonType Find(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///PersonTypeId
-			return this.SingleOrDefault(x => x.PersonTypeId.Equals(keyValues.First()));
-		}
-		public override Task<ECA.Data.PersonType> FindAsync(params object[] keyValues)
-		{
-			if(keyValues.Length != 1) throw new System.NotSupportedException();
-			///PersonTypeId
-			return Task.FromResult<ECA.Data.PersonType>(this.SingleOrDefault(x => x.PersonTypeId.Equals(keyValues.First())));
-		}
-	}
 	public class PhoneNumberTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PhoneNumber>
 	{
 		public override ECA.Data.PhoneNumber Find(params object[] keyValues)
@@ -1287,6 +1268,7 @@ namespace ECA.Business.Test
 			this.DataPointCategoryProperties = new DataPointCategoryPropertyTestDbSet();
 			this.DataPointConfigurations = new DataPointConfigurationTestDbSet();
 			this.DefaultExchangeVisitorFunding = new DefaultExchangeVisitorFundingTestDbSet();
+			this.DependentTypes = new DependentTypeTestDbSet();
 			this.EducationLevels = new EducationLevelTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
 			this.EmailAddressTypes = new EmailAddressTypeTestDbSet();
@@ -1328,7 +1310,6 @@ namespace ECA.Business.Test
 			this.PersonDependents = new PersonDependentTestDbSet();
 			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
 			this.PersonLanguageProficiencies = new PersonLanguageProficiencyTestDbSet();
-			this.PersonTypes = new PersonTypeTestDbSet();
 			this.PhoneNumbers = new PhoneNumberTestDbSet();
 			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.Positions = new PositionTestDbSet();
