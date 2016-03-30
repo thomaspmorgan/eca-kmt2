@@ -29,33 +29,6 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadDependentsPromise = $q.defer();
 
-      function saveEditDependent(dependent) {
-          return DependentService.update(dependent, dependent.personId)
-              .then(function (response) {
-                  NotificationService.showSuccessMessage("The dependent delete was successful.");
-              },
-              function (error) {
-                  if (error.status == 400) {
-                      if (error.data.message && error.data.modelState) {
-                          for (var key in error.data.modelState) {
-                              NotificationService.showErrorMessage(error.data.modelState[key][0]);
-                          }
-                      }
-                      else if (error.data.Message && error.data.ValidationErrors) {
-                          for (var key in error.data.ValidationErrors) {
-                              NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
-                          }
-                      } else {
-                          NotificationService.showErrorMessage(error.data);
-                      }
-                  } else {
-                      if (error) {
-                          NotificationService.showErrorMessage(error.status + ': ' + error.statusText);
-                      }
-                  }
-              });
-      };
-
       $scope.view.onAddDependentClick = function () {
           $scope.dependentLoading = false;
           var addDependentModalInstance = $modal.open({
@@ -94,8 +67,13 @@ angular.module('staticApp')
               }
           });
           editDependentModalInstance.result.then(function (dependent) {
+              var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
+              var updated = {
+                  id: dependent.dependentId,
+                  value: dependent.lastName + ', ' + dependent.firstName
+              };
+              $scope.model.dependents[index] = updated;
               $log.info('Finished updating dependent.');
-              updateDependentView(dependent);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -109,8 +87,12 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  $scope.dependent.isDeleted = true;
-                 saveEditDependent($scope.dependent);
-                 removeDependentFromView(index);
+                 deleteEditDependent($scope.dependent);
+                 var deleted = {
+                     id: $scope.dependent.dependentId,
+                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                 };
+                 removeDependentFromView(deleted);
                  $scope.view.isDeletingDependent = false;
           })
           .catch(function () {
@@ -119,25 +101,51 @@ angular.module('staticApp')
               NotificationService.showErrorMessage(message);
           });          
       };
-      
-      function removeDependentFromView(index) {
-          $scope.$emit(ConstantsService.removeNewDependentEventName, index);
+
+      function deleteEditDependent(dependent) {
+          return DependentService.update(dependent)
+              .then(function (response) {
+                  NotificationService.showSuccessMessage("The dependent delete was successful.");
+              },
+              function (error) {
+                  if (error.status == 400) {
+                      if (error.data.message && error.data.modelState) {
+                          for (var key in error.data.modelState) {
+                              NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                          }
+                      }
+                      else if (error.data.Message && error.data.ValidationErrors) {
+                          for (var key in error.data.ValidationErrors) {
+                              NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                          }
+                      } else {
+                          NotificationService.showErrorMessage(error.data);
+                      }
+                  } else {
+                      if (error) {
+                          NotificationService.showErrorMessage(error.status + ': ' + error.statusText);
+                      }
+                  }
+              });
+      };
+
+      function removeDependentFromView(dependent) {
+          $scope.$emit(ConstantsService.removeNewDependentEventName, dependent);
       }
 
-      $scope.$on(ConstantsService.removeNewDependentEventName, function (event, index) {
+      $scope.$on(ConstantsService.removeNewDependentEventName, function (event, dependent) {
           console.assert($scope.view, 'The scope must exist.  It should be set by the directive.');
           console.assert($scope.model.dependents instanceof Array, 'The entity dependents is defined but must be an array.');
-          $scope.model.dependents.splice(index, 1);
-          $log.info('Removed dependent at index ' + index);
+
+          var dependents = $scope.model.dependents;
+          var index = dependents.map(function (e) { return e.id }).indexOf(dependent.id);
+          if (index !== -1) {
+              var removedItems = dependents.splice(index, 1);
+              $log.info('Removed dependent at index ' + index);
+          } else {
+              $log.info('Could not remove dependent');
+          }
+          
       });
-
-      //function updateDependents(id, dependent) {
-      //    var index = $scope.model.dependents.map(function (e) { return e.dependentId }).indexOf(id);
-      //    $scope.model.dependents[index] = dependent;
-      //};
-
-      //$scope.$on("reloadDependents", function (e, a) {
-      //    $scope.model.dependents[a.data.dependentId] = a.data;
-      //});
 
   });

@@ -259,30 +259,29 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
-        /// <summary>
-        /// Post method to create a person dependent
-        /// </summary>
-        /// <param name="model">The model to create</param>
-        /// <param name="personId">The id of the person.</param>
-        /// <returns></returns>
-        [ResponseType(typeof(PersonDependent))]
-        [Route("People/{personId:int}/Dependent")]
-        public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model, int personId)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
-                await service.SaveChangesAsync();
-                return Ok(person);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-        
+        ///// <summary>
+        ///// Post method to create a person dependent
+        ///// </summary>
+        ///// <param name="model">The model to create</param>
+        ///// <returns></returns>
+        //[ResponseType(typeof(PersonDependent))]
+        //[Route("Person/Dependent")]
+        //public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var currentUser = userProvider.GetCurrentUser();
+        //        var businessUser = userProvider.GetBusinessUser(currentUser);
+        //        var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
+        //        await service.SaveChangesAsync();
+        //        return Ok(person);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //}
+
         #endregion
 
         #region Update
@@ -376,7 +375,7 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         #endregion
-        
+
         #region Address
         /// <summary>
         /// Adds a new address to the person.

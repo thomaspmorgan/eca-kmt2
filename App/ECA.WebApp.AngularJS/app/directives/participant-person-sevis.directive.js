@@ -62,7 +62,7 @@
                 $scope.fundingElementId = 'funding' + $scope.participantid;
                 $scope.editMode = false;
                                 
-                var notifyStatuses = ConstantsService.sevisStatuses;
+                var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
                 
                 $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
                     return CreateMessageBox(checked)

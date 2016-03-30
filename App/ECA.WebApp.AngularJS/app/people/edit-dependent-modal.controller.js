@@ -47,6 +47,35 @@ angular.module('staticApp')
              });
       };
 
+      function saveEditDependent() {
+          setupDependent();
+          return DependentService.update($scope.dependent)
+              .then(function (response) {
+                  NotificationService.showSuccessMessage("The edit was successful.");
+                  return response.config.data;
+              },
+              function (error) {
+                  if (error.status == 400) {
+                      if (error.data.message && error.data.modelState) {
+                          for (var key in error.data.modelState) {
+                              NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                          }
+                      }
+                      else if (error.data.Message && error.data.ValidationErrors) {
+                          for (var key in error.data.ValidationErrors) {
+                              NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                          }
+                      } else {
+                          NotificationService.showErrorMessage(error.data);
+                      }
+                  } else {
+                      if (error) {
+                          NotificationService.showErrorMessage(error.status + ': ' + error.statusText);
+                      }
+                  }
+              });
+      };
+
       $scope.updateDependentGender = function () {
           $scope.dependent.genderId = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
       };
@@ -150,34 +179,6 @@ angular.module('staticApp')
           });
       }
 
-      function saveEditDependent() {
-          setupDependent();
-          return DependentService.update($scope.dependent, $scope.dependent.personId)
-              .then(function (response) {
-                  NotificationService.showSuccessMessage("The edit was successful.");
-              },
-              function (error) {
-                  if (error.status == 400) {
-                      if (error.data.message && error.data.modelState) {
-                          for (var key in error.data.modelState) {
-                              NotificationService.showErrorMessage(error.data.modelState[key][0]);
-                          }
-                      }
-                      else if (error.data.Message && error.data.ValidationErrors) {
-                          for (var key in error.data.ValidationErrors) {
-                              NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
-                          }
-                      } else {
-                          NotificationService.showErrorMessage(error.data);
-                      }
-                  } else {
-                      if (error) {
-                          NotificationService.showErrorMessage(error.status + ': ' + error.statusText);
-                      }
-                  }
-              });
-      };
-
       function setupDependent() {
           $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
               return obj.id;
@@ -197,7 +198,6 @@ angular.module('staticApp')
           return saveEditDependent()
               .then(function (dependent) {
                   $modalInstance.close(dependent);
-                  //$rootScope.$broadcast('reloadDependents', dependent);
               });
       }
 

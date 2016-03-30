@@ -19,14 +19,11 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
-          update: function (dependent, id) {
-              return DragonBreath.save(dependent, 'people/dependent');
+          update: function (dependent) {
+              return DragonBreath.save('people/dependent', dependent);
           },
-          create: function (dependent, personId) {
-              return DragonBreath.create(dependent, 'people/' + personId + '/dependent');
-          },
-          delete: function (dependentId) {
-              return DragonBreath.delete('person/dependent/' + dependentId);
+          create: function (dependent) {
+              return DragonBreath.create('person/dependent', dependent);
           }
       };
   });

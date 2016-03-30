@@ -22,7 +22,7 @@ angular.module('staticApp')
 
       function saveNewDependent() {
           setupDependent();
-          return DependentService.create($scope.dependent, $stateParams.personId)
+          return DependentService.create($scope.dependent)
               .then(function (response) {
                   NotificationService.showSuccessMessage("Finished adding dependent.");
                   return response.data;
