@@ -140,6 +140,7 @@ namespace ECA.Business.Service.Persons
             participantEntityTypes.Add(typeof(EmailAddress));
             participantEntityTypes.Add(typeof(PhoneNumber));
             participantEntityTypes.Add(typeof(Location));
+            participantEntityTypes.Add(typeof(PersonDependent));
             return participantEntityTypes;
         }
 
@@ -420,7 +421,19 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(emailAddress != null, "The email address must not be null.");
-            return GetPersonIdByEntity<EmailAddress>(context, emailAddress, x => x.PersonId);
+            if (emailAddress.PersonId.HasValue)
+            {
+                return GetPersonIdByEntity<EmailAddress>(context, emailAddress, x => x.PersonId);
+            }
+            else if (emailAddress.DependentId.HasValue)
+            {
+                var personId = CreateGetPersonIdByDependentIdQuery(context, emailAddress.DependentId.Value).FirstOrDefault();
+                return personId == default(int) ? default(int?) : personId;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -430,12 +443,30 @@ namespace ECA.Business.Service.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="emailAddress">The deleted email address.</param>
         /// <returns>The person id or null if it doesn't exist.</returns>
-        public Task<int?> GetPersonIdByEmailAddressAsync(EcaContext context, EmailAddress emailAddress)
+        public async Task<int?> GetPersonIdByEmailAddressAsync(EcaContext context, EmailAddress emailAddress)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(emailAddress != null, "The email address must not be null.");
-            return GetPersonIdByEntityAsync<EmailAddress>(context, emailAddress, x => x.PersonId);
+            if (emailAddress.PersonId.HasValue)
+            {
+                return await GetPersonIdByEntityAsync<EmailAddress>(context, emailAddress, x => x.PersonId);
+            }
+            else if (emailAddress.DependentId.HasValue)
+            {
+                var personId = await CreateGetPersonIdByDependentIdQuery(context, emailAddress.DependentId.Value).FirstOrDefaultAsync();
+                return personId == default(int) ? default(int?) : personId;
+            }
+            else
+            {
+                return null;
+            }
         }
+
+        private IQueryable<int> CreateGetPersonIdByDependentIdQuery(EcaContext context, int dependentId)
+        {
+            return context.PersonDependents.Where(x => x.DependentId == dependentId).Select(x => x.PersonId);
+        }
+
 
         /// <summary>
         /// Returns the person id from an entity that is related to a person.  This is useful when an entity
@@ -503,6 +534,11 @@ namespace ECA.Business.Service.Persons
                     var participantId = await GetParticipantIdAsync((Person)obj);
                     addIfNotNull(participantId);
                 }
+                else if (typeof(PersonDependent).IsAssignableFrom(type))
+                {
+                    var participantId = await GetParticipantIdAsync((PersonDependent)obj);
+                    addIfNotNull(participantId);
+                }
                 else if (typeof(PhoneNumber).IsAssignableFrom(type))
                 {
                     var phoneNumber = (PhoneNumber)obj;
@@ -559,6 +595,11 @@ namespace ECA.Business.Service.Persons
                     var participantId = GetParticipantId((Person)obj);
                     addIfNotNull(participantId);
                 }
+                else if (typeof(PersonDependent).IsAssignableFrom(type))
+                {
+                    var participantId = GetParticipantId((PersonDependent)obj);
+                    addIfNotNull(participantId);
+                }
                 else if (typeof(PhoneNumber).IsAssignableFrom(type))
                 {
                     var phoneNumber = (PhoneNumber)obj;
@@ -602,7 +643,7 @@ namespace ECA.Business.Service.Persons
             var address = await CreateGetAddressByLocationIdQuery(location.LocationId).FirstOrDefaultAsync();
             if (address != null)
             {
-                participantId = GetParticipantId(address);
+                participantId = await GetParticipantIdAsync(address);
             }
             return participantId;
         }
@@ -627,7 +668,7 @@ namespace ECA.Business.Service.Persons
                 var person = await Context.People.FindAsync(personId.Value);
                 if (person != null)
                 {
-                    participantId = GetParticipantId(person);
+                    participantId = await GetParticipantIdAsync(person);
                 }
             }
             return participantId;
@@ -648,6 +689,30 @@ namespace ECA.Business.Service.Persons
             return participantId;
         }
 
+        private int? GetParticipantId(PersonDependent personDependent)
+        {
+            int? participantId = null;
+            var personId = personDependent.PersonId;
+            var person = Context.People.Find(personId);
+            if(person != null)
+            {
+                participantId = GetParticipantId(person);
+            }
+            return participantId;
+        }
+
+        private async Task<int?> GetParticipantIdAsync(PersonDependent personDependent)
+        {
+            int? participantId = null;
+            var personId = personDependent.PersonId;
+            var person = await Context.People.FindAsync(personId);
+            if (person != null)
+            {
+                participantId = await GetParticipantIdAsync(person);
+            }
+            return participantId;
+        }
+
         private async Task<int?> GetParticipantIdAsync(Address address)
         {
             int? participantId = null;
@@ -657,7 +722,7 @@ namespace ECA.Business.Service.Persons
                 var person = await Context.People.FindAsync(personId.Value);
                 if (person != null)
                 {
-                    participantId = GetParticipantId(person);
+                    participantId = await GetParticipantIdAsync(person);
                 }
             }
             return participantId;
@@ -666,7 +731,7 @@ namespace ECA.Business.Service.Persons
         private int? GetParticipantId(Address address)
         {
             int? participantId = null;
-            var personId = address.PersonId;
+            var personId = address.PersonId;            
             if (personId.HasValue)
             {
                 var person = Context.People.Find(personId.Value);
@@ -682,12 +747,21 @@ namespace ECA.Business.Service.Persons
         {
             int? participantId = null;
             var personId = emailAddress.PersonId;
+            var dependentId = emailAddress.DependentId;
             if (personId.HasValue)
             {
                 var person = await Context.People.FindAsync(personId.Value);
                 if (person != null)
                 {
-                    participantId = GetParticipantId(person);
+                    participantId = await GetParticipantIdAsync(person);
+                }
+            }
+            if (dependentId.HasValue)
+            {
+                var person = await Context.PersonDependents.FindAsync(dependentId.Value);
+                if(person != null)
+                {
+                    participantId = await GetParticipantIdAsync(person);
                 }
             }
             return participantId;
@@ -697,9 +771,18 @@ namespace ECA.Business.Service.Persons
         {
             int? participantId = null;
             var personId = emailAddress.PersonId;
+            var dependentId = emailAddress.DependentId;
             if (personId.HasValue)
             {
                 var person = Context.People.Find(personId.Value);
+                if (person != null)
+                {
+                    participantId = GetParticipantId(person);
+                }
+            }
+            if (dependentId.HasValue)
+            {
+                var person = Context.PersonDependents.Find(dependentId.Value);
                 if (person != null)
                 {
                     participantId = GetParticipantId(person);
@@ -711,25 +794,10 @@ namespace ECA.Business.Service.Persons
         private int? GetParticipantId(Person person)
         {
             int? participantId = null;
-            if (person.PersonTypeId == PersonType.Participant.Id)
+            var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
+            if (dto != null && dto.ParticipantId.HasValue)
             {
-                var dto = CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefault();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
-            }
-            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id)
-            {
-                var dto = PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefault();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
-            }
-            else
-            {
-                throw new NotSupportedException("The person by person type is not supported.");
+                participantId = dto.ParticipantId.Value;
             }
             return participantId;
         }
@@ -737,25 +805,10 @@ namespace ECA.Business.Service.Persons
         private async Task<int?> GetParticipantIdAsync(Person person)
         {
             int? participantId = null;
-            if (person.PersonTypeId == PersonType.Participant.Id)
+            var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
+            if (dto != null && dto.ParticipantId.HasValue)
             {
-                var dto = await CreateGetSimplePersonDTOsByParticipantIdQuery(person.PersonId).FirstOrDefaultAsync();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
-            }
-            else if (person.PersonTypeId == PersonType.Spouse.Id || person.PersonTypeId == PersonType.Child.Id) //here
-            {
-                var dto = await PersonQueries.CreateGetRelatedPersonByDependentFamilyMemberQuery(this.Context, person.PersonId).FirstOrDefaultAsync();
-                if (dto != null && dto.ParticipantId.HasValue)
-                {
-                    participantId = dto.ParticipantId.Value;
-                }
-            }
-            else
-            {
-                throw new NotSupportedException("The person by person type is not supported.");
+                participantId = dto.ParticipantId.Value;
             }
             return participantId;
         }

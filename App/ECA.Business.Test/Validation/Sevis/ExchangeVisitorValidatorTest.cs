@@ -1359,6 +1359,7 @@ namespace ECA.Business.Test.Validation.Sevis
             List<Dependent> dependents = new List<Dependent>();
             Business.Validation.Sevis.Bio.Person person = null;
 
+            var isTravelingWithParticipant = true;
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1413,7 +1414,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     usAddress: usAddress,
                     printForm: true,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isTravelingWithParticipant: isTravelingWithParticipant);
             };
 
             var instance = createEntity();

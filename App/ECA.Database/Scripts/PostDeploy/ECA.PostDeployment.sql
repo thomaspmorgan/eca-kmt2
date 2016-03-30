@@ -31,7 +31,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.OrganizationType.staticdata.sql
 :r .\StaticData\dbo.ParticipantStatus.staticdata.sql
 :r .\StaticData\dbo.ParticipantType.staticdata.sql
-:r .\StaticData\dbo.PersonType.staticdata.sql
+:r .\StaticData\dbo.DependentType.staticdata.sql
 :r .\StaticData\dbo.PhoneNumberType.staticdata.sql
 :r .\StaticData\dbo.ProgramType.staticdata.sql
 :r .\StaticData\dbo.ProjectStatus.staticdata.sql

@@ -256,7 +256,7 @@ namespace ECA.Business.Service.Persons
 
         private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent person, List<Location> countriesOfCitizenship)
         {
-            person.PersonTypeId = updateDependent.PersonTypeId;
+            person.DependentTypeId = updateDependent.DependentTypeId;
             person.FirstName = updateDependent.FirstName;
             person.LastName = updateDependent.LastName;
             person.NameSuffix = updateDependent.NameSuffix;
@@ -264,27 +264,15 @@ namespace ECA.Business.Service.Persons
             person.PreferredName = updateDependent.PreferredName;
             person.GenderId = updateDependent.GenderId;
             person.DateOfBirth = updateDependent.DateOfBirth;
-            person.PlaceOfBirth_LocationId = updateDependent.PlaceOfBirth_LocationId;
-            person.Residence_LocationId = updateDependent.Residence_LocationId;
+            person.PlaceOfBirthId = updateDependent.PlaceOfBirthId;
+            person.PlaceOfResidenceId = updateDependent.PlaceOfResidenceId;
             person.BirthCountryReason = updateDependent.BirthCountryReason;
             person.IsTravellingWithParticipant = updateDependent.IsTravellingWithParticipant;
             person.IsDeleted = updateDependent.IsDeleted;
             updateDependent.Audit.SetHistory(person);
             SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
         }
-
-        /// <summary>
-        /// Deletes a dependent from a person family
-        /// </summary>
-        /// <param name="dependentId"></param>
-        /// <returns></returns>
-        public async Task DeletePersonDependentByIdAsync(int dependentId)
-        {
-            var dependent = await GetPersonDependentAsync(dependentId);
-
-            //person.Family.Remove(dependent);
-        }
-        
+                
         #endregion
 
         #region Contact
@@ -595,8 +583,7 @@ namespace ECA.Business.Service.Persons
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsDateOfBirthEstimated = newPerson.IsDateOfBirthEstimated,
                 IsDateOfBirthUnknown = newPerson.IsDateOfBirthUnknown,
-                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown,
-                PersonTypeId = newPerson.PersonTypeId
+                IsPlaceOfBirthUnknown = newPerson.IsPlaceOfBirthUnknown
             };
 
             newPerson.Audit.SetHistory(person);
@@ -616,7 +603,7 @@ namespace ECA.Business.Service.Persons
             var person = new PersonDependent
             {
                 PersonId = newPerson.PersonId,
-                PersonTypeId = newPerson.PersonTypeId,
+                DependentTypeId = newPerson.DependentTypeId,
                 FirstName = newPerson.FirstName,
                 LastName = newPerson.LastName,
                 NameSuffix = newPerson.NameSuffix,
@@ -624,10 +611,11 @@ namespace ECA.Business.Service.Persons
                 PreferredName = newPerson.PreferredName,
                 GenderId = newPerson.GenderId,
                 DateOfBirth = newPerson.DateOfBirth,
-                PlaceOfBirth_LocationId = newPerson.PlaceOfBirth_LocationId,
-                Residence_LocationId = newPerson.Residence_LocationId,
+                PlaceOfBirthId = newPerson.PlaceOfBirthId,
+                PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
                 BirthCountryReason = newPerson.BirthCountryReason,
-                CountriesOfCitizenship = countriesOfCitizenship
+                CountriesOfCitizenship = countriesOfCitizenship,
+                IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
             };
 
             newPerson.Audit.SetHistory(person);

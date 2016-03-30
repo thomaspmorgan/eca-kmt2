@@ -19,7 +19,7 @@ angular.module('staticApp')
       $scope.edit.EduEmp = false;
       $scope.sevisStatus = { statusName: "", statusNameId: 0 };
 
-      var notifyStatuses = ConstantsService.sevisStatuses;
+      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.edit.General)
@@ -49,14 +49,14 @@ angular.module('staticApp')
           });
       }
       
-      //ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
-      //    .then(function (data) {
-      //        $scope.sevisStatus.statusName = data.data.sevisStatus;
-      //        $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
-      //    }, function (error) {
-      //        $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
-      //        NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
-      //    });
+      ParticipantPersonsService.getParticipantPersonById($stateParams.personId)
+          .then(function (data) {
+              $scope.sevisStatus.statusName = data.data.sevisStatus;
+              $scope.sevisStatus.statusNameId = data.data.sevisStatusId;
+          }, function (error) {
+              $log.error('Unable to load participant info for ' + $stateParams.personId + '.');
+              NotificationService.showErrorMessage('Unable to load participant info for ' + $stateParams.personId + '.');
+          });
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();

@@ -31,7 +31,8 @@ namespace ECA.Business.Validation.Sevis.Bio
             AddressDTO usAddress,
             bool printForm,
             int personId,
-            int participantId
+            int participantId,
+            bool isTravelingWithParticipant
             )
         {
             this.BirthCity = birthCity;
@@ -50,7 +51,13 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.Relationship = relationship;
             this.PersonId = personId;
             this.ParticipantId = participantId;
+            this.IsTravelingWithParticipant = isTravelingWithParticipant;
         }
+
+        /// <summary>
+        /// Gets whether or not the dependent will be traveling with the participant.
+        /// </summary>
+        public bool IsTravelingWithParticipant { get; private set; }
 
         /// <summary>
         /// Gets the participant id i.e. the id of the participant this person is a dependent of.

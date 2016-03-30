@@ -7,17 +7,17 @@
         <div class="bounce2"></div>
         <div class="bounce3"></div>
     </div>
-    <div ng-show="!dependentsLoading">
+    <div in-context-form ng-show="!dependentsLoading">
         <form name="dependentForm" class="form-horizontal">
             <div class="form-group row">
                 <div class="col-md-4 title-label">Relationship<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
-                    <ui-select name="persontype" ng-model="dependent.personTypeId" theme="select2" required>
+                    <ui-select name="dependenttype" ng-model="dependent.dependentTypeId" theme="select2" required>
                         <ui-select-match placeholder="Select relationship">
                             <div>{{$select.selected.name}}</div>
                         </ui-select-match>
-                        <ui-select-choices repeat="persontype.id as persontype in persontypes">
-                            <div ng-bind-html="persontype.name"></div>
+                        <ui-select-choices repeat="dependenttype.id as dependenttype in dependenttypes">
+                            <div ng-bind-html="dependenttype.name"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
@@ -92,9 +92,9 @@
             <div class="form-group row">
                 <div class="col-md-4 title-label">City of Birth<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
-                    <ui-select ng-model="dependent.placeOfBirth_LocationId"
+                    <ui-select ng-model="dependent.placeOfBirthId"
                                theme="select2"
-                               name="cityOfBirthId"
+                               name="placeOfBirthId"
                                ui-validate="{isDependentPlaceOfBirthValid: 'isDependentPlaceOfBirthValid($value)'}">
                         <ui-select-match placeholder="Select a city of birth...">
                             {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
@@ -105,7 +105,7 @@
                             <div style="margin-left:10px;" class="small" ng-show="city.country">{{city.country}}</div>
                         </ui-select-choices>
                     </ui-select>
-                    <div class="error" ng-show="dependentForm.placeOfBirth_LocationId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
+                    <div class="error" ng-show="dependentForm.placeOfBirthId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
                 </div>
             </div>
             <div class="form-group row">
@@ -119,7 +119,7 @@
                 <div class="col-md-8">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <ui-select multiple ng-model="selectedCountriesOfCitizenship"
+                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship"
                                        theme="select2" style="min-width: 200px;"
                                        title="Choose a country">
                                 <ui-select-match placeholder="Select countries...">
@@ -138,7 +138,7 @@
                 <div class="col-md-8">
                     <select class="form-control"
                             ng-options="t.id as t.name for t in countriesResidence"
-                            ng-model="dependent.residence_LocationId"
+                            ng-model="dependent.placeOfResidenceId"
                             required />
                 </div>
             </div>

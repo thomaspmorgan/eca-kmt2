@@ -1342,7 +1342,7 @@ namespace ECA.Data
 namespace ECA.Data
 {
 	using ECA.Core.Generation;
-	public partial class PersonType : ECA.Core.Generation.IStaticLookup
+	public partial class DependentType : ECA.Core.Generation.IStaticLookup
 	{
 		/// <summary>
 		/// Returns the Participant lookup with id 1.
@@ -1363,9 +1363,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if (1 == id) return PersonType.Participant;
-			if (2 == id) return PersonType.Spouse;
-			if (3 == id) return PersonType.Child;
+			if (1 == id) return DependentType.Participant;
+			if (2 == id) return DependentType.Spouse;
+			if (3 == id) return DependentType.Child;
 			return null;
 		}
 		///<summary>
@@ -1375,9 +1375,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Participant;
-			if ("Spouse".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Spouse;
-			if ("Child".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PersonType.Child;
+			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Participant;
+			if ("Spouse".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Spouse;
+			if ("Child".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Child;
 			return null;
 		}
 
@@ -1995,7 +1995,7 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<OrganizationType>());
 			errors.AddRange(validator.Validate<ParticipantStatus>());
 			errors.AddRange(validator.Validate<ParticipantType>());
-			errors.AddRange(validator.Validate<PersonType>());
+			errors.AddRange(validator.Validate<DependentType>());
 			errors.AddRange(validator.Validate<PhoneNumberType>());
 			errors.AddRange(validator.Validate<ProgramStatus>());
 			errors.AddRange(validator.Validate<ProgramType>());

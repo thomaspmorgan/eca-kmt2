@@ -656,9 +656,6 @@ angular.module('staticApp')
               backdrop: 'static',
               size: 'lg',
               resolve: {
-                  personTypeId: function () {
-                      return ConstantsService.personType.participant.id;
-                  }
               }
           });
 

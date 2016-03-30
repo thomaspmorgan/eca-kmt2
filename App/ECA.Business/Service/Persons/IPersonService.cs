@@ -164,12 +164,6 @@ namespace ECA.Business.Service.Persons
         /// <param name="person">The dependent to update</param>
         /// <returns></returns>
         Task<PersonDependent> UpdatePersonDependentAsync(UpdatedPersonDependent person);
-
-        /// <summary>
-        /// Deletes a dependent from the person
-        /// </summary>
-        /// <param name="updatedDependent"></param>
-        /// <returns></returns>
-        Task DeletePersonDependentByIdAsync(int dependentId);
+        
     }
 }

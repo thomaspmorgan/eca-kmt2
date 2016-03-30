@@ -3,9 +3,9 @@
 ***************************************/
 
 -- This script will manage the static data from
--- your Team Database project for [dbo].[PersonType].
+-- your Team Database project for [dbo].[DependentType].
 
-PRINT 'Updating static data table [dbo].[PersonType]'
+PRINT 'Updating static data table [dbo].[DependentType]'
 
 -- Set date format to ensure text dates are parsed correctly
 SET DATEFORMAT ymd
@@ -22,10 +22,9 @@ SET @DeleteMissingRecords = 0
 
 -- 1: Define table variable
 DECLARE @tblTempTable TABLE (
-[PersonTypeId] int,
+[DependentTypeId] int,
 [Name] nvarchar(150),
-[SevisDependentTypeCode] NVARCHAR(2) NULL,
-[IsDependentPersonType] BIT NOT NULL 
+[SevisDependentTypeCode] NVARCHAR(2) NULL
 )
 
 -- 2: Populate the table variable with data
@@ -35,37 +34,36 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType]) VALUES ('1', 'Participant', null, 'False')
-INSERT INTO @tblTempTable ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType]) VALUES ('2', 'Spouse', '01', 'True')
-INSERT INTO @tblTempTable ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType]) VALUES ('3', 'Child', '02', 'True')
+INSERT INTO @tblTempTable ([DependentTypeId], [Name], [SevisDependentTypeCode]) VALUES ('1', 'Participant', null)
+INSERT INTO @tblTempTable ([DependentTypeId], [Name], [SevisDependentTypeCode]) VALUES ('2', 'Spouse', '01')
+INSERT INTO @tblTempTable ([DependentTypeId], [Name], [SevisDependentTypeCode]) VALUES ('3', 'Child', '02')
 
 
 -- 3: Insert any new items into the table from the table variable
-SET IDENTITY_INSERT [dbo].[PersonType] ON
-INSERT INTO [dbo].[PersonType] ([PersonTypeId], [Name], [SevisDependentTypeCode], [IsDependentPersonType])
-SELECT tmp.[PersonTypeId], tmp.[Name], tmp.[SevisDependentTypeCode], tmp.[IsDependentPersonType]
+SET IDENTITY_INSERT [dbo].[DependentType] ON
+INSERT INTO [dbo].[DependentType] ([DependentTypeId], [Name], [SevisDependentTypeCode])
+SELECT tmp.[DependentTypeId], tmp.[Name], tmp.[SevisDependentTypeCode]
 FROM @tblTempTable tmp
-LEFT JOIN [dbo].[PersonType] tbl ON tbl.[PersonTypeId] = tmp.[PersonTypeId]
-WHERE tbl.[PersonTypeId] IS NULL
-SET IDENTITY_INSERT [dbo].[PersonType] OFF
+LEFT JOIN [dbo].[DependentType] tbl ON tbl.[DependentTypeId] = tmp.[DependentTypeId]
+WHERE tbl.[DependentTypeId] IS NULL
+SET IDENTITY_INSERT [dbo].[DependentType] OFF
 
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
 LiveTable.[Name] = tmp.[Name],
-LiveTable.[SevisDependentTypeCode] = tmp.[SevisDependentTypeCode],
-LiveTable.[IsDependentPersonType] = tmp.[IsDependentPersonType]
-FROM [dbo].[PersonType] LiveTable 
-INNER JOIN @tblTempTable tmp ON LiveTable.[PersonTypeId] = tmp.[PersonTypeId]
+LiveTable.[SevisDependentTypeCode] = tmp.[SevisDependentTypeCode]
+FROM [dbo].[DependentType] LiveTable 
+INNER JOIN @tblTempTable tmp ON LiveTable.[DependentTypeId] = tmp.[DependentTypeId]
 
 -- 5: Delete any missing records from the target
 IF @DeleteMissingRecords = 1
 BEGIN
-	DELETE FROM [dbo].[PersonType] FROM [dbo].[PersonType] LiveTable
-	LEFT JOIN @tblTempTable tmp ON LiveTable.[PersonTypeId] = tmp.[PersonTypeId]
-	WHERE tmp.[PersonTypeId] IS NULL
+	DELETE FROM [dbo].[DependentType] FROM [dbo].[DependentType] LiveTable
+	LEFT JOIN @tblTempTable tmp ON LiveTable.[DependentTypeId] = tmp.[DependentTypeId]
+	WHERE tmp.[DependentTypeId] IS NULL
 END
 
-PRINT 'Finished updating static data table [dbo].[PersonType]'
+PRINT 'Finished updating static data table [dbo].[DependentType]'
 
 -- Note: If you are not using the new GDR version of DBPro
 -- then remove this go command.

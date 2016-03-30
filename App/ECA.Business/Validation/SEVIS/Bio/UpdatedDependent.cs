@@ -35,7 +35,9 @@ namespace ECA.Business.Validation.Sevis.Bio
             string sevisId,
             string remarks,
             int personId,
-            int participantId
+            int participantId,
+            bool isTravelingWithParticipant,
+            bool isDeleted
             )
             :base(
                  fullName: fullName,
@@ -53,12 +55,19 @@ namespace ECA.Business.Validation.Sevis.Bio
                  usAddress: usAddress,
                  printForm: printForm,
                  personId: personId,
-                 participantId: participantId
+                 participantId: participantId,
+                 isTravelingWithParticipant: isTravelingWithParticipant
                  )
         {
             this.SevisId = sevisId;
             this.Remarks = remarks;
+            this.IsDeleted = isDeleted;
         }
+
+        /// <summary>
+        /// Gets whether the dependent has been deleted in the KMT system.
+        /// </summary>
+        public bool IsDeleted { get; private set; }
 
         /// <summary>
         /// Gets or sets the sevis id.
@@ -89,23 +98,33 @@ namespace ECA.Business.Validation.Sevis.Bio
             {
                 return !string.IsNullOrWhiteSpace(value);
             };
-            return new SEVISEVBatchTypeExchangeVisitorDependentEdit
+            if (this.IsDeleted)
             {
-                BirthCity = this.BirthCity,
-                BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReason),
-                BirthDate = this.BirthDate.Value,
-                CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
-                dependentSevisID = this.SevisId,
-                EmailAddress = this.EmailAddress,
-                FullName = this.FullName.GetNameType(),
-                Gender = this.Gender.GetEVGenderCodeType(),
-                PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
-                printForm = this.PrintForm,
-                Relationship = this.Relationship.GetDependentCodeType(),
-                RelationshipSpecified = isCodeSpecified(this.Relationship),
-                Remarks = this.Remarks
-            };
+                return new SEVISEVBatchTypeExchangeVisitorDependentDelete
+                {
+                    dependentSevisID = this.SevisId
+                };
+            }
+            else
+            {
+                return new SEVISEVBatchTypeExchangeVisitorDependentEdit
+                {
+                    BirthCity = this.BirthCity,
+                    BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
+                    BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReason),
+                    BirthDate = this.BirthDate.Value,
+                    CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
+                    dependentSevisID = this.SevisId,
+                    EmailAddress = this.EmailAddress,
+                    FullName = this.FullName.GetNameType(),
+                    Gender = this.Gender.GetEVGenderCodeType(),
+                    PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
+                    printForm = this.PrintForm,
+                    Relationship = this.Relationship.GetDependentCodeType(),
+                    RelationshipSpecified = isCodeSpecified(this.Relationship),
+                    Remarks = this.Remarks,
+                };
+            }
         }
     }
 }
