@@ -40,12 +40,16 @@ angular.module('staticApp')
               }
           });
           addDependentModalInstance.result.then(function (dependent) {
-              var added = {
-                  id: dependent.dependentId,
-                  value: dependent.lastName + ', ' + dependent.firstName
-              };
-              $scope.model.dependents.splice(0, 0, added);
-              $log.info('Finished adding dependent.');
+              if (dependent) {
+                  var added = {
+                      id: dependent.dependentId,
+                      value: dependent.lastName + ', ' + dependent.firstName
+                  };
+                  $scope.model.dependents.splice(0, 0, added);
+                  $log.info('Finished adding dependent.');
+              } else {
+                  $log.info('Failed to add dependent.');
+              }              
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -68,18 +72,22 @@ angular.module('staticApp')
               }
           });
           editDependentModalInstance.result.then(function (dependent) {
-              var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
-              var updated = {
-                  id: dependent.dependentId,
-                  value: dependent.lastName + ', ' + dependent.firstName
-              };
-              $scope.model.dependents[index] = updated;
-              $log.info('Finished updating dependent.');
+              if (dependent) {
+                  var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
+                  var updated = {
+                      id: dependent.dependentId,
+                      value: dependent.lastName + ', ' + dependent.firstName
+                  };
+                  $scope.model.dependents[index] = updated;
+                  $log.info('Finished updating dependent.');
+              } else {
+                  $log.info('Failed to update dependent.');
+              }              
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
       };
-      
+
       $scope.view.onDeleteDependentClick = function (index) {
           $scope.view.isDeletingDependent = true;
           var obj = $scope.model.dependents[index];
@@ -89,29 +97,35 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.sevisId) {
-                 $scope.dependent.isDeleted = true;
-                 deleteEditDependent($scope.dependent);
+                     $scope.dependent.isDeleted = true;
+                     deleteEditDependent($scope.dependent);
                      deleted = {
                          id: $scope.dependent.dependentId,
                          value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
                      };
+                     removeDependentFromView(deleted);
                  } else {
                      return DependentService.delete(obj.id)
                      .then(function () {
                          deleted = {
-                     id: $scope.dependent.dependentId,
-                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
-                 };
-                    });
+                             id: $scope.dependent.dependentId,
+                             value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                         };
+                         removeDependentFromView(deleted);
+                     })
+                      .catch(function () {
+                          var message = "Unable to delete dependent.";
+                          $log.error(message);
+                          NotificationService.showErrorMessage(message);
+                      });
                  }                 
-                 removeDependentFromView(deleted);
                  $scope.view.isDeletingDependent = false;
-          })
+             })
           .catch(function () {
               var message = "Unable to delete dependent.";
               $log.error(message);
               NotificationService.showErrorMessage(message);
-          });          
+          });
       };
 
       function deleteEditDependent(dependent) {
@@ -153,6 +167,7 @@ angular.module('staticApp')
           var index = dependents.map(function (e) { return e.id }).indexOf(dependent.id);
           if (index !== -1) {
               var removedItems = dependents.splice(index, 1);
+              $scope.model.dependents = dependents;
               $log.info('Removed dependent at index ' + index);
           } else {
               $log.info('Could not remove dependent');
