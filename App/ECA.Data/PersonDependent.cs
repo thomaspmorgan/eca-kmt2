@@ -79,7 +79,6 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets FirstName.
         /// </summary>
-        [Required]
         [MaxLength(FIRST_NAME_MAX_LENGTH)]
         public string FirstName { get; set; }
 
@@ -117,6 +116,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the date of birth.
         /// </summary>
+        [Required]
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>

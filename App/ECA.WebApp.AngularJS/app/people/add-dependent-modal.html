@@ -8,7 +8,7 @@
         <div class="bounce3"></div>
     </div>
     <div in-context-form ng-show="!dependentsLoading">
-        <form name="dependentForm" class="form-horizontal">
+        <form name="form.dependentForm" class="form-horizontal">
             <div class="form-group row">
                 <div class="col-md-4 title-label">Relationship<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
@@ -20,18 +20,24 @@
                             <div ng-bind-html="dependenttype.name"></div>
                         </ui-select-choices>
                     </ui-select>
+                    <div ng-show="form.dependentForm.dependenttype.$dirty">
+                        <div class="error" ng-show="form.dependentForm.dependenttype.$error.required">Please select a relationship.</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
+                <label class="col-md-4 title-label">First name</label>
                 <div class="col-md-8">
-                    <input type="text" name="firstName" class="form-control" ng-model="dependent.firstName" required />
+                    <input type="text" name="firstName" class="form-control" ng-model="dependent.firstName" />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
                 <div class="col-md-8">
                     <input type="text" name="lastName" class="form-control" ng-model="dependent.lastName" required />
+                    <div ng-show="form.dependentForm.lastName.$dirty">
+                        <div class="error" ng-show="form.dependentForm.lastName.$error.required">Please enter a last name.</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
@@ -63,10 +69,13 @@
                             <div ng-bind-html="gender.value"></div>
                         </ui-select-choices>
                     </ui-select>
+                    <div ng-show="form.dependentForm.gender.$dirty">
+                        <div class="error" ng-show="form.dependentForm.gender.$error.required">Please select a gender.</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-4 title-label">Date of Birth</div>
+                <div class="col-md-4 title-label">Date of Birth<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
                     <div class="input-group">
                         <input type="text"
@@ -87,6 +96,9 @@
                             </button>
                         </span>
                     </div>
+                    <div ng-show="form.dependentForm.dateOfBirth.$dirty">
+                        <div class="error" ng-show="form.dependentForm.dateOfBirth.$error.required">Please enter a date of birth.</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
@@ -105,7 +117,10 @@
                             <div style="margin-left:10px;" class="small" ng-show="city.country">{{city.country}}</div>
                         </ui-select-choices>
                     </ui-select>
-                    <div class="error" ng-show="dependentForm.placeOfBirthId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
+                    <div class="error" ng-show="form.dependentForm.placeOfBirthId.$error.isDependentPlaceOfBirthValid">Please select a city of birth.</div>
+                    <div ng-show="form.dependentForm.placeOfBirthId.$dirty">
+                        <div class="error" ng-show="form.dependentForm.placeOfBirthId.$error.required">Please select a city of birth.</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
@@ -136,10 +151,13 @@
             <div class="form-group row">
                 <div class="col-md-4 title-label">Permanent Residence Country<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
-                    <select class="form-control"
+                    <select class="form-control" name="placeOfResidenceId"
                             ng-options="t.id as t.name for t in countriesResidence"
                             ng-model="dependent.placeOfResidenceId"
                             required />
+                    <div ng-show="form.dependentForm.placeOfResidenceId.$dirty">
+                        <div class="error" ng-show="form.dependentForm.placeOfResidenceId.$error.required">Please select a permanent residence.</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">

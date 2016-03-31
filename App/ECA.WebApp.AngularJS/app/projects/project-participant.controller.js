@@ -77,7 +77,8 @@ angular.module('staticApp')
       $scope.permissions.editProject = false;
       $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
-      var notifyStatuses = ConstantsService.sevisStatuses;
+
+      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
       var origNonUsParticipantsEst;
       var origUsParticipantsEst;

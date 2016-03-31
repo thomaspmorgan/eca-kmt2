@@ -46,7 +46,7 @@ angular.module('staticApp')
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
       
-      var notifyStatuses = ConstantsService.sevisStatuses;
+      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.view.isInfoTabInEditMode)
