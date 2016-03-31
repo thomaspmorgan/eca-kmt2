@@ -25,22 +25,15 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="validationService">The exchange visitor validation service.</param>
         /// <param name="userProvider">The user provider delegate.</param>
-        public ExchangeVisitorSaveAction(IExchangeVisitorValidationService validationService, Func<User> userProvider)
+        public ExchangeVisitorSaveAction(IExchangeVisitorValidationService validationService)
         {
             Contract.Requires(validationService != null, "The validation service must not be null.");
-            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.validationService = validationService;
-            this.User = userProvider();
             this.CreatedObjects = new List<object>();
             this.ModifiedObjects = new List<object>();
             this.DeletedObjects = new List<object>();
             this.ParticipantIds = new HashSet<int>();
         }
-
-        /// <summary>
-        /// Gets the current user.
-        /// </summary>
-        public User User { get; private set; }
 
         /// <summary>
         /// Gets the added entities.
@@ -233,7 +226,7 @@ namespace ECA.Business.Service.Persons
                     var participantPerson = this.Context.ParticipantPersons.Find(id);
                     if (participantPerson != null)
                     {
-                        validationService.RunParticipantSevisValidation(this.User, participant.ProjectId, participant.ParticipantId);
+                        validationService.RunParticipantSevisValidation(participant.ProjectId, participant.ParticipantId);
                         callSaveChanges = true;
                     }
                 }
@@ -263,7 +256,7 @@ namespace ECA.Business.Service.Persons
                     var participantPerson = await this.Context.ParticipantPersons.FindAsync(id);
                     if (participantPerson != null)
                     {
-                        await validationService.RunParticipantSevisValidationAsync(this.User, participant.ProjectId, participant.ParticipantId);
+                        await validationService.RunParticipantSevisValidationAsync(participant.ProjectId, participant.ParticipantId);
                         callSaveChanges = true;
                     }
                 }

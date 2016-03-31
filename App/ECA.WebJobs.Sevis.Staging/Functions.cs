@@ -51,18 +51,9 @@ namespace ECA.WebJobs.Sevis.Staging
                 this.appSettings.SystemUserId, 
                 this.appSettings.MaxCreateExchangeVisitorRecordsPerBatch, 
                 this.appSettings.MaxUpdateExchangeVisitorRecordsPerBatch));
-            await this.service.StageBatchesAsync(GetSystemUser());
+            await this.service.StageBatchesAsync();
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
             Console.WriteLine(nextOccurrenceMessage);
-        }
-
-        /// <summary>
-        /// Returns the system user.
-        /// </summary>
-        /// <returns>The system user.</returns>
-        public User GetSystemUser()
-        {
-            return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
 
         #region IDispose

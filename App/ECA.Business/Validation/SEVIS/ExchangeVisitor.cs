@@ -33,7 +33,7 @@ namespace ECA.Business.Validation.Sevis
         /// <param name="siteOfActivity">The exchange visitor site of activity.</param>
         /// <param name="dependents">The dependents of the exchange visitor.</param>
         public ExchangeVisitor(
-            User user,
+            string sevisUserId,
             string sevisId,
             Bio.Person person,
             FinancialInfo financialInfo,
@@ -44,7 +44,7 @@ namespace ECA.Business.Validation.Sevis
             IEnumerable<Dependent> dependents
             )
         {
-            this.User = user;
+            this.SevisUserId = sevisUserId;
             this.Person = person;
             this.FinancialInfo = financialInfo;
             this.OccupationCategoryCode = occupationCategoryCode;
@@ -93,7 +93,7 @@ namespace ECA.Business.Validation.Sevis
         /// <summary>
         /// Gets the user.
         /// </summary>
-        public User User { get; private set; }
+        public string SevisUserId { get; private set; }
 
         /// <summary>
         /// Gets the dependents.
@@ -108,19 +108,6 @@ namespace ECA.Business.Validation.Sevis
         {
             var json = JsonConvert.SerializeObject(this, GetSerializerSettings());
             return json;
-        }
-
-        /// <summary>
-        /// Returns the AddTipp model to send with the exchange visitor.
-        /// </summary>
-        /// <returns>The AddTIPP instance.</returns>
-        public AddTIPP GetAddTipp()
-        {
-            return new AddTIPP
-            {
-                Items = new List<object>().ToArray(),
-                print7002 = false
-            };
         }
 
         /// <summary>
@@ -193,10 +180,11 @@ namespace ECA.Business.Validation.Sevis
             Contract.Requires(this.OccupationCategoryCode != null, "The occupation category code must not be null.");
 
             var instance = new SEVISEVBatchTypeExchangeVisitor();
+            instance.userID = this.SevisUserId;
             instance.Biographical = this.Person.GetEVPersonTypeBiographical();
             instance.CategoryCode = this.Person.ProgramCategoryCode.GetEVCategoryCodeType();
             instance.FinancialInfo = this.FinancialInfo.GetEVPersonTypeFinancialInfo();
-            instance.Items = new List<object> { GetAddTipp(), GetAddSiteOfActivity() }.ToArray();
+            instance.Items = new List<object> { GetAddSiteOfActivity() }.ToArray();
             if (this.Person.MailAddress != null)
             {
                 var address = this.Person.MailAddress.GetUSAddress();
@@ -238,7 +226,15 @@ namespace ECA.Business.Validation.Sevis
                 var addedDependent = (AddedDependent)dependent;
                 addedDependents.Add(addedDependent.GetEVPersonTypeDependent());
             }
-            instance.CreateDependent = addedDependents.ToArray();
+            if(addedDependents.Count > 0)
+            {
+                instance.CreateDependent = addedDependents.ToArray();
+            }
+            else
+            {
+                instance.CreateDependent = null;
+            }
+            
         }
 
         /// <summary>
@@ -258,7 +254,7 @@ namespace ECA.Business.Validation.Sevis
                     requestID = this.Person.ParticipantId.ToString(),
                     sevisID = this.SevisId,
                     statusCodeSpecified = false,
-                    userID = this.User.Id.ToString()
+                    userID = this.SevisUserId
                 };
             };
             visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical()));
