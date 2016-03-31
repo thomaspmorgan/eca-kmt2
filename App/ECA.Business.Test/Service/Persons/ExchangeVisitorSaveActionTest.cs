@@ -70,7 +70,6 @@ namespace ECA.Business.Test.Service.Persons
     public class ExchangeVisitorSaveActionTest
     {
         private TestEcaContext context;
-        private Func<User> userProvider;
         private Mock<IExchangeVisitorValidationService> exchangeVisitorValidationService;
         private ExchangeVisitorSaveAction saveAction;
 
@@ -79,17 +78,8 @@ namespace ECA.Business.Test.Service.Persons
         {
             exchangeVisitorValidationService = new Mock<IExchangeVisitorValidationService>();
             context = new TestEcaContext();
-            userProvider = () => new User(1);
-            saveAction = new ExchangeVisitorSaveAction(exchangeVisitorValidationService.Object, userProvider);
+            saveAction = new ExchangeVisitorSaveAction(exchangeVisitorValidationService.Object);
         }
-        #region Constructor
-        [TestMethod]
-        public void TestConstructor()
-        {
-            var testSaveAction = new ExchangeVisitorSaveAction(exchangeVisitorValidationService.Object, userProvider);
-            Assert.AreEqual(userProvider().Id, testSaveAction.User.Id);
-        }
-        #endregion
 
         #region Modified Entities
         [TestMethod]
@@ -1723,16 +1713,15 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(1, saveAction.CreatedObjects.Count);
             Assert.AreEqual(0, saveAction.ModifiedObjects.Count);
 
-            Action<User, int, int> callback = (usr, projectId, participantId) =>
+            Action<int, int> callback = (projectId, participantId) =>
             {
-                Assert.AreEqual(userProvider().Id, usr.Id);
                 Assert.AreEqual(participant.ProjectId, projectId);
                 Assert.AreEqual(participant.ParticipantId, participantId);
             };
-            exchangeVisitorValidationService.Setup(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()))
+            exchangeVisitorValidationService.Setup(x => x.RunParticipantSevisValidation(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(default(ParticipantPersonSevisCommStatus))
                 .Callback(callback);
-            exchangeVisitorValidationService.Setup(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()))
+            exchangeVisitorValidationService.Setup(x => x.RunParticipantSevisValidationAsync(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult<ParticipantPersonSevisCommStatus>(null))
                 .Callback(callback);
 
@@ -1742,8 +1731,8 @@ namespace ECA.Business.Test.Service.Persons
             await saveAction.AfterSaveChangesAsync(context);
             Assert.AreEqual(2, context.SaveChangesCalledCount);
 
-            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]
@@ -1762,9 +1751,8 @@ namespace ECA.Business.Test.Service.Persons
             Assert.AreEqual(1, saveAction.CreatedObjects.Count);
             Assert.AreEqual(0, saveAction.ModifiedObjects.Count);
 
-            Action<User, int, int> callback = (usr, projectId, participantId) =>
+            Action<int, int> callback = (projectId, participantId) =>
             {
-                Assert.AreEqual(userProvider().Id, usr.Id);
                 Assert.AreEqual(participant.ProjectId, projectId);
                 Assert.AreEqual(participant.ParticipantId, participantId);
             };
@@ -1775,8 +1763,8 @@ namespace ECA.Business.Test.Service.Persons
             await saveAction.AfterSaveChangesAsync(context);
             Assert.AreEqual(0, context.SaveChangesCalledCount);
 
-            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
-            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
 
         [TestMethod]
@@ -1793,8 +1781,8 @@ namespace ECA.Business.Test.Service.Persons
             await saveAction.AfterSaveChangesAsync(context);
             Assert.AreEqual(0, context.SaveChangesCalledCount);
 
-            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
-            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidation(It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+            exchangeVisitorValidationService.Verify(x => x.RunParticipantSevisValidationAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Never());
         }
         #endregion
 

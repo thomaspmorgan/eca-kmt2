@@ -89,8 +89,8 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.sevisId) {
-                     $scope.dependent.isDeleted = true;
-                     deleteEditDependent($scope.dependent);
+                 $scope.dependent.isDeleted = true;
+                 deleteEditDependent($scope.dependent);
                      deleted = {
                          id: $scope.dependent.dependentId,
                          value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
@@ -99,9 +99,9 @@ angular.module('staticApp')
                      return DependentService.delete(obj.id)
                      .then(function () {
                          deleted = {
-                             id: $scope.dependent.dependentId,
-                             value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
-                         };
+                     id: $scope.dependent.dependentId,
+                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                 };
                     });
                  }                 
                  removeDependentFromView(deleted);

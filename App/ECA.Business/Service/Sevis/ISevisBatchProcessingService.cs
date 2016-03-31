@@ -42,16 +42,14 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// Stages all queued to submit sevis participants into sevis batches that can then be sent to sevis for processing.
         /// </summary>
-        /// <param name="user">The user performing the staging.</param>
         /// <returns>The list of staged sevis batches.</returns>
-        List<StagedSevisBatch> StageBatches(User user);
+        List<StagedSevisBatch> StageBatches();
 
         /// <summary>
         /// Stages all queued to submit sevis participants into sevis batches that can then be sent to sevis for processing.
         /// </summary>
-        /// <param name="user">The user performing the staging.</param>
         /// <returns>The list of staged sevis batches.</returns>
-        Task<List<StagedSevisBatch>> StageBatchesAsync(User user);
+        Task<List<StagedSevisBatch>> StageBatchesAsync();
 
         /// <summary>
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
@@ -193,22 +191,18 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="user"></param>
         /// <returns></returns>
-        public List<StagedSevisBatch> StageBatches(User user)
+        public List<StagedSevisBatch> StageBatches()
         {
-            Contract.Requires(user != null, "The user must not be null.");
             return null;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="user"></param>
         /// <returns></returns>
-        public Task<List<StagedSevisBatch>> StageBatchesAsync(User user)
+        public Task<List<StagedSevisBatch>> StageBatchesAsync()
         {
-            Contract.Requires(user != null, "The user must not be null.");
             return Task.FromResult<List<StagedSevisBatch>>(null);
         }
     }

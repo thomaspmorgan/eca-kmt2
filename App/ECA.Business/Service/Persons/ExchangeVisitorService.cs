@@ -36,7 +36,6 @@ namespace ECA.Business.Service.Persons
         public const int SUBJECT_FIELD_REMARKS_MAX_LENGTH = 500;        
 
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-        private readonly Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private readonly Action<Participant> throwIfParticipantIsNotAPerson;
         private readonly Action<Participant, Project> throwIfProjectIsNotExchangeVisitorType;
         private AppSettings appSettings;
@@ -45,6 +44,7 @@ namespace ECA.Business.Service.Persons
         /// Creates a new ExchangeVisitorService and initializes the context and save actions.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
+        /// <param name="appSettings">The app settings.</param>
         /// <param name="saveActions">The context save actions.</param>
         public ExchangeVisitorService(EcaContext context, AppSettings appSettings, List<ISaveAction> saveActions = null)
             : base(context, saveActions)
@@ -57,17 +57,6 @@ namespace ECA.Business.Service.Persons
                 if (instance == null)
                 {
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
-                }
-            };
-            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
-            {
-                if (participant != null && participant.ProjectId != projectId)
-                {
-                    throw new BusinessSecurityException(
-                        String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        userId,
-                        participant.ParticipantId,
-                        projectId));
                 }
             };
             throwIfParticipantIsNotAPerson = (participant) =>
@@ -95,11 +84,10 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The project id of the participant.</param>
         /// <param name="participantId">The id of the participant.</param>
         /// <returns>The exchange visitor model representing the participant.</returns>
-        public ExchangeVisitor GetExchangeVisitor(User user, int projectId, int participantId)
+        public ExchangeVisitor GetExchangeVisitor(int projectId, int participantId)
         {
             var participant = Context.Participants.Find(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
             throwIfParticipantIsNotAPerson(participant);
 
             var participantPerson = Context.ParticipantPersons.Find(participantId);
@@ -121,7 +109,7 @@ namespace ECA.Business.Service.Persons
             var dependents = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participantId).ToList();
 
             return GetExchangeVisitor(
-                user: user,
+                sevisUserId: appSettings.SevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -137,11 +125,10 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The project id of the participant.</param>
         /// <param name="participantId">The id of the participant.</param>
         /// <returns>The exchange visitor model representing the participant.</returns>
-        public async Task<ExchangeVisitor> GetExchangeVisitorAsync(User user, int projectId, int participantId)
+        public async Task<ExchangeVisitor> GetExchangeVisitorAsync(int projectId, int participantId)
         {
             var participant = await Context.Participants.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
             throwIfParticipantIsNotAPerson(participant);
 
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
@@ -163,7 +150,7 @@ namespace ECA.Business.Service.Persons
             var dependents = await ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participantId).ToListAsync();
 
             return GetExchangeVisitor(
-                user: user,
+                sevisUserId: appSettings.SevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -235,7 +222,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="siteOfActivity">The site of activity, i.e. C Street state dept.</param>
         /// <returns>The exchange visitor.</returns>
         public ExchangeVisitor GetExchangeVisitor(
-            User user, 
+            string sevisUserId, 
             Validation.Sevis.Bio.Person person, 
             FinancialInfo financialInfo, 
             ParticipantPerson participantPerson, 
@@ -243,7 +230,7 @@ namespace ECA.Business.Service.Persons
             IEnumerable<DependentBiographicalDTO> dependents, 
             AddressDTO siteOfActivity)
         {
-            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(sevisUserId != null, "The sevis user id must not be null.");
             Contract.Requires(person != null, "The person must not be null.");
             Contract.Requires(financialInfo != null, "The financial info must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
@@ -259,7 +246,7 @@ namespace ECA.Business.Service.Persons
             }
 
             return new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: participantPerson.SevisId,
                 person: person,
                 financialInfo: financialInfo,

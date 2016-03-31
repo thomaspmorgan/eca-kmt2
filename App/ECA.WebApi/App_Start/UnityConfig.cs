@@ -89,12 +89,7 @@ namespace ECA.WebApi.App_Start
                 list.Add(new OfficeDocumentSaveAction(new AppSettings()));
                 list.Add(new OrganizationDocumentSaveAction(new AppSettings()));
                 list.Add(new AddressToEntityDocumentSaveAction(new AppSettings()));
-                list.Add(new ExchangeVisitorSaveAction(c.Resolve<IExchangeVisitorValidationService>(), () =>
-                {
-                    var provider = c.Resolve<IUserProvider>();
-                    var user = provider.GetCurrentUser();
-                    return provider.GetBusinessUser(user);
-                }));
+                list.Add(new ExchangeVisitorSaveAction(c.Resolve<IExchangeVisitorValidationService>()));
                 return list;
             }));
         }

@@ -55,8 +55,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantDoesNotExist()
         {
-
-            var user = new User(1);
             var project = new Project
             {
                 ProjectId = 1,
@@ -64,51 +62,16 @@ namespace ECA.Business.Test.Service.Persons
             };
             context.Projects.Add(project);
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, 1);
-            Action a = () => service.RunParticipantSevisValidation(user, project.ProjectId, 1);
-            Func<Task> f = () => service.RunParticipantSevisValidationAsync(user, project.ProjectId, 1);
+            Action a = () => service.RunParticipantSevisValidation(project.ProjectId, 1);
+            Func<Task> f = () => service.RunParticipantSevisValidationAsync(project.ProjectId, 1);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
 
         [TestMethod]
-        public async Task TestRunParticipantSevisValidation_ParticipantDoesNotBelondToProject()
-        {
-
-            var user = new User(1);
-            var project = new Project
-            {
-                ProjectId = 1
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1,
-                ProjectId = project.ProjectId,
-                Project = project,
-                ParticipantTypeId = ParticipantType.ForeignTravelingParticipant.Id,
-                ParticipantStatusId = ParticipantStatus.EXCHANGE_VISITOR_VALIDATION_PARTICIPANT_STATUSES.First().Id
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                Participant = participant,
-                ParticipantId = participant.ParticipantId
-            };
-            context.Projects.Add(project);
-            context.Participants.Add(participant);
-            context.ParticipantPersons.Add(participantPerson);
-            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        user.Id,
-                        participant.ParticipantId,
-                        project.ProjectId + 1);
-            Action a = () => service.RunParticipantSevisValidation(user, project.ProjectId + 1, participant.ParticipantId);
-            Func<Task> f = () => service.RunParticipantSevisValidationAsync(user, project.ProjectId + 1, participant.ParticipantId);
-            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-        }
-
-        [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantTypeIsNotForeignTravelingParticipant()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -130,7 +93,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
 				sevisId: null,
                 person: null,
 				financialInfo: null,
@@ -140,8 +103,8 @@ namespace ECA.Business.Test.Service.Persons
 				siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
 				dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -158,12 +121,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(participantPerson.SevisValidationResult);
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
@@ -171,7 +134,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantStatusIsNotInListOfTrackedParticipantStatuses()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -194,7 +157,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -204,8 +167,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -222,12 +185,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(participantPerson.SevisValidationResult);
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
@@ -235,7 +198,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveParticipantStatus()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -258,7 +221,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -268,8 +231,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -286,12 +249,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(participantPerson.SevisValidationResult);
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
@@ -300,7 +263,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ValidationSucceeds()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -323,7 +286,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -333,8 +296,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure>());
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -356,12 +319,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNull(participantPerson.SevisValidationResult);
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Once());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }
@@ -370,7 +333,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestRunParticipantSevisValidation_ValidationFails()
         {
 
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -393,7 +356,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -403,8 +366,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -431,12 +394,12 @@ namespace ECA.Business.Test.Service.Persons
                     }));
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Once());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }
@@ -446,7 +409,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestRunParticipantSevisValidation_DoesNotHaveACommStatus_ValidationFails()
         {
 
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -467,7 +430,7 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -477,8 +440,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -505,12 +468,12 @@ namespace ECA.Business.Test.Service.Persons
                     }));
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Once());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }
@@ -519,7 +482,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestRunParticipantSevisValidation_DoesHaveAnInformationRequiredCommStatus_ValidationFails()
         {
 
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -547,7 +510,7 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -557,8 +520,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -586,12 +549,12 @@ namespace ECA.Business.Test.Service.Persons
                     }));
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Once());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }
@@ -600,7 +563,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestRunParticipantSevisValidation_DoesNotHaveAnInformationRequiredCommStatus_ValidationFails()
         {
             var yesterday = DateTime.UtcNow.AddDays(-1.0);
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -628,7 +591,7 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             var exchangeVisitor = new ExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -638,8 +601,8 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
                 dependents: null
                 );
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
-            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<User>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
+            exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
 
             var validationResult = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("property", "error") });
             exchangeVisitorValidator.Setup(x => x.Validate(It.IsAny<ExchangeVisitor>())).Returns(validationResult);
@@ -669,12 +632,12 @@ namespace ECA.Business.Test.Service.Persons
                     }));
             };
             context.Revert();
-            var result = service.RunParticipantSevisValidation(user, project.ProjectId, participant.ParticipantId);
+            var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Once());
 
             context.Revert();
-            result = await service.RunParticipantSevisValidationAsync(user, project.ProjectId, participant.ParticipantId);
+            result = await service.RunParticipantSevisValidationAsync(project.ProjectId, participant.ParticipantId);
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }

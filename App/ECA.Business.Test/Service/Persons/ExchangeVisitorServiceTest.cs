@@ -44,6 +44,8 @@ namespace ECA.Business.Test.Service.Persons
             cStreetAddressJson = JsonConvert.SerializeObject(cStreetAddress);
             nameValueSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, cStreetAddressJson);
 
+            nameValueSettings.Add(AppSettings.SEVIS_USERID_KEY, "sevisUserId");
+
             context = new TestEcaContext();
             service = new ExchangeVisitorService(context, appSettings);
         }
@@ -55,7 +57,6 @@ namespace ECA.Business.Test.Service.Persons
             var projectId = 10;
             var participantId = 100;
             var personId = 11;
-            var user = new User(1000);
             var person = new Data.Person
             {
                 PersonId = personId
@@ -142,6 +143,7 @@ namespace ECA.Business.Test.Service.Persons
                 });
                 Action<ExchangeVisitor> tester = (exchangeVisitor) =>
                 {
+                    Assert.AreEqual(appSettings.SevisUserId, exchangeVisitor.SevisUserId);
                     Assert.AreEqual(1, exchangeVisitor.Dependents.Count());
                     Assert.IsNotNull(exchangeVisitor.FinancialInfo);
                     Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, exchangeVisitor.OccupationCategoryCode);
@@ -149,15 +151,15 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.AreEqual(participantPerson.StartDate.Value.DateTime, exchangeVisitor.ProgramStartDate);
                     Assert.AreEqual(participantPerson.EndDate.Value.DateTime, exchangeVisitor.ProgramEndDate);
                     Assert.AreEqual(participantPerson.SevisId, exchangeVisitor.SevisId);
-                    Assert.IsTrue(Object.ReferenceEquals(user, exchangeVisitor.User));
+                    Assert.AreEqual(appSettings.SevisUserId, exchangeVisitor.SevisUserId);
 
                     Assert.IsNotNull(exchangeVisitor.SiteOfActivity);
                     var cStreetAddress = service.GetStateDepartmentCStreetAddress();
                     Assert.AreEqual(cStreetAddress.Street1, exchangeVisitor.SiteOfActivity.Street1);
                     Assert.AreEqual(cStreetAddress.LocationName, exchangeVisitor.SiteOfActivity.LocationName);
                 };
-                var result = service.GetExchangeVisitor(user, projectId, participantId);
-                var resultAsync = await service.GetExchangeVisitorAsync(user, projectId, participantId);
+                var result = service.GetExchangeVisitor(projectId, participantId);
+                var resultAsync = await service.GetExchangeVisitorAsync(projectId, participantId);
                 tester(result);
                 tester(resultAsync);
             }
@@ -169,7 +171,6 @@ namespace ECA.Business.Test.Service.Persons
             var projectId = 10;
             var participantId = 100;
             var personId = 11;
-            var user = new User(1000);
             var person = new Data.Person
             {
                 PersonId = personId
@@ -217,8 +218,8 @@ namespace ECA.Business.Test.Service.Persons
             context.ProgramCategories.Add(programCategory);
 
             var message = String.Format("The participant with id [{0}] belongs to a project with id [{1}] that is not an exchange visitor project.", participant.ParticipantId, project.ProjectId);
-            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
-            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
+            Action a = () => service.GetExchangeVisitor(projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(projectId, participantId);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
         }
@@ -229,7 +230,6 @@ namespace ECA.Business.Test.Service.Persons
             var projectId = 10;
             var participantId = 100;
             var personId = 11;
-            var user = new User(1000);
             var person = new Data.Person
             {
                 PersonId = personId
@@ -269,8 +269,8 @@ namespace ECA.Business.Test.Service.Persons
             context.ProgramCategories.Add(programCategory);
 
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Project).Name, projectId);
-            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
-            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
+            Action a = () => service.GetExchangeVisitor(projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(projectId, participantId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
@@ -281,7 +281,6 @@ namespace ECA.Business.Test.Service.Persons
             var projectId = 10;
             var participantId = 100;
             var personId = 11;
-            var user = new User(1000);
             var person = new Data.Person
             {
                 PersonId = personId
@@ -312,8 +311,8 @@ namespace ECA.Business.Test.Service.Persons
             context.ProgramCategories.Add(programCategory);
 
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(ParticipantPerson).Name, participantId);
-            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
-            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
+            Action a = () => service.GetExchangeVisitor(projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(projectId, participantId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
@@ -323,7 +322,6 @@ namespace ECA.Business.Test.Service.Persons
         {
             var projectId = 10;
             var participantId = 100;
-            var user = new User(1000);
             var programCategory = new ProgramCategory
             {
                 ProgramCategoryCode = "program category code",
@@ -347,48 +345,10 @@ namespace ECA.Business.Test.Service.Persons
             context.ProgramCategories.Add(programCategory);
 
             var message = String.Format("The participant with id [0] is not a person participant.", participant.ParticipantId);
-            Action a = () => service.GetExchangeVisitor(user, projectId, participantId);
-            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId, participantId);
+            Action a = () => service.GetExchangeVisitor(projectId, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(projectId, participantId);
             a.ShouldThrow<NotSupportedException>().WithMessage(message);
             f.ShouldThrow<NotSupportedException>().WithMessage(message);
-        }
-
-        [TestMethod]
-        public async Task TestGetExchangeVisitor_ParticipantDoesNotBelongToProject()
-        {
-            var projectId = 10;
-            var participantId = 100;
-            var user = new User(1000);
-            var programCategory = new ProgramCategory
-            {
-                ProgramCategoryCode = "program category code",
-                ProgramCategoryId = 234
-            };
-            var participant = new Participant
-            {
-                ParticipantId = participantId,
-                ProjectId = projectId,
-            };
-            var participantExchangeVisitor = new ParticipantExchangeVisitor
-            {
-                ParticipantId = participantId,
-                Participant = participant,
-                ProgramCategoryId = programCategory.ProgramCategoryId,
-                ProgramCategory = programCategory
-            };
-            participant.ParticipantExchangeVisitor = participantExchangeVisitor;
-            context.Participants.Add(participant);
-            context.ParticipantExchangeVisitors.Add(participantExchangeVisitor);
-            context.ProgramCategories.Add(programCategory);
-
-            var message = String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        user.Id,
-                        participant.ParticipantId,
-                        projectId + 1);
-            Action a = () => service.GetExchangeVisitor(user, projectId + 1, participantId);
-            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId + 1, participantId);
-            a.ShouldThrow<BusinessSecurityException>().WithMessage(message);
-            f.ShouldThrow<BusinessSecurityException>().WithMessage(message);
         }
 
         [TestMethod]
@@ -396,11 +356,10 @@ namespace ECA.Business.Test.Service.Persons
         {
             var projectId = 10;
             var participantId = 100;
-            var user = new User(1000);
 
             var message = String.Format("The model of type [{0}] with id [{1}] was not found.", typeof(Participant).Name, participantId);
-            Action a = () => service.GetExchangeVisitor(user, projectId + 1, participantId);
-            Func<Task> f = () => service.GetExchangeVisitorAsync(user, projectId + 1, participantId);
+            Action a = () => service.GetExchangeVisitor(projectId + 1, participantId);
+            Func<Task> f = () => service.GetExchangeVisitorAsync(projectId + 1, participantId);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
@@ -408,7 +367,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExchangeVisitor_HasAllEntityRelationships()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName: null,
                 birthCity: null,
@@ -440,7 +399,7 @@ namespace ECA.Business.Test.Service.Persons
             var dependents = new List<DependentBiographicalDTO>();
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
             var instance = service.GetExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -449,11 +408,11 @@ namespace ECA.Business.Test.Service.Persons
                 siteOfActivity: siteOfActivity);
 
             Assert.AreEqual(occupationCategoryCode, instance.OccupationCategoryCode);
-            Assert.IsTrue(Object.ReferenceEquals(user, instance.User));
             Assert.IsTrue(Object.ReferenceEquals(person, instance.Person));
             Assert.IsTrue(Object.ReferenceEquals(financialInfo, instance.FinancialInfo));
             Assert.IsTrue(Object.ReferenceEquals(siteOfActivity, instance.SiteOfActivity));
             Assert.IsNotNull(instance.Dependents);
+            Assert.AreEqual(sevisUserId, instance.SevisUserId);
             Assert.AreEqual(participantPerson.StartDate.Value.DateTime, instance.ProgramStartDate);
             Assert.AreEqual(participantPerson.EndDate.Value.DateTime, instance.ProgramEndDate);
             Assert.AreEqual(participantPerson.SevisId, instance.SevisId);
@@ -462,7 +421,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExchangeVisitor_CheckDependents()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName: null,
                 birthCity: null,
@@ -500,7 +459,7 @@ namespace ECA.Business.Test.Service.Persons
 
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
             var instance = service.GetExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -514,7 +473,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExchangeVisitor_ParticipantPersonDoesNotHaveStartAndEndDates()
         {
-            var user = new User(1);
+            var sevisUserId = "sevisUserId";
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName: null,
                 birthCity: null,
@@ -545,7 +504,7 @@ namespace ECA.Business.Test.Service.Persons
             var dependents = new List<DependentBiographicalDTO>();
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
             var instance = service.GetExchangeVisitor(
-                user: user,
+                sevisUserId: sevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
