@@ -41,12 +41,12 @@ angular.module('staticApp')
           });
           addDependentModalInstance.result.then(function (dependent) {
               if (dependent) {
-                  var added = {
-                      id: dependent.dependentId,
-                      value: dependent.lastName + ', ' + dependent.firstName
-                  };
-                  $scope.model.dependents.splice(0, 0, added);
-                  $log.info('Finished adding dependent.');
+              var added = {
+                  id: dependent.dependentId,
+                  value: dependent.lastName + ', ' + dependent.firstName
+              };
+              $scope.model.dependents.splice(0, 0, added);
+              $log.info('Finished adding dependent.');
               } else {
                   $log.info('Failed to add dependent.');
               }              
@@ -73,13 +73,13 @@ angular.module('staticApp')
           });
           editDependentModalInstance.result.then(function (dependent) {
               if (dependent) {
-                  var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
-                  var updated = {
-                      id: dependent.dependentId,
-                      value: dependent.lastName + ', ' + dependent.firstName
-                  };
-                  $scope.model.dependents[index] = updated;
-                  $log.info('Finished updating dependent.');
+              var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
+              var updated = {
+                  id: dependent.dependentId,
+                  value: dependent.lastName + ', ' + dependent.firstName
+              };
+              $scope.model.dependents[index] = updated;
+              $log.info('Finished updating dependent.');
               } else {
                   $log.info('Failed to update dependent.');
               }              
@@ -87,7 +87,7 @@ angular.module('staticApp')
               $log.info('Modal dismissed at: ' + new Date());
           });
       };
-
+      
       $scope.view.onDeleteDependentClick = function (index) {
           $scope.view.isDeletingDependent = true;
           var obj = $scope.model.dependents[index];
@@ -97,8 +97,8 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.sevisId) {
-                     $scope.dependent.isDeleted = true;
-                     deleteEditDependent($scope.dependent);
+                 $scope.dependent.isDeleted = true;
+                 deleteEditDependent($scope.dependent);
                      deleted = {
                          id: $scope.dependent.dependentId,
                          value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
@@ -108,24 +108,24 @@ angular.module('staticApp')
                      return DependentService.delete(obj.id)
                      .then(function () {
                          deleted = {
-                             id: $scope.dependent.dependentId,
-                             value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
-                         };
+                     id: $scope.dependent.dependentId,
+                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                 };
                          removeDependentFromView(deleted);
                      })
                       .catch(function () {
                           var message = "Unable to delete dependent.";
                           $log.error(message);
                           NotificationService.showErrorMessage(message);
-                      });
+                    });
                  }                 
                  $scope.view.isDeletingDependent = false;
-             })
+          })
           .catch(function () {
               var message = "Unable to delete dependent.";
               $log.error(message);
               NotificationService.showErrorMessage(message);
-          });
+          });          
       };
 
       function deleteEditDependent(dependent) {

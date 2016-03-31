@@ -170,9 +170,7 @@ namespace ECA.Business.Service.Sevis
         {
             Contract.Requires(this.SEVISBatchCreateUpdateEV != null, "The SEVISBatchCreateUpdateEV property object must not be null.");
             Contract.Requires(this.SevisBatchProcessing != null, "The sevis batch processing property object must not be null.");
-            var encoding = Encoding.GetEncoding("UTF-16");
-            var stringBuilder = new StringBuilder();
-            using (var textWriter = new ExtentedStringWriter(stringBuilder, encoding))
+            using (var textWriter = new StringWriter())
             {
                 var serializer = new XmlSerializer(typeof(SEVISBatchCreateUpdateEV));
                 serializer.Serialize(textWriter, this.SEVISBatchCreateUpdateEV, GetExchangeVisitorNamespaces());
@@ -254,23 +252,6 @@ namespace ECA.Business.Service.Sevis
             guidString = guidString.Replace("-", String.Empty);            
             var index = guidString.Length - maxLength;
             return guidString.Substring(index);
-        }
-    }
-    public sealed class ExtentedStringWriter : StringWriter
-    {
-        private readonly Encoding stringWriterEncoding;
-        public ExtentedStringWriter(StringBuilder builder, Encoding desiredEncoding)
-            : base(builder)
-        {
-            this.stringWriterEncoding = desiredEncoding;
-        }
-
-        public override Encoding Encoding
-        {
-            get
-            {
-                return this.stringWriterEncoding;
-            }
         }
     }
 }

@@ -11,6 +11,9 @@ using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
+using System.Xml;
+using System.Xml.Schema;
+using System.IO;
 
 namespace ECA.Business.Test.Service.Sevis
 {
@@ -23,10 +26,18 @@ namespace ECA.Business.Test.Service.Sevis
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             mailAddress.Division = state;
+            mailAddress.Street1 = "123 Us address";
+            mailAddress.Street2 = null;
+            mailAddress.City = "city";
+            mailAddress.PostalCode = "55555";
 
             var usAddress = new AddressDTO();
             usAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
             usAddress.Division = state;
+            usAddress.Street1 = "123 Us address";
+            usAddress.Street2 = null;
+            usAddress.City = "city";
+            usAddress.PostalCode = "55555";
 
             var firstName = "first";
             var lastName = "last";
@@ -35,14 +46,14 @@ namespace ECA.Business.Test.Service.Sevis
             var suffix = "Jr.";
             var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
 
-            var birthCity = "birth city";
-            var birthCountryCode = "CN";
+            var birthCity = " birth city";
+            var birthCountryCode = "US";
             var birthDate = DateTime.UtcNow;
             var citizenshipCountryCode = "FR";
             var email = "someone@isp.com";
             var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
             var permanentResidenceCountryCode = "MX";
-            var phone = "123-456-7890";
+            var phone = "8505551212";
             short positionCode = 120;
             var printForm = true;
             var birthCountryReason = "reason";
@@ -50,7 +61,7 @@ namespace ECA.Business.Test.Service.Sevis
             var programCataegoryCode = "1D";
 
             var subjectFieldCode = "01.0102";
-            var subjectField = new SubjectField(subjectFieldCode, null, null, null);
+            var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
 
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName,
@@ -74,8 +85,10 @@ namespace ECA.Business.Test.Service.Sevis
                 participantId);
             var siteOfActivity = new AddressDTO
             {
+                Street1 = "street 1",
+                PostalCode = "12345",
                 Division = "DC",
-                LocationName = "name"
+                LocationName = "US Dept of State"
             };
             var exchangeVisitor = new ExchangeVisitor(
                 sevisUserId: sevisUserId,
@@ -282,13 +295,13 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestSerializeSEVISBatchCreateUpdateEV()
+        public void TestSerializeSEVISBatchCreateUpdateEV_DoesNotHaveSevisId()
         {
-            var orgId = "org id";
+            var orgId = "P-1-19833";
             var batchId = Guid.NewGuid();
-            var sevisUserId = "sevisUserId";
+            var sevisUserId = "esayya9302";
             var instance = new StagedSevisBatch(batchId, sevisUserId, orgId);
-            var exchangeVisitor = GetExchangeVisitor(sevisUserId, "sevisId", 1, 2);
+            var exchangeVisitor = GetExchangeVisitor(sevisUserId, null, 1, 2);
 
             Assert.IsNull(instance.SevisBatchProcessing.SendXml);
             instance.AddExchangeVisitor(exchangeVisitor);
@@ -308,10 +321,27 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_URL));
             Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.XSD_NAMESPACE_URL));
             Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.XSI_NAMESPACE_URL));
+
+            //XmlReaderSettings settings = new XmlReaderSettings();
+
+            //settings.Schemas.Add("http://www.ice.gov/xmlschema/sevisbatch/alpha/Common", StagedSevisBatch.COMMON_NAMESPACE_URL);
+            //settings.Schemas.Add("http://www.ice.gov/xmlschema/sevisbatch/alpha/Table", StagedSevisBatch.TABLE_NAMESPACE_URL);
+            //settings.Schemas.Add("", StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_URL);
+            
+            //settings.ValidationType = ValidationType.Schema;
+
+            //using (XmlReader reader = XmlReader.Create(new StringReader(instance.SevisBatchProcessing.SendString), settings))
+            //{
+            //    XmlDocument document = new XmlDocument();
+            //    Action a = () => document.Load(reader);
+            //    a.ShouldNotThrow();                
+            //}
         }
 
+        
+
         [TestMethod]
-        public void TestGet()
+        public void TestGetExchangeVisitorNamespaces()
         {
 
             var orgId = "org id";
@@ -354,5 +384,21 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsFalse(expectedBatchId.Contains("-"));
             
         }
+
+        //static void ValidationEventHandler(object sender, ValidationEventArgs e)
+        //{
+        //    switch (e.Severity)
+        //    {
+        //        case XmlSeverityType.Error:
+        //            Console.WriteLine("Error: {0}", e.Message);
+        //            break;
+        //        case XmlSeverityType.Warning:
+        //            Console.WriteLine("Warning {0}", e.Message);
+        //            break;
+        //    }
+
+        //}
     }
+
+    
 }
