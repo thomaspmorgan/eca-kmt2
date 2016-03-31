@@ -272,7 +272,26 @@ namespace ECA.Business.Service.Persons
             updateDependent.Audit.SetHistory(person);
             SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
         }
-                
+
+        /// <summary>
+        /// Delete a dependent permanently
+        /// </summary>
+        /// <param name="dependentId">The dependent Id</param>
+        /// <returns></returns>
+        public async Task DeleteDependentAsync(int dependentId)
+        {
+            var dependent = await Context.PersonDependents.FindAsync(dependentId);
+            DoDelete(dependent);
+        }
+
+        private void DoDelete(PersonDependent dependentToDelete)
+        {
+            if (dependentToDelete != null)
+            {
+                Context.PersonDependents.Remove(dependentToDelete);
+            }
+        }
+
         #endregion
 
         #region Contact
@@ -792,6 +811,7 @@ namespace ECA.Business.Service.Persons
             logger.Trace("Retrieved people using the query operator [{0}]", queryOperator);
             return people;
         }
+
         #endregion
 
     }

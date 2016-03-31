@@ -5,6 +5,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace ECA.Business.Service.Persons
 {
@@ -164,6 +165,12 @@ namespace ECA.Business.Service.Persons
         /// <param name="person">The dependent to update</param>
         /// <returns></returns>
         Task<PersonDependent> UpdatePersonDependentAsync(UpdatedPersonDependent person);
-        
+
+        /// <summary>
+        /// Delete a dependent permanently
+        /// </summary>
+        /// <param name="dependentId">The dependent Id</param>
+        /// <returns></returns>
+        Task DeleteDependentAsync(int dependentId);
     }
 }

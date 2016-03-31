@@ -24,6 +24,9 @@ angular.module('staticApp')
           },
           create: function (dependent) {
               return DragonBreath.create(dependent, 'dependent');
+          },
+          delete: function (dependentId) {
+              return DragonBreath.delete(dependentId, 'people/dependent/' + dependentId);
           }
       };
   });

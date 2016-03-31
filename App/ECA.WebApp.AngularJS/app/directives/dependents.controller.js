@@ -83,16 +83,27 @@ angular.module('staticApp')
       $scope.view.onDeleteDependentClick = function (index) {
           $scope.view.isDeletingDependent = true;
           var obj = $scope.model.dependents[index];
+          var deleted = {};
           $scope.dependent = {};
           return DependentService.getDependentById(obj.id)
              .then(function (data) {
                  $scope.dependent = data;
+                 if ($scope.dependent.sevisId) {
                  $scope.dependent.isDeleted = true;
                  deleteEditDependent($scope.dependent);
-                 var deleted = {
+                     deleted = {
+                         id: $scope.dependent.dependentId,
+                         value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                     };
+                 } else {
+                     return DependentService.delete(obj.id)
+                     .then(function () {
+                         deleted = {
                      id: $scope.dependent.dependentId,
                      value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
                  };
+                    });
+                 }                 
                  removeDependentFromView(deleted);
                  $scope.view.isDeletingDependent = false;
           })
