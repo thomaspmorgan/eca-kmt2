@@ -39,7 +39,16 @@ namespace ECA.Business.Service.Projects
         protected override void UpdateParticipantDetails(Participant participant)
         {
             participant.OrganizationId = null;
-            participant.PersonId = this.PersonId;            
+            participant.PersonId = this.PersonId;
+            participant.ParticipantPerson = new ParticipantPerson
+            {
+                Participant = participant
+            };
+            participant.ParticipantExchangeVisitor = new ParticipantExchangeVisitor
+            {
+                Participant = participant,
+                ParticipantPerson = participant.ParticipantPerson
+            };
         }
     }
 }
