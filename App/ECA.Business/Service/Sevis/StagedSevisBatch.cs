@@ -25,6 +25,56 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         public const int MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT = 250;
 
+        /// <summary>
+        /// The common namespace prefix.
+        /// </summary>
+        public const string COMMON_NAMESPACE_PREFIX = "common";
+
+        /// <summary>
+        /// The sevis table namespace prefix.
+        /// </summary>
+        public const string TABLE_NAMESPACE_PREFIX = "table";
+
+        /// <summary>
+        /// The exchange visitor namesapce prefix.
+        /// </summary>
+        public const string EXCHANGE_VISITOR_NAMESPACE_PREFIX = "noNamespaceSchemaLocation";
+
+        /// <summary>
+        /// The xsd namespace prefix.
+        /// </summary>
+        public const string XSD_NAMESPACE_PREFIX = "xsd";
+
+        /// <summary>
+        /// The xsi namespace prefix.
+        /// </summary>
+        public const string XSI_NAMESPACE_PREFIX = "xsi";
+
+        /// <summary>
+        /// The xsd schema url.
+        /// </summary>
+        public const string XSD_NAMESPACE_URL = "http://www.w3.org/2001/XMLSchema";
+
+        /// <summary>
+        /// The xsi namespace url.
+        /// </summary>
+        public const string XSI_NAMESPACE_URL = "http://www.w3.org/2001/XMLSchema-instance";
+
+        /// <summary>
+        /// The common namespace url.
+        /// </summary>
+        public const string COMMON_NAMESPACE_URL = "http://www.ice.gov/xmlschema/sevisbatch/alpha/Common.xsd";
+
+        /// <summary>
+        /// The table namespace url.
+        /// </summary>
+        public const string TABLE_NAMESPACE_URL = "http://www.ice.gov/xmlschema/sevisbatch/alpha/SEVISTable.xsd";
+
+        /// <summary>
+        /// The exchange visitor namespace url.
+        /// </summary>
+        public const string EXCHANGE_VISITOR_NAMESPACE_URL = "http://www.ice.gov/xmlschema/sevisbatch/alpha/Create-UpdateExchangeVisitor.xsd";
+
         private List<ExchangeVisitor> exchangeVisitors;
         
         /// <summary>
@@ -95,7 +145,22 @@ namespace ECA.Business.Service.Sevis
         public List<ExchangeVisitor> GetExchangeVisitors()
         {
             return this.exchangeVisitors;
-        }        
+        }       
+        
+        /// <summary>
+        /// Returns the namespaces to add to the sevis exchange visitor document.
+        /// </summary>
+        /// <returns>The exchange visitor sevis xml document namespaces.</returns>
+        public XmlSerializerNamespaces GetExchangeVisitorNamespaces()
+        {
+            var namespaces = new XmlSerializerNamespaces();
+            namespaces.Add(COMMON_NAMESPACE_PREFIX, COMMON_NAMESPACE_URL);
+            namespaces.Add(TABLE_NAMESPACE_PREFIX, TABLE_NAMESPACE_URL);
+            namespaces.Add(EXCHANGE_VISITOR_NAMESPACE_PREFIX, EXCHANGE_VISITOR_NAMESPACE_URL);
+            namespaces.Add(XSD_NAMESPACE_PREFIX, XSD_NAMESPACE_URL);
+            namespaces.Add(XSI_NAMESPACE_PREFIX, XSI_NAMESPACE_URL);
+            return namespaces;
+        } 
 
         /// <summary>
         /// Serializes the SEVISBatchCreateUpdateEV object and saves it to the SevisBatchProcessing object.
@@ -107,7 +172,7 @@ namespace ECA.Business.Service.Sevis
             using (var textWriter = new StringWriter())
             {
                 var serializer = new XmlSerializer(typeof(SEVISBatchCreateUpdateEV));
-                serializer.Serialize(textWriter, this.SEVISBatchCreateUpdateEV);
+                serializer.Serialize(textWriter, this.SEVISBatchCreateUpdateEV, GetExchangeVisitorNamespaces());
                 var xml = textWriter.ToString();
                 this.SevisBatchProcessing.SendString = xml;
             }

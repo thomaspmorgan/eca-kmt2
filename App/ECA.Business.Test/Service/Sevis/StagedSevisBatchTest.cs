@@ -296,6 +296,47 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.IsNull(instance.SevisBatchProcessing.SendXml);
             instance.SerializeSEVISBatchCreateUpdateEV();
             Assert.IsNotNull(instance.SevisBatchProcessing.SendXml);
+
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.COMMON_NAMESPACE_PREFIX));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.TABLE_NAMESPACE_PREFIX));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_PREFIX));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.XSD_NAMESPACE_PREFIX));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.XSI_NAMESPACE_PREFIX));
+
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.COMMON_NAMESPACE_URL));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.TABLE_NAMESPACE_URL));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_URL));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.XSD_NAMESPACE_URL));
+            Assert.IsTrue(instance.SevisBatchProcessing.SendString.Contains(StagedSevisBatch.XSI_NAMESPACE_URL));
+        }
+
+        [TestMethod]
+        public void TestGet()
+        {
+
+            var orgId = "org id";
+            var batchId = Guid.NewGuid();
+            var sevisUserId = "sevisUserId";
+            var instance = new StagedSevisBatch(batchId, sevisUserId, orgId);
+            var exchangeVisitor = GetExchangeVisitor(sevisUserId, "sevisId", 1, 2);
+            
+            var namespaces = instance.GetExchangeVisitorNamespaces();
+            var namespacesArray = namespaces.ToArray();
+            Assert.AreEqual(5, namespacesArray.Count());
+
+            var urls = namespacesArray.Select(x => x.Namespace).ToList();
+            Assert.IsTrue(urls.Contains(StagedSevisBatch.COMMON_NAMESPACE_URL));
+            Assert.IsTrue(urls.Contains(StagedSevisBatch.TABLE_NAMESPACE_URL));
+            Assert.IsTrue(urls.Contains(StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_URL));
+            Assert.IsTrue(urls.Contains(StagedSevisBatch.XSD_NAMESPACE_URL));
+            Assert.IsTrue(urls.Contains(StagedSevisBatch.XSI_NAMESPACE_URL));
+
+            var prefixes = namespacesArray.Select(x => x.Name).ToList();
+            Assert.IsTrue(prefixes.Contains(StagedSevisBatch.COMMON_NAMESPACE_PREFIX));
+            Assert.IsTrue(prefixes.Contains(StagedSevisBatch.TABLE_NAMESPACE_PREFIX));
+            Assert.IsTrue(prefixes.Contains(StagedSevisBatch.EXCHANGE_VISITOR_NAMESPACE_PREFIX));
+            Assert.IsTrue(prefixes.Contains(StagedSevisBatch.XSI_NAMESPACE_PREFIX));
+            Assert.IsTrue(prefixes.Contains(StagedSevisBatch.XSD_NAMESPACE_PREFIX));
         }
 
         [TestMethod]
