@@ -373,6 +373,20 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Delete a dependent permanently
+        /// </summary>
+        /// <param name="dependentId"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(OkResult))]
+        [Route("People/Dependent/{dependentId:int}")]
+        public async Task<IHttpActionResult> DeleteDependentAsync(int dependentId)
+        {
+            await service.DeleteDependentAsync(dependentId);
+            await service.SaveChangesAsync();
+            return Ok();
+        }
+
         #endregion
 
         #region Address
