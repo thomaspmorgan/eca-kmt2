@@ -330,6 +330,10 @@ angular.module('staticApp')
           return isOther;
       }
 
+      $scope.editView.getSevisFundingTotal = function () {
+          return getSevisFundingTotal();
+      }
+
       function onFormValidStateChange() {
           var isInvalid = $scope.form.projectForm.$invalid;
           if (isInvalid) {
