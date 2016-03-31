@@ -12,7 +12,6 @@ angular.module('staticApp')
           NotificationService, FilterService, $q, DateTimeService) {
 
       $scope.dependent = getNewDependent();
-      $scope.dependent.projectId = parseInt($stateParams.projectId, 10);
       $scope.selectedCountriesOfCitizenship = [];
       $scope.countriesCitizenship = [];
       $scope.countriesResidence = [];
@@ -155,19 +154,6 @@ angular.module('staticApp')
             });
         }
 
-        $scope.getCities = function (val) {
-            return LocationService.get({
-                start: 0,
-                limit: 25,
-                filter: [{ property: 'name', comparison: 'like', value: val },
-                         { property: 'countryId', comparison: 'eq', value: $scope.dependent.countryOfBirthId },
-                         { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
-            }).then(function (data) {
-                $scope.cities = data.results;
-                return $scope.cities;
-            });
-        }
-
       function getNewDependent() {
           return {
           };
@@ -183,7 +169,6 @@ angular.module('staticApp')
           return saveNewDependent()
               .then(function (dependent) {
                   $modalInstance.close(dependent);
-                  //$rootScope.$broadcast('reloadDependents', dependent);
               });
       }
 

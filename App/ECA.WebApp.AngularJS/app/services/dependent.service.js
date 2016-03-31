@@ -20,10 +20,10 @@ angular.module('staticApp')
               return defer.promise;
           },
           update: function (dependent) {
-              return DragonBreath.save('people/dependent', dependent);
+              return DragonBreath.save(dependent, 'people/dependent');
           },
           create: function (dependent) {
-              return DragonBreath.create('person/dependent', dependent);
+              return DragonBreath.create(dependent, 'dependent');
           }
       };
   });

@@ -37,14 +37,15 @@ angular.module('staticApp')
               controller: 'AddDependentModalCtrl',
               size: 'md',
               resolve: {
-                  dependent: function () {
-                      return dependent;
-                  }
               }
           });
           addDependentModalInstance.result.then(function (dependent) {
+              var added = {
+                  id: dependent.dependentId,
+                  value: dependent.lastName + ', ' + dependent.firstName
+              };
+              $scope.model.dependents.splice(0, 0, added);
               $log.info('Finished adding dependent.');
-              addDependentToView(dependent);
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });

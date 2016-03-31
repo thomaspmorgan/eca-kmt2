@@ -76,8 +76,13 @@ angular.module('staticApp')
               });
       };
 
-      $scope.updateDependentGender = function () {
-          $scope.dependent.genderId = $scope.getObjectById($scope.dependent.genderId, $scope.genders).value;
+      function setupDependent() {
+          $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
+              return obj.id;
+          });
+          if ($scope.dependent.dateOfBirth) {
+              $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
+          }
       };
 
       $scope.isDependentPlaceOfBirthValid = function ($value) {
@@ -178,15 +183,6 @@ angular.module('staticApp')
               $scope.dependenttypes = data.data.results;
           });
       }
-
-      function setupDependent() {
-          $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
-              return obj.id;
-          });
-          if ($scope.dependent.dateOfBirth) {
-              $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
-          }
-      };
 
       $scope.openDatePicker = function ($event) {
           $event.preventDefault();

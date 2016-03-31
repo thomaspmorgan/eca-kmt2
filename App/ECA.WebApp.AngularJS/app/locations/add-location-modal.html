@@ -13,20 +13,6 @@
                 <div class="row" ng-show="!view.isLoadingRequiredData">
                     <div class="col-md-12">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="locationTypeId">Type<span class="asterisk"> *</span></label>
-                                <select class="form-control"
-                                        id="locationTypeId"
-                                        name="locationTypeId"
-                                        ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
-                                        ng-options="t.id as t.value for t in view.locationTypes"
-                                        ng-model="view.newLocation.locationTypeId"
-                                        ng-change="view.onLocationTypeChange()"
-                                        required />
-                                <div ng-show="form.addLocationForm.locationTypeId.$dirty || form.addLocationForm.locationTypeId.$error.required">
-                                    <div class="error" ng-show="form.addLocationForm.locationTypeId.$error.required">Please select a location type.</div>
-                                </div>
-                            </div>
                             <div class="form-group" ng-class="{ 'has-warning': view.locationExists, 'has-feedback': view.locationExists}">
                                 <label for="locationName">Name<span class="asterisk"> *</span></label>
                                 <input name="locationName"
@@ -51,6 +37,20 @@
                                     location{{view.totalMatchingLocations > 1 ? 's' : ''}}
                                     that match{{view.totalMatchingLocations == 1 ? 'es' : ''}}
                                     this new location.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="locationTypeId">Type<span class="asterisk"> *</span></label>
+                                <select class="form-control"
+                                        id="locationTypeId"
+                                        name="locationTypeId"
+                                        ng-disabled="view.isSavingNewLocation || view.isTransformingLocation"
+                                        ng-options="t.id as t.value for t in view.locationTypes"
+                                        ng-model="view.newLocation.locationTypeId"
+                                        ng-change="view.onLocationTypeChange()"
+                                        required />
+                                <div ng-show="form.addLocationForm.locationTypeId.$dirty || form.addLocationForm.locationTypeId.$error.required">
+                                    <div class="error" ng-show="form.addLocationForm.locationTypeId.$error.required">Please select a location type.</div>
                                 </div>
                             </div>
                             <div class="form-group">

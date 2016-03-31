@@ -259,28 +259,27 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
-        ///// <summary>
-        ///// Post method to create a person dependent
-        ///// </summary>
-        ///// <param name="model">The model to create</param>
-        ///// <returns></returns>
-        //[ResponseType(typeof(PersonDependent))]
-        //[Route("Person/Dependent")]
-        //public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var currentUser = userProvider.GetCurrentUser();
-        //        var businessUser = userProvider.GetBusinessUser(currentUser);
-        //        var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
-        //        await service.SaveChangesAsync();
-        //        return Ok(person);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //}
+        /// <summary>
+        /// Post method to create a person dependent
+        /// </summary>
+        /// <param name="model">The model to create</param>
+        /// <returns></returns>
+        [Route("Dependent")]
+        public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
+                await service.SaveChangesAsync();
+                return Ok(person);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
 
         #endregion
 
