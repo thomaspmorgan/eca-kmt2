@@ -11,19 +11,17 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Returns the exchange visitor information for the participant in the given project.
         /// </summary>
-        /// <param name="user">The user requesting the exchange visitor.</param>
         /// <param name="projectId">The project by id of the participant.</param>
         /// <param name="participantId">The participant by id.</param>
         /// <returns>The exchange visitor instance.  Use this instance for validation and serialization to sevis.</returns>
-        ExchangeVisitor GetExchangeVisitor(User user, int projectId, int participantId);
+        ExchangeVisitor GetExchangeVisitor(int projectId, int participantId);
 
         /// <summary>
         /// Returns the exchange visitor information for the participant in the given project.
         /// </summary>
-        /// <param name="user">The user requesting the exchange visitor.</param>
         /// <param name="projectId">The project by id of the participant.</param>
         /// <param name="participantId">The participant by id.</param>
         /// <returns>The exchange visitor instance.  Use this instance for validation and serialization to sevis.</returns>
-        Task<ExchangeVisitor> GetExchangeVisitorAsync(User user, int projectId, int participantId);
+        Task<ExchangeVisitor> GetExchangeVisitorAsync(int projectId, int participantId);
     }
 }

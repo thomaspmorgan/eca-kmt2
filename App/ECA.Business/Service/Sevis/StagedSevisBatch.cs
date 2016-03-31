@@ -34,7 +34,7 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         public StagedSevisBatch(
             Guid batchId, 
-            User user, 
+            string sevisUserId, 
             string orgId, 
             int maxCreateExchangeVisitorRecordsPerBatch = MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT,
             int maxUpdateExchangeVisitorRecordPerBatch = MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT)
@@ -48,14 +48,14 @@ namespace ECA.Business.Service.Sevis
                 BatchId = this.BatchId
             };
             this.SEVISBatchCreateUpdateEV = new SEVISBatchCreateUpdateEV();
-            this.SEVISBatchCreateUpdateEV.userID = user.Id.ToString();
+            this.SEVISBatchCreateUpdateEV.userID = sevisUserId;
             this.SEVISBatchCreateUpdateEV.BatchHeader = new BatchHeaderType
             {
                 BatchID = this.BatchId.ToString(),
                 OrgID = orgId
             };
-            this.SEVISBatchCreateUpdateEV.CreateEV = new SEVISEVBatchTypeExchangeVisitor[0];
-            this.SEVISBatchCreateUpdateEV.UpdateEV = new SEVISEVBatchTypeExchangeVisitor1[0];
+            this.SEVISBatchCreateUpdateEV.CreateEV = null;
+            this.SEVISBatchCreateUpdateEV.UpdateEV = null;
             this.MaxCreateExchangeVisitorRecordsPerBatch = maxCreateExchangeVisitorRecordsPerBatch;
             this.MaxUpdateExchangeVisitorRecordPerBatch = maxUpdateExchangeVisitorRecordPerBatch;
         }
@@ -123,13 +123,13 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
             if (String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
             {
-                var count = this.SEVISBatchCreateUpdateEV.CreateEV.Count();
+                var count = this.SEVISBatchCreateUpdateEV.CreateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.CreateEV.Count();
                 var addedItemCount = 1;
                 return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
             }
             else
             {
-                var count = this.SEVISBatchCreateUpdateEV.UpdateEV.Count();
+                var count = this.SEVISBatchCreateUpdateEV.UpdateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.UpdateEV.Count();
                 var addedItemCount = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().Count();
                 return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
             }
@@ -152,7 +152,7 @@ namespace ECA.Business.Service.Sevis
             var message = "This StagedSevisBatch can not accomodate the given exchange visitor.";
             if (String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
             {
-                var list = this.SEVISBatchCreateUpdateEV.CreateEV.ToList();
+                var list = this.SEVISBatchCreateUpdateEV.CreateEV != null ? this.SEVISBatchCreateUpdateEV.CreateEV.ToList() : new List<SEVISEVBatchTypeExchangeVisitor>();
                 list.Add(exchangeVisitor.GetSEVISBatchTypeExchangeVisitor());
                 this.SEVISBatchCreateUpdateEV.CreateEV = list.ToArray();
                 if(this.SEVISBatchCreateUpdateEV.CreateEV.Count() > this.MaxCreateExchangeVisitorRecordsPerBatch)
@@ -162,7 +162,7 @@ namespace ECA.Business.Service.Sevis
             }
             else
             {
-                var list = this.SEVISBatchCreateUpdateEV.UpdateEV.ToList();
+                var list = this.SEVISBatchCreateUpdateEV.UpdateEV != null ? this.SEVISBatchCreateUpdateEV.UpdateEV.ToList() : new List<SEVISEVBatchTypeExchangeVisitor1>();
                 list.AddRange(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection());
                 this.SEVISBatchCreateUpdateEV.UpdateEV = list.ToArray();
                 if (this.SEVISBatchCreateUpdateEV.UpdateEV.Count() > this.MaxUpdateExchangeVisitorRecordPerBatch)

@@ -58,17 +58,6 @@ namespace ECA.Business.Service.Persons
                     throw new ModelNotFoundException(String.Format("The model of type [{0}] with id [{1}] was not found.", type.Name, id));
                 }
             };
-            throwSecurityViolationIfParticipantDoesNotBelongToProject = (userId, projectId, participant) =>
-            {
-                if (participant != null && participant.ProjectId != projectId)
-                {
-                    throw new BusinessSecurityException(
-                        String.Format("The user with id [{0}] attempted to validate a participant with id [{1}] and project id [{2}] but should have been denied access.",
-                        userId,
-                        participant.ParticipantId,
-                        projectId));
-                }
-            };
         }
 
         /// <summary>
@@ -85,18 +74,17 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The project id of the participant.</param>
         /// <param name="participantId">The id of the participant.</param>
         /// <returns>The added participant sevis comm status.</returns>
-        public ParticipantPersonSevisCommStatus RunParticipantSevisValidation(User user, int projectId, int participantId)
+        public ParticipantPersonSevisCommStatus RunParticipantSevisValidation(int projectId, int participantId)
         {
             var participant = Context.Participants.Find(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
-
+            
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             if (ShouldRunValidation(participant))
             {
-                var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(user, projectId, participantId);
+                var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor( projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return HandleValidationResult(participantPerson, validationResult);
             }
@@ -116,18 +104,17 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The project id of the participant.</param>
         /// <param name="participantId">The id of the participant.</param>
         /// <returns>The added participant sevis comm status.</returns>
-        public async Task<ParticipantPersonSevisCommStatus> RunParticipantSevisValidationAsync(User user, int projectId, int participantId)
+        public async Task<ParticipantPersonSevisCommStatus> RunParticipantSevisValidationAsync(int projectId, int participantId)
         {
             var participant = await Context.Participants.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            throwSecurityViolationIfParticipantDoesNotBelongToProject(user.Id, projectId, participant);
-
+                        
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             if (ShouldRunValidation(participant))
             {
-                var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(user, projectId, participantId);
+                var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return await HandleValidationResultAsync(participantPerson, validationResult);
             }

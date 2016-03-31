@@ -46,15 +46,6 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         }
 
         [TestMethod]
-        public void TestGetSystemUser()
-        {
-            var userId = 1;
-            appSettings.Add(AppSettings.SYSTEM_USER_ID_KEY, userId.ToString());
-            var user = instance.GetSystemUser();
-            Assert.AreEqual(userId, user.Id);
-        }
-
-        [TestMethod]
         public async Task TestProcessTimer()
         {
             var userId = 1;
@@ -63,7 +54,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
             await instance.ProcessTimer(timerInfo);
-            service.Verify(x => x.StageBatchesAsync(It.IsAny<User>()), Times.Once());
+            service.Verify(x => x.StageBatchesAsync(), Times.Once());
         }
 
         [TestMethod]

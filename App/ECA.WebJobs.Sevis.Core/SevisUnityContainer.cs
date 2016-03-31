@@ -47,7 +47,10 @@ namespace ECA.WebJobs.Sevis.Core
 
             this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
             {
-                var service = new ExchangeVisitorService(context: c.Resolve<EcaContext>(), appSettings: appSettings, saveActions: null);
+                var service = new ExchangeVisitorService(
+                    context: c.Resolve<EcaContext>(), 
+                    appSettings: c.Resolve<AppSettings>(), 
+                    saveActions: null);
                 return service;
             }));
 
@@ -69,12 +72,11 @@ namespace ECA.WebJobs.Sevis.Core
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
                     context: c.Resolve<EcaContext>(),
-                    numberOfDaysToKeepProcessedBatches: Double.Parse(appSettings.NumberOfDaysToKeepProcessedSevisBatchRecords),
+                    appSettings: c.Resolve<AppSettings>(),
                     cloudStorageService: c.Resolve<IDummyCloudStorage>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
                     notificationService: c.Resolve<ISevisBatchProcessingNotificationService>(),
                     exchangeVisitorValidationService: c.Resolve<IExchangeVisitorValidationService>(),
-                    sevisOrgId: appSettings.SevisOrgId,
                     maxCreateExchangeVisitorRecordsPerBatch: Int32.Parse(appSettings.MaxCreateExchangeVisitorRecordsPerBatch),
                     maxUpdateExchangeVisitorRecordsPerBatch: Int32.Parse(appSettings.MaxUpdateExchangeVisitorRecordsPerBatch),
                     saveActions: null
