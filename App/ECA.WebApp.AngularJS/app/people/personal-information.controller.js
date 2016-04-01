@@ -60,7 +60,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.sevisStatus.statusNameId) !== -1) {
+          if (notifyStatuses.indexOf($scope.sevisStatus.statusNameId.toString()) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.sevisStatus.statusName + '. Are you sure you want to edit?',

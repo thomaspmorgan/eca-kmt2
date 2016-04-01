@@ -8,7 +8,7 @@
         <div class="bounce3"></div>
     </div>
     <div in-context-form ng-show="!dependentsLoading">
-        <form name="form.dependentForm" class="form-horizontal">
+        <form name="form.dependentForm">
             <div class="form-group row">
                 <div class="col-md-4 title-label">Relationship<span class="asterisk"> *</span></div>
                 <div class="col-md-8">
@@ -164,6 +164,12 @@
                 <div class="col-md-4 title-label">Email Address</div>
                 <div class="col-md-8">
                     <input type="text" class="form-control" ng-model="dependent.emailAddress" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4 title-label">Travelling Separate from Participant</div>
+                <div class="col-md-8">
+                    <input type="checkbox" class="form-control" ng-model="dependent.isTravellingWithParticipant" />
                 </div>
             </div>
         </form>
