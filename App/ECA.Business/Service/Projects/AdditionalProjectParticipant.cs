@@ -61,21 +61,21 @@ namespace ECA.Business.Service.Projects
         /// </summary>
         /// <param name="participant">The participant that is being created.</param>
         /// <param name="participantType">The participant type.</param>
-        public void UpdateParticipant(Participant participant, ParticipantType participantType)
+        public void UpdateParticipant(Participant participant, ParticipantType participantType, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantType != null, "The participant type must not be null.");
             participant.ProjectId = this.ProjectId;
             participant.ParticipantStatusId = this.ParticipantStatusId;
             participant.ParticipantTypeId = participantType.ParticipantTypeId;
-            UpdateParticipantDetails(participant);
+            UpdateParticipantDetails(participant, visitorType, defaultExchangeVisitorFunding);
         }
 
         /// <summary>
         /// Performs participant type specific logic.
         /// </summary>
         /// <param name="participant">The participant being created.</param>
-        protected abstract void UpdateParticipantDetails(Participant participant);
+        protected abstract void UpdateParticipantDetails(Participant participant, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ namespace ECA.Business.Service.Projects
         /// 
         /// </summary>
         /// <param name="participant"></param>
-        protected override void UpdateParticipantDetails(Participant participant)
+        protected override void UpdateParticipantDetails(Participant participant, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             Contract.Requires(participant != null, "The participant must not be null.");
         }

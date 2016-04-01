@@ -36,7 +36,7 @@ namespace ECA.Business.Service.Projects
         /// Sets the given participant to reference the organization as a participant.
         /// </summary>
         /// <param name="participant">The participant to update.</param>
-        protected override void UpdateParticipantDetails(Participant participant)
+        protected override void UpdateParticipantDetails(Participant participant, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             participant.OrganizationId = this.OrganizationId;
             participant.PersonId = null;

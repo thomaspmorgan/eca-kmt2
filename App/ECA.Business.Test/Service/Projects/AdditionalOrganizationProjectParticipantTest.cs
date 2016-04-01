@@ -35,7 +35,7 @@ namespace ECA.Business.Test.Service.Projects
             var participant = new Participant();
             var participantType = new ParticipantType();
 
-            instance.UpdateParticipant(participant, participantType);
+            instance.UpdateParticipant(participant, participantType, null, null);
             Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
             Assert.IsFalse(participant.PersonId.HasValue);
             Assert.AreEqual(organizationId, participant.OrganizationId);
