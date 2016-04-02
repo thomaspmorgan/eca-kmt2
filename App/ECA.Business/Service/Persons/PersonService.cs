@@ -619,7 +619,7 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
         {
-            var person = new PersonDependent
+            var dependent = new PersonDependent
             {
                 PersonId = newPerson.PersonId,
                 DependentTypeId = newPerson.DependentTypeId,
@@ -637,10 +637,10 @@ namespace ECA.Business.Service.Persons
                 IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
             };
 
-            newPerson.Audit.SetHistory(person);
-            this.Context.PersonDependents.Add(person);
+            newPerson.Audit.SetHistory(dependent);
+            this.Context.PersonDependents.Add(dependent);
             this.logger.Trace("Creating new person dependent {0}.", newPerson);
-            return person;
+            return dependent;
         }
         
         /// <summary>
