@@ -61,7 +61,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -80,7 +79,6 @@ namespace ECA.Business.Test.Validation.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -173,7 +171,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -192,7 +189,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -269,7 +265,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -288,7 +283,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -367,7 +361,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -386,7 +379,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -467,7 +459,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -486,7 +477,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -528,8 +518,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(ExchangeVisitorValidator.PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR, results.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(EndDateErrorPath));
         }
-
-
+        
         [TestMethod]
         public void TestOccupationCategoryCode_ExceedsLength()
         {
@@ -568,7 +557,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -587,7 +575,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -667,7 +654,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -686,7 +672,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -766,7 +751,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -785,7 +769,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -861,7 +844,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -880,7 +862,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -919,8 +900,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.AreEqual(ExchangeVisitorValidator.OCCUPATION_CATEGORY_CODE_ERROR_MESSAGE, results.Errors.First().ErrorMessage);
             Assert.IsNull(results.Errors.First().CustomState);
         }
-
-
+        
         [TestMethod]
         public void TestUSAddress_ShouldRunValidator()
         {
@@ -959,7 +939,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -978,7 +957,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1055,7 +1033,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1074,7 +1051,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1151,7 +1127,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1170,7 +1145,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1249,7 +1223,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1268,7 +1241,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1339,6 +1311,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var birthCity = "birth city";
             var birthCountryCode = "CN";
+            var birthCountryReasonId = 1;
             var birthDate = DateTime.UtcNow;
             var citizenshipCountryCode = "FR";
             var email = "someone@isp.com";
@@ -1347,7 +1320,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1367,7 +1339,6 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1394,8 +1365,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     dependents: dependents
                     );
             };
-
-
+            
             Func<AddedDependent> createDependentEntity = () =>
             {
                 var badPhoneNumber = "abc";

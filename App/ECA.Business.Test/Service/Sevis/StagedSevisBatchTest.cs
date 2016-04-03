@@ -56,7 +56,6 @@ namespace ECA.Business.Test.Service.Sevis
             var phone = "8505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
 
@@ -67,7 +66,6 @@ namespace ECA.Business.Test.Service.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,

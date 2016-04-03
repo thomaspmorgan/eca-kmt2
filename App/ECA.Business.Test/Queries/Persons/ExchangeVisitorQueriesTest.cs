@@ -1582,7 +1582,6 @@ namespace ECA.Business.Test.Queries.Persons
                 Person = person,
                 PersonId = person.PersonId
             };
-
             var unitedStates = new Location
             {
                 LocationId = 10957,
@@ -1720,7 +1719,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(cityOfBirth.LocationName, biography.BirthCity);
             Assert.AreEqual(sevisBirthCountry.CountryCode, biography.BirthCountryCode);
             Assert.AreEqual(sevisResidenceCountry.CountryCode, biography.PermanentResidenceCountryCode);
-            Assert.IsNull(biography.BirthCountryReasonId);
+            //Assert.IsNull(biography.BirthCountryReasonId);
         }
 
         [TestMethod]
@@ -4201,7 +4200,6 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.IsNull(biography.BirthCity);
             Assert.IsNull(biography.BirthCountryCode);
             Assert.IsNull(biography.CitizenshipCountryCode);
-            Assert.IsNull(biography.BirthCountryReasonId);
             Assert.IsNull(biography.EmailAddress);
             Assert.IsNull(biography.PermanentResidenceCountryCode);
             Assert.IsNull(biography.MailAddress);

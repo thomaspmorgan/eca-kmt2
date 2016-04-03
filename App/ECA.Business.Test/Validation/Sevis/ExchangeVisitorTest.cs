@@ -70,7 +70,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -80,7 +79,6 @@ namespace ECA.Business.Test.Validation.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -120,7 +118,6 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestConstructor()
         {
-            var userId = 10;
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -197,8 +194,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetExchangeVisitor_HasAddedDependent()
         {
             var addedDependent = new AddedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
-
-            var userId = 10;
+            
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -236,8 +232,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetExchangeVisitor_HasUpdatedDependent()
         {
             var updatedDependent = new UpdatedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
-
-            var userId = 10;
+            
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -276,8 +271,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var updatedDependent = new UpdatedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
             var addedDependent = new AddedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
-
-            var userId = 10;
+            
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -319,7 +313,6 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestConstructor_NullDependents()
         {
-            var userId = 10;
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();

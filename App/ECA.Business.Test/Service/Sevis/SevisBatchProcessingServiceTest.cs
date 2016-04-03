@@ -124,7 +124,6 @@ namespace ECA.Business.Test.Service.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,

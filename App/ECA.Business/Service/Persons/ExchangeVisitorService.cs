@@ -190,7 +190,6 @@ namespace ECA.Business.Service.Persons
                 fullName: fullName,
                 birthCity: biography.BirthCity,
                 birthCountryCode: biography.BirthCountryCode,
-                birthCountryReasonId: biography.BirthCountryReasonId,
                 birthDate: biography.BirthDate,
                 citizenshipCountryCode: biography.CitizenshipCountryCode,
                 emailAddress: biography.EmailAddress,

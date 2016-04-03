@@ -17,7 +17,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            int birthCountryReasonId,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -37,7 +36,6 @@ namespace ECA.Business.Validation.Sevis.Bio
         {
             this.BirthCity = birthCity;
             this.BirthCountryCode = birthCountryCode;
-            this.BirthCountryReasonId = birthCountryReasonId;
             this.BirthDate = birthDate;
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
@@ -120,12 +118,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets the permamanent residence country code.
         /// </summary>
         public string PermanentResidenceCountryCode { get; private set; }
-
-        /// <summary>
-        /// Gets the birth country reason.
-        /// </summary>
-        public int BirthCountryReasonId { get; private set; }
-
+        
         /// <summary>
         /// Gets the email address.
         /// </summary>
@@ -175,7 +168,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                BirthCountryReasonSpecified = false,
                 BirthDate = this.BirthDate.Value,
                 CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                 EmailAddress = this.EmailAddress,
@@ -227,7 +219,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PermanentResidenceCountryCodeSpecified = isCodeSpecified(this.PermanentResidenceCountryCode),
                 PhoneNumber = GetUSPhoneNumber(this.PhoneNumber),
                 ResidentialAddress = null,
-                BirthCountryReason = null,
                 USAddress = null,
                 MailAddress = null
             };
