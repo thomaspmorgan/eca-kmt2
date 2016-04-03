@@ -266,7 +266,7 @@ namespace ECA.Business.Service.Persons
             person.DateOfBirth = updateDependent.DateOfBirth;
             person.PlaceOfBirthId = updateDependent.PlaceOfBirthId;
             person.PlaceOfResidenceId = updateDependent.PlaceOfResidenceId;
-            person.BirthCountryReason = updateDependent.BirthCountryReason;
+            person.BirthCountryReasonId = updateDependent.BirthCountryReasonId;
             person.IsTravellingWithParticipant = updateDependent.IsTravellingWithParticipant;
             person.IsDeleted = updateDependent.IsDeleted;
             updateDependent.Audit.SetHistory(person);
@@ -632,7 +632,7 @@ namespace ECA.Business.Service.Persons
                 DateOfBirth = newPerson.DateOfBirth,
                 PlaceOfBirthId = newPerson.PlaceOfBirthId,
                 PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
-                BirthCountryReason = newPerson.BirthCountryReason,
+                BirthCountryReasonId = newPerson.BirthCountryReasonId,
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
             };

@@ -47,7 +47,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
 
@@ -58,7 +58,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -76,7 +76,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 participantId);
             Assert.AreEqual(birthCity, person.BirthCity);
             Assert.AreEqual(birthCountryCode, person.BirthCountryCode);
-            Assert.AreEqual(birthCountryReason, person.BirthCountryReason);
+            Assert.AreEqual(birthCountryReasonId, person.BirthCountryReasonId);
             Assert.AreEqual(birthDate, person.BirthDate);
             Assert.AreEqual(citizenshipCountryCode, person.CitizenshipCountryCode);
             Assert.AreEqual(email, person.EmailAddress);
@@ -128,7 +128,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
 
@@ -139,7 +139,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -163,7 +163,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsNotNull(jsonObject.SubjectField);
             Assert.AreEqual(birthCity, jsonObject.BirthCity);
             Assert.AreEqual(birthCountryCode, jsonObject.BirthCountryCode);
-            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(birthCountryReasonId, jsonObject.BirthCountryReasonId);
             Assert.AreEqual(citizenshipCountryCode, jsonObject.CitizenshipCountryCode);
             Assert.AreEqual(email, jsonObject.EmailAddress);
             Assert.AreEqual(gender, jsonObject.Gender);
@@ -208,18 +208,17 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, null);
-
-
+            
             var person = new Business.Validation.Sevis.Bio.Person
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -287,7 +286,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -298,7 +297,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -375,7 +374,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             string positionCode = null;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -386,7 +385,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -445,7 +444,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -456,7 +455,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -514,7 +513,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -525,7 +524,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: default(DateTime?),
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -584,7 +583,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -595,7 +594,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -654,7 +653,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -665,7 +664,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -720,7 +719,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
             var subjectFieldCode = "01.0102";
@@ -730,7 +729,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 (birthCity: birthCity,
                 fullName: fullName,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,

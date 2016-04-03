@@ -46,14 +46,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var instance = new AddedDependent(
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -79,7 +79,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(permanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, instance.PhoneNumber);
             Assert.AreEqual(printForm, instance.PrintForm);
-            Assert.AreEqual(birthCountryReason, instance.BirthCountryReason);
+            Assert.AreEqual(birthCountryReasonId, instance.BirthCountryReasonId);
             Assert.AreEqual(relationship, instance.Relationship);
             Assert.AreEqual(isTravelingWithParticipant, instance.IsTravelingWithParticipant);
             Assert.IsTrue(Object.ReferenceEquals(fullName, instance.FullName));
@@ -119,14 +119,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var instance = new AddedDependent(
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -155,7 +155,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, jsonObject.PhoneNumber);
             Assert.AreEqual(printForm, jsonObject.PrintForm);
-            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(birthCountryReasonId, jsonObject.BirthCountryReasonId);
             Assert.AreEqual(relationship, jsonObject.Relationship);
             Assert.AreEqual(isTravelingWithParticipant, jsonObject.IsTravelingWithParticipant);
             Assert.IsNotNull(jsonObject.FullName);
@@ -196,14 +196,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var dependent = new AddedDependent(
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -268,14 +268,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = false;
             var dependent = new AddedDependent(
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -330,7 +330,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             
@@ -338,7 +338,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,

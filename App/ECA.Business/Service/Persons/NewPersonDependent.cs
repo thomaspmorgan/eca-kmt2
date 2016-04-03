@@ -36,7 +36,7 @@ namespace ECA.Business.Service.Persons
             DateTime dateOfBirth,
             int placeOfBirthId,
             int placeOfResidenceId,
-            string birthCountryReason,
+            int birthCountryReasonId,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant)
         {
@@ -51,7 +51,7 @@ namespace ECA.Business.Service.Persons
             this.DateOfBirth = dateOfBirth;
             this.PlaceOfBirthId = placeOfBirthId;
             this.PlaceOfResidenceId = placeOfResidenceId;
-            this.BirthCountryReason = birthCountryReason;
+            this.BirthCountryReasonId = birthCountryReasonId;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsTravellingWithParticipant = isTravelWithParticipant;
             this.Audit = new Create(createdBy);
@@ -115,7 +115,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public int BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship

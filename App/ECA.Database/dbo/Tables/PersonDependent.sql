@@ -12,7 +12,7 @@
 	[DateOfBirth] [datetime2](7) NOT NULL,
 	[PlaceOfBirthId] [int] NOT NULL,
 	[PlaceOfResidenceId] [int] NOT NULL,
-	[BirthCountryReason] CHAR(2) NULL,
+	[BirthCountryReason] INT NULL,
 	[IsTravellingWithParticipant] [bit] NOT NULL DEFAULT 0,
 	[IsDeleted] [bit] NOT NULL DEFAULT 0,
 	[IsSevisDeleted] [bit] NOT NULL DEFAULT 0,

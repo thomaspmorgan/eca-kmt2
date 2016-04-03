@@ -153,7 +153,7 @@ namespace ECA.Business.Queries.Persons
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
-                            BirthCountryReason = dependent.BirthCountryReason,
+                            BirthCountryReasonId = dependent.BirthCountryReasonId,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
                             IsDeleted = dependent.IsDeleted,
                             IsSevisDeleted = dependent.IsSevisDeleted

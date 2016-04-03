@@ -61,7 +61,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -80,7 +80,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -173,7 +173,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -192,7 +192,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -269,7 +269,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -288,7 +288,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -367,7 +367,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -386,7 +386,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -467,7 +467,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -486,7 +486,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -568,7 +568,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -587,7 +587,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -667,7 +667,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -686,7 +686,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -766,7 +766,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -785,7 +785,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -861,7 +861,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -880,7 +880,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -959,7 +959,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -978,7 +978,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1055,7 +1055,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1074,7 +1074,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1151,7 +1151,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1170,7 +1170,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1249,7 +1249,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1268,7 +1268,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1347,7 +1347,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -1367,7 +1367,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName,
                     birthCity,
                     birthCountryCode,
-                    birthCountryReason,
+                    birthCountryReasonId,
                     birthDate,
                     citizenshipCountryCode,
                     email,
@@ -1403,7 +1403,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName: fullName,
                     birthCity: birthCity,
                     birthCountryCode: birthCountryCode,
-                    birthCountryReason: birthCountryReason,
+                    birthCountryReasonId: birthCountryReasonId,
                     birthDate: birthDate,
                     citizenshipCountryCode: citizenshipCountryCode,
                     emailAddress: "someone@isp.com",

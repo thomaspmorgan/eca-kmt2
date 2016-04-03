@@ -45,12 +45,7 @@ namespace ECA.Data
         /// Gets the max length of the family name.
         /// </summary>
         public const int PREFERRED_NAME_MAX_LENGTH = 100;
-
-        /// <summary>
-        /// Gets the max length of the family name.
-        /// </summary>
-        public const int BIRTH_COUNTRY_REASON_MAX_LENGTH = 100;
-
+        
         #endregion
 
         /// <summary>
@@ -134,8 +129,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        [MaxLength(BIRTH_COUNTRY_REASON_MAX_LENGTH)]
-        public string BirthCountryReason { get; set; }
+        public int BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

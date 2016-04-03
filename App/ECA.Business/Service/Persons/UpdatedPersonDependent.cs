@@ -23,7 +23,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="placeOfBirthId">The city of birth</param>
         /// <param name="placeOfResidenceId">The permanent residence country code</param>
-        /// <param name="birthCountryReason">The birth country reason</param>
+        /// <param name="birthCountryReasonId">The birth country reason</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         public UpdatedPersonDependent(
             User updater,
@@ -40,7 +40,7 @@ namespace ECA.Business.Service.Persons
             DateTime dateOfBirth,
             int placeOfBirthId,
             int placeOfResidenceId,
-            string birthCountryReason,
+            int birthCountryReasonId,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant,
             bool isDeleted,
@@ -60,7 +60,7 @@ namespace ECA.Business.Service.Persons
             this.DateOfBirth = dateOfBirth;
             this.PlaceOfBirthId = placeOfBirthId;
             this.PlaceOfResidenceId = placeOfResidenceId;
-            this.BirthCountryReason = birthCountryReason;
+            this.BirthCountryReasonId = birthCountryReasonId;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsTravellingWithParticipant = isTravelWithParticipant;
             this.IsDeleted = isDeleted;
@@ -136,7 +136,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public int BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship

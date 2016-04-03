@@ -155,9 +155,9 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Get a person dependent
         /// </summary>
-        /// <param name="personId">The person Id</param>
+        /// <param name="dependentId">The dependent Id</param>
         /// <returns>The person dependent</returns>
-        Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int personId);
+        Task<SimplePersonDependentDTO> GetPersonDependentByIdAsync(int dependentId);
         
         /// <summary>
         /// Update a person dependent

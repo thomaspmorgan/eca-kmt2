@@ -26,7 +26,7 @@ namespace ECA.WebApi.Test.Models.Person
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
             var placeOfBirth = 193;
-            var birthCountryReason = "";
+            var birthCountryReasonId = 0;
             var permanentResidenceCountryCode = 193;
             var countriesOfCitizenship = new List<int>();
             bool isTravellingWithParticipant = true;
@@ -48,7 +48,7 @@ namespace ECA.WebApi.Test.Models.Person
                 DateOfBirth = dateOfBirth,
                 PlaceOfBirthId = placeOfBirth,
                 PlaceOfResidenceId = permanentResidenceCountryCode,
-                BirthCountryReason = birthCountryReason,
+                BirthCountryReasonId = birthCountryReasonId,
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsTravellingWithParticipant = isTravellingWithParticipant,
                 IsDeleted = isDeleted,
@@ -68,7 +68,7 @@ namespace ECA.WebApi.Test.Models.Person
             Assert.AreEqual(model.DateOfBirth, instance.DateOfBirth);
             Assert.AreEqual(model.PlaceOfBirthId, instance.PlaceOfBirthId);
             Assert.AreEqual(model.PlaceOfResidenceId, instance.PlaceOfResidenceId);
-            Assert.AreEqual(model.BirthCountryReason, instance.BirthCountryReason);
+            Assert.AreEqual(model.BirthCountryReasonId, instance.BirthCountryReasonId);
             CollectionAssert.AreEqual(model.CountriesOfCitizenship, instance.CountriesOfCitizenship);
             Assert.AreEqual(model.IsTravellingWithParticipant, instance.IsTravellingWithParticipant);
             Assert.AreEqual(model.IsDeleted, instance.IsDeleted);

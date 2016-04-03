@@ -45,7 +45,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -56,7 +56,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -85,7 +85,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(permanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, instance.PhoneNumber);
             Assert.AreEqual(printForm, instance.PrintForm);
-            Assert.AreEqual(birthCountryReason, instance.BirthCountryReason);
+            Assert.AreEqual(birthCountryReasonId, instance.BirthCountryReasonId);
             Assert.AreEqual(sevisId, instance.SevisId);
             Assert.AreEqual(remarks, instance.Remarks);
             Assert.AreEqual(relationship, instance.Relationship);
@@ -128,7 +128,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -139,7 +139,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
+                birthCountryReasonId,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -171,7 +171,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, jsonObject.PhoneNumber);
             Assert.AreEqual(printForm, jsonObject.PrintForm);
-            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(birthCountryReasonId, jsonObject.BirthCountryReasonId);
             Assert.AreEqual(relationship, jsonObject.Relationship);
             Assert.AreEqual(isTravelingWithParticipant, jsonObject.IsTravelingWithParticipant);
             Assert.AreEqual(isDeleted, jsonObject.IsDeleted);
@@ -214,7 +214,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -225,7 +225,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -296,7 +296,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -307,7 +307,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -364,7 +364,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            string birthCountryReason = null;
+            int birthCountryReasonId = 0;
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -375,7 +375,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -433,7 +433,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            string birthCountryReason = null;
+            int birthCountryReasonId = 0;
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -444,7 +444,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonId: birthCountryReasonId,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,

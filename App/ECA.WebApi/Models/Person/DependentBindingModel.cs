@@ -68,7 +68,7 @@ namespace ECA.WebApi.Models.Person
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public int BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship
@@ -100,7 +100,7 @@ namespace ECA.WebApi.Models.Person
                 dateOfBirth: DateOfBirth,
                 placeOfBirthId: PlaceOfBirthId,
                 placeOfResidenceId: PlaceOfResidenceId,
-                birthCountryReason: BirthCountryReason,
+                birthCountryReasonId: BirthCountryReasonId,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 isTravelWithParticipant: IsTravellingWithParticipant);
         }

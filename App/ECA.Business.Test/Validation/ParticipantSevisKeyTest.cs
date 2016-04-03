@@ -32,7 +32,7 @@ namespace ECA.Business.Test.Validation
                 fullName: null,
                 birthCity: null,
                 birthCountryCode: null,
-                birthCountryReason: null,
+                birthCountryReasonId: 0,
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,

@@ -265,6 +265,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model">The model to create</param>
         /// <returns></returns>
         [Route("Dependent")]
+        [ResponseType(typeof(SimplePersonDependentDTO))]
         public async Task<IHttpActionResult> PostPersonDependentAsync(DependentBindingModel model)
         {
             if (ModelState.IsValid)
@@ -273,7 +274,8 @@ namespace ECA.WebApi.Controllers.Persons
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var person = await service.CreateDependentAsync(model.ToNewDependent(businessUser));
                 await service.SaveChangesAsync();
-                return Ok(person);
+                var dto = await this.service.GetPersonDependentByIdAsync(person.DependentId);
+                return Ok(dto);
             }
             else
             {

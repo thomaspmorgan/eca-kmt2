@@ -1896,14 +1896,14 @@ namespace ECA.Business.Test.Service.Persons
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
             int placeOfBirth = 193;
-            var birthCountryReason = "military";
+            var birthCountryReasonId = 1;
             var countriesOfCitizenship = new List<int>();
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
 
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
                 firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
-                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReason: birthCountryReason,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
                 countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
 
             Action<PersonDependent> tester = (testPerson) =>
@@ -1919,7 +1919,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
                 Assert.AreEqual(newPerson.PlaceOfBirthId, testPerson.PlaceOfBirthId);
                 Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
-                Assert.AreEqual(newPerson.BirthCountryReason, testPerson.BirthCountryReason);
+                Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
                 CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
                 Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
 
