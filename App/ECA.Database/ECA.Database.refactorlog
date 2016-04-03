@@ -1211,4 +1211,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DependentTypeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="4a57c5b8-9db0-417b-beea-e8c9df7ba506" ChangeDateTime="04/03/2016 17:01:00">
+    <Property Name="ElementName" Value="[dbo].[PersonDependent].[BirthCountryReason]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonDependent]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BirthCountryReasonId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="38c64997-0625-499b-a648-c9b8364c948e" ChangeDateTime="04/03/2016 17:29:04">
+    <Property Name="ElementName" Value="[sevis].[BirthCountryReason].[ReasonCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[BirthCountryReason]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BirthReasonCode" />
+  </Operation>
 </Operations>

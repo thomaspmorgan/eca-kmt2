@@ -112,8 +112,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="birthCountryReason">BIRTH COUNTRY REASON</label>
-                        <input type="text" name="birthCountryReason" class="form-control" ng-model="dependent.birthCountryReason" />
+                        <label for="birthCountryReasonId">BIRTH COUNTRY REASON</label>
+                        <select class="form-control" name="birthCountryReasonId"
+                                ng-options="t.id as t.name for t in birthCountryReasons"
+                                ng-model="dependent.birthCountryReasonId" />
                     </div>
                     <div class="form-group">
                         <label for="selectedCountriesOfCitizenship">COUNTRIES OF CITIZENSHIP</label>

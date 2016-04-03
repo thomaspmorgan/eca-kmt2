@@ -20,7 +20,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 FullName fullName,
                 string birthCity,
                 string birthCountryCode,
-                int birthCountryReasonId,
+                int? birthCountryReasonId,
                 DateTime? birthDate,
                 string citizenshipCountryCode,
                 string emailAddress,

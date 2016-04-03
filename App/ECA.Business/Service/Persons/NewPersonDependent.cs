@@ -20,7 +20,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="placeOfBirthId">The city of birth</param>
         /// <param name="placeOfResidenceId">The permanent residence country code</param>
-        /// <param name="birthCountryReason">The birth country reason</param>
+        /// <param name="birthCountryReasonId">The birth country reason</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         /// <param name="isTravelWithParticipant">If dependent is travelling with a participant</param>
         public NewPersonDependent(
@@ -36,7 +36,7 @@ namespace ECA.Business.Service.Persons
             DateTime dateOfBirth,
             int placeOfBirthId,
             int placeOfResidenceId,
-            int birthCountryReasonId,
+            int? birthCountryReasonId,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant)
         {
@@ -115,7 +115,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public int BirthCountryReasonId { get; set; }
+        public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship

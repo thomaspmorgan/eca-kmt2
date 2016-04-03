@@ -1,6 +1,6 @@
-﻿CREATE TABLE [sevis].[BirthCountryReason](
+﻿CREATE TABLE [dbo].[BirthCountryReason](
 	[BirthCountryReasonId] [int] IDENTITY(1,1) NOT NULL,
-	[ReasonCode] [nvarchar](2) NOT NULL,
+	[BirthReasonCode] [nvarchar](2) NOT NULL,
 	[Description] [nvarchar](40) NOT NULL,
 	[History_CreatedBy] [int] NOT NULL,
 	[History_CreatedOn] [datetimeoffset](7) NOT NULL,

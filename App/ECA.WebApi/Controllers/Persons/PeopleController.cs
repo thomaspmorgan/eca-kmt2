@@ -27,11 +27,12 @@ namespace ECA.WebApi.Controllers.Persons
     public class PeopleController : ApiController
     {
         private static ExpressionSorter<SimplePersonDTO> DEFAULT_PEOPLE_SORTER = new ExpressionSorter<SimplePersonDTO>(x => x.LastName, SortDirection.Ascending);
-
         private static ExpressionSorter<DependentTypeDTO> DEFAULT_PERSON_TYPE_SORTER = new ExpressionSorter<DependentTypeDTO>(x => x.Name, SortDirection.Ascending);
+        private static ExpressionSorter<BirthCountryReasonDTO> DEFAULT_BIRTH_COUNTRY_REASON_SORTER = new ExpressionSorter<BirthCountryReasonDTO>(x => x.Name, SortDirection.Ascending);
 
         private IPersonService service;
         private IDependentTypeService dependentTypeService;
+        private IBirthCountryReasonService birthCountryReasonService;
         private IUserProvider userProvider;
         private IAddressModelHandler addressHandler;
         private IEmailAddressHandler emailAddressHandler;
@@ -42,7 +43,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
-        /// <param name="personTypeService">The person type service.</param>
+        /// <param name="dependentTypeService">The dependent type service.</param>
+        /// <param name="birthCountryReasonService">The birth country reason service</param>
         /// <param name="userProvider">The user provider.</param>
         /// <param name="addressHandler">The address handler.</param>
         /// <param name="socialMediaHandler">The social media handler.</param>
@@ -50,7 +52,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="emailAddressHandler">The Email Address handler.</param>
         public PeopleController(
             IPersonService service, 
-            IDependentTypeService personTypeService,
+            IDependentTypeService dependentTypeService,
+            IBirthCountryReasonService birthCountryReasonService,
             IUserProvider userProvider,
             IAddressModelHandler addressHandler,
             ISocialMediaPresenceModelHandler socialMediaHandler,
@@ -58,6 +61,8 @@ namespace ECA.WebApi.Controllers.Persons
             IEmailAddressHandler emailAddressHandler)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
+            Contract.Requires(dependentTypeService != null, "The dependent type service must not be null.");
+            Contract.Requires(birthCountryReasonService != null, "The birth country reason service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(addressHandler != null, "The address handler must not be null.");
             Contract.Requires(emailAddressHandler != null, "The email address handler must not be null.");
@@ -65,7 +70,8 @@ namespace ECA.WebApi.Controllers.Persons
             Contract.Requires(socialMediaHandler != null, "The social media handler must not be null.");
             this.addressHandler = addressHandler;
             this.service = service;
-            this.dependentTypeService = personTypeService;
+            this.dependentTypeService = dependentTypeService;
+            this.birthCountryReasonService = birthCountryReasonService;
             this.userProvider = userProvider;
             this.socialMediaHandler = socialMediaHandler;
             this.emailAddressHandler = emailAddressHandler;
@@ -79,12 +85,31 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <returns>The person types.</returns>
         [ResponseType(typeof(PagingQueryBindingModel<DependentTypeDTO>))]
-        [Route("People/Types")]
+        [Route("Dependent/Types")]
         public async Task<IHttpActionResult> GetDependentTypesAsync([FromUri]PagingQueryBindingModel<DependentTypeDTO> model)
         {
             if (ModelState.IsValid)
             {
                 var results = await this.dependentTypeService.GetAsync(model.ToQueryableOperator(DEFAULT_PERSON_TYPE_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the birth country reasons in the system.
+        /// </summary>
+        /// <returns>The birth country reasons.</returns>
+        [ResponseType(typeof(PagingQueryBindingModel<BirthCountryReasonDTO>))]
+        [Route("Birthcountryreasons")]
+        public async Task<IHttpActionResult> GetBirthCountryReasonsAsync([FromUri]PagingQueryBindingModel<BirthCountryReasonDTO> model)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.birthCountryReasonService.GetAsync(model.ToQueryableOperator(DEFAULT_BIRTH_COUNTRY_REASON_SORTER));
                 return Ok(results);
             }
             else

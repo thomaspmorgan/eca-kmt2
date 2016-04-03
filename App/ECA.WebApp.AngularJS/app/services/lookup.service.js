@@ -71,7 +71,10 @@ angular.module('staticApp')
               return DragonBreath.getCached(params, 'locations/types');
           },
           getDependentTypes: function (params) {
-              return DragonBreath.getCached(params, 'people/types');
+              return DragonBreath.getCached(params, 'dependent/types');
+          },
+          getBirthCountryReasons: function (params) {
+              return DragonBreath.getCached(params, 'birthcountryreasons');
           },
           getParticipantTypes: function (params) {
               return DragonBreath.getCached(params, 'participanttypes');

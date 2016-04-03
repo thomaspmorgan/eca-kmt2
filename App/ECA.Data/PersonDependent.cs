@@ -129,7 +129,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public int BirthCountryReasonId { get; set; }
+        public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

@@ -40,7 +40,7 @@ namespace ECA.Business.Service.Persons
             DateTime dateOfBirth,
             int placeOfBirthId,
             int placeOfResidenceId,
-            int birthCountryReasonId,
+            int? birthCountryReasonId,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant,
             bool isDeleted,
@@ -136,7 +136,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public int BirthCountryReasonId { get; set; }
+        public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship

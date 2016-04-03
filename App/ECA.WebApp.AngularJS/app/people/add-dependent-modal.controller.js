@@ -154,6 +154,15 @@ angular.module('staticApp')
             });
         }
 
+        function loadBirthCountryReasons() {
+            LookupService.getBirthCountryReasons({
+                limit: 300
+            })
+            .then(function (data) {
+                $scope.birthCountryReasons = data.data.results;
+            });
+        }
+
       function getNewDependent() {
           return {
           };
@@ -176,5 +185,5 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()]);
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()]);
   });

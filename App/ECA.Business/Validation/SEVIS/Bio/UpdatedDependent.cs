@@ -1,11 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -21,7 +17,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            int birthCountryReasonId,
+            int? birthCountryReasonId,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -98,7 +94,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             {
                 return !string.IsNullOrWhiteSpace(value);
             };
-            Func<int, bool> isReasonCodeSpecified = (value) =>
+            Func<int?, bool> isReasonCodeSpecified = (value) =>
             {
                 return value > 0;
             };
