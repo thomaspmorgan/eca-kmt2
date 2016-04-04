@@ -203,7 +203,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
-                            Dependents = person.Family.Where(x => x.IsDeleted == false).Select(x => new SimpleLookupDTO() { Id = x.DependentId, Value = (x.LastName + ", " + x.FirstName) }),
+                            Dependents = person.Family.Where(x => x.IsDeleted == false).Select(x => new SimpleLookupDTO { Id = x.DependentId, Value = x.LastName + ", " + x.FirstName }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,

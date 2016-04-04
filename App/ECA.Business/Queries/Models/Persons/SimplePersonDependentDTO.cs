@@ -26,9 +26,14 @@ namespace ECA.Business.Queries.Models.Persons
         public string SevisId { get; set; }
 
         /// <summary>
-        /// Gets or sets the person type id.
+        /// Gets or sets the dependent type id.
         /// </summary>
         public int DependentTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dependent type.
+        /// </summary>
+        public string DependentType { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.

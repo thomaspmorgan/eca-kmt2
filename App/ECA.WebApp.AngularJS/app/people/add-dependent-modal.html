@@ -95,7 +95,8 @@
                         <label for="placeOfBirthId">CITY OF BIRTH<span class="asterisk"> *</span></label>
                         <ui-select ng-model="dependent.placeOfBirthId"
                                    theme="select2"
-                                   name="placeOfBirthId"
+                                   name="placeOfBirthId" 
+                                   on-select="setBirthCountryReasonState($item, $model)"
                                    ui-validate="{isDependentPlaceOfBirthValid: 'isDependentPlaceOfBirthValid($value)'}">
                             <ui-select-match placeholder="Select a city of birth...">
                                 {{$select.selected.name}}{{$select.selected.division ? ', ' + $select.selected.division : ''}}{{$select.selected.country ? ' ' + $select.selected.country : ''}}
@@ -114,6 +115,7 @@
                     <div class="form-group">
                         <label for="birthCountryReasonId">BIRTH COUNTRY REASON</label>
                         <select class="form-control" name="birthCountryReasonId"
+                                ng-disabled="!dependent.isBirthCountryUSA"
                                 ng-options="t.id as t.name for t in birthCountryReasons"
                                 ng-model="dependent.birthCountryReasonId" />
                     </div>
