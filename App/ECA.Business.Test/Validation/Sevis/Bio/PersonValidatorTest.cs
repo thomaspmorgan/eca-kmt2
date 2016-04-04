@@ -50,7 +50,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -63,7 +62,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -132,7 +130,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -145,7 +142,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -215,7 +211,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             short positionCode = 120;
             string positionCodeAsString = positionCode.ToString();
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -228,7 +223,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -297,7 +291,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -310,7 +303,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -378,7 +370,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -391,7 +382,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -459,7 +449,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -472,7 +461,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -540,7 +528,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var phone = "18505551212";
             string positionCodeAsString = new string('1', PersonValidator.POSITION_CODE_LENGTH);
             var printForm = true;
-            var birthCountryReason = "ab";
             var remarks = "remarks";
             var programCategory = "1D";
 
@@ -553,7 +540,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,

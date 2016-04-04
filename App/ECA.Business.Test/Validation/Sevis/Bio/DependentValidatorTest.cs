@@ -30,7 +30,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
             string birthCity = "birth city";
             string birthCountryCode = "US";
-            string birthCountryReason = "re";
+            int birthCountryReasonId = 1;
             DateTime birthDate = DateTime.Now;
             string citizenshipCountryCode = "UK";
             string emailAddress = "email@isp.com";
@@ -53,7 +53,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     fullName: fullName,
                     birthCity: birthCity,
                     birthCountryCode: birthCountryCode,
-                    birthCountryReason: birthCountryReason,
+                    birthCountryReasonId: birthCountryReasonId,
                     birthDate: birthDate,
                     citizenshipCountryCode: citizenshipCountryCode,
                     emailAddress: emailAddress,

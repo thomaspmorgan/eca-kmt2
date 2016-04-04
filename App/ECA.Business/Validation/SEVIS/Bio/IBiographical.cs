@@ -41,11 +41,6 @@ namespace ECA.Business.Validation.Sevis.Bio
         string PermanentResidenceCountryCode { get; }
 
         /// <summary>
-        /// Birth country reason (01 = U.S. - Born to foreign diplomat, 02 = U.S. - Expatriated)
-        /// </summary>
-        string BirthCountryReason { get; }
-
-        /// <summary>
         /// Email address
         /// </summary>
         string EmailAddress { get; }

@@ -52,6 +52,11 @@ namespace ECA.Data
         public DbSet<DependentType> DependentTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets the birth country reasons.
+        /// </summary>
+        public DbSet<BirthCountryReason> BirthCountryReasons { get; set; }
+
+        /// <summary>
         /// Gets or sets the addresses.
         /// </summary>
         public DbSet<Address> Addresses { get; set; }

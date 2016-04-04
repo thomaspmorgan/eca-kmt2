@@ -35,7 +35,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/people/add-dependent-modal.html',
               controller: 'AddDependentModalCtrl',
-              size: 'md',
+              size: 'lg',
               resolve: {
               }
           });
@@ -64,7 +64,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/people/edit-dependent-modal.html',
               controller: 'EditDependentModalCtrl',
-              size: 'md',
+              size: 'lg',
               resolve: {
                   dependent: function () {
                       return dependent;

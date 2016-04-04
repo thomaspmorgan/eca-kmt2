@@ -218,7 +218,7 @@
                 
                 function CreateMessageBox(userSection) {
                     var defer = $q.defer();
-                    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId) !== -1) {
+                    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId.toString()) !== -1) {
                         MessageBox.confirm({
                             title: 'Confirm Edit',
                             message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',

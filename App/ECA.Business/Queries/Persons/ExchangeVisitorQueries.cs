@@ -111,7 +111,7 @@ namespace ECA.Business.Queries.Persons
                             BirthCity = birthCity,
                             BirthCountryCode = hasCountryOfBirth ? sevisCountryOfBirth.CountryCode : null,
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
-                            BirthCountryReason = null,
+                            BirthCountryReasonId = 0,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
                             PhoneNumber = phoneNumber != null
@@ -198,7 +198,7 @@ namespace ECA.Business.Queries.Persons
                             PermanentResidenceAddressId = null,
                             BirthCity = birthCity.LocationName,
                             BirthCountryCode = sevisBirthCountryCode,
-                            BirthCountryReason = dependent.BirthCountryReason,
+                            BirthCountryReasonId = dependent.BirthCountryReasonId,
                             BirthDate = birthDate,
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,

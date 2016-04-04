@@ -79,6 +79,15 @@ angular.module('staticApp')
           return loadDependentCitizenshipCountries(search);
       }
 
+      $scope.setBirthCountryReasonState = function ($item, $model) {
+          if ($item.countryId === 193) {
+              $scope.dependent.isBirthCountryUSA = true;
+          } else {
+              $scope.dependent.isBirthCountryUSA = false;
+              $scope.dependent.birthCountryReasonId = null;
+          }
+      }
+
       function loadDependentCities(search) {
           if (search) {
               var params = {
@@ -154,6 +163,17 @@ angular.module('staticApp')
             });
         }
 
+        function loadBirthCountryReasons() {
+            LookupService.getBirthCountryReasons({
+                limit: 300,
+                filter: [{
+                    property: 'birthReasonCode', comparison: ConstantsService.isNotNullComparisonType }]
+            })
+            .then(function (data) {
+                $scope.birthCountryReasons = data.data.results;
+            });
+        }
+
       function getNewDependent() {
           return {
           };
@@ -176,5 +196,5 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()]);
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()]);
   });

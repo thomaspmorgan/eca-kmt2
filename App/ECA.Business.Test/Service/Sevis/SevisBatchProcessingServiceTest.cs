@@ -113,7 +113,7 @@ namespace ECA.Business.Test.Service.Sevis
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReasonId = 1;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
 
@@ -124,7 +124,6 @@ namespace ECA.Business.Test.Service.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReason,
                 birthDate,
                 citizenshipCountryCode,
                 email,

@@ -150,10 +150,10 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE)
                 .WithState(x => new PermanentResidenceCountryErrorPath());
 
-            RuleFor(visitor => visitor.BirthCountryReason)
-                .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
-                .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE)
-                .WithState(x => new CountryOfBirthErrorPath());
+            //RuleFor(visitor => visitor.BirthCountryReason)
+            //    .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
+            //    .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE)
+            //    .WithState(x => new CountryOfBirthErrorPath());
 
             When(x => x.EmailAddress != null, () =>
             {

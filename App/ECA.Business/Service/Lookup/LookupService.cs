@@ -3,12 +3,9 @@ using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using NLog;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Lookup

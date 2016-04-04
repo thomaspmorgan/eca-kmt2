@@ -266,7 +266,7 @@ namespace ECA.Business.Service.Persons
             person.DateOfBirth = updateDependent.DateOfBirth;
             person.PlaceOfBirthId = updateDependent.PlaceOfBirthId;
             person.PlaceOfResidenceId = updateDependent.PlaceOfResidenceId;
-            person.BirthCountryReason = updateDependent.BirthCountryReason;
+            person.BirthCountryReasonId = updateDependent.BirthCountryReasonId;
             person.IsTravellingWithParticipant = updateDependent.IsTravellingWithParticipant;
             person.IsDeleted = updateDependent.IsDeleted;
             updateDependent.Audit.SetHistory(person);
@@ -619,7 +619,7 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
         {
-            var person = new PersonDependent
+            var dependent = new PersonDependent
             {
                 PersonId = newPerson.PersonId,
                 DependentTypeId = newPerson.DependentTypeId,
@@ -632,15 +632,15 @@ namespace ECA.Business.Service.Persons
                 DateOfBirth = newPerson.DateOfBirth,
                 PlaceOfBirthId = newPerson.PlaceOfBirthId,
                 PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
-                BirthCountryReason = newPerson.BirthCountryReason,
+                BirthCountryReasonId = newPerson.BirthCountryReasonId,
                 CountriesOfCitizenship = countriesOfCitizenship,
                 IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
             };
 
-            newPerson.Audit.SetHistory(person);
-            this.Context.PersonDependents.Add(person);
+            newPerson.Audit.SetHistory(dependent);
+            this.Context.PersonDependents.Add(dependent);
             this.logger.Trace("Creating new person dependent {0}.", newPerson);
-            return person;
+            return dependent;
         }
         
         /// <summary>

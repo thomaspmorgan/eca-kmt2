@@ -75,7 +75,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Birth country reason (01 = U.S. - Born to foreign diplomat, 02 = U.S. - Expatriated)
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Email address

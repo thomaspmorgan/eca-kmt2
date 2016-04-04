@@ -1,11 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -21,7 +17,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            string birthCountryReason,
+            int? birthCountryReasonId,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -43,7 +39,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                  fullName: fullName,
                  birthCity: birthCity,
                  birthCountryCode: birthCountryCode,
-                 birthCountryReason: birthCountryReason,
+                 birthCountryReasonId: birthCountryReasonId,
                  birthDate: birthDate,
                  citizenshipCountryCode: citizenshipCountryCode,
                  emailAddress: emailAddress,
@@ -98,6 +94,10 @@ namespace ECA.Business.Validation.Sevis.Bio
             {
                 return !string.IsNullOrWhiteSpace(value);
             };
+            Func<int?, bool> isReasonCodeSpecified = (value) =>
+            {
+                return value > 0;
+            };
             if (this.IsDeleted)
             {
                 return new SEVISEVBatchTypeExchangeVisitorDependentDelete
@@ -111,7 +111,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 {
                     BirthCity = this.BirthCity,
                     BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                    BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReason),
+                    BirthCountryReasonSpecified = isReasonCodeSpecified(this.BirthCountryReasonId),
                     BirthDate = this.BirthDate.Value,
                     CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                     dependentSevisID = this.SevisId,
