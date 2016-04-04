@@ -29,6 +29,20 @@ angular.module('staticApp')
       $scope.data = {};
       $scope.data.loadDependentsPromise = $q.defer();
 
+      $scope.view.onViewDependentClick = function (dependent) {
+          var viewDependentModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/people/dependent-modal.html',
+              controller: 'ViewDependentModalCtrl',
+              size: 'lg',
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
+          });
+      };
+
       $scope.view.onAddDependentClick = function () {
           $scope.dependentLoading = false;
           var addDependentModalInstance = $modal.open({
@@ -43,7 +57,7 @@ angular.module('staticApp')
               if (dependent) {
               var added = {
                   id: dependent.dependentId,
-                  value: dependent.lastName + ', ' + dependent.firstName
+                  value: dependent.lastName + ', ' + dependent.firstName + ' (' + dependent.dependentType + ')'
               };
               $scope.model.dependents.splice(0, 0, added);
               $log.info('Finished adding dependent.');
@@ -76,7 +90,7 @@ angular.module('staticApp')
               var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
               var updated = {
                   id: dependent.dependentId,
-                  value: dependent.lastName + ', ' + dependent.firstName
+                  value: dependent.lastName + ', ' + dependent.firstName + ' (' + dependent.dependentType + ')'
               };
               $scope.model.dependents[index] = updated;
               $log.info('Finished updating dependent.');
@@ -101,7 +115,7 @@ angular.module('staticApp')
                  deleteEditDependent($scope.dependent);
                      deleted = {
                          id: $scope.dependent.dependentId,
-                         value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                         value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName + ' (' + $scope.dependent.dependentType + ')'
                      };
                      removeDependentFromView(deleted);
                  } else {
@@ -109,7 +123,7 @@ angular.module('staticApp')
                      .then(function () {
                          deleted = {
                      id: $scope.dependent.dependentId,
-                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
+                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName + ' (' + $scope.dependent.dependentType + ')'
                  };
                          removeDependentFromView(deleted);
                      })

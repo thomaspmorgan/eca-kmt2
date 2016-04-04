@@ -106,12 +106,15 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
             var dependentTypesQuery = CreateGetDependentTypesQuery(context);
+            var birthCountryReasonQuery = context.BirthCountryReasons.Select(x => new SimpleLookupDTO { Id = x.BirthCountryReasonId, Value = x.Description });
 
             var query = from dependent in context.PersonDependents
-
+                        
                         let locationOfBirth = locationsQuery.Where(x => x.Id == dependent.PlaceOfBirthId).FirstOrDefault()
                         let dependentType = dependentTypesQuery.Where(x => x.Id == dependent.DependentTypeId).FirstOrDefault()
-                        
+                        let birthCountryReason = birthCountryReasonQuery.Where(x => x.Id == dependent.BirthCountryReasonId).FirstOrDefault()
+                        let permanentResidence = locationsQuery.Where(x => x.Id == dependent.PlaceOfResidenceId).FirstOrDefault()
+
                         let PermanentResidence = (from address in context.Addresses
                                                          let addressType = address.AddressType
                                                          let location = address.Location
@@ -154,12 +157,15 @@ namespace ECA.Business.Queries.Persons
                             PassportName = dependent.PassportName,
                             PreferredName = dependent.PreferredName,
                             GenderId = dependent.GenderId,
+                            Gender = dependent.Gender.GenderName,
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
                             PlaceOfBirth = locationOfBirth,
                             CountriesOfCitizenship = dependent.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
+                            PlaceOfResidence = permanentResidence,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,
+                            BirthCountryReason = birthCountryReason.Value,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
                             IsDeleted = dependent.IsDeleted,
                             IsSevisDeleted = dependent.IsSevisDeleted

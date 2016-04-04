@@ -19,7 +19,7 @@
                 </div>
                 <div class="row">
                     <div>
-                        <span>{{dependent.value}}</span>
+                        <a ng-click="view.onViewDependentClick(dependent)">{{dependent.value}}</a>
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingDependent" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>

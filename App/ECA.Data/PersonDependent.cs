@@ -118,6 +118,11 @@ namespace ECA.Data
         public int GenderId { get; set; }
 
         /// <summary>
+        /// Gets or sets the gender.
+        /// </summary>
+        public Gender Gender { get; set; }
+        
+        /// <summary>
         /// Gets or sets the date of birth.
         /// </summary>
         [Required]

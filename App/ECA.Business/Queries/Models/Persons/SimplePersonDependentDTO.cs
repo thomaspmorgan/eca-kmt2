@@ -72,6 +72,11 @@ namespace ECA.Business.Queries.Models.Persons
         public int GenderId { get; set; }
 
         /// <summary>
+        /// Gets or sets the gender.
+        /// </summary>
+        public string Gender { get; set; }
+
+        /// <summary>
         /// Gets or sets the date of birth.
         /// </summary>
         public DateTime DateOfBirth { get; set; }
@@ -84,14 +89,24 @@ namespace ECA.Business.Queries.Models.Persons
         public LocationDTO PlaceOfBirth { get; set; }
 
         /// <summary>
-        /// Gets or sets the country of residence.
+        /// Gets or sets the country of residence id.
         /// </summary>
         public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
-        /// Gets or sets the birth country reason.
+        /// Gets or sets the country of residence.
+        /// </summary>
+        public LocationDTO PlaceOfResidence { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason id.
         /// </summary>
         public int? BirthCountryReasonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason.
+        /// </summary>
+        public string BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship
