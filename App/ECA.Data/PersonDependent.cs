@@ -129,21 +129,36 @@ namespace ECA.Data
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// Gets or sets the place of birth.
+        /// Gets or sets the place of birth id.
         /// </summary>
         [Required]
         public int PlaceOfBirthId { get; set; }
 
         /// <summary>
-        /// Gets or sets the country of residence.
+        /// Gets or sets the place of birth.
+        /// </summary>
+        public Location PlaceOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country of residence id.
         /// </summary>
         [Required]
         public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
+        /// Gets or sets the country of residence.
+        /// </summary>
+        public Location PlaceOfResidence { get; set; }
+
+        /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
         public int? BirthCountryReasonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason.
+        /// </summary>
+        public string BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

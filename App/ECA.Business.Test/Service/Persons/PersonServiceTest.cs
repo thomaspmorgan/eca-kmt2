@@ -209,15 +209,28 @@ namespace ECA.Business.Test.Service.Persons
                 MaritalStatus = new MaritalStatus(),
                 PlaceOfBirth = new Location()
             };
+            var dependentType = new DependentType
+            {
+                DependentTypeId = DependentType.Spouse.Id,
+                Name = "Expatriated",
+                SevisDependentTypeCode = "01"
+            };
             var dependent = new PersonDependent
             {
                 DependentId = 1,
                 PersonId = 2,
+                DependentTypeId = dependentType.DependentTypeId,
+                DependentType = dependentType,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NameSuffix = "nameSuffix",
                 DateOfBirth = DateTime.Now,
                 GenderId = gender.GenderId,
+                Gender = gender,
+                PlaceOfBirthId = 2000,
+                PlaceOfBirth = new Location(),
+                PlaceOfResidenceId = 2000,
+                PlaceOfResidence = new Location(),
                 Person = person
             };
             var status = new ParticipantStatus
@@ -284,7 +297,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
-                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependents.FirstOrDefault().Value);
+                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName + " (" + person.Family.FirstOrDefault().DependentType.Name + ")", serviceResult.Dependents.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
             };
