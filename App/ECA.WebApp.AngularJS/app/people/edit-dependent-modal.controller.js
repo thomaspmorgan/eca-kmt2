@@ -16,12 +16,13 @@ angular.module('staticApp')
       $scope.countriesCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
-      $scope.dependentLoading = true;
+      $scope.isDependentLoading = true;
+      $scope.isSavingDependent = false;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
 
       function loadDependent(dependentId) {
-          $scope.dependentLoading = true;
+          $scope.isDependentLoading = true;
           return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
@@ -45,22 +46,25 @@ angular.module('staticApp')
                  
                  return loadDependentCities(null)
                  .then(function () {
-                     $scope.dependentLoading = false;
+                     $scope.isDependentLoading = false;
                  })
                  .catch(function () {
-                     $scope.dependentLoading = false;
+                     $scope.isDependentLoading = false;
                  });
              });
       };
 
       function saveEditDependent() {
+          $scope.isSavingDependent = true;
           setupDependent();
           return DependentService.update($scope.dependent)
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
+                  $scope.isSavingDependent = false;
                   return response.config.data;
               },
               function (error) {
+                  $scope.isSavingDependent = false;
                   if (error.status == 400) {
                       if (error.data.message && error.data.modelState) {
                           for (var key in error.data.modelState) {
@@ -228,5 +232,12 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()]);
+      $scope.isDependentLoading = true;
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
+          .then(function () {
+              $scope.isDependentLoading = false;
+          })
+          .catch(function () {
+              $scope.isDependentLoading = false;
+          });
   });

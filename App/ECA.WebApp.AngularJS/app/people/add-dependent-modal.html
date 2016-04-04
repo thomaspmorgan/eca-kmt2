@@ -161,7 +161,7 @@
 </div>
 <div class="modal-footer">
     <div class="pull-right">
-        <button ng-click="onSaveDependentClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || view.isSavingNewDependent">
+        <button ng-click="onSaveDependentClick()" class="btn btn-primary" ng-disabled="form.dependentForm.$invalid || isSavingDependent || isDependentLoading">
             Save
         </button>
         <button ng-click="onCloseDependentClick()" class="btn btn-cancel">Close</button>

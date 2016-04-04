@@ -11,6 +11,11 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class SimplePersonDependentDTO : IAuditable
     {
+        public SimplePersonDependentDTO()
+        {
+            CountriesOfCitizenship = new List<SimpleLookupDTO>();
+        }
+
         /// <summary>
         /// Gets or sets the dependent id.
         /// </summary>
@@ -91,7 +96,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

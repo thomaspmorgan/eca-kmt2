@@ -157,6 +157,7 @@ namespace ECA.Business.Queries.Persons
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
                             PlaceOfBirth = locationOfBirth,
+                            CountriesOfCitizenship = dependent.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,

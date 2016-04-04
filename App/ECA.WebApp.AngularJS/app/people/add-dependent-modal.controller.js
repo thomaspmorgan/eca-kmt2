@@ -18,15 +18,20 @@ angular.module('staticApp')
       $scope.cities = [];
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
-
+      $scope.isDependentLoading = true;
+      $scope.isSavingDependent = false;
+      
       function saveNewDependent() {
+          $scope.isSavingDependent = true;
           setupDependent();
           return DependentService.create($scope.dependent)
               .then(function (response) {
                   NotificationService.showSuccessMessage("Finished adding dependent.");
+                  $scope.isSavingDependent = false;
                   return response.data;
               },
               function (error) {
+                  $scope.isSavingDependent = false;
                   if (error.status == 400) {
                       if (error.data.message && error.data.modelState) {
                           for (var key in error.data.modelState) {
@@ -196,5 +201,12 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()]);
+      $scope.isDependentLoading = true;
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
+          .then(function () {
+              $scope.isDependentLoading = false;
+          })
+          .catch(function () {
+              $scope.isDependentLoading = false;
+          });
   });
