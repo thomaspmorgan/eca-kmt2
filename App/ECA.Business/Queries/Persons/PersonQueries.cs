@@ -105,10 +105,13 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
+            var dependentTypesQuery = CreateGetDependentTypesQuery(context);
 
             var query = from dependent in context.PersonDependents
 
                         let locationOfBirth = locationsQuery.Where(x => x.Id == dependent.PlaceOfBirthId).FirstOrDefault()
+                        let dependentType = dependentTypesQuery.Where(x => x.Id == dependent.DependentTypeId).FirstOrDefault()
+                        
                         let PermanentResidence = (from address in context.Addresses
                                                          let addressType = address.AddressType
                                                          let location = address.Location
@@ -144,6 +147,7 @@ namespace ECA.Business.Queries.Persons
                             PersonId = dependent.PersonId,
                             SevisId = dependent.SevisId,
                             DependentTypeId = dependent.DependentTypeId,
+                            DependentType = dependent.DependentType.Name,
                             FirstName = dependent.FirstName,
                             LastName = dependent.LastName,
                             NameSuffix = dependent.NameSuffix,
@@ -152,6 +156,7 @@ namespace ECA.Business.Queries.Persons
                             GenderId = dependent.GenderId,
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
+                            PlaceOfBirth = locationOfBirth,
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
@@ -203,7 +208,7 @@ namespace ECA.Business.Queries.Persons
                             IsDateOfBirthUnknown = person.IsDateOfBirthUnknown,
                             IsDateOfBirthEstimated = person.IsDateOfBirthEstimated,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationName }).OrderBy(l => l.Value),
-                            Dependents = person.Family.Where(x => x.IsDeleted == false).Select(x => new SimpleLookupDTO { Id = x.DependentId, Value = x.LastName + ", " + x.FirstName }),
+                            Dependents = person.Family.Where(x => x.IsDeleted == false).Select(x => new SimpleLookupDTO { Id = x.DependentId, Value = x.LastName + ", " + x.FirstName + " (" + x.DependentType.Name + ")" }),
                             FirstName = person.FirstName,
                             LastName = person.LastName,
                             NamePrefix = person.NamePrefix,
@@ -416,6 +421,27 @@ namespace ECA.Business.Queries.Persons
                         };
             return query;
         }
+
+        /// <summary>
+        /// Returns a query to retrieve dependent type dtos.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<DependentTypeDTO> CreateGetDependentTypesQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from dependentTypes in context.DependentTypes
+                        select new DependentTypeDTO
+                        {
+                            Id = dependentTypes.DependentTypeId,
+                            Name = dependentTypes.Name,
+                            SevisDependentTypeCode = dependentTypes.SevisDependentTypeCode
+                        };
+
+            return query;
+        }
+
     }
 }
 

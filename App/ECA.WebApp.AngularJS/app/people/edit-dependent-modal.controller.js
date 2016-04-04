@@ -36,6 +36,12 @@ angular.module('staticApp')
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
+                 if ($scope.dependent.placeOfBirth.countryId === 193) {
+                     $scope.dependent.isBirthCountryUSA = true;
+                 } else {
+                     $scope.dependent.isBirthCountryUSA = false;
+                     $scope.dependent.birthCountryReasonId = null;
+                 }
                  
                  return loadDependentCities(null)
                  .then(function () {

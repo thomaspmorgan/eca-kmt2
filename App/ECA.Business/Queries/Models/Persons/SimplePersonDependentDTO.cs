@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,8 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the place of birth.
         /// </summary>
         public int PlaceOfBirthId { get; set; }
+
+        public LocationDTO PlaceOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence.
