@@ -506,15 +506,18 @@ angular.module('staticApp')
       }
 
       function getSevisFundingTotal() {
-          var total = $scope.editView.sevisFunding.fundingSponsor +
-          $scope.editView.sevisFunding.fundingPersonal +
-          $scope.editView.sevisFunding.fundingVisGovt +
-          $scope.editView.sevisFunding.fundingVisBNC +
-          $scope.editView.sevisFunding.fundingGovtAgency1 +
-          $scope.editView.sevisFunding.fundingGovtAgency2 +
-          $scope.editView.sevisFunding.fundingIntlOrg1 +
-          $scope.editView.sevisFunding.fundingIntlOrg2 +
-          $scope.editView.sevisFunding.fundingOther;
+          var total = 0;
+          if ($scope.editView.sevisFunding) {
+              total = $scope.editView.sevisFunding.fundingSponsor +
+              $scope.editView.sevisFunding.fundingPersonal +
+              $scope.editView.sevisFunding.fundingVisGovt +
+              $scope.editView.sevisFunding.fundingVisBNC +
+              $scope.editView.sevisFunding.fundingGovtAgency1 +
+              $scope.editView.sevisFunding.fundingGovtAgency2 +
+              $scope.editView.sevisFunding.fundingIntlOrg1 +
+              $scope.editView.sevisFunding.fundingIntlOrg2 +
+              $scope.editView.sevisFunding.fundingOther;
+          }
           return total;
       }
 
