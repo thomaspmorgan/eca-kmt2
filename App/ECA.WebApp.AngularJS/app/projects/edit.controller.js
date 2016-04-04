@@ -309,6 +309,7 @@ angular.module('staticApp')
       $scope.editView.visitorTypeSelected = function (visitorTypeId) {
           if (!$scope.editView.sevisFunding && visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
               $scope.editView.sevisFunding = {};
+              $scope.editView.sevisFunding.projectId = $stateParams.projectId;
               $scope.editView.sevisFunding.fundingSponsor = 0;
               $scope.editView.sevisFunding.fundingPersonal = 0;
               $scope.editView.sevisFunding.fundingVisGovt = 0;
@@ -318,7 +319,7 @@ angular.module('staticApp')
               $scope.editView.sevisFunding.fundingIntlOrg1 = 0;
               $scope.editView.sevisFunding.fundingIntlOrg2 = 0;
               $scope.editView.sevisFunding.fundingOther = 0;
-              $scope.editView.sevisFunding.total = 0;
+              $scope.editView.sevisFunding.fundingTotal = 0;
           }
       }
 
