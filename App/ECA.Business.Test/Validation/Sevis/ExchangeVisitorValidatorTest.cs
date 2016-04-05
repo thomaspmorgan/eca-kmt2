@@ -2,6 +2,7 @@
 using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Persons;
+using ECA.Business.Sevis.Model;
 using ECA.Business.Validation.Sevis;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.ErrorPaths;
@@ -1311,7 +1312,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var birthCity = "birth city";
             var birthCountryCode = "CN";
-            var birthCountryReasonId = 1;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var birthDate = DateTime.UtcNow;
             var citizenshipCountryCode = "FR";
             var email = "someone@isp.com";
@@ -1373,7 +1374,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     fullName: fullName,
                     birthCity: birthCity,
                     birthCountryCode: birthCountryCode,
-                    birthCountryReasonId: birthCountryReasonId,
+                    birthCountryReasonCode: birthCountryReasonCode,
                     birthDate: birthDate,
                     citizenshipCountryCode: citizenshipCountryCode,
                     emailAddress: "someone@isp.com",

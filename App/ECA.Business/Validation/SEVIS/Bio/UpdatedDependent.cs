@@ -17,7 +17,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            int? birthCountryReasonId,
+            string birthCountryReasonCode,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -39,7 +39,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                  fullName: fullName,
                  birthCity: birthCity,
                  birthCountryCode: birthCountryCode,
-                 birthCountryReasonId: birthCountryReasonId,
+                 birthCountryReasonCode: birthCountryReasonCode,
                  birthDate: birthDate,
                  citizenshipCountryCode: citizenshipCountryCode,
                  emailAddress: emailAddress,
@@ -94,10 +94,6 @@ namespace ECA.Business.Validation.Sevis.Bio
             {
                 return !string.IsNullOrWhiteSpace(value);
             };
-            Func<int?, bool> isReasonCodeSpecified = (value) =>
-            {
-                return value > 0;
-            };
             if (this.IsDeleted)
             {
                 return new SEVISEVBatchTypeExchangeVisitorDependentDelete
@@ -107,11 +103,11 @@ namespace ECA.Business.Validation.Sevis.Bio
             }
             else
             {
-                return new SEVISEVBatchTypeExchangeVisitorDependentEdit
+                var edit = new SEVISEVBatchTypeExchangeVisitorDependentEdit
                 {
                     BirthCity = this.BirthCity,
                     BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                    BirthCountryReasonSpecified = isReasonCodeSpecified(this.BirthCountryReasonId),
+                    BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReasonCode),
                     BirthDate = this.BirthDate.Value,
                     CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                     dependentSevisID = this.SevisId,
@@ -120,10 +116,20 @@ namespace ECA.Business.Validation.Sevis.Bio
                     Gender = this.Gender.GetEVGenderCodeType(),
                     PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                     printForm = this.PrintForm,
-                    Relationship = this.Relationship.GetDependentCodeType(),
+                    
                     RelationshipSpecified = isCodeSpecified(this.Relationship),
                     Remarks = this.Remarks,
                 };
+
+                if (edit.BirthCountryReasonSpecified)
+                {
+                    edit.BirthCountryReason = this.BirthCountryReasonCode.GetUSBornReasonType();
+                }
+                if (edit.RelationshipSpecified)
+                {
+                    edit.Relationship = this.Relationship.GetDependentCodeType();
+                }
+                return edit;
             }
         }
     }
