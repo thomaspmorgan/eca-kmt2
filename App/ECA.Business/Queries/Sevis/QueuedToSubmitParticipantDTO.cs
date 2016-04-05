@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECA.Business.Queries.Sevis
+﻿namespace ECA.Business.Queries.Sevis
 {
     /// <summary>
-    /// A ReadyToSubmitParticipantDTO is used to find participants that should be used to create exchange visitors
-    /// and sent to sevis.
+    /// A QueuedToSubmitParticipantDTO is used to find participants that should be used to create exchange visitors
+    /// and be sent to sevis.
     /// </summary>
-    public class ReadyToSubmitParticipantDTO
+    public class QueuedToSubmitParticipantDTO
     {
         /// <summary>
         /// Gets or sets the participant id.
