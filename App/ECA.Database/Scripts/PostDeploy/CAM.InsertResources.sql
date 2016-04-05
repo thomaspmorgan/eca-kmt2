@@ -64,4 +64,46 @@ WHERE ProjectId not in (
 )
 PRINT 'Inserted ' + CAST(@@RowCount AS VARCHAR(10)) + ' project cam resources.';
 
+
+
+--update existing program parent resources
+UPDATE
+r
+SET 
+r.ParentResourceId = pr.ResourceId
+
+FROM cam.Resource r
+
+JOIN Program prog
+on r.ForeignResourceId = prog.ProgramId AND r.ResourceTypeId = @programResourceTypeId
+
+JOIN Organization o
+ON prog.Owner_OrganizationId = o.OrganizationId
+
+JOIN cam.Resource pr
+ON o.OrganizationId = pr.ForeignResourceId AND pr.ResourceTypeId = @officeResourceTypeId
+
+WHERE r.ParentResourceId <> pr.ResourceId
+PRINT 'Updated ' + CAST(@@RowCount AS VARCHAR(10)) + ' program parent resources.';
+
+
+--update existing project parent resources
+UPDATE
+r
+SET 
+r.ParentResourceId = pr.ResourceId
+
+FROM cam.Resource r
+
+JOIN Project proj
+on r.ForeignResourceId = proj.ProjectId AND r.ResourceTypeId = @projectResourceTypeId
+
+JOIN Program prog
+ON proj.ProgramId = prog.ProgramId
+
+JOIN cam.Resource pr
+ON prog.ProgramId = pr.ForeignResourceId AND pr.ResourceTypeId = @programResourceTypeId
+WHERE r.ParentResourceId <> pr.ResourceId
+PRINT 'Updated ' + CAST(@@RowCount AS VARCHAR(10)) + ' project parent resources.';
+
 GO
