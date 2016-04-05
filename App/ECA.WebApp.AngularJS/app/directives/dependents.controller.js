@@ -118,13 +118,13 @@ angular.module('staticApp')
                          location.id = obj.id;
                          location.name = obj.value;
                          return location;
-                     });
-                 }
+                    });
+                 }                 
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
                  updateDeletedDependent();
-             });
+          });          
       };
 
       function updateDeletedDependent() {

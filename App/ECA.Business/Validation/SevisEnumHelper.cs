@@ -72,6 +72,20 @@ namespace ECA.Business.Validation
         }
 
         /// <summary>
+        /// Returns the USBornReasonType for the given string value.
+        /// </summary>
+        /// <returns>The USBornReasonType for the given string value.</returns>
+        public static USBornReasonType GetUSBornReasonType(this string value)
+        {
+            Contract.Requires(value != null, "The string value must not be null.");
+            if (!Enum.IsDefined(typeof(USBornReasonType), value))
+            {
+                value = "Item" + value;
+            }
+            return GetCodeType<USBornReasonType>(value);
+        }
+
+        /// <summary>
         /// Returns the StateCodeType for the given string value.
         /// </summary>
         /// <returns>The StateCodeType for the given string value.</returns>

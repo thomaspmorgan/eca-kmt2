@@ -193,7 +193,7 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestGetExchangeVisitor_HasAddedDependent()
         {
-            var addedDependent = new AddedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
+            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
             
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
@@ -231,7 +231,7 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestGetExchangeVisitor_HasUpdatedDependent()
         {
-            var updatedDependent = new UpdatedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
+            var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
             
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
@@ -269,8 +269,8 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestGetExchangeVisitor_HasMultipleDependents()
         {
-            var updatedDependent = new UpdatedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
-            var addedDependent = new AddedDependent(null, null, null, 0, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
+            var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
+            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
             
             var sevisUserId = "sevisUserId";
             var person = GetPerson();
@@ -523,14 +523,14 @@ namespace ECA.Business.Test.Validation.Sevis
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReasonId = 1;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
             var addedDependent = new AddedDependent(
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReasonId,
+                birthCountryReasonCode,
                 birthDate,
                 citizenshipCountryCode,
                 email,
@@ -634,7 +634,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReasonId = 1;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var dependentSevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -645,7 +645,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 fullName,
                 birthCity,
                 birthCountryCode,
-                birthCountryReasonId,
+                birthCountryReasonCode,
                 birthDate,
                 citizenshipCountryCode,
                 email,
