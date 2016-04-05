@@ -15,6 +15,12 @@ namespace ECA.Data.Configuration
                     p.ToTable("PersonDependentCitizenCountry");
                 });
 
+            HasRequired(x => x.PlaceOfBirth).WithMany().HasForeignKey(x => x.PlaceOfBirthId).WillCascadeOnDelete(false);
+            Property(x => x.PlaceOfBirthId).HasColumnName("PlaceOfBirthId");
+
+            HasRequired(x => x.PlaceOfResidence).WithMany().HasForeignKey(x => x.PlaceOfResidenceId).WillCascadeOnDelete(false);
+            Property(x => x.PlaceOfResidenceId).HasColumnName("PlaceOfResidenceId");
+            
         }
 
     }

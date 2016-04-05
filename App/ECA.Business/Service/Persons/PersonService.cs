@@ -254,36 +254,49 @@ namespace ECA.Business.Service.Persons
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent person, List<Location> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent dependent, List<Location> countriesOfCitizenship)
         {
-            person.DependentTypeId = updateDependent.DependentTypeId;
-            person.FirstName = updateDependent.FirstName;
-            person.LastName = updateDependent.LastName;
-            person.NameSuffix = updateDependent.NameSuffix;
-            person.PassportName = updateDependent.PassportName;
-            person.PreferredName = updateDependent.PreferredName;
-            person.GenderId = updateDependent.GenderId;
-            person.DateOfBirth = updateDependent.DateOfBirth;
-            person.PlaceOfBirthId = updateDependent.PlaceOfBirthId;
-            person.PlaceOfResidenceId = updateDependent.PlaceOfResidenceId;
-            person.BirthCountryReasonId = updateDependent.BirthCountryReasonId;
-            person.IsTravellingWithParticipant = updateDependent.IsTravellingWithParticipant;
-            person.IsDeleted = updateDependent.IsDeleted;
-            updateDependent.Audit.SetHistory(person);
-            SetDependentCountriesOfCitizenship(countriesOfCitizenship, person);
+            dependent.DependentTypeId = updateDependent.DependentTypeId;
+            dependent.FirstName = updateDependent.FirstName;
+            dependent.LastName = updateDependent.LastName;
+            dependent.NameSuffix = updateDependent.NameSuffix;
+            dependent.PassportName = updateDependent.PassportName;
+            dependent.PreferredName = updateDependent.PreferredName;
+            dependent.GenderId = updateDependent.GenderId;
+            dependent.DateOfBirth = updateDependent.DateOfBirth;
+            dependent.PlaceOfBirthId = updateDependent.PlaceOfBirthId;
+            dependent.PlaceOfResidenceId = updateDependent.PlaceOfResidenceId;
+            dependent.BirthCountryReasonId = updateDependent.BirthCountryReasonId;
+            dependent.IsTravellingWithParticipant = updateDependent.IsTravellingWithParticipant;
+            dependent.IsDeleted = updateDependent.IsDeleted;
+            updateDependent.Audit.SetHistory(dependent);
+            SetDependentCountriesOfCitizenship(countriesOfCitizenship, dependent);
         }
 
         /// <summary>
-        /// Delete a dependent permanently
+        /// Delete a dependent
         /// </summary>
-        /// <param name="dependentId">The dependent Id</param>
+        /// <param name="updatedDependent">The dependent to update/delete</param>
         /// <returns></returns>
-        public async Task DeleteDependentAsync(int dependentId)
+        public async Task DeleteDependentAsync(UpdatedPersonDependent updatedDependent)
         {
-            var dependent = await Context.PersonDependents.FindAsync(dependentId);
-            DoDelete(dependent);
+            var dependent = await Context.PersonDependents.Where(x => x.DependentId == updatedDependent.DependentId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
+            if (!string.IsNullOrEmpty(dependent.SevisId))
+            {
+                updatedDependent.IsDeleted = true;
+                var countriesOfCitizenship = new List<Location>();
+                if (updatedDependent.CountriesOfCitizenship != null)
+                {
+                    countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
+                }
+                DoDependentUpdate(updatedDependent, dependent, countriesOfCitizenship);
+            }
+            else
+            {
+                DoDelete(dependent);
+            }
         }
-
+        
         private void DoDelete(PersonDependent dependentToDelete)
         {
             if (dependentToDelete != null)
@@ -762,14 +775,14 @@ namespace ECA.Business.Service.Persons
             return query.Where(p => p.PersonId == personId);
         }
         
-        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, PersonDependent person)
+        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, PersonDependent dependent)
         {
             Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
-            Contract.Requires(person != null, "The person entity must not be null.");
-            person.CountriesOfCitizenship.Clear();
+            Contract.Requires(dependent != null, "The dependent entity must not be null.");
+            dependent.CountriesOfCitizenship.Clear();
             countriesOfCitizenship.ForEach(x =>
             {
-                person.CountriesOfCitizenship.Add(x);
+                dependent.CountriesOfCitizenship.Add(x);
             });
         }
 

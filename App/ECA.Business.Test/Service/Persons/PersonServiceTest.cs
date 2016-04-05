@@ -2783,9 +2783,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             f.ShouldThrow<EcaBusinessException>().WithMessage("The person already exists.");
         }
-
-
-
+        
 
         #endregion
 
