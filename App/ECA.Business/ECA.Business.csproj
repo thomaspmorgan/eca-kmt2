@@ -234,7 +234,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Sevis\ReadyToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Sevis\QueuedToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />

@@ -27,7 +27,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The maximum length of a birth country reason.
         /// </summary>
-        public const int BIRTH_COUNTRY_REASON_LENGTH = 2;
+        public const int BIRTH_COUNTRY_REASON_LENGTH = 6;
 
         /// <summary>
         /// The maximum length of an email address.
@@ -149,11 +149,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .Length(COUNTRY_CODE_LENGTH)
                 .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE)
                 .WithState(x => new PermanentResidenceCountryErrorPath());
-
-            //RuleFor(visitor => visitor.BirthCountryReason)
-            //    .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
-            //    .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE)
-            //    .WithState(x => new CountryOfBirthErrorPath());
 
             When(x => x.EmailAddress != null, () =>
             {

@@ -184,7 +184,8 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = 155,
+                BirthCountryReasonCode = "birth country reason code",
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",
@@ -218,7 +219,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.IsTrue(object.ReferenceEquals(usAddress, instance.USAddress));
             Assert.AreEqual(dto.BirthCity, instance.BirthCity);
             Assert.AreEqual(dto.BirthCountryCode, instance.BirthCountryCode);
-            Assert.AreEqual(dto.BirthCountryReasonId, instance.BirthCountryReasonId);
+            Assert.AreEqual(dto.BirthCountryReasonCode, instance.BirthCountryReasonCode);
             Assert.AreEqual(dto.BirthDate, instance.BirthDate);
             Assert.AreEqual(dto.CitizenshipCountryCode, instance.CitizenshipCountryCode);
             Assert.AreEqual(dto.EmailAddress, instance.EmailAddress);
@@ -280,7 +281,8 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = 155,
+                BirthCountryReasonCode = "birth country reason code",
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",
@@ -312,7 +314,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.IsTrue(object.ReferenceEquals(usAddress, instance.USAddress));
             Assert.AreEqual(dto.BirthCity, instance.BirthCity);
             Assert.AreEqual(dto.BirthCountryCode, instance.BirthCountryCode);
-            Assert.AreEqual(dto.BirthCountryReasonId, instance.BirthCountryReasonId);
+            Assert.AreEqual(dto.BirthCountryReasonCode, instance.BirthCountryReasonCode);
             Assert.AreEqual(dto.BirthDate, instance.BirthDate);
             Assert.AreEqual(dto.CitizenshipCountryCode, instance.CitizenshipCountryCode);
             Assert.AreEqual(dto.EmailAddress, instance.EmailAddress);

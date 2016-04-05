@@ -13,7 +13,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            int? birthCountryReasonId,
+            string birthCountryReasonCode,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -31,7 +31,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         {
             this.BirthCity = birthCity;
             this.BirthCountryCode = birthCountryCode;
-            this.BirthCountryReasonId = birthCountryReasonId;
+            this.BirthCountryReasonCode = birthCountryReasonCode;
             this.BirthDate = birthDate;
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
@@ -106,7 +106,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets the birth country reason.
         /// </summary>
-        public int? BirthCountryReasonId { get; private set; }
+        public string BirthCountryReasonCode { get; private set; }
 
         /// <summary>
         /// Gets the email address.
