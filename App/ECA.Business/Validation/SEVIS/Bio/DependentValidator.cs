@@ -33,6 +33,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .NotNull()
                 .WithMessage(DEPENDENT_RELATIONSHIP_REQUIRED, firstNameDelegate, lastNameDelegate)
                 .WithState(x => new DependentErrorPath());
+
+            RuleFor(visitor => visitor.BirthCountryReasonCode)
+                .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
+                .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE)
+                .WithState(x => new CountryOfBirthErrorPath());
         }
     }
 }
