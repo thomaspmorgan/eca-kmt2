@@ -120,7 +120,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
-        public Gender Gender { get; set; }
+        public virtual Gender Gender { get; set; }
         
         /// <summary>
         /// Gets or sets the date of birth.
@@ -137,7 +137,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the place of birth.
         /// </summary>
-        public Location PlaceOfBirth { get; set; }
+        public virtual Location PlaceOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence id.
@@ -148,7 +148,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
-        public Location PlaceOfResidence { get; set; }
+        public virtual Location PlaceOfResidence { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.
@@ -158,7 +158,8 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        [NotMapped]
+        public virtual string BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

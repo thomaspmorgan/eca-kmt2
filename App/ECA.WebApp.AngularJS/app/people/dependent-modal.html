@@ -12,31 +12,35 @@
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="dependenttype">DEPENDENT TYPE</label>
+                        <label>DEPENDENT TYPE</label>
                         {{dependent.dependentType}}
                     </div>
                     <div class="form-group">
-                        <label for="firstName">FIRST NAME</label>
+                        <label>SEVIS ID</label>
+                        {{dependent.sevisId}}
+                    </div>
+                    <div class="form-group">
+                        <label>FIRST NAME</label>
                         {{dependent.firstName}}
                     </div>
                     <div class="form-group">
-                        <label for="lastName">LAST NAME</label>
+                        <label>LAST NAME</label>
                         {{dependent.lastName}}
                     </div>
                     <div class="form-group">
-                        <label for="nameSuffix">NAME SUFFIX</label>
+                        <label>NAME SUFFIX</label>
                         {{dependent.nameSuffix}}
                     </div>
                     <div class="form-group">
-                        <label for="passportName">PASSPORT NAME</label>
+                        <label>PASSPORT NAME</label>
                         {{dependent.passportName}}
                     </div>
                     <div class="form-group">
-                        <label for="">PREFERRED NAME</label>
+                        <label>PREFERRED NAME</label>
                         {{dependent.preferredName}}
                     </div>
                     <div class="form-group">
-                        <label for="gender">GENDER</label>
+                        <label>GENDER</label>
                         {{dependent.gender}}
                     </div>
                 </div>
@@ -44,33 +48,33 @@
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="dateOfBirth">DATE OF BIRTH</label>
+                        <label>DATE OF BIRTH</label>
                         {{dependent.dateOfBirth | date : 'longDate' : 'utc'}}
                     </div>
                     <div class="form-group">
-                        <label for="placeOfBirthId">CITY OF BIRTH</label>
+                        <label>CITY OF BIRTH</label>
                         {{dependent.placeOfBirth.name}}, {{dependent.placeOfBirth.country}}
                     </div>
                     <div class="form-group">
-                        <label for="birthCountryReasonId">BIRTH COUNTRY REASON</label>
+                        <label>BIRTH COUNTRY REASON</label>
                         {{dependent.birthCountryReason}}
                     </div>
                     <div class="form-group">
-                        <label for="selectedCountriesOfCitizenship">COUNTRIES OF CITIZENSHIP</label>
+                        <label>COUNTRIES OF CITIZENSHIP</label>
                         <span ng-repeat="country in selectedCountriesOfCitizenship">
                             {{country.name}}{{$last ? '' : ','}}
                         </span>
                     </div>
                     <div class="form-group">
-                        <label for="placeOfResidenceId">PERMANENT RESIDENCE COUNTRY</label>
+                        <label>PERMANENT RESIDENCE COUNTRY</label>
                         {{dependent.placeOfResidence.name}}
                     </div>
                     <div class="form-group">
-                        <label for="emailAddress">EMAIL ADDRESS</label>
+                        <label>EMAIL ADDRESS</label>
                         {{dependent.emailAddress}}
                     </div>
                     <div class="form-group">
-                        <label for="isTravellingWithParticipant">TRAVELLING SEPARATE FROM PARTICIPANT</label>
+                        <label>TRAVELLING SEPARATE FROM PARTICIPANT</label>
                         {{dependent.isTravellingWithParticipant | boolYesNo}}
                     </div>
                 </div>
