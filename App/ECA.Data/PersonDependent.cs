@@ -174,7 +174,7 @@ namespace ECA.Data
         /// Gets or sets depended was delete in SEVIS
         /// </summary>
         public bool IsSevisDeleted { get; set; }
-
+        
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
