@@ -2,6 +2,7 @@
 using ECA.Data;
 using FluentValidation;
 using System.Text.RegularExpressions;
+using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -50,7 +51,12 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to format when a participant's email address is required.
         /// </summary>
-        public static string EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE = "A '{0}' email address is required.";
+        public const string EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE = "A '{0}' email address is required for the participant.";
+
+        /// <summary>
+        /// The person type for the Participant.
+        /// </summary>
+        public const string PERSON_TYPE = "participant";
 
         /// <summary>
         /// Creates a new default instance.
@@ -84,6 +90,33 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .NotNull()
                 .WithMessage(EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE, EmailAddressType.Personal.Value)
                 .WithState(x => new EmailErrorPath());
+
+            RuleFor(x => x.PhoneNumber)
+                .NotNull()
+                .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
+                .WithState(x => new PhoneNumberErrorPath());
+        }
+
+        /// <summary>
+        /// Returns a delegate that creates a full name string, or the empty string.
+        /// </summary>
+        /// <returns>A delegate that creates a full name string, or the empty string.</returns>
+        public override Func<Person, object> GetNameDelegate()
+        {
+            return (p) =>
+            {
+                return p.FullName != null ? String.Format("{0} {1}", p.FullName.FirstName, p.FullName.LastName).Trim() : String.Empty;
+            };
+        }
+
+        /// <summary>
+        /// Returns the person type.
+        /// </summary>
+        /// <param name="instance">The person.</param>
+        /// <returns>The person type.</returns>
+        public override string GetPersonType(Person instance)
+        {
+            return PERSON_TYPE;
         }
     }
 }

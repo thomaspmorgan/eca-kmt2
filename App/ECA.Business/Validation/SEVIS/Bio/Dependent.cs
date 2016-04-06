@@ -134,6 +134,32 @@ namespace ECA.Business.Validation.Sevis.Bio
         public string Relationship { get; set; }
 
         /// <summary>
+        /// Returns the age of this dependent, or -1 if the birthdate is null.
+        /// </summary>
+        /// <returns>The age of the dependent, or -1 if the birthdate is null.</returns>
+        public int GetAge()
+        {
+            if (this.BirthDate.HasValue)
+            {
+                var dob = this.BirthDate.Value;
+                var utcNow = DateTime.UtcNow;
+                var birthDate = new DateTime(dob.Year, dob.Month, dob.Day, 0, 0, 0, DateTimeKind.Utc);
+                var today = utcNow.Date;
+
+                var age = today.Year - birthDate.Year;
+                if (today.DayOfYear < birthDate.DayOfYear)
+                {
+                    age--;
+                }
+                return age;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
         /// Returns a SEVISEVBatchTypeExchangeVisitorDependent(Add|Delete|Edit|EndStatus|Reprint|Terminate) instance used when performing
         /// a sevis registered exchange visitor's dependent details.
         /// </summary>
