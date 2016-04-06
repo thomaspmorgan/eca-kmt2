@@ -55,4 +55,18 @@ namespace ECA.Business.Validation
         /// </summary>
         public IEnumerable<SimpleValidationFailure> Errors { get; private set; }
     }
+
+    /// <summary>
+    /// A SuccessfulValidationResult is used as a shortcut to create a validation result that represents successful validation.
+    /// </summary>
+    public class SuccessfulValidationResult : SimpleValidationResult
+    {
+        /// <summary>
+        /// Creates a new instances.
+        /// </summary>
+        public SuccessfulValidationResult() : base(true, new List<SimpleValidationFailure>())
+        {
+
+        }
+    }
 }

@@ -413,6 +413,7 @@
     <Compile Include="Validation\SimpleValidationResultTest.cs" />
     <Compile Include="Validation\SevisEnumHelperTest.cs" />
     <Compile Include="Validation\ParticipantSevisKeyTest.cs" />
+    <Compile Include="Validation\SuccessfulValidationResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
