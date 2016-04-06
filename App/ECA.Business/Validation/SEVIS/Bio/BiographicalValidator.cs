@@ -37,7 +37,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to form when a birth date is required.
         /// </summary>
-        public const string BIRTH_DATE_NULL_ERROR_MESSAGE = "A Date of Birth for the {0}, {1} is required and must not be estimated.";
+        public const string BIRTH_DATE_NULL_ERROR_MESSAGE = "A Date of Birth for the {0}, {1}, is required and must not be estimated.";
 
         /// <summary>
         /// The error message to return when a full name is required.
@@ -47,47 +47,47 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to format when a person's gender is required.
         /// </summary>
-        public const string GENDER_REQUIRED_ERROR_MESSAGE = "The gender of the {0}, {1} is required. The gender must either be male or female.";
+        public const string GENDER_REQUIRED_ERROR_MESSAGE = "The gender of the {0}, {1}, is required. The gender must either be male or female.";
 
         /// <summary>
         /// The error message to format when a gender is specified but not of one of the correct values.
         /// </summary>
-        public static string GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE = "The Gender of the {0}, {1} must be '{2}' or '{3}'.";
+        public static string GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE = "The Gender of the {0}, {1}, must be '{2}' or '{3}'.";
 
         /// <summary>
         /// The error message to format when a city of birth is required.
         /// </summary>
-        public const string CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE = "The City of Birth for the {0}, {1} is required.";
+        public const string CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE = "The City of Birth for the {0}, {1}, is required.";
 
         /// <summary>
         /// The error message to return when a country of birth is required.
         /// </summary>
-        public const string BIRTH_COUNTRY_CODE_ERROR_MESSAGE = "The Country of Birth for the {0}, {1} is required.";
+        public const string BIRTH_COUNTRY_CODE_ERROR_MESSAGE = "The Country of Birth for the {0}, {1}, is required.";
 
         /// <summary>
         /// The error message to format when a country of citizenship is not specified, or more than country of citizenship is specified.
         /// </summary>
-        public const string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = "One and only one country of citizenship for the {0}, {1} is required.";
+        public const string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = "One and only one country of citizenship for the {0}, {1}, is required.";
 
         /// <summary>
-        /// The error message to format when a permananet residence country is not specified via a home address.
+        /// The error message to format when a permanent residence country is not specified via a home address.
         /// </summary>
         public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = "The Permanent Residence Country is required for the {0}, {1}.  Add a home address outside of the {0}.";
 
         /// <summary>
         /// The error message to format when a birth country reason is not valid.
         /// </summary>
-        public const string BIRTH_COUNTRY_REASON_ERROR_MESSAGE = "A Birth Country Reason for the {0}, {1} must be {0} characters.";
+        public const string BIRTH_COUNTRY_REASON_ERROR_MESSAGE = "A Birth Country Reason for the {0}, {1}, must be {0} characters.";
 
         /// <summary>
         /// The error message to format when an email is invalid.
         /// </summary>
-        public const string EMAIL_ERROR_MESSAGE = "The email address '{0}' for the {1}, {2} is invalid.  It may be up to {3} characters long.";
+        public const string EMAIL_ERROR_MESSAGE = "The email address '{0}' for the {1}, {2}, is invalid.  It may be up to {3} characters long.";
 
         /// <summary>
         /// The error message to return when a visiting phone number is required.
         /// </summary>
-        public const string VISITING_PHONE_REQUIRED_ERROR_MESSAGE = "A '{0}' US phone number for the {1}, {2} is required.";
+        public const string VISITING_PHONE_REQUIRED_ERROR_MESSAGE = "A '{0}' US phone number for the {1}, {2}, is required.";
 
         /// <summary>
         /// The error message to format when a phone number is required and the specifics of that phone number.
@@ -167,11 +167,6 @@ namespace ECA.Business.Validation.Sevis.Bio
                     .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
                     .WithState(x => new EmailErrorPath());
             });
-
-            RuleFor(x => x.PhoneNumber)
-                .NotNull()
-                .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new PhoneNumberErrorPath());
 
             When(x => x.PhoneNumber != null, () =>
             {

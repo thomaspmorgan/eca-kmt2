@@ -12,12 +12,22 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The error message to format when a relationship is required on a dependent.
         /// </summary>
-        public const string DEPENDENT_RELATIONSHIP_REQUIRED = "The {0}, {1} must have the relationship specified.";
+        public const string DEPENDENT_RELATIONSHIP_REQUIRED = "The {0}, {1}, must have the relationship specified.";
+
+        /// <summary>
+        /// The error message to format when a dependent is to old to be a dependent.
+        /// </summary>
+        public const string DEPENDENT_IS_TO_OLD_ERROR_MESSAGE = "The {0}, {1}, must be {2} years of age or younger.";
 
         /// <summary>
         /// The dependent person type.
         /// </summary>
-        public const string PERSON_TYPE = "Dependent";
+        public const string PERSON_TYPE = "dependent";
+
+        /// <summary>
+        /// The maximum age of a dependent.
+        /// </summary>
+        public const int MAX_DEPENDENT_AGE = 21;
 
         /// <summary>
         /// Creates a new default instance.
@@ -33,7 +43,18 @@ namespace ECA.Business.Validation.Sevis.Bio
             RuleFor(visitor => visitor.BirthCountryReasonCode)
                 .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
                 .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => BIRTH_COUNTRY_REASON_LENGTH)
-                .WithState(x => new CountryOfBirthErrorPath());
+                .WithState(x => new DependentErrorPath());
+
+            When(x => x.BirthDate.HasValue, () =>
+            {
+                RuleFor(x => x).Must(d =>
+                {
+                    var age = d.GetAge();
+                    return age != -1 && age < MAX_DEPENDENT_AGE;
+                })
+                .WithMessage(DEPENDENT_IS_TO_OLD_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => MAX_DEPENDENT_AGE)
+                .WithState(x => new DependentErrorPath());
+            });
         }
 
         /// <summary>
@@ -44,7 +65,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         {
             return (p) =>
             {
-                return p.FullName != null ? String.Format("{0} {1}", p.FullName.FirstName, p.FullName.LastName) : String.Empty;
+                return p.FullName != null ? String.Format("{0} {1}", p.FullName.FirstName, p.FullName.LastName).Trim() : String.Empty;
             };
         }
 

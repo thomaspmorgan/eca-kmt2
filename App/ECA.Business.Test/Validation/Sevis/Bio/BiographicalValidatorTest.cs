@@ -523,27 +523,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         #region Phone Number
         [TestMethod]
-        public void TestPhoneNumber_IsNull()
-        {
-            var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.PhoneNumber = null;
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);            
-            Assert.AreEqual(
-                String.Format(BiographicalTestClassValidator.VISITING_PHONE_REQUIRED_ERROR_MESSAGE,
-                Data.PhoneNumberType.Visiting.Value,
-                validator.GetPersonType(instance),
-                validator.GetNameDelegate()(instance)),
-                result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
-        }
-
-        [TestMethod]
         public void TestPhoneNumber_HasCharacters()
         {
             var phonenumberUtil = PhoneNumberUtil.GetInstance();

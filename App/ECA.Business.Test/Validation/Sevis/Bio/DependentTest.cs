@@ -1,0 +1,515 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ECA.Business.Validation.Sevis.Bio;
+using ECA.Business.Service.Admin;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Data;
+using ECA.Business.Sevis.Model;
+using Microsoft.QualityTools.Testing.Fakes;
+
+namespace ECA.Business.Test.Validation.Sevis.Bio
+{
+    [TestClass]
+    public class DependentTest
+    {
+        [TestMethod]
+        public void TestGetAge_BornToday()
+        {
+            var personId = 100;
+            var participantId = 200;
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+
+
+            var birthDate = DateTime.UtcNow;
+            var instance = new AddedDependent(
+                fullName: fullName,
+                birthCity: birthCity,
+                birthCountryCode: birthCountryCode,
+                birthCountryReasonCode: birthCountryReasonCode,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: email,
+                gender: gender,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: phone,
+                relationship: relationship,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                participantId: participantId,
+                personId: personId,
+                isTravelingWithParticipant: isTravelingWithParticipant
+                );
+            Assert.AreEqual(0, instance.GetAge());
+        }
+
+        [TestMethod]
+        public void TestGetAge_BornExactlyOneYearBefore()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2010, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                var birthDate = new DateTime(2009, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+
+                
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(1, instance.GetAge());
+            }
+            
+        }
+
+        [TestMethod]
+        public void TestGetAge_BornLastYearTomorrow()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2010, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                var birthDate = new DateTime(2009, 1, 2, 0, 0, 0, DateTimeKind.Utc);
+
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+                
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(0, instance.GetAge());
+            }
+            
+        }
+
+        [TestMethod]
+        public void TestGetAge_BornLastYearYesterday()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2010, 1, 2, 0, 0, 0, DateTimeKind.Utc);
+                var birthDate = new DateTime(2009, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(1, instance.GetAge());
+            }
+        }
+
+        [TestMethod]
+        public void TestGetAge_BornOnLeapDayOneYearBefore_IsNowFeb28()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2013, 2, 28, 0, 0, 0, DateTimeKind.Utc);
+                var birthDate = new DateTime(2012, 2, 29, 0, 0, 0, DateTimeKind.Utc);
+
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(0, instance.GetAge());
+            }
+        }
+
+        [TestMethod]
+        public void TestGetAge_BornOnLeapDayOneYearBefore_IsNowFeb27()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2013, 2, 27, 0, 0, 0, DateTimeKind.Utc);
+                var birthDate = new DateTime(2012, 2, 29, 0, 0, 0, DateTimeKind.Utc);
+
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(0, instance.GetAge());
+            }
+        }
+
+        [TestMethod]
+        public void TestGetAge_BornOnLeapDayOneYearBefore_IsNowMarch1()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2013, 3, 1, 0, 0, 0, DateTimeKind.Utc);
+                var birthDate = new DateTime(2012, 2, 29, 0, 0, 0, DateTimeKind.Utc);
+
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(1, instance.GetAge());
+            }
+        }
+
+        [TestMethod]
+        public void TestGetAge_BirthDateIsNull()
+        {
+            using (ShimsContext.Create())
+            {
+                var now = new DateTime(2013, 3, 1, 0, 0, 0, DateTimeKind.Utc);
+                System.Fakes.ShimDateTime.UtcNowGet = () => now;
+
+                var personId = 100;
+                var participantId = 200;
+                var firstName = "first";
+                var lastName = "last";
+                var passport = "passport";
+                var preferred = "preferred";
+                var suffix = "Jr.";
+                var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+                var birthCity = "birth city";
+                var birthCountryCode = "CN";
+                var citizenshipCountryCode = "FR";
+                var email = "someone@isp.com";
+                var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+                var permanentResidenceCountryCode = "MX";
+                var phone = "123-456-7890";
+                var mailAddress = new AddressDTO
+                {
+                    AddressId = 1,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var usAddress = new AddressDTO
+                {
+                    AddressId = 2,
+                    Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+                };
+                var printForm = true;
+                var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+                var relationship = DependentCodeType.Item01.ToString();
+                var isTravelingWithParticipant = true;
+
+
+                var instance = new AddedDependent(
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: null,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant
+                    );
+                Assert.AreEqual(-1, instance.GetAge());
+            }
+        }
+    }
+}

@@ -138,6 +138,9 @@
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="mscorlib.4.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\mscorlib.4.0.0.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -147,6 +150,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.4.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\System.4.0.0.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -384,6 +390,7 @@
     <Compile Include="Validation\Sevis\Bio\ModifiedParticipantDependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonTest.cs" />
     <Compile Include="Validation\Sevis\Bio\DependentValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependentTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidatorTest.cs" />
@@ -416,6 +423,8 @@
     <Fakes Include="Fakes\ECA.Business.fakes">
       <SubType>Designer</SubType>
     </Fakes>
+    <Fakes Include="Fakes\System.fakes" />
+    <Fakes Include="Fakes\mscorlib.fakes" />
     <None Include="InMemoryEcaDbContextGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>

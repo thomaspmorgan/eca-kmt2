@@ -56,7 +56,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// The person type for the Participant.
         /// </summary>
-        public const string PERSON_TYPE = "Participant";
+        public const string PERSON_TYPE = "participant";
 
         /// <summary>
         /// Creates a new default instance.
@@ -90,6 +90,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .NotNull()
                 .WithMessage(EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE, EmailAddressType.Personal.Value)
                 .WithState(x => new EmailErrorPath());
+
+            RuleFor(x => x.PhoneNumber)
+                .NotNull()
+                .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
+                .WithState(x => new PhoneNumberErrorPath());
         }
 
         /// <summary>
@@ -100,7 +105,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         {
             return (p) =>
             {
-                return p.FullName != null ? String.Format("{0} {1}", p.FullName.FirstName, p.FullName.LastName) : String.Empty;
+                return p.FullName != null ? String.Format("{0} {1}", p.FullName.FirstName, p.FullName.LastName).Trim() : String.Empty;
             };
         }
 
