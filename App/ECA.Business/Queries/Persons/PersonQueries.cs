@@ -106,7 +106,7 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var locationsQuery = LocationQueries.CreateGetLocationsQuery(context);
             var dependentTypesQuery = CreateGetDependentTypesQuery(context);
-            var birthCountryReasonQuery = context.BirthCountryReasons.Select(x => new SimpleLookupDTO { Id = x.BirthCountryReasonId, Value = x.Description });
+            var birthCountryReasonQuery = CreateGetBirthCountryReasonsQuery(context);
 
             var query = from dependent in context.PersonDependents
                         
@@ -165,7 +165,7 @@ namespace ECA.Business.Queries.Persons
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
                             PlaceOfResidence = permanentResidence,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,
-                            BirthCountryReason = birthCountryReason.Value,
+                            BirthCountryReason = birthCountryReason,
                             IsTravellingWithParticipant = dependent.IsTravellingWithParticipant,
                             IsDeleted = dependent.IsDeleted,
                             IsSevisDeleted = dependent.IsSevisDeleted
@@ -449,6 +449,24 @@ namespace ECA.Business.Queries.Persons
             return query;
         }
 
+        /// <summary>
+        /// Returns a query to retrieve birth country reason dtos.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<BirthCountryReasonDTO> CreateGetBirthCountryReasonsQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from birthCountryReasons in context.BirthCountryReasons
+                        select new BirthCountryReasonDTO
+                        {
+                            Id = birthCountryReasons.BirthCountryReasonId,
+                            Name = birthCountryReasons.Description
+                        };
+
+            return query;
+        }
     }
 }
 
