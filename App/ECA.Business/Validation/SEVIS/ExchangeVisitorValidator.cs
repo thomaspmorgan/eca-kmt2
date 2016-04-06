@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Validation.Sevis.Bio;
+using System.Linq;
 using ECA.Business.Validation.Sevis.ErrorPaths;
 using ECA.Business.Validation.Sevis.Finance;
 using FluentValidation;
@@ -57,6 +58,16 @@ namespace ECA.Business.Validation.Sevis
         public const string PROGRAM_END_DATE_MUST_BE_AFTER_START_DATE_ERROR = "The participant's end date must be after the start date.";
 
         /// <summary>
+        /// The error message to return when the participant has more than one spouse dependent.
+        /// </summary>
+        public const string PARTICIPANT_HAS_MORE_THAN_ONE_SPOUSE_DEPENDENT = "The participant has more than one spouse.";
+
+        /// <summary>
+        /// The maximum number of spousal dependents.
+        /// </summary>
+        public const int MAX_SPOUSE_DEPENDENTS = 1;
+
+        /// <summary>
         /// Creates a new default instance.
         /// </summary>
         public ExchangeVisitorValidator()
@@ -104,6 +115,16 @@ namespace ECA.Business.Validation.Sevis
                 .NotNull()
                 .WithMessage(SITE_OF_ACTIVITY_REQUIRED_ERROR_MESSAGE)
                 .SetValidator(new AddressDTOValidator());
+
+            When(x => x.Dependents.Count() > 0, () =>
+            {
+                RuleFor(x => x.Dependents).Must(d =>
+                {
+                    return d.Where(x => x.IsSpousalDependent()).Count() <= 1;
+                })
+                .WithMessage(PARTICIPANT_HAS_MORE_THAN_ONE_SPOUSE_DEPENDENT)
+                .WithState(x => new DependentErrorPath());
+            });
         }
     }
 }

@@ -45,7 +45,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => BIRTH_COUNTRY_REASON_LENGTH)
                 .WithState(x => new DependentErrorPath());
 
-            When(x => x.BirthDate.HasValue, () =>
+            When(x => x.BirthDate.HasValue && x.IsChildDependent(), () =>
             {
                 RuleFor(x => x).Must(d =>
                 {
