@@ -1,11 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Sevis.Model;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -21,7 +17,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            string birthCountryReason,
+            string birthCountryReasonCode,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -43,7 +39,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                  fullName: fullName,
                  birthCity: birthCity,
                  birthCountryCode: birthCountryCode,
-                 birthCountryReason: birthCountryReason,
+                 birthCountryReasonCode: birthCountryReasonCode,
                  birthDate: birthDate,
                  citizenshipCountryCode: citizenshipCountryCode,
                  emailAddress: emailAddress,
@@ -107,11 +103,11 @@ namespace ECA.Business.Validation.Sevis.Bio
             }
             else
             {
-                return new SEVISEVBatchTypeExchangeVisitorDependentEdit
+                var edit = new SEVISEVBatchTypeExchangeVisitorDependentEdit
                 {
                     BirthCity = this.BirthCity,
                     BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                    BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReason),
+                    BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReasonCode),
                     BirthDate = this.BirthDate.Value,
                     CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                     dependentSevisID = this.SevisId,
@@ -120,10 +116,20 @@ namespace ECA.Business.Validation.Sevis.Bio
                     Gender = this.Gender.GetEVGenderCodeType(),
                     PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                     printForm = this.PrintForm,
-                    Relationship = this.Relationship.GetDependentCodeType(),
+                    
                     RelationshipSpecified = isCodeSpecified(this.Relationship),
                     Remarks = this.Remarks,
                 };
+
+                if (edit.BirthCountryReasonSpecified)
+                {
+                    edit.BirthCountryReason = this.BirthCountryReasonCode.GetUSBornReasonType();
+                }
+                if (edit.RelationshipSpecified)
+                {
+                    edit.Relationship = this.Relationship.GetDependentCodeType();
+                }
+                return edit;
             }
         }
     }

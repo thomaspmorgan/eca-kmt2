@@ -45,7 +45,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReason = USBornReasonType.Item01.ToString();
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -85,7 +85,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(permanentResidenceCountryCode, instance.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, instance.PhoneNumber);
             Assert.AreEqual(printForm, instance.PrintForm);
-            Assert.AreEqual(birthCountryReason, instance.BirthCountryReason);
+            Assert.AreEqual(birthCountryReason, instance.BirthCountryReasonCode);
             Assert.AreEqual(sevisId, instance.SevisId);
             Assert.AreEqual(remarks, instance.Remarks);
             Assert.AreEqual(relationship, instance.Relationship);
@@ -128,7 +128,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReason = USBornReasonType.Item01.ToString();
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -171,7 +171,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(permanentResidenceCountryCode, jsonObject.PermanentResidenceCountryCode);
             Assert.AreEqual(phone, jsonObject.PhoneNumber);
             Assert.AreEqual(printForm, jsonObject.PrintForm);
-            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReason);
+            Assert.AreEqual(birthCountryReason, jsonObject.BirthCountryReasonCode);
             Assert.AreEqual(relationship, jsonObject.Relationship);
             Assert.AreEqual(isTravelingWithParticipant, jsonObject.IsTravelingWithParticipant);
             Assert.AreEqual(isDeleted, jsonObject.IsDeleted);
@@ -214,7 +214,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReason = USBornReasonType.Item01.ToString();
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -225,7 +225,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonCode: birthCountryReason,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -256,6 +256,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(dependent.Gender.GetEVGenderCodeType(), sevisModel.Gender);
             Assert.AreEqual(dependent.PermanentResidenceCountryCode.GetCountryCodeWithType(), sevisModel.PermanentResidenceCountryCode);
             Assert.AreEqual(dependent.Relationship.GetDependentCodeType(), sevisModel.Relationship);
+            Assert.AreEqual(dependent.BirthCountryReasonCode.GetUSBornReasonType(), sevisModel.BirthCountryReason);
             Assert.AreEqual(dependent.PrintForm, sevisModel.printForm);
             Assert.AreEqual(dependent.Remarks, sevisModel.Remarks);
             Assert.AreEqual(dependent.SevisId, sevisModel.dependentSevisID);
@@ -296,7 +297,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReason = "reason";
+            var birthCountryReason = USBornReasonType.Item01.ToString();
             var sevisId = "sevis id";
             var remarks = "remarks";
             var relationship = DependentCodeType.Item01.ToString();
@@ -307,7 +308,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonCode: birthCountryReason,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -375,7 +376,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonCode: birthCountryReason,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -398,6 +399,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentEdit));
             var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentEdit)instance;
             Assert.IsFalse(sevisModel.BirthCountryReasonSpecified);
+
         }
 
 
@@ -433,10 +435,10 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            string birthCountryReason = null;
+            var birthCountryReason = USBornReasonType.Item01.ToString();
             var sevisId = "sevis id";
             var remarks = "remarks";
-            var relationship = DependentCodeType.Item01.ToString();
+            string relationship = null;
             var isTravelingWithParticipant = true;
             var isDeleted = false;
 
@@ -444,7 +446,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReason: birthCountryReason,
+                birthCountryReasonCode: birthCountryReason,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -466,7 +468,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var instance = dependent.GetSevisExhangeVisitorDependentInstance();
             Assert.IsInstanceOfType(instance, typeof(SEVISEVBatchTypeExchangeVisitorDependentEdit));
             var sevisModel = (SEVISEVBatchTypeExchangeVisitorDependentEdit)instance;
-            Assert.IsFalse(sevisModel.BirthCountryReasonSpecified);
+            Assert.IsFalse(sevisModel.RelationshipSpecified);
         }
     }
 }

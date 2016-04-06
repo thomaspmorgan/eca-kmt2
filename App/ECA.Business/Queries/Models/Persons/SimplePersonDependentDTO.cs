@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class SimplePersonDependentDTO : IAuditable
     {
+        public SimplePersonDependentDTO()
+        {
+            CountriesOfCitizenship = new List<SimpleLookupDTO>();
+        }
+
         /// <summary>
         /// Gets or sets the dependent id.
         /// </summary>
@@ -26,9 +32,14 @@ namespace ECA.Business.Queries.Models.Persons
         public string SevisId { get; set; }
 
         /// <summary>
-        /// Gets or sets the person type id.
+        /// Gets or sets the dependent type id.
         /// </summary>
         public int DependentTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dependent type.
+        /// </summary>
+        public string DependentType { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.
@@ -61,6 +72,11 @@ namespace ECA.Business.Queries.Models.Persons
         public int GenderId { get; set; }
 
         /// <summary>
+        /// Gets or sets the gender.
+        /// </summary>
+        public string Gender { get; set; }
+
+        /// <summary>
         /// Gets or sets the date of birth.
         /// </summary>
         public DateTime DateOfBirth { get; set; }
@@ -70,10 +86,22 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public int PlaceOfBirthId { get; set; }
 
+        public LocationDTO PlaceOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country of residence id.
+        /// </summary>
+        public int PlaceOfResidenceId { get; set; }
+
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
-        public int PlaceOfResidenceId { get; set; }
+        public LocationDTO PlaceOfResidence { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason id.
+        /// </summary>
+        public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.
@@ -83,7 +111,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

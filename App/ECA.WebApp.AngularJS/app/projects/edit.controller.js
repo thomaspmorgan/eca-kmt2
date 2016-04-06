@@ -309,6 +309,7 @@ angular.module('staticApp')
       $scope.editView.visitorTypeSelected = function (visitorTypeId) {
           if (!$scope.editView.sevisFunding && visitorTypeId === ConstantsService.visitorType.exchangeVisitor.id) {
               $scope.editView.sevisFunding = {};
+              $scope.editView.sevisFunding.projectId = $stateParams.projectId;
               $scope.editView.sevisFunding.fundingSponsor = 0;
               $scope.editView.sevisFunding.fundingPersonal = 0;
               $scope.editView.sevisFunding.fundingVisGovt = 0;
@@ -318,7 +319,7 @@ angular.module('staticApp')
               $scope.editView.sevisFunding.fundingIntlOrg1 = 0;
               $scope.editView.sevisFunding.fundingIntlOrg2 = 0;
               $scope.editView.sevisFunding.fundingOther = 0;
-              $scope.editView.sevisFunding.total = 0;
+              $scope.editView.sevisFunding.fundingTotal = 0;
           }
       }
 
@@ -506,15 +507,18 @@ angular.module('staticApp')
       }
 
       function getSevisFundingTotal() {
-          var total = $scope.editView.sevisFunding.fundingSponsor +
-          $scope.editView.sevisFunding.fundingPersonal +
-          $scope.editView.sevisFunding.fundingVisGovt +
-          $scope.editView.sevisFunding.fundingVisBNC +
-          $scope.editView.sevisFunding.fundingGovtAgency1 +
-          $scope.editView.sevisFunding.fundingGovtAgency2 +
-          $scope.editView.sevisFunding.fundingIntlOrg1 +
-          $scope.editView.sevisFunding.fundingIntlOrg2 +
-          $scope.editView.sevisFunding.fundingOther;
+          var total = 0;
+          if ($scope.editView.sevisFunding) {
+              total = $scope.editView.sevisFunding.fundingSponsor +
+              $scope.editView.sevisFunding.fundingPersonal +
+              $scope.editView.sevisFunding.fundingVisGovt +
+              $scope.editView.sevisFunding.fundingVisBNC +
+              $scope.editView.sevisFunding.fundingGovtAgency1 +
+              $scope.editView.sevisFunding.fundingGovtAgency2 +
+              $scope.editView.sevisFunding.fundingIntlOrg1 +
+              $scope.editView.sevisFunding.fundingIntlOrg2 +
+              $scope.editView.sevisFunding.fundingOther;
+          }
           return total;
       }
 

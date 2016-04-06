@@ -133,7 +133,7 @@ namespace ECA.Business.Service.Projects
             var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
             if (existingParticipant == null)
             {
-                DoHandleAdditionalProjectParticipant(additionalOrganizationProjectParticipant, participantType);
+                DoHandleAdditionalProjectParticipant(additionalOrganizationProjectParticipant, participantType, null, null);
             }
         }
 
@@ -152,7 +152,7 @@ namespace ECA.Business.Service.Projects
             var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
             if (existingParticipant == null)
             {
-                DoHandleAdditionalProjectParticipant(additionalOrganizationProjectParticipant, participantType);
+                DoHandleAdditionalProjectParticipant(additionalOrganizationProjectParticipant, participantType, null, null);
             }
         }
 
@@ -172,7 +172,8 @@ namespace ECA.Business.Service.Projects
             var existingParticipant = CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefault();
             if (existingParticipant == null)
             {
-                DoHandleAdditionalProjectParticipant(additionalPersonProjectParticipant, participantType);
+                var defaultExchangeVisitorFunding = Context.DefaultExchangeVisitorFunding.Find(project.ProjectId);
+                DoHandleAdditionalProjectParticipant(additionalPersonProjectParticipant, participantType, project.VisitorType, defaultExchangeVisitorFunding);
             }
         }
 
@@ -192,14 +193,15 @@ namespace ECA.Business.Service.Projects
             var existingParticipant = await CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefaultAsync();
             if (existingParticipant == null)
             {
-                DoHandleAdditionalProjectParticipant(additionalPersonProjectParticipant, participantType);
+                var defaultExchangeVisitorFunding = await Context.DefaultExchangeVisitorFunding.FindAsync(project.ProjectId);
+                DoHandleAdditionalProjectParticipant(additionalPersonProjectParticipant, participantType, project.VisitorType, defaultExchangeVisitorFunding);
             }
         }
 
-        private Participant DoHandleAdditionalProjectParticipant(AdditionalProjectParticipant additionalProjectParticipant, ParticipantType participantType)
+        private Participant DoHandleAdditionalProjectParticipant(AdditionalProjectParticipant additionalProjectParticipant, ParticipantType participantType, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             var participant = new Participant();
-            additionalProjectParticipant.UpdateParticipant(participant, participantType);
+            additionalProjectParticipant.UpdateParticipant(participant, participantType, visitorType, defaultExchangeVisitorFunding);
             additionalProjectParticipant.Audit.SetHistory(participant);
             Context.Participants.Add(participant);
             return participant;
@@ -702,6 +704,7 @@ namespace ECA.Business.Service.Projects
                 .Include(x => x.Regions)
                 .Include(x => x.Categories)
                 .Include(x => x.Objectives)
+                .Include(x => x.VisitorType)
                 .Where(x => x.ProjectId == projectId);
         }
 

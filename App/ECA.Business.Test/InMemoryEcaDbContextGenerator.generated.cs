@@ -146,8 +146,23 @@ namespace ECA.Business.Test
 			///BirthCountryId
 			return Task.FromResult<ECA.Data.BirthCountry>(this.SingleOrDefault(x => x.BirthCountryId.Equals(keyValues.First())));
 		}
-	}
-	public class BookmarkTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Bookmark>
+    }
+    public class BirthCountryReasonTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.BirthCountryReason>
+    {
+        public override ECA.Data.BirthCountryReason Find(params object[] keyValues)
+        {
+            if (keyValues.Length != 1) throw new System.NotSupportedException();
+            ///BirthCountryReasonId
+            return this.SingleOrDefault(x => x.BirthCountryReasonId.Equals(keyValues.First()));
+        }
+        public override Task<ECA.Data.BirthCountryReason> FindAsync(params object[] keyValues)
+        {
+            if (keyValues.Length != 1) throw new System.NotSupportedException();
+            ///BirthCountryReasonId
+            return Task.FromResult<ECA.Data.BirthCountryReason>(this.SingleOrDefault(x => x.BirthCountryReasonId.Equals(keyValues.First())));
+        }
+    }
+    public class BookmarkTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Bookmark>
 	{
 		public override ECA.Data.Bookmark Find(params object[] keyValues)
 		{
@@ -1261,7 +1276,8 @@ namespace ECA.Business.Test
 			this.Artifacts = new ArtifactTestDbSet();
 			this.ArtifactTypes = new ArtifactTypeTestDbSet();
 			this.BirthCountries = new BirthCountryTestDbSet();
-			this.Bookmarks = new BookmarkTestDbSet();
+            this.BirthCountryReasons = new BirthCountryReasonTestDbSet();
+            this.Bookmarks = new BookmarkTestDbSet();
 			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();

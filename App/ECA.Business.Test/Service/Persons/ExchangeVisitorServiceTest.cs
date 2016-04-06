@@ -372,7 +372,6 @@ namespace ECA.Business.Test.Service.Persons
                 fullName: null,
                 birthCity: null,
                 birthCountryCode: null,
-                birthCountryReason: null,
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,
@@ -426,7 +425,6 @@ namespace ECA.Business.Test.Service.Persons
                 fullName: null,
                 birthCity: null,
                 birthCountryCode: null,
-                birthCountryReason: null,
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,
@@ -478,7 +476,6 @@ namespace ECA.Business.Test.Service.Persons
                 fullName: null,
                 birthCity: null,
                 birthCountryCode: null,
-                birthCountryReason: null,
                 birthDate: null,
                 citizenshipCountryCode: null,
                 emailAddress: null,
@@ -532,7 +529,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -608,7 +605,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -664,7 +661,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -711,7 +708,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -761,7 +758,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -812,7 +809,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -859,7 +856,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReason = "birth country reason",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",

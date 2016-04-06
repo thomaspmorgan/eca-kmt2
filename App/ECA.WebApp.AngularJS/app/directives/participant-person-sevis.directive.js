@@ -60,80 +60,50 @@
                 $scope.view.FundingEdit = false;
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.fundingElementId = 'funding' + $scope.participantid;
-                $scope.editMode = false;
-                                
+
+                var sevisInfoCopy = null;
                 var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
-                
-                $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
-                    return CreateMessageBox(checked)
-                    .then(function (response) {
-                        if (response === checked) {
-                            $scope.updatesevisinfo({ participantId: $scope.participantid });
-                        } else {
-                            $scope.sevisinfo[checkboxId] = response;
-                        }
-                    });
-                    
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                }
-                
-                $scope.edit.onStartDateChange = function () {
-                    if (!$scope.editMode) {
-                        return CreateMessageBox(false)
-                        .then(function (response) {
-                            if (response === false) {
-                                $scope.sevisinfo.startDate = $scope.$parent.oldStartDate;
-                            } else {
-                                if (!isNaN(Date.parse($scope.sevisinfo.startDate))) {
-                                    $scope.updatesevisinfo({ participantId: $scope.participantid });
-                                }
-                            }
-                        });
-                    } else {
-                        if (!isNaN(Date.parse($scope.sevisinfo.startDate))) {
-                            $scope.updatesevisinfo({ participantId: $scope.participantid });
-                        }
+
+                $scope.$watch(function () {
+                    return $scope.sevisinfo;
+                }, function (newValue, oldValue) {
+                    if (newValue && !sevisInfoCopy) {
+                        sevisInfoCopy = angular.copy(newValue);
                     }
+                })
+
+                $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
+                    var ok = function () {
+                        $scope.sevisinfo[checkboxId] = checked;
+                        $scope.updatesevisinfo({ participantId: $scope.participantid });
+                        sevisInfoCopy = angular.copy($scope.sevisinfo);
+                    };
+                    var cancel = function () {
+                        $scope.sevisinfo[checkboxId] = sevisInfoCopy[checkboxId];
+                    };
+                    promptUserToOverrideEdit(ok, cancel);
+                }
+
+                $scope.edit.onStartDateChange = function () {
+                    var form = $scope.form.startDate;
+                    onFormDateChange(form, "startDate");
                 }
 
                 $scope.edit.openStartDatePicker = function ($event) {
-                    return CreateMessageBox($scope.edit.isStartDatePickerOpen)
-                    .then(function (response) {
-                        $scope.edit.isStartDatePickerOpen = response;
-                    });
-
                     $event.preventDefault();
                     $event.stopPropagation();
+                    $scope.edit.isStartDatePickerOpen = true;
                 }
 
                 $scope.edit.onEndDateChange = function () {
-                    if (!$scope.editMode) {
-                        return CreateMessageBox(false)
-                        .then(function (response) {
-                            if (response === false) {
-                                $scope.sevisinfo.endDate = $scope.$parent.oldEndDate;
-                            } else {
-                                if (!isNaN(Date.parse($scope.sevisinfo.endDate))) {
-                                    $scope.updatesevisinfo({ participantId: $scope.participantid });
-                                }
-                            }
-                        });
-                    } else {
-                        if (!isNaN(Date.parse($scope.sevisinfo.endDate))) {
-                            $scope.updatesevisinfo({ participantId: $scope.participantid });
-                        }
-                    }
+                    var form = $scope.form.endDate;
+                    onFormDateChange(form, "endDate");
                 }
 
                 $scope.edit.openEndDatePicker = function ($event) {
-                    return CreateMessageBox($scope.edit.isEndDatePickerOpen)
-                    .then(function (response) {
-                        $scope.edit.isEndDatePickerOpen = response;
-                    });
-
                     $event.preventDefault();
                     $event.stopPropagation();
+                    $scope.edit.isEndDatePickerOpen = true;
                 }
 
                 $scope.getSevisStartDateDivId = function (participantId) {
@@ -194,54 +164,59 @@
                 };
 
                 $scope.edit.onFundingEditChange = function () {
-                    return CreateMessageBox($scope.view.PositionAndFieldEdit)
-                    .then(function (response) {
-                        $scope.view.FundingEdit = response;
-                    });
-
-                    if ($scope.view.FundingEdit) {
+                    var ok = function () {
+                        $scope.view.FundingEdit = true;
                         $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantService.otherInternationalOrganizationId);
                         $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
-                    }
+                    };
+                    var cancel = function () {
+                        $scope.view.FundingEdit = false;
+                    };
+                    promptUserToOverrideEdit(ok, cancel);
                 };
 
                 $scope.edit.onPositionAndFieldEditChange = function () {
-                    return CreateMessageBox($scope.view.PositionAndFieldEdit)
-                    .then(function (response) {
-                        $scope.view.PositionAndFieldEdit = response;
-                    });
-                    if ($scope.view.PositionAndFieldEdit)
+                    var ok = function () {
+                        $scope.view.PositionAndFieldEdit = true;
                         loadFieldOfStudies($scope.exchangevisitorinfo.fieldOfStudy);
+                    };
+                    var cancel = function () {
+                        $scope.view.PositionAndFieldEdit = false;
+                    };
+                    promptUserToOverrideEdit(ok, cancel);
                 }
-                
-                function CreateMessageBox(userSection) {
-                    var defer = $q.defer();
-                    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId) !== -1) {
+
+                function onFormDateChange(form, sevisInfoPropertyName) {
+                    if (form.$valid) {
+                        var ok = function () {
+                            $scope.updatesevisinfo({ participantId: $scope.participantid });
+                            sevisInfoCopy = angular.copy($scope.sevisinfo);
+                        };
+                        var cancel = function () {
+                            form.$setPristine();
+                            form.$setUntouched();
+                            $scope.sevisinfo[sevisInfoPropertyName] = sevisInfoCopy[sevisInfoPropertyName];
+                        };
+                        promptUserToOverrideEdit(ok, cancel);
+                    }
+                }
+
+                function promptUserToOverrideEdit(okCallback, cancelCallback) {
+                    if (notifyStatuses.indexOf($scope.sevisinfo.sevisStatusId.toString()) !== -1) {
                         MessageBox.confirm({
                             title: 'Confirm Edit',
                             message: 'The SEVIS participant status of this person is ' + $scope.sevisinfo.sevisStatus + '. Are you sure you want to edit?',
                             okText: 'Yes',
                             cancelText: 'No',
-                            okCallback: function () {
-                                userSection = true;
-                                $scope.editMode = true;
-                                defer.resolve(userSection);
-                            },
-                            cancelCallback: function () {
-                                userSection = false;
-                                $scope.editMode = false;
-                                defer.resolve(userSection);
-                            }
+                            okCallback: okCallback,
+                            cancelCallback: cancelCallback
                         });
-                    } else {
-                        userSection = !userSection;
-                        $scope.editMode = userSection;
-                        defer.resolve(userSection);
                     }
-
-                    return defer.promise;
+                    else {
+                        okCallback();
+                    }
                 }
 
                 $scope.onGovtAgency1Select = function (item) {

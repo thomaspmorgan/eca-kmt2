@@ -1,0 +1,89 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Dependent</h3>
+</div>
+<div class="modal-body">
+    <div class="spinner" ng-show="dependentsLoading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div id="form-container" class="row" in-context-form ng-show="!dependentsLoading">
+        <form name="form.dependentForm" class="form-horizontal">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>DEPENDENT TYPE</label>
+                        {{dependent.dependentType}}
+                    </div>
+                    <div class="form-group">
+                        <label>SEVIS ID</label>
+                        {{dependent.sevisId}}
+                    </div>
+                    <div class="form-group">
+                        <label>FIRST NAME</label>
+                        {{dependent.firstName}}
+                    </div>
+                    <div class="form-group">
+                        <label>LAST NAME</label>
+                        {{dependent.lastName}}
+                    </div>
+                    <div class="form-group">
+                        <label>NAME SUFFIX</label>
+                        {{dependent.nameSuffix}}
+                    </div>
+                    <div class="form-group">
+                        <label>PASSPORT NAME</label>
+                        {{dependent.passportName}}
+                    </div>
+                    <div class="form-group">
+                        <label>PREFERRED NAME</label>
+                        {{dependent.preferredName}}
+                    </div>
+                    <div class="form-group">
+                        <label>GENDER</label>
+                        {{dependent.gender}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>DATE OF BIRTH</label>
+                        {{dependent.dateOfBirth | date : 'longDate' : 'utc'}}
+                    </div>
+                    <div class="form-group">
+                        <label>CITY OF BIRTH</label>
+                        {{dependent.placeOfBirth.name}}, {{dependent.placeOfBirth.country}}
+                    </div>
+                    <div class="form-group">
+                        <label>BIRTH COUNTRY REASON</label>
+                        {{dependent.birthCountryReason}}
+                    </div>
+                    <div class="form-group">
+                        <label>COUNTRIES OF CITIZENSHIP</label>
+                        <span ng-repeat="country in selectedCountriesOfCitizenship">
+                            {{country.name}}{{$last ? '' : ','}}
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>PERMANENT RESIDENCE COUNTRY</label>
+                        {{dependent.placeOfResidence.name}}
+                    </div>
+                    <div class="form-group">
+                        <label>EMAIL ADDRESS</label>
+                        {{dependent.emailAddress}}
+                    </div>
+                    <div class="form-group">
+                        <label>TRAVELLING SEPARATE FROM PARTICIPANT</label>
+                        {{dependent.isTravellingWithParticipant | boolYesNo}}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button ng-click="onCloseViewDependentClick()" class="btn btn-cancel">Close</button>
+    </div>
+</div>

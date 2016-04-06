@@ -45,12 +45,7 @@ namespace ECA.Data
         /// Gets the max length of the family name.
         /// </summary>
         public const int PREFERRED_NAME_MAX_LENGTH = 100;
-
-        /// <summary>
-        /// Gets the max length of the family name.
-        /// </summary>
-        public const int BIRTH_COUNTRY_REASON_MAX_LENGTH = 100;
-
+        
         #endregion
 
         /// <summary>
@@ -63,7 +58,10 @@ namespace ECA.Data
         /// Gets or sets the person id.
         /// </summary>
         public int PersonId { get; set; }
-        
+
+        [ForeignKey("PersonId")]
+        public virtual Person Person { get; set; }
+
         /// <summary>
         /// the SEVIS ID (assigned by SEVIS)
         /// </summary>
@@ -77,9 +75,14 @@ namespace ECA.Data
         public int DependentTypeId { get; set; }
 
         /// <summary>
+        /// Gets or sets the dependent type.
+        /// </summary>
+        [ForeignKey("DependentTypeId")]
+        public virtual DependentType DependentType { get; set; }
+
+        /// <summary>
         /// Gets or sets FirstName.
         /// </summary>
-        [Required]
         [MaxLength(FIRST_NAME_MAX_LENGTH)]
         public string FirstName { get; set; }
 
@@ -115,27 +118,48 @@ namespace ECA.Data
         public int GenderId { get; set; }
 
         /// <summary>
+        /// Gets or sets the gender.
+        /// </summary>
+        public virtual Gender Gender { get; set; }
+        
+        /// <summary>
         /// Gets or sets the date of birth.
         /// </summary>
+        [Required]
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// Gets or sets the place of birth.
+        /// Gets or sets the place of birth id.
         /// </summary>
         [Required]
         public int PlaceOfBirthId { get; set; }
 
         /// <summary>
-        /// Gets or sets the country of residence.
+        /// Gets or sets the place of birth.
+        /// </summary>
+        public virtual Location PlaceOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country of residence id.
         /// </summary>
         [Required]
         public int PlaceOfResidenceId { get; set; }
 
         /// <summary>
+        /// Gets or sets the country of residence.
+        /// </summary>
+        public virtual Location PlaceOfResidence { get; set; }
+
+        /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        [MaxLength(BIRTH_COUNTRY_REASON_MAX_LENGTH)]
-        public string BirthCountryReason { get; set; }
+        public int? BirthCountryReasonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the birth country reason.
+        /// </summary>
+        [NotMapped]
+        public virtual string BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant
@@ -154,15 +178,6 @@ namespace ECA.Data
         
         public ICollection<Location> CountriesOfCitizenship { get; set; }
         public ICollection<EmailAddress> EmailAddresses { get; set; }
-
-        /// <summary>
-        /// Gets or sets the dependent type.
-        /// </summary>
-        [ForeignKey("DependentTypeId")]
-        public virtual DependentType DependentType { get; set; }
-
-        [ForeignKey("PersonId")]
-        public virtual Person Person { get; set; }
 
         /// <summary>
         /// create/update time and user

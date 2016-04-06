@@ -46,7 +46,7 @@ angular.module('staticApp')
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
       
-      var notifyStatuses = ConstantsService.sevisStatuses;
+      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
       $scope.editGeneral = function () {
           return CreateMessageBox($scope.view.isInfoTabInEditMode)
@@ -57,7 +57,7 @@ angular.module('staticApp')
 
       function CreateMessageBox(userSection) {
           var defer = $q.defer();
-          if (notifyStatuses.indexOf($scope.view.participantPerson.sevisStatusId) !== -1) {
+          if (notifyStatuses.indexOf($scope.view.participantPerson.sevisStatusId.toString()) !== -1) {
               MessageBox.confirm({
                   title: 'Confirm Edit',
                   message: 'The SEVIS participant status of this person is ' + $scope.view.participantPerson.sevisStatus + '. Are you sure you want to edit?',
@@ -147,6 +147,7 @@ angular.module('staticApp')
                 .then(function (response) {
                     $scope.view.isSavingUpdate = false;
                     $scope.view.isInfoTabInEditMode = false;
+                    updateParentTableParticipantSevisStatus(response);
                     NotificationService.showSuccessMessage('Successfully updated the participant personal information.');
                 });
             })
@@ -156,6 +157,19 @@ angular.module('staticApp')
                 $log.error(message);
                 NotificationService.showErrorMessage(message);
             });
+      }
+
+      function updateParentTableParticipantSevisStatus(participant) {
+          var participants = $scope.$parent.$parent.participants;
+          var indexes = participants.map(function (p) { return p.participantId; });
+          var index = indexes.indexOf(participant.participantId);
+          if (index >= 0) {
+              $scope.$parent.$parent.participants[index].sevisStatus = participant.sevisStatus;
+              $scope.$parent.$parent.participants[index].sevisStatusId = participant.sevisStatusId;
+          }
+          else {
+              console.error('Unable able to find participant in participants table to update.');
+          }
       }
 
       var projectId = $stateParams.projectId;

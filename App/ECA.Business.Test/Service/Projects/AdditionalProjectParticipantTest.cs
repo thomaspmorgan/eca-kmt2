@@ -17,7 +17,7 @@ namespace ECA.Business.Test.Service.Projects
 
         public bool UpdateParticipantDetailsCalled { get; set; }
 
-        protected override void UpdateParticipantDetails(Data.Participant participant)
+        protected override void UpdateParticipantDetails(Data.Participant participant, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             this.UpdateParticipantDetailsCalled = true;
         }
@@ -63,7 +63,7 @@ namespace ECA.Business.Test.Service.Projects
             };
 
             Assert.IsFalse(instance.UpdateParticipantDetailsCalled);
-            instance.UpdateParticipant(participant, participantType);
+            instance.UpdateParticipant(participant, participantType, null, null);
             Assert.IsTrue(instance.UpdateParticipantDetailsCalled);
             Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
             Assert.AreEqual(ParticipantStatus.Active.Id, participant.ParticipantStatusId);

@@ -234,7 +234,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Sevis\ReadyToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Sevis\QueuedToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
@@ -289,6 +289,9 @@
     <Compile Include="Service\Itineraries\UpdatedEcaItinerary.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryStop.cs" />
     <Compile Include="Service\Itineraries\UpdatedEcaItineraryValidationEntity.cs" />
+    <Compile Include="Service\Lookup\BirthCountryReasonDTO.cs" />
+    <Compile Include="Service\Lookup\BirthCountryReasonService.cs" />
+    <Compile Include="Service\Lookup\IBirthCountryReasonService.cs" />
     <Compile Include="Service\Lookup\IDependentTypeService.cs" />
     <Compile Include="Service\Lookup\DependentTypeDTO.cs" />
     <Compile Include="Service\Lookup\DependentTypeService.cs" />

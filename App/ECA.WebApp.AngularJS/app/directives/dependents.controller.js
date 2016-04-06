@@ -24,10 +24,25 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.collapseDependents = false;
+      $scope.selectedCountriesOfCitizenship = [];
       var tempId = 0;
 
       $scope.data = {};
       $scope.data.loadDependentsPromise = $q.defer();
+
+      $scope.view.onViewDependentClick = function (dependent) {
+          var viewDependentModalInstance = $modal.open({
+              animation: true,
+              templateUrl: 'app/people/dependent-modal.html',
+              controller: 'ViewDependentModalCtrl',
+              size: 'lg',
+              resolve: {
+                  dependent: function () {
+                      return dependent;
+                  }
+              }
+          });
+      };
 
       $scope.view.onAddDependentClick = function () {
           $scope.dependentLoading = false;
@@ -35,17 +50,21 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/people/add-dependent-modal.html',
               controller: 'AddDependentModalCtrl',
-              size: 'md',
+              size: 'lg',
               resolve: {
               }
           });
           addDependentModalInstance.result.then(function (dependent) {
+              if (dependent) {
               var added = {
                   id: dependent.dependentId,
-                  value: dependent.lastName + ', ' + dependent.firstName
+                  value: dependent.lastName + ', ' + dependent.firstName + ' (' + dependent.dependentType + ')'
               };
               $scope.model.dependents.splice(0, 0, added);
               $log.info('Finished adding dependent.');
+              } else {
+                  $log.info('Failed to add dependent.');
+              }              
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
@@ -60,7 +79,7 @@ angular.module('staticApp')
               animation: true,
               templateUrl: 'app/people/edit-dependent-modal.html',
               controller: 'EditDependentModalCtrl',
-              size: 'md',
+              size: 'lg',
               resolve: {
                   dependent: function () {
                       return dependent;
@@ -68,58 +87,59 @@ angular.module('staticApp')
               }
           });
           editDependentModalInstance.result.then(function (dependent) {
+              if (dependent) {
               var index = $scope.model.dependents.map(function (e) { return e.id }).indexOf(dependent.dependentId);
               var updated = {
                   id: dependent.dependentId,
-                  value: dependent.lastName + ', ' + dependent.firstName
+                  value: dependent.lastName + ', ' + dependent.firstName + ' (' + dependent.dependentType + ')'
               };
               $scope.model.dependents[index] = updated;
               $log.info('Finished updating dependent.');
+              } else {
+                  $log.info('Failed to update dependent.');
+              }              
           }, function () {
               $log.info('Modal dismissed at: ' + new Date());
           });
       };
       
-      $scope.view.onDeleteDependentClick = function (index) {
-          $scope.view.isDeletingDependent = true;
-          var obj = $scope.model.dependents[index];
-          var deleted = {};
-          $scope.dependent = {};
-          return DependentService.getDependentById(obj.id)
+      $scope.view.onDeleteDependentClick = function (dependentId) {
+          deleteDependent(dependentId);
+      };
+
+      function deleteDependent(dependentId) {
+          $scope.isDependentLoading = true;
+          return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
-                 if ($scope.dependent.sevisId) {
-                 $scope.dependent.isDeleted = true;
-                 deleteEditDependent($scope.dependent);
-                     deleted = {
-                         id: $scope.dependent.dependentId,
-                         value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
-                     };
-                 } else {
-                     return DependentService.delete(obj.id)
-                     .then(function () {
-                         deleted = {
-                     id: $scope.dependent.dependentId,
-                     value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName
-                 };
+                 if ($scope.dependent.countriesOfCitizenship) {
+                     $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
+                         var location = {};
+                         location.id = obj.id;
+                         location.name = obj.value;
+                         return location;
                     });
                  }                 
-                 removeDependentFromView(deleted);
-                 $scope.view.isDeletingDependent = false;
-          })
-          .catch(function () {
-              var message = "Unable to delete dependent.";
-              $log.error(message);
-              NotificationService.showErrorMessage(message);
+                 if ($scope.dependent.dateOfBirth) {
+                     $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
+                 }
+                 updateDeletedDependent();
           });          
       };
 
-      function deleteEditDependent(dependent) {
-          return DependentService.update(dependent)
+      function updateDeletedDependent() {
+          $scope.isSavingDependent = true;
+          setupDependent();
+          return DependentService.delete($scope.dependent)
               .then(function (response) {
-                  NotificationService.showSuccessMessage("The dependent delete was successful.");
+                  var deleted = {
+                      id: $scope.dependent.dependentId,
+                      value: $scope.dependent.lastName + ', ' + $scope.dependent.firstName + ' (' + $scope.dependent.dependentType + ')'
+                  };
+                  removeDependentFromView(deleted);
               },
               function (error) {
+                  $scope.isSavingDependent = false;
                   if (error.status == 400) {
                       if (error.data.message && error.data.modelState) {
                           for (var key in error.data.modelState) {
@@ -141,6 +161,15 @@ angular.module('staticApp')
               });
       };
 
+      function setupDependent() {
+          $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
+              return obj.id;
+          });
+          if ($scope.dependent.dateOfBirth) {
+              $scope.dependent.dateOfBirth.setUTCHours(0, 0, 0, 0);
+          }
+      };
+
       function removeDependentFromView(dependent) {
           $scope.$emit(ConstantsService.removeNewDependentEventName, dependent);
       }
@@ -153,6 +182,7 @@ angular.module('staticApp')
           var index = dependents.map(function (e) { return e.id }).indexOf(dependent.id);
           if (index !== -1) {
               var removedItems = dependents.splice(index, 1);
+              $scope.model.dependents = dependents;
               $log.info('Removed dependent at index ' + index);
           } else {
               $log.info('Could not remove dependent');

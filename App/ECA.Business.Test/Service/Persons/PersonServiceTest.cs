@@ -209,15 +209,28 @@ namespace ECA.Business.Test.Service.Persons
                 MaritalStatus = new MaritalStatus(),
                 PlaceOfBirth = new Location()
             };
+            var dependentType = new DependentType
+            {
+                DependentTypeId = DependentType.Spouse.Id,
+                Name = "Expatriated",
+                SevisDependentTypeCode = "01"
+            };
             var dependent = new PersonDependent
             {
                 DependentId = 1,
                 PersonId = 2,
+                DependentTypeId = dependentType.DependentTypeId,
+                DependentType = dependentType,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NameSuffix = "nameSuffix",
                 DateOfBirth = DateTime.Now,
                 GenderId = gender.GenderId,
+                Gender = gender,
+                PlaceOfBirthId = 2000,
+                PlaceOfBirth = new Location(),
+                PlaceOfResidenceId = 2000,
+                PlaceOfResidence = new Location(),
                 Person = person
             };
             var status = new ParticipantStatus
@@ -284,7 +297,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
                 Assert.AreEqual(person.IsDateOfBirthEstimated, serviceResult.IsDateOfBirthEstimated);
                 Assert.AreEqual(person.IsDateOfBirthUnknown, serviceResult.IsDateOfBirthUnknown);
-                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependents.FirstOrDefault().Value);
+                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName + " (" + person.Family.FirstOrDefault().DependentType.Name + ")", serviceResult.Dependents.FirstOrDefault().Value);
                 Assert.AreEqual(person.Participations.FirstOrDefault().ProjectId, serviceResult.ProjectId);
                 Assert.AreEqual(participant.ParticipantPerson.SevisId, serviceResult.SevisId);
             };
@@ -1896,14 +1909,14 @@ namespace ECA.Business.Test.Service.Persons
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
             int placeOfBirth = 193;
-            var birthCountryReason = "military";
+            var birthCountryReasonId = 1;
             var countriesOfCitizenship = new List<int>();
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
 
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
                 firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
-                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReason: birthCountryReason,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
                 countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
 
             Action<PersonDependent> tester = (testPerson) =>
@@ -1919,7 +1932,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
                 Assert.AreEqual(newPerson.PlaceOfBirthId, testPerson.PlaceOfBirthId);
                 Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
-                Assert.AreEqual(newPerson.BirthCountryReason, testPerson.BirthCountryReason);
+                Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
                 CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
                 Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
 
@@ -2770,9 +2783,7 @@ namespace ECA.Business.Test.Service.Persons
             };
             f.ShouldThrow<EcaBusinessException>().WithMessage("The person already exists.");
         }
-
-
-
+        
 
         #endregion
 

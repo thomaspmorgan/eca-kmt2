@@ -164,6 +164,32 @@ namespace ECA.Business.Test.Validation
         }
         #endregion
 
+        #region USBornReasonType
+        [TestMethod]
+        public void TestGetUSBornReasonType()
+        {
+            var e = USBornReasonType.Item01;
+            var value = e.ToString();
+            Assert.AreEqual(e, value.GetUSBornReasonType());
+        }
+
+        [TestMethod]
+        public void TestGetUSBornReasonType_DoesNotContainItem()
+        {
+            var e = USBornReasonType.Item01;
+            var value = e.ToString().Replace("Item", "");
+            Assert.AreEqual(e, value.GetUSBornReasonType());
+        }
+
+        [TestMethod]
+        public void TestGetUSBornReasonType_StringNotSupported()
+        {
+            var value = "hello world";
+            Action a = () => value.GetUSBornReasonType();
+            a.ShouldThrow<CodeTypeConversionException>().WithMessage(GetErrorMessage(typeof(USBornReasonType), "Item" + value));
+        }
+        #endregion
+
         #region EVOccupationCategoryCodeType
         [TestMethod]
         public void TestGetEVOccupationCategoryCodeType()

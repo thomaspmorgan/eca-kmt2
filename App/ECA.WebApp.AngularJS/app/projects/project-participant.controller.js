@@ -77,7 +77,8 @@ angular.module('staticApp')
       $scope.permissions.editProject = false;
       $scope.permissions.hasEditSevisPermission = false;
       var projectId = $stateParams.projectId;
-      var notifyStatuses = ConstantsService.sevisStatuses;
+
+      var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
       var origNonUsParticipantsEst;
       var origUsParticipantsEst;
@@ -545,22 +546,21 @@ angular.module('staticApp')
             });
       };
 
-      function updateSevisCommStatusView(participantId, participantPersonSevis) {
+      $scope.view.updateSevisCommStatusView = function(participantId, participantPersonSevis) {
           if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
               var participantIds = $scope.participants.map(function (p) { return p.participantId; });
               var index = participantIds.indexOf(parseInt(participantId, 10));
               $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+              $scope.participants[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusId;
           }
       }
 
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
-              updateSevisCommStatusView(participantId, data.data);
+              $scope.view.updateSevisCommStatusView(participantId, data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
-              $scope.oldStartDate = $scope.sevisInfo[participantId].startDate;
-              $scope.oldEndDate = $scope.sevisInfo[participantId].endDate;
           })
           .catch(function (error) {
               if (error.status === 404) {

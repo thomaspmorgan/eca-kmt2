@@ -36,7 +36,7 @@ namespace ECA.Business.Service.Projects
         /// Sets the given participant to reference the person as a participant.
         /// </summary>
         /// <param name="participant">The participant to update.</param>
-        protected override void UpdateParticipantDetails(Participant participant)
+        protected override void UpdateParticipantDetails(Participant participant, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             participant.OrganizationId = null;
             participant.PersonId = this.PersonId;
@@ -44,11 +44,37 @@ namespace ECA.Business.Service.Projects
             {
                 Participant = participant
             };
-            participant.ParticipantExchangeVisitor = new ParticipantExchangeVisitor
+            if (visitorType != null && visitorType.VisitorTypeId == VisitorType.ExchangeVisitor.Id)
             {
-                Participant = participant,
-                ParticipantPerson = participant.ParticipantPerson
-            };
+                participant.ParticipantExchangeVisitor = new ParticipantExchangeVisitor
+                {
+                    Participant = participant,
+                    ParticipantPerson = participant.ParticipantPerson
+                };
+                if (defaultExchangeVisitorFunding != null)
+                {
+                    participant.ParticipantExchangeVisitor.FundingSponsor = defaultExchangeVisitorFunding.FundingSponsor;
+                    participant.ParticipantExchangeVisitor.FundingPersonal = defaultExchangeVisitorFunding.FundingPersonal;
+                    participant.ParticipantExchangeVisitor.FundingVisGovt = defaultExchangeVisitorFunding.FundingVisGovt;
+                    participant.ParticipantExchangeVisitor.FundingVisBNC = defaultExchangeVisitorFunding.FundingVisBNC;
+                    participant.ParticipantExchangeVisitor.FundingGovtAgency1 = defaultExchangeVisitorFunding.FundingGovtAgency1;
+                    participant.ParticipantExchangeVisitor.GovtAgency1Id = defaultExchangeVisitorFunding.GovtAgency1Id;
+                    participant.ParticipantExchangeVisitor.GovtAgency1OtherName = defaultExchangeVisitorFunding.GovtAgency1OtherName;
+                    participant.ParticipantExchangeVisitor.FundingGovtAgency2 = defaultExchangeVisitorFunding.FundingGovtAgency2;
+                    participant.ParticipantExchangeVisitor.GovtAgency2Id = defaultExchangeVisitorFunding.GovtAgency2Id;
+                    participant.ParticipantExchangeVisitor.GovtAgency2OtherName = defaultExchangeVisitorFunding.GovtAgency2OtherName;
+                    participant.ParticipantExchangeVisitor.FundingIntlOrg1 = defaultExchangeVisitorFunding.FundingIntlOrg1;
+                    participant.ParticipantExchangeVisitor.IntlOrg1Id = defaultExchangeVisitorFunding.IntlOrg1Id;
+                    participant.ParticipantExchangeVisitor.IntlOrg1OtherName = defaultExchangeVisitorFunding.IntlOrg1OtherName;
+                    participant.ParticipantExchangeVisitor.FundingIntlOrg2 = defaultExchangeVisitorFunding.FundingIntlOrg2;
+                    participant.ParticipantExchangeVisitor.IntlOrg2Id = defaultExchangeVisitorFunding.IntlOrg2Id;
+                    participant.ParticipantExchangeVisitor.IntlOrg2OtherName = defaultExchangeVisitorFunding.IntlOrg2OtherName;
+                    participant.ParticipantExchangeVisitor.FundingOther = defaultExchangeVisitorFunding.FundingOther;
+                    participant.ParticipantExchangeVisitor.OtherName = defaultExchangeVisitorFunding.OtherName;
+                    participant.ParticipantExchangeVisitor.FundingTotal = defaultExchangeVisitorFunding.FundingTotal;
+
+                }
+            }
         }
     }
 }

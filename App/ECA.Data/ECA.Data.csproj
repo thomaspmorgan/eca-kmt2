@@ -140,6 +140,7 @@
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
     <Compile Include="BirthCountry.cs" />
+    <Compile Include="BirthCountryReason.cs" />
     <Compile Include="Bookmark.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />

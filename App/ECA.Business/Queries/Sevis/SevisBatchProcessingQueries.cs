@@ -98,7 +98,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to get participants that are queued to submit.</returns>
-        public static IQueryable<ReadyToSubmitParticipantDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
+        public static IQueryable<QueuedToSubmitParticipantDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var statusId = SevisCommStatus.QueuedToSubmit.Id;
@@ -110,7 +110,7 @@ namespace ECA.Business.Queries.Sevis
                                         .FirstOrDefault()
 
                         where latestStatus.SevisCommStatusId == statusId
-                        select new ReadyToSubmitParticipantDTO
+                        select new QueuedToSubmitParticipantDTO
                         {
                             ParticipantId = participantPerson.ParticipantId,
                             ProjectId = participant.ProjectId,

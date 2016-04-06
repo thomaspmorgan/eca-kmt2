@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             get; set;
         }
 
-        public string BirthCountryReason
+        public int BirthCountryReasonId
         {
             get; set;
         }
@@ -91,7 +91,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "US",
-                BirthCountryReason = "re",
+                BirthCountryReasonId = 1,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "UK",
                 EmailAddress = "email@isp.com",
@@ -405,54 +405,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
-        }
-
-        #endregion
-
-        #region Birth Country Reason
-
-        [TestMethod]
-        public void TestBirthCountryReason_Null()
-        {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.BirthCountryReason = null;
-            result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-            Assert.AreEqual(0, result.Errors.Count);
-        }
-
-        [TestMethod]
-        public void TestBirthCountryReason_MaxLength()
-        {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.BirthCountryReason = new string('c', BiographicalValidator<BiographicalTestClass>.BIRTH_COUNTRY_REASON_LENGTH);
-            result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-            Assert.AreEqual(0, result.Errors.Count);
-        }
-
-        [TestMethod]
-        public void TestBirthCountryReason_ExceedsMaxLength()
-        {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.BirthCountryReason = new string('c', BiographicalValidator<BiographicalTestClass>.BIRTH_COUNTRY_REASON_LENGTH + 1);
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.BIRTH_COUNTRY_REASON_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         #endregion

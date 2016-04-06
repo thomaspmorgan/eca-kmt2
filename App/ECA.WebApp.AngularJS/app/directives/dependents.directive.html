@@ -19,7 +19,7 @@
                 </div>
                 <div class="row">
                     <div>
-                        <span>{{dependent.value}}</span>
+                        <a ng-click="view.onViewDependentClick(dependent)">{{dependent.value}}</a>
                         <div class="pull-right" ng-show="editMode">
                             <a ng-show="!view.isDeletingDependent" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
@@ -36,7 +36,7 @@
                         Are you sure you want to delete this dependent?
                     </div>
                     <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
-                        <button ng-click="view.onDeleteDependentClick($index)" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.onDeleteDependentClick(dependent.id)" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                 </div>

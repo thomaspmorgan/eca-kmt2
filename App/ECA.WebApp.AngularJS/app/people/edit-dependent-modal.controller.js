@@ -16,12 +16,13 @@ angular.module('staticApp')
       $scope.countriesCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
-      $scope.dependentLoading = true;
+      $scope.isDependentLoading = true;
+      $scope.isSavingDependent = false;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
 
       function loadDependent(dependentId) {
-          $scope.dependentLoading = true;
+          $scope.isDependentLoading = true;
           return DependentService.getDependentById(dependentId)
              .then(function (data) {
                  $scope.dependent = data;
@@ -36,25 +37,34 @@ angular.module('staticApp')
                  if ($scope.dependent.dateOfBirth) {
                      $scope.dependent.dateOfBirth = DateTimeService.getDateAsLocalDisplayMoment($scope.dependent.dateOfBirth).toDate();
                  }
+                 if ($scope.dependent.placeOfBirth.countryId === 193) {
+                     $scope.dependent.isBirthCountryUSA = true;
+                 } else {
+                     $scope.dependent.isBirthCountryUSA = false;
+                     $scope.dependent.birthCountryReasonId = null;
+                 }
                  
                  return loadDependentCities(null)
                  .then(function () {
-                     $scope.dependentLoading = false;
+                     $scope.isDependentLoading = false;
                  })
                  .catch(function () {
-                     $scope.dependentLoading = false;
+                     $scope.isDependentLoading = false;
                  });
              });
       };
 
       function saveEditDependent() {
+          $scope.isSavingDependent = true;
           setupDependent();
           return DependentService.update($scope.dependent)
               .then(function (response) {
                   NotificationService.showSuccessMessage("The edit was successful.");
+                  $scope.isSavingDependent = false;
                   return response.config.data;
               },
               function (error) {
+                  $scope.isSavingDependent = false;
                   if (error.status == 400) {
                       if (error.data.message && error.data.modelState) {
                           for (var key in error.data.modelState) {
@@ -105,7 +115,16 @@ angular.module('staticApp')
       $scope.searchDependentCountries = function (search) {
           return loadDependentCitizenshipCountries(search);
       }
-      
+
+      $scope.setBirthCountryReasonState = function ($item, $model) {
+          if ($item.countryId === 193) {
+              $scope.dependent.isBirthCountryUSA = true;
+          } else {
+              $scope.dependent.isBirthCountryUSA = false;
+              $scope.dependent.birthCountryReasonId = null;
+          }
+      }
+
       function loadDependentCities(search) {
           if (search || $scope.dependent) {
               var params = {
@@ -184,6 +203,18 @@ angular.module('staticApp')
           });
       }
 
+      function loadBirthCountryReasons() {
+          LookupService.getBirthCountryReasons({
+              limit: 300,
+              filter: [{
+                  property: 'birthReasonCode', comparison: ConstantsService.isNotNullComparisonType
+              }]
+          })
+          .then(function (data) {
+              $scope.birthCountryReasons = data.data.results;
+          });
+      }
+
       $scope.openDatePicker = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
@@ -201,5 +232,12 @@ angular.module('staticApp')
           $modalInstance.dismiss('cancel');
       }
 
-      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes()]);
+      $scope.isDependentLoading = true;
+      $q.all([loadResidenceCountries(), loadGenders(), loadDependentTypes(), loadBirthCountryReasons()])
+          .then(function () {
+              $scope.isDependentLoading = false;
+          })
+          .catch(function () {
+              $scope.isDependentLoading = false;
+          });
   });

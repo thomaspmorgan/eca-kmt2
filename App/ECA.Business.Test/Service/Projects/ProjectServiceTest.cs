@@ -27,7 +27,7 @@ namespace ECA.Business.Test.Service.Projects
 
         }
 
-        protected override void UpdateParticipantDetails(Participant participant)
+        protected override void UpdateParticipantDetails(Participant participant, VisitorType visitorType, DefaultExchangeVisitorFunding defaultExchangeVisitorFunding)
         {
             throw new NotImplementedException();
         }

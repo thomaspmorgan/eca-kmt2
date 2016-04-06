@@ -12,7 +12,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                   fullName: null,
                   birthCity: null,
                   birthCountryCode: null,
-                  birthCountryReason: null,
+                  birthCountryReasonCode: null,
                   birthDate: null,
                   citizenshipCountryCode: null,
                   emailAddress: null,
