@@ -33,5 +33,6 @@ angular
     'ui.utils.masks',
     'ui.calendar',
     'templates',
-    'ngIdle'
+    'ngIdle',
+    'ui.grid'
   ]);
