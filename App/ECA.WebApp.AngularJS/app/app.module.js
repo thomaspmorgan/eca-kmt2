@@ -34,5 +34,7 @@ angular
     'ui.calendar',
     'templates',
     'ngIdle',
-    'ui.grid'
+    'ui.grid',
+    'ui.grid.pagination',
+    'ui.grid.autoResize'
   ]);

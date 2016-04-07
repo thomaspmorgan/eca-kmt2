@@ -744,4 +744,72 @@ angular.module('staticApp')
                    participantTypeId == ConstantsService.participantType.otherOrganization.id);
       };
 
+      var paginationOptions = {
+          pageNumber: 1,
+          pageSize: 25,
+          sort: null
+      };
+
+      $scope.gridOptions = {
+          paginationPageSizes: [25, 50, 75],
+          paginationPageSize: 25,
+          useExternalPagination: true,
+          columnDefs: [
+            { name: 'name' },
+            { name: 'participantType'},
+            { name: 'participantStatus' },
+            { name: 'sevisStatus'}
+          ],
+          onRegisterApi: function (gridApi) {
+              $scope.gridApi = gridApi;
+              $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                  if (sortColumns.length == 0) {
+                      paginationOptions.sort = null;
+                  } else {
+                      paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
+                      $scope.gridOptions.paginationCurrentPage = 1;
+                  }
+                  getPage();
+              });
+              gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                  paginationOptions.pageNumber = newPage;
+                  paginationOptions.pageSize = pageSize;
+                  getPage();
+              });
+          }
+      };
+
+      function getPage() {
+          var params = {
+              start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
+              limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
+              sort: paginationOptions.sort
+          };
+          ParticipantService.getParticipantsByProject(projectId, params)
+               .then(function (data) {
+                   $scope.gridOptions.totalItems = data.total;
+                   angular.forEach(data.results, function (result, index) {
+                       if (result.personId) {
+                           result.href = StateService.getPersonState(result.personId);
+                       }
+                       else if (result.organizationId) {
+                           result.href = StateService.getOrganizationState(result.organizationId);
+                       }
+                       else {
+                           var message = 'Unable to generate href for participant because it is neither an organization or a person.';
+                           $log.error(message);
+                           NotificationService.showErrorMessage(message);
+                       }
+                   });
+                   $scope.gridOptions.data = data.results;
+                   $scope.view.hasRealActualParticipants = data.total > 0;
+                   handleParticipantState();
+               })
+               .catch(function (error) {
+                   $log.error('Unable to load project participants.');
+                   NotificationService.showErrorMessage('Unable to load project participants.');
+               });
+      }
+
+      getPage();
   });
