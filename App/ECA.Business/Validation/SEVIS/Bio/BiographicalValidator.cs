@@ -1,9 +1,11 @@
 ﻿using ECA.Business.Service.Admin;
 using ECA.Business.Validation.Sevis.ErrorPaths;
+using ECA.Business.Validation.Sevis.Exceptions;
 using ECA.Data;
 using FluentValidation;
 using PhoneNumbers;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ECA.Business.Validation.Sevis.Bio
@@ -68,12 +70,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// The error message to format when a country of citizenship is not specified, or more than country of citizenship is specified.
         /// </summary>
         public const string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = "One and only one country of citizenship for the {0}, {1}, is required.";
-
-        /// <summary>
-        /// The error message to format when a permanent residence country is not specified via a home address.
-        /// </summary>
-        public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = "The Permanent Residence Country is required for the {0}, {1}.  Add a home address outside of the {0}.";
-
+                
         /// <summary>
         /// The error message to format when a birth country reason is not valid.
         /// </summary>
@@ -107,47 +104,39 @@ namespace ECA.Business.Validation.Sevis.Bio
             RuleFor(visitor => visitor.BirthDate)
                 .NotNull()
                 .WithMessage(BIRTH_DATE_NULL_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new BirthDateErrorPath());
+                .WithState(x => GetBirthDateErrorPath(x));
 
             RuleFor(visitor => visitor.Gender)
                 .NotNull()
                 .WithMessage(GENDER_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new GenderErrorPath())
+                .WithState(x => GetGenderErrorPath(x))
                 .Matches(string.Format("({0}|{1})", Gender.SEVIS_MALE_GENDER_CODE_VALUE, Gender.SEVIS_FEMALE_GENDER_CODE_VALUE))
                 .WithMessage(GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (p) => Gender.SEVIS_MALE_GENDER_CODE_VALUE, (p) => Gender.SEVIS_FEMALE_GENDER_CODE_VALUE)
-                .WithState(x => new GenderErrorPath());
+                .WithState(x => GetGenderErrorPath(x));
 
             RuleFor(visitor => visitor.BirthCity)
                 .NotNull()
                 .WithMessage(CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new CityOfBirthErrorPath())
+                .WithState(x => GetBirthCityErrorPath(x))
                 .Length(1, CITY_MAX_LENGTH)
                 .WithMessage(CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new CityOfBirthErrorPath());
+                .WithState(x => GetBirthCityErrorPath(x));
 
             RuleFor(visitor => visitor.BirthCountryCode)
                 .NotNull()
                 .WithMessage(BIRTH_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new CountryOfBirthErrorPath())
+                .WithState(x => GetBirthCountryCodeErrorPath(x))
                 .Length(COUNTRY_CODE_LENGTH)
                 .WithMessage(BIRTH_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new CountryOfBirthErrorPath());
+                .WithState(x => GetBirthCountryCodeErrorPath(x));
 
             RuleFor(visitor => visitor.CitizenshipCountryCode)
                 .NotNull()
                 .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new CitizenshipErrorPath())
+                .WithState(x => GetCitizenshipCountryCodeErrorPath(x))
                 .Length(COUNTRY_CODE_LENGTH)
                 .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new CitizenshipErrorPath());
-
-            RuleFor(visitor => visitor.PermanentResidenceCountryCode)
-                .NotNull()
-                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (p) => LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
-                .WithState(x => new PermanentResidenceCountryErrorPath())
-                .Length(COUNTRY_CODE_LENGTH)
-                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (p) => LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
-                .WithState(x => new PermanentResidenceCountryErrorPath());
+                .WithState(x => GetCitizenshipCountryCodeErrorPath(x));
 
             When(x => x.EmailAddress != null, () =>
             {
@@ -162,10 +151,10 @@ namespace ECA.Business.Validation.Sevis.Bio
                 RuleFor(x => x.EmailAddress)
                     .EmailAddress()
                     .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
-                    .WithState(x => new EmailErrorPath())
+                    .WithState(x => GetEmailAddressErrorPath(x))
                     .Length(0, EMAIL_MAX_LENGTH)
                     .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
-                    .WithState(x => new EmailErrorPath());
+                    .WithState(x => GetEmailAddressErrorPath(x));
             });
 
             When(x => x.PhoneNumber != null, () =>
@@ -199,7 +188,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                         }
                     })
                     .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, numberTypeDelegate, phoneNumberDelegate, GetPersonTypeDelegate(), GetNameDelegate(), getExampleUSPhoneNumberDelegate)
-                    .WithState(x => new PhoneNumberErrorPath());
+                    .WithState(x => GetPhoneNumberErrorPath(x));
             });
 
             When(x => x.MailAddress != null, () =>
@@ -235,5 +224,61 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         /// <returns>The person type as a string.</returns>
         public abstract string GetPersonType(T instance);
+
+        /// <summary>
+        /// Returns the birth date error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the error path from.</param>
+        /// <returns>The birth date error path.</returns>
+        public abstract ErrorPath GetBirthDateErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the gender error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the gender error path from.</param>
+        /// <returns>The gender error path.</returns>
+        public abstract ErrorPath GetGenderErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the birth city error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the error path from.</param>
+        /// <returns>The birth city error path.</returns>
+        public abstract ErrorPath GetBirthCityErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the birth country error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the error path from.</param>
+        /// <returns>The birth country error path.</returns>
+        public abstract ErrorPath GetBirthCountryCodeErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the citizenship country code error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the citizenship country code error path from.</param>
+        /// <returns>The citizenship country code date error path.</returns>
+        public abstract ErrorPath GetCitizenshipCountryCodeErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the permanenent residence country code error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the error path from.</param>
+        /// <returns>The permanent residence country code error path.</returns>
+        public abstract ErrorPath GetPermanentResidenceCountryCodeErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the email address error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the error path from.</param>
+        /// <returns>The email address error path.</returns>
+        public abstract ErrorPath GetEmailAddressErrorPath(T instance);
+
+        /// <summary>
+        /// Returns the phone number error path.
+        /// </summary>
+        /// <param name="instance">The instance to get the error path from.</param>
+        /// <returns>The phone number error path.</returns>
+        public abstract ErrorPath GetPhoneNumberErrorPath(T instance);
     }
 }

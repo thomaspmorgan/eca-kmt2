@@ -78,13 +78,13 @@ namespace ECA.Business.Service.Persons
         {
             var participant = Context.Participants.Find(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-            
+
             var participantPerson = Context.ParticipantPersons.Find(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
             if (ShouldRunValidation(participant))
             {
-                var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor( projectId, participantId);
+                var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(projectId, participantId);
                 ValidationResult validationResult = exchangeVisitor.Validate(this.ExchangeVisitorValidator);
                 return HandleValidationResult(participantPerson, validationResult);
             }
@@ -108,7 +108,7 @@ namespace ECA.Business.Service.Persons
         {
             var participant = await Context.Participants.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participant, typeof(Participant));
-                        
+
             var participantPerson = await Context.ParticipantPersons.FindAsync(participantId);
             throwIfModelDoesNotExist(participantId, participantPerson, typeof(ParticipantPerson));
 
@@ -156,43 +156,49 @@ namespace ECA.Business.Service.Persons
 
         private async Task<ParticipantPersonSevisCommStatus> HandleValidationResultAsync(ParticipantPerson person, ValidationResult result)
         {
+            person.SevisValidationResult = GetSevisValidationResultAsJson(result);
             if (!result.IsValid)
             {
-                person.SevisValidationResult = JsonConvert.SerializeObject(
-                    new SimpleValidationResult(result),
-                    new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    });
                 var latestCommStatus = await CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefaultAsync();
                 return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
-
             }
             else
             {
-                person.SevisValidationResult = null;
                 return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
             }
         }
 
         private ParticipantPersonSevisCommStatus HandleValidationResult(ParticipantPerson person, ValidationResult result)
         {
+            person.SevisValidationResult = GetSevisValidationResultAsJson(result);
             if (!result.IsValid)
-            {
-                person.SevisValidationResult = JsonConvert.SerializeObject(
-                    new SimpleValidationResult(result),
-                    new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    });
+            {   
                 var latestCommStatus = CreateGetLatestParticipantPersonSevisCommStatusQuery(person.ParticipantId).FirstOrDefault();
                 return AddOrUpdateParticipantPersonSevisCommStatus(latestCommStatus, person.ParticipantId, SevisCommStatus.InformationRequired.Id);
             }
             else
             {
-                person.SevisValidationResult = null;
                 return AddParticipantPersonSevisCommStatus(person.ParticipantId, SevisCommStatus.ReadyToSubmit.Id);
             }
+        }
+
+        private string GetSevisValidationResultAsJson(ValidationResult result)
+        {
+            SimpleValidationResult simpleValidationResult = null;
+            if (result.IsValid)
+            {
+                simpleValidationResult = new SuccessfulValidationResult();
+            }
+            else
+            {
+                simpleValidationResult = new SimpleValidationResult(result);
+            }
+            return JsonConvert.SerializeObject(
+                simpleValidationResult,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
         }
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetLatestParticipantPersonSevisCommStatusQuery(int participantId)
