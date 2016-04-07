@@ -95,6 +95,46 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         {
             return PERSON_TYPE;
         }
+
+        public override ErrorPath GetBirthDateErrorPath(BiographicalTestClass instance)
+        {
+            return new BirthDateErrorPath();
+        }
+
+        public override ErrorPath GetGenderErrorPath(BiographicalTestClass instance)
+        {
+            return new GenderErrorPath();
+        }
+
+        public override ErrorPath GetBirthCityErrorPath(BiographicalTestClass instance)
+        {
+            return new CityOfBirthErrorPath();
+        }
+
+        public override ErrorPath GetBirthCountryCodeErrorPath(BiographicalTestClass instance)
+        {
+            return new CountryOfBirthErrorPath();
+        }
+
+        public override ErrorPath GetCitizenshipCountryCodeErrorPath(BiographicalTestClass instance)
+        {
+            return new CitizenshipErrorPath();
+        }
+
+        public override ErrorPath GetPermanentResidenceCountryCodeErrorPath(BiographicalTestClass instance)
+        {
+            return new PermanentResidenceCountryErrorPath();
+        }
+
+        public override ErrorPath GetEmailAddressErrorPath(BiographicalTestClass instance)
+        {
+            return new EmailErrorPath();
+        }
+
+        public override ErrorPath GetPhoneNumberErrorPath(BiographicalTestClass instance)
+        {
+            return new PhoneNumberErrorPath();
+        }
     }
 
     [TestClass]
@@ -405,64 +445,6 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 String.Format(BiographicalTestClassValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
                 result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
-        }
-
-        #endregion
-
-        #region Permanent Residence Country Code
-
-        [TestMethod]
-        public void TestPermanentResidenceCountryCode_Null()
-        {
-            var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.PermanentResidenceCountryCode = null;
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(
-                String.Format(BiographicalTestClassValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
-                result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
-        }
-
-        [TestMethod]
-        public void TestPermanentResidenceCountryCode_EmptyString()
-        {
-            var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.PermanentResidenceCountryCode = String.Empty;
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(
-                String.Format(BiographicalTestClassValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
-                result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
-        }
-
-        [TestMethod]
-        public void TestPermanentResidenceCountryCode_ExceedsMaxLength()
-        {
-            var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.PermanentResidenceCountryCode = new String('c', BiographicalValidator<BiographicalTestClass>.COUNTRY_CODE_LENGTH + 1);
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(
-                String.Format(BiographicalTestClassValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
-                result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         #endregion

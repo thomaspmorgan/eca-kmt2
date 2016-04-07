@@ -1522,6 +1522,9 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsFalse(results.IsValid);
             Assert.AreEqual(1, results.Errors.Count);
             Assert.AreEqual(ExchangeVisitorValidator.PARTICIPANT_HAS_MORE_THAN_ONE_SPOUSE_DEPENDENT, results.Errors.First().ErrorMessage);
+            Assert.IsInstanceOfType(results.Errors.First().CustomState, typeof(DependentErrorPath));
+            var firstDependentErrorPath = results.Errors.First().CustomState as DependentErrorPath;
+            Assert.AreEqual(dependents.First().PersonId, firstDependentErrorPath.PersonDependentId);
         }
     }
 }

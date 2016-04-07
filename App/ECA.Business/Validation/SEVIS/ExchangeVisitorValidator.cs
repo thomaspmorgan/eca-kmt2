@@ -123,7 +123,7 @@ namespace ECA.Business.Validation.Sevis
                     return d.Where(x => x.IsSpousalDependent()).Count() <= 1;
                 })
                 .WithMessage(PARTICIPANT_HAS_MORE_THAN_ONE_SPOUSE_DEPENDENT)
-                .WithState(x => new DependentErrorPath());
+                .WithState(x => new DependentErrorPath(x.Dependents.Where(d => d.IsSpousalDependent()).Select(d => d.PersonId).First()));
             });
         }
     }

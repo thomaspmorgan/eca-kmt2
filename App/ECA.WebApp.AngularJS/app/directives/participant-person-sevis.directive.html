@@ -2,8 +2,8 @@
     <div class="col-md-12" ng-show="sevisinfo">     
         <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid">
             <div class="col-md-3">
-                <p class="title-label" style="color:red; display:inline-flex;">
-                    <i class="icon material-icons md-18" margin-top: -5px; margin-right: 3px;">warning</i> verification failed
+                <p class="title-label" style="color:red;">
+                    <i class="icon material-icons md-18">warning</i> verification failed
                 </p>
             </div>
             <div class="col-md-9">
@@ -17,21 +17,39 @@
             </div>
         </div>
         <div ng-show="sevisinfo.sevisBatchResult && sevisinfo.sevisBatchResult.length > 0">
-            <div class="col-md-9 col-md-offset-3" style="margin-top:6px">
+            <div class="col-md-3">
+                <p class="title-label" style="color:gray;">
+                    <i class="icon material-icons md-18">warning</i> create by batch failed
+                </p>
+            </div>
+            <div class="col-md-9" style="margin-top:6px">
                 <fieldset style="border:1px solid gray; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
-                        <li ng-repeat="result in sevisinfo.sevisBatchResult track by $index">
+                        <li ng-repeat="result in sevisinfo.sevisBatchResult | orderBy: 'result.errorCode' track by $index">
                             {{result.errorCode}}: {{result.errorMessage}}
                         </li>
                     </ul>
                 </fieldset>
             </div>
         </div>
-        <div ng-show="!sevisinfo.sevisValidationResult && !sevisinfo.sevisBatchResult">
-            <div class="col-md-12 text-left">
-                <p class="title-label" style="color:green; display:inline-flex;">
-                    <i class="material-icons md-dark md-18 pull-right" style="color: green; margin-top: -5px; margin-right: 3px;">check</i> Validation passed
+        <div ng-show="sevisinfo.sevisValidationResult && sevisinfo.sevisValidationResult.isValid && sevisinfo.sevisBatchResult.length == 0">
+            <div class="col-md-3">
+                <p class="title-label" style="color:green;">
+                    <i class="material-icons md-dark md-18" style="color:green;">check</i> Verification passed
                 </p>
+            </div>
+            <div class="col-md-9">
+                &nbsp;
+            </div>
+        </div>
+        <div ng-show="!sevisinfo.sevisValidationResult && !sevisinfo.sevisBatchResult">
+            <div class="col-md-3 text-left">
+                <p class="title-label">
+                    No verification results
+                </p>
+            </div>
+            <div class="col-md-9">
+                &nbsp;
             </div>
         </div>
     </div>
