@@ -3318,7 +3318,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetBiographicalDataQuery_CheckUsesPrimaryAddressHomeForPermanentResidenceAddress()
+        public void TestCreateGetBiographicalDataQuery_HasMoreThanOneHomeAddress()
         {
             var countryOfCitizenship = new Location
             {
@@ -3445,11 +3445,12 @@ namespace ECA.Business.Test.Queries.Persons
             var result = ExchangeVisitorQueries.CreateGetBiographicalDataQuery(context).ToList();
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
-            Assert.AreEqual(residenceAddress.AddressId, biography.PermanentResidenceAddressId);
+            Assert.IsNull(biography.PermanentResidenceAddressId);
+            Assert.IsNull(biography.PermanentResidenceCountryCode);
         }
 
         [TestMethod]
-        public void TestCreateGetBiographicalDataQuery_CheckIsNotUSCountryAddressForPermanentResidenceAddress()
+        public void TestCreateGetBiographicalDataQuery_CheckAddressForPermanentResidenceAddressMustNotBeInUS()
         {
             var countryOfCitizenship = new Location
             {
@@ -3581,7 +3582,7 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetBiographicalDataQuery_CheckIsHostAddressForPermanentResidenceAddress()
+        public void TestCreateGetBiographicalDataQuery_CheckIsHomeAddressForPermanentResidenceAddress()
         {
             var countryOfCitizenship = new Location
             {

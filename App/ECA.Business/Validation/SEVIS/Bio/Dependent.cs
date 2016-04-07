@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Sevis.Model;
 using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
@@ -132,6 +133,24 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets or sets the relationship.
         /// </summary>
         public string Relationship { get; set; }
+
+        /// <summary>
+        /// Returns true, if the relationship has a value and its the dependent code time 01.
+        /// </summary>
+        /// <returns>True, if the relationship has a value and its the dependent code time 01.</returns>
+        public bool IsSpousalDependent()
+        {
+            return !String.IsNullOrWhiteSpace(this.Relationship) && this.Relationship.GetDependentCodeType() == DependentCodeType.Item01;
+        }
+
+        /// <summary>
+        /// Returns true, if the relationship has a value and its the dependent code time 02.
+        /// </summary>
+        /// <returns>True, if the relationship has a value and its the dependent code time 02.</returns>
+        public bool IsChildDependent()
+        {
+            return !String.IsNullOrWhiteSpace(this.Relationship) && this.Relationship.GetDependentCodeType() == DependentCodeType.Item02;
+        }
 
         /// <summary>
         /// Returns the age of this dependent, or -1 if the birthdate is null.

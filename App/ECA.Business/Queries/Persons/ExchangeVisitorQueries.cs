@@ -71,12 +71,17 @@ namespace ECA.Business.Queries.Persons
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
-                        let residenceAddress = addressQuery
+                        let residenceAddressQuery = addressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
                             .Where(x => x.Country != unitedStatesCountryName)
                             .Where(x => x.AddressTypeId == homeAddressTypeId)
-                            .OrderByDescending(x => x.IsPrimary)
-                            .FirstOrDefault()
+
+                        let residenceAddressesCount = addressQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.AddressTypeId == homeAddressTypeId)
+                            .Count()
+                        let residenceAddress = residenceAddressesCount == 1 ? residenceAddressQuery.FirstOrDefault() : null
+
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
                         let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null

@@ -3,6 +3,8 @@ using ECA.Data;
 using FluentValidation;
 using System.Text.RegularExpressions;
 using System;
+using ECA.Business.Service.Admin;
+using ECA.Business.Validation.Sevis.Exceptions;
 
 namespace ECA.Business.Validation.Sevis.Bio
 {
@@ -54,6 +56,16 @@ namespace ECA.Business.Validation.Sevis.Bio
         public const string EMAIL_ADDRESS_REQUIRED_FORMAT_MESSAGE = "A '{0}' email address is required for the participant.";
 
         /// <summary>
+        /// The error message to format when a permanent residence country is not specified via a home address.
+        /// </summary>
+        public static string PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE = "The Permanent Residence Country is required for the {0}, {1}.  Add one and only one '{2}' address that is outside of the {3}.";
+
+        /// <summary>
+        /// The error message to format when a permanent residence country is not supported by sevis.
+        /// </summary>
+        public static string PERMANENT_RESIDENCE_COUNTRY_NOT_SUPPORTED = "The Permanent Residence Country Code '{0}' is not supported for the {1}, {2}.  Please update the '{3}' address.";
+
+        /// <summary>
         /// The person type for the Participant.
         /// </summary>
         public const string PERSON_TYPE = "participant";
@@ -64,6 +76,8 @@ namespace ECA.Business.Validation.Sevis.Bio
         public PersonValidator()
             : base()
         {
+            Func<Person, object> addressTypeDelegate = (p) => AddressType.Home.Value;
+
             RuleFor(x => x.ProgramCategoryCode)
                 .NotNull()
                 .WithMessage(CATEGORY_CODE_REQUIRED_ERROR_MESSAGE)
@@ -95,6 +109,30 @@ namespace ECA.Business.Validation.Sevis.Bio
                 .NotNull()
                 .WithMessage(VISITING_PHONE_REQUIRED_ERROR_MESSAGE, (p) => Data.PhoneNumberType.Visiting.Value, GetPersonTypeDelegate(), GetNameDelegate())
                 .WithState(x => new PhoneNumberErrorPath());
+
+            RuleFor(visitor => visitor.PermanentResidenceCountryCode)
+                .NotNull()
+                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), addressTypeDelegate, (p) => LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME)
+                .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
+
+            When(x => x.PermanentResidenceCountryCode != null, () =>
+            {
+                RuleFor(x => x.PermanentResidenceCountryCode)
+                .Must((code) =>
+                {
+                    try
+                    {
+                        var codeType = code.GetCountryCodeWithType();
+                        return true;
+                    }
+                    catch (CodeTypeConversionException)
+                    {
+                        return false;
+                    }
+                })
+                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_NOT_SUPPORTED, (p) => p.PermanentResidenceCountryCode, GetPersonTypeDelegate(), GetNameDelegate(), addressTypeDelegate)
+                .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
+            });
         }
 
         /// <summary>
@@ -117,6 +155,86 @@ namespace ECA.Business.Validation.Sevis.Bio
         public override string GetPersonType(Person instance)
         {
             return PERSON_TYPE;
+        }
+
+        /// <summary>
+        /// Returns the birth date error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetBirthDateErrorPath(Person instance)
+        {
+            return new BirthDateErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the gender error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetGenderErrorPath(Person instance)
+        {
+            return new GenderErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the birth city error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetBirthCityErrorPath(Person instance)
+        {
+            return new CityOfBirthErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the birth country code error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetBirthCountryCodeErrorPath(Person instance)
+        {
+            return new CountryOfBirthErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the citizneship country code error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetCitizenshipCountryCodeErrorPath(Person instance)
+        {
+            return new CitizenshipErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the birth date error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetPermanentResidenceCountryCodeErrorPath(Person instance)
+        {
+            return new PermanentResidenceCountryErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the email address error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetEmailAddressErrorPath(Person instance)
+        {
+            return new EmailErrorPath();
+        }
+
+        /// <summary>
+        /// Returns the phone number error path.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>The error path.</returns>
+        public override ErrorPath GetPhoneNumberErrorPath(Person instance)
+        {
+            return new PhoneNumberErrorPath();
         }
     }
 }

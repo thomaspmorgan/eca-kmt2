@@ -395,10 +395,10 @@ namespace ECA.Business.Service.Sevis
             var update = new Update(user);
             update.SetHistory(participantPerson);
             //sevis was successful
+            participantPerson.SevisBatchResult = GetSevisBatchResultTypeAsJson(result);
             if (result.status)
             {
                 participantPerson.SevisId = record.sevisID;
-                participantPerson.SevisBatchResult = null;
                 if (record.Dependent != null)
                 {
                     foreach (var processedDependent in record.Dependent)
@@ -411,10 +411,6 @@ namespace ECA.Business.Service.Sevis
                         UpdateDependent(user, processedDependent, dependentToUpdateQuery);
                     }
                 }
-            }//sevis was not successful
-            else
-            {
-                participantPerson.SevisBatchResult = GetSevisBatchErrorResultAsJson(result);
             }
         }
 
@@ -439,12 +435,17 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="resultType">The result type.</param>
         /// <returns>The json string.</returns>
-        public string GetSevisBatchErrorResultAsJson(ResultType resultType)
+        public string GetSevisBatchResultTypeAsJson(ResultType resultType)
         {
-            var instance = new SimpleSevisBatchErrorResult();
-            instance.ErrorCode = resultType.ErrorCode;
-            instance.ErrorMessage = resultType.ErrorMessage;
-            return JsonConvert.SerializeObject(new List<SimpleSevisBatchErrorResult> { instance }, GetSerializerSettings());
+            var list = new List<SimpleSevisBatchErrorResult>();
+            if (!resultType.status)
+            {
+                var instance = new SimpleSevisBatchErrorResult();
+                instance.ErrorCode = resultType.ErrorCode;
+                instance.ErrorMessage = resultType.ErrorMessage;
+                list.Add(instance);
+            }
+            return JsonConvert.SerializeObject(list, GetSerializerSettings());
         }
 
         /// <summary>
