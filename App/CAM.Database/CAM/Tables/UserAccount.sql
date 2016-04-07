@@ -2,6 +2,7 @@
 (
 	[PrincipalId] INT NOT NULL PRIMARY KEY, 
     [AdGuid] UNIQUEIDENTIFIER NOT NULL, 
+	[SevisUsername] NVARCHAR(10) NULL, 
     [LastAccessed] DATETIMEOFFSET NULL, 
     [CreatedOn] DATETIMEOFFSET NOT NULL, 
     [CreatedBy] INT NOT NULL, 

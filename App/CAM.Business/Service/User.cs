@@ -77,5 +77,10 @@ namespace CAM.Business.Service
         /// Gets or sets the email address.
         /// </summary>
         public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis user name.
+        /// </summary>
+        public string SevisUsername { get; set; }
     }
 }

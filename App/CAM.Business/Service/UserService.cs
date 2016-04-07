@@ -120,7 +120,8 @@ namespace CAM.Business.Service
                     PrincipalId = x.PrincipalId,
                     RestoredDate = x.RestoredDate,
                     RevokedDate = x.RevokedDate,
-                    SuspendedDate = x.SuspendedDate
+                    SuspendedDate = x.SuspendedDate,
+                    SevisUsername = x.SevisUsername
                 });
         }
 

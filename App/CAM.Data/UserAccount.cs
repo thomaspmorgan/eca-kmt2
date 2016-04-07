@@ -27,6 +27,12 @@ namespace CAM.Data
         public int PrincipalId { get; set; }
 
         /// <summary>
+        /// Gets or sets the sevis user name.
+        /// </summary>
+        [MaxLength(10)]
+        public string SevisUsername { get; set; }
+
+        /// <summary>
         /// Gets or sets the azure active directory GUID.
         /// </summary>
         public Guid AdGuid { get; set; }

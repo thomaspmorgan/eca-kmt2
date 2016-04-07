@@ -198,6 +198,7 @@ namespace CAM.Business.Test.Service
             userAccount.RevisedBy = 2;
             userAccount.RevisedOn = revisedOnDate;
             userAccount.RevokedDate = revokedDate;
+            userAccount.SevisUsername = "sevis username";
 
             userAccount.AccountStatus = accountStatus;
 
@@ -218,6 +219,7 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(userAccount.RestoredDate, u.RestoredDate);
                 Assert.AreEqual(userAccount.RevokedDate, u.RevokedDate);
                 Assert.AreEqual(userAccount.SuspendedDate, u.SuspendedDate);
+                Assert.AreEqual(userAccount.SevisUsername, u.SevisUsername);
             };
             var result = service.GetUserById(id);
             var resultAsync = await service.GetUserByIdAsync(id);
@@ -263,6 +265,7 @@ namespace CAM.Business.Test.Service
             userAccount.RevisedBy = 2;
             userAccount.RevisedOn = revisedOnDate;
             userAccount.RevokedDate = revokedDate;
+            userAccount.SevisUsername = "sevis username";
 
             userAccount.AccountStatus = accountStatus;
 
@@ -283,6 +286,7 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(userAccount.RestoredDate, u.RestoredDate);
                 Assert.AreEqual(userAccount.RevokedDate, u.RevokedDate);
                 Assert.AreEqual(userAccount.SuspendedDate, u.SuspendedDate);
+                Assert.AreEqual(userAccount.SevisUsername, u.SevisUsername);
             };
             var result = service.GetUserById(userAccount.PrincipalId);
             var resultAsync = await service.GetUserByIdAsync(userAccount.PrincipalId);
