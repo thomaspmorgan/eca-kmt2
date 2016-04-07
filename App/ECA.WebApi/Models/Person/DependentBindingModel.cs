@@ -105,8 +105,8 @@ namespace ECA.WebApi.Models.Person
                 dateOfBirth: DateOfBirth,
                 placeOfBirthId: PlaceOfBirthId,
                 placeOfResidenceId: PlaceOfResidenceId,
-                emailAddress: EmailAddress,
                 birthCountryReasonId: BirthCountryReasonId,
+                emailAddress: EmailAddress,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 isTravelWithParticipant: IsTravellingWithParticipant);
         }

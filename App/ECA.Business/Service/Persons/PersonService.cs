@@ -294,10 +294,18 @@ namespace ECA.Business.Service.Persons
                 countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
             }
 
-            var emails = new List<EmailAddress>();
+            var emails = await Context.EmailAddresses.Where(x => x.DependentId == updatedDependent.DependentId).ToListAsync();
             if (!string.IsNullOrEmpty(updatedDependent.EmailAddress))
             {
-                emails = await Context.EmailAddresses.Where(x => x.DependentId == updatedDependent.DependentId).ToListAsync();
+                var email = new EmailAddress
+                {
+                    EmailAddressTypeId = EmailAddressType.Personal.Id,
+                    Address = updatedDependent.EmailAddress,
+                    IsPrimary = true,
+                    DependentId = updatedDependent.DependentId
+                };
+                emails.Clear();
+                emails.Add(email);
             }
 
             DoDependentUpdate(updatedDependent, personToUpdate, countriesOfCitizenship, emails);
@@ -358,14 +366,14 @@ namespace ECA.Business.Service.Persons
         {
             if (dependentToDelete != null)
             {
-                if (dependentToDelete.CountriesOfCitizenship != null)
-                {
-                    var countriesOfCitizenship = Context.PersonDependentCitizenCountries.Where(x => x.DependentId == dependentToDelete.DependentId);
-                    foreach(var citizenCountry in countriesOfCitizenship)
-                    {
-                        Context.PersonDependentCitizenCountries.Remove(citizenCountry);
-                    }
-                }
+                //if (dependentToDelete.CountriesOfCitizenship != null)
+                //{
+                //    var countriesOfCitizenship = Context.PersonDependentCitizenCountries.Where(x => x.DependentId == dependentToDelete.DependentId);
+                //    foreach(var citizenCountry in countriesOfCitizenship)
+                //    {
+                //        Context.PersonDependentCitizenCountries.Remove(citizenCountry);
+                //    }
+                //}
                 var email = dependentToDelete.EmailAddresses.FirstOrDefault();
                 if (email != null)
                 {

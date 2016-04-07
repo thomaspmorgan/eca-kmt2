@@ -255,11 +255,6 @@ namespace ECA.Data
         public DbSet<PersonDependent> PersonDependents { get; set; }
 
         /// <summary>
-        /// Gets or sets dependent citizenship countries
-        /// </summary>
-        public DbSet<PersonDependentCitizenCountry> PersonDependentCitizenCountries { get; set; }
-
-        /// <summary>
         /// Gets or sets EvaluationNotes for a Person
         /// </summary>
         public DbSet<PersonEvaluationNote> PersonEvaluationNotes { get; set; }
