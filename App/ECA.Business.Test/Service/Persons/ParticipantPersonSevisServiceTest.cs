@@ -6,8 +6,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ECA.Business.Service;
-using ECA.Core.Exceptions;
 using Moq;
 
 namespace ECA.Business.Test.Service.Persons
@@ -16,7 +14,6 @@ namespace ECA.Business.Test.Service.Persons
     public class ParticipantPersonSevisServiceTest
     {
         private TestEcaContext context;
-        private Mock<IExchangeVisitorService> exchangeVisitorService;
         private ParticipantPersonsSevisService sevisService;
 
         [TestInitialize]
@@ -177,7 +174,6 @@ namespace ECA.Business.Test.Service.Persons
             response = sevisService.SendToSevis(projectId, null);
             afterTester(response);
         }
-
 
         [TestMethod]
         public async Task TestSendToSevis_IncorrectStatus()

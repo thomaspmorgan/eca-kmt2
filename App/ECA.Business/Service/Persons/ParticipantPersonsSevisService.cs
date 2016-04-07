@@ -166,7 +166,6 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsValidatedViaRTI = updatedParticipantPersonSevis.IsValidatedViaRTI;
             participantPerson.IsCancelled = updatedParticipantPersonSevis.IsCancelled;
             participantPerson.IsDS2019Printed = updatedParticipantPersonSevis.IsDS2019Printed;
-            participantPerson.IsNeedsUpdate = updatedParticipantPersonSevis.IsNeedsUpdate;
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;

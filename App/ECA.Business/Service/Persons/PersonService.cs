@@ -600,6 +600,17 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Get existing dependent
+        /// </summary>
+        /// <param name="newDependent">The dependent to lookup</param>
+        /// <returns>The dependent found</returns>
+        public async Task<PersonDependent> GetExistingDependentAsync(NewPersonDependent newDependent)
+        {
+            this.logger.Trace("Retrieving dependent {0}.", newDependent);
+            return await CreateGetDependent(newDependent.FirstName, newDependent.LastName, newDependent.GenderId, newDependent.DateOfBirth, newDependent.PlaceOfBirthId).FirstOrDefaultAsync();
+        }
+        
+        /// <summary>
         /// Get existing person 
         /// </summary>
         /// <param name="pii">The pii to lookup</param>
@@ -654,6 +665,28 @@ namespace ECA.Business.Service.Persons
                     );
         }
 
+        /// <summary>
+        /// Creates get dependent query
+        /// </summary>
+        /// <param name="firstName">The first name</param>
+        /// <param name="lastName">The last name</param>
+        /// <param name="genderId">The gender id</param>
+        /// <param name="dateOfBirth">The date of birth</param>
+        /// <param name="cityOfBirthId">The city of birth id</param>
+        /// <returns></returns>
+        private IQueryable<PersonDependent> CreateGetDependent(string firstName, string lastName, int genderId, DateTime dateOfBirth, int cityOfBirthId)
+        {
+            return Context.PersonDependents.Where(
+                    x => x.FirstName.ToLower().Trim() == firstName.ToLower().Trim() &&
+                         x.LastName.ToLower().Trim() == lastName.ToLower().Trim() &&
+                         x.GenderId == genderId &&
+                         x.DateOfBirth.Day == dateOfBirth.Day &&
+                         x.DateOfBirth.Month == dateOfBirth.Month &&
+                         x.DateOfBirth.Year == dateOfBirth.Year &&
+                         x.PlaceOfBirthId == cityOfBirthId
+                    );
+        }
+        
         /// <summary>
         /// Gets the project by id asyncronously
         /// </summary>

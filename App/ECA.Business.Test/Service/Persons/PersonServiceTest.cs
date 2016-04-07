@@ -1484,6 +1484,8 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         #region Create
+
+        #region Person
         [TestMethod]
         public async Task TestCreateAsync_CheckProperties()
         {
@@ -1896,59 +1898,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
-        public async Task TestCreateDependentAsync_CheckProperties()
-        {
-            var user = new User(1);
-            int personId = 1;
-            int dependentTypeId = DependentType.Spouse.Id;
-            var firstName = "first";
-            var lastName = "last";
-            var suffix = "jr";
-            var passport = "first last";
-            var preferred = "first last";
-            var gender = Gender.Female.Id;
-            var dateOfBirth = DateTime.Now;
-            int placeOfBirth = 193;
-            var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
-            var emailAddress = "test@test.com";
-            var countriesOfCitizenship = new List<int>();
-            var countryResidence = 193;
-            bool isTravellingWithParticipant = true;
-
-            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
-                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
-                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
-                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
-
-            Action<PersonDependent> tester = (testPerson) =>
-            {
-                Assert.AreEqual(newPerson.PersonId, testPerson.PersonId);
-                Assert.AreEqual(newPerson.DependentTypeId, testPerson.DependentTypeId);
-                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
-                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
-                Assert.AreEqual(newPerson.NameSuffix, testPerson.NameSuffix);
-                Assert.AreEqual(newPerson.PassportName, testPerson.PassportName);
-                Assert.AreEqual(newPerson.PreferredName, testPerson.PreferredName);
-                Assert.AreEqual(newPerson.GenderId, testPerson.GenderId);
-                Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
-                Assert.AreEqual(newPerson.PlaceOfBirthId, testPerson.PlaceOfBirthId);
-                Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
-                Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
-                Assert.AreEqual(newPerson.EmailAddress, testPerson.EmailAddresses.Select(x => x.Address).FirstOrDefault());
-                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
-                Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
-
-                Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
-                Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
-            };
-            context.Revert();
-            var person = await service.CreateDependentAsync(newPerson);
-            tester(person);
-        }
-
-        [TestMethod]
         public async Task TestCreateAsync_CityOfBirth()
         {
             var city = new Location
@@ -2268,6 +2217,181 @@ namespace ECA.Business.Test.Service.Persons
             var person = await service.GetExistingPersonAsync(newPerson);
             Assert.IsNotNull(person);
         }
+
+        #endregion
+
+        #region Dependent
+
+        [TestMethod]
+        public async Task TestCreateDependentAsync_CheckProperties()
+        {
+            var user = new User(1);
+            int personId = 1;
+            int dependentTypeId = DependentType.Spouse.Id;
+            var firstName = "first";
+            var lastName = "last";
+            var suffix = "jr";
+            var passport = "first last";
+            var preferred = "first last";
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            int placeOfBirth = 193;
+            var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
+            var emailAddress = "test@test.com";
+            var countriesOfCitizenship = new List<int>();
+            var countryResidence = 193;
+            bool isTravellingWithParticipant = true;
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
+                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
+                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+
+            Action<PersonDependent> tester = (testPerson) =>
+            {
+                Assert.AreEqual(newPerson.PersonId, testPerson.PersonId);
+                Assert.AreEqual(newPerson.DependentTypeId, testPerson.DependentTypeId);
+                Assert.AreEqual(newPerson.FirstName, testPerson.FirstName);
+                Assert.AreEqual(newPerson.LastName, testPerson.LastName);
+                Assert.AreEqual(newPerson.NameSuffix, testPerson.NameSuffix);
+                Assert.AreEqual(newPerson.PassportName, testPerson.PassportName);
+                Assert.AreEqual(newPerson.PreferredName, testPerson.PreferredName);
+                Assert.AreEqual(newPerson.GenderId, testPerson.GenderId);
+                Assert.AreEqual(newPerson.DateOfBirth, testPerson.DateOfBirth);
+                Assert.AreEqual(newPerson.PlaceOfBirthId, testPerson.PlaceOfBirthId);
+                Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
+                Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
+                Assert.AreEqual(newPerson.EmailAddress, testPerson.EmailAddresses.Select(x => x.Address).FirstOrDefault());
+                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+                Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
+
+                Assert.AreEqual(user.Id, testPerson.History.CreatedBy);
+                Assert.AreEqual(user.Id, testPerson.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.CreatedOn, 20000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(testPerson.History.RevisedOn, 20000);
+            };
+            context.Revert();
+            var person = await service.CreateDependentAsync(newPerson);
+            tester(person);
+        }
+
+        [TestMethod]
+        public async Task TestCreateDependentAsync_CityOfBirth()
+        {
+            var city = new Location
+            {
+                LocationId = 1
+            };
+            
+            var user = new User(1);
+            int personId = 1;
+            int dependentTypeId = DependentType.Spouse.Id;
+            var firstName = "first";
+            var lastName = "last";
+            var suffix = "jr";
+            var passport = "first last";
+            var preferred = "first last";
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            int placeOfBirth = city.LocationId;
+            var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
+            var emailAddress = "test@test.com";
+            var countriesOfCitizenship = new List<int>();
+            var countryResidence = 193;
+            bool isTravellingWithParticipant = true;
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
+                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
+                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(city);
+            });
+            Action<PersonDependent> tester = (testPerson) =>
+            {
+                Assert.AreEqual(city.LocationId, testPerson.PlaceOfBirthId);
+            };
+            context.Revert();
+            var person = await service.CreateDependentAsync(newPerson);
+            tester(person);
+        }
+        
+        [TestMethod]
+        public async Task TestCreateDependentAsync_CountriesOfCitizenship()
+        {
+            var country = new Location
+            {
+                LocationId = 2
+            };
+            
+            var user = new User(1);
+            int personId = 1;
+            int dependentTypeId = DependentType.Spouse.Id;
+            var firstName = "first";
+            var lastName = "last";
+            var suffix = "jr";
+            var passport = "first last";
+            var preferred = "first last";
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            int placeOfBirth = 5;
+            var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
+            var emailAddress = "test@test.com";
+            var countriesOfCitizenship = new List<int> { country.LocationId };
+            var countryResidence = 193;
+            bool isTravellingWithParticipant = true;
+
+            var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
+                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
+                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+
+            context.SetupActions.Add(() =>
+            {
+                context.Locations.Add(country);
+            });
+            Action<PersonDependent> tester = (testPerson) =>
+            {
+                CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+            };
+            context.Revert();
+            var person = await service.CreateDependentAsync(newPerson);
+            tester(person);
+        }
+        
+        [TestMethod]
+        public async Task TestGetExistingDependentAsync_DoesNotExist()
+        {
+            var user = new User(1);
+            int personId = 1;
+            int dependentTypeId = DependentType.Spouse.Id;
+            var firstName = "first";
+            var lastName = "last";
+            var suffix = "jr";
+            var passport = "first last";
+            var preferred = "first last";
+            var gender = Gender.Female.Id;
+            var dateOfBirth = DateTime.Now;
+            int placeOfBirth = 193;
+            var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
+            var emailAddress = "test@test.com";
+            var countriesOfCitizenship = new List<int>();
+            var countryResidence = 193;
+            bool isTravellingWithParticipant = true;
+
+            var newDependent = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
+                firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
+                dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
+                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+            
+            var dependent = await service.GetExistingDependentAsync(newDependent);
+            Assert.IsNull(dependent);
+        }
+        
+        #endregion
+
         #endregion
 
         #region Update
