@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Create Fulbright Person Data"
   DTS:PackageType="5"
-  DTS:VersionBuild="57"
-  DTS:VersionGUID="{08AF219A-4FDF-4263-A1B0-1E1FBFBEC278}">
+  DTS:VersionBuild="59"
+  DTS:VersionGUID="{492AD01F-69D5-4355-AC47-04EEB2F6574E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -2865,6 +2865,12 @@ where [refTable].[CountryCode] = ?</property>
                       cachedLength="255"
                       cachedName="Birth Country Name"
                       lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Birth Country Name]" />
+                    <inputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Convert Birth Dates to DATE Type.Inputs[Data Conversion Input].Columns[Ethnicity]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Ethnicity"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Ethnicity]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -2912,6 +2918,27 @@ where [refTable].[CountryCode] = ?</property>
                           dataType="System.Int32"
                           description="Specifies the input column used as the source of data for the conversion."
                           name="SourceInputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Birth Country Name]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Convert Birth Dates to DATE Type.Outputs[Data Conversion Output].Columns[Ethnicity100]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Convert Birth Dates to DATE Type.Outputs[Data Conversion Output].Columns[Ethnicity100]"
+                      name="Ethnicity100"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Ethnicity]}</property>
                         <property
                           dataType="System.Boolean"
                           description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -4251,6 +4278,15 @@ where [refTable].[CountryCode] = ?</property>
                       lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Record Is Valid]"
                       name="Record Is Valid"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Person_Id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].ExternalColumns[Person_Id]"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Person_Id]"
+                      name="Person_Id"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -4719,6 +4755,10 @@ where [refTable].[CountryCode] = ?</property>
                       refId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].ExternalColumns[Record Is Valid]"
                       dataType="bool"
                       name="Record Is Valid" />
+                    <externalMetadataColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].ExternalColumns[Person_Id]"
+                      dataType="i4"
+                      name="Person_Id" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -5287,6 +5327,11 @@ where [refTable].[CountryCode] = ?</property>
                       lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Error Output].Columns[Record Is Valid]"
                       name="Record Is Valid" />
                     <outputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Error Output].Columns[Person_Id]"
+                      dataType="i4"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Error Output].Columns[Person_Id]"
+                      name="Person_Id" />
+                    <outputColumn
                       refId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
                       lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
@@ -5375,13 +5420,6 @@ where [refTable].[CountryCode] = ?</property>
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
-                    <inputColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].Columns[Ethnicity]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="Ethnicity"
-                      externalMetadataColumnId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[Ethnicity]"
-                      lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Ethnicity]" />
                     <inputColumn
                       refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].Columns[First Name]"
                       cachedDataType="wstr"
@@ -5479,11 +5517,18 @@ where [refTable].[CountryCode] = ?</property>
                       externalMetadataColumnId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[HasContactAgreement]"
                       lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[HasContactAgreement]" />
                     <inputColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].Columns[KMT_PersonTypeId]"
+                      refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].Columns[Fulbright_Person_Id]"
                       cachedDataType="i4"
-                      cachedName="KMT_PersonTypeId"
-                      externalMetadataColumnId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[PersonTypeId]"
-                      lineageId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Match Output].Columns[KMT_PersonTypeId]" />
+                      cachedName="Fulbright_Person_Id"
+                      externalMetadataColumnId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[Fulbright_PersonId]"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Fulbright_Person_Id]" />
+                    <inputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].Columns[Ethnicity100]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Ethnicity100"
+                      externalMetadataColumnId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[Ethnicity]"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Ethnicity100]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -5622,14 +5667,14 @@ where [refTable].[CountryCode] = ?</property>
                       length="32"
                       name="IVLP_PersonId" />
                     <externalMetadataColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[PersonTypeId]"
-                      dataType="i4"
-                      name="PersonTypeId" />
-                    <externalMetadataColumn
                       refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[CE_PersonId]"
                       dataType="wstr"
                       length="32"
                       name="CE_PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Insert Person Record.Inputs[OLE DB Destination Input].ExternalColumns[Fulbright_PersonId]"
+                      dataType="i4"
+                      name="Fulbright_PersonId" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -6920,165 +6965,6 @@ where [refTable].[Status] = ?</property>
                       refId="Package\Create Fulbright Person Data (Completed)\Lookup KMT Marital Status ID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Create Fulbright Person Data (Completed)\Lookup KMT Marital Status ID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup PersonTypeId"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[PersonType]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[PersonType]) [refTable]
-where [refTable].[Name] = ?</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PersonTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="150" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[PersonTypeName]};</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="{204B92D5-8803-435E-BD72-31B0A75771F0}:external"
-                  connectionManagerRefId="Project.ConnectionManagers[ECA_KMT_DB]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]"
-                  name="Lookup Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Inputs[Lookup Input].Columns[PersonTypeName]"
-                      cachedDataType="wstr"
-                      cachedLength="11"
-                      cachedName="PersonTypeName"
-                      lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[PersonTypeName]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">Name</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
-                  exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Match Output].Columns[KMT_PersonTypeId]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Match Output].Columns[KMT_PersonTypeId]"
-                      name="KMT_PersonTypeId"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">PersonTypeId</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -8837,6 +8723,33 @@ where [refTable].[CountryCode] = ?</property>
                           name="OutputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[PersonTypeName]}</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Union All.Inputs[Union All Input 1].Columns[Person_Id]"
+                      cachedDataType="i4"
+                      cachedName="Person_Id"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Person_Id]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Fulbright_Person_Id]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Union All.Inputs[Union All Input 1].Columns[Ethnicity100]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Ethnicity100"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Convert Birth Dates to DATE Type.Outputs[Data Conversion Output].Columns[Ethnicity100]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Ethnicity100]}</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -10352,6 +10265,33 @@ where [refTable].[CountryCode] = ?</property>
                           name="OutputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[PersonTypeName]}</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Union All.Inputs[Union All Input 2].Columns[Person_Id]"
+                      cachedDataType="i4"
+                      cachedName="Person_Id"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Fulbright Dataset 2.Outputs[OLE DB Source Output].Columns[Person_Id]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Fulbright_Person_Id]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Union All.Inputs[Union All Input 2].Columns[Ethnicity100]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Ethnicity100"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Convert Birth Dates to DATE Type.Outputs[Data Conversion Output].Columns[Ethnicity100]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Ethnicity100]}</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -11003,6 +10943,17 @@ where [refTable].[CountryCode] = ?</property>
                       length="11"
                       lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[PersonTypeName]"
                       name="PersonTypeName" />
+                    <outputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Fulbright_Person_Id]"
+                      dataType="i4"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Fulbright_Person_Id]"
+                      name="Fulbright_Person_Id" />
+                    <outputColumn
+                      refId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Ethnicity100]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Create Fulbright Person Data (Completed)\Union All.Outputs[Union All Output 1].Columns[Ethnicity100]"
+                      name="Ethnicity100" />
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -11062,14 +11013,9 @@ where [refTable].[CountryCode] = ?</property>
               startId="Package\Create Fulbright Person Data (Completed)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create Fulbright Person Data (Completed).Paths[Lookup Match Output6]"
-              endId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Fulbright Person Data (Completed)\Lookup Birth City.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Fulbright Person Data (Completed).Paths[Lookup Match Output7]"
               endId="Package\Create Fulbright Person Data (Completed)\Convert Fulbright DateOfBirth.Inputs[Data Conversion Input]"
               name="Lookup Match Output"
-              startId="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId.Outputs[Lookup Match Output]" />
+              startId="Package\Create Fulbright Person Data (Completed)\Lookup Birth City.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create Fulbright Person Data (Completed).Paths[Lookup No Match Output]"
               endId="Package\Create Fulbright Person Data (Completed)\Set KMT Birth CountryId to NULL.Inputs[Derived Column Input]"
@@ -21855,115 +21801,115 @@ where [refTable].[CountryCode] = ?</property>
               name="Data Conversion Output"
               startId="Package\Create Participant Records (In Progress)\Data type Conversions.Outputs[Data Conversion Output]" />
             <path
-              refId="Package\Create Participant Records (In Progress).Paths[Derived Column Output2]"
+              refId="Package\Create Participant Records (In Progress).Paths[Derived Column Output]"
               endId="Package\Create Participant Records (In Progress)\Union All.Inputs[Union All Input 1]"
               name="Derived Column Output"
               startId="Package\Create Participant Records (In Progress)\Set KMT Birth CountryId to NULL.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Create Participant Records (In Progress).Paths[Derived Column Output]"
+              refId="Package\Create Participant Records (In Progress).Paths[Derived Column Output1]"
               endId="Package\Create Participant Records (In Progress)\Data type Conversions.Inputs[Data Conversion Input]"
               name="Derived Column Output"
               startId="Package\Create Participant Records (In Progress)\Derived Column.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Create Participant Records (In Progress).Paths[Derived Column Output1]"
+              refId="Package\Create Participant Records (In Progress).Paths[Derived Column Output2]"
               endId="Package\Create Participant Records (In Progress)\Lookup ParticipantStatusId.Inputs[Lookup Input]"
               name="Derived Column Output"
               startId="Package\Create Participant Records (In Progress)\Set ParticipantStatusName (default Alumni).Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output18]"
+              endId="Package\Create Participant Records (In Progress)\Lookup KMT ProjectId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT ProgramId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output17]"
+              endId="Package\Create Participant Records (In Progress)\Lookup KMT ParentProgramID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT PersonId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output16]"
+              endId="Package\Create Participant Records (In Progress)\Lookup Home Institution AddressId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup Host InstitutionId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output15]"
+              endId="Package\Create Participant Records (In Progress)\Lookup Host InstitutionId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup Home InstitutionId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output14]"
+              endId="Package\Create Participant Records (In Progress)\Lookup Birth Country Type ID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT Marital Status ID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output13]"
+              endId="Package\Create Participant Records (In Progress)\Lookup SEVIS Birth Country ID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup Birth Country Type ID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output12]"
+              endId="Package\Create Participant Records (In Progress)\Lookup Existing Participant.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup ParticipantStatusId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output11]"
+              endId="Package\Create Participant Records (In Progress)\Lookup KMT Birth Country.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup SEVIS Birth Country ID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output10]"
+              endId="Package\Create Participant Records (In Progress)\Convert Fulbright DateOfBirth.Inputs[Data Conversion Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup PersonTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output9]"
+              endId="Package\Create Participant Records (In Progress)\Lookup ParticipantTypeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT ProjectId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output8]"
+              endId="Package\Create Participant Records (In Progress)\Lookup ParticipantPerson.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT ParticipantId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output7]"
+              endId="Package\Create Participant Records (In Progress)\Lookup KMT ProgramId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT ParentProgramID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output6]"
+              endId="Package\Create Participant Records (In Progress)\Union All.Inputs[Union All Input 3]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT Birth Country.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output5]"
+              endId="Package\Create Participant Records (In Progress)\Lookup Birth City.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output4]"
+              endId="Package\Create Participant Records (In Progress)\Lookup PersonTypeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup Birth City.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output3]"
+              endId="Package\Create Participant Records (In Progress)\Insert ParticipantPerson.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup Host Institution AddressId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output2]"
+              endId="Package\Create Participant Records (In Progress)\Lookup Host Institution AddressId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup Home Institution AddressId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output1]"
+              endId="Package\Create Participant Records (In Progress)\Lookup KMT Marital Status ID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create Participant Records (In Progress)\Lookup KMT GenderId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output]"
               endId="Package\Create Participant Records (In Progress)\Set ParticipantStatusName (default Alumni).Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\Create Participant Records (In Progress)\Lookup ParticipantTypeId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output17]"
-              endId="Package\Create Participant Records (In Progress)\Lookup KMT Marital Status ID.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT GenderId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output16]"
-              endId="Package\Create Participant Records (In Progress)\Lookup Host Institution AddressId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup Home Institution AddressId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output15]"
-              endId="Package\Create Participant Records (In Progress)\Insert ParticipantPerson.Inputs[OLE DB Destination Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup Host Institution AddressId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output14]"
-              endId="Package\Create Participant Records (In Progress)\Lookup PersonTypeId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup Birth City.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output13]"
-              endId="Package\Create Participant Records (In Progress)\Lookup Birth City.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output18]"
-              endId="Package\Create Participant Records (In Progress)\Union All.Inputs[Union All Input 3]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT Birth Country.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output10]"
-              endId="Package\Create Participant Records (In Progress)\Lookup KMT ProgramId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT ParentProgramID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output12]"
-              endId="Package\Create Participant Records (In Progress)\Lookup ParticipantPerson.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT ParticipantId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output8]"
-              endId="Package\Create Participant Records (In Progress)\Lookup ParticipantTypeId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT ProjectId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output7]"
-              endId="Package\Create Participant Records (In Progress)\Convert Fulbright DateOfBirth.Inputs[Data Conversion Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup PersonTypeId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output6]"
-              endId="Package\Create Participant Records (In Progress)\Lookup KMT Birth Country.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup SEVIS Birth Country ID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output5]"
-              endId="Package\Create Participant Records (In Progress)\Lookup Existing Participant.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup ParticipantStatusId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output4]"
-              endId="Package\Create Participant Records (In Progress)\Lookup SEVIS Birth Country ID.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup Birth Country Type ID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output3]"
-              endId="Package\Create Participant Records (In Progress)\Lookup Birth Country Type ID.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT Marital Status ID.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output2]"
-              endId="Package\Create Participant Records (In Progress)\Lookup Host InstitutionId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup Home InstitutionId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output1]"
-              endId="Package\Create Participant Records (In Progress)\Lookup Home Institution AddressId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup Host InstitutionId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output9]"
-              endId="Package\Create Participant Records (In Progress)\Lookup KMT ParentProgramID.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT PersonId.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Create Participant Records (In Progress).Paths[Lookup Match Output11]"
-              endId="Package\Create Participant Records (In Progress)\Lookup KMT ProjectId.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Create Participant Records (In Progress)\Lookup KMT ProgramId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create Participant Records (In Progress).Paths[Lookup No Match Output]"
               endId="Package\Create Participant Records (In Progress)\Lookup Home InstitutionId.Inputs[Lookup Input]"
@@ -31902,44 +31848,44 @@ where [refTable].[CountryCode] = ?</property>
               startId="Package\Create ParticipantPerson Records (Completed)\Set KMT Birth CountryId to NULL.Outputs[Derived Column Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output16]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Insert ParticipantPerson.Inputs[OLE DB Destination Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Home Institution AddressId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Host Institution AddressId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Host InstitutionId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output15]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Host InstitutionId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth City.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Home InstitutionId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output14]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth City.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Marital Status ID.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT GenderId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output13]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup ParticipantPerson.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth Country Type ID.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParticipantId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Marital Status ID.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output12]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProjectId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup SEVIS Birth Country ID.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProgramId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth Country Type ID.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output11]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProgramId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Birth Country.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParentProgramID.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup SEVIS Birth Country ID.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output10]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParentProgramID.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Host Institution AddressId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT PersonId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Home Institution AddressId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output9]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParticipantId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Union All.Inputs[Union All Input 2]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProjectId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Birth Country.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output8]"
               endId="Package\Create ParticipantPerson Records (Completed)\Convert Fulbright DateOfBirth.Inputs[Data Conversion Input]"
@@ -31947,44 +31893,44 @@ where [refTable].[CountryCode] = ?</property>
               startId="Package\Create ParticipantPerson Records (Completed)\Lookup PersonTypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output7]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Union All.Inputs[Union All Input 2]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParticipantId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Birth Country.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProjectId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output6]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Host Institution AddressId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParentProgramID.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Home Institution AddressId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT PersonId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output5]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Birth Country.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProgramId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup SEVIS Birth Country ID.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParentProgramID.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output4]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup SEVIS Birth Country ID.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProjectId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth Country Type ID.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ProgramId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output3]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth Country Type ID.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup ParticipantPerson.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Marital Status ID.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT ParticipantId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output2]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT Marital Status ID.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth City.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup KMT GenderId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output1]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Host InstitutionId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Lookup PersonTypeId.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Home InstitutionId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Birth City.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output]"
-              endId="Package\Create ParticipantPerson Records (Completed)\Lookup Home Institution AddressId.Inputs[Lookup Input]"
+              endId="Package\Create ParticipantPerson Records (Completed)\Insert ParticipantPerson.Inputs[OLE DB Destination Input]"
               name="Lookup Match Output"
-              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Host InstitutionId.Outputs[Lookup Match Output]" />
+              startId="Package\Create ParticipantPerson Records (Completed)\Lookup Host Institution AddressId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Create ParticipantPerson Records (Completed).Paths[Lookup No Match Output]"
               endId="Package\Create ParticipantPerson Records (Completed)\Set KMT Birth CountryId to NULL.Inputs[Derived Column Input]"
@@ -32568,10 +32514,6 @@ where [refTable].[CountryCode] = ?</property>
           Id="Package\Create Fulbright Person Data (Completed)\Lookup City LocationTypeId"
           TopLeft="662.5,594.5" />
         <NodeLayout
-          Size="181,42"
-          Id="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId"
-          TopLeft="681.5,391.5" />
-        <NodeLayout
           Size="203,42"
           Id="Package\Create Fulbright Person Data (Completed)\Lookup KMT Birth Country"
           TopLeft="54.5,595.631707317073" />
@@ -32586,11 +32528,11 @@ where [refTable].[CountryCode] = ?</property>
         <NodeLayout
           Size="178,42"
           Id="Package\Create Fulbright Person Data (Completed)\Insert Person Record"
-          TopLeft="680.5,109.5" />
+          TopLeft="677.5,187.5" />
         <NodeLayout
           Size="188,42"
           Id="Package\Create Fulbright Person Data (Completed)\Lookup Existing Person"
-          TopLeft="678.5,195.5" />
+          TopLeft="671.5,288.5" />
         <NodeLayout
           Size="225,42"
           Id="Package\Create Fulbright Person Data (Completed)\Lookup SEVIS Birth Country ID"
@@ -32606,7 +32548,7 @@ where [refTable].[CountryCode] = ?</property>
         <NodeLayout
           Size="219,42"
           Id="Package\Create Fulbright Person Data (Completed)\Convert Fulbright DateOfBirth"
-          TopLeft="664.5,290.5" />
+          TopLeft="659.5,388.5" />
         <NodeLayout
           Size="160,42"
           Id="Package\Create Fulbright Person Data (Completed)\Lookup Birth City"
@@ -32673,25 +32615,25 @@ where [refTable].[CountryCode] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Create Fulbright Person Data (Completed).Paths[Lookup No Match Output1]"
-          TopLeft="771,195.5">
+          TopLeft="766,288.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-44"
+              EndConnector="0,-59"
               Start="0,0"
-              End="0,-36.5">
+              End="0,-51.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-36.5" />
+                    End="0,-51.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-55.80638671875,-24.0546875,111.6127734375,11.609375"
+              BoundingBox="-55.80638671875,-31.5546875,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -32716,54 +32658,6 @@ where [refTable].[CountryCode] = ?</property>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
               BoundingBox="-15.05638671875,5,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create Fulbright Person Data (Completed).Paths[Lookup Match Output7]"
-          TopLeft="773,391.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-59"
-              Start="0,0"
-              End="0,-51.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-51.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-31.5546875,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Create Fulbright Person Data (Completed).Paths[Lookup Match Output6]"
-          TopLeft="770.25,490.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-57"
-              Start="0,0"
-              End="0,-49.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-49.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,-30.5546875,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -32957,18 +32851,18 @@ where [refTable].[CountryCode] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Create Fulbright Person Data (Completed).Paths[Data Conversion Output1]"
-          TopLeft="773.25,290.5">
+          TopLeft="767.25,388.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,-53"
+              EndConnector="0,-58"
               Start="0,0"
-              End="0,-45.5">
+              End="0,-50.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-45.5" />
+                    End="0,-50.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -32999,6 +32893,30 @@ where [refTable].[CountryCode] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create Fulbright Person Data (Completed).Paths[Lookup Match Output6]"
+          TopLeft="768.75,490.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-60"
+              Start="0,0"
+              End="0,-52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,-32.0546875,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -33014,29 +32932,6 @@ where [refTable].[CountryCode] = ?</property>
         <Name>UsedTableName</Name>
         <Value
           type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Create Fulbright Person Data (Completed)\Lookup PersonTypeId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[PersonType]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
@@ -33103,7 +32998,7 @@ where [refTable].[CountryCode] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">true</Value>
+          type="q2:boolean">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -33427,7 +33322,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output16]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output2]"
           TopLeft="1708.5,562.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33463,7 +33358,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output15]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output3]"
           TopLeft="1842.5,625.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33499,7 +33394,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output14]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output4]"
           TopLeft="797.75,561">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33523,7 +33418,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output13]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output5]"
           TopLeft="795.5,665">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33547,7 +33442,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output12]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output8]"
           TopLeft="1728.5,144">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33583,7 +33478,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output11]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output18]"
           TopLeft="889.5,106">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33607,7 +33502,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output10]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output7]"
           TopLeft="794.5,183">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33631,7 +33526,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output9]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output17]"
           TopLeft="795.25,275">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33655,7 +33550,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output8]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output9]"
           TopLeft="1072,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33679,7 +33574,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output7]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output10]"
           TopLeft="800.5,462">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33703,7 +33598,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output6]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output11]"
           TopLeft="183,617">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33727,7 +33622,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output5]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output12]"
           TopLeft="1075.25,406.466101694915">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33751,7 +33646,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output4]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output13]"
           TopLeft="181.25,536">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33775,7 +33670,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output3]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output14]"
           TopLeft="177.75,446">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33799,7 +33694,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output2]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output15]"
           TopLeft="1713.25,361">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33823,7 +33718,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output1]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output16]"
           TopLeft="1712,463">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33871,7 +33766,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Derived Column Output1]"
+          Id="Package\Create Participant Records (In Progress).Paths[Derived Column Output2]"
           TopLeft="1076,318.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33893,7 +33788,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Derived Column Output]"
+          Id="Package\Create Participant Records (In Progress).Paths[Derived Column Output1]"
           TopLeft="174.75,193">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -33959,7 +33854,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output17]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output1]"
           TopLeft="174.75,357">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34029,7 +33924,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output18]"
+          Id="Package\Create Participant Records (In Progress).Paths[Lookup Match Output6]"
           TopLeft="285,686.565853658537">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34053,7 +33948,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create Participant Records (In Progress).Paths[Derived Column Output2]"
+          Id="Package\Create Participant Records (In Progress).Paths[Derived Column Output]"
           TopLeft="501.75,616">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34087,7 +33982,7 @@ where [refTable].[CountryCode] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -34097,7 +33992,7 @@ where [refTable].[CountryCode] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -34143,7 +34038,7 @@ where [refTable].[CountryCode] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -34325,7 +34220,7 @@ where [refTable].[CountryCode] = ?</property>
           Id="Package\Create ParticipantPerson Records (Completed)\Lookup Host Institution AddressId"
           TopLeft="970.5,608.5" />
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output2]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output14]"
           TopLeft="174.75,357">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34349,7 +34244,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output3]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output13]"
           TopLeft="177.75,446">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34373,7 +34268,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output4]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output12]"
           TopLeft="181.25,536">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34397,7 +34292,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output5]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output11]"
           TopLeft="183,617">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34421,7 +34316,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output6]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output10]"
           TopLeft="1087.75,565.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34445,7 +34340,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output7]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output9]"
           TopLeft="285,686.565853658537">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34493,7 +34388,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output9]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output7]"
           TopLeft="1072.75,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34517,7 +34412,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output10]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output6]"
           TopLeft="795.25,275">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34541,7 +34436,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output11]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output5]"
           TopLeft="794.5,183">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34565,7 +34460,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output12]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output4]"
           TopLeft="889.5,106">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34589,7 +34484,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output13]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output3]"
           TopLeft="1074.5,220">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34625,7 +34520,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output14]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output2]"
           TopLeft="795.5,665">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34649,7 +34544,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output15]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output1]"
           TopLeft="797.75,561">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34673,7 +34568,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output16]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output]"
           TopLeft="1209.5,628.75">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34877,7 +34772,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output16]"
           TopLeft="1084,488">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -34901,7 +34796,7 @@ where [refTable].[CountryCode] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output1]"
+          Id="Package\Create ParticipantPerson Records (Completed).Paths[Lookup Match Output15]"
           TopLeft="1080.75,401">
           <EdgeLayout.Curve>
             <mssgle:Curve

@@ -75,6 +75,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         }
     }
 
+    public class BiographicalTestClassValidator : BiographicalValidator<BiographicalTestClass>
+    {
+        public BiographicalTestClassValidator()
+        {
+            this.FullName = "Full Name";
+        }
+
+        public const string PERSON_TYPE = "PersonType";
+
+        public string FullName { get; set; }
+
+        public override Func<BiographicalTestClass, object> GetNameDelegate()
+        {
+            return (t) => FullName;
+        }
+
+        public override string GetPersonType(BiographicalTestClass instance)
+        {
+            return PERSON_TYPE;
+        }
+    }
+
     [TestClass]
     public class BiographicalValidatorTest
     {
@@ -107,7 +129,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestFullName_ShouldRunFullNameValidator()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -125,7 +147,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestBirthDate_IsNull()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -134,7 +156,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.BIRTH_DATE_NULL_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.BIRTH_DATE_NULL_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(BirthDateErrorPath));
         }
 
@@ -144,7 +168,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestGender_IsNull()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -153,14 +177,17 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.GENDER_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.GENDER_REQUIRED_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(GenderErrorPath));
         }
 
         [TestMethod]
         public void TestGender_NotMaleOrFemaleGenderCode()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -169,14 +196,18 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), Gender.SEVIS_MALE_GENDER_CODE_VALUE, Gender.SEVIS_FEMALE_GENDER_CODE_VALUE),
+                result.Errors.First().ErrorMessage);
+
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(GenderErrorPath));
         }
 
         [TestMethod]
         public void TestGender_MaleGenderCode()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -189,7 +220,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestGender_FemaleGenderCode()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -206,7 +237,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestBirthCity_Null()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -214,15 +245,18 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             instance.BirthCity = null;
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(1, result.Errors.Count);            
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
+
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CityOfBirthErrorPath));
         }
 
         [TestMethod]
         public void TestBirthCity_EmptyString()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -231,14 +265,17 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
+
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CityOfBirthErrorPath));
         }
 
         [TestMethod]
         public void TestBirthCity_ExceedsMaxLength()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -247,7 +284,10 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
+
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CityOfBirthErrorPath));
         }
 
@@ -258,7 +298,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestBirthCountryCode_Null()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -266,15 +306,17 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             instance.BirthCountryCode = null;
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(1, result.Errors.Count);            
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         [TestMethod]
         public void TestBirthCountryCode_EmptyString()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -283,14 +325,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
         [TestMethod]
         public void TestBirthCountry_ExceedsMaxLength()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -299,7 +343,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.BIRTH_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CountryOfBirthErrorPath));
         }
 
@@ -310,7 +356,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestCitizenshipCountryCode_Null()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -319,14 +365,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
         }
 
         [TestMethod]
         public void TestCitizenshipCountryCode_EmptyString()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -335,14 +383,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
         }
 
         [TestMethod]
         public void TestCitizenshipCountry_ExceedsMaxLength()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -351,7 +401,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance)),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(CitizenshipErrorPath));
         }
 
@@ -362,7 +414,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestPermanentResidenceCountryCode_Null()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -371,14 +423,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         [TestMethod]
         public void TestPermanentResidenceCountryCode_EmptyString()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -387,14 +441,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
         [TestMethod]
         public void TestPermanentResidenceCountryCode_ExceedsMaxLength()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -403,7 +459,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(BiographicalValidator<BiographicalTestClass>.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PermanentResidenceCountryErrorPath));
         }
 
@@ -414,7 +472,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestEmailAddress_Null()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -428,7 +486,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestEmailAddress_NotValid()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -437,14 +495,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(string.Format(BiographicalValidator<BiographicalTestClass>.EMAIL_ERROR_MESSAGE, instance.EmailAddress, BiographicalValidator<BiographicalTestClass>.EMAIL_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.EMAIL_ERROR_MESSAGE, instance.EmailAddress, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), BiographicalTestClassValidator.EMAIL_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(EmailErrorPath));
         }
 
         [TestMethod]
         public void TestEmailAddress_ExceedsMaxLength()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -453,7 +513,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(string.Format(BiographicalValidator<BiographicalTestClass>.EMAIL_ERROR_MESSAGE, instance.EmailAddress, BiographicalValidator<BiographicalTestClass>.EMAIL_MAX_LENGTH), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.EMAIL_ERROR_MESSAGE, instance.EmailAddress, validator.GetPersonType(instance), validator.GetNameDelegate()(instance), BiographicalTestClassValidator.EMAIL_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(EmailErrorPath));
         }
 
@@ -461,29 +523,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         #region Phone Number
         [TestMethod]
-        public void TestPhoneNumber_IsNull()
-        {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
-            var instance = GetValidBiographical();
-            var result = validator.Validate(instance);
-            Assert.IsTrue(result.IsValid);
-
-            instance.PhoneNumber = null;
-            result = validator.Validate(instance);
-            Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.VISITING_PHONE_REQUIRED_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value), result.Errors.First().ErrorMessage);
-            Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
-        }
-
-        [TestMethod]
         public void TestPhoneNumber_HasCharacters()
         {
             var phonenumberUtil = PhoneNumberUtil.GetInstance();
             var example = phonenumberUtil.GetExampleNumber(Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
             var formattedExample = phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
 
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -491,8 +537,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             instance.PhoneNumber = "abc";
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
-            Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(String.Format(BiographicalValidator<BiographicalTestClass>.PHONE_NUMBER_ERROR_MESSAGE, Data.PhoneNumberType.Visiting.Value, instance.PhoneNumber, formattedExample), result.Errors.First().ErrorMessage);
+            Assert.AreEqual(1, result.Errors.Count);            
+
+            Assert.AreEqual(
+                String.Format(BiographicalTestClassValidator.PHONE_NUMBER_ERROR_MESSAGE,
+                Data.PhoneNumberType.Visiting.Value,
+                instance.PhoneNumber,
+                validator.GetPersonType(instance), 
+                validator.GetNameDelegate()(instance),
+                formattedExample),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(PhoneNumberErrorPath));
         }
         #endregion
@@ -501,7 +555,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestMailAddressShouldRunValidator()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -524,7 +578,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestUSAddressShouldRunValidator()
         {
-            var validator = new BiographicalValidator<BiographicalTestClass>();
+            var validator = new BiographicalTestClassValidator();
             var instance = GetValidBiographical();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
