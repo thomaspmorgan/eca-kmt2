@@ -24,7 +24,11 @@ namespace ECA.Business.Service.Persons
         /// <param name="placeOfBirthId">The city of birth</param>
         /// <param name="placeOfResidenceId">The permanent residence country code</param>
         /// <param name="birthCountryReasonId">The birth country reason</param>
+        /// <param name="emailAddress">The email address</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
+        /// <param name="isTravelWithParticipant">The dependent is travelling with the participant</param>
+        /// <param name="isDeleted">The dependent was marked as deleted in ECA</param>
+        /// <param name="isSevisDeleted">The dependent was deleted from Sevis system</param>
         public UpdatedPersonDependent(
             User updater,
             int dependentId,
@@ -41,6 +45,7 @@ namespace ECA.Business.Service.Persons
             int placeOfBirthId,
             int placeOfResidenceId,
             int? birthCountryReasonId,
+            string emailAddress,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant,
             bool isDeleted,
@@ -61,6 +66,7 @@ namespace ECA.Business.Service.Persons
             this.PlaceOfBirthId = placeOfBirthId;
             this.PlaceOfResidenceId = placeOfResidenceId;
             this.BirthCountryReasonId = birthCountryReasonId;
+            this.EmailAddress = emailAddress;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsTravellingWithParticipant = isTravelWithParticipant;
             this.IsDeleted = isDeleted;
@@ -137,6 +143,11 @@ namespace ECA.Business.Service.Persons
         /// Gets or sets the birth country reason.
         /// </summary>
         public int? BirthCountryReasonId { get; set; }
+
+        /// <summary>
+        /// Gets and sets the email address
+        /// </summary>
+        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets and sets the countries of citizenship

@@ -189,6 +189,7 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="PersonDependent.cs" />
     <Compile Include="DependentType.cs" />
+    <Compile Include="PersonDependentCitizenCountry.cs" />
     <Compile Include="SevisBatchProcessing.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />

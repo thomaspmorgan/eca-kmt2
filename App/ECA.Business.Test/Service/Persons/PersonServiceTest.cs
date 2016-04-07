@@ -1909,7 +1909,8 @@ namespace ECA.Business.Test.Service.Persons
             var gender = Gender.Female.Id;
             var dateOfBirth = DateTime.Now;
             int placeOfBirth = 193;
-            var birthCountryReasonId = 1;
+            var birthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
+            var emailAddress = "test@test.com";
             var countriesOfCitizenship = new List<int>();
             var countryResidence = 193;
             bool isTravellingWithParticipant = true;
@@ -1917,7 +1918,7 @@ namespace ECA.Business.Test.Service.Persons
             var newPerson = new NewPersonDependent(createdBy: user, personId: personId, dependentTypeId: dependentTypeId,
                 firstName: firstName, lastName: lastName, nameSuffix: suffix, passportName: passport, preferredName: preferred, genderId: gender,
                 dateOfBirth: dateOfBirth, placeOfBirthId: placeOfBirth, placeOfResidenceId: countryResidence, birthCountryReasonId: birthCountryReasonId,
-                countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
+                emailAddress: emailAddress, countriesOfCitizenship: countriesOfCitizenship, isTravelWithParticipant: isTravellingWithParticipant);
 
             Action<PersonDependent> tester = (testPerson) =>
             {
@@ -1933,6 +1934,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(newPerson.PlaceOfBirthId, testPerson.PlaceOfBirthId);
                 Assert.AreEqual(newPerson.PlaceOfResidenceId, testPerson.PlaceOfResidenceId);
                 Assert.AreEqual(newPerson.BirthCountryReasonId, testPerson.BirthCountryReasonId);
+                Assert.AreEqual(newPerson.EmailAddress, testPerson.EmailAddresses.Select(x => x.Address).FirstOrDefault());
                 CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship, testPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
                 Assert.AreEqual(newPerson.IsTravellingWithParticipant, testPerson.IsTravellingWithParticipant);
 
@@ -2269,6 +2271,109 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         #region Update
+
+        [TestMethod]
+        public async Task TestUpdatePersonDependentAsync_CheckProperties()
+        {
+            var updatorId = 1;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationName = "USA"
+            };
+            var emailAddressType = new EmailAddressType
+            {
+                EmailAddressTypeId = EmailAddressType.Personal.Id,
+                EmailAddressTypeName = EmailAddressType.Personal.Value
+            };
+            var email = new EmailAddress
+            {
+                EmailAddressId = 1,
+                EmailAddressTypeId = emailAddressType.EmailAddressTypeId,
+                Address = "test@test.com"
+            };
+            var emailAddresses = new List<EmailAddress>();
+            emailAddresses.Add(email);
+            var countriesOfCitizenship = new List<Location>();
+            countriesOfCitizenship.Add(country);
+
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+            person.History.CreatedBy = updatorId;
+            person.History.CreatedOn = yesterday;
+            person.History.RevisedBy = updatorId;
+            person.History.RevisedOn = yesterday;
+
+            var dependent = new PersonDependent
+            {
+                DependentId = 1,
+                PersonId = person.PersonId,
+                SevisId = "N00000014",
+                Person = person,
+                FirstName = "first",
+                LastName = "last",
+                NameSuffix = "jr",
+                PassportName = "first last",
+                PreferredName = "first last",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTime.Now,
+                PlaceOfBirthId = 193,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
+                PlaceOfResidenceId = 193,
+                IsTravellingWithParticipant = true
+            };
+            dependent.History.CreatedBy = updatorId;
+            dependent.History.CreatedOn = yesterday;
+            dependent.History.RevisedBy = updatorId;
+            dependent.History.RevisedOn = yesterday;
+            
+            context.EmailAddressTypes.Add(emailAddressType);
+            context.EmailAddresses.Add(email);
+            context.Locations.Add(country);
+            context.PersonDependents.Add(dependent);
+            context.People.Add(person);
+            context.PersonDependents.Add(dependent);
+            context.Locations.Add(country);
+            context.EmailAddresses.Add(email);
+
+            var updateDependent = new UpdatedPersonDependent(new User(updatorId), dependent.DependentId, dependent.PersonId, dependent.DependentTypeId,
+                dependent.SevisId, dependent.FirstName, dependent.LastName, dependent.NameSuffix, dependent.PassportName, dependent.PreferredName, 
+                dependent.GenderId, dependent.DateOfBirth, dependent.PlaceOfBirthId, dependent.PlaceOfResidenceId, dependent.BirthCountryReasonId, 
+                dependent.EmailAddresses.Select(x => x.Address).FirstOrDefault(), dependent.CountriesOfCitizenship.Select(x => x.LocationId).ToList(), 
+                dependent.IsTravellingWithParticipant, false, false);
+            
+            var updatedDependent = await service.UpdatePersonDependentAsync(updateDependent);
+
+            Assert.AreEqual(updateDependent.PersonId, updatedDependent.PersonId);
+            Assert.AreEqual(updateDependent.DependentTypeId, updatedDependent.DependentTypeId);
+            Assert.AreEqual(updateDependent.FirstName, updatedDependent.FirstName);
+            Assert.AreEqual(updateDependent.LastName, updatedDependent.LastName);
+            Assert.AreEqual(updateDependent.NameSuffix, updatedDependent.NameSuffix);
+            Assert.AreEqual(updateDependent.PassportName, updatedDependent.PassportName);
+            Assert.AreEqual(updateDependent.PreferredName, updatedDependent.PreferredName);
+            Assert.AreEqual(updateDependent.GenderId, updatedDependent.GenderId);
+            Assert.AreEqual(updateDependent.DateOfBirth, updatedDependent.DateOfBirth);
+            Assert.AreEqual(updateDependent.PlaceOfBirthId, updatedDependent.PlaceOfBirthId);
+            Assert.AreEqual(updateDependent.PlaceOfResidenceId, updatedDependent.PlaceOfResidenceId);
+            Assert.AreEqual(updateDependent.BirthCountryReasonId, updatedDependent.BirthCountryReasonId);
+            Assert.AreEqual(updateDependent.EmailAddress, updatedDependent.EmailAddresses.Select(x => x.Address).FirstOrDefault());
+            CollectionAssert.AreEqual(updateDependent.CountriesOfCitizenship, updatedDependent.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+            Assert.AreEqual(updateDependent.IsTravellingWithParticipant, updatedDependent.IsTravellingWithParticipant);
+
+            //Assert.AreEqual(creatorId, updatedDependent.History.CreatedBy);
+            //Assert.AreEqual(yesterday, updatedDependent.History.CreatedOn);
+            //Assert.AreEqual(updatorId, updatedDependent.History.RevisedBy);
+            //DateTimeOffset.UtcNow.Should().BeCloseTo(updatedDependent.History.RevisedOn, 20000);
+        }
+
         [TestMethod]
         public async Task TestUpdatePiiAsync_CheckProperties()
         {

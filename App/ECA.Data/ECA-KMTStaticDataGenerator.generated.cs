@@ -1338,7 +1338,7 @@ namespace ECA.Data
 }
 #endregion
 
-#region PersonType
+#region DependentType
 namespace ECA.Data
 {
 	using ECA.Core.Generation;
@@ -1387,9 +1387,57 @@ namespace ECA.Data
 		/// </summary>
 		public StaticLookupConfig GetConfig()
 		{
-			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "PersonType", TableName = "PersonType", IdColumnName = "PersonTypeId", ValueColumnName = "Name" };
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DependentType", TableName = "DependentType", IdColumnName = "DependentTypeId", ValueColumnName = "Name" };
 		}
 	}
+}
+#endregion
+
+#region BirthCountryReason
+namespace ECA.Data
+{
+    using ECA.Core.Generation;
+    public partial class BirthCountryReason : ECA.Core.Generation.IStaticLookup
+    {
+        /// <summary>
+        /// Returns the BirthCountryReason lookup with id 1.
+        /// </summary>
+        public static StaticLookup BornToForeignDiplomat { get { return new StaticLookup("Born to Foreign Diplomat", 1); } }
+        /// <summary>
+        /// Returns the Expatriated lookup with id 2.
+        /// </summary>
+        public static StaticLookup Expatriated { get { return new StaticLookup("Expatriated", 2); } }
+        /// Returns the lookup value of this entity with the given id, or null if it does not exist.
+        ///<param name="id">The lookup id.</param>
+        /// <returns>The lookup with the given id, or null if it does not exist.</returns>
+        ///</summary>
+        public static StaticLookup GetStaticLookup(int id)
+        {
+            if (1 == id) return BirthCountryReason.BornToForeignDiplomat;
+            if (2 == id) return BirthCountryReason.Expatriated;
+            return null;
+        }
+        ///<summary>
+        /// Returns the lookup value of this entity with the given value, or null if it does not exist.
+        ///<param name="id">The lookup id.</param>
+        /// <returns>The lookup with the given value, or null if it does not exist.</returns>
+        ///</summary>
+        public static StaticLookup GetStaticLookup(string value)
+        {
+            if ("Born to Foreign Diplomat".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return BirthCountryReason.BornToForeignDiplomat;
+            if ("Expatriated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return BirthCountryReason.Expatriated;
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the static lookup config used to generate this type's static lookups.
+        /// <returns>The static lookup config used to generate this type's static lookups.</returns>
+        /// </summary>
+        public StaticLookupConfig GetConfig()
+        {
+            return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "BirthCountryReason", TableName = "BirthCountryReason", IdColumnName = "BirthCountryReasonId", ValueColumnName = "Description" };
+        }
+    }
 }
 #endregion
 

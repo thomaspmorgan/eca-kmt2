@@ -529,7 +529,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -605,7 +605,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -661,7 +661,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -708,7 +708,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -758,7 +758,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -809,7 +809,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",
@@ -856,7 +856,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.UtcNow,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "someone@isp.com",

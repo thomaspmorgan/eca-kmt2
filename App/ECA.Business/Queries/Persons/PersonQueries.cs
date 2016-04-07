@@ -158,6 +158,7 @@ namespace ECA.Business.Queries.Persons
                             PreferredName = dependent.PreferredName,
                             GenderId = dependent.GenderId,
                             Gender = dependent.Gender.GenderName,
+                            EmailAddress = dependent.EmailAddresses.Select(x => x.Address).FirstOrDefault(),
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
                             PlaceOfBirth = locationOfBirth,

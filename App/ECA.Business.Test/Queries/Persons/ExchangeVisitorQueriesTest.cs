@@ -26,7 +26,7 @@ namespace ECA.Business.Test.Queries.Persons
         {
             var birthCountryReason = new BirthCountryReason
             {
-                BirthCountryReasonId = 997,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthReasonCode = "birth reason code",
             };
             var spousePersonType = new DependentType

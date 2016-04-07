@@ -71,6 +71,11 @@ namespace ECA.WebApi.Models.Person
         public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
+        /// Gets and sets the email address
+        /// </summary>
+        public string EmailAddress { get; set; }
+
+        /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
         public List<int> CountriesOfCitizenship { get; set; }
@@ -100,6 +105,7 @@ namespace ECA.WebApi.Models.Person
                 dateOfBirth: DateOfBirth,
                 placeOfBirthId: PlaceOfBirthId,
                 placeOfResidenceId: PlaceOfResidenceId,
+                emailAddress: EmailAddress,
                 birthCountryReasonId: BirthCountryReasonId,
                 countriesOfCitizenship: CountriesOfCitizenship,
                 isTravelWithParticipant: IsTravellingWithParticipant);

@@ -91,7 +91,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "US",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "UK",
                 EmailAddress = "email@isp.com",

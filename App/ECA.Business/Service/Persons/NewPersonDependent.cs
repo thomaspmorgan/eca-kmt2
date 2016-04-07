@@ -21,6 +21,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="placeOfBirthId">The city of birth</param>
         /// <param name="placeOfResidenceId">The permanent residence country code</param>
         /// <param name="birthCountryReasonId">The birth country reason</param>
+        /// <param name="emailAddress">The email address</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         /// <param name="isTravelWithParticipant">If dependent is travelling with a participant</param>
         public NewPersonDependent(
@@ -37,6 +38,7 @@ namespace ECA.Business.Service.Persons
             int placeOfBirthId,
             int placeOfResidenceId,
             int? birthCountryReasonId,
+            string emailAddress,
             List<int> countriesOfCitizenship,
             bool isTravelWithParticipant)
         {
@@ -52,6 +54,7 @@ namespace ECA.Business.Service.Persons
             this.PlaceOfBirthId = placeOfBirthId;
             this.PlaceOfResidenceId = placeOfResidenceId;
             this.BirthCountryReasonId = birthCountryReasonId;
+            this.EmailAddress = emailAddress;
             this.CountriesOfCitizenship = countriesOfCitizenship;
             this.IsTravellingWithParticipant = isTravelWithParticipant;
             this.Audit = new Create(createdBy);
@@ -121,6 +124,11 @@ namespace ECA.Business.Service.Persons
         /// Gets and sets the countries of citizenship
         /// </summary>
         public List<int> CountriesOfCitizenship { get; set; }
+
+        /// <summary>
+        /// Gets and sets the email address
+        /// </summary>
+        public string EmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant
