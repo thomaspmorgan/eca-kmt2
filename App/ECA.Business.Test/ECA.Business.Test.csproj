@@ -307,6 +307,7 @@
     <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorValidationServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveActionTest.cs" />
+    <Compile Include="Service\Persons\ParticipantsToBeSentToSevisTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />

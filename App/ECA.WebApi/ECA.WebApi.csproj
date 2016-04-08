@@ -572,6 +572,7 @@
     <Compile Include="Models\Itineraries\UpdatedItineraryBindingModel.cs" />
     <Compile Include="Models\Person\AdditionalPointOfContactBindingModel.cs" />
     <Compile Include="Models\Person\DependentBindingModel.cs" />
+    <Compile Include="Models\Person\SendToSevisBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModel.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonSevisBindingModel.cs" />

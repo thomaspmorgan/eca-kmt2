@@ -84,6 +84,7 @@ angular.module('staticApp')
       var origUsParticipantsEst;
       var origNonUsParticipantsActual;
       var origUsParticipantsActual;
+      var kmtId = ConstantsService.kmtApplicationResourceId;
 
       $scope.view.saveEstParticipants = function ()
       {
@@ -418,7 +419,7 @@ angular.module('staticApp')
           });
       }
 
-      function loadPermissions() {
+      function loadProjectPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var resourceType = ConstantsService.resourceType.project.value;
           var config = {};
@@ -452,6 +453,17 @@ angular.module('staticApp')
                   $log.info('User not authorized to edit sevis in project-participant.controller.js.');
               }
           };
+          return AuthService.getResourcePermissions(resourceType, projectId, config)
+            .then(function (result) {
+            }, function () {
+                $log.error('Unable to load user permissions in project.js controller.');
+            });
+      };
+
+      function loadApplicationPermissions() {
+          console.assert(ConstantsService.resourceType.application.value, 'The constants service must have the application resource type value.');
+          var resourceType = ConstantsService.resourceType.application.value;
+          var config = {};
           config[ConstantsService.permission.sendToSevis.value] = {
               hasPermission: function () {
                   addSendToSevisAction();
@@ -461,14 +473,12 @@ angular.module('staticApp')
                   $log.info('User not authorized to send to sevis in project-participant.controller.js.');
               }
           };
-
-
-          return AuthService.getResourcePermissions(resourceType, projectId, config)
+          return AuthService.getResourcePermissions(resourceType, kmtId, config)
             .then(function (result) {
             }, function () {
                 $log.error('Unable to load user permissions in project.js controller.');
             });
-      };
+      }
 
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
@@ -696,17 +706,63 @@ angular.module('staticApp')
 
       $scope.applyAction = function () {
           if ($scope.selectedAction === 1) {
-              var participants = Object.keys($scope.selectedParticipants).map(Number);
-              ParticipantPersonsSevisService.sendToSevis(projectId, participants)
-              .then(function (results) {
-                  $scope.selectAll = false;
-                  $scope.selectedParticipants = {};
-                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length + " participants.");
-                  reloadParticipantTable();
-              }, function () {
-                  NotificationService.showErrorMessage("Failed to queue participants.");
-              });
+              return AuthService.getUserInfo()
+              .then(function (response) {
+                  var userInfo = response.data;
+                  var doSendParticipantsToSevis = function (sevisUserAccount) {
+                      return sendParticipantsToSevis($scope.selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
+                  }
+                  var sevisUserAccounts = userInfo.sevisUserAccounts;
+                  var sevisUserAccount = sevisUserAccounts[0];
+                  if (sevisUserAccounts.length > 1) {
+                      promptUserForSevisUserAccount(userInfo, doSendParticipantsToSevis, function () { });
+                  }
+                  else {
+                      doSendParticipantsToSevis(sevisUserAccount)
+                  }
+              })
+              .catch(function (response) {
+                  var message = "Unable to determine user info for the current user."
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              })
           }
+      }
+
+      function sendParticipantsToSevis(participants, sevisUsername, sevisOrgId) {
+          var participantIds = Object.keys(participants);
+          return ParticipantPersonsSevisService.sendToSevis(kmtId, projectId, participantIds, sevisUsername, sevisOrgId)
+          .then(function (results) {
+              $scope.selectAll = false;
+              $scope.selectedParticipants = {};
+              NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participantIds.length + " participants.");
+              reloadParticipantTable();
+          }, function () {
+              NotificationService.showErrorMessage("Failed to queue participants.");
+          });
+      }
+
+      function promptUserForSevisUserAccount(userInfo, okCallback, cancelCallback) {
+          var modalInstance = $modal.open({
+              templateUrl: '/app/projects/select-sevis-account-modal.html',
+              controller: 'SelectSevisAccountCtrl',
+              backdrop: 'static',
+              resolve: {
+                  userInfo: function () {
+                      return userInfo;
+                  }
+              },
+          });
+          modalInstance.result.then(function (selectedAccount) {
+              console.assert(selectedAccount, "The selected sevis account must be defined.");
+              $log.info('Closing...');
+              okCallback(selectedAccount);
+          }, function () {
+              $log.info('Dismiss select sevis account dialog...');
+              cancelCallback();
+          })
+          .then(function () {
+          });
       }
 
       $scope.selectedParticipant = function (participant, checked) {
@@ -716,7 +772,7 @@ angular.module('staticApp')
       }
 
       $scope.view.isLoading = true;
-      $q.all([loadPermissions(), loadCollaboratorDetails()])
+      $q.all([loadProjectPermissions(), loadApplicationPermissions(), loadCollaboratorDetails()])
       .then(function (results) {
           
       }, function (errorResponse) {

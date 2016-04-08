@@ -64,7 +64,6 @@
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeploy" />
     <Folder Include="Scripts\PostDeploy\StaticData" />
-    <Folder Include="Scripts\SampleData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="CAM\Schema\CamSchema.sql" />
@@ -79,6 +78,8 @@
     <None Include="Scripts\PostDeploy\StaticData\CAM.Resource.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Principal.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.Role.staticdata.sql" />
+    <Build Include="CAM\Tables\SevisAccount.sql" />
+    <None Include="Scripts\PostDeploy\AdditionalSevisAccounts.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CAM.Database.refactorlog" />
@@ -96,15 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ECA_Local.publish.xml" />
-    <None Include="Scripts\SampleData\LoadSampleData.sql" />
-    <None Include="Scripts\SampleData\CAM.UserAccount.data.sql" />
-    <None Include="Scripts\SampleData\CAM.Application.data.sql" />
-    <None Include="Scripts\SampleData\CAM.Permission.data.sql" />
-    <None Include="Scripts\SampleData\CAM.Principal.data.sql" />
-    <None Include="Scripts\SampleData\CAM.PrincipalRole.data.sql" />
-    <None Include="Scripts\SampleData\CAM.Resource.data.sql" />
-    <None Include="Scripts\SampleData\CAM.Role.data.sql" />
-    <None Include="Scripts\SampleData\CAM.RoleResourcePermission.data.sql" />
     <None Include="ECA_Dev.publish.xml" />
     <None Include="ECA_QA.publish.xml" />
     <None Include="ECA_UAT.publish.xml" />

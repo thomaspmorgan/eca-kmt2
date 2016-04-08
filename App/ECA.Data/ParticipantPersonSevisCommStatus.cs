@@ -43,5 +43,15 @@ namespace ECA.Data
         /// Gets or sets the batch id associated with this comm status.
         /// </summary>
         public string BatchId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the username of the sevis user requesting the participants be batched for.
+        /// </summary>
+        public string SevisUsername { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis org id the participants will be batched for.
+        /// </summary>
+        public string SevisOrgId { get; set; }
     }
 }

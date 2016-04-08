@@ -92,16 +92,25 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Send to sevis async
         /// </summary>
-        /// <param name="participantIds">The participant ids to send to sevis</param>
+        /// <param name="model">The participants to send to sevis.</param>
         /// <param name="projectId">The project id of the participants.</param>
+        /// <param name="applicationId">The application id for which the participants belong.</param>
         /// <returns>Success or error</returns>
-        [Route("Project/{projectId:int}/ParticipantPersonsSevis/SendToSevis")]
-        [ResourceAuthorize(Permission.SEND_TO_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
-        public async Task<IHttpActionResult> PostSendToSevisAsync(int projectId, int[] participantIds)
+        [Route("Application/{applicationId:int}/Project/{projectId:int}/ParticipantPersonsSevis/SendToSevis")]
+        [ResourceAuthorize(Permission.SEND_TO_SEVIS_VALUE, ResourceType.APPLICATION_VALUE, "applicationId")]
+        public async Task<IHttpActionResult> PostSendToSevisAsync(int applicationId, int projectId, SendToSevisBindingModel model)
         {
             if (ModelState.IsValid)
             {
-                var statuses = await participantService.SendToSevisAsync(projectId, participantIds);
+                var currentUser = userProvider.GetCurrentUser();                
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var hasSevisCredentials = await userProvider.HasSevisUserAccountAsync(currentUser, model.SevisUsername, model.SevisOrgId);
+                if (!hasSevisCredentials)
+                {
+                    throw new HttpResponseException(System.Net.HttpStatusCode.Forbidden);
+                }
+                var businessModel = model.ToParticipantsToBeSentToSevis(businessUser, projectId);
+                var statuses = await participantService.SendToSevisAsync(businessModel);
                 await participantService.SaveChangesAsync();
                 return Ok(statuses);
             }

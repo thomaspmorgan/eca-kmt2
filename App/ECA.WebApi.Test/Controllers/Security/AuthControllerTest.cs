@@ -74,12 +74,20 @@ namespace ECA.WebApi.Test.Controllers.Security
         [TestMethod]
         public async Task TestGetUserAsync_IsRegistered()
         {
+            var sevisUserAccounts = new List<SevisUserAccount>
+            {
+                new SevisUserAccount
+                {
+                    OrgId = "org",
+                    Username = "name"
+                }
+            };
             var camUser = new User
             {
                 DisplayName = "display Name",
                 PrincipalId = 1
-
             };
+            camUser.SevisUserAccounts = sevisUserAccounts;
             var simpleUser = new SimpleUser
             {
                 Id = Guid.NewGuid(),
@@ -96,6 +104,9 @@ namespace ECA.WebApi.Test.Controllers.Security
             Assert.AreEqual(simpleUser.Username, okResult.Content.UserName);
             Assert.AreEqual(camUser.DisplayName, okResult.Content.DisplayName);
             Assert.AreEqual(camUser.PrincipalId, okResult.Content.EcaUserId);
+            Assert.AreEqual(1, okResult.Content.SevisUserAccounts.Count());
+            Assert.AreEqual(sevisUserAccounts.First().OrgId, okResult.Content.SevisUserAccounts.First().OrgId);
+            Assert.AreEqual(sevisUserAccounts.First().Username, okResult.Content.SevisUserAccounts.First().Username);
         }
 
         [TestMethod]

@@ -248,6 +248,7 @@
     <Compile Include="Models\Person\PersonBindingModelTest.cs" />
     <Compile Include="Models\Person\AdditionalPointOfContactBindingModelTest.cs" />
     <Compile Include="Models\Person\ParticipantExchangeVisitorsControllerTest.cs" />
+    <Compile Include="Models\Person\SendToSevisBindingModelTest.cs" />
     <Compile Include="Models\Person\UpdatedPersonDependentBindingModelTest.cs" />
     <Compile Include="Models\Person\UpdatedParticipantPersonBindingModelTest.cs" />
     <Compile Include="Models\Person\UpdatedParticipantExchangeVisitorBindingModelTest.cs" />

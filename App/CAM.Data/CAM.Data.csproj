@@ -137,6 +137,7 @@
     <Compile Include="ResourceType.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="RoleResourcePermission.cs" />
+    <Compile Include="SevisAccount.cs" />
     <Compile Include="UserAccount.cs" />
     <Compile Include="CAMStaticDataGenerator.generated.cs">
       <DependentUpon>CAMStaticDataGenerator.tt</DependentUpon>

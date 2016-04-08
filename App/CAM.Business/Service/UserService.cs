@@ -105,24 +105,32 @@ namespace CAM.Business.Service
 
         private IQueryable<User> CreateGetUserByIdQuery(Guid id)
         {
-            return Context.UserAccounts.Where(x => x.AdGuid == id).
-                Select(x => new User
-                {
-                    AccountStatusId = x.AccountStatusId,
-                    AccountStatus = x.AccountStatus.Status,
-                    AdGuid = x.AdGuid,
-                    DisplayName = x.DisplayName,                    
-                    EmailAddress = x.EmailAddress,
-                    ExpiredDate = x.ExpiredDate,
-                    FirstName = x.FirstName,
-                    LastAccessed = x.LastAccessed,
-                    LastName = x.LastName,
-                    PrincipalId = x.PrincipalId,
-                    RestoredDate = x.RestoredDate,
-                    RevokedDate = x.RevokedDate,
-                    SuspendedDate = x.SuspendedDate,
-                    SevisUsername = x.SevisUsername
-                });
+            var query = from userAccount in Context.UserAccounts
+                        let principal = userAccount.Principal
+                        let sevisUserAccounts = principal.SevisAccounts
+                        where userAccount.AdGuid == id
+                        select new User
+                        {
+                            AccountStatusId = userAccount.AccountStatusId,
+                            AccountStatus = userAccount.AccountStatus.Status,
+                            AdGuid = userAccount.AdGuid,
+                            DisplayName = userAccount.DisplayName,
+                            EmailAddress = userAccount.EmailAddress,
+                            ExpiredDate = userAccount.ExpiredDate,
+                            FirstName = userAccount.FirstName,
+                            LastAccessed = userAccount.LastAccessed,
+                            LastName = userAccount.LastName,
+                            PrincipalId = userAccount.PrincipalId,
+                            RestoredDate = userAccount.RestoredDate,
+                            RevokedDate = userAccount.RevokedDate,
+                            SuspendedDate = userAccount.SuspendedDate,
+                            SevisUserAccounts = sevisUserAccounts.Select(x => new SevisUserAccount
+                            {
+                                OrgId = x.OrgId,
+                                Username = x.Username
+                            })
+                        };
+            return query;
         }
 
         private IQueryable<Guid> CreateGetUserAdGuidByPrincipalIdQuery(int principalId)

@@ -1,17 +1,13 @@
-﻿using FluentAssertions;
+﻿using CAM.Business.Model;
+using CAM.Business.Service;
 using ECA.WebApi.Security;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
-using System.Threading.Tasks;
-using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.DynamicLinq.Filter;
-using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {

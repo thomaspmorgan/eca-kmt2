@@ -107,3 +107,5 @@ ON Target.PrincipalId = Source.PrincipalId AND Target.RoleId = Source.RoleId
 WHEN NOT MATCHED BY TARGET THEN
 	INSERT (PrincipalId, RoleId, AssignedBy, AssignedOn)
 	VALUES (PrincipalId, RoleId, AssignedBy, AssignedOn);
+
+GO

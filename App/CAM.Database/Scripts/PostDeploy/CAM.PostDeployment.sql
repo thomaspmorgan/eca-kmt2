@@ -19,4 +19,5 @@ Post-Deployment Script Template
 :r .\StaticData\CAM.Role.staticdata.sql
 
 :r .\AdditionalUsersAndPermissionAssignments.sql
+:r .\AdditionalSevisAccounts.sql
 

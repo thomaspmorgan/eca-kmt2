@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Business.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,5 +35,10 @@ namespace ECA.WebApi.Models.Security
         /// The user's display name in the system.
         /// </summary>
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis user accounts.
+        /// </summary>
+        public IEnumerable<SevisUserAccount> SevisUserAccounts { get; set; }
     }
 }
