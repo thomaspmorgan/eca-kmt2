@@ -18,7 +18,7 @@ namespace ECA.Business.Sevis
 
         private Uri UploadUri;
 
-        private Uri DownloadUri;
+        private Uri DownloadUri = new Uri("");
 
         private string UserId;
 

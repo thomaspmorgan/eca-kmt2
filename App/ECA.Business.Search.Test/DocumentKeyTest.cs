@@ -210,7 +210,8 @@ namespace ECA.Business.Search.Test
             var docTypeId = Guid.NewGuid();
             var id = 1;
             var documentKey = new DocumentKey(docTypeId, id);
-            Assert.IsTrue(documentKey == documentKey);
+            var otherDocumentKey = new DocumentKey(docTypeId, id);
+            Assert.IsTrue(documentKey == otherDocumentKey);
         }
 
         [TestMethod]

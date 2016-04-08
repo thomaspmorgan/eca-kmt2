@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using ECA.Business.Search;
 using System.Diagnostics.Contracts;
@@ -12,6 +10,9 @@ using Newtonsoft.Json.Linq;
 
 namespace ECA.WebJobs.Search.Index
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Functions : IDisposable
     {
         private IList<IDocumentService> documentServices;
@@ -95,7 +96,6 @@ namespace ECA.WebJobs.Search.Index
         {
             Contract.Requires(key != null, "The key must not be null.");
             return GetDocumentService(key.DocumentTypeId);
-
         }
 
         /// <summary>

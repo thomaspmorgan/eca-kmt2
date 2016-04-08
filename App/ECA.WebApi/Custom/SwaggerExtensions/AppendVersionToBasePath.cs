@@ -4,8 +4,14 @@ using Swashbuckle.Swagger;
 
 namespace Swashbuckle.Dummy.SwaggerExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AppendVersionToBasePath : IDocumentFilter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
             swaggerDoc.basePath = "/" + swaggerDoc.info.version;

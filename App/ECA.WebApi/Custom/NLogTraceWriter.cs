@@ -1,14 +1,15 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Web;
 using System.Web.Http.Tracing;
 
 namespace ECA.WebApi.Custom
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class NLogTraceWriter : ITraceWriter
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -28,6 +29,9 @@ namespace ECA.WebApi.Custom
             get { return loggingMap.Value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Trace(HttpRequestMessage request, string category, TraceLevel level, Action<TraceRecord> traceAction)
         {
             if (level != TraceLevel.Off)
@@ -38,6 +42,9 @@ namespace ECA.WebApi.Custom
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected void WriteTrace(TraceRecord record)
         {   
             var message = new StringBuilder();

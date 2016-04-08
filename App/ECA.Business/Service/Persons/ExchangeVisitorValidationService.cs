@@ -23,7 +23,6 @@ namespace ECA.Business.Service.Persons
     public class ExchangeVisitorValidationService : EcaService, IExchangeVisitorValidationService
     {
         private readonly Action<int, object, Type> throwIfModelDoesNotExist;
-        private readonly Action<int, int, Participant> throwSecurityViolationIfParticipantDoesNotBelongToProject;
         private IExchangeVisitorService exchangeVisitorService;
 
         /// <summary>

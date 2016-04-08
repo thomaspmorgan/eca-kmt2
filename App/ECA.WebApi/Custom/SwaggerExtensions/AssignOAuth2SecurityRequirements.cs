@@ -6,8 +6,14 @@ using Swashbuckle.Swagger;
 
 namespace Swashbuckle.Dummy.SwaggerExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AssignOAuth2SecurityRequirements : IOperationFilter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             // Correspond each "Authorize" role to an oauth2 scope

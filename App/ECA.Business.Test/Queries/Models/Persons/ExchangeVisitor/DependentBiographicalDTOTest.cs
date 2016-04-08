@@ -242,7 +242,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
         {
             var mailAddress = new AddressDTO();
             var usAddress = new AddressDTO();
-            var remarks = "remarks";
+
             var dto = new DependentBiographicalDTO
             {
                 BirthCity = "birth city",

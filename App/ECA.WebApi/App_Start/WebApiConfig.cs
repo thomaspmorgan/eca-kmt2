@@ -1,24 +1,24 @@
-﻿using ECA.Core.Generation;
-using ECA.Core.Settings;
-using ECA.Data;
-using ECA.WebApi.Custom;
+﻿using ECA.Core.Settings;
 using ECA.WebApi.Custom.Filters;
 using ECA.WebApi.Custom.Handlers;
-using ECA.WebApi.Security;
-using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
-using System.Web.Http.Tracing;
 
 namespace ECA.WebApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config"></param>
         public static void Register(HttpConfiguration config)
         {
             var appSettings = new AppSettings();

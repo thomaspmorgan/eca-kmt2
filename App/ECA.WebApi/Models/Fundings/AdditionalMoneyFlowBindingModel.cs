@@ -18,7 +18,6 @@ namespace ECA.WebApi.Models.Fundings
     /// to details the entity for whom a user has permission to add a money flow, i.e. the edit project permission
     /// for a project with entity id x.
     /// </summary>
-    /// <typeparam name="T">The money flow entity type.</typeparam>
     public abstract class AdditionalMoneyFlowBindingModel
     {
         /// <summary>

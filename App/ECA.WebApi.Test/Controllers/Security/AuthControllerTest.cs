@@ -335,7 +335,6 @@ namespace ECA.WebApi.Test.Controllers.Security
         [TestMethod]
         public async Task TestGetUserPermissionsAsync_ResourceIdDoesNotExist()
         {
-            var resourceId = 1;
             var foreignResourceId = 3;
             var resourceType = "Program";
             var simpleUser = new SimpleUser

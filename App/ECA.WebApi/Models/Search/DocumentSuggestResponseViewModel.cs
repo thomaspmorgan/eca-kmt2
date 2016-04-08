@@ -1,15 +1,18 @@
 ﻿using ECA.Business.Search;
 using Microsoft.Azure.Search.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Search
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DocumentSuggestResponseViewModel
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public DocumentSuggestResponseViewModel(DocumentSuggestResponse<ECADocument> response)
         {
             Contract.Requires(response != null, "The response must not be null.");
@@ -20,6 +23,9 @@ namespace ECA.WebApi.Models.Search
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public IList<SuggestResultViewModel> Documents { get; set; }
     }
 }

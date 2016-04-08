@@ -3,8 +3,14 @@ using Swashbuckle.Swagger;
 
 namespace Swashbuckle.Dummy.SwaggerExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AddFileUploadParams : IOperationFilter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             if (operation.operationId == "FileUpload_PostFormData")

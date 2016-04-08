@@ -871,9 +871,7 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetThemes_IsLocal()
         {
-            var state = System.Data.Entity.EntityState.Detached;
             var original = new Theme { ThemeId = 1 };
-
             var program = new Program();
             program.Themes.Add(original);
 
@@ -949,9 +947,7 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetPointsOfContact_Local()
         {
-            var state = System.Data.Entity.EntityState.Detached;
             var original = new Contact { ContactId = 1 };
-
             var program = new Program();
             program.Contacts.Add(original);
 
@@ -1029,9 +1025,7 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetRegions_Local()
         {
-            var state = System.Data.Entity.EntityState.Added;
             var original = new Location { LocationId = 1 };
-
             var program = new Program();
             program.Regions.Add(original);
 
