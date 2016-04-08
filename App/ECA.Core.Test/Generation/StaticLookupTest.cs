@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.Generation;
 
 namespace ECA.Core.Test.Generation
@@ -115,22 +114,18 @@ namespace ECA.Core.Test.Generation
         public void TestEqualOperator_SameInstance()
         {
             var value = "A";
-            var id1 = 1;
-            var id2 = 1;
-            var lookup1 = new StaticLookup(value, id1);
-            var lookup2 = new StaticLookup(value, id2);
-            Assert.IsFalse(lookup1 == lookup2);
+            var id = 1;
+            var lookup1 = new StaticLookup(value, id);
+            Assert.IsTrue(lookup1 == lookup1);
         }
 
         [TestMethod]
         public void TestNotEqualOperator_SameInstance()
         {
             var value = "A";
-            var id1 = 1;
-            var id2 = 2;
-            var lookup1 = new StaticLookup(value, id1);
-            var lookup2 = new StaticLookup(value, id2);
-            Assert.IsFalse(lookup1 != lookup2);
+            var id = 1;
+            var lookup1 = new StaticLookup(value, id);
+            Assert.IsFalse(lookup1 != lookup1);
         }
 
         [TestMethod]
@@ -141,7 +136,7 @@ namespace ECA.Core.Test.Generation
             var id2 = 2;
             var lookup1 = new StaticLookup(value, id1);
             var lookup2 = new StaticLookup(value, id2);
-            Assert.IsFalse(lookup1.Id == lookup2.Id);
+            Assert.IsFalse(lookup1 == lookup2);
         }
 
         [TestMethod]
@@ -152,7 +147,7 @@ namespace ECA.Core.Test.Generation
             var id2 = 2;
             var lookup1 = new StaticLookup(value, id1);
             var lookup2 = new StaticLookup(value, id2);
-            Assert.IsTrue(lookup1.Id != lookup2.Id);
+            Assert.IsTrue(lookup1 != lookup2);
         }
     }
 }
