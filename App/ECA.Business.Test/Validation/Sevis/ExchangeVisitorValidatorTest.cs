@@ -28,7 +28,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestPerson_Null()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -95,7 +94,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 printForm,
                 personId,
                 participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -109,7 +108,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             Func<ExchangeVisitor> createEntityWithoutPerson = () =>
             {
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: null,
                     financialInfo: financialInfo,
@@ -138,7 +137,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestPerson_ShouldRunValidator()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -205,7 +203,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -232,7 +230,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestProgramStartDate_DefaultValue()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -299,7 +296,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -328,7 +325,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestProgramEndDate_DefaultValue()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -395,7 +391,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -426,7 +422,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestProgramEndDate_ProgramEndDateIsBeforeProggramStartDate()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -493,7 +488,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -524,7 +519,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestOccupationCategoryCode_ExceedsLength()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -591,7 +585,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -621,7 +615,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestOccupationCategoryCode_Whitespace()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -688,7 +681,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -717,7 +710,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestOccupationCategoryCode_Null()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             User user = new User(1);
             var state = "TN";
             var mailAddress = new AddressDTO();
@@ -785,7 +777,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -811,7 +803,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestOccupationCategoryCode_Empty()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -878,7 +869,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -906,7 +897,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestUSAddress_ShouldRunValidator()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -973,7 +963,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -1000,7 +990,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestMailAddress_ShouldRunValidator()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -1067,7 +1056,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -1094,7 +1083,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestFinancialInfo_ShouldRunValidator()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -1161,7 +1149,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -1190,7 +1178,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestAddSiteOfActivity_ShouldRunValidator()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -1257,7 +1244,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -1286,7 +1273,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestDependents_ShouldRunValidator()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -1355,7 +1341,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
@@ -1406,7 +1392,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestDependents_HasMoreThanOneSpouse()
         {
             var exchangeVisitorSevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var state = "TN";
             var mailAddress = new AddressDTO();
             mailAddress.Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME;
@@ -1475,7 +1460,7 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm,
                     personId,
                     participantId);
-                return new ExchangeVisitor(sevisUserId: sevisUserId,
+                return new ExchangeVisitor(
                     sevisId: exchangeVisitorSevisId,
                     person: person,
                     financialInfo: financialInfo,
