@@ -101,7 +101,9 @@ namespace ECA.Business.Service.Sevis
             this.exchangeVisitors = new List<ExchangeVisitor>();
             this.SevisBatchProcessing = new SevisBatchProcessing
             {
-                BatchId = this.BatchId
+                BatchId = this.BatchId,
+                SevisOrgId = this.SevisOrgId,
+                SevisUsername = this.SevisUsername
             };
             this.SEVISBatchCreateUpdateEV = new SEVISBatchCreateUpdateEV();
             this.SEVISBatchCreateUpdateEV.userID = sevisUsername;

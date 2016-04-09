@@ -558,7 +558,7 @@ namespace ECA.Business.Service.Sevis
                                 this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
                             }
                             stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
-                            AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId);
+                            AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
                         }
                         else
                         {
@@ -613,7 +613,7 @@ namespace ECA.Business.Service.Sevis
                                 this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
                             }
                             stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
-                            AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId);
+                            AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
                         }
                         else
                         {
@@ -692,14 +692,16 @@ namespace ECA.Business.Service.Sevis
             return null;
         }
 
-        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, string batchId)
+        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, string batchId, string sevisUsername, string sevisOrgId)
         {
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
             {
                 ParticipantId = participantId,
                 AddedOn = DateTimeOffset.UtcNow,
                 SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id,
-                BatchId = batchId
+                BatchId = batchId,
+                SevisUsername = sevisUsername,
+                SevisOrgId = sevisOrgId
             };
             Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             return sevisCommStatus;

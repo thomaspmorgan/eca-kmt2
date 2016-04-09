@@ -270,6 +270,8 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
                 Assert.AreEqual(SevisCommStatus.PendingSevisSend.Id, addedCommStatus.SevisCommStatusId);
                 Assert.AreEqual(firstBatch.BatchId, addedCommStatus.BatchId);
+                Assert.AreEqual(status.SevisUsername, addedCommStatus.SevisUsername);
+                Assert.AreEqual(status.SevisOrgId, addedCommStatus.SevisOrgId);
             };
             context.Revert();
             var result = service.StageBatches();
@@ -682,6 +684,8 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(participantId, addedCommStatus.ParticipantId);
                 Assert.AreEqual(SevisCommStatus.PendingSevisSend.Id, addedCommStatus.SevisCommStatusId);
                 Assert.AreEqual(firstBatch.BatchId, addedCommStatus.BatchId);
+                Assert.AreEqual(status.SevisUsername, addedCommStatus.SevisUsername);
+                Assert.AreEqual(status.SevisOrgId, addedCommStatus.SevisOrgId);
             };
             context.Revert();
             var result = service.StageBatches();
