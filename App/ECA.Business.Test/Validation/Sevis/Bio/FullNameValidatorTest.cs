@@ -213,7 +213,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, 
                     personType, 
                     instance.Suffix, 
-                    string.Join(FullNameValidator.JUNIOR_SUFFIX, FullNameValidator.SENIOR_SUFFIX, FullNameValidator.FIRST_SUFFIX, FullNameValidator.SECOND_SUFFIX, FullNameValidator.THIRD_SUFFIX, FullNameValidator.FOURTH_SUFFIX)),
+                    string.Join(", ", FullNameValidator.JUNIOR_SUFFIX, FullNameValidator.SENIOR_SUFFIX, FullNameValidator.FIRST_SUFFIX, FullNameValidator.SECOND_SUFFIX, FullNameValidator.THIRD_SUFFIX, FullNameValidator.FOURTH_SUFFIX)),
                 result.Errors.First().ErrorMessage);
 
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));

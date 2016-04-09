@@ -111,7 +111,7 @@ namespace ECA.Business.Validation.Sevis.Bio
 
             Func<FullName, object> getValidSuffixValues = (o) =>
             {
-                return String.Join(JUNIOR_SUFFIX, SENIOR_SUFFIX, FIRST_SUFFIX, SECOND_SUFFIX, THIRD_SUFFIX, FOURTH_SUFFIX);
+                return String.Join(", ", JUNIOR_SUFFIX, SENIOR_SUFFIX, FIRST_SUFFIX, SECOND_SUFFIX, THIRD_SUFFIX, FOURTH_SUFFIX);
             };
 
             Func<FullName, object> getNameSuffixValue = (n) =>
