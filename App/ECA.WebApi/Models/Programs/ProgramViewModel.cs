@@ -4,8 +4,6 @@ using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Programs
 {
@@ -166,8 +164,14 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public string OwnerOfficeSymbol { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string OwnerOfficeCategoryLabel { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string OwnerOfficeObjectiveLabel { get; set; }
 
         /// <summary>

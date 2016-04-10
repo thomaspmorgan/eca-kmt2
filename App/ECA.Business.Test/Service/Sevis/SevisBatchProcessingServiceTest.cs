@@ -113,7 +113,7 @@ namespace ECA.Business.Test.Service.Sevis
             var phone = "123-456-7890";
             short positionCode = 120;
             var printForm = true;
-            var birthCountryReasonId = 1;
+            var BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id;
             var remarks = "remarks";
             var programCataegoryCode = "1D";
 
@@ -1173,22 +1173,37 @@ namespace ECA.Business.Test.Service.Sevis
 
         #region Process Transaction Log
         [TestMethod]
-        public void TestGetSevisBatchErrorResultAsJson()
+        public void GetSevisBatchResultTypeAsJson_HasError()
         {
             var resultType = new ResultType
             {
                 ErrorCode = "error code",
                 ErrorMessage = "error message",
-                status = true,
+                status = false,
                 statusSpecified = true
             };
-            var json = service.GetSevisBatchErrorResultAsJson(resultType);
+            var json = service.GetSevisBatchResultTypeAsJson(resultType);
             Assert.IsNotNull(json);
             var jsonAsArray = JsonConvert.DeserializeObject<List<SimpleSevisBatchErrorResult>>(json);
             Assert.IsNotNull(jsonAsArray);
             Assert.AreEqual(1, jsonAsArray.Count);
             Assert.AreEqual(resultType.ErrorCode, jsonAsArray.First().ErrorCode);
             Assert.AreEqual(resultType.ErrorMessage, jsonAsArray.First().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void GetSevisBatchResultTypeAsJson_DoesNotHaveError()
+        {
+            var resultType = new ResultType
+            {
+                status = true,
+                statusSpecified = true
+            };
+            var json = service.GetSevisBatchResultTypeAsJson(resultType);
+            Assert.IsNotNull(json);
+            var jsonAsArray = JsonConvert.DeserializeObject<List<SimpleSevisBatchErrorResult>>(json);
+            Assert.IsNotNull(jsonAsArray);
+            Assert.AreEqual(0, jsonAsArray.Count);
         }
 
         [TestMethod]
@@ -1332,8 +1347,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
 
             service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
-            Assert.AreEqual(record.sevisID, participantPerson.SevisId);
-            Assert.IsNull(participantPerson.SevisBatchResult);
+            Assert.AreEqual(record.sevisID, participantPerson.SevisId);            
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
             Assert.AreEqual(otherUser.Id, participantPerson.History.CreatedBy);
             Assert.AreEqual(user.Id, participantPerson.History.RevisedBy);
@@ -1343,6 +1357,11 @@ namespace ECA.Business.Test.Service.Sevis
             var firstStatus = participantPerson.ParticipantPersonSevisCommStatuses.First();
             Assert.AreEqual(SevisCommStatus.CreatedByBatch.Id, firstStatus.SevisCommStatusId);
             firstStatus.AddedOn.Should().BeCloseTo(DateTimeOffset.UtcNow, 20000);
+
+            Assert.IsNotNull(participantPerson.SevisBatchResult);
+            var jsonAsArray = JsonConvert.DeserializeObject<List<SimpleSevisBatchErrorResult>>(participantPerson.SevisBatchResult);
+            Assert.IsNotNull(jsonAsArray);
+            Assert.AreEqual(0, jsonAsArray.Count);
         }
 
         [TestMethod]

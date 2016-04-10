@@ -7,6 +7,9 @@ using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Core.DynamicLinq.Test
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class QueryableOperatorTestClass
     {
         public int Id { get; set; }

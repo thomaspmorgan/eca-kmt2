@@ -227,10 +227,10 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("Person/{dependentId:int}/Dependent")]
         public async Task<IHttpActionResult> GetPersonDependentByIdAsync(int dependentId)
         {
-            var person = await service.GetPersonDependentByIdAsync(dependentId);
-            if (person != null)
+            var dependent = await service.GetPersonDependentByIdAsync(dependentId);
+            if (dependent != null)
             {
-                return Ok(person);
+                return Ok(dependent);
             }
             else
             {
@@ -390,7 +390,7 @@ namespace ECA.WebApi.Controllers.Persons
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var person = await service.UpdatePersonDependentAsync(model.ToUpdatePersonDependent(businessUser));
+                var dependent = await service.UpdatePersonDependentAsync(model.ToUpdatePersonDependent(businessUser));
                 await service.SaveChangesAsync();
                 return Ok();
             }
@@ -403,13 +403,16 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// Delete a dependent permanently
         /// </summary>
-        /// <param name="dependentId"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [ResponseType(typeof(OkResult))]
         [Route("People/Dependent/{dependentId:int}")]
-        public async Task<IHttpActionResult> DeleteDependentAsync(int dependentId)
+        public async Task<IHttpActionResult> PutDependentDeleteAsync(UpdatedPersonDependentBindingModel model)
         {
-            await service.DeleteDependentAsync(dependentId);
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            var updateDependent = model.ToUpdatePersonDependent(businessUser);
+            await service.DeleteDependentAsync(updateDependent);
             await service.SaveChangesAsync();
             return Ok();
         }

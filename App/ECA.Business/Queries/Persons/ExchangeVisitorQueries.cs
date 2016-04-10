@@ -71,12 +71,17 @@ namespace ECA.Business.Queries.Persons
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
-                        let residenceAddress = addressQuery
+                        let residenceAddressQuery = addressQuery
                             .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
                             .Where(x => x.Country != unitedStatesCountryName)
                             .Where(x => x.AddressTypeId == homeAddressTypeId)
-                            .OrderByDescending(x => x.IsPrimary)
-                            .FirstOrDefault()
+
+                        let residenceAddressesCount = addressQuery
+                            .Where(x => x.PersonId.HasValue && x.PersonId == person.PersonId)
+                            .Where(x => x.AddressTypeId == homeAddressTypeId)
+                            .Count()
+                        let residenceAddress = residenceAddressesCount == 1 ? residenceAddressQuery.FirstOrDefault() : null
+
                         let residenceCountry = residenceAddress != null ? context.Locations.Where(x => x.LocationId == residenceAddress.CountryId).FirstOrDefault() : null
                         let residenceSevisCountry = residenceCountry != null ? residenceCountry.BirthCountry : null
                         let residenceSevisCountryCode = residenceSevisCountry != null ? residenceSevisCountry.CountryCode : null
@@ -111,7 +116,8 @@ namespace ECA.Business.Queries.Persons
                             BirthCity = birthCity,
                             BirthCountryCode = hasCountryOfBirth ? sevisCountryOfBirth.CountryCode : null,
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
-                            BirthCountryReasonId = 0,
+                            BirthCountryReasonId = null,
+                            BirthCountryReasonCode = null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,
                             PermanentResidenceCountryCode = residenceSevisCountryCode,
                             PhoneNumber = phoneNumber != null
@@ -192,6 +198,8 @@ namespace ECA.Business.Queries.Persons
                             .OrderByDescending(x => x.IsPrimary)
                             .FirstOrDefault()
 
+                        let birthCountryReason = context.BirthCountryReasons.Where(x => x.BirthCountryReasonId == dependent.BirthCountryReasonId).FirstOrDefault()
+
                         where familyMemberIds.Contains(dependent.DependentId)
                         select new DependentBiographicalDTO
                         {
@@ -199,6 +207,7 @@ namespace ECA.Business.Queries.Persons
                             BirthCity = birthCity.LocationName,
                             BirthCountryCode = sevisBirthCountryCode,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,
+                            BirthCountryReasonCode = birthCountryReason != null ? birthCountryReason.BirthReasonCode : null,
                             BirthDate = birthDate,
                             CitizenshipCountryCode = numberOfCitizenships == 1 ? sevisCountryOfCitizenshipCode : null,
                             EmailAddress = emailAddress != null ? emailAddress.Address : null,

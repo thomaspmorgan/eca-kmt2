@@ -208,6 +208,7 @@
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Lookup\BirthCountryReasonDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
@@ -234,7 +235,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Sevis\ReadyToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Sevis\QueuedToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />

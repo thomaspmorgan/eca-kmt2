@@ -78,6 +78,11 @@ namespace ECA.Business.Queries.Models.Persons
         public int? BirthCountryReasonId { get; set; }
 
         /// <summary>
+        /// Gets or sets the birth country reason code.
+        /// </summary>
+        public string BirthCountryReasonCode { get; set; }
+
+        /// <summary>
         /// Email address
         /// </summary>
         public string EmailAddress { get; set; }

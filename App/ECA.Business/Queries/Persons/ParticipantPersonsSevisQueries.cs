@@ -30,7 +30,6 @@ namespace ECA.Business.Queries.Persons
                              IsCancelled = p.IsCancelled,
                              IsDS2019Printed = p.IsDS2019Printed,
                              IsDS2019SentToTraveler = p.IsDS2019SentToTraveler,
-                             IsNeedsUpdate = p.IsNeedsUpdate,
                              IsSentToSevisViaRTI = p.IsSentToSevisViaRTI,
                              IsValidatedViaRTI = p.IsValidatedViaRTI,
                              StartDate = p.StartDate,

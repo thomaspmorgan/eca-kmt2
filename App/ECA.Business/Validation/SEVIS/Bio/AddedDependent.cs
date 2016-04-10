@@ -20,7 +20,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 FullName fullName,
                 string birthCity,
                 string birthCountryCode,
-                int? birthCountryReasonId,
+                string birthCountryReasonCode,
                 DateTime? birthDate,
                 string citizenshipCountryCode,
                 string emailAddress,
@@ -39,7 +39,7 @@ namespace ECA.Business.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReasonId: birthCountryReasonId,
+                birthCountryReasonCode: birthCountryReasonCode,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: emailAddress,
@@ -75,17 +75,22 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.Relationship != null, "The relationship should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
 
+            Func<string, bool> isCodeSpecified = (value) =>
+            {
+                return !string.IsNullOrWhiteSpace(value);
+            };
+
             var formPurpose = EVPrintReasonType.Item08;
             if (this.IsTravelingWithParticipant)
             {
                 formPurpose = EVPrintReasonType.Item06;
             }
 
-            return new SEVISEVBatchTypeExchangeVisitorDependentAdd
+            var add = new SEVISEVBatchTypeExchangeVisitorDependentAdd
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                BirthCountryReasonSpecified = false,
+                BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReasonCode),
                 BirthDate = this.BirthDate.Value,
                 CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                 EmailAddress = this.EmailAddress,
@@ -96,6 +101,12 @@ namespace ECA.Business.Validation.Sevis.Bio
                 Relationship = this.Relationship.GetDependentCodeType(),
                 printForm = this.PrintForm,
             };
+
+            if (add.BirthCountryReasonSpecified)
+            {
+                add.BirthCountryReason = this.BirthCountryReasonCode.GetUSBornReasonType();
+            }
+            return add;
         }
 
         /// <summary>
@@ -110,11 +121,15 @@ namespace ECA.Business.Validation.Sevis.Bio
             Contract.Requires(this.CitizenshipCountryCode != null, "The CitizenshipCountryCode should be specified.");
             Contract.Requires(this.PermanentResidenceCountryCode != null, "The PermanentResidenceCountryCode should be specified.");
             Contract.Requires(this.Gender != null, "The Gender should be specified.");
+            Func<string, bool> isCodeSpecified = (value) =>
+            {
+                return !string.IsNullOrWhiteSpace(value);
+            };
             var dependent = new EVPersonTypeDependent
             {
                 BirthCity = this.BirthCity,
                 BirthCountryCode = this.BirthCountryCode.GetBirthCntryCodeType(),
-                BirthCountryReasonSpecified = false,
+                BirthCountryReasonSpecified = isCodeSpecified(this.BirthCountryReasonCode),
                 BirthDate = this.BirthDate.Value,
                 CitizenshipCountryCode = this.CitizenshipCountryCode.GetCountryCodeWithType(),
                 EmailAddress = this.EmailAddress,
@@ -123,6 +138,11 @@ namespace ECA.Business.Validation.Sevis.Bio
                 PermanentResidenceCountryCode = this.PermanentResidenceCountryCode.GetCountryCodeWithType(),
                 Relationship = this.Relationship.GetDependentCodeType(),
             };
+
+            if (dependent.BirthCountryReasonSpecified)
+            {
+                dependent.BirthCountryReason = this.BirthCountryReasonCode.GetUSBornReasonType();
+            }
             var sevisKey = new ParticipantSevisKey(this);
             sevisKey.SetUserDefinedFields(dependent);
             return dependent;

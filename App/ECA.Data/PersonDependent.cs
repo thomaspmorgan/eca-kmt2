@@ -120,7 +120,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
-        public Gender Gender { get; set; }
+        public virtual Gender Gender { get; set; }
         
         /// <summary>
         /// Gets or sets the date of birth.
@@ -137,7 +137,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the place of birth.
         /// </summary>
-        public Location PlaceOfBirth { get; set; }
+        public virtual Location PlaceOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the country of residence id.
@@ -148,7 +148,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the country of residence.
         /// </summary>
-        public Location PlaceOfResidence { get; set; }
+        public virtual Location PlaceOfResidence { get; set; }
 
         /// <summary>
         /// Gets or sets the birth country reason.
@@ -158,7 +158,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        public string BirthCountryReason { get; set; }
+        public virtual BirthCountryReason BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant
@@ -175,13 +175,19 @@ namespace ECA.Data
         /// </summary>
         public bool IsSevisDeleted { get; set; }
         
+        /// <summary>
+        /// Gets and sets the countries of citizenship
+        /// </summary>
         public ICollection<Location> CountriesOfCitizenship { get; set; }
+
+        /// <summary>
+        /// Gets and sets the email addresses
+        /// </summary>
         public ICollection<EmailAddress> EmailAddresses { get; set; }
 
         /// <summary>
         /// create/update time and user
         /// </summary>
         public History History { get; set; }
-
     }
 }

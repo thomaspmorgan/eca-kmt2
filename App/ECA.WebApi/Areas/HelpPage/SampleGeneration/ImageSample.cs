@@ -20,19 +20,31 @@ namespace ECA.WebApi.Areas.HelpPage
             Src = src;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Src { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool Equals(object obj)
         {
             ImageSample other = obj as ImageSample;
             return other != null && Src == other.Src;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override int GetHashCode()
         {
             return Src.GetHashCode();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override string ToString()
         {
             return Src;

@@ -1,17 +1,19 @@
 ﻿using ECA.WebApi.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Web;
-using System.Web.Http;
 
 namespace ECA.WebApi.Custom.Handlers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DebugWebApiUserHandler : DelegatingHandler
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected override System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
         {
 #if DEBUG

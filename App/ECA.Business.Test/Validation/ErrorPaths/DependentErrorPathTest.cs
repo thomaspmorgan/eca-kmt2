@@ -9,10 +9,12 @@ namespace ECA.Business.Test.Validation.ErrorPaths
         [TestMethod]
         public void TestConstructor()
         {
-            var instance = new DependentErrorPath();
+            var personDependentId = 10;
+            var instance = new DependentErrorPath(personDependentId);
             var lookup = SevisErrorType.Dependent;
             Assert.AreEqual(lookup.Id, instance.SevisErrorTypeId);
             Assert.AreEqual(lookup.Value, instance.SevisErrorTypeName);
+            Assert.AreEqual(personDependentId, instance.PersonDependentId);
         }
     }
 }

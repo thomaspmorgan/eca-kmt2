@@ -55,12 +55,7 @@ namespace ECA.Data
         /// has the DS2019 been printed
         /// </summary>
         public bool IsDS2019Printed { get; set; }
-
-        /// <summary>
-        /// does the participant need updating in Sevis (previous Sevis data sent has been changed)
-        /// </summary>
-        public bool IsNeedsUpdate { get; set; }
-
+        
         /// <summary>
         /// has the DS2019 been sent to the traveler
         /// </summary>

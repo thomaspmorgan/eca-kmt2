@@ -1003,7 +1003,6 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestUpdate_SetContacts()
         {
-            var creatorId = 10;
             var orgId = 1;
             var oldName = "oldName";
             var oldDescription = "oldDescription";

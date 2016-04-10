@@ -93,6 +93,7 @@ angular.module('staticApp')
       $scope.view.onSelectCityBlur = function ($event) {
           if ($scope.view.newLocation.city === '') {
               clearCity();
+              clearDivision();
               clearLatAndLong();
           }
       };
@@ -114,11 +115,12 @@ angular.module('staticApp')
 
               return $q.all(loadDivisions(), checkNewLocationExistence())
               .then(function () {
-
               })
               .catch(function () {
                   $log.error('Error when selecting city.');
               });
+          } else {
+              clearDivision();
           }
       }
 
@@ -242,6 +244,10 @@ angular.module('staticApp')
       function clearCity() {
           delete $scope.view.newLocation.cityId;
           delete $scope.view.newLocation.city;
+      }
+
+      function clearDivision() {
+          delete $scope.view.newLocation.divisionId;
       }
 
       function clearMapMarkers() {
@@ -374,9 +380,6 @@ angular.module('staticApp')
               .equal('locationTypeId', ConstantsService.locationType.city.id)
               .isNotNull('name')
               .sortBy('name');
-          if ($scope.view.newLocation.divisionId) {
-              citiesFilter = citiesFilter.equal('divisionId', $scope.view.newLocation.divisionId);
-          }
           if ($scope.view.newLocation.countryId) {
               citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
           }

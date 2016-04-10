@@ -2,13 +2,17 @@
 using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Custom.SwaggerExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AddResourceAuthorizePermissionRequirement : IOperationFilter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, System.Web.Http.Description.ApiDescription apiDescription)
         {
             var attributes = apiDescription.ActionDescriptor.GetCustomAttributes<ResourceAuthorizeAttribute>();

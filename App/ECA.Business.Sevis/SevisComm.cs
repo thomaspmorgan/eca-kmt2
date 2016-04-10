@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Xml.Linq;
@@ -60,11 +58,11 @@ namespace ECA.Business.Sevis
                     xmlContent.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
                     content.Add(xmlContent, "\"" + xmlValuePair.Key + "\"");
 
-                    var response = await httpClient.PostAsync(UploadUri, content);
+                var response = await httpClient.PostAsync(UploadUri, content);
 
-                    return response;
-                }
+                return response;
             }
+        }
         }
 
         public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId)

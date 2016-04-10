@@ -160,6 +160,9 @@ namespace CAM.Business.Test.Service
             tester();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [TestMethod]
         public async Task TestGrantPermission_PermissionIsNotAResourcePermission()
         {
@@ -194,8 +197,7 @@ namespace CAM.Business.Test.Service
             resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList());
 
             Assert.AreEqual(0, context.PermissionAssignments.Count());
-
-
+            
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
             service.Invoking(x => x.GrantPermission(grantedPermission)).ShouldThrow<NotSupportedException>()
                 .WithMessage(String.Format("The requested permission with id [{0}] is not a valid permission for the resource.", permission.PermissionId));
@@ -206,7 +208,6 @@ namespace CAM.Business.Test.Service
             };
             f.ShouldThrow<NotSupportedException>()
                 .WithMessage(String.Format("The requested permission with id [{0}] is not a valid permission for the resource.", permission.PermissionId));
-
         }
 
         [TestMethod]
@@ -306,7 +307,6 @@ namespace CAM.Business.Test.Service
 
             grantAction.ShouldThrow<ModelNotFoundException>()
                 .WithMessage(String.Format("The user with id [{0}] being granted the permission was not found.", grantedPermission.GranteePrincipalId));
-
         }
 
         [TestMethod]
@@ -346,7 +346,6 @@ namespace CAM.Business.Test.Service
 
             grantAction.ShouldThrow<ModelNotFoundException>()
                 .WithMessage(String.Format("The user with id [{0}] granting the permission could not be found.", grantedPermission.Audit.UserId));
-
         }
 
         [TestMethod]
@@ -485,8 +484,8 @@ namespace CAM.Business.Test.Service
                 .WithMessage("There should not be more than one permission assignment to set is allowed true.");
             grantAction.ShouldThrow<NotSupportedException>()
                 .WithMessage("There should not be more than one permission assignment to set is allowed true.");
-
         }
+
         #endregion
 
         #region Revoke

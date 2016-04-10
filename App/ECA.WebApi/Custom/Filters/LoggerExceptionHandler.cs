@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
-using System.Web;
 using System.Web.Http.ExceptionHandling;
 
 namespace ECA.WebApi.Custom.Filters
@@ -16,22 +13,36 @@ namespace ECA.WebApi.Custom.Filters
     /// </summary>
     public class LoggerExceptionHandler : ExceptionLogger
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const string ACTION_ARGUMENTS_CONTEXT_KEY = "actionArguments";
 
+        /// <summary>
+        /// 
+        /// </summary>
         public const string CONTROLLER_CONTEXT_KEY = "controllerName";
 
+        /// <summary>
+        /// 
+        /// </summary>
         public const string ACTION_CONTEXT_KEY = "actionName";
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Log(ExceptionLoggerContext context)
         {
             AddActionArguments(context);
             AddControllerAndAction(context);
-            logger.Log(LogLevel.Error, RequestToString(context.Request), context.Exception);
+            logger.Log(LogLevel.Error, context.Exception);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static string RequestToString(HttpRequestMessage request)
         {   
             var message = new StringBuilder();
@@ -44,6 +55,9 @@ namespace ECA.WebApi.Custom.Filters
             return message.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void AddActionArguments(ExceptionLoggerContext context)
         {
             if (context.ExceptionContext.ActionContext != null)
@@ -58,6 +72,9 @@ namespace ECA.WebApi.Custom.Filters
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void AddControllerAndAction(ExceptionLoggerContext context)
         {
 
@@ -71,6 +88,9 @@ namespace ECA.WebApi.Custom.Filters
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private string Jsonify(Dictionary<string, object> actionArguments)
         {
             var json = JsonConvert.SerializeObject(actionArguments);

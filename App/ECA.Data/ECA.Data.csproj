@@ -145,6 +145,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\BirthCountryConfiguration.cs" />
+    <Compile Include="Configuration\BirthCountryReasonConfiguration.cs" />
     <Compile Include="Configuration\BookmarkConfiguration.cs" />
     <Compile Include="Configuration\DataPointCategoryPropertyConfiguration.cs" />
     <Compile Include="Configuration\DataPointConfigurationConfiguration.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="PersonDependent.cs" />
     <Compile Include="DependentType.cs" />
+    <Compile Include="PersonDependentCitizenCountry.cs" />
     <Compile Include="SevisBatchProcessing.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />

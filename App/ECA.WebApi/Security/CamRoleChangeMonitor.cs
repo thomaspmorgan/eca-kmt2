@@ -18,6 +18,9 @@ namespace ECA.WebApi.Security
     {
         private string uniqueId;
 
+        /// <summary>
+        /// 
+        /// </summary>
         // Shared across all SignaledChangeMonitors in the AppDomain
         public static event EventHandler<CamRoleChangeMonitorEventArgs> RoleChanged;
 

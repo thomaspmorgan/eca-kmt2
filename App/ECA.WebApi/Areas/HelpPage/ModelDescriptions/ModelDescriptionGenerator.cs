@@ -86,6 +86,9 @@ namespace ECA.WebApi.Areas.HelpPage.ModelDescriptions
 
         private Lazy<IModelDocumentationProvider> _documentationProvider;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ModelDescriptionGenerator(HttpConfiguration config)
         {
             if (config == null)
@@ -97,6 +100,9 @@ namespace ECA.WebApi.Areas.HelpPage.ModelDescriptions
             GeneratedModels = new Dictionary<string, ModelDescription>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Dictionary<string, ModelDescription> GeneratedModels { get; private set; }
 
         private IModelDocumentationProvider DocumentationProvider
@@ -107,6 +113,9 @@ namespace ECA.WebApi.Areas.HelpPage.ModelDescriptions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ModelDescription GetOrCreateModelDescription(Type modelType)
         {
             if (modelType == null)

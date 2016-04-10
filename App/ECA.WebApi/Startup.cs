@@ -1,20 +1,20 @@
-﻿using System;
-using System.Web.Http;
-using System.Threading.Tasks;
-using System.Web.Routing;
+﻿using System.Web.Http;
 using Microsoft.Owin;
 using Owin;
-using System.IdentityModel.Tokens;
-using Microsoft.Owin.Security.ActiveDirectory;
-using ECA.WebApi.Models;
 using System.Web.Mvc;
 
 [assembly: OwinStartup(typeof(ECA.WebApi.Startup))]
 
 namespace ECA.WebApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class Startup
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);

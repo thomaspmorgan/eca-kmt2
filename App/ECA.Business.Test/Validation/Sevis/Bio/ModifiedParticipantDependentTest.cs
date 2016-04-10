@@ -44,7 +44,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReasonId = 1;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
 
@@ -52,7 +52,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReasonId: birthCountryReasonId,
+                birthCountryReasonCode: birthCountryReasonCode,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,
@@ -105,7 +105,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
             };
             var printForm = true;
-            var birthCountryReasonId = 1;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
 
@@ -113,7 +113,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 fullName: fullName,
                 birthCity: birthCity,
                 birthCountryCode: birthCountryCode,
-                birthCountryReasonId: birthCountryReasonId,
+                birthCountryReasonCode: birthCountryReasonCode,
                 birthDate: birthDate,
                 citizenshipCountryCode: citizenshipCountryCode,
                 emailAddress: email,

@@ -26,7 +26,6 @@ namespace ECA.WebApi.Controllers.Persons
         private static readonly ExpressionSorter<ParticipantPersonSevisDTO> DEFAULT_SORTER = new ExpressionSorter<ParticipantPersonSevisDTO>(x => x.ParticipantId, SortDirection.Ascending);
 
         private IParticipantPersonsSevisService participantService;
-        private IExchangeVisitorService visitorService;
         private IUserProvider userProvider;
 
         /// <summary>

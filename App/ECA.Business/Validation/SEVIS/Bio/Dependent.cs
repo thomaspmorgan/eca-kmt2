@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Sevis.Model;
 using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
@@ -13,7 +14,7 @@ namespace ECA.Business.Validation.Sevis.Bio
             FullName fullName,
             string birthCity,
             string birthCountryCode,
-            int? birthCountryReasonId,
+            string birthCountryReasonCode,
             DateTime? birthDate,
             string citizenshipCountryCode,
             string emailAddress,
@@ -31,7 +32,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         {
             this.BirthCity = birthCity;
             this.BirthCountryCode = birthCountryCode;
-            this.BirthCountryReasonId = birthCountryReasonId;
+            this.BirthCountryReasonCode = birthCountryReasonCode;
             this.BirthDate = birthDate;
             this.CitizenshipCountryCode = citizenshipCountryCode;
             this.EmailAddress = emailAddress;
@@ -106,7 +107,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <summary>
         /// Gets the birth country reason.
         /// </summary>
-        public int? BirthCountryReasonId { get; private set; }
+        public string BirthCountryReasonCode { get; private set; }
 
         /// <summary>
         /// Gets the email address.
@@ -132,6 +133,50 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// Gets or sets the relationship.
         /// </summary>
         public string Relationship { get; set; }
+
+        /// <summary>
+        /// Returns true, if the relationship has a value and its the dependent code time 01.
+        /// </summary>
+        /// <returns>True, if the relationship has a value and its the dependent code time 01.</returns>
+        public bool IsSpousalDependent()
+        {
+            return !String.IsNullOrWhiteSpace(this.Relationship) && this.Relationship.GetDependentCodeType() == DependentCodeType.Item01;
+        }
+
+        /// <summary>
+        /// Returns true, if the relationship has a value and its the dependent code time 02.
+        /// </summary>
+        /// <returns>True, if the relationship has a value and its the dependent code time 02.</returns>
+        public bool IsChildDependent()
+        {
+            return !String.IsNullOrWhiteSpace(this.Relationship) && this.Relationship.GetDependentCodeType() == DependentCodeType.Item02;
+        }
+
+        /// <summary>
+        /// Returns the age of this dependent, or -1 if the birthdate is null.
+        /// </summary>
+        /// <returns>The age of the dependent, or -1 if the birthdate is null.</returns>
+        public int GetAge()
+        {
+            if (this.BirthDate.HasValue)
+            {
+                var dob = this.BirthDate.Value;
+                var utcNow = DateTime.UtcNow;
+                var birthDate = new DateTime(dob.Year, dob.Month, dob.Day, 0, 0, 0, DateTimeKind.Utc);
+                var today = utcNow.Date;
+
+                var age = today.Year - birthDate.Year;
+                if (today.DayOfYear < birthDate.DayOfYear)
+                {
+                    age--;
+                }
+                return age;
+            }
+            else
+            {
+                return -1;
+            }
+        }
 
         /// <summary>
         /// Returns a SEVISEVBatchTypeExchangeVisitorDependent(Add|Delete|Edit|EndStatus|Reprint|Terminate) instance used when performing

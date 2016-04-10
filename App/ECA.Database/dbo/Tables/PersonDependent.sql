@@ -25,7 +25,7 @@
 	CONSTRAINT [FK_PersonDependent_ToGender] FOREIGN KEY ([GenderId]) REFERENCES [Gender]([GenderId]),
 	CONSTRAINT [FK_PersonDependent_ToPlaceOfBirth] FOREIGN KEY ([PlaceOfBirthId]) REFERENCES [Location]([LocationId]),
 	CONSTRAINT [FK_PersonDependent_ToPlaceOfResidence] FOREIGN KEY ([PlaceOfResidenceId]) REFERENCES [Location]([LocationId]), 
-    CONSTRAINT [FK_PersonDependent_ToBirthCountryReason] FOREIGN KEY ([BirthCountryReasonId]) REFERENCES [BirthCountryReason]([BirthCountryReasonId])
+    CONSTRAINT [FK_PersonDependent_ToBirthCountryReason] FOREIGN KEY ([BirthCountryReasonId]) REFERENCES [sevis].[BirthCountryReason]([BirthCountryReasonId])
 )
 
 GO
