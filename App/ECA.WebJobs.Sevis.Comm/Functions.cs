@@ -10,6 +10,7 @@ using ECA.WebJobs.Sevis;
 using ECA.Business.Sevis;
 using ECA.Business.Service;
 using ECA.WebJobs.Sevis.Core;
+using System.Xml.Linq;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -71,15 +72,13 @@ namespace ECA.WebJobs.Sevis.Comm
 
             var batchComm = new SevisComm(settings);
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
-            //while (dtoToUpload != null)
-            //{
-            //    //do the send here
-
-            //    //string transactionLogXml = null;
-            //    //var fileProvider = GetFileProvider();
-            //    //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
-            //    dtoToUpload = await service.GetNextBatchToUploadAsync();
-            //}
+            while (dtoToUpload != null)
+            {
+                //do the send here
+                var fileProvider = GetFileProvider();
+                var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId);
+                //process response message
+            }
 
             var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
             //while (batchByIdToDownload != null)
