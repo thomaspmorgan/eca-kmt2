@@ -5,7 +5,7 @@
         .module('staticApp')
         .factory('ParticipantPersonsSevisService', participantPersonsSevisService);
 
-    participantPersonsSevisService.$inject = ['$q','DragonBreath'];
+    participantPersonsSevisService.$inject = ['$q', 'DragonBreath'];
 
     function participantPersonsSevisService($q, DragonBreath) {
         var service = {
@@ -34,14 +34,19 @@
             });
         };
 
-        function sendToSevis(projectId, participantIds) {
-            return DragonBreath.create(participantIds, 'project/' + projectId + '/participantPersonsSevis/sendToSevis');
+        function sendToSevis(applicationId, projectId, participantIds, sevisUsername, sevisOrgId) {
+            var model = {
+                participantIds: participantIds,
+                sevisUsername: sevisUsername,
+                sevisOrgId: sevisOrgId
+            };
+            return DragonBreath.create(model, 'application/' + applicationId + '/project/' + projectId + '/participantPersonsSevis/sendToSevis');
         };
 
         function verifyExchangeVisitor(projectId, participantId) {
             return DragonBreath.create({}, 'project/' + projectId + '/participant/' + participantId + '/verify');
         }
-        
+
         // update participant sevis batch status
         function processParticipantSevisBatchLog(id) {
             var path = 'ParticipantPersonsSevis/UpdateSevisBatchStatus';

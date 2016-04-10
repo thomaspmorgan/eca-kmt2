@@ -44,8 +44,6 @@ namespace ECA.Business.Test.Service.Persons
             cStreetAddressJson = JsonConvert.SerializeObject(cStreetAddress);
             nameValueSettings.Add(AppSettings.SEVIS_SITE_OF_ACTIVITY_ADDRESS_DTO, cStreetAddressJson);
 
-            nameValueSettings.Add(AppSettings.SEVIS_USERID_KEY, "sevisUserId");
-
             context = new TestEcaContext();
             service = new ExchangeVisitorService(context, appSettings);
         }
@@ -143,7 +141,6 @@ namespace ECA.Business.Test.Service.Persons
                 });
                 Action<ExchangeVisitor> tester = (exchangeVisitor) =>
                 {
-                    Assert.AreEqual(appSettings.SevisUserId, exchangeVisitor.SevisUserId);
                     Assert.AreEqual(1, exchangeVisitor.Dependents.Count());
                     Assert.IsNotNull(exchangeVisitor.FinancialInfo);
                     Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, exchangeVisitor.OccupationCategoryCode);
@@ -151,7 +148,6 @@ namespace ECA.Business.Test.Service.Persons
                     Assert.AreEqual(participantPerson.StartDate.Value.DateTime, exchangeVisitor.ProgramStartDate);
                     Assert.AreEqual(participantPerson.EndDate.Value.DateTime, exchangeVisitor.ProgramEndDate);
                     Assert.AreEqual(participantPerson.SevisId, exchangeVisitor.SevisId);
-                    Assert.AreEqual(appSettings.SevisUserId, exchangeVisitor.SevisUserId);
 
                     Assert.IsNotNull(exchangeVisitor.SiteOfActivity);
                     var cStreetAddress = service.GetStateDepartmentCStreetAddress();
@@ -367,7 +363,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExchangeVisitor_HasAllEntityRelationships()
         {
-            var sevisUserId = "sevisUserId";
             var person = new Business.Validation.Sevis.Bio.Person(
                 fullName: null,
                 birthCity: null,
@@ -398,7 +393,6 @@ namespace ECA.Business.Test.Service.Persons
             var dependents = new List<DependentBiographicalDTO>();
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
             var instance = service.GetExchangeVisitor(
-                sevisUserId: sevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -411,7 +405,6 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsTrue(Object.ReferenceEquals(financialInfo, instance.FinancialInfo));
             Assert.IsTrue(Object.ReferenceEquals(siteOfActivity, instance.SiteOfActivity));
             Assert.IsNotNull(instance.Dependents);
-            Assert.AreEqual(sevisUserId, instance.SevisUserId);
             Assert.AreEqual(participantPerson.StartDate.Value.DateTime, instance.ProgramStartDate);
             Assert.AreEqual(participantPerson.EndDate.Value.DateTime, instance.ProgramEndDate);
             Assert.AreEqual(participantPerson.SevisId, instance.SevisId);
@@ -457,7 +450,6 @@ namespace ECA.Business.Test.Service.Persons
 
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
             var instance = service.GetExchangeVisitor(
-                sevisUserId: sevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -501,7 +493,6 @@ namespace ECA.Business.Test.Service.Persons
             var dependents = new List<DependentBiographicalDTO>();
             var siteOfActivity = service.GetStateDepartmentCStreetAddress();
             var instance = service.GetExchangeVisitor(
-                sevisUserId: sevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,

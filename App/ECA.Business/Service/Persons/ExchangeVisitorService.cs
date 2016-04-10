@@ -109,7 +109,6 @@ namespace ECA.Business.Service.Persons
             var dependents = ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participantId).ToList();
 
             return GetExchangeVisitor(
-                sevisUserId: appSettings.SevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -150,7 +149,6 @@ namespace ECA.Business.Service.Persons
             var dependents = await ExchangeVisitorQueries.CreateGetParticipantDependentsBiographicalQuery(this.Context, participantId).ToListAsync();
 
             return GetExchangeVisitor(
-                sevisUserId: appSettings.SevisUserId,
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
@@ -221,7 +219,6 @@ namespace ECA.Business.Service.Persons
         /// <param name="siteOfActivity">The site of activity, i.e. C Street state dept.</param>
         /// <returns>The exchange visitor.</returns>
         public ExchangeVisitor GetExchangeVisitor(
-            string sevisUserId, 
             Validation.Sevis.Bio.Person person, 
             FinancialInfo financialInfo, 
             ParticipantPerson participantPerson, 
@@ -229,7 +226,6 @@ namespace ECA.Business.Service.Persons
             IEnumerable<DependentBiographicalDTO> dependents, 
             AddressDTO siteOfActivity)
         {
-            Contract.Requires(sevisUserId != null, "The sevis user id must not be null.");
             Contract.Requires(person != null, "The person must not be null.");
             Contract.Requires(financialInfo != null, "The financial info must not be null.");
             Contract.Requires(participantPerson != null, "The participant person must not be null.");
@@ -245,7 +241,6 @@ namespace ECA.Business.Service.Persons
             }
 
             return new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: participantPerson.SevisId,
                 person: person,
                 financialInfo: financialInfo,

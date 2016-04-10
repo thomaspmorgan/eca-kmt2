@@ -177,6 +177,21 @@ namespace CAM.Business.Test
 			return Task.FromResult<CAM.Data.Role>(this.SingleOrDefault(x => x.RoleId.Equals(keyValues.First())));
 		}
 	}
+	public class SevisAccountTestDbSet : ECA.Core.Data.TestDbSet<CAM.Data.SevisAccount>
+	{
+		public override CAM.Data.SevisAccount Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///Id
+			return this.SingleOrDefault(x => x.Id.Equals(keyValues.First()));
+		}
+		public override Task<CAM.Data.SevisAccount> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///Id
+			return Task.FromResult<CAM.Data.SevisAccount>(this.SingleOrDefault(x => x.Id.Equals(keyValues.First())));
+		}
+	}
 	public class UserAccountTestDbSet : ECA.Core.Data.TestDbSet<CAM.Data.UserAccount>
 	{
 		public override CAM.Data.UserAccount Find(params object[] keyValues)
@@ -213,6 +228,7 @@ namespace CAM.Business.Test
 			this.ResourceTypes = new ResourceTypeTestDbSet();
 			this.RoleResourcePermissions = new RoleResourcePermissionTestDbSet();
 			this.Roles = new RoleTestDbSet();
+			this.SevisAccounts = new SevisAccountTestDbSet();
 			this.UserAccounts = new UserAccountTestDbSet();
 		}
 

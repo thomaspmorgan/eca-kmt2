@@ -1,6 +1,0 @@
-INSERT INTO [CAM].[RoleResourcePermission] ([RoleId], [ResourceId], [PermissionId], [AssignedOn], [AssignedBy]) VALUES (4, 2, 5, N'4/12/2015 12:00:00 AM -04:00', 1)
-INSERT INTO [CAM].[RoleResourcePermission] ([RoleId], [ResourceId], [PermissionId], [AssignedOn], [AssignedBy]) VALUES (5, 2, 2, N'4/12/2015 12:00:00 AM -04:00', 1)
-INSERT INTO [CAM].[RoleResourcePermission] ([RoleId], [ResourceId], [PermissionId], [AssignedOn], [AssignedBy]) VALUES (4, 3, 5, N'4/12/2015 12:00:00 AM -04:00', 1)
-INSERT INTO [CAM].[RoleResourcePermission] ([RoleId], [ResourceId], [PermissionId], [AssignedOn], [AssignedBy]) VALUES (5, 3, 2, N'4/12/2015 12:00:00 AM -04:00', 1)
-INSERT INTO [CAM].[RoleResourcePermission] ([RoleId], [ResourceId], [PermissionId], [AssignedOn], [AssignedBy]) VALUES (4, 5, 5, N'4/12/2015 12:00:00 AM -04:00', 1)
-INSERT INTO [CAM].[RoleResourcePermission] ([RoleId], [ResourceId], [PermissionId], [AssignedOn], [AssignedBy]) VALUES (5, 5, 2, N'4/12/2015 12:00:00 AM -04:00', 1)

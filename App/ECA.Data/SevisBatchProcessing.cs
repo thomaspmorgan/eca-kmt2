@@ -34,6 +34,16 @@ namespace ECA.Data
         public DateTimeOffset? RetrieveDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the sevis org id that requested the batch.
+        /// </summary>
+        public string SevisOrgId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis username that requested the batch.
+        /// </summary>
+        public string SevisUsername { get; set; }
+
+        /// <summary>
         /// Storage for SEVIS Submission XML
         /// </summary>
         [Column("SendXml", TypeName = "xml")]

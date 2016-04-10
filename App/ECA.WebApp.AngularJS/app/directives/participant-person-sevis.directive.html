@@ -1,5 +1,5 @@
 <div class="row row2">
-    <div class="col-md-12" ng-show="sevisinfo">     
+    <div class="col-md-12" ng-show="sevisinfo">
         <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid">
             <div class="col-md-3">
                 <p class="title-label" style="color:red;">
@@ -78,12 +78,29 @@
             {{sevisinfo.sevisId}}
         </div>
     </div>
-    <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses">
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-24 pull-right" style="color: green" ng-show="view.DHSStatus">check</i>
+    <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses" ng-show="$index < view.maxNumberOfSevisCommStatusesToShow">
+        <div class="col-md-1">
+            &nbsp;
         </div>
-        <div class="col-md-3">{{status.sevisCommStatusName}}</div>
-        <div class="col-md-6">On: {{ status.addedOn | date:'short' }}</div>
+        <div class="col-md-2">
+            <i class="material-icons md-dark md-12" style="color: green" ng-show="view.DHSStatus">check</i>
+            {{ status.addedOn | date:'short' }}
+        </div>
+        <div class="col-md-4">
+            {{status.sevisCommStatusName}}
+        </div>
+        <div class="col-md-2">
+            {{status.sevisOrgId}}
+        </div>
+        <div class="col-md-2">
+            {{status.sevisUsername}}
+        </div>
+        <div class="col-md-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row4" ng-show="view.maxNumberOfSevisCommStatusesToShow < sevisinfo.sevisCommStatuses.length">
+        <a ng-click="view.showNextSevisCommStatuses()">Show next {{view.sevisCommStatusesPageSize}} statuses.</a>
     </div>
 </div>
 <div class="row row2">

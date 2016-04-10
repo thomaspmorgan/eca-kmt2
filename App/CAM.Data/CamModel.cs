@@ -45,6 +45,11 @@ namespace CAM.Data
         public virtual DbSet<Application> Applications { get; set; }
 
         /// <summary>
+        /// Gets or sets the sevis accounts.
+        /// </summary>
+        public virtual DbSet<SevisAccount> SevisAccounts { get; set; }
+
+        /// <summary>
         /// Gets or sets the permissions.
         /// </summary>
         public virtual DbSet<Permission> Permissions { get; set; }
@@ -133,6 +138,10 @@ namespace CAM.Data
                 .HasOptional(e => e.UserAccount)
                 .WithRequired(e => e.Principal);
 
+            modelBuilder.Entity<Principal>()
+                .HasMany(e => e.SevisAccounts)
+                .WithRequired(e => e.Principal);
+
             modelBuilder.Entity<PrincipalType>()
                 .Property(e => e.PrincipalTypeName)
                 .IsFixedLength();
@@ -180,6 +189,7 @@ namespace CAM.Data
                 .HasMany(e => e.RoleResourcePermissions)
                 .WithRequired(e => e.Role)
                 .WillCascadeOnDelete(false);
+
         }
 
 

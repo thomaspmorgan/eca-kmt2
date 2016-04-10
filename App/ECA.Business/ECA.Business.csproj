@@ -227,6 +227,7 @@
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisGroupedQueuedToSubmitParticipantsDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
@@ -235,7 +236,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Sevis\QueuedToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\QueuedToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
@@ -354,6 +355,7 @@
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
     <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
+    <Compile Include="Service\Persons\ParticipantsToBeSentToSevis.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />

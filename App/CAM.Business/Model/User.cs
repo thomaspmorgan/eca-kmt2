@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CAM.Data;
 
-namespace CAM.Business.Service
+namespace CAM.Business.Model
 {
     /// <summary>
     /// The User is a container for holding information about a user when interacting with the business model.  It also holds information
@@ -13,6 +9,19 @@ namespace CAM.Business.Service
     /// </summary>
     public class User
     {
+        /// <summary>
+        /// Creates a new default user instance.
+        /// </summary>
+        public User()
+        {
+            this.SevisUserAccounts = new List<SevisUserAccount>();
+        }
+
+        /// <summary>
+        /// Gets or sets the sevis user accounts.
+        /// </summary>
+        public IEnumerable<SevisUserAccount> SevisUserAccounts { get; set; }
+
         /// <summary>
         /// Gets or sets the principal id.
         /// </summary>

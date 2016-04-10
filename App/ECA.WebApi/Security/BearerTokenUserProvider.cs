@@ -1,5 +1,5 @@
-﻿using CAM.Business.Service;
-using CAM.Data;
+﻿using CAM.Business.Model;
+using CAM.Business.Service;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -18,7 +17,6 @@ namespace ECA.WebApi.Security
     /// </summary>
     public class BearerTokenUserProvider : IUserProvider
     {
-
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private IUserCacheService cacheService;
         private IPermissionService permissionService;
@@ -349,6 +347,38 @@ namespace ECA.WebApi.Security
                     this.cacheService = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns true, if the given user has the sevis user account credentials.
+        /// </summary>
+        /// <param name="user">The user to test.</param>
+        /// <param name="sevisUsername">The sevis username.</param>
+        /// <param name="sevisOrgId">The sevis org id.</param>
+        /// <returns>True, if the given user has the given sevis credentials, otherwise, false.</returns>
+        public bool HasSevisUserAccount(IWebApiUser user, string sevisUsername, string sevisOrgId)
+        {
+            var cache = GetUserCache(user);
+            return HasSevisUserAccount(cache, sevisUsername, sevisOrgId);
+        }
+
+        /// <summary>
+        /// Returns true, if the given user has the sevis user account credentials.
+        /// </summary>
+        /// <param name="user">The user to test.</param>
+        /// <param name="sevisUsername">The sevis username.</param>
+        /// <param name="sevisOrgId">The sevis org id.</param>
+        /// <returns>True, if the given user has the given sevis credentials, otherwise, false.</returns>
+        public async Task<bool> HasSevisUserAccountAsync(IWebApiUser user, string sevisUsername, string sevisOrgId)
+        {
+            var cache = await GetUserCacheAsync(user);
+            return HasSevisUserAccount(cache, sevisUsername, sevisOrgId);
+        }
+
+        private bool HasSevisUserAccount(UserCache cache, string sevisUsername, string sevisOrgId)
+        {
+            return cache.SevisUserAccounts.Where(x => x.OrgId.ToLower() == sevisOrgId.ToLower()
+            && x.Username.ToLower() == sevisUsername.ToLower()).Count() > 0;
         }
 
         #endregion

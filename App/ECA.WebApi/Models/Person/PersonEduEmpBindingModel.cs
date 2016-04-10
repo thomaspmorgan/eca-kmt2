@@ -49,7 +49,7 @@ namespace ECA.WebApi.Models.Person
         /// 
         /// </summary>
         public int? PersonOfProfession_PersonId { get; set; }
-
+        
         /// <summary>
         /// 
         /// </summary>

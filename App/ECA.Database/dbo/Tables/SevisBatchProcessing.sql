@@ -2,6 +2,8 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
 	[BatchId] NVARCHAR(14) NOT NULL,
+	[SevisUsername] NVARCHAR(10) NOT NULL, 
+    [SevisOrgId] NVARCHAR(15) NOT NULL, 
     [SubmitDate] DATETIMEOFFSET NULL, 
     [RetrieveDate] DATETIMEOFFSET NULL, 
     [SendXml] XML NULL, 

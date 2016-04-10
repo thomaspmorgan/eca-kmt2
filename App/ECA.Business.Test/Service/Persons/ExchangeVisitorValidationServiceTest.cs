@@ -71,7 +71,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantTypeIsNotForeignTravelingParticipant()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -93,7 +92,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -134,7 +132,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantStatusIsNotInListOfTrackedParticipantStatuses()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -157,7 +154,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -198,7 +194,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveParticipantStatus()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -221,7 +216,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -263,7 +257,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ValidationSucceeds()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -286,7 +279,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -337,8 +329,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ValidationFails()
         {
-
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -361,7 +351,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -413,8 +402,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_DoesNotHaveACommStatus_ValidationFails()
         {
-
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -435,7 +422,6 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -486,8 +472,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_DoesHaveAnInformationRequiredCommStatus_ValidationFails()
         {
-
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -515,7 +499,6 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -568,7 +551,6 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestRunParticipantSevisValidation_DoesNotHaveAnInformationRequiredCommStatus_ValidationFails()
         {
             var yesterday = DateTime.UtcNow.AddDays(-1.0);
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -596,7 +578,6 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,

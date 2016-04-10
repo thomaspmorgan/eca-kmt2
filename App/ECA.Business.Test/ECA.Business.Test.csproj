@@ -224,6 +224,7 @@
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantPersonsSevisQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueriesTest.cs" />
     <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorValidationServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveActionTest.cs" />
+    <Compile Include="Service\Persons\ParticipantsToBeSentToSevisTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
     <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />

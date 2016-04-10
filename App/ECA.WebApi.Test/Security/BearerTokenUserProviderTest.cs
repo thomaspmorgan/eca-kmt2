@@ -347,6 +347,102 @@ namespace ECA.WebApi.Test.Security
             cacheService.Verify(x => x.Remove(It.IsAny<Guid>()), Times.Once());
         }
 
+        [TestMethod]
+        public async Task TestHasSevisUserAccount_UserHasAccount()
+        {
+            var camId = 1;
+            var isUserValid = true;
+            var sevisAccount = new SevisUserAccount
+            {
+                OrgId = "org",
+                Username = "user"
+            };
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
+            camUser.SevisUserAccounts = new List<SevisUserAccount>
+            {
+                sevisAccount
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, isUserValid, permissions);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+
+            Action<bool> tester = (result) =>
+            {
+                Assert.IsTrue(result);
+            };
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
+            tester(provider.HasSevisUserAccount(user, sevisAccount.Username, sevisAccount.OrgId));
+            tester(await provider.HasSevisUserAccountAsync(user, sevisAccount.Username, sevisAccount.OrgId));
+        }
+
+        [TestMethod]
+        public async Task TestHasSevisUserAccount_CheckCaseInsensitive()
+        {
+            var camId = 1;
+            var isUserValid = true;
+            var sevisAccount = new SevisUserAccount
+            {
+                OrgId = "org",
+                Username = "user"
+            };
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
+            camUser.SevisUserAccounts = new List<SevisUserAccount>
+            {
+                sevisAccount
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, isUserValid, permissions);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+
+            Action<bool> tester = (result) =>
+            {
+                Assert.IsTrue(result);
+            };
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
+            tester(provider.HasSevisUserAccount(user, sevisAccount.Username.ToUpper(), sevisAccount.OrgId.ToUpper()));
+            tester(await provider.HasSevisUserAccountAsync(user, sevisAccount.Username.ToUpper(), sevisAccount.OrgId.ToUpper()));
+        }
+
+        [TestMethod]
+        public async Task TestHasSevisUserAccount_UserDoesNotHaveAccount()
+        {
+            var camId = 1;
+            var isUserValid = true;
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, isUserValid, permissions);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+
+            Action<bool> tester = (result) =>
+            {
+                Assert.IsFalse(result);
+            };
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionService.Object);
+            tester(provider.HasSevisUserAccount(user, "user", "org"));
+            tester(await provider.HasSevisUserAccountAsync(user, "user", "org"));
+        }
+
         #region Dispose
         [TestMethod]
         public void TestDispose_UserService()

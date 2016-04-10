@@ -52,6 +52,8 @@
                 var limit = 300;
                 $scope.edit = [];
                 $scope.view = {};
+                $scope.view.maxNumberOfSevisCommStatusesToShow = 20;
+                $scope.view.sevisCommStatusesPageSize = 20;
                 $scope.view.PositionAndField = false;
                 $scope.view.PositionAndFieldEdit = false;
                 $scope.edit.isStartDatePickerOpen = false;
@@ -71,6 +73,10 @@
                         sevisInfoCopy = angular.copy(newValue);
                     }
                 })
+
+                $scope.view.showNextSevisCommStatuses = function () {
+                    $scope.view.maxNumberOfSevisCommStatusesToShow += $scope.view.sevisCommStatusesPageSize;
+                }
 
                 $scope.edit.onDosStatusChange = function ($event, checkboxId, checked) {
                     var ok = function () {

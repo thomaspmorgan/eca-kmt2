@@ -1,0 +1,29 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Select a Sevis Account used batch participants</h3>
+    <div class="page-header">
+        <p class="subheader">Select the Sevis Account you wish to use when batching participants to be sent to Sevis.</p>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="form-group row">
+        <label class="col-md-4 title-label" for="status">Sevis Accounts</label>
+        <div class="col-md-8">            
+            <ui-select ng-model="view.selectedSevisAccount" theme="select2" tabindex="1" ng-required="true">
+                <ui-select-match allow-clear="false" placeholder="Select a sevis account...">
+                    <div>
+                        {{$select.selected.username}} ({{$select.selected.orgId}})
+                    </div>
+                </ui-select-match>
+                <ui-select-choices repeat="account as account in view.userInfo.sevisUserAccounts">
+                    <div ng-bind-html="account.username"></div>
+                    <div class="small" ng-bind-html="account.orgId"></div>
+                </ui-select-choices>
+            </ui-select>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-disabled="!view.selectedSevisAccount" ng-click="view.onOkClick()">Ok</button>
+    <button class="btn btn-cancel" ng-click="view.onCancelClick()">Cancel</button>
+</div>
