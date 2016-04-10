@@ -49,7 +49,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",
@@ -75,7 +74,6 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantPerson.IsCancelled, firstResult.IsCancelled);
             Assert.AreEqual(participantPerson.IsDS2019Printed, firstResult.IsDS2019Printed);
             Assert.AreEqual(participantPerson.IsDS2019SentToTraveler, firstResult.IsDS2019SentToTraveler);
-            Assert.AreEqual(participantPerson.IsNeedsUpdate, firstResult.IsNeedsUpdate);
             Assert.AreEqual(participantPerson.IsSentToSevisViaRTI, firstResult.IsSentToSevisViaRTI);
             Assert.AreEqual(participantPerson.IsValidatedViaRTI, firstResult.IsValidatedViaRTI);
             Assert.AreEqual(participantPerson.SevisBatchResult, firstResult.SevisBatchResult);
@@ -121,7 +119,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",
@@ -208,7 +205,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",
@@ -301,7 +297,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",
@@ -390,7 +385,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",
@@ -441,7 +435,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",
@@ -495,7 +488,6 @@ namespace ECA.Business.Test.Queries.Persons
                 IsCancelled = true,
                 IsDS2019Printed = true,
                 IsDS2019SentToTraveler = true,
-                IsNeedsUpdate = true,
                 IsSentToSevisViaRTI = true,
                 IsValidatedViaRTI = true,
                 SevisBatchResult = "sevis batch result",

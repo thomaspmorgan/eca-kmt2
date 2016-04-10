@@ -54,24 +54,24 @@ namespace ECA.Business.Queries.Persons
                         let latestBatchStatus = commStatuses.Where(x => x.BatchId != null).FirstOrDefault()
                         let latestStatus = commStatuses.FirstOrDefault()
 
-                         select new ParticipantPersonSevisDTO
-                         {
-                             ParticipantId = p.ParticipantId,
-                             SevisId = p.SevisId,
+                        select new ParticipantPersonSevisDTO
+                        {
+                            ParticipantId = p.ParticipantId,
+                            SevisId = p.SevisId,
                             ProjectId = participant.ProjectId,
                             ParticipantType = participantTypeName,
                             ParticipantStatus = participantStatusName,
-                             IsCancelled = p.IsCancelled,
-                             IsDS2019Printed = p.IsDS2019Printed,
-                             IsDS2019SentToTraveler = p.IsDS2019SentToTraveler,
-                             IsSentToSevisViaRTI = p.IsSentToSevisViaRTI,
-                             IsValidatedViaRTI = p.IsValidatedViaRTI,
-                             StartDate = p.StartDate,
-                             EndDate = p.EndDate,
+                            IsCancelled = p.IsCancelled,
+                            IsDS2019Printed = p.IsDS2019Printed,
+                            IsDS2019SentToTraveler = p.IsDS2019SentToTraveler,
+                            IsSentToSevisViaRTI = p.IsSentToSevisViaRTI,
+                            IsValidatedViaRTI = p.IsValidatedViaRTI,
+                            StartDate = p.StartDate,
+                            EndDate = p.EndDate,
                             SevisCommStatuses = commStatuses,
                             LastBatchDate = latestBatchStatus != null ? latestBatchStatus.AddedOn : default(DateTimeOffset?),
-                             SevisValidationResult = p.SevisValidationResult,
-                             SevisBatchResult = p.SevisBatchResult,
+                            SevisValidationResult = p.SevisValidationResult,
+                            SevisBatchResult = p.SevisBatchResult,
                             SevisStatus = latestStatus != null ? latestStatus.SevisCommStatusName : NONE_SEVIS_COMM_STATUS_NAME,
                             SevisStatusId = latestStatus != null ? latestStatus.SevisCommStatusId : NONE_SEVIS_COMM_STATUS_ID,
                         };

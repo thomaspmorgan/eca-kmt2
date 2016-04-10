@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Moq;
+using ECA.Business.Service;
 
 namespace ECA.Business.Test.Service.Persons
 {
