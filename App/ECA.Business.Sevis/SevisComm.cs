@@ -5,7 +5,9 @@ using System.Net.Http;
 using System.Xml.Linq;
 using ECA.Core.Settings;
 using System.Security.Cryptography.X509Certificates;
+using System.Net.Http.Headers;
 using System.IO.Compression;
+using System.Text;
 
 namespace ECA.Business.Sevis
 {
@@ -33,24 +35,37 @@ namespace ECA.Business.Sevis
             Passphrase = appSettings.SevisPassphrase;
         }
 
-        public async Task<HttpResponseMessage> UploadAsync(XElement xml, int batchId)
+        public async Task<HttpResponseMessage> UploadAsync(XElement xml, string batchId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
-                var nameValueCollection = new Dictionary<string, string>();
-                nameValueCollection.Add("batchid", batchId.ToString());
-                nameValueCollection.Add("orgid", OrgId.ToString());
-                nameValueCollection.Add("userid", UserId.ToString());
-                nameValueCollection.Add("xml", xml.ToString());
-                var content = new FormUrlEncodedContent(nameValueCollection);
+                using (var content = new MultipartFormDataContent())
+                {
+                    var formValues = new[]
+                    {
+                        new KeyValuePair<string, string>("batchid", batchId),
+                        new KeyValuePair<string, string>("orgid", OrgId),
+                        new KeyValuePair<string, string>("userid",UserId)
+                    };
+                    foreach (var keyValuePair in formValues)
+                    {
+                        content.Add(new StringContent(keyValuePair.Value, Encoding.UTF8), "\"" + keyValuePair.Key + "\"");
+                        content.Headers.Remove("Content-Type");
+                    }
+                    var xmlValuePair = new KeyValuePair<string, string>("xml", xml.ToString());
+                    var xmlContent = new StringContent(xmlValuePair.Value, Encoding.UTF8);
+                    xmlContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "\"xml\"", FileName = "\"batchfile.xml\"" };
+                    xmlContent.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                    content.Add(xmlContent, "\"" + xmlValuePair.Key + "\"");
 
                 var response = await httpClient.PostAsync(UploadUri, content);
 
                 return response;
             }
         }
+        }
 
-        public async Task<SevisDownload> DownloadAsync(XElement xml, int batchId)
+        public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
@@ -88,6 +103,7 @@ namespace ECA.Business.Sevis
             webRequestHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
             webRequestHandler.ClientCertificates.Add(cert);
             return webRequestHandler;
+            
         }
 
 
