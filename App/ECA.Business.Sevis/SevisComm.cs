@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Xml.Linq;
 using ECA.Core.Settings;
 using System.Security.Cryptography.X509Certificates;
-using System.IO;
 using System.Net.Http.Headers;
 using System.IO.Compression;
+using System.Text;
 
 namespace ECA.Business.Sevis
 {
