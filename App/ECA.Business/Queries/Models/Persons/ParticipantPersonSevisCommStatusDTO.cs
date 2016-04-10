@@ -37,5 +37,19 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public DateTimeOffset AddedOn { get; set; }
 
+        /// <summary>
+        /// Gets or sets the batch id.
+        /// </summary>
+        public string BatchId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis username for this status.
+        /// </summary>
+        public string SevisUsername { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis org id for this status.
+        /// </summary>
+        public string SevisOrgId { get; set; }
     }
 }

@@ -560,8 +560,8 @@ angular.module('staticApp')
           if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
               var participantIds = $scope.participants.map(function (p) { return p.participantId; });
               var index = participantIds.indexOf(parseInt(participantId, 10));
-              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
-              $scope.participants[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusId;
+              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[0].sevisCommStatusName;
+              $scope.participants[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[0].sevisCommStatusId;
           }
       }
 
