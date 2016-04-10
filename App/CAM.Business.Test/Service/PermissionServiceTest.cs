@@ -566,6 +566,70 @@ namespace CAM.Business.Test.Service
         }
 
         [TestMethod]
+        public void TestCreateGetAllowedPermissionsByPrincipalIdQuery_CheckSendToSevisPermission_DifferentPrincipalHasSevisUserAccounts()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var sevisAccount = new SevisAccount
+            {
+                Id = 1,
+                OrgId = "org id",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Username = "username"
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.SevisAccounts.Add(sevisAccount);
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var applicationResourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Application.Value,
+                ResourceTypeId = ResourceType.Application.Id
+            };
+            var applicationResource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = applicationResourceType,
+                ResourceTypeId = applicationResourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.SendToSevis.Id,
+                PermissionName = CAM.Data.Permission.SendToSevis.Value,
+                PermissionDescription = "desc",
+                Resource = applicationResource,
+                ResourceId = applicationResource.ResourceId,
+                ResourceType = applicationResourceType,
+                ResourceTypeId = applicationResourceType.ResourceTypeId
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(applicationResourceType);
+            context.Resources.Add(applicationResource);
+            context.Permissions.Add(permission);
+            context.SevisAccounts.Add(sevisAccount);
+
+            Action<IList<IPermission>> tester = (testPermissions) =>
+            {
+                Assert.AreEqual(0, testPermissions.Count);
+            };
+            var results = service.CreateGetAllowedPermissionsByPrincipalIdQuery(principal.PrincipalId + 1).ToList();
+            tester(results);
+        }
+
+        [TestMethod]
         public void TestCreateGetAllowedPermissionsByPrincipalIdQuery_CheckSendToSevisPermission_PrincipalDoesNotHaveSevisUserAccounts()
         {
             var principal = new Principal

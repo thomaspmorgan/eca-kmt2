@@ -97,6 +97,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>Success or error</returns>
         [Route("Application/{applicationId:int}/Project/{projectId:int}/ParticipantPersonsSevis/SendToSevis")]
         [ResourceAuthorize(Permission.SEND_TO_SEVIS_VALUE, ResourceType.APPLICATION_VALUE, "applicationId")]
+        [ResourceAuthorize(Permission.EDIT_SEVIS_VALUE, ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<IHttpActionResult> PostSendToSevisAsync(int applicationId, int projectId, SendToSevisBindingModel model)
         {
             if (ModelState.IsValid)

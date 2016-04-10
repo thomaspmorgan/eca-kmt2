@@ -107,8 +107,7 @@ namespace CAM.Business.Queries
                                                   IsAllowed = true
                                               };
 
-            var sendToSevisPermissionQuery = from userAccount in context.UserAccounts
-                                             let principal = userAccount.Principal
+            var sendToSevisPermissionQuery = from principal in context.Principals
                                              let hasSevisUserAccounts = principal.SevisAccounts.Count() > 0
                                              let sendToSevisPermission = context.Permissions.Where(x => x.PermissionId == Permission.SEND_TO_SEVIS_ID).FirstOrDefault()
                                              let applicationResource = sendToSevisPermission != null ? sendToSevisPermission.Resource : null
@@ -116,10 +115,11 @@ namespace CAM.Business.Queries
                                              where sendToSevisPermission != null 
                                              && sendToSevisPermission.ResourceId.HasValue
                                              && hasSevisUserAccounts
+                                             && principal.PrincipalId == principalId
 
                                              select new SimplePermission
                                              {
-                                                 PrincipalId = userAccount.PrincipalId,
+                                                 PrincipalId = principal.PrincipalId,
                                                  PermissionId = sendToSevisPermission.PermissionId,
                                                  ResourceId = applicationResource.ResourceId,
                                                  ForeignResourceId = applicationResource.ForeignResourceId,

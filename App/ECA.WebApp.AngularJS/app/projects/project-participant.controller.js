@@ -76,6 +76,7 @@ angular.module('staticApp')
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
       $scope.permissions.hasEditSevisPermission = false;
+      $scope.permissions.hasSendToSevisPermission = false;
       var projectId = $stateParams.projectId;
 
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
@@ -86,20 +87,17 @@ angular.module('staticApp')
       var origUsParticipantsActual;
       var kmtId = ConstantsService.kmtApplicationResourceId;
 
-      $scope.view.saveEstParticipants = function ()
-      {
+      $scope.view.saveEstParticipants = function () {
           $scope.view.editingEstParticipants = false;
           saveProject();
       }
 
-      $scope.view.saveActualParticipants = function ()
-      {
+      $scope.view.saveActualParticipants = function () {
           $scope.view.editingActualParticipants = false;
           saveProject();
       }
 
-      $scope.view.cancelEstParticipants = function ()
-      {
+      $scope.view.cancelEstParticipants = function () {
           $scope.view.editingEstParticipants = false;
           restoreOriginalEstParticipantValues();
       }
@@ -160,14 +158,12 @@ angular.module('staticApp')
           updateRelationshipIds(propertyName, 'regions');
       }
 
-      function restoreOriginalEstParticipantValues()
-      {
+      function restoreOriginalEstParticipantValues() {
           $scope.$parent.project.nonUsParticipantsEst = origNonUsParticipantsEst;
           $scope.$parent.project.usParticipantsEst = origUsParticipantsEst;
       }
 
-      function restoreOriginalActualParticipantValues()
-      {
+      function restoreOriginalActualParticipantValues() {
           $scope.$parent.project.nonUsParticipantsActual = origNonUsParticipantsActual;
           $scope.$parent.project.usParticipantsActual = origUsParticipantsActual;
       }
@@ -466,10 +462,11 @@ angular.module('staticApp')
           var config = {};
           config[ConstantsService.permission.sendToSevis.value] = {
               hasPermission: function () {
-                  addSendToSevisAction();
+                  $scope.permissions.hasSendToSevisPermission = true;
                   $log.info('User has send to sevis permission in project-participant.controller.js.');
               },
               notAuthorized: function () {
+                  $scope.permissions.hasSendToSevisPermission = false;
                   $log.info('User not authorized to send to sevis in project-participant.controller.js.');
               }
           };
@@ -556,7 +553,7 @@ angular.module('staticApp')
             });
       };
 
-      $scope.view.updateSevisCommStatusView = function(participantId, participantPersonSevis) {
+      $scope.view.updateSevisCommStatusView = function (participantId, participantPersonSevis) {
           if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
               var participantIds = $scope.participants.map(function (p) { return p.participantId; });
               var index = participantIds.indexOf(parseInt(participantId, 10));
@@ -584,7 +581,9 @@ angular.module('staticApp')
       };
 
       function addSendToSevisAction() {
-          $scope.actions["Send To SEVIS"] = 1;
+          if ($scope.permissions.hasEditSevisPermission && $scope.permissions.hasSendToSevisPermission) {
+              $scope.actions["Send To SEVIS"] = 1;
+          }
       }
 
       function loadExchangeVisitorInfo(participantId) {
@@ -647,7 +646,7 @@ angular.module('staticApp')
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
           loadSevisInfo(participantId);
-          loadExchangeVisitorInfo(participantId);          
+          loadExchangeVisitorInfo(participantId);
       };
 
       $scope.toggleParticipantInfo = function (participantId) {
@@ -774,7 +773,7 @@ angular.module('staticApp')
       $scope.view.isLoading = true;
       $q.all([loadProjectPermissions(), loadApplicationPermissions(), loadCollaboratorDetails()])
       .then(function (results) {
-          
+          addSendToSevisAction();
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');
       })
