@@ -148,35 +148,11 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
-        public void TestAppSettings_SevisPassphrase()
-        {
-            var value = "value";
-            appSettings.Add(AppSettings.SEVIS_PASSPHRASE, value);
-            Assert.AreEqual(value, settings.SevisPassphrase);
-        }
-
-        [TestMethod]
         public void TestAppSettings_SevisThumbprint()
         {
             var value = "value";
             appSettings.Add(AppSettings.SEVIS_THUMBPRINT, value);
             Assert.AreEqual(value, settings.SevisThumbprint);
-        }
-
-        [TestMethod]
-        public void TestAppSettings_SevisOrgId()
-        {
-            var value = "value";
-            appSettings.Add(AppSettings.SEVIS_ORGID_KEY, value);
-            Assert.AreEqual(value, settings.SevisOrgId);
-        }
-
-        [TestMethod]
-        public void TestAppSettings_SevisUserId()
-        {
-            var value = "value";
-            appSettings.Add(AppSettings.SEVIS_USERID_KEY, value);
-            Assert.AreEqual(value, settings.SevisUserId);
         }
 
         [TestMethod]

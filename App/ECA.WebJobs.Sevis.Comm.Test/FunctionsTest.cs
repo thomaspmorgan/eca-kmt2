@@ -66,11 +66,8 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             appSettings.Add(AppSettings.SEVIS_UPLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchUpload");
             appSettings.Add(AppSettings.SEVIS_DOWNLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchDownload");
-            appSettings.Add(AppSettings.SEVIS_ORGID_KEY, "org id");
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
-            appSettings.Add(AppSettings.SEVIS_USERID_KEY, "10");
             appSettings.Add(AppSettings.SEVIS_THUMBPRINT, "f14e780d72921fda4b8079d887114dfd1922d624");
-            appSettings.Add(AppSettings.SEVIS_PASSPHRASE, "none");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
             await instance.ProcessTimer(timerInfo);
             
