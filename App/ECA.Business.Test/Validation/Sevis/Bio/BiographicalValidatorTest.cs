@@ -12,7 +12,7 @@ using System.Linq;
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
 
-    public class BiographicalTestClass : IBiographical
+    public class BiographicalTestClass : IBiographical, IFluentValidatable
     {
         public string BirthCity
         {
@@ -72,6 +72,13 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public AddressDTO USAddress
         {
             get; set;
+        }
+
+        public Func<bool> ShouldValidateDelegate { get; set; }
+
+        public bool ShouldValidate()
+        {
+            return ShouldValidateDelegate();
         }
     }
 
@@ -140,7 +147,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
     [TestClass]
     public class BiographicalValidatorTest
     {
-        public BiographicalTestClass GetValidBiographical()
+        public BiographicalTestClass GetValidBiographical(Func<bool> shouldValidateDelegate)
         {
             var firstName = "first";
             var lastName = "last";
@@ -160,7 +167,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 FullName = fullName,
                 Gender = Gender.SEVIS_FEMALE_GENDER_CODE_VALUE,
                 PermanentResidenceCountryCode = "FR",
-                PhoneNumber = "18502663026"
+                PhoneNumber = "18502663026",
+                ShouldValidateDelegate = shouldValidateDelegate
             };
         }
 
@@ -170,7 +178,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestFullName_ShouldRunFullNameValidator()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -188,7 +196,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthDate_IsNull()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -209,7 +217,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestGender_IsNull()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -228,7 +236,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestGender_NotMaleOrFemaleGenderCode()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -248,7 +256,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestGender_MaleGenderCode()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -261,7 +269,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestGender_FemaleGenderCode()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -278,7 +286,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthCity_Null()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -297,7 +305,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthCity_EmptyString()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -316,7 +324,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthCity_ExceedsMaxLength()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -339,7 +347,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthCountryCode_Null()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -357,7 +365,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthCountryCode_EmptyString()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -375,7 +383,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestBirthCountry_ExceedsMaxLength()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -397,7 +405,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestCitizenshipCountryCode_Null()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -415,7 +423,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestCitizenshipCountryCode_EmptyString()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -433,7 +441,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestCitizenshipCountry_ExceedsMaxLength()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -455,7 +463,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestEmailAddress_Null()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -469,7 +477,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestEmailAddress_NotValid()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -487,7 +495,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestEmailAddress_ExceedsMaxLength()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -512,7 +520,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var formattedExample = phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
 
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -538,7 +546,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestMailAddressShouldRunValidator()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -561,7 +569,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         public void TestUSAddressShouldRunValidator()
         {
             var validator = new BiographicalTestClassValidator();
-            var instance = GetValidBiographical();
+            var instance = GetValidBiographical(() => true);
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
 
@@ -576,6 +584,31 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
             Assert.AreEqual(String.Format(AddressDTOValidator.COUNTRY_ERROR_MESSAGE, AddressDTOValidator.C_STREET_ADDRESS, LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME), result.Errors.First().ErrorMessage);
+        }
+        #endregion
+
+        #region Should Not Validate
+        [TestMethod]
+        public void TestShouldValidate_ShouldNotValidate()
+        {
+            var phonenumberUtil = PhoneNumberUtil.GetInstance();
+            var example = phonenumberUtil.GetExampleNumber(Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+            var formattedExample = phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
+
+            var validator = new BiographicalTestClassValidator();
+            var instance = GetValidBiographical(() => true);
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PhoneNumber = "abc";
+            result = validator.Validate(instance);
+            Assert.IsFalse(result.IsValid);
+            Assert.AreEqual(1, result.Errors.Count);
+
+            instance.ShouldValidateDelegate = () => false;
+
+            result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
         }
         #endregion
     }

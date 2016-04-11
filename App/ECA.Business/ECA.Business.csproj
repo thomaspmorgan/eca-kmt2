@@ -564,6 +564,7 @@
     <Compile Include="Validation\Sevis\Bio\DependentValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
+    <Compile Include="Validation\Sevis\IFluentValidatable.cs" />
     <Compile Include="Validation\Sevis\ParticipantSevisKey.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />

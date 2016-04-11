@@ -147,5 +147,14 @@ namespace ECA.Business.Validation.Sevis.Bio
             sevisKey.SetUserDefinedFields(dependent);
             return dependent;
         }
+
+        /// <summary>
+        /// Returns false, an AddedDependent is never ignored in validation.
+        /// </summary>
+        /// <returns>False.</returns>
+        public override bool IgnoreDependentValidation()
+        {
+            return false;
+        }
     }
 }
