@@ -14,7 +14,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// The BiographicalValidator is used to validate biographical information for sevis exchange visitors.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class BiographicalValidator<T> : AbstractValidator<T> where T : IBiographical
+    public abstract class BiographicalValidator<T> : AbstractValidator<T> where T : IBiographical, IFluentValidatable
     {
         /// <summary>
         /// The maximum length of a city name.
@@ -70,7 +70,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// The error message to format when a country of citizenship is not specified, or more than country of citizenship is specified.
         /// </summary>
         public const string CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE = "One and only one country of citizenship for the {0}, {1}, is required.";
-                
+
         /// <summary>
         /// The error message to format when a birth country reason is not valid.
         /// </summary>
@@ -96,111 +96,115 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         public BiographicalValidator()
         {
-            RuleFor(visitor => visitor.FullName)
+            When(x => x.ShouldValidate(), () =>
+            {
+                RuleFor(visitor => visitor.FullName)
                 .NotNull()
                 .WithMessage(FULL_NAME_NULL_ERROR_MESSAGE)
                 .SetValidator(x => (new FullNameValidator(GetPersonType(x))));
 
-            RuleFor(visitor => visitor.BirthDate)
-                .NotNull()
-                .WithMessage(BIRTH_DATE_NULL_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetBirthDateErrorPath(x));
+                RuleFor(visitor => visitor.BirthDate)
+                    .NotNull()
+                    .WithMessage(BIRTH_DATE_NULL_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetBirthDateErrorPath(x));
 
-            RuleFor(visitor => visitor.Gender)
-                .NotNull()
-                .WithMessage(GENDER_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetGenderErrorPath(x))
-                .Matches(string.Format("({0}|{1})", Gender.SEVIS_MALE_GENDER_CODE_VALUE, Gender.SEVIS_FEMALE_GENDER_CODE_VALUE))
-                .WithMessage(GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (p) => Gender.SEVIS_MALE_GENDER_CODE_VALUE, (p) => Gender.SEVIS_FEMALE_GENDER_CODE_VALUE)
-                .WithState(x => GetGenderErrorPath(x));
+                RuleFor(visitor => visitor.Gender)
+                    .NotNull()
+                    .WithMessage(GENDER_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetGenderErrorPath(x))
+                    .Matches(string.Format("({0}|{1})", Gender.SEVIS_MALE_GENDER_CODE_VALUE, Gender.SEVIS_FEMALE_GENDER_CODE_VALUE))
+                    .WithMessage(GENDER_MUST_BE_A_VALUE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (p) => Gender.SEVIS_MALE_GENDER_CODE_VALUE, (p) => Gender.SEVIS_FEMALE_GENDER_CODE_VALUE)
+                    .WithState(x => GetGenderErrorPath(x));
 
-            RuleFor(visitor => visitor.BirthCity)
-                .NotNull()
-                .WithMessage(CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetBirthCityErrorPath(x))
-                .Length(1, CITY_MAX_LENGTH)
-                .WithMessage(CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetBirthCityErrorPath(x));
+                RuleFor(visitor => visitor.BirthCity)
+                    .NotNull()
+                    .WithMessage(CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetBirthCityErrorPath(x))
+                    .Length(1, CITY_MAX_LENGTH)
+                    .WithMessage(CITY_OF_BIRTH_REQUIRED_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetBirthCityErrorPath(x));
 
-            RuleFor(visitor => visitor.BirthCountryCode)
-                .NotNull()
-                .WithMessage(BIRTH_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetBirthCountryCodeErrorPath(x))
-                .Length(COUNTRY_CODE_LENGTH)
-                .WithMessage(BIRTH_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetBirthCountryCodeErrorPath(x));
+                RuleFor(visitor => visitor.BirthCountryCode)
+                    .NotNull()
+                    .WithMessage(BIRTH_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetBirthCountryCodeErrorPath(x))
+                    .Length(COUNTRY_CODE_LENGTH)
+                    .WithMessage(BIRTH_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetBirthCountryCodeErrorPath(x));
 
-            RuleFor(visitor => visitor.CitizenshipCountryCode)
-                .NotNull()
-                .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetCitizenshipCountryCodeErrorPath(x))
-                .Length(COUNTRY_CODE_LENGTH)
-                .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetCitizenshipCountryCodeErrorPath(x));
+                RuleFor(visitor => visitor.CitizenshipCountryCode)
+                    .NotNull()
+                    .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetCitizenshipCountryCodeErrorPath(x))
+                    .Length(COUNTRY_CODE_LENGTH)
+                    .WithMessage(CITIZENSHIP_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetCitizenshipCountryCodeErrorPath(x));
 
-            When(x => x.EmailAddress != null, () =>
-            {
-                Func<T, object> emailDelegate = (b) =>
+                When(x => x.EmailAddress != null, () =>
                 {
-                    return b.EmailAddress != null ? b.EmailAddress : null;
-                };
-                Func<T, object> maxEmailLengthDelete = (b) =>
-                {
-                    return EMAIL_MAX_LENGTH.ToString();
-                };
-                RuleFor(x => x.EmailAddress)
-                    .EmailAddress()
-                    .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
-                    .WithState(x => GetEmailAddressErrorPath(x))
-                    .Length(0, EMAIL_MAX_LENGTH)
-                    .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
-                    .WithState(x => GetEmailAddressErrorPath(x));
-            });
-
-            When(x => x.PhoneNumber != null, () =>
-            {
-                Func<T, object> numberTypeDelegate = (p) =>
-                {
-                    return Data.PhoneNumberType.Visiting.Value;
-                };
-                Func<T, object> phoneNumberDelegate = (p) =>
-                {
-                    return p.PhoneNumber != null ? p.PhoneNumber : null;
-                };
-                Func<T, object> getExampleUSPhoneNumberDelegate = (p) =>
-                {
-                    var phonenumberUtil = PhoneNumberUtil.GetInstance();
-                    var example = phonenumberUtil.GetExampleNumber(Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
-                    return phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
-                };
-                RuleFor(x => x.PhoneNumber)
-                    .Must((phone) =>
+                    Func<T, object> emailDelegate = (b) =>
                     {
-                        try
-                        {
-                            var phonenumberUtil = PhoneNumberUtil.GetInstance();
-                            var usPhoneNumber = phonenumberUtil.Parse(phone, Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
-                            return phonenumberUtil.IsValidNumber(usPhoneNumber);
-                        }
-                        catch (Exception)
-                        {
-                            return false;
-                        }
-                    })
-                    .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, numberTypeDelegate, phoneNumberDelegate, GetPersonTypeDelegate(), GetNameDelegate(), getExampleUSPhoneNumberDelegate)
-                    .WithState(x => GetPhoneNumberErrorPath(x));
-            });
+                        return b.EmailAddress != null ? b.EmailAddress : null;
+                    };
+                    Func<T, object> maxEmailLengthDelete = (b) =>
+                    {
+                        return EMAIL_MAX_LENGTH.ToString();
+                    };
+                    RuleFor(x => x.EmailAddress)
+                        .EmailAddress()
+                        .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
+                        .WithState(x => GetEmailAddressErrorPath(x))
+                        .Length(0, EMAIL_MAX_LENGTH)
+                        .WithMessage(EMAIL_ERROR_MESSAGE, emailDelegate, GetPersonTypeDelegate(), GetNameDelegate(), maxEmailLengthDelete)
+                        .WithState(x => GetEmailAddressErrorPath(x));
+                });
 
-            When(x => x.MailAddress != null, () =>
-            {
-                RuleFor(x => x.MailAddress)
-                .SetValidator(new AddressDTOValidator((a) => AddressDTOValidator.PERSON_HOST_ADDRESS));
-            });
+                When(x => x.PhoneNumber != null, () =>
+                {
+                    Func<T, object> numberTypeDelegate = (p) =>
+                    {
+                        return Data.PhoneNumberType.Visiting.Value;
+                    };
+                    Func<T, object> phoneNumberDelegate = (p) =>
+                    {
+                        return p.PhoneNumber != null ? p.PhoneNumber : null;
+                    };
+                    Func<T, object> getExampleUSPhoneNumberDelegate = (p) =>
+                    {
+                        var phonenumberUtil = PhoneNumberUtil.GetInstance();
+                        var example = phonenumberUtil.GetExampleNumber(Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+                        return phonenumberUtil.Format(example, PhoneNumberFormat.INTERNATIONAL);
+                    };
+                    RuleFor(x => x.PhoneNumber)
+                        .Must((phone) =>
+                        {
+                            try
+                            {
+                                var phonenumberUtil = PhoneNumberUtil.GetInstance();
+                                var usPhoneNumber = phonenumberUtil.Parse(phone, Data.PhoneNumber.US_PHONE_NUMBER_REGION_KEY);
+                                return phonenumberUtil.IsValidNumber(usPhoneNumber);
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        })
+                        .WithMessage(PHONE_NUMBER_ERROR_MESSAGE, numberTypeDelegate, phoneNumberDelegate, GetPersonTypeDelegate(), GetNameDelegate(), getExampleUSPhoneNumberDelegate)
+                        .WithState(x => GetPhoneNumberErrorPath(x));
+                });
 
-            When(x => x.USAddress != null, () =>
-            {
-                RuleFor(x => x.USAddress)
-                .SetValidator(new AddressDTOValidator());
+                When(x => x.MailAddress != null, () =>
+                {
+                    RuleFor(x => x.MailAddress)
+                    .SetValidator(new AddressDTOValidator((a) => AddressDTOValidator.PERSON_HOST_ADDRESS));
+                });
+
+                When(x => x.USAddress != null, () =>
+                {
+                    RuleFor(x => x.USAddress)
+                    .SetValidator(new AddressDTOValidator());
+                });
+
             });
         }
 

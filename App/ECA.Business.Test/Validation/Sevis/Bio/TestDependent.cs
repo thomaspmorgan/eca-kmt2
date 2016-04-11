@@ -31,6 +31,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
 
         }
 
+        public bool IgnoreValidation { get; set; }
+
         public override object GetSevisExhangeVisitorDependentInstance()
         {
             return new SEVISEVBatchTypeExchangeVisitorDependent
@@ -39,6 +41,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 UserDefinedA = null,
                 UserDefinedB = null
             };
+        }
+
+        public override bool IgnoreDependentValidation()
+        {
+            return IgnoreValidation;
         }
     }
 }

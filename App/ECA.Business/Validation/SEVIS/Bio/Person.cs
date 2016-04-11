@@ -11,7 +11,7 @@ using PhoneNumbers;
 namespace ECA.Business.Validation.Sevis.Bio
 {
     [Validator(typeof(PersonValidator))]
-    public class Person : IBiographical, IFormPrintable, IRemarkable
+    public class Person : IBiographical, IFormPrintable, IRemarkable, IFluentValidatable
     {
         public Person(
             FullName fullName,
@@ -246,6 +246,15 @@ namespace ECA.Business.Validation.Sevis.Bio
                 instance.MailAddress = usAddress;
             }
             return instance;
+        }
+
+        /// <summary>
+        /// Returns true, if this person should be validated, otherwise false.
+        /// </summary>
+        /// <returns>True, if this person should be validated, otherwise false.</returns>
+        public bool ShouldValidate()
+        {
+            return true;
         }
     }
 }

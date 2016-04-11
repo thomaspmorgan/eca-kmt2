@@ -493,5 +493,63 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var instance = dependent.GetEVPersonTypeDependent();
             Assert.IsFalse(instance.BirthCountryReasonSpecified);
         }
+
+        [TestMethod]
+        public void TestIgnoreDependentValidation()
+        {
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            string birthCountryReasonCode = null;
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+
+            var dependent = new AddedDependent(
+                fullName: fullName,
+                birthCity: birthCity,
+                birthCountryCode: birthCountryCode,
+                birthCountryReasonCode: birthCountryReasonCode,
+                birthDate: birthDate,
+                citizenshipCountryCode: citizenshipCountryCode,
+                emailAddress: email,
+                gender: gender,
+                permanentResidenceCountryCode: permanentResidenceCountryCode,
+                phoneNumber: phone,
+                relationship: relationship,
+                mailAddress: mailAddress,
+                usAddress: usAddress,
+                printForm: printForm,
+                participantId: participantId,
+                personId: personId,
+                isTravelingWithParticipant: isTravelingWithParticipant
+                );
+            Assert.IsFalse(dependent.IgnoreDependentValidation());
+        }
     }
 }

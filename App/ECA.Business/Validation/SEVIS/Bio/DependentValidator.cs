@@ -46,49 +46,52 @@ namespace ECA.Business.Validation.Sevis.Bio
         public DependentValidator()
             : base()
         {
-            RuleFor(x => x.Relationship)
-                .NotNull()
-                .WithMessage(DEPENDENT_RELATIONSHIP_REQUIRED, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => new DependentErrorPath(x.PersonId));
-
-            RuleFor(visitor => visitor.BirthCountryReasonCode)
-                .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
-                .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => BIRTH_COUNTRY_REASON_LENGTH)
-                .WithState(x => new DependentErrorPath(x.PersonId));
-
-            When(x => x.BirthDate.HasValue && x.IsChildDependent(), () =>
+            When(x => x.ShouldValidate(), () =>
             {
-                RuleFor(x => x).Must(d =>
-                {
-                    var age = d.GetAge();
-                    return age != -1 && age < MAX_DEPENDENT_AGE;
-                })
-                .WithMessage(DEPENDENT_IS_TO_OLD_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => MAX_DEPENDENT_AGE)
-                .WithState(x => new DependentErrorPath(x.PersonId));
-            });
+                RuleFor(x => x.Relationship)
+                   .NotNull()
+                   .WithMessage(DEPENDENT_RELATIONSHIP_REQUIRED, GetPersonTypeDelegate(), GetNameDelegate())
+                   .WithState(x => new DependentErrorPath(x.PersonId));
 
-            RuleFor(visitor => visitor.PermanentResidenceCountryCode)
-                .NotNull()
-                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
-                
-            When(x => x.PermanentResidenceCountryCode != null, () =>
-            {
-                RuleFor(x => x.PermanentResidenceCountryCode)
-                .Must((code) =>
+                RuleFor(visitor => visitor.BirthCountryReasonCode)
+                    .Length(0, BIRTH_COUNTRY_REASON_LENGTH)
+                    .WithMessage(BIRTH_COUNTRY_REASON_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => BIRTH_COUNTRY_REASON_LENGTH)
+                    .WithState(x => new DependentErrorPath(x.PersonId));
+
+                When(x => x.BirthDate.HasValue && x.IsChildDependent(), () =>
                 {
-                    try
+                    RuleFor(x => x).Must(d =>
                     {
-                        var codeType = code.GetCountryCodeWithType();
-                        return true;
-                    }
-                    catch (CodeTypeConversionException)
+                        var age = d.GetAge();
+                        return age != -1 && age < MAX_DEPENDENT_AGE;
+                    })
+                    .WithMessage(DEPENDENT_IS_TO_OLD_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate(), (d) => MAX_DEPENDENT_AGE)
+                    .WithState(x => new DependentErrorPath(x.PersonId));
+                });
+
+                RuleFor(visitor => visitor.PermanentResidenceCountryCode)
+                    .NotNull()
+                    .WithMessage(PERMANENT_RESIDENCE_COUNTRY_CODE_ERROR_MESSAGE, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
+
+                When(x => x.PermanentResidenceCountryCode != null, () =>
+                {
+                    RuleFor(x => x.PermanentResidenceCountryCode)
+                    .Must((code) =>
                     {
-                        return false;
-                    }
-                })
-                .WithMessage(PERMANENT_RESIDENCE_COUNTRY_NOT_SUPPORTED, (p) => p.PermanentResidenceCountryCode, GetPersonTypeDelegate(), GetNameDelegate())
-                .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
+                        try
+                        {
+                            var codeType = code.GetCountryCodeWithType();
+                            return true;
+                        }
+                        catch (CodeTypeConversionException)
+                        {
+                            return false;
+                        }
+                    })
+                    .WithMessage(PERMANENT_RESIDENCE_COUNTRY_NOT_SUPPORTED, (p) => p.PermanentResidenceCountryCode, GetPersonTypeDelegate(), GetNameDelegate())
+                    .WithState(x => GetPermanentResidenceCountryCodeErrorPath(x));
+                });
             });
         }
 
