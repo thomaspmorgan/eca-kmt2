@@ -208,7 +208,7 @@ namespace ECA.Business.Service.Sevis
         public void ProcessTransactionLog(User user, string batchId, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
         {
             var batch = CreateGetSevisBatchProcessingByBatchIdQuery(batchId).FirstOrDefault();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
             ProcessUpload(transactionLog.BatchDetail.Upload, batch);
             DoProcessTransactionLog(user, xml, transactionLog, batch);
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
@@ -229,7 +229,7 @@ namespace ECA.Business.Service.Sevis
         public async Task ProcessTransactionLogAsync(User user, string batchId, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
         {
             var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(batchId).FirstOrDefaultAsync();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
             await ProcessUploadAsync(transactionLog.BatchDetail.Upload, batch);
             DoProcessTransactionLog(user, xml, transactionLog, batch);
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
