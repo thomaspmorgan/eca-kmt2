@@ -105,7 +105,34 @@
         </div>
     </div>
     <div class="row">
-        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+        <div class="form-inline">
+            <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()" ng-options="v as k for (k,v) in actions"></select>
+            <button class="btn btn-primary" ng-disabled="getSelectedParticipants().length === 0 || selectedAction === undefined" ng-click="applyAction()">Apply</button>
+            <input type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}" />
+            <i class="material-icons md-18 contextual">search</i>
+        </div>
+        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-auto-resize style="margin-top: 20px; margin-left: 10px;"></div>
+        <div class="col-md-12" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().personId">
+            <tabset>
+                <tab heading="Participant Information" class="tab" select="onInfoTabSelected(getSelectedParticipants()[0].participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
+                    <participant-person-info participantid="{{getSelectedParticipant().participantId}}" active="view.tabInfo" />
+                </tab>
+                <tab heading="SEVIS Information" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission" select="onSevisTabSelected(getSelectedParticipant().participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
+                    <div>
+                        <participant-person-sevis participantid="{{getSelectedParticipant().participantId}}"
+                                                  personid="{{getSelectedParticipant().personId}}"
+                                                  active="view.tabSevis"
+                                                  sevisinfo="sevisInfo[getSelectedParticipant().participantId]"
+                                                  exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"
+                                                  updatesevisinfo="saveSevisInfo(getSelectedParticipant().participantId)"
+                                                  updateexchangevisitorinfo="saveExchangeVisitorInfo(getSelectedParticipant().participantId)" />
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+        <div class="col-md-12" style="margin-top: 20px;" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().organizationId">
+            There is no additional information for this participant.
+        </div>
     </div>
     <script type="text/ng-template" id="addParticipantTemplate.html">
         <a>

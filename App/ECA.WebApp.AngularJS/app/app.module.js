@@ -36,5 +36,6 @@ angular
     'ngIdle',
     'ui.grid',
     'ui.grid.pagination',
-    'ui.grid.autoResize'
+    'ui.grid.autoResize',
+    'ui.grid.selection'
   ]);
