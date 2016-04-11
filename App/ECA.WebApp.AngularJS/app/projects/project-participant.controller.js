@@ -616,15 +616,12 @@ angular.module('staticApp')
       $scope.selectedActionChanged = function () {
           if ($scope.selectedAction === 1) {
               paginationOptions.filter = { property: 'sevisStatusId', comparison: 'eq', value: ConstantsService.sevisCommStatus.readyToSubmit.id };
+              $scope.gridApi.selection.setMultiSelect(true);
           } else {
+              $scope.gridApi.selection.setMultiSelect(false);
               paginationOptions.filter = null;
           }
 
-          if ($scope.selectedAction === 2) {
-              $scope.gridApi.selection.setMultiSelect(false);
-          } else {
-              $scope.gridApi.selection.setMultiSelect(true);
-          }
           getPage();
       }
 
@@ -693,6 +690,7 @@ angular.module('staticApp')
           paginationPageSizes: [25, 50, 75],
           paginationPageSize: 25,
           useExternalPagination: true,
+          multiSelect: false,
           columnDefs: [
             { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
             { name: 'participantType'},
