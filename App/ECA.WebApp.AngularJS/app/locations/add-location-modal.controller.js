@@ -94,6 +94,7 @@ angular.module('staticApp')
           if ($scope.view.newLocation.city === '') {
               clearCity();
               clearDivision();
+              clearCountry();
               clearLatAndLong();
           }
       };
@@ -105,7 +106,7 @@ angular.module('staticApp')
               $log.info('Auto populating region to location.');
               $scope.view.newLocation.regionId = $item.regionId;
           }
-          if ($item.country && !$scope.view.newLocation.countryId) {
+          if ($item.country && $item.countryId) {
               $log.info('Auto populating country to location.');
               $scope.view.newLocation.countryId = $item.countryId;
           }
@@ -250,6 +251,10 @@ angular.module('staticApp')
           delete $scope.view.newLocation.divisionId;
       }
 
+      function clearCountry() {
+          delete $scope.view.newLocation.countryId;
+      }
+
       function clearMapMarkers() {
           angular.forEach(markers, function (marker, index) {
               marker.setMap(null);
@@ -380,9 +385,9 @@ angular.module('staticApp')
               .equal('locationTypeId', ConstantsService.locationType.city.id)
               .isNotNull('name')
               .sortBy('name');
-          if ($scope.view.newLocation.countryId) {
-              citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
-          }
+          //if ($scope.view.newLocation.countryId) {
+          //    citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
+          //}
           if (search) {
               citiesFilter = citiesFilter.like('name', search);
           }
