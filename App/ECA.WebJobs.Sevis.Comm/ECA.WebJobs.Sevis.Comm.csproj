@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.WebJobs.Sevis.Comm</RootNamespace>
     <AssemblyName>ECA.WebJobs.Sevis.Comm</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -139,6 +140,10 @@
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business.Sevis\ECA.Business.SevisBatch.csproj">
       <Project>{c7abecf2-7270-4be3-a5f4-a4283323010f}</Project>
       <Name>ECA.Business.SevisBatch</Name>
