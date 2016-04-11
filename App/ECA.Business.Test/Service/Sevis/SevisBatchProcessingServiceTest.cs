@@ -289,7 +289,7 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public async Task TestStageBatches_CommStatusesHaveDifferentSevisOrgId() 
+        public async Task TestStageBatches_CommStatusesHaveDifferentSevisOrgId()
         {
             var personId = 10;
             var firstParticipantId = 1;
@@ -1658,7 +1658,7 @@ namespace ECA.Business.Test.Service.Sevis
             };
 
             service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
-            Assert.AreEqual(record.sevisID, participantPerson.SevisId);            
+            Assert.AreEqual(record.sevisID, participantPerson.SevisId);
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
             Assert.AreEqual(otherUser.Id, participantPerson.History.CreatedBy);
             Assert.AreEqual(user.Id, participantPerson.History.RevisedBy);
@@ -2640,8 +2640,8 @@ namespace ECA.Business.Test.Service.Sevis
                 },
             };
             var xml = GetXml(transactionLog);
-            Action a = () => service.ProcessTransactionLog(user, xml, fileProvider.Object);
-            Func<Task> f = () => service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
+            Action a = () => service.ProcessTransactionLog(user, batchId, xml, fileProvider.Object);
+            Func<Task> f = () => service.ProcessTransactionLogAsync(user, batchId, xml, fileProvider.Object);
             a.ShouldThrow<ModelNotFoundException>().WithMessage(message);
             f.ShouldThrow<ModelNotFoundException>().WithMessage(message);
         }
@@ -2730,12 +2730,12 @@ namespace ECA.Business.Test.Service.Sevis
             var xml = GetXml(transactionLog);
 
             context.Revert();
-            service.ProcessTransactionLog(user, xml, fileProvider.Object);
+            service.ProcessTransactionLog(user, batchId, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
-            await service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
+            await service.ProcessTransactionLogAsync(user, batchId, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
@@ -2781,12 +2781,12 @@ namespace ECA.Business.Test.Service.Sevis
             var xml = GetXml(transactionLog);
 
             context.Revert();
-            service.ProcessTransactionLog(user, xml, fileProvider.Object);
+            service.ProcessTransactionLog(user, batchId, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
-            await service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
+            await service.ProcessTransactionLogAsync(user, batchId, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(2, context.SaveChangesCalledCount);
         }
@@ -2834,12 +2834,12 @@ namespace ECA.Business.Test.Service.Sevis
             var xml = GetXml(transactionLog);
 
             context.Revert();
-            service.ProcessTransactionLog(user, xml, fileProvider.Object);
+            service.ProcessTransactionLog(user, batchId, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(1, context.SaveChangesCalledCount);
 
             context.Revert();
-            await service.ProcessTransactionLogAsync(user, xml, fileProvider.Object);
+            await service.ProcessTransactionLogAsync(user, batchId, xml, fileProvider.Object);
             tester();
             Assert.AreEqual(2, context.SaveChangesCalledCount);
         }

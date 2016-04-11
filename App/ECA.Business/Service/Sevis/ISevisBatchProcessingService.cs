@@ -55,17 +55,19 @@ namespace ECA.Business.Service.Sevis
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
+        /// <param name="batchId">The batch id string of the transaction log.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The ds 2019 file provider.</param>
-        void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider);
+        void ProcessTransactionLog(User user, string batchId, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
+        /// <param name="batchId">The batch id string of the transaction log.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The ds 2019 file provider.</param>
-        Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider);
+        Task ProcessTransactionLogAsync(User user, string batchId, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
         /// Deletes all processed batches from the context.
@@ -146,12 +148,14 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user"></param>
         /// <param name="fileProvider"></param>
+        /// <param name="batchId"></param>
         /// <param name="xml"></param>
-        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
+        public void ProcessTransactionLog(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(batchId != null, "The batch id must not be null.");
         }
 
         /// <summary>
@@ -159,13 +163,15 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user"></param>
         /// <param name="fileProvider"></param>
+        /// <param name="batchId"></param>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
+        public Task ProcessTransactionLogAsync(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(batchId != null, "The batch id must not be null.");
             return Task.FromResult<object>(null);
         }
 

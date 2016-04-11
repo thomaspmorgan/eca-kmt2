@@ -167,23 +167,25 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
+        /// <param name="batchId">The string batch id of the transaciton log to process.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
+        public void ProcessTransactionLog(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             var transactionLog = DeserializeTransactionLogType(xml);
-            ProcessTransactionLog(user, xml, transactionLog, fileProvider);
+            ProcessTransactionLog(user, batchId, xml, transactionLog, fileProvider);
         }
 
         /// <summary>
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
+        /// <param name="batchId">The string batch id of the transaciton log to process.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
+        public Task ProcessTransactionLogAsync(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             var transactionLog = DeserializeTransactionLogType(xml);
-            return ProcessTransactionLogAsync(user, xml, transactionLog, fileProvider);
+            return ProcessTransactionLogAsync(user, batchId, xml, transactionLog, fileProvider);
         }
 
         /// <summary>
@@ -191,11 +193,12 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the transaction.</param>
         /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="batchId">The string batch id of the transaction log.</param>
         /// <param name="transactionLog">The deserialized transaction log.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public void ProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
+        public void ProcessTransactionLog(User user, string batchId, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
         {
-            var batch = CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefault();
+            var batch = CreateGetSevisBatchProcessingByBatchIdQuery(batchId).FirstOrDefault();
             throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
             ProcessUpload(transactionLog.BatchDetail.Upload, batch);
             DoProcessTransactionLog(user, xml, transactionLog, batch);
@@ -211,11 +214,12 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the transaction.</param>
         /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="batchId">The string batch id of the transaction log.</param>
         /// <param name="transactionLog">The deserialized transaction log.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public async Task ProcessTransactionLogAsync(User user, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
+        public async Task ProcessTransactionLogAsync(User user, string batchId, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
         {
-            var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefaultAsync();
+            var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(batchId).FirstOrDefaultAsync();
             throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
             await ProcessUploadAsync(transactionLog.BatchDetail.Upload, batch);
             DoProcessTransactionLog(user, xml, transactionLog, batch);
@@ -540,7 +544,7 @@ namespace ECA.Business.Service.Sevis
 
                 foreach (var groupedParticipant in groupedParticipants)
                 {
-                    foreach(var participant in groupedParticipant.Participants)
+                    foreach (var participant in groupedParticipant.Participants)
                     {
                         var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(participant.ProjectId, participant.ParticipantId);
                         var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
@@ -593,7 +597,7 @@ namespace ECA.Business.Service.Sevis
                     .Skip(() => skip)
                     .Take(() => QUERY_BATCH_SIZE)
                     .ToListAsync();
-                foreach(var groupedParticipant in groupedParticipants)
+                foreach (var groupedParticipant in groupedParticipants)
                 {
                     foreach (var participant in groupedParticipant.Participants)
                     {
@@ -842,7 +846,7 @@ namespace ECA.Business.Service.Sevis
                 {
                     ((IDisposable)this.notificationService).Dispose();
                     this.notificationService = null;
-                }                
+                }
             }
         }
         #endregion
