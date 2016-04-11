@@ -206,7 +206,7 @@ angular.module('staticApp')
            });
       }
 
-      $scope.view.onDeleteParticipantClick = function (participant) {
+      function showDeleteConfirm(participant) {
           MessageBox.confirm({
               title: 'Confirm',
               message: 'Are you sure you wish to delete the participant named ' + participant.name + '?',
@@ -619,6 +619,12 @@ angular.module('staticApp')
           } else {
               paginationOptions.filter = null;
           }
+
+          if ($scope.selectedAction === 2) {
+              $scope.gridApi.selection.setMultiSelect(false);
+          } else {
+              $scope.gridApi.selection.setMultiSelect(true);
+          }
           getPage();
       }
 
@@ -641,7 +647,8 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage("Failed to queue participants.");
               });
           } else if ($scope.selectedAction === 2) {
-              console.log($scope.getSelectedParticipants());
+              var selectedParticipant = $scope.getSelectedParticipant();
+              showDeleteConfirm(selectedParticipant);
           }
       }
 
