@@ -18,24 +18,16 @@ namespace ECA.Business.Sevis
 
         private Uri DownloadUri;
 
-        private string UserId;
-
-        private string OrgId;
-
         private string Thumbprint;
-
-        private string Passphrase;
 
         public SevisComm(AppSettings appSettings)
         {
+            DownloadUri = new Uri(appSettings.SevisDownloadUri);
             UploadUri = new Uri(appSettings.SevisUploadUri);
-            UserId = appSettings.SevisUserId;
-            OrgId = appSettings.SevisOrgId;
             Thumbprint = appSettings.SevisThumbprint;
-            Passphrase = appSettings.SevisPassphrase;
         }
 
-        public async Task<HttpResponseMessage> UploadAsync(XElement xml, string batchId)
+        public async Task<HttpResponseMessage> UploadAsync(XElement xml, string batchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
@@ -65,7 +57,7 @@ namespace ECA.Business.Sevis
         }
         }
 
-        public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId)
+        public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {

@@ -84,13 +84,7 @@ namespace ECA.Core.Settings
 
         public const string SEVIS_DOWNLOAD_URI_KEY = SEVIS_PREFIX + "DownloadUri";
 
-        public const string SEVIS_USERID_KEY = SEVIS_PREFIX + "UserId";
-
-        public const string SEVIS_ORGID_KEY = SEVIS_PREFIX + "OrgId";
-
         public const string SEVIS_THUMBPRINT = SEVIS_PREFIX + "Thumbprint";
-
-        public const string SEVIS_PASSPHRASE = SEVIS_PREFIX + "Passphrase";
 
         /// <summary>
         /// The sevis site of activity address key.
@@ -250,24 +244,9 @@ namespace ECA.Core.Settings
         public string SevisDownloadUri { get { return GetAppSetting(SEVIS_DOWNLOAD_URI_KEY); } }
 
         /// <summary>
-        /// Gets the azure SEVIS User Id.
-        /// </summary>
-        public string SevisUserId { get { return GetAppSetting(SEVIS_USERID_KEY); } }
-
-        /// <summary>
-        /// Gets the azure SEVIS Org Id
-        /// </summary>
-        public string SevisOrgId { get { return GetAppSetting(SEVIS_ORGID_KEY); } }
-
-        /// <summary>
         /// Gets the azure SEVIS Client Certificate Thumbprint
         /// </summary>
         public string SevisThumbprint { get { return GetAppSetting(SEVIS_THUMBPRINT); } }
-
-        /// <summary>
-        /// Gets the azure SEVIS Client Certificate Passphrase
-        /// </summary>
-        public string SevisPassphrase { get { return GetAppSetting(SEVIS_PASSPHRASE); } }
 
         /// <summary>
         /// Gets the azure SEVIS site of activity.

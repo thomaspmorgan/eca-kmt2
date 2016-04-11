@@ -34,6 +34,12 @@ namespace ECA.Business.Service.Sevis
         string GetNextBatchByBatchIdToDownload();
 
         /// <summary>
+        /// Returns the batch records to send to sevis.
+        /// </summary>
+        /// <returns>Gets the batch records to send to sevis.</returns>
+        Task<List<SevisBatchProcessingDTO>> GetBatchesToUploadAsync();
+
+        /// <summary>
         /// Returns the batch id of the next batch to download from the sevis api.
         /// </summary>
         /// <returns>The batch id of the next batch to download from sevis.</returns>
@@ -139,6 +145,15 @@ namespace ECA.Business.Service.Sevis
         public Task<SevisBatchProcessingDTO> GetNextBatchToUploadAsync()
         {
             return Task.FromResult<SevisBatchProcessingDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<SevisBatchProcessingDTO>> GetBatchesToUploadAsync()
+        {
+            return Task.FromResult<List<SevisBatchProcessingDTO>>(null);
         }
 
         /// <summary>
