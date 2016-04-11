@@ -2666,7 +2666,7 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         [TestMethod]
-        public void GetUnionedObjects()
+        public void TestGetUnionedObjects()
         {
             var a = 1;
             var b = 2;

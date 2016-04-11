@@ -92,7 +92,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class BatchHeaderType {
         
         private string batchIDField;
@@ -303,7 +303,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum StateCodeType {
         
         /// <remarks/>
@@ -866,7 +866,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum AnnualRevenue {
         
         /// <remarks/>
@@ -889,7 +889,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum IndicatorTypeYN {
         
         /// <remarks/>
@@ -902,7 +902,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum IndicatorTypeYNE {
         
         /// <remarks/>
@@ -918,7 +918,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum StipendFrequency {
         
         /// <remarks/>
@@ -2602,7 +2602,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVReprintRequestReasonType {
         
         /// <remarks/>
@@ -3125,7 +3125,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class NameNullableType {
         
         private string lastNameField;
@@ -3197,7 +3197,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum GenderCodeType {
         
         /// <remarks/>
@@ -3213,7 +3213,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum BirthCntryCodeType {
         
         /// <remarks/>
@@ -4141,7 +4141,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum CntryCodeWithoutType {
         
         /// <remarks/>
@@ -4943,7 +4943,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVCreateReasonType {
         
         /// <remarks/>
@@ -4955,7 +4955,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class USAddrDoctorResponseType {
         
         private string address1Field;
@@ -5042,7 +5042,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class USAddressType {
         
         private string address1Field;
@@ -5129,7 +5129,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class USAddressOptionalType {
         
         private string address1Field;
@@ -5216,7 +5216,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class USAddressCommuterNullableType {
         
         private string address1Field;
@@ -5303,7 +5303,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class USAddressNullableType {
         
         private string address1Field;
@@ -5390,7 +5390,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class SEVISResponse {
         
         private string orgIDField;
@@ -5451,7 +5451,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class TravelType {
         
         private string passportNumberField;
@@ -5666,7 +5666,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum CntryCodeWithCloseDateType {
         
         /// <remarks/>
@@ -6552,7 +6552,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum VisaPostCodeType {
         
         /// <remarks/>
@@ -7192,7 +7192,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum PoeCodeType {
         
         /// <remarks/>
@@ -8029,7 +8029,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class TravelNullableType {
         
         private string passportNumberField;
@@ -8155,7 +8155,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class ForeignAddrType {
         
         private string address1Field;
@@ -8242,7 +8242,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class ForeignAddrNullableType {
         
         private string address1Field;
@@ -8329,7 +8329,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class EmptyType {
     }
     
@@ -8338,7 +8338,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class DriverLicenseType {
         
         private string numberField;
@@ -8386,7 +8386,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class DriverLicenseNullableType {
         
         private string numberField;
@@ -9411,7 +9411,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum TippExemptProgram {
         
         /// <remarks/>
@@ -9610,7 +9610,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum GovAgencyCodeType {
         
         /// <remarks/>
@@ -9804,7 +9804,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum InternationalOrgCodeType {
         
         /// <remarks/>
@@ -9932,7 +9932,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class USAddrDoctorType {
         
         private string address1Field;
@@ -10056,7 +10056,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public enum USAddrDoctorTypeExplanationCode {
         
         /// <remarks/>
@@ -10087,7 +10087,7 @@ namespace ECA.Business.Sevis.Model {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Common")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common")]
     public partial class NameType {
         
         private string lastNameField;
@@ -10172,7 +10172,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum NameSuffixCodeType {
         
         /// <remarks/>
@@ -10337,7 +10337,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVGenderCodeType {
         
         /// <remarks/>
@@ -10350,7 +10350,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum USBornReasonType {
         
         /// <remarks/>
@@ -10605,7 +10605,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVCategoryCodeType {
         
         /// <remarks/>
@@ -10700,7 +10700,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVOccupationCategoryCodeType {
         
         /// <remarks/>
@@ -10794,7 +10794,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum ProgSubjectCodeType {
         
         /// <remarks/>
@@ -17777,7 +17777,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum DependentCodeType {
         
         /// <remarks/>
@@ -18163,7 +18163,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVPrintReasonType {
         
         /// <remarks/>
@@ -18335,7 +18335,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum DependentCompletionType {
         
         /// <remarks/>
@@ -18450,7 +18450,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVDepTerminationReasonType {
         
         /// <remarks/>
@@ -18863,7 +18863,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum MatriculationType {
         
         /// <remarks/>
@@ -18957,7 +18957,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVCompletionCodeType {
         
         /// <remarks/>
@@ -19026,7 +19026,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum TrueValue {
         
         /// <remarks/>
@@ -19314,7 +19314,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVInfractionCodeType {
         
         /// <remarks/>
@@ -19413,7 +19413,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum EVTerminationReasonType {
         
         /// <remarks/>
@@ -19829,7 +19829,7 @@ namespace ECA.Business.Sevis.Model {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/Table")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table")]
     public enum StatusCodeType {
         
         /// <remarks/>

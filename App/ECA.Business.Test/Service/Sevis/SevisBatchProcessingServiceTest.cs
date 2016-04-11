@@ -2700,6 +2700,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(1, context.SevisBatchProcessings.Count());
                 Assert.AreEqual(sevisId, participantPerson.SevisId);
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.IsNotNull(batch.TransactionLogString);
             };
             var record = new TransactionLogTypeBatchDetailProcessRecord
             {
@@ -2762,6 +2763,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 DateTimeOffset.UtcNow.Should().BeCloseTo(batch.RetrieveDate.Value, 20000);
                 Assert.AreEqual(downloadDispositionCode, batch.DownloadDispositionCode);
+                Assert.IsNotNull(batch.TransactionLogString);
             };
 
             var transactionLog = new TransactionLogType
@@ -2814,6 +2816,7 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 Assert.AreEqual(yesterDay, batch.SubmitDate);
                 Assert.AreEqual(dispositionCode, batch.UploadDispositionCode);
+                Assert.IsNotNull(batch.TransactionLogString);
             };
 
             var transactionLog = new TransactionLogType
