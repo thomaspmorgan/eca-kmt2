@@ -23,6 +23,7 @@ using FluentValidation.Results;
 using ECA.Core.Generation;
 using Newtonsoft.Json.Serialization;
 using ECA.Core.Settings;
+using System.Xml;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -242,7 +243,16 @@ namespace ECA.Business.Service.Sevis
         private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
         {
             ProcessDownload(transactionLog.BatchDetail.Download, batch);
-            batch.TransactionLogString = xml;
+            using (var textWriter = new StringWriter())
+            {
+                var settings = new XmlWriterSettings();
+                settings.OmitXmlDeclaration = true;
+
+                var writer = XmlWriter.Create(textWriter, settings);
+                var serializer = new XmlSerializer(typeof(TransactionLogType));
+                serializer.Serialize(writer, transactionLog);
+                batch.TransactionLogString = textWriter.ToString();
+            }
         }
 
         /// <summary>

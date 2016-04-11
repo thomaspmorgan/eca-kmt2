@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.WebJobs.Sevis.Core</RootNamespace>
     <AssemblyName>ECA.WebJobs.Sevis.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -114,6 +114,10 @@
     <Compile Include="ZipArchiveDS2019FileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>

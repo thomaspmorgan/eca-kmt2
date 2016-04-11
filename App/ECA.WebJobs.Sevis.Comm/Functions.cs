@@ -11,7 +11,6 @@ using ECA.Business.Service;
 using ECA.WebJobs.Sevis.Core;
 using System.Xml.Linq;
 using NLog;
-using ECA.Business.Sevis.Model.TransLog;
 using System.Xml.Serialization;
 
 namespace ECA.WebJobs.Sevis.Comm
