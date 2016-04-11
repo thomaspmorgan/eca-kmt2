@@ -83,8 +83,7 @@ namespace ECA.WebJobs.Sevis.Comm
                 //process response message
                 string xmlString = await response.Content.ReadAsStringAsync();
                 
-                //TODO:  Create another parameter for the ProcessTransactionLogAsync that passes the BatchId
-                await service.ProcessTransactionLogAsync(GetSystemUser(), xmlString, GetFileProvider());
+                await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, GetFileProvider());
                 logger.Info("Processed Upload Response");
             } // end for each upload
 
