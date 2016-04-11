@@ -1,7 +1,8 @@
 ﻿CREATE TABLE [dbo].[ParticipantPersonSevisCommStatus]
 (    
 	[Id] INT NOT NULL IDENTITY,
-	[ParticipantId] INT NOT NULL , 
+	[ParticipantId] INT NOT NULL, 
+	[PrincipalId] INT NULL,
     [SevisCommStatusId] INT NOT NULL, 
     [AddedOn] DATETIMEOFFSET NOT NULL, 
     [BatchId] NVARCHAR(14) NULL,

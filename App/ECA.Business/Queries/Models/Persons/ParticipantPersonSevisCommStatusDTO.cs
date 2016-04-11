@@ -43,13 +43,23 @@ namespace ECA.Business.Queries.Models.Persons
         public string BatchId { get; set; }
 
         /// <summary>
-        /// Gets or sets the sevis username for this status.
-        /// </summary>
-        public string SevisUsername { get; set; }
-
-        /// <summary>
         /// Gets or sets the sevis org id for this status.
         /// </summary>
         public string SevisOrgId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the principal id of the principal that created the status.
+        /// </summary>
+        public int? PrincipalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full name of the principal that created the status.
+        /// </summary>
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address of the principal that created the status.
+        /// </summary>
+        public string EmailAddress { get; set; }
     }
 }

@@ -125,9 +125,9 @@ namespace ECA.Business.Service.Persons
                     SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
                     AddedOn = DateTimeOffset.Now,
                     SevisOrgId = model.SevisOrgId,
-                    SevisUsername = model.SevisUsername
+                    SevisUsername = model.SevisUsername,
+                    PrincipalId = model.Audit.User.Id
                 };
-
                 Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
                 addedParticipantStatuses.Add(status);
             }

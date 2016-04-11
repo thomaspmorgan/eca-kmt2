@@ -86,8 +86,6 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <returns>The task.</returns>
         Task DeleteProcessedBatchesAsync();
-
-
     }
 
     /// <summary>
