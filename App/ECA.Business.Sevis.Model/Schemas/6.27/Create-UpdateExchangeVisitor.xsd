@@ -1,0 +1,1605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:table="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table" xmlns:common="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="6.27">
+	<xs:import namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Table" schemaLocation="SEVISTable.xsd"/>
+	<xs:import namespace="http://www.ice.gov/xmlschema/sevisbatch/alpha/Common" schemaLocation="Common.xsd"/>
+	<xs:element name="SEVISBatchCreateUpdateEV">
+		<xs:annotation>
+			<xs:documentation>This is the root element of the SEVIS Batch file</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEVISEVBatchType">
+					<xs:attribute name="userID" type="common:UserIdType" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="EVPersonType">
+		<xs:sequence>
+			<xs:element name="UserDefinedA" type="common:UserDefinedAType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>10 character</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UserDefinedB" type="common:UserDefinedBType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>14 character</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Biographical">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="NonImgBioType">
+							<xs:sequence>
+								<xs:element name="PhoneNumber" type="common:PhoneTenDigits" minOccurs="0"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PositionCode" type="table:EVPositionCodeType"/>
+			<xs:element name="PrgStartDate" type="table:DateType"/>
+			<xs:element name="PrgEndDate" type="table:DateType"/>
+			<xs:element name="CategoryCode" type="table:EVCategoryCodeType"/>
+			<xs:element name="OccupationCategoryCode" type="table:EVOccupationCategoryCodeType" minOccurs="0"/>
+			<xs:element name="SubjectField">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SubjectFieldCode" type="table:ProgSubjectCodeType"/>
+						<xs:element name="Remarks" type="common:RemarksType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="USAddress" type="common:USAddrDoctorType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>US physical address information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MailAddress" type="common:USAddrDoctorType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>US mailing address information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FinancialInfo">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReceivedUSGovtFunds" type="table:IndicatorYesNoType"/>
+						<xs:element name="ProgramSponsorFunds" type="table:MonetaryType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Financial support from program sponsor</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OtherFunds" type="OtherFundsType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateDependent" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Dependent" maxOccurs="25">
+							<xs:annotation>
+								<xs:documentation>Spouse and children</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="NonImgBioType">
+										<xs:sequence>
+											<xs:element name="Relationship" type="table:DependentCodeType"/>
+											<xs:element name="UserDefinedA" type="common:UserDefinedAType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>10 character</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="UserDefinedB" type="common:UserDefinedBType" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>14 character</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="AddTIPP" type="AddTIPP" minOccurs="1" maxOccurs="1"/>
+				<xs:sequence>
+					<xs:element name="AddSiteOfActivity" type="AddSiteOfActivity" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AddTIPP" type="AddTIPP" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:element name="ResidentialAddress" type="ResidentialAddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IssueReasonType">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>Must choose one</xs:documentation>
+			</xs:annotation>
+			<xs:element name="ReasonCode" type="table:EVCreateReasonType">
+				<xs:annotation>
+					<xs:documentation>Reason for isssue.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonImgBioType">
+		<xs:annotation>
+			<xs:documentation>Nonimmigrant bio information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FullName" type="common:NameType"/>
+			<xs:element name="BirthDate" type="table:DateType"/>
+			<xs:element name="Gender" type="table:EVGenderCodeType"/>
+			<xs:element name="BirthCity" type="xs:string"/>
+			<xs:element name="BirthCountryCode" type="table:BirthCntryCodeType"/>
+			<xs:element name="CitizenshipCountryCode" type="table:CntryCodeWithoutType"/>
+			<xs:element name="PermanentResidenceCountryCode" type="table:CntryCodeWithoutType"/>
+			<xs:element name="BirthCountryReason" type="table:USBornReasonType" minOccurs="0"/>
+			<xs:element name="EmailAddress" type="table:EmailType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonImgBioTypeOptional">
+		<xs:annotation>
+			<xs:documentation>Nonimmigrant bio information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FullName" type="common:NameNullableType" minOccurs="0"/>
+			<xs:element name="BirthDate" type="table:DateType" minOccurs="0"/>
+			<xs:element name="Gender" type="table:GenderCodeType" minOccurs="0"/>
+			<xs:element name="BirthCity" type="xs:string" minOccurs="0"/>
+			<xs:element name="BirthCountryCode" type="table:BirthCntryCodeType" minOccurs="0"/>
+			<xs:element name="CitizenshipCountryCode" type="table:CntryCodeWithoutType" minOccurs="0"/>
+			<xs:element name="PermanentResidenceCountryCode" type="table:CntryCodeWithoutType" minOccurs="0"/>
+			<xs:element name="BirthCountryReason" type="table:USBornReasonNullableType" minOccurs="0"/>
+			<xs:element name="EmailAddress" type="table:EmailType" minOccurs="0"/>
+			<xs:element name="PhoneNumber" type="common:PhoneTenDigits" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherFundsType">
+		<xs:sequence>
+			<xs:element name="USGovt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>U.S Government Agency(ies): [max of 2]</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Org1" type="table:GovAgencyCodeType"/>
+						<xs:element name="OtherName1" type="common:Name" minOccurs="0"/>
+						<xs:element name="Amount1" type="table:MonetaryType"/>
+						<xs:element name="Org2" type="table:GovAgencyCodeType" minOccurs="0"/>
+						<xs:element name="OtherName2" type="common:Name" minOccurs="0"/>
+						<xs:element name="Amount2" type="table:MonetaryType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="International" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>International Organization(s):[max of 2]</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Org1" type="table:InternationalOrgCodeType"/>
+						<xs:element name="OtherName1" type="common:Name" minOccurs="0"/>
+						<xs:element name="Amount1" type="table:MonetaryType"/>
+						<xs:element name="Org2" type="table:InternationalOrgCodeType" minOccurs="0"/>
+						<xs:element name="OtherName2" type="common:Name" minOccurs="0"/>
+						<xs:element name="Amount2" type="table:MonetaryType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EVGovt" type="table:MonetaryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Funds from Exchange Visitor's Government</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BinationalCommission" type="table:MonetaryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Binational Commission of the Exchange Visitor's Country</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Other" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>All other organizations providing support</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="common:Name"/>
+						<xs:element name="Amount" type="table:MonetaryType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Personal" type="table:MonetaryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Personal funds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherFundsNullableType">
+		<xs:sequence>
+			<xs:element name="USGovt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>U.S Government Agency(ies): [max of 2]</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Org1" type="table:GovAgencyCodeNullableType" minOccurs="0"/>
+						<xs:element name="OtherName1" type="common:NameNullable" minOccurs="0"/>
+						<xs:element name="Amount1" type="table:MonetaryNullableType" minOccurs="0"/>
+						<xs:element name="Org2" type="table:GovAgencyCodeNullableType" minOccurs="0"/>
+						<xs:element name="OtherName2" type="common:NameNullable" minOccurs="0"/>
+						<xs:element name="Amount2" type="table:MonetaryNullableType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="International" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>International Organization(s):[max of 2]</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Org1" type="table:InternationalOrgCodeNullableType" minOccurs="0"/>
+						<xs:element name="OtherName1" type="common:NameNullable" minOccurs="0"/>
+						<xs:element name="Amount1" type="table:MonetaryNullableType" minOccurs="0"/>
+						<xs:element name="Org2" type="table:InternationalOrgCodeNullableType" minOccurs="0"/>
+						<xs:element name="OtherName2" type="common:NameNullable" minOccurs="0"/>
+						<xs:element name="Amount2" type="table:MonetaryNullableType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EVGovt" type="table:MonetaryNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Funds from Exchange Visitor's Government</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BinationalCommission" type="table:MonetaryNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Binational Commission of the Exchange Visitor's Country</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Other" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>All other organizations providing support</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="common:NameNullable"/>
+						<xs:element name="Amount" type="table:MonetaryNullableType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Personal" type="table:MonetaryNullableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Personal funds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReprintType">
+		<xs:annotation>
+			<xs:documentation>Reprint Form</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Reason" type="table:EVReprintRequestReasonType"/>
+			<xs:element name="OtherRemarks" type="common:RemarksType" minOccurs="0"/>
+			<xs:element name="Remarks" type="common:RemarksType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="optional" default="true"/>
+	</xs:complexType>
+	<xs:complexType name="SEVISEVBatchType">
+		<xs:sequence>
+			<xs:element name="BatchHeader" type="common:BatchHeaderType">
+				<xs:annotation>
+					<xs:documentation>Header information used by SEVIS system to identify program sponsor, user, date and time submitted</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CreateEV" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ExchangeVisitor" maxOccurs="250">
+							<xs:annotation>
+								<xs:documentation>Create exchange visitor element</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="EVPersonType">
+										<xs:attribute name="requestID" type="common:RequestID" use="required"/>
+										<xs:attribute name="userID" type="common:UserIdType" use="required"/>
+										<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateEV" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ExchangeVisitor" maxOccurs="250">
+							<xs:annotation>
+								<xs:documentation>Update exchange visitor element</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="UserDefinedA" type="common:UserDefinedAType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>10 character</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="UserDefinedB" type="common:UserDefinedBType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>14 character</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice>
+										<xs:element name="Biographical">
+											<xs:annotation>
+												<xs:documentation>Edit Exchange Visitor Biographical Data</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="NonImgBioTypeOptional">
+														<xs:sequence>
+															<xs:element name="PositionCode" type="table:EVPositionCodeType" minOccurs="0"/>
+															<xs:element name="USAddress" type="common:USAddrDoctorType" minOccurs="0"/>
+															<xs:element name="MailAddress" type="common:USAddrDoctorType" minOccurs="0"/>
+															<!--xs:element name="USAddress" type="common:USAddressNullableType" minOccurs="0"/-->
+															<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+															<xs:element name="ResidentialAddress" type="ResidentialAddressType" minOccurs="0"/>
+														</xs:sequence>
+														<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Dependent">
+											<xs:annotation>
+												<xs:documentation>Spouse and Children Events</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="UserDefinedA" type="common:UserDefinedAType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>10 character</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="UserDefinedB" type="common:UserDefinedBType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>14 character</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:choice>
+														<xs:element name="Add">
+															<xs:annotation>
+																<xs:documentation>Add Dependent</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:complexContent>
+																	<xs:extension base="NonImgBioType">
+																		<xs:sequence>
+																			<xs:element name="Relationship" type="table:DependentCodeType"/>
+																			<xs:element name="FormPurpose" type="table:EVPrintReasonType"/>
+																		</xs:sequence>
+																		<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+																	</xs:extension>
+																</xs:complexContent>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="Delete">
+															<xs:annotation>
+																<xs:documentation>Delete Dependent </xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:complexContent>
+																	<xs:extension base="common:EmptyType">
+																		<xs:attribute name="dependentSevisID" type="common:SevisIDType" use="required"/>
+																	</xs:extension>
+																</xs:complexContent>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="Edit">
+															<xs:annotation>
+																<xs:documentation>Edit Dependent Biographical Data</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:complexContent>
+																	<xs:extension base="NonImgBioType">
+																		<xs:sequence>
+																			<xs:element name="Relationship" type="table:DependentCodeType" minOccurs="0"/>
+																			<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+																		</xs:sequence>
+																		<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+																		<xs:attribute name="dependentSevisID" type="common:SevisIDType" use="required"/>
+																	</xs:extension>
+																</xs:complexContent>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="EndStatus">
+															<xs:annotation>
+																<xs:documentation>End Dependent Status</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="Reason" type="table:DependentCompletionType"/>
+																	<xs:element name="OtherRemarks" type="common:RemarksNullableType" minOccurs="0"/>
+																	<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+																</xs:sequence>
+																<xs:attribute name="dependentSevisID" type="common:SevisIDType" use="required"/>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="Reprint">
+															<xs:annotation>
+																<xs:documentation>Reprint Dependent DS-2019 Form</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:complexContent>
+																	<xs:extension base="ReprintType">
+																		<xs:attribute name="dependentSevisID" type="common:SevisIDType" use="required"/>
+																	</xs:extension>
+																</xs:complexContent>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="Terminate">
+															<xs:annotation>
+																<xs:documentation>Terminate Dependent</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="Reason" type="table:EVDepTerminationReasonType"/>
+																	<xs:element name="EffectiveDate" type="table:DateType"/>
+																	<xs:element name="OtherRemarks" type="common:RemarksNullableType" minOccurs="0"/>
+																	<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+																</xs:sequence>
+																<xs:attribute name="dependentSevisID" type="common:SevisIDType" use="required"/>
+															</xs:complexType>
+														</xs:element>
+													</xs:choice>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="FinancialInfo">
+											<xs:annotation>
+												<xs:documentation>Edit Exchange Visitor Financial Data</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ReceivedUSGovtFunds" type="table:IndicatorYesNoType" minOccurs="0"/>
+													<xs:element name="ProgramSponsorFunds" type="table:MonetaryNullableType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Financial support from current program sponsor</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OtherFunds" type="OtherFundsNullableType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Other financial support required if receiving funds from US organization.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Program">
+											<xs:annotation>
+												<xs:documentation>Program Events</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Amend">
+														<xs:annotation>
+															<xs:documentation>Amend Program</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="PrgStartDate" type="table:DateType"/>
+																<xs:element name="PrgEndDate" type="table:DateType"/>
+																<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+																<xs:element name="TippPhaseDates" type="TippPhaseDates" minOccurs="0"/>
+															</xs:sequence>
+															<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="EditSubject">
+														<xs:annotation>
+															<xs:documentation>Edit subject or field of study</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="SubjectFieldCode" type="table:ProgSubjectCodeType"/>
+																<xs:element name="SubjectFieldRemarks" type="common:RemarksType"/>
+																<xs:element name="Remarks" type="common:RemarksType"/>
+															</xs:sequence>
+															<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Extension">
+														<xs:annotation>
+															<xs:documentation>Extension (within maximum duration of stay)</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="NewPrgEndDate" type="table:DateType">
+																	<xs:annotation>
+																		<xs:documentation>New Program End Date</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+																<xs:element name="TippPhaseDates" type="TippPhaseDates" minOccurs="0"/>
+															</xs:sequence>
+															<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Matriculate">
+														<xs:annotation>
+															<xs:documentation>Matriculation</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="NewPrgEndDate" type="table:DateType">
+																	<xs:annotation>
+																		<xs:documentation>New Program End Date</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="MatriculationCode" type="table:MatriculationType"/>
+															</xs:sequence>
+															<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Shorten">
+														<xs:annotation>
+															<xs:documentation> Shorten (beyond the minimum duration of stay)</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="NewPrgEndDate" type="table:DateType">
+																	<xs:annotation>
+																		<xs:documentation>New Program End Date</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ShortenReason" type="table:EVCompletionCodeType">
+																	<xs:annotation>
+																		<xs:documentation>Shorten Program Reason</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="Remarks" type="common:RemarksType"/>
+																<xs:element name="TippPhaseDates" type="TippPhaseDates" minOccurs="0"/>
+															</xs:sequence>
+															<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Reprint" type="ReprintType">
+											<xs:annotation>
+												<xs:documentation>Reprint DS-2019 Form</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SiteOfActivity">
+											<xs:annotation>
+												<xs:documentation>Site of Activity Events</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="Add" type="AbstractAdd" maxOccurs="1"/>
+													<xs:element name="Delete">
+														<xs:annotation>
+															<xs:documentation>Delete Site of Activity</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:choice>
+																	<xs:sequence>
+																		<xs:element name="SiteName" type="common:Name"/>
+																	</xs:sequence>
+																	<xs:sequence>
+																		<xs:element name="SiteId" type="common:SiteIdType"/>
+																		<xs:element name="SiteName" type="common:Name" minOccurs="0"/>
+																	</xs:sequence>
+																</xs:choice>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Edit">
+														<xs:annotation>
+															<xs:documentation>Edit  Site of Activity</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="common:USAddrDoctorType">
+																	<xs:sequence>
+																		<xs:choice>
+																			<xs:sequence>
+																				<xs:element name="SiteName" type="common:Name"/>
+																			</xs:sequence>
+																			<xs:sequence>
+																				<xs:element name="SiteId" type="common:SiteIdType"/>
+																				<xs:element name="SiteName" type="common:Name" minOccurs="0"/>
+																			</xs:sequence>
+																		</xs:choice>
+																		<xs:element name="NewSiteName" type="common:Name" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>new site name</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="PrimarySite" type="table:IndicatorYesNoType" minOccurs="0"/>
+																		<xs:element name="Remarks" minOccurs="0">
+																			<xs:simpleType>
+																				<xs:restriction base="common:RemarksType"/>
+																			</xs:simpleType>
+																		</xs:element>
+																	</xs:sequence>
+																	<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+																</xs:extension>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="TIPP">
+											<xs:annotation>
+												<xs:documentation>TIPP-related updates</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="AddTIPP">
+														<xs:annotation>
+															<xs:documentation>Add a new full TIPP including participant info, sites and phases</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="ParticipantInfo" minOccurs="1" maxOccurs="1">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="EmailAddress" type="table:EmailType"/>
+																			<xs:element name="FieldOfStudy" type="common:FieldOfStudy"/>
+																			<xs:element name="YearsOfExperience" type="common:YearsOfExperience" minOccurs="0" maxOccurs="1"/>
+																			<xs:element name="TypeOfDegree" type="common:TypeOfDegree"/>
+																			<xs:element name="DateAwardedOrExpected" type="table:DateType"/>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="TippSite" type="TippSiteWithPhases" minOccurs="1" maxOccurs="25"/>
+															</xs:sequence>
+															<xs:attribute name="print7002" type="table:IndicatorYesNoType" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="AddSite">
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="TippSiteWithPhases">
+																	<xs:attribute name="print7002" type="table:IndicatorYesNoType" use="required"/>
+																</xs:extension>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="EditSite">
+														<xs:complexType>
+															<xs:complexContent>
+																<xs:extension base="EditTippSite">
+																	<xs:attribute name="print7002" type="table:IndicatorYesNoType" use="required"/>
+																</xs:extension>
+															</xs:complexContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DeleteSite">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="SiteId" type="common:SiteIdType"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="AddPhase" type="AddTippPhase"/>
+													<xs:element name="EditPhase" type="EditTippPhase"/>
+													<xs:element name="DeletePhase">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="PhaseId" type="common:PhaseIdType"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="UpdateSignatureDates" type="TippSignatureDates"/>
+													<xs:element name="UpdateParticipantInfo">
+														<xs:annotation>
+															<xs:documentation>Update Participant Information</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="EmailAddress" type="table:EmailType"/>
+																<xs:element name="FieldOfStudy" type="common:FieldOfStudy"/>
+																<xs:element name="YearsOfExperience" type="common:YearsOfExperience" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="TypeOfDegree" type="common:TypeOfDegree"/>
+																<xs:element name="DateAwardedOrExpected" type="table:DateType"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Status">
+											<xs:annotation>
+												<xs:documentation>Status Change Events</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="CorrectInfraction">
+														<xs:annotation>
+															<xs:documentation>Correction of Minor or Technical Infraction</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="InfractionType" type="table:EVInfractionCodeType"/>
+																<xs:element name="NewEndDate" type="table:DateNullableType" minOccurs="0"/>
+																<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+																<xs:element name="TippPhaseDates" type="TippPhaseDates" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Invalid">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Remarks" type="common:RemarksNoWSType"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="NoShow" type="common:EmptyType"/>
+													<xs:element name="Terminate">
+														<xs:annotation>
+															<xs:documentation>Terminate Exchange Visitor </xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Reason" type="table:EVTerminationReasonType"/>
+																<xs:element name="EffectiveDate" type="table:DateType"/>
+																<xs:element name="OtherRemarks" type="common:RemarksNullableType" minOccurs="0"/>
+																<xs:element name="Remarks" type="common:RemarksNullableType" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Validate">
+											<xs:annotation>
+												<xs:documentation>Register / Validate Program Participant</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="USAddress" type="common:USAddrDoctorType">
+														<xs:annotation>
+															<xs:documentation>US physical address information</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="EmailAddress" type="table:EmailType" minOccurs="0"/>
+													<xs:element name="PhoneNumber" type="common:PhoneTenDigits" minOccurs="0"/>
+													<xs:element name="TippSignatureDates" type="TippSignatureDates" minOccurs="0" maxOccurs="1"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Reprint7002">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SiteId" type="common:SiteIdType" minOccurs="0"/>
+												</xs:sequence>
+												<xs:attribute name="print7002" type="table:TrueValue" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+								<xs:attribute name="sevisID" type="common:SevisIDType" use="required"/>
+								<xs:attribute name="requestID" type="common:RequestID" use="required"/>
+								<xs:attribute name="userID" type="common:UserIdType" use="required"/>
+								<xs:attribute name="statusCode" type="table:StatusCodeType" use="optional"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResidentialAddressType">
+		<xs:annotation>
+			<xs:documentation>Secondary Student and Au Pair categories residential address</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LCCoordinator" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LastName" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1"/>
+											<xs:maxLength value="40"/>
+											<xs:whiteSpace value="preserve"/>
+											<xs:pattern value="\D+"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="FirstName" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1"/>
+											<xs:maxLength value="40"/>
+											<xs:whiteSpace value="preserve"/>
+											<xs:pattern value="\D+"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PostalCode" type="table:USPostalTypeNullableType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ResidentialType" minOccurs="0">
+				<xs:simpleType>
+					<xs:union memberTypes="table:EVResidentialType table:emptyStringType"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PContact" type="ContactNameType" minOccurs="0"/>
+			<xs:element name="HostFamily" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="HostFamilyInd" minOccurs="0">
+							<xs:simpleType>
+								<xs:union memberTypes="table:EVHostFamilyIndicator table:emptyStringType"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="SContact" type="ContactNameType" minOccurs="0"/>
+						<xs:element name="Phone" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:pattern value="\d{3}\-\d{3}\-\d{4}"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PhoneExt" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="4"/>
+											<xs:pattern value="\d+"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BoardingSchool" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="common:NameNullable" minOccurs="0"/>
+						<xs:element name="PCTitle" minOccurs="0"/>
+						<xs:element name="Phone" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:pattern value="\d{3}\-\d{3}\-\d{4}"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PhoneExt" minOccurs="0">
+							<xs:simpleType>
+								<xs:union>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="4"/>
+											<xs:pattern value="\d+"/>
+										</xs:restriction>
+									</xs:simpleType>
+									<xs:simpleType>
+										<xs:restriction base="table:emptyStringType"/>
+									</xs:simpleType>
+								</xs:union>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactNameType">
+		<xs:annotation>
+			<xs:documentation>Residential address contact's last and first name</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LastName" minOccurs="0">
+				<xs:simpleType>
+					<xs:union>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:minLength value="1"/>
+								<xs:maxLength value="40"/>
+								<xs:whiteSpace value="preserve"/>
+								<xs:pattern value="\D+"/>
+							</xs:restriction>
+						</xs:simpleType>
+						<xs:simpleType>
+							<xs:restriction base="table:emptyStringType"/>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FirstName" minOccurs="0">
+				<xs:simpleType>
+					<xs:union>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:minLength value="1"/>
+								<xs:maxLength value="40"/>
+								<xs:whiteSpace value="preserve"/>
+								<xs:pattern value="\D+"/>
+							</xs:restriction>
+						</xs:simpleType>
+						<xs:simpleType>
+							<xs:restriction base="table:emptyStringType"/>
+						</xs:simpleType>
+					</xs:union>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AbstractAdd" abstract="true">
+		<xs:attribute name="printForm" type="table:IndicatorYesNoType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="AbstractSiteOfActivity" abstract="true"/>
+	<xs:complexType name="SOA">
+		<xs:annotation>
+			<xs:documentation>A standard site of activity element that includes an address</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractSiteOfActivity">
+				<xs:sequence>
+					<xs:element name="Address1" nillable="false" minOccurs="1" maxOccurs="1">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:maxLength value="64"/>
+								<xs:minLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Address2" nillable="true" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:maxLength value="64"/>
+								<xs:minLength value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="City" nillable="true" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:maxLength value="60"/>
+								<xs:minLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="State" type="table:StateCodeType" nillable="true" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PostalCode" type="table:USPostalType" nillable="false" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>5 digit postal code</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ExplanationCode" nillable="true" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:annotation>
+								<xs:documentation>
+									ExplanationCode is optional and the value can be one of {OB, OH, OM, ON, OO, OP}. If the value is OO, explanation is required
+								</xs:documentation>
+							</xs:annotation>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value=""/>
+								<xs:enumeration value="OB"/>
+								<xs:enumeration value="OH"/>
+								<xs:enumeration value="OM"/>
+								<xs:enumeration value="ON"/>
+								<xs:enumeration value="OO"/>
+								<xs:enumeration value="OP"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Explanation" nillable="false" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:annotation>
+								<xs:documentation>minLength = 5, maxLength = 200</xs:documentation>
+							</xs:annotation>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:minLength value="5"/>
+								<xs:maxLength value="200"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="SiteName" type="common:Name"/>
+					<xs:element name="PrimarySite" type="table:IndicatorYesNoType"/>
+					<xs:element name="Remarks" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="common:RemarksType"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EXEMPT">
+		<xs:annotation>
+			<xs:documentation>An exempt from pre-placement site of activity element</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractSiteOfActivity">
+				<xs:sequence>
+					<xs:element name="Remarks" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="common:RemarksType"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ParticipantInfo">
+		<xs:annotation>
+			<xs:documentation>Participant info for sites under the Trainee/Intern Placement Program</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IsIWT" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="EmailAddress" type="table:EmailType"/>
+			<xs:element name="FieldOfStudy" type="common:FieldOfStudy"/>
+			<xs:element name="YearsOfExperience" type="common:YearsOfExperience" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="TypeOfDegree" type="common:TypeOfDegree"/>
+			<xs:element name="DateAwardedOrExpected" type="table:DateType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TippSiteWithPhases">
+		<xs:annotation>
+			<xs:documentation>A TIPP site of activity with phases</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TippSite">
+				<xs:sequence>
+					<xs:element name="TippPhase" type="TippPhase" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TippSite">
+		<xs:annotation>
+			<xs:documentation>A TIPP Site of Activity</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="GenericSiteOfActivity">
+				<xs:sequence>
+					<xs:element name="EmployerID" type="common:EmployerID" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="FullTimeEmployees" type="common:OneToSixDigits" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AnnualRevenue" type="table:AnnualRevenue" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WebsiteURL" type="common:URL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WorkersCompInd" type="table:IndicatorTypeYN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WorkersCompCarrier" type="common:OneToOneHundredChars" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="WorkersCompForEvInd" type="table:IndicatorTypeYNE" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="EvHoursPerWeek" type="common:OneToTwoDigits" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="StipendInd" type="table:IndicatorTypeYN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="StipendAmount" type="common:USDollars" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="StipendFrequency" type="table:StipendFrequency" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NonMonetaryComp" type="common:OneToOneHundredChars" minOccurs="0"/>
+					<xs:element name="SupervisorLastName" type="common:OneToFortyNonNumeric"/>
+					<xs:element name="SupervisorFirstName" type="common:OneToFortyNonNumeric"/>
+					<xs:element name="SupervisorTitle" type="common:OneToOneHundredChars"/>
+					<xs:element name="SupervisorPhone" type="common:PhoneTenDigits"/>
+					<xs:element name="SupervisorPhoneExt" type="common:PhoneExt" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SupervisorEmail" type="table:EmailType"/>
+					<xs:element name="SupervisorFax" type="common:PhoneTenDigits" minOccurs="0"/>
+					<xs:element name="OfficialUserName" type="common:UserNameType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="OfficialSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EvSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TippPhase">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PhaseId" minOccurs="0"/>
+			<xs:element name="PhaseName" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="StartDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="EndDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TrainingField" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperLastName" type="common:OneToFortyNonNumeric" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperFirstName" type="common:OneToFortyNonNumeric" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperMiddleInitial" type="common:OneNonNumeric" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SuperTitle" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperEmail" type="table:EmailType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperPhone" type="common:PhoneTenDigits" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperPhoneExt" type="common:PhoneExt" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SuperSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EvRole" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="GoalsAndObjectives" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SupervisorAndQualifications" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="CulturalActivities" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SkillsLearned" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TeachingMethod" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="HowCompetencyMeasured" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="AdditionalRemarks" type="common:OneToThreeThousandChars" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddTippPhase">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SiteId" type="common:SiteIdType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PhaseName" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="StartDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="EndDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TrainingField" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperLastName" type="common:OneToFortyNonNumeric" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperFirstName" type="common:OneToFortyNonNumeric" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperMiddleInitial" type="common:OneNonNumeric" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SuperTitle" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperEmail" type="table:EmailType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperPhone" type="common:PhoneTenDigits" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperPhoneExt" type="common:PhoneExt" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SuperSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EvRole" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="GoalsAndObjectives" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SupervisorAndQualifications" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="CulturalActivities" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SkillsLearned" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TeachingMethod" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="HowCompetencyMeasured" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="AdditionalRemarks" type="common:OneToThreeThousandChars" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EditTippPhase">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PhaseId" type="common:PhaseIdType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PhaseName" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="StartDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="EndDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TrainingField" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperLastName" type="common:OneToFortyNonNumeric" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperFirstName" type="common:OneToFortyNonNumeric" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperMiddleInitial" type="common:OneNonNumeric" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SuperTitle" type="common:OneToOneHundredChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperEmail" type="table:EmailType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperPhone" type="common:PhoneTenDigits" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SuperPhoneExt" type="common:PhoneExt" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SuperSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EvRole" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="GoalsAndObjectives" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SupervisorAndQualifications" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="CulturalActivities" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SkillsLearned" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TeachingMethod" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="HowCompetencyMeasured" type="common:OneToThreeThousandChars" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="AdditionalRemarks" type="common:OneToThreeThousandChars" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GenericSiteOfActivity" abstract="true">
+		<xs:annotation>
+			<xs:documentation>A generic site of activity with basic common fields and an optional SiteId for use in delete and update</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SiteId" type="common:SiteIdType" minOccurs="0"/>
+			<xs:element name="Address1" nillable="false">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType" nillable="true" minOccurs="0"/>
+			<xs:element name="PostalCode" type="table:USPostalType" nillable="false">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExplanationCode" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value=""/>
+						<xs:enumeration value="OB"/>
+						<xs:enumeration value="OH"/>
+						<xs:enumeration value="OM"/>
+						<xs:enumeration value="ON"/>
+						<xs:enumeration value="OO"/>
+						<xs:enumeration value="OP"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Explanation" nillable="false" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="200"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SiteName" type="common:Name"/>
+			<xs:element name="PrimarySite" type="table:IndicatorYesNoType"/>
+			<xs:element name="Remarks" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="common:RemarksType"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddSOA">
+		<xs:annotation>
+			<xs:documentation>A standard site of activity element that includes an address</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractAdd">
+				<xs:sequence>
+					<xs:element name="Address1" nillable="false" minOccurs="1" maxOccurs="1">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:maxLength value="64"/>
+								<xs:minLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Address2" nillable="true" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:maxLength value="64"/>
+								<xs:minLength value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="City" nillable="true" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:maxLength value="60"/>
+								<xs:minLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="State" type="table:StateCodeType" nillable="true" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PostalCode" type="table:USPostalType" nillable="false" minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>5 digit postal code</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ExplanationCode" nillable="true" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:annotation>
+								<xs:documentation>
+									ExplanationCode is optional and the value can be one of {OB, OH, OM, ON, OO, OP}. If the value is OO, explanation is required
+								</xs:documentation>
+							</xs:annotation>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value=""/>
+								<xs:enumeration value="OB"/>
+								<xs:enumeration value="OH"/>
+								<xs:enumeration value="OM"/>
+								<xs:enumeration value="ON"/>
+								<xs:enumeration value="OO"/>
+								<xs:enumeration value="OP"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Explanation" nillable="false" minOccurs="0" maxOccurs="1">
+						<xs:simpleType>
+							<xs:annotation>
+								<xs:documentation>minLength = 5, maxLength = 200</xs:documentation>
+							</xs:annotation>
+							<xs:restriction base="xs:string">
+								<xs:whiteSpace value="collapse"/>
+								<xs:minLength value="5"/>
+								<xs:maxLength value="200"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="SiteName" type="common:Name"/>
+					<xs:element name="PrimarySite" type="table:IndicatorYesNoType"/>
+					<xs:element name="Remarks" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="common:RemarksType"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AddEXEMPT">
+		<xs:annotation>
+			<xs:documentation>An exempt from pre-placement site of activity element</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractAdd">
+				<xs:sequence>
+					<xs:element name="Remarks" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="common:RemarksType"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AddSEEKINGEMP">
+		<xs:annotation>
+			<xs:documentation>A seeking employment site of activity element</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractAdd">
+				<xs:sequence>
+					<xs:element name="Remarks" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="common:RemarksType"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AddONTRAVEL">
+		<xs:annotation>
+			<xs:documentation>An on travel site of activity element</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractAdd">
+				<xs:sequence>
+					<xs:element name="Remarks" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="common:RemarksType"/>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TippSignatureDates">
+		<xs:annotation>
+			<xs:documentation>Container for all TIPP signature data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TippSite" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SiteId" type="xs:int" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="ProgramOfficial" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="UserName" type="common:UserNameType" minOccurs="1" maxOccurs="1"/>
+									<xs:element name="SignatureDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="EvSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+						<xs:sequence>
+							<xs:element name="Supervisors" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TippPhase" minOccurs="1" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="PhaseId" type="xs:int" minOccurs="1" maxOccurs="1"/>
+													<xs:element name="SignatureDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddSiteOfActivity">
+		<xs:sequence>
+			<xs:element name="SiteOfActivity" type="AbstractSiteOfActivity" minOccurs="1" maxOccurs="25"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddTIPP">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="TippExemptProgram" type="table:TippExemptProgram" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="ParticipantInfo" type="ParticipantInfo" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="TippSite" type="TippSiteWithPhases" minOccurs="1" maxOccurs="25"/>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attribute name="print7002" type="table:IndicatorYesNoType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="TippPhaseDates">
+		<xs:annotation>
+			<xs:documentation>Container for all TIPP Phase start and end dates</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TippPhase" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PhaseId" type="xs:int" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="StartDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="EndDate" type="table:DateType" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EditTippSite">
+		<xs:complexContent>
+			<xs:extension base="EditTippSiteOfActivity">
+				<xs:sequence>
+					<xs:element name="EmployerID" type="common:EmployerID" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="FullTimeEmployees" type="common:OneToSixDigits" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AnnualRevenue" type="table:AnnualRevenue" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WebsiteURL" type="common:URL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WorkersCompInd" type="table:IndicatorTypeYN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WorkersCompCarrier" type="common:OneToOneHundredChars" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="WorkersCompForEvInd" type="table:IndicatorTypeYNE" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="EvHoursPerWeek" type="common:OneToTwoDigits" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="StipendInd" type="table:IndicatorTypeYN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="StipendAmount" type="common:USDollars" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="StipendFrequency" type="table:StipendFrequency" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NonMonetaryComp" type="common:OneToOneHundredChars" minOccurs="0"/>
+					<xs:element name="SupervisorLastName" type="common:OneToFortyNonNumeric"/>
+					<xs:element name="SupervisorFirstName" type="common:OneToFortyNonNumeric"/>
+					<xs:element name="SupervisorTitle" type="common:OneToOneHundredChars"/>
+					<xs:element name="SupervisorPhone" type="common:PhoneTenDigits"/>
+					<xs:element name="SupervisorPhoneExt" type="common:PhoneExt" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SupervisorEmail" type="table:EmailType"/>
+					<xs:element name="SupervisorFax" type="common:PhoneTenDigits" minOccurs="0"/>
+					<xs:element name="OfficialUserName" type="common:UserNameType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="OfficialSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EvSignatureDate" type="table:DateType" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="Supervisors" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="TippPhase" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PhaseId" type="xs:int"/>
+											<xs:element name="SignatureDate" type="table:DateType"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EditTippSiteOfActivity" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Same as GenericSiteOfActivity, expect SiteId is required</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SiteId" type="common:SiteIdType"/>
+			<xs:element name="Address1" nillable="false">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="64"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="table:StateCodeType" nillable="true" minOccurs="0"/>
+			<xs:element name="PostalCode" type="table:USPostalType" nillable="false">
+				<xs:annotation>
+					<xs:documentation>5 digit postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExplanationCode" nillable="true" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value=""/>
+						<xs:enumeration value="OB"/>
+						<xs:enumeration value="OH"/>
+						<xs:enumeration value="OM"/>
+						<xs:enumeration value="ON"/>
+						<xs:enumeration value="OO"/>
+						<xs:enumeration value="OP"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Explanation" nillable="false" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="200"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SiteName" type="common:Name"/>
+			<xs:element name="PrimarySite" type="table:IndicatorYesNoType"/>
+			<xs:element name="Remarks" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="common:RemarksType"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

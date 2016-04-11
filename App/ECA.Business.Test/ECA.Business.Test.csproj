@@ -361,7 +361,6 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
-    <Compile Include="Sevis\Model\DispositionCodeTest.cs" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />
@@ -438,6 +437,10 @@
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
