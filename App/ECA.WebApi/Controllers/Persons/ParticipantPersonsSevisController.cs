@@ -4,7 +4,9 @@ using ECA.Business.Service.Persons;
 using ECA.Business.Validation.Sevis;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
 using ECA.WebApi.Models.Person;
+using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
@@ -38,6 +40,26 @@ namespace ECA.WebApi.Controllers.Persons
             Contract.Requires(participantService != null, "The participantPersonSevis service must not be null.");
             this.participantService = participantService;
             this.userProvider = userProvider;
+        }
+
+        /// <summary>
+        /// Gets list of sevis participants
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>List of sevis participants</returns>
+        [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisDTO>))]
+        [Route("Project/{projectId:int}/SevisParticipants")]
+        public async Task<IHttpActionResult> GetSevisParticipantsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await participantService.GetSevisParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                return Ok(results);
+            } else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         /// <summary>
