@@ -25,6 +25,7 @@ namespace ECA.WebJobs.Sevis.Comm
         private ISevisBatchProcessingService service;
         private AppSettings appSettings;
         private static Logger logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Creates a new Functions instance.
         /// </summary>
@@ -63,7 +64,8 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
-
+    
+        
             logger.Info("Starting SEVIS Batch Processing");
 
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
@@ -71,8 +73,6 @@ namespace ECA.WebJobs.Sevis.Comm
 
             var batchComm = new SevisComm(settings);
             var dtosToUpload = await service.GetBatchesToUploadAsync();
-            var fileProvider = new ZipArchiveDS2019FileProvider();
-
 
             foreach (var dtoToUpload in dtosToUpload)
             {
@@ -80,10 +80,18 @@ namespace ECA.WebJobs.Sevis.Comm
                 logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
                 var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
                 //process response message
-                string xmlString = await response.Content.ReadAsStringAsync();
-                
-                await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, GetFileProvider());
-                logger.Info("Processed Upload Response");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string xmlString = await response.Content.ReadAsStringAsync();
+                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, GetFileProvider());
+                    logger.Info("Processed Upload Response");
+                }
+                else
+                {
+                    logger.Error("Upload encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                }
+
             } // end for each upload
 
             //var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();

@@ -23,12 +23,12 @@ namespace ECA.Data
         /// <summary>
         /// Gets the max length of the name prefix.
         /// </summary>
-        public const int NAME_PREFIX_MAX_LENGTH = 10;
+        public const int NAME_PREFIX_MAX_LENGTH = 20;
 
         /// <summary>
         /// Gets max length of the name suffix.
         /// </summary>
-        public const int NAME_SUFFIX_MAX_LENGTH = 10;
+        public const int NAME_SUFFIX_MAX_LENGTH = 20;
 
         /// <summary>
         /// Gets the max length of the given name.
