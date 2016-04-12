@@ -36,6 +36,29 @@ namespace ECA.WebApi.Test.Controllers.Persons
         }
 
         [TestMethod]
+        public async Task TestGetParticipantPersonsSevisCommStatusesByIdAsync()
+        {
+            var projectId = 1;
+            var participantId = 2;
+            var model = new PagingQueryBindingModel<ParticipantPersonSevisCommStatusDTO>();
+            var response = await controller.GetParticipantPersonsSevisCommStatusesByIdAsync(projectId, participantId, model);
+            participantPersonSevisService.Verify(x => x.GetSevisCommStatusesByParticipantIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisCommStatusDTO>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantPersonsSevisCommStatusesByIdAsync_InvalidModel()
+        {
+            var projectId = 1;
+            var participantId = 2;
+            var model = new PagingQueryBindingModel<ParticipantPersonSevisCommStatusDTO>();
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetParticipantPersonsSevisCommStatusesByIdAsync(projectId, participantId, model);
+            participantPersonSevisService.Verify(x => x.GetSevisCommStatusesByParticipantIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisCommStatusDTO>>()), Times.Never());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
         public async Task TestPostSendToSevisAsync()
         {
             var model = new SendToSevisBindingModel

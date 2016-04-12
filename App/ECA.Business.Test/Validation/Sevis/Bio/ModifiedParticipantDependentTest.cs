@@ -47,6 +47,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
 
             var dependent = new AddedDependent(
                 fullName: fullName,
@@ -65,7 +66,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 printForm: printForm,
                 participantId: participantId,
                 personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                isTravelingWithParticipant: isTravelingWithParticipant,
+                isDeleted: isDeleted
                 );
 
             var modifiedParticipantDependent = new ModifiedParticipantDependent(dependent);
@@ -108,6 +110,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
 
             var dependent = new AddedDependent(
                 fullName: fullName,
@@ -126,7 +129,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 printForm: printForm,
                 participantId: participantId,
                 personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                isTravelingWithParticipant: isTravelingWithParticipant,
+                isDeleted: isDeleted
                 );
 
             var modifiedParticipantDependent = new ModifiedParticipantDependent(dependent: dependent);

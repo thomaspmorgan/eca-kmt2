@@ -115,12 +115,16 @@
         <div class="col-md-12" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().personId">
             <tabset>
                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(getSelectedParticipants()[0].participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
-                    <participant-person-info participantid="{{getSelectedParticipant().participantId}}" active="view.tabInfo" />
+                    <participant-person-info 
+                                             participantid="{{getSelectedParticipant().participantId}}"
+                                             onparticipantupdated="onParticipantUpdated" 
+                                             active="view.tabInfo" />
                 </tab>
                 <tab heading="SEVIS Information" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission" select="onSevisTabSelected(getSelectedParticipant().participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
                     <div>
                         <participant-person-sevis participantid="{{getSelectedParticipant().participantId}}"
                                                   personid="{{getSelectedParticipant().personId}}"
+                                                  onparticipantupdated="onParticipantUpdated" 
                                                   active="view.tabSevis"
                                                   sevisinfo="sevisInfo[getSelectedParticipant().participantId]"
                                                   exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"
