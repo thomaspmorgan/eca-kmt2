@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Data;
 using System;
@@ -35,6 +36,7 @@ namespace ECA.Business.Queries.Persons
                         let participant = p.Participant != null ? p.Participant : null
                         let participantType = participant != null ? participant.ParticipantType : null
                         let participantTypeName = participantType != null ? participantType.Name : null
+                        let participantTypeId = participantType != null ? participantType.ParticipantTypeId : default(int?)
 
                         let participantStatus = participant != null ? participant.Status : null
                         let participantStatusName = participantStatus != null ? participantStatus.Status : null
@@ -65,6 +67,7 @@ namespace ECA.Business.Queries.Persons
                             SevisId = p.SevisId,
                             ProjectId = participant.ProjectId,
                             ParticipantType = participantTypeName,
+                            ParticipantTypeId = participantTypeId,
                             ParticipantStatus = participantStatusName,
                             IsCancelled = p.IsCancelled,
                             IsDS2019Printed = p.IsDS2019Printed,
@@ -96,6 +99,23 @@ namespace ECA.Business.Queries.Persons
             var query = CreateGetParticipantPersonsSevisDTOQuery(context)
                 .Where(p => p.ProjectId == projectId)
                 .Where(p => p.ParticipantId == participantId);
+            return query;
+        }
+
+        /// <summary>
+        /// Returns sevis participants by project id
+        /// </summary>
+        /// <param name="context">The context</param>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Sevis participants by project id</returns>
+        public static IQueryable<ParticipantPersonSevisDTO> CreateGetSevisParticipantsByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetParticipantPersonsSevisDTOQuery(context)
+                .Where(p => p.ProjectId == projectId)
+                .Where(p => p.ParticipantTypeId == ParticipantType.ForeignTravelingParticipant.Id);
+            query = query.Apply(queryOperator);
             return query;
         }
     }
