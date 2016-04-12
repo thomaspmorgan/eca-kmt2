@@ -184,6 +184,7 @@
     <Content Include="app\data-points\data-points.html" />
     <Content Include="app\directives\citizenship-countries.controller.js" />
     <Content Include="app\directives\citizenship-countries.directive.js" />
+    <Content Include="app\directives\citizenship-country.controller.js" />
     <Content Include="app\directives\dependents.controller.js" />
     <Content Include="app\directives\dependents.directive.js" />
     <Content Include="app\directives\participant-person-info.directive.html" />

@@ -20,6 +20,7 @@ angular.module('staticApp')
       $scope.maxDateOfBirth = new Date();
       $scope.isDependentLoading = true;
       $scope.isSavingDependent = false;
+      $scope.dependent.edit = true;
       
       function saveNewDependent() {
           $scope.isSavingDependent = true;
