@@ -200,7 +200,7 @@ namespace ECA.Business.Queries.Persons
 
                         let birthCountryReason = context.BirthCountryReasons.Where(x => x.BirthCountryReasonId == dependent.BirthCountryReasonId).FirstOrDefault()
 
-                        where familyMemberIds.Contains(dependent.DependentId)
+                        where familyMemberIds.Contains(dependent.DependentId) && !dependent.IsSevisDeleted
                         select new DependentBiographicalDTO
                         {
                             PermanentResidenceAddressId = null,

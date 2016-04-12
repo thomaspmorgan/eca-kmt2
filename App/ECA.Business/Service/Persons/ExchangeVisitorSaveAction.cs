@@ -147,6 +147,7 @@ namespace ECA.Business.Service.Persons
             participantEntityTypes.Add(typeof(Address));
             participantEntityTypes.Add(typeof(EmailAddress));
             participantEntityTypes.Add(typeof(PhoneNumber));
+            participantEntityTypes.Add(typeof(PersonDependent));
             return participantEntityTypes;
         }
 
@@ -307,6 +308,12 @@ namespace ECA.Business.Service.Persons
                 var address = (Address)obj;
                 return GetPersonIdByAddress(context, address);
             }
+            else if (typeof(PersonDependent).IsAssignableFrom(type))
+            {
+                var personDependent = (PersonDependent)obj;
+                var personId = CreateGetPersonIdByDependentIdQuery(context, personDependent.DependentId).FirstOrDefault();
+                return personId == default(int) ? default(int?) : personId;
+            }
             else
             {
                 throw new NotSupportedException(String.Format("The object type [{0}] is not supported.", type.Name));
@@ -320,7 +327,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="context">The context to query.</param>
         /// <param name="obj">The deleted object.</param>
         /// <returns>The person id, or null if it does not exist.</returns>
-        public Task<int?> GetPersonIdByObjectAsync(EcaContext context, Object obj)
+        public async Task<int?> GetPersonIdByObjectAsync(EcaContext context, Object obj)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(obj != null, "The obj must not be null.");
@@ -328,17 +335,23 @@ namespace ECA.Business.Service.Persons
             if (typeof(PhoneNumber).IsAssignableFrom(type))
             {
                 var phoneNumber = (PhoneNumber)obj;
-                return GetPersonIdByPhoneNumberAsync(context, phoneNumber);
+                return await GetPersonIdByPhoneNumberAsync(context, phoneNumber);
             }
             else if (typeof(EmailAddress).IsAssignableFrom(type))
             {
                 var email = (EmailAddress)obj;
-                return GetPersonIdByEmailAddressAsync(context, email);
+                return await GetPersonIdByEmailAddressAsync(context, email);
             }
             else if (typeof(Address).IsAssignableFrom(type))
             {
                 var address = (Address)obj;
-                return GetPersonIdByAddressAsync(context, address);
+                return await GetPersonIdByAddressAsync(context, address);
+            }
+            else if (typeof(PersonDependent).IsAssignableFrom(type))
+            {
+                var personDependent = (PersonDependent)obj;
+                var personId = await CreateGetPersonIdByDependentIdQuery(context, personDependent.DependentId).FirstOrDefaultAsync();
+                return personId == default(int) ? default(int?) : personId;
             }
             else
             {
