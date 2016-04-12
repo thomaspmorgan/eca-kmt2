@@ -160,12 +160,12 @@ angular.module('staticApp')
       }
 
       function updateParentTableParticipantSevisStatus(participant) {
-          var participants = $scope.$parent.$parent.participants;
+          var participants = $scope.$parent.$parent.gridOptions.data;
           var indexes = participants.map(function (p) { return p.participantId; });
           var index = indexes.indexOf(participant.participantId);
           if (index >= 0) {
-              $scope.$parent.$parent.participants[index].sevisStatus = participant.sevisStatus;
-              $scope.$parent.$parent.participants[index].sevisStatusId = participant.sevisStatusId;
+              $scope.$parent.$parent.gridOptions.data[index].sevisStatus = participant.sevisStatus;
+              $scope.$parent.$parent.gridOptions.data[index].sevisStatusId = participant.sevisStatusId;
           }
           else {
               console.error('Unable able to find participant in participants table to update.');

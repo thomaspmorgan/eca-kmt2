@@ -53,5 +53,10 @@ namespace ECA.Data
         /// Gets or sets the sevis org id the participants will be batched for.
         /// </summary>
         public string SevisOrgId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the principal id of the principal that created the status.
+        /// </summary>
+        public int? PrincipalId { get; set; }
     }
 }

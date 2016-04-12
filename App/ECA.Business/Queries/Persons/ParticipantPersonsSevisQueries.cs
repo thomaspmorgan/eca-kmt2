@@ -39,17 +39,22 @@ namespace ECA.Business.Queries.Persons
                         let participantStatus = participant != null ? participant.Status : null
                         let participantStatusName = participantStatus != null ? participantStatus.Status : null
 
-                        let commStatuses = p.ParticipantPersonSevisCommStatuses.Select(s => new ParticipantPersonSevisCommStatusDTO()
-                        {
-                            Id = s.Id,
-                            ParticipantId = s.ParticipantId,
-                            SevisCommStatusId = s.SevisCommStatusId,
-                            SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName,
-                            AddedOn = s.AddedOn,
-                            BatchId = s.BatchId,
-                            SevisOrgId = s.SevisOrgId,
-                            SevisUsername = s.SevisUsername
-                        }).OrderByDescending(s => s.AddedOn)
+                        let commStatuses = (from status in p.ParticipantPersonSevisCommStatuses
+                                           let userAccount = context.UserAccounts.Where(x => x.PrincipalId == status.PrincipalId).FirstOrDefault()
+                                           select new ParticipantPersonSevisCommStatusDTO
+                                           {
+                                               Id = status.Id,
+                                               ParticipantId = status.ParticipantId,
+                                               SevisCommStatusId = status.SevisCommStatusId,
+                                               SevisCommStatusName = status.SevisCommStatus.SevisCommStatusName,
+                                               AddedOn = status.AddedOn,
+                                               BatchId = status.BatchId,
+                                               SevisOrgId = status.SevisOrgId,
+                                               EmailAddress = userAccount != null ? userAccount.EmailAddress : null,
+                                               DisplayName = userAccount != null ? userAccount.DisplayName : null,
+                                               PrincipalId = userAccount != null ? userAccount.PrincipalId : default(int?)
+                                           }).OrderByDescending(s => s.AddedOn)
+
 
                         let latestBatchStatus = commStatuses.Where(x => x.BatchId != null).FirstOrDefault()
                         let latestStatus = commStatuses.FirstOrDefault()

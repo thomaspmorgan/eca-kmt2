@@ -88,7 +88,106 @@ namespace ECA.Business.Test.Queries.Persons
         }
 
         [TestMethod]
-        public void TestCreateGetParticipantPersonsSevisDTOQuery_HasOneCommStatus()
+        public void TestCreateGetParticipantPersonsSevisDTOQuery_HasOneCommStatusWithPrincipal()
+        {
+            var user = new UserAccount
+            {
+                PrincipalId = 1,
+                DisplayName = "display name",
+                EmailAddress = "email",
+                FirstName = "first",
+                LastName = "last"
+            };
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "status",
+            };
+            var participantType = new ParticipantType
+            {
+                IsPerson = true,
+                Name = "part type",
+                ParticipantTypeId = 90
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Status = status,
+                ParticipantStatusId = status.ParticipantStatusId,
+                ProjectId = 250,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+                ParticipantType = participantType
+            };
+
+            var participantPerson = new ParticipantPerson
+            {
+                ParticipantId = participant.ParticipantId,
+                Participant = participant,
+                EndDate = DateTimeOffset.UtcNow.AddDays(10.0),
+                IsCancelled = true,
+                IsDS2019Printed = true,
+                IsDS2019SentToTraveler = true,
+                IsSentToSevisViaRTI = true,
+                IsValidatedViaRTI = true,
+                SevisBatchResult = "sevis batch result",
+                SevisId = "sevis id",
+                SevisValidationResult = "sevis validation result",
+                StartDate = DateTimeOffset.UtcNow.AddDays(-10.0)
+            };
+            participant.ParticipantPerson = participantPerson;
+
+            var readyToSubmitStatus = new SevisCommStatus
+            {
+                SevisCommStatusId = SevisCommStatus.ReadyToSubmit.Id,
+                SevisCommStatusName = SevisCommStatus.ReadyToSubmit.Value
+            };
+            var readyToSubmitParticipantSevisCommStatus = new ParticipantPersonSevisCommStatus
+            {
+                AddedOn = DateTimeOffset.UtcNow,
+                BatchId = "batch id",
+                Id = 500,
+                ParticipantId = participant.ParticipantId,
+                ParticipantPerson = participantPerson,
+                SevisCommStatus = readyToSubmitStatus,
+                SevisCommStatusId = readyToSubmitStatus.SevisCommStatusId,
+                SevisOrgId = "sevis org id",
+                SevisUsername = "sevis username",
+                PrincipalId = user.PrincipalId
+            };
+            participantPerson.ParticipantPersonSevisCommStatuses.Add(readyToSubmitParticipantSevisCommStatus);
+
+            context.UserAccounts.Add(user);
+            context.SevisCommStatuses.Add(readyToSubmitStatus);
+            context.ParticipantPersonSevisCommStatuses.Add(readyToSubmitParticipantSevisCommStatus);
+            context.ParticipantTypes.Add(participantType);
+            context.ParticipantStatuses.Add(status);
+            context.Participants.Add(participant);
+            context.ParticipantPersons.Add(participantPerson);
+
+            var results = ParticipantPersonsSevisQueries.CreateGetParticipantPersonsSevisDTOQuery(context).ToList();
+            Assert.AreEqual(1, results.Count());
+            var firstResult = results.First();
+
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.AddedOn, firstResult.LastBatchDate);
+            Assert.AreEqual(readyToSubmitStatus.SevisCommStatusId, firstResult.SevisStatusId);
+            Assert.AreEqual(readyToSubmitStatus.SevisCommStatusName, firstResult.SevisStatus);
+
+            Assert.AreEqual(1, firstResult.SevisCommStatuses.Count());
+            var dto = firstResult.SevisCommStatuses.First();
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.AddedOn, dto.AddedOn);
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.BatchId, dto.BatchId);
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.Id, dto.Id);
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.ParticipantId, dto.ParticipantId);
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.SevisCommStatus.SevisCommStatusName, dto.SevisCommStatusName);
+            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.SevisOrgId, dto.SevisOrgId);
+            Assert.AreEqual(user.DisplayName, dto.DisplayName);
+            Assert.AreEqual(user.EmailAddress, dto.EmailAddress);
+            Assert.AreEqual(user.PrincipalId, dto.PrincipalId);
+        }
+
+        [TestMethod]
+        public void TestCreateGetParticipantPersonsSevisDTOQuery_HasOneCommStatusWithoutPrincipal()
         {
             var status = new ParticipantStatus
             {
@@ -143,7 +242,8 @@ namespace ECA.Business.Test.Queries.Persons
                 SevisCommStatus = readyToSubmitStatus,
                 SevisCommStatusId = readyToSubmitStatus.SevisCommStatusId,
                 SevisOrgId = "sevis org id",
-                SevisUsername = "sevis username"
+                SevisUsername = "sevis username",
+                PrincipalId = null
             };
             participantPerson.ParticipantPersonSevisCommStatuses.Add(readyToSubmitParticipantSevisCommStatus);
 
@@ -158,19 +258,11 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
 
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.AddedOn, firstResult.LastBatchDate);
-            Assert.AreEqual(readyToSubmitStatus.SevisCommStatusId, firstResult.SevisStatusId);
-            Assert.AreEqual(readyToSubmitStatus.SevisCommStatusName, firstResult.SevisStatus);
-
             Assert.AreEqual(1, firstResult.SevisCommStatuses.Count());
             var dto = firstResult.SevisCommStatuses.First();
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.AddedOn, dto.AddedOn);
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.BatchId, dto.BatchId);
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.Id, dto.Id);
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.ParticipantId, dto.ParticipantId);
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.SevisCommStatus.SevisCommStatusName, dto.SevisCommStatusName);
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.SevisOrgId, dto.SevisOrgId);
-            Assert.AreEqual(readyToSubmitParticipantSevisCommStatus.SevisUsername, dto.SevisUsername);
+            Assert.IsNull(dto.DisplayName);
+            Assert.IsNull(dto.EmailAddress);
+            Assert.IsNull(dto.PrincipalId);
         }
 
         [TestMethod]

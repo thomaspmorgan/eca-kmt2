@@ -12,7 +12,7 @@ using ECA.Business.Service;
 namespace ECA.Business.Test.Service.Persons
 {
     [TestClass]
-    public class ParticipantPersonSevisServiceTest
+    public class ParticipantPersonsSevisServiceTest
     {
         private TestEcaContext context;
         private ParticipantPersonsSevisService sevisService;
@@ -85,6 +85,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participant.ParticipantId, addedStatus.ParticipantId);
                 Assert.AreEqual(model.SevisUsername, addedStatus.SevisUsername);
                 Assert.AreEqual(model.SevisOrgId, addedStatus.SevisOrgId);
+                Assert.AreEqual(model.Audit.User.Id, addedStatus.PrincipalId);
                 DateTimeOffset.Now.Should().BeCloseTo(addedStatus.AddedOn, 20000);
 
                 CollectionAssert.AreEqual(new List<int> { participant.ParticipantId }, returnedParticipantIds.ToList());

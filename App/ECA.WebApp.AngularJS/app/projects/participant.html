@@ -104,112 +104,34 @@
             <button class="btn btn-primary" ng-click="openAddNewParticipant()">ADD NEW PARTICIPANT</button>
         </div>
     </div>
-    <div class="row expand">
-        <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
-            <div class="row form-inline">
-                <input type="checkbox" ng-model="selectAll" ng-show="selectedAction" ng-change="selectAllChanged()" />
-                <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()" ng-options="v as k for (k,v) in actions"></select>
-                <button class="btn btn-primary" ng-disabled="selectedParticipantsEmpty()" ng-click="applyAction()">Apply</button>
-                <input st-search type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}" />
-                <i class="material-icons md-18 contextual">search</i>
-            </div>
-            <table class="col-md-12 alt">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th st-sort="'name'" st-sort-default="true" class="col-md-3 sort-label medium">Name</th>
-                        <th st-sort="'participantType'" class="col-md-2 sort-label medium">Type</th>
-                        <th st-sort="'participantStatus'" class="col-md-2 sort-label medium">Status</th>
-                        <th st-sort="'sevisStatus'" class="col-md-2 sort-label medium">Sevis Status</th>
-                        <th class="col-md-2">&nbsp;</th>
-                        <th class="col-md-1">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody class="list2" id="participantTableBody">
-                    <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading" id="{{view.getParticipantTableRowDivId(participant.participantId)}}">
-                        <td>
-                            <!-- Fix for row height difference -->
-                            <span ng-show="!selectedAction">&nbsp;</span>
-                            <input type="checkbox" ng-show="selectedAction" ng-model="selectedParticipants[participant.participantId]" ng-change="selectedParticipant(participant, selectedParticipants[participant.participantId])" />
-                        </td>
-                        <td>
-                            <h5 class="list-title" id="{{participant.participantId}}"><a href="{{participant.href}}">{{participant.name}}</a></h5>
-                        </td>
-                        <td>{{participant.participantType}}</td>
-                        <td>{{participant.participantStatus}}</td>
-                        <td>{{participant.sevisStatus}}</td>
-                        <td>
-                            <!--<img class="icon" src="images/duplicateA.png" alt="">
-                            <img class="icon" src="images/editA.png" alt="">
-                            <img class="icon" src="images/trash.png" alt="">-->
-                            <div class="right" style="display:none;" showonparentrow>
-                                <!--<div>
-                                    <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Copy" ng-click="view.onCopyClick(moneyFlow)">
-                                        <i class="material-icons md-24 copyEditDeleteOption" ng-show="!moneyFlow.isCopyingMoneyFlow">content_copy</i>
-                                        <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="moneyFlow.isCopyingMoneyFlow">autorenew</i>
-                                    </div>
-                                </div>
-                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Edit" ng-click="view.onEditClick(participant)">
-                                    <i class="material-icons md-24 copyEditDeleteOption">edit</i>
-                                </div>-->
-                                <div class="copyEditDeleteOptions" tooltip-placement="bottom" tooltip="Delete" ng-click="view.onDeleteParticipantClick(participant)" ng-show="permissions.editProject">
-                                    <i class="material-icons md-24 copyEditDeleteOption" ng-show="!participantInfo[participantId].isDeleting">delete</i>
-                                    <i class="material-icons md-24 material-icons-spin copyEditDeleteOption" ng-show="participantInfo[participantId].isDeleting">autorenew</i>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <a ng-click="toggleParticipantInfo(participant.participantId)">
-                                <i class="material-icons md-dark md-36 pull-right"
-                                   ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false">
-                                    expand_less
-                                </i>
-                                <i class="material-icons md-dark md-36 pull-right"
-                                   ng-show="participantInfo[participant.participantId] !== undefined && participantInfo[participant.participantId].show">
-                                    expand_more
-                                </i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr id="participantInfo{{participant.participantId}}" class="details" ng-if="participant.personId && participantInfo[participant.participantId].show">
-                        <td colspan="7">
-                            <tabset>
-                                <tab heading="Participant Information" class="tab" select="onInfoTabSelected(participant.participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
-                                    <participant-person-info participantid="{{participant.participantId}}" active="view.tabInfo" />
-                                </tab>
-                                <tab heading="SEVIS Information" class="tab" ng-if="showSevisTab(participant.participantTypeId) && permissions.hasEditSevisPermission" select="onSevisTabSelected(participant.participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
-                                    <div>
-                                        <participant-person-sevis participantid="{{participant.participantId}}"
-                                                                  personid="{{participant.personId}}"
-                                                                  active="view.tabSevis"
-                                                                  sevisinfo="sevisInfo[participant.participantId]"
-                                                                  exchangevisitorinfo="exchangeVisitorInfo[participant.participantId]"
-                                                                  updatesevisinfo="saveSevisInfo(participantId)"
-                                                                  updateexchangevisitorinfo="saveExchangeVisitorInfo(participantId)" />
-                                    </div>
-                                </tab>
-                            </tabset>
-                        </td>
-                    </tr>
-                    <tr id="participantMoreInfo" class="details" ng-repeat-end ng-show="participant.organizationId && participantInfo[participant.participantId].show">
-                        <td colspan="7">
-                            <div class="col-md-12 text-center">
-                                There is no additional information for this participant.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr ng-show="participantsLoading">
-                        <td colspan="7">
-                            <div class="spinner">
-                                <div class="bounce1"></div>
-                                <div class="bounce2"></div>
-                                <div class="bounce3"></div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div st-template="app/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
+    <div class="row">
+        <div class="form-inline">
+            <select class="form-control input-lg" ng-model="selectedAction" ng-change="selectedActionChanged()" ng-options="v as k for (k,v) in actions"></select>
+            <button class="btn btn-primary" ng-disabled="getSelectedParticipants().length === 0 || selectedAction === undefined" ng-click="applyAction()">Apply</button>
+            <input type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}" />
+            <i class="material-icons md-18 contextual">search</i>
+        </div>
+        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-auto-resize style="margin-top: 20px; margin-left: 10px;"></div>
+        <div class="col-md-12" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().personId">
+            <tabset>
+                <tab heading="Participant Information" class="tab" select="onInfoTabSelected(getSelectedParticipants()[0].participantId)" active="view.tabInfo" deselect="view.tabInfo=false">
+                    <participant-person-info participantid="{{getSelectedParticipant().participantId}}" active="view.tabInfo" />
+                </tab>
+                <tab heading="SEVIS Information" class="tab" ng-if="showSevisTab(getSelectedParticipant().participantTypeId) && permissions.hasEditSevisPermission" select="onSevisTabSelected(getSelectedParticipant().participantId)" active="view.tabSevis" deselect="view.tabSevis=false">
+                    <div>
+                        <participant-person-sevis participantid="{{getSelectedParticipant().participantId}}"
+                                                  personid="{{getSelectedParticipant().personId}}"
+                                                  active="view.tabSevis"
+                                                  sevisinfo="sevisInfo[getSelectedParticipant().participantId]"
+                                                  exchangevisitorinfo="exchangeVisitorInfo[getSelectedParticipant().participantId]"
+                                                  updatesevisinfo="saveSevisInfo(getSelectedParticipant().participantId)"
+                                                  updateexchangevisitorinfo="saveExchangeVisitorInfo(getSelectedParticipant().participantId)" />
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+        <div class="col-md-12" style="margin-top: 20px;" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().organizationId">
+            There is no additional information for this participant.
         </div>
     </div>
     <script type="text/ng-template" id="addParticipantTemplate.html">

@@ -13,6 +13,10 @@ using ECA.Business.Service;
 using System.Web;
 using System.Web.Http;
 using System.Net;
+using ECA.WebApi.Models.Query;
+using ECA.Business.Queries.Models.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 
 namespace ECA.WebApi.Test.Controllers.Persons
 {
@@ -81,5 +85,24 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.PostSendToSevisAsync(1, 1, model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
+        [TestMethod]
+        public async Task TestGetSevisParticipantsByProjectIdAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetSevisParticipantsByProjectIdAsync()
+        {
+            participantPersonSevisService.Setup(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ParticipantPersonSevisDTO>(1, new List<ParticipantPersonSevisDTO>()));
+            var response = await controller.GetSevisParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<ParticipantPersonSevisDTO>());
+            participantPersonSevisService.Verify(x => x.GetSevisParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ParticipantPersonSevisDTO>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ParticipantPersonSevisDTO>>));
+        }
+
     }
 }

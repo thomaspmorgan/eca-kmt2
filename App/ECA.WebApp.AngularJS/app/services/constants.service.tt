@@ -35,6 +35,7 @@
 	types.Add(typeof(VisitorType));
 	types.Add(typeof(DependentType));
 	types.Add(typeof(ECA.Business.Validation.Sevis.ErrorPaths.SevisErrorType));
+	types.Add(typeof(SevisCommStatus));
 
 	types = types.OrderBy(x => x.Name).ToList();
 	var otherConstants = new Dictionary<string, string>();
