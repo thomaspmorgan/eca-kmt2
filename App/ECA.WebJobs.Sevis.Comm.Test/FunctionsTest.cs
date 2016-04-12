@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Queries.Models.Sevis;
+using ECA.Business.Service;
 using ECA.Business.Service.Sevis;
 using ECA.Core.Settings;
 using ECA.WebJobs.Sevis.Comm;
@@ -8,6 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.Timers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Reflection;
@@ -66,12 +68,11 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             appSettings.Add(AppSettings.SEVIS_UPLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchUpload");
             appSettings.Add(AppSettings.SEVIS_DOWNLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchDownload");
-            appSettings.Add(AppSettings.SEVIS_ORGID_KEY, "org id");
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
-            appSettings.Add(AppSettings.SEVIS_USERID_KEY, "10");
             appSettings.Add(AppSettings.SEVIS_THUMBPRINT, "f14e780d72921fda4b8079d887114dfd1922d624");
-            appSettings.Add(AppSettings.SEVIS_PASSPHRASE, "none");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
+            service.Setup(x => x.GetBatchesToUploadAsync()).ReturnsAsync(new List<SevisBatchProcessingDTO>());
+
             await instance.ProcessTimer(timerInfo);
             
         }

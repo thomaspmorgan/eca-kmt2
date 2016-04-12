@@ -19,6 +19,7 @@ namespace CAM.Data
         {
             PermissionAssignments = new HashSet<PermissionAssignment>();
             PrincipalRoles = new HashSet<PrincipalRole>();
+            SevisAccounts = new HashSet<SevisAccount>();
         }
 
         /// <summary>
@@ -50,5 +51,10 @@ namespace CAM.Data
         /// Gets or sets the user account.
         /// </summary>
         public virtual UserAccount UserAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis accounts.
+        /// </summary>
+        public virtual ICollection<SevisAccount> SevisAccounts { get; set; }
     }
 }

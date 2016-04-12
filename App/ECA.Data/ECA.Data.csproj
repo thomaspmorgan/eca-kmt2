@@ -9,13 +9,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Data</RootNamespace>
     <AssemblyName>ECA.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -145,6 +146,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Configuration\AddressConfiguration.cs" />
     <Compile Include="Configuration\BirthCountryConfiguration.cs" />
+    <Compile Include="Configuration\BirthCountryReasonConfiguration.cs" />
     <Compile Include="Configuration\BookmarkConfiguration.cs" />
     <Compile Include="Configuration\DataPointCategoryPropertyConfiguration.cs" />
     <Compile Include="Configuration\DataPointConfigurationConfiguration.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="IAddressable.cs" />
     <Compile Include="PersonDependent.cs" />
     <Compile Include="DependentType.cs" />
+    <Compile Include="PersonDependentCitizenCountry.cs" />
     <Compile Include="SevisBatchProcessing.cs" />
     <Compile Include="OrganizationRole.cs" />
     <Compile Include="MoneyFlowSourceRecepientTypeSetting.cs" />

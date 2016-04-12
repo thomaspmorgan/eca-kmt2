@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Queries.Sevis
+﻿namespace ECA.Business.Queries.Models.Sevis
 {
     /// <summary>
     /// A QueuedToSubmitParticipantDTO is used to find participants that should be used to create exchange visitors

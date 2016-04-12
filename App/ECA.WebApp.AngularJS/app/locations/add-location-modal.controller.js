@@ -93,6 +93,8 @@ angular.module('staticApp')
       $scope.view.onSelectCityBlur = function ($event) {
           if ($scope.view.newLocation.city === '') {
               clearCity();
+              clearDivision();
+              clearCountry();
               clearLatAndLong();
           }
       };
@@ -104,7 +106,7 @@ angular.module('staticApp')
               $log.info('Auto populating region to location.');
               $scope.view.newLocation.regionId = $item.regionId;
           }
-          if ($item.country && !$scope.view.newLocation.countryId) {
+          if ($item.country && $item.countryId) {
               $log.info('Auto populating country to location.');
               $scope.view.newLocation.countryId = $item.countryId;
           }
@@ -114,11 +116,12 @@ angular.module('staticApp')
 
               return $q.all(loadDivisions(), checkNewLocationExistence())
               .then(function () {
-
               })
               .catch(function () {
                   $log.error('Error when selecting city.');
               });
+          } else {
+              clearDivision();
           }
       }
 
@@ -242,6 +245,14 @@ angular.module('staticApp')
       function clearCity() {
           delete $scope.view.newLocation.cityId;
           delete $scope.view.newLocation.city;
+      }
+
+      function clearDivision() {
+          delete $scope.view.newLocation.divisionId;
+      }
+
+      function clearCountry() {
+          delete $scope.view.newLocation.countryId;
       }
 
       function clearMapMarkers() {
@@ -374,9 +385,6 @@ angular.module('staticApp')
               .equal('locationTypeId', ConstantsService.locationType.city.id)
               .isNotNull('name')
               .sortBy('name');
-          if ($scope.view.newLocation.divisionId) {
-              citiesFilter = citiesFilter.equal('divisionId', $scope.view.newLocation.divisionId);
-          }
           if ($scope.view.newLocation.countryId) {
               citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
           }

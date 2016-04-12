@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[BirthCountryReason](
+﻿CREATE TABLE [sevis].[BirthCountryReason](
 	[BirthCountryReasonId] [int] IDENTITY(1,1) NOT NULL,
 	[BirthReasonCode] [nvarchar](2) NOT NULL,
 	[Description] [nvarchar](40) NOT NULL,

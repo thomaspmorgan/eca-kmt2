@@ -1,10 +1,13 @@
 ﻿CREATE TABLE [dbo].[ParticipantPersonSevisCommStatus]
 (    
 	[Id] INT NOT NULL IDENTITY,
-	[ParticipantId] INT NOT NULL , 
+	[ParticipantId] INT NOT NULL, 
+	[PrincipalId] INT NULL,
     [SevisCommStatusId] INT NOT NULL, 
     [AddedOn] DATETIMEOFFSET NOT NULL, 
     [BatchId] NVARCHAR(14) NULL,
+    [SevisUsername] NVARCHAR(10) NULL, 
+    [SevisOrgId] NVARCHAR(15) NULL, 
     CONSTRAINT [PK_ParticipantPersonSevisCommStatus] PRIMARY KEY ([Id]), 
     CONSTRAINT [FK_ParticipantPersonSevisCommStatus_ToPersonParticipant] FOREIGN KEY ([ParticipantId]) REFERENCES [ParticipantPerson]([ParticipantId]), 
     CONSTRAINT [FK_ParticipantPersonSevisCommStatus_ToSevisCommStatus] FOREIGN KEY ([SevisCommStatusId]) REFERENCES [SevisCommStatus]([SevisCommStatusId])

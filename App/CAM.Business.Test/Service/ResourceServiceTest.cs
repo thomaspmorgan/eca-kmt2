@@ -831,6 +831,10 @@ namespace CAM.Business.Test.Service
         #endregion
 
         #region Get Resource Permissions
+
+        /// <summary>
+        /// 
+        /// </summary>
         [TestMethod]
         public async Task TestGetResourcePermissions_ForeignResourceIdIsNull()
         {
@@ -865,6 +869,9 @@ namespace CAM.Business.Test.Service
             tester(serviceResultsAsync);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [TestMethod]
         public async Task TestGetResourcePermissions_ForeignResourceIdIsNotNull()
         {
@@ -905,6 +912,9 @@ namespace CAM.Business.Test.Service
             tester(serviceResultsAsync);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [TestMethod]
         public async Task TestGetResourcePermissions_ResourceTypeIsNotKnown()
         {

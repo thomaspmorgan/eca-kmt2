@@ -16,6 +16,9 @@ using ECA.WebApi.Areas.HelpPage.Models;
 
 namespace ECA.WebApi.Areas.HelpPage
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class HelpPageConfigurationExtensions
     {
         private const string ApiModelPrefix = "MS_HelpPageApiModel_";

@@ -3,17 +3,15 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.WebApi.Models.Query;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace ECA.WebApi.Controllers.Admin
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Authorize]
     public class MaritalStatusesController : ApiController
     {

@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Sevis.Model;
 using System;
 
 namespace ECA.Business.Validation.Sevis.Bio
@@ -7,7 +8,7 @@ namespace ECA.Business.Validation.Sevis.Bio
     /// A Dependent instance is used to specify what action will be taken on a sevis registered exchange visitor dependent, such as
     /// adding a new dependenting, deleting a sevis registered dependent, or editing a sevis registered dependent.
     /// </summary>
-    public abstract class Dependent : IBiographical, IFormPrintable
+    public abstract class Dependent : IBiographical, IFormPrintable, IFluentValidatable
     {
         public Dependent(
             FullName fullName,
@@ -134,6 +135,24 @@ namespace ECA.Business.Validation.Sevis.Bio
         public string Relationship { get; set; }
 
         /// <summary>
+        /// Returns true, if the relationship has a value and its the dependent code time 01.
+        /// </summary>
+        /// <returns>True, if the relationship has a value and its the dependent code time 01.</returns>
+        public bool IsSpousalDependent()
+        {
+            return !String.IsNullOrWhiteSpace(this.Relationship) && this.Relationship.GetDependentCodeType() == DependentCodeType.Item01;
+        }
+
+        /// <summary>
+        /// Returns true, if the relationship has a value and its the dependent code time 02.
+        /// </summary>
+        /// <returns>True, if the relationship has a value and its the dependent code time 02.</returns>
+        public bool IsChildDependent()
+        {
+            return !String.IsNullOrWhiteSpace(this.Relationship) && this.Relationship.GetDependentCodeType() == DependentCodeType.Item02;
+        }
+
+        /// <summary>
         /// Returns the age of this dependent, or -1 if the birthdate is null.
         /// </summary>
         /// <returns>The age of the dependent, or -1 if the birthdate is null.</returns>
@@ -165,5 +184,20 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// </summary>
         /// <returns>A SEVISEVBatchTypeExchangeVisitorDependent(Add|Delete|Edit|EndStatus|Reprint|Terminate) instance.</returns>
         public abstract object GetSevisExhangeVisitorDependentInstance();
+
+        /// <summary>
+        /// Returns true, if the dependent should be validated, otherwise false.
+        /// </summary>
+        /// <returns>True, if this dependent should be validated, otherwise false.</returns>
+        public bool ShouldValidate()
+        {
+            return !IgnoreDependentValidation();
+        }
+
+        /// <summary>
+        /// Returns true, if this dependent should be ignored in validation.
+        /// </summary>
+        /// <returns>True, if this dependent should be ignored in validation.</returns>
+        public abstract bool IgnoreDependentValidation();
     }
 }

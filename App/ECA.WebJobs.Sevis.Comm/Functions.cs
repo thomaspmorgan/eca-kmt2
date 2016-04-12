@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Azure.WebJobs;
 using System.Threading.Tasks;
 using ECA.Business.Service.Sevis;
@@ -10,6 +9,9 @@ using ECA.WebJobs.Sevis;
 using ECA.Business.Sevis;
 using ECA.Business.Service;
 using ECA.WebJobs.Sevis.Core;
+using System.Xml.Linq;
+using NLog;
+using System.Xml.Serialization;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -22,6 +24,7 @@ namespace ECA.WebJobs.Sevis.Comm
 
         private ISevisBatchProcessingService service;
         private AppSettings appSettings;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new Functions instance.
@@ -32,7 +35,6 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             this.service = service;
             this.appSettings = appSettings;
-
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             await ProcessAsync(this.service, this.appSettings);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
-            Console.WriteLine(nextOccurrenceMessage);
+            logger.Info(nextOccurrenceMessage);
         }
 
         /// <summary>
@@ -62,26 +64,37 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
-
-            Console.WriteLine("Starting SEVIS Batch Processing");
-            var systemUser = new User(Int32.Parse(settings.SystemUserId));
+    
+        
+            logger.Info("Starting SEVIS Batch Processing");
 
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
             //and returned in the dtos.
 
             var batchComm = new SevisComm(settings);
-            var dtoToUpload = await service.GetNextBatchToUploadAsync();
-            //while (dtoToUpload != null)
-            //{
-            //    //do the send here
+            var dtosToUpload = await service.GetBatchesToUploadAsync();
 
-            //    //string transactionLogXml = null;
-            //    //var fileProvider = GetFileProvider();
-            //    //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
-            //    dtoToUpload = await service.GetNextBatchToUploadAsync();
-            //}
+            foreach (var dtoToUpload in dtosToUpload)
+            {
+                //do the send here
+                logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
+                var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
+                //process response message
 
-            var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    string xmlString = await response.Content.ReadAsStringAsync();
+                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, GetFileProvider());
+                    logger.Info("Processed Upload Response");
+                }
+                else
+                {
+                    logger.Error("Upload encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                }
+
+            } // end for each upload
+
+            //var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
             //while (batchByIdToDownload != null)
             //{
 
@@ -90,29 +103,6 @@ namespace ECA.WebJobs.Sevis.Comm
             //    batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
             //}
 
-            await service.DeleteProcessedBatchesAsync();
-
-            //foreach (var batch in batchesToBeSent)
-            //{
-            //    HttpResponseMessage status = new HttpResponseMessage();
-            //    try
-            //    {
-            //        status = await batchComm.UploadAsync(batch.SendXml, batch.BatchId);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(String.Format("Exception: {0}", e.Message));
-            //    }
-            //    if (status.IsSuccessStatusCode)
-            //    {
-            //        var updatedBatch = new UpdatedSevisBatchProcessing(batch);
-            //        updatedBatch.SubmitDate = DateTime.Now;
-            //        await service.UpdateAsync(updatedBatch);
-            //        Console.WriteLine("SEVIS Upload successful");
-            //    }
-            //    else
-            //        Console.WriteLine("SEVIS Upload failed, error: {0}", status.StatusCode.ToString());
-            //}
 
             // Check for Downloads to get
 
@@ -120,9 +110,10 @@ namespace ECA.WebJobs.Sevis.Comm
 
             // Process any Downloads that have not been processed
 
-            //var batchesToProcess = service.GetSevisBatchesToProcess();
+            logger.Debug("Removing processed batches");
+            await service.DeleteProcessedBatchesAsync();
 
-            Console.WriteLine("Finished Batch Processing.");
+            logger.Info("Finished Batch Processing.");
 
         }
 
@@ -143,7 +134,6 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
-
         #region IDispose
 
         /// <summary>
@@ -165,7 +155,7 @@ namespace ECA.WebJobs.Sevis.Comm
             {
                 if (this.service is IDisposable)
                 {
-                    Console.WriteLine("Disposing of service " + this.service.GetType());
+                    logger.Trace("Disposing of service " + this.service.GetType());
                     ((IDisposable)this.service).Dispose();
                     this.service = null;
                 }

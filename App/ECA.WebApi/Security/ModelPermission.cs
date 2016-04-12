@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Reflection;
-using System.Web;
 
 namespace ECA.WebApi.Security
 {

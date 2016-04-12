@@ -106,8 +106,29 @@ namespace CAM.Business.Queries
                                                   ResourceTypeId = g.Key.ResourceTypeId,
                                                   IsAllowed = true
                                               };
+
+            var sendToSevisPermissionQuery = from principal in context.Principals
+                                             let hasSevisUserAccounts = principal.SevisAccounts.Count() > 0
+                                             let sendToSevisPermission = context.Permissions.Where(x => x.PermissionId == Permission.SEND_TO_SEVIS_ID).FirstOrDefault()
+                                             let applicationResource = sendToSevisPermission != null ? sendToSevisPermission.Resource : null
+
+                                             where sendToSevisPermission != null 
+                                             && sendToSevisPermission.ResourceId.HasValue
+                                             && hasSevisUserAccounts
+                                             && principal.PrincipalId == principalId
+
+                                             select new SimplePermission
+                                             {
+                                                 PrincipalId = principal.PrincipalId,
+                                                 PermissionId = sendToSevisPermission.PermissionId,
+                                                 ResourceId = applicationResource.ResourceId,
+                                                 ForeignResourceId = applicationResource.ForeignResourceId,
+                                                 ResourceTypeId = applicationResource.ResourceTypeId,
+                                                 IsAllowed = true,
+                                             };
+
             //get the union of the two queries
-            var unionQuery = from groupedPermission in permissionAssignmentQuery.Union(roleResourcePermissionQuery)
+            var unionQuery = from groupedPermission in permissionAssignmentQuery.Union(roleResourcePermissionQuery).Union(sendToSevisPermissionQuery)
                              group groupedPermission by new
                              {
                                  PrincipalId = groupedPermission.PrincipalId,

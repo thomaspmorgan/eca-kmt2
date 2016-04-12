@@ -77,10 +77,10 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevis;
         }
-        
+
         #endregion
 
-        #region update
+        #region Send To Sevis
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetCommStatusesThatAreReadyToSubmitQuery(int projectId, IEnumerable<int> participantIds)
         {
@@ -95,26 +95,26 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Sets sevis communication status for participant ids to queued
         /// </summary>
-        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <param name="participants">The participants that will be sent to sevis.</param>
         /// <returns>List of participant ids that were updated</returns>
-        public async Task<int[]> SendToSevisAsync(int projectId, int[] participantIds)
+        public async Task<int[]> SendToSevisAsync(ParticipantsToBeSentToSevis participants)
         {
-            var statuses = await CreateGetCommStatusesThatAreReadyToSubmitQuery(projectId, participantIds).ToListAsync();
-            return DoSendToSevis(statuses).Select(x => x.ParticipantId).ToArray();
+            var statuses = await CreateGetCommStatusesThatAreReadyToSubmitQuery(participants.ProjectId, participants.ParticipantIds).ToListAsync();
+            return DoSendToSevis(participants, statuses).Select(x => x.ParticipantId).ToArray();
         }
 
         /// <summary>
         /// Sets sevis communication status for participant ids to queued
         /// </summary>
-        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <param name="participants">The participants that will be sent to sevis.</param>
         /// <returns>List of participant ids that were updated</returns>
-        public int[] SendToSevis(int projectId, int[] participantIds)
+        public int[] SendToSevis(ParticipantsToBeSentToSevis participants)
         {
-            var statuses = CreateGetCommStatusesThatAreReadyToSubmitQuery(projectId, participantIds).ToList();
-            return DoSendToSevis(statuses).Select(x => x.ParticipantId).ToArray();
+            var statuses = CreateGetCommStatusesThatAreReadyToSubmitQuery(participants.ProjectId, participants.ParticipantIds).ToList();
+            return DoSendToSevis(participants, statuses).Select(x => x.ParticipantId).ToArray();
         }
 
-        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(IEnumerable<ParticipantPersonSevisCommStatus> readyToSubmitStatuses)
+        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(ParticipantsToBeSentToSevis model, IEnumerable<ParticipantPersonSevisCommStatus> readyToSubmitStatuses)
         {
             var addedParticipantStatuses = new List<ParticipantPersonSevisCommStatus>();
             foreach (var status in readyToSubmitStatuses)
@@ -123,14 +123,19 @@ namespace ECA.Business.Service.Persons
                 {
                     ParticipantId = status.ParticipantId,
                     SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
-                    AddedOn = DateTimeOffset.Now
+                    AddedOn = DateTimeOffset.Now,
+                    SevisOrgId = model.SevisOrgId,
+                    SevisUsername = model.SevisUsername,
+                    PrincipalId = model.Audit.User.Id
                 };
-
                 Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
                 addedParticipantStatuses.Add(status);
             }
             return addedParticipantStatuses.ToList();
         }
+        #endregion
+
+        #region Update
 
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.
@@ -166,7 +171,6 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsValidatedViaRTI = updatedParticipantPersonSevis.IsValidatedViaRTI;
             participantPerson.IsCancelled = updatedParticipantPersonSevis.IsCancelled;
             participantPerson.IsDS2019Printed = updatedParticipantPersonSevis.IsDS2019Printed;
-            participantPerson.IsNeedsUpdate = updatedParticipantPersonSevis.IsNeedsUpdate;
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;

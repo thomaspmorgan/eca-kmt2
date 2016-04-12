@@ -1,16 +1,9 @@
 <div class="row row2">
-    <div class="col-md-12">
-        <div ng-show="edit.isValidationLoading">
-            <div class="spinner">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
-        </div>
-        <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid && !edit.isValidationLoading">
+    <div class="col-md-12" ng-show="sevisinfo">
+        <div ng-show="sevisinfo.sevisValidationResult && !sevisinfo.sevisValidationResult.isValid">
             <div class="col-md-3">
-                <p class="title-label" style="color:red; display:inline-flex;">
-                    <i class="icon material-icons md-24">warning</i> verification failed
+                <p class="title-label" style="color:red;">
+                    <i class="icon material-icons md-18">warning</i> verification failed
                 </p>
             </div>
             <div class="col-md-9">
@@ -23,22 +16,40 @@
                 </fieldset>
             </div>
         </div>
-        <div ng-show="!sevisinfo.sevisValidationResult.isValid && !edit.isValidationLoading && sevisinfo.sevisBatchResult.length > 0">
-            <div class="col-md-8 col-md-offset-4" style="margin-top:6px">
+        <div ng-show="sevisinfo.sevisBatchResult && sevisinfo.sevisBatchResult.length > 0">
+            <div class="col-md-3">
+                <p class="title-label" style="color:gray;">
+                    <i class="icon material-icons md-18">warning</i> create by batch failed
+                </p>
+            </div>
+            <div class="col-md-9" style="margin-top:6px">
                 <fieldset style="border:1px solid gray; border-radius:3px; padding:10px">
                     <ul style="line-height:1.5em">
-                        <li ng-repeat="result in sevisinfo.sevisBatchResult.Root.Process.Record.Result track by $index">
-                            {{result.ErrorCode}}: {{result.ErrorMessage}}
+                        <li ng-repeat="result in sevisinfo.sevisBatchResult | orderBy: 'result.errorCode' track by $index">
+                            {{result.errorCode}}: {{result.errorMessage}}
                         </li>
                     </ul>
                 </fieldset>
             </div>
         </div>
-        <div ng-show="sevisinfo.sevisValidationResult.isValid && !edit.isValidationLoading && sevisinfo.sevisBatchResult.length == 0">
-            <div class="col-md-3 col-md-offset-9">
-                <p class="title-label" style="color:green; display:inline-flex;">
-                    <i class="material-icons md-dark md-24 pull-right" style="color: green; margin-top: -5px; margin-right: 3px;">check</i> Validation passed
+        <div ng-show="sevisinfo.sevisValidationResult && sevisinfo.sevisValidationResult.isValid && sevisinfo.sevisBatchResult.length == 0">
+            <div class="col-md-3">
+                <p class="title-label" style="color:green;">
+                    <i class="material-icons md-dark md-18" style="color:green;">check</i> Verification passed
                 </p>
+            </div>
+            <div class="col-md-9">
+                &nbsp;
+            </div>
+        </div>
+        <div ng-show="!sevisinfo.sevisValidationResult && !sevisinfo.sevisBatchResult">
+            <div class="col-md-3 text-left">
+                <p class="title-label">
+                    No verification results
+                </p>
+            </div>
+            <div class="col-md-9">
+                &nbsp;
             </div>
         </div>
     </div>
@@ -67,12 +78,29 @@
             {{sevisinfo.sevisId}}
         </div>
     </div>
-    <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses">
-        <div class="col-md-3">
-            <i class="material-icons md-dark md-24 pull-right" style="color: green" ng-show="view.DHSStatus">check</i>
+    <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses" ng-show="$index < view.maxNumberOfSevisCommStatusesToShow">
+        <div class="col-md-1">
+            &nbsp;
         </div>
-        <div class="col-md-3">{{status.sevisCommStatusName}}</div>
-        <div class="col-md-6">On: {{ status.addedOn | date:'short' }}</div>
+        <div class="col-md-2">
+            <i class="material-icons md-dark md-12" style="color: green" ng-show="view.DHSStatus">check</i>
+            {{ status.addedOn | date:'short' }}
+        </div>
+        <div class="col-md-4">
+            {{status.sevisCommStatusName}}
+        </div>
+        <div class="col-md-2">
+            {{status.sevisOrgId}}
+        </div>
+        <div class="col-md-2">
+            <a popover="{{status.emailAddress}}">{{status.displayName}}</a>
+        </div>
+        <div class="col-md-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row4" ng-show="view.maxNumberOfSevisCommStatusesToShow < sevisinfo.sevisCommStatuses.length">
+        <a ng-click="view.showNextSevisCommStatuses()">Show next {{view.sevisCommStatusesPageSize}} statuses.</a>
     </div>
 </div>
 <div class="row row2">
@@ -97,14 +125,13 @@
         <input type="checkbox" ng-model="sevisinfo.isValidatedViaRTI" ng-click="edit.onDosStatusChange($event, 'isValidatedViaRTI', sevisinfo.isValidatedViaRTI)" /> Validated via RTI
     </div>
     <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isNeedsUpdate" ng-click="edit.onDosStatusChange($event, 'isNeedsUpdate', sevisinfo.isNeedsUpdate)" /> Needs Update
+        <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
     </div>
     <div class="col-md-3">&nbsp;</div>
     <div class="form-group col-md-3">
         <input type="checkbox" ng-model="sevisinfo.isDS2019Printed" ng-click="edit.onDosStatusChange($event, 'isDS2019Printed', sevisinfo.isDS2019Printed)" /> DS 2019 Printed
     </div>
-    <div class="form-group col-md-6">
-        <input type="checkbox" ng-model="sevisinfo.isDS2019SentToTraveler" ng-click="edit.onDosStatusChange($event, 'isDS2019SentToTraveler', sevisinfo.isDS2019SentToTraveler)" /> DS 2019 Sent to Traveler
+    <div class="form-group col-md-6">        
     </div>
 </div>
 <div class="form-group row row2">

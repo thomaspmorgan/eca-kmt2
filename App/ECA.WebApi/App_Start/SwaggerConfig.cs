@@ -2,13 +2,20 @@ using System.Web.Http;
 using WebActivatorEx;
 using ECA.WebApi;
 using Swashbuckle.Application;
+using ECA.WebApi.Custom.SwaggerExtensions;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace ECA.WebApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SwaggerConfig
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static void Register()
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
@@ -96,7 +103,7 @@ namespace ECA.WebApi
                         // those comments into the generated docs and UI. You can enable this by providing the path to one or
                         // more Xml comment files.
                         //
-                        //c.IncludeXmlComments(GetXmlCommentsPath());
+                        c.IncludeXmlComments(GetXmlCommentsPath());
 
                         // Swashbuckle makes a best attempt at generating Swagger compliant JSON schemas for the various types
                         // exposed in your API. However, there may be occasions when more control of the output is needed.
@@ -146,6 +153,7 @@ namespace ECA.WebApi
                         // Operation filters.
                         //
                         //c.OperationFilter<AddDefaultResponse>();
+                        c.OperationFilter<AddResourceAuthorizePermissionRequirement>();
                         //
                         // If you've defined an OAuth2 flow as described above, you could use a custom filter
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
@@ -224,6 +232,15 @@ namespace ECA.WebApi
                         //
                         //c.EnableOAuth2Support("test-client-id", "test-realm", "Swagger UI");
                     });
+        }
+
+        /// <summary>
+        /// Returns the xml path for the web api comments.
+        /// </summary>
+        /// <returns>The xml path for the web api comments.</returns>
+        public static string GetXmlCommentsPath()
+        {
+            return System.String.Format(@"{0}\bin\ECA.WebApi.XML", System.AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }

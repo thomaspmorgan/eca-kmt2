@@ -228,14 +228,57 @@ namespace ECA.Business.Service.Persons
         public async Task<PersonDependent> CreateDependentAsync(NewPersonDependent newDependent)
         {
             Contract.Requires(newDependent != null, "The dependent must not be null.");
-            var citizenship = await GetLocationsByIdAsync(newDependent.CountriesOfCitizenship);
+            var citizenship = await GetLocationsByIdAsync(newDependent.CountriesOfCitizenship);            
+            var emails = new List<EmailAddress>();
+            if (!string.IsNullOrEmpty(newDependent.EmailAddress))
+            {
+                var email = new EmailAddress
+                {
+                    EmailAddressTypeId = EmailAddressType.Personal.Id,
+                    IsPrimary = true,
+                    Address = newDependent.EmailAddress
+                };
+                emails.Add(email);
+            }
+            var dependent = CreatePersonDependent(newDependent, citizenship, emails);
+            this.logger.Trace("Creating new person dependent {0}.", newDependent);
 
-            var person = CreatePersonDependent(newDependent, citizenship);
-            this.logger.Trace("Creating new person dependent {0}.", newDependent);                        
-
-            return person;
+            return dependent;
         }
-        
+
+        /// <summary>
+        /// Creates a person dependent
+        /// </summary>
+        /// <param name="newPerson">The person to create</param>
+        /// <param name="countriesOfCitizenship">The countries of citizenship</param>
+        /// <returns></returns>
+        private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship, List<EmailAddress> emails)
+        {
+            var dependent = new PersonDependent
+            {
+                PersonId = newPerson.PersonId,
+                DependentTypeId = newPerson.DependentTypeId,
+                FirstName = newPerson.FirstName,
+                LastName = newPerson.LastName,
+                NameSuffix = newPerson.NameSuffix,
+                PassportName = newPerson.PassportName,
+                PreferredName = newPerson.PreferredName,
+                GenderId = newPerson.GenderId,
+                DateOfBirth = newPerson.DateOfBirth,
+                PlaceOfBirthId = newPerson.PlaceOfBirthId,
+                PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
+                BirthCountryReasonId = newPerson.BirthCountryReasonId,
+                EmailAddresses = emails,
+                CountriesOfCitizenship = countriesOfCitizenship,
+                IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
+            };
+            newPerson.Audit.SetHistory(dependent);
+            this.Context.PersonDependents.Add(dependent);
+            this.logger.Trace("Creating new person dependent {0}.", newPerson);
+
+            return dependent;
+        }
+
         /// <summary>
         /// Update a person dependent
         /// </summary>
@@ -244,17 +287,33 @@ namespace ECA.Business.Service.Persons
         public async Task<PersonDependent> UpdatePersonDependentAsync(UpdatedPersonDependent updatedDependent)
         {
             var personToUpdate = await GetPersonDependentModelByIdAsync(updatedDependent.DependentId);
+
             var countriesOfCitizenship = new List<Location>();
             if (updatedDependent.CountriesOfCitizenship != null)
             {
                 countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
             }
-            DoDependentUpdate(updatedDependent, personToUpdate, countriesOfCitizenship);
+
+            var emails = await Context.EmailAddresses.Where(x => x.DependentId == updatedDependent.DependentId).ToListAsync();
+            if (!string.IsNullOrEmpty(updatedDependent.EmailAddress))
+            {
+                var email = new EmailAddress
+                {
+                    EmailAddressTypeId = EmailAddressType.Personal.Id,
+                    Address = updatedDependent.EmailAddress,
+                    IsPrimary = true,
+                    DependentId = updatedDependent.DependentId
+                };
+                emails.Clear();
+                emails.Add(email);
+            }
+
+            DoDependentUpdate(updatedDependent, personToUpdate, countriesOfCitizenship, emails);
 
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent dependent, List<Location> countriesOfCitizenship)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent dependent, List<Location> countriesOfCitizenship, List<EmailAddress> emails)
         {
             dependent.DependentTypeId = updateDependent.DependentTypeId;
             dependent.FirstName = updateDependent.FirstName;
@@ -271,6 +330,7 @@ namespace ECA.Business.Service.Persons
             dependent.IsDeleted = updateDependent.IsDeleted;
             updateDependent.Audit.SetHistory(dependent);
             SetDependentCountriesOfCitizenship(countriesOfCitizenship, dependent);
+            SetDependentEmails(emails, dependent);
         }
 
         /// <summary>
@@ -280,7 +340,7 @@ namespace ECA.Business.Service.Persons
         /// <returns></returns>
         public async Task DeleteDependentAsync(UpdatedPersonDependent updatedDependent)
         {
-            var dependent = await Context.PersonDependents.Where(x => x.DependentId == updatedDependent.DependentId).Include(x => x.CountriesOfCitizenship).FirstOrDefaultAsync();
+            var dependent = await Context.PersonDependents.Where(x => x.DependentId == updatedDependent.DependentId).Include(x => x.CountriesOfCitizenship).Include(x => x.EmailAddresses).FirstOrDefaultAsync();
             if (!string.IsNullOrEmpty(dependent.SevisId))
             {
                 updatedDependent.IsDeleted = true;
@@ -289,7 +349,12 @@ namespace ECA.Business.Service.Persons
                 {
                     countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
                 }
-                DoDependentUpdate(updatedDependent, dependent, countriesOfCitizenship);
+                var emails = new List<EmailAddress>();
+                if (!string.IsNullOrEmpty(updatedDependent.EmailAddress))
+                {
+                    emails = await Context.EmailAddresses.Where(x => x.DependentId == updatedDependent.DependentId).ToListAsync();
+                }
+                DoDependentUpdate(updatedDependent, dependent, countriesOfCitizenship, emails);
             }
             else
             {
@@ -301,6 +366,11 @@ namespace ECA.Business.Service.Persons
         {
             if (dependentToDelete != null)
             {
+                var email = dependentToDelete.EmailAddresses.FirstOrDefault();
+                if (email != null)
+                {
+                    Context.EmailAddresses.Remove(email);
+                }
                 Context.PersonDependents.Remove(dependentToDelete);
             }
         }
@@ -522,6 +592,17 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Get existing dependent
+        /// </summary>
+        /// <param name="newDependent">The dependent to lookup</param>
+        /// <returns>The dependent found</returns>
+        public async Task<PersonDependent> GetExistingDependentAsync(NewPersonDependent newDependent)
+        {
+            this.logger.Trace("Retrieving dependent {0}.", newDependent);
+            return await CreateGetDependent(newDependent.FirstName, newDependent.LastName, newDependent.GenderId, newDependent.DateOfBirth, newDependent.PlaceOfBirthId).FirstOrDefaultAsync();
+        }
+        
+        /// <summary>
         /// Get existing person 
         /// </summary>
         /// <param name="pii">The pii to lookup</param>
@@ -577,6 +658,28 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Creates get dependent query
+        /// </summary>
+        /// <param name="firstName">The first name</param>
+        /// <param name="lastName">The last name</param>
+        /// <param name="genderId">The gender id</param>
+        /// <param name="dateOfBirth">The date of birth</param>
+        /// <param name="cityOfBirthId">The city of birth id</param>
+        /// <returns></returns>
+        private IQueryable<PersonDependent> CreateGetDependent(string firstName, string lastName, int genderId, DateTime dateOfBirth, int cityOfBirthId)
+        {
+            return Context.PersonDependents.Where(
+                    x => x.FirstName.ToLower().Trim() == firstName.ToLower().Trim() &&
+                         x.LastName.ToLower().Trim() == lastName.ToLower().Trim() &&
+                         x.GenderId == genderId &&
+                         x.DateOfBirth.Day == dateOfBirth.Day &&
+                         x.DateOfBirth.Month == dateOfBirth.Month &&
+                         x.DateOfBirth.Year == dateOfBirth.Year &&
+                         x.PlaceOfBirthId == cityOfBirthId
+                    );
+        }
+        
+        /// <summary>
         /// Gets the project by id asyncronously
         /// </summary>
         /// <param name="projectId">The project id to lookup</param>
@@ -624,38 +727,6 @@ namespace ECA.Business.Service.Persons
             return person;
         }
 
-        /// <summary>
-        /// Creates a person dependent
-        /// </summary>
-        /// <param name="newPerson">The person to create</param>
-        /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        /// <returns></returns>
-        private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship)
-        {
-            var dependent = new PersonDependent
-            {
-                PersonId = newPerson.PersonId,
-                DependentTypeId = newPerson.DependentTypeId,
-                FirstName = newPerson.FirstName,
-                LastName = newPerson.LastName,
-                NameSuffix = newPerson.NameSuffix,
-                PassportName = newPerson.PassportName,
-                PreferredName = newPerson.PreferredName,
-                GenderId = newPerson.GenderId,
-                DateOfBirth = newPerson.DateOfBirth,
-                PlaceOfBirthId = newPerson.PlaceOfBirthId,
-                PlaceOfResidenceId = newPerson.PlaceOfResidenceId,
-                BirthCountryReasonId = newPerson.BirthCountryReasonId,
-                CountriesOfCitizenship = countriesOfCitizenship,
-                IsTravellingWithParticipant = newPerson.IsTravellingWithParticipant
-            };
-
-            newPerson.Audit.SetHistory(dependent);
-            this.Context.PersonDependents.Add(dependent);
-            this.logger.Trace("Creating new person dependent {0}.", newPerson);
-            return dependent;
-        }
-        
         /// <summary>
         /// Create a participant
         /// </summary>
@@ -783,6 +854,17 @@ namespace ECA.Business.Service.Persons
             countriesOfCitizenship.ForEach(x =>
             {
                 dependent.CountriesOfCitizenship.Add(x);
+            });
+        }
+
+        private void SetDependentEmails(List<EmailAddress> emails, PersonDependent dependent)
+        {
+            Contract.Requires(emails != null, "The country ids must not be null.");
+            Contract.Requires(dependent != null, "The dependent entity must not be null.");
+            dependent.EmailAddresses.Clear();
+            emails.ForEach(x =>
+            {
+                dependent.EmailAddresses.Add(x);
             });
         }
 

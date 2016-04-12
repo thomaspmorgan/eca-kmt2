@@ -24,7 +24,6 @@ namespace ECA.WebApi.Test.Controllers.Fundings
         private Mock<IMoneyFlowService> moneyFlowService;
         private Mock<IUserProvider> userProvider;
         private MoneyFlowsController controller;
-        private Action<int> verifyUpdateMoneyFlowSourceRecipientEntityTypeId;
         private EditedMoneyFlow expectedMoneyFlow;
 
         [TestInitialize]

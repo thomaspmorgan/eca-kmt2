@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Sevis.Model;
 using System;
-using System.Xml.Linq;
 
 namespace ECA.Business.Queries.Models.Sevis
 {
@@ -28,6 +27,16 @@ namespace ECA.Business.Queries.Models.Sevis
         /// Date SEVIS Batch was retrieved after processing
         /// </summary>
         public DateTimeOffset? RetrieveDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis username.
+        /// </summary>
+        public string SevisUsername { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; set; }
 
         /// <summary>
         /// Storage for SEVIS Submission XML

@@ -1,1 +1,0 @@
-INSERT INTO [CAM].[Application] ([ResourceId], [ApplicationName], [CreatedOn], [CreatedBy], [RevisedOn], [RevisedBy]) VALUES (7, N'KMT', N'4/15/2015 12:00:00 AM -04:00', 1, N'4/15/2015 12:00:00 AM -04:00', 1)

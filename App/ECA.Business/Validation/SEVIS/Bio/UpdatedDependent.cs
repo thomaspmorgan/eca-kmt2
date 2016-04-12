@@ -132,5 +132,14 @@ namespace ECA.Business.Validation.Sevis.Bio
                 return edit;
             }
         }
+
+        /// <summary>
+        /// Returns whether or not the dependent is deleted.
+        /// </summary>
+        /// <returns>True, if the dependent is deleted, otherwise false.</returns>
+        public override bool IgnoreDependentValidation()
+        {
+            return this.IsDeleted;
+        }
     }
 }

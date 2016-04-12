@@ -12,7 +12,6 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.ActivityType.staticdata.sql
 :r .\StaticData\dbo.ActorType.staticdata.sql
 :r .\StaticData\dbo.AddressType.staticdata.sql
-:r .\StaticData\dbo.BirthCountryReason.staticdata.sql
 :r .\StaticData\dbo.DependentType.staticdata.sql
 :r .\StaticData\dbo.DataPointCategory.staticdata.sql
 :r .\StaticData\dbo.DataPointProperty.staticdata.sql
@@ -46,6 +45,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.VisitorType.staticdata.sql
 
 :r .\StaticData\sevis.BirthCountry.staticdata.sql
+:r .\StaticData\sevis.BirthCountryReason.staticdata.sql
 :r .\StaticData\sevis.CapGapExtensionType.staticdata.sql
 :r .\StaticData\sevis.DependentCancellationReason.staticdata.sql
 :r .\StaticData\sevis.DependentTermination.staticdata.sql

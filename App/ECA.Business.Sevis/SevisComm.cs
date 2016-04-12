@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Xml.Linq;
 using ECA.Core.Settings;
 using System.Security.Cryptography.X509Certificates;
-using System.IO;
-using System.Net;
+using System.Net.Http.Headers;
 using System.IO.Compression;
+using System.Text;
 
 namespace ECA.Business.Sevis
 {
@@ -20,41 +18,57 @@ namespace ECA.Business.Sevis
 
         private Uri DownloadUri;
 
-        private string UserId;
-
-        private string OrgId;
-
         private string Thumbprint;
 
-        private string Passphrase;
+        private static string boundary = "----ECAKMTBoundary" + DateTime.Now.Ticks.ToString("x");
 
         public SevisComm(AppSettings appSettings)
         {
+            DownloadUri = new Uri(appSettings.SevisDownloadUri);
             UploadUri = new Uri(appSettings.SevisUploadUri);
-            UserId = appSettings.SevisUserId;
-            OrgId = appSettings.SevisOrgId;
             Thumbprint = appSettings.SevisThumbprint;
-            Passphrase = appSettings.SevisPassphrase;
         }
 
-        public async Task<HttpResponseMessage> UploadAsync(XElement xml, int batchId)
+        public async Task<HttpResponseMessage> UploadAsync(XElement xml, string batchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
-                var nameValueCollection = new Dictionary<string, string>();
-                nameValueCollection.Add("batchid", batchId.ToString());
-                nameValueCollection.Add("orgid", OrgId.ToString());
-                nameValueCollection.Add("userid", UserId.ToString());
-                nameValueCollection.Add("xml", xml.ToString());
-                var content = new FormUrlEncodedContent(nameValueCollection);
+                httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");
+                httpClient.DefaultRequestHeaders.Expect.ParseAdd("100-continue");
+                using (var content = new MultipartFormDataContent(boundary))
+                {
+                    content.Headers.Remove("Content-Type");
+                    content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-                var response = await httpClient.PostAsync(UploadUri, content);
+                    var formValues = new[]
+                    {
+                        new KeyValuePair<string, string>("orgid", OrgId),
+                        new KeyValuePair<string, string>("userid",UserId),
+                        new KeyValuePair<string, string>("batchid", batchId),
+                    };
+                    foreach (var keyValuePair in formValues)
+                    {
+                        var newContent = new StringContent(keyValuePair.Value, Encoding.UTF8);
+                        newContent.Headers.Remove("Content-Type");
+                        content.Add(newContent,"\"" + keyValuePair.Key + "\"");
 
-                return response;
+                    }
+                    var xmlValuePair = new KeyValuePair<string, string>("xml", xml.ToString());
+                    var xmlContent = new StringContent(xmlValuePair.Value + "\r\n", Encoding.UTF8);
+                    xmlContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "\"xml\"", FileName = "\"batchfile3.xml\"" };
+                    xmlContent.Headers.Remove("Content-Type");
+
+                    content.Add(xmlContent, "\"" + xmlValuePair.Key + "\"");
+
+                    var response = await httpClient.PostAsync(UploadUri, content);
+
+                    return response;
+                }
             }
         }
 
-        public async Task<SevisDownload> DownloadAsync(XElement xml, int batchId)
+        public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
@@ -92,6 +106,7 @@ namespace ECA.Business.Sevis
             webRequestHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
             webRequestHandler.ClientCertificates.Add(cert);
             return webRequestHandler;
+            
         }
 
 

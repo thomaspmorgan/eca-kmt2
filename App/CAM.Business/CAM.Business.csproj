@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CAM.Business</RootNamespace>
     <AssemblyName>CAM.Business</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,6 +128,7 @@
     <Compile Include="Model\GrantedPermission.cs" />
     <Compile Include="Model\ResourceAuthorization.cs" />
     <Compile Include="Model\RevokedPermission.cs" />
+    <Compile Include="Model\SevisUserAccount.cs" />
     <Compile Include="Queries\Models\ResourceAuthorizationInfoDTO.cs" />
     <Compile Include="Queries\Models\ResourcePermissionDTO.cs" />
     <Compile Include="Queries\Models\ResourceTypeDTO.cs" />
@@ -149,7 +151,7 @@
     <Compile Include="Service\PermissionModel.cs" />
     <Compile Include="Service\PrincipalService.cs" />
     <Compile Include="Service\ResourceService.cs" />
-    <Compile Include="Service\User.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

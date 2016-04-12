@@ -3,9 +3,9 @@
 ***************************************/
 
 -- This script will manage the static data from
--- your Team Database project for [dbo].[BirthCountryReason].
+-- your Team Database project for [sevis].[BirthCountryReason].
 
-PRINT 'Updating static data table [dbo].[BirthCountryReason]'
+PRINT 'Updating static data table [sevis].[BirthCountryReason]'
 
 -- Set date format to ensure text dates are parsed correctly
 SET DATEFORMAT ymd
@@ -45,13 +45,13 @@ VALUES ('2', 'Expatriated', '02', 0, getdate(), 0, getdate())
 
 
 -- 3: Insert any new items into the table from the table variable
-SET IDENTITY_INSERT [dbo].[BirthCountryReason] ON
-INSERT INTO [dbo].[BirthCountryReason] ([BirthCountryReasonId], [Description], [BirthReasonCode], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
+SET IDENTITY_INSERT [sevis].[BirthCountryReason] ON
+INSERT INTO [sevis].[BirthCountryReason] ([BirthCountryReasonId], [Description], [BirthReasonCode], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
 SELECT tmp.[BirthCountryReasonId], tmp.[Description], tmp.[BirthReasonCode], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
 FROM @tblTempTable tmp
-LEFT JOIN [dbo].[BirthCountryReason] tbl ON tbl.[BirthCountryReasonId] = tmp.[BirthCountryReasonId]
+LEFT JOIN [sevis].[BirthCountryReason] tbl ON tbl.[BirthCountryReasonId] = tmp.[BirthCountryReasonId]
 WHERE tbl.[BirthCountryReasonId] IS NULL
-SET IDENTITY_INSERT [dbo].[BirthCountryReason] OFF
+SET IDENTITY_INSERT [sevis].[BirthCountryReason] OFF
 
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
@@ -61,18 +61,18 @@ LiveTable.[History_CreatedBy] = tmp.[History_CreatedBy],
 LiveTable.[History_CreatedOn] = tmp.[History_CreatedOn],
 LiveTable.[History_RevisedBy] = tmp.[History_RevisedBy],
 LiveTable.[History_RevisedOn] = tmp.[History_RevisedOn]
-FROM [dbo].[BirthCountryReason] LiveTable 
+FROM [sevis].[BirthCountryReason] LiveTable 
 INNER JOIN @tblTempTable tmp ON LiveTable.[BirthCountryReasonId] = tmp.[BirthCountryReasonId]
 
 -- 5: Delete any missing records from the target
 IF @DeleteMissingRecords = 1
 BEGIN
-	DELETE FROM [dbo].[BirthCountryReason] FROM [dbo].[BirthCountryReason] LiveTable
+	DELETE FROM [sevis].[BirthCountryReason] FROM [sevis].[BirthCountryReason] LiveTable
 	LEFT JOIN @tblTempTable tmp ON LiveTable.[BirthCountryReasonId] = tmp.[BirthCountryReasonId]
 	WHERE tmp.[BirthCountryReasonId] IS NULL
 END
 
-PRINT 'Finished updating static data table [dbo].[BirthCountryReason]'
+PRINT 'Finished updating static data table [sevis].[BirthCountryReason]'
 
 -- Note: If you are not using the new GDR version of DBPro
 -- then remove this go command.

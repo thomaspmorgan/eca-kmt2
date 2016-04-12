@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Sevis.Model;
 using System.Reflection;
 
-namespace ECA.Business.Test.Sevis.Model
+namespace ECA.Business.Sevis.Model.Test
 {
     [TestClass]
     public class DispositionCodeTest

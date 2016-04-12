@@ -26,6 +26,7 @@ namespace ECA.WebApi.Models.Admin
         /// Handles a controller action's request to delete an address by id.
         /// </summary>
         /// <param name="addressId">The address id.</param>
+        /// <param name="controller"></param>
         /// <returns>The action result.</returns>
         Task<IHttpActionResult> HandleDeleteAddressAsync(int addressId, ApiController controller);
 

@@ -1,10 +1,9 @@
-﻿using CAM.Business.Service;
+﻿using CAM.Business.Model;
+using System.Linq;
+using CAM.Business.Service;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Web;
 
 namespace ECA.WebApi.Security
 {
@@ -30,6 +29,7 @@ namespace ECA.WebApi.Security
             this.UserName = user.GetUsername();
             this.CamPrincipalId = camUser.PrincipalId;
             this.IsValidCamUser = isValidCamUser;
+            this.SevisUserAccounts = camUser.SevisUserAccounts.OrderBy(x => x.Username).ToList();
         }
 
         /// <summary>
@@ -61,5 +61,10 @@ namespace ECA.WebApi.Security
         /// Gets whether or not the user is valid according to CAM.
         /// </summary>
         public bool IsValidCamUser { get; private set; }
+
+        /// <summary>
+        /// Gets the sevis user accounts for the user.
+        /// </summary>
+        public IEnumerable<SevisUserAccount> SevisUserAccounts { get; private set; }
     }
 }

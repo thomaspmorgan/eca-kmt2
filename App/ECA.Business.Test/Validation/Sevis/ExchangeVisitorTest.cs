@@ -118,7 +118,6 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestConstructor()
         {
-            var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -129,7 +128,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId,
                 sevisId,
                 person,
                 financialInfo,
@@ -143,7 +141,6 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsTrue(Object.ReferenceEquals(dependents, exchangeVisitor.Dependents));
             Assert.IsTrue(Object.ReferenceEquals(siteOfActivity, exchangeVisitor.SiteOfActivity));
 
-            Assert.AreEqual(sevisUserId, exchangeVisitor.SevisUserId);
             Assert.AreEqual(occupationCategoryCode, exchangeVisitor.OccupationCategoryCode);
             Assert.AreEqual(endDate, exchangeVisitor.ProgramEndDate);
             Assert.AreEqual(startDate, exchangeVisitor.ProgramStartDate);
@@ -153,7 +150,6 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestToJson()
         {
-            var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -164,7 +160,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId,
                 sevisId,
                 person,
                 financialInfo,
@@ -182,20 +177,18 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsNotNull(jsonObject.FinancialInfo);
             Assert.IsNotNull(jsonObject.Dependents);
             Assert.IsNotNull(jsonObject.SiteOfActivity);
-           
+
             Assert.AreEqual(sevisId, jsonObject.SevisId);
             Assert.AreEqual(endDate, jsonObject.ProgramEndDate);
             Assert.AreEqual(startDate, jsonObject.ProgramStartDate);
             Assert.AreEqual(occupationCategoryCode, jsonObject.OccupationCategoryCode);
-            Assert.AreEqual(sevisUserId, jsonObject.SevisUserId);
         }
 
         [TestMethod]
         public void TestGetExchangeVisitor_HasAddedDependent()
         {
             var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
-            
-            var sevisUserId = "sevisUserId";
+
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -207,7 +200,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId,
                 sevisId,
                 person,
                 financialInfo,
@@ -232,8 +224,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetExchangeVisitor_HasUpdatedDependent()
         {
             var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
-            
-            var sevisUserId = "sevisUserId";
+
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -245,7 +236,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId,
                 sevisId,
                 person,
                 financialInfo,
@@ -271,8 +261,7 @@ namespace ECA.Business.Test.Validation.Sevis
         {
             var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
             var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
-            
-            var sevisUserId = "sevisUserId";
+
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -285,7 +274,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId,
                 sevisId,
                 person,
                 financialInfo,
@@ -313,7 +301,6 @@ namespace ECA.Business.Test.Validation.Sevis
         [TestMethod]
         public void TestConstructor_NullDependents()
         {
-            var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -324,7 +311,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -354,7 +340,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -364,7 +349,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             Assert.IsNotNull(instance);
             Assert.IsNotNull(instance.Biographical);
             Assert.IsNotNull(instance.SubjectField);
@@ -405,7 +390,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -415,7 +399,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             Assert.IsNotNull(instance);
             Assert.IsNull(instance.MailAddress);
         }
@@ -434,7 +418,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -444,7 +427,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             Assert.IsNotNull(instance);
             Assert.IsNull(instance.USAddress);
         }
@@ -463,7 +446,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -473,7 +455,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             Assert.IsNotNull(instance);
             Assert.IsNotNull(instance.Items);
             Assert.AreEqual(1, instance.Items.Count());
@@ -548,7 +530,6 @@ namespace ECA.Business.Test.Validation.Sevis
             dependents.Add(addedDependent);
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -558,7 +539,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             Assert.IsNotNull(instance);
             Assert.AreEqual(1, instance.CreateDependent.Count());
             var firstDependent = instance.CreateDependent.First();
@@ -578,7 +559,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -588,7 +568,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             Assert.IsNotNull(instance);
             Assert.IsNull(instance.CreateDependent);
         }
@@ -665,7 +645,6 @@ namespace ECA.Business.Test.Validation.Sevis
                 );
             dependents.Add(updatedDependent);
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -675,7 +654,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            Action a = () => exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            Action a = () => exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             a.ShouldThrow<NotSupportedException>().WithMessage("The dependent must be an added dependent.");
         }
 
@@ -686,7 +665,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetSOA()
         {
             var sevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -696,7 +674,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -723,7 +700,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetAddSiteOfActivity()
         {
             var sevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -733,7 +709,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -767,7 +742,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var sevisId = "sevis id";
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -785,7 +759,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 Assert.IsFalse(visitor.statusCodeSpecified);
             };
 
-            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().ToList();
+            var list = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId).ToList();
             Assert.AreEqual(4, list.Count);
             list.ForEach(x => propertyTester(x));
 
@@ -805,7 +779,7 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var exchangeVisitorPrograms = CreateGetItemQuery<SEVISEVBatchTypeExchangeVisitorProgram>(list).ToList();
             Assert.AreEqual(1, exchangeVisitorPrograms.Count);
-            
+
 
             var exchangeVisitorProgramItems = exchangeVisitorPrograms
                 .Select(x => x.Item)
@@ -832,7 +806,6 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestValidate()
         {
             var sevisId = "sevis id";
-            var sevisUserId = "sevisUserId";
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
             var occupationCategoryCode = "99";
@@ -843,7 +816,6 @@ namespace ECA.Business.Test.Validation.Sevis
 
             var validator = new Mock<AbstractValidator<ExchangeVisitor>>();
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -872,7 +844,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -882,7 +853,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor();
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
             using (var textWriter = new StringWriter())
             {
                 var serializer = new XmlSerializer(instance.GetType());
@@ -906,7 +877,6 @@ namespace ECA.Business.Test.Validation.Sevis
             var dependents = new List<Dependent>();
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: sevisId,
                 person: person,
                 financialInfo: financialInfo,
@@ -916,7 +886,7 @@ namespace ECA.Business.Test.Validation.Sevis
                 dependents: dependents,
                 siteOfActivity: siteOfActivity);
 
-            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection();
+            var instance = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUserId);
             using (var textWriter = new StringWriter())
             {
                 var serializer = new XmlSerializer(instance.GetType());

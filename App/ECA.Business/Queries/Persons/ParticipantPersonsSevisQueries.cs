@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Data;
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -12,6 +13,16 @@ namespace ECA.Business.Queries.Persons
     public static class ParticipantPersonsSevisQueries
     {
         /// <summary>
+        /// The none sevis comm status, when a participant has no statuses yet.
+        /// </summary>
+        public const string NONE_SEVIS_COMM_STATUS_NAME = "None";
+
+        /// <summary>
+        /// The sevis comm status id to use when a participant does not yet have any comm statuses.
+        /// </summary>
+        public const int NONE_SEVIS_COMM_STATUS_ID = 0;
+
+        /// <summary>
         /// Query to get a list of participant people with SEVIS information
         /// </summary>
         /// <param name="context">The context to query</param>
@@ -19,33 +30,56 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = (from p in context.ParticipantPersons
-                         select new ParticipantPersonSevisDTO
-                         {
-                             ParticipantId = p.ParticipantId,
-                             SevisId = p.SevisId,
-                             ProjectId = p.Participant.ProjectId,
-                             ParticipantType = p.Participant.ParticipantType != null ? p.Participant.ParticipantType.Name : null,
-                             ParticipantStatus = p.Participant.Status != null ? p.Participant.Status.Status : null,
-                             IsCancelled = p.IsCancelled,
-                             IsDS2019Printed = p.IsDS2019Printed,
-                             IsDS2019SentToTraveler = p.IsDS2019SentToTraveler,
-                             IsNeedsUpdate = p.IsNeedsUpdate,
-                             IsSentToSevisViaRTI = p.IsSentToSevisViaRTI,
-                             IsValidatedViaRTI = p.IsValidatedViaRTI,
-                             StartDate = p.StartDate,
-                             EndDate = p.EndDate,
-                             SevisCommStatuses = p.ParticipantPersonSevisCommStatuses.Select(s => new ParticipantPersonSevisCommStatusDTO()
-                             {
-                                 Id = s.Id, ParticipantId = s.ParticipantId, SevisCommStatusId = s.SevisCommStatusId,
-                                 SevisCommStatusName = s.SevisCommStatus.SevisCommStatusName, AddedOn = s.AddedOn
-                             }).OrderBy(s => s.AddedOn),
-                             LastBatchDate =  p.ParticipantPersonSevisCommStatuses.Max(s => s.AddedOn),
-                             SevisValidationResult = p.SevisValidationResult,
-                             SevisBatchResult = p.SevisBatchResult,
-                             SevisStatus = p.ParticipantPersonSevisCommStatuses.Count == 0 ? "None" : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusName,
-                             SevisStatusId = p.ParticipantPersonSevisCommStatuses.Count == 0 ? 0 : p.ParticipantPersonSevisCommStatuses.OrderByDescending(s => s.AddedOn).FirstOrDefault().SevisCommStatus.SevisCommStatusId
-                         });
+            var query = from p in context.ParticipantPersons
+
+                        let participant = p.Participant != null ? p.Participant : null
+                        let participantType = participant != null ? participant.ParticipantType : null
+                        let participantTypeName = participantType != null ? participantType.Name : null
+
+                        let participantStatus = participant != null ? participant.Status : null
+                        let participantStatusName = participantStatus != null ? participantStatus.Status : null
+
+                        let commStatuses = (from status in p.ParticipantPersonSevisCommStatuses
+                                           let userAccount = context.UserAccounts.Where(x => x.PrincipalId == status.PrincipalId).FirstOrDefault()
+                                           select new ParticipantPersonSevisCommStatusDTO
+                                           {
+                                               Id = status.Id,
+                                               ParticipantId = status.ParticipantId,
+                                               SevisCommStatusId = status.SevisCommStatusId,
+                                               SevisCommStatusName = status.SevisCommStatus.SevisCommStatusName,
+                                               AddedOn = status.AddedOn,
+                                               BatchId = status.BatchId,
+                                               SevisOrgId = status.SevisOrgId,
+                                               EmailAddress = userAccount != null ? userAccount.EmailAddress : null,
+                                               DisplayName = userAccount != null ? userAccount.DisplayName : null,
+                                               PrincipalId = userAccount != null ? userAccount.PrincipalId : default(int?)
+                                           }).OrderByDescending(s => s.AddedOn)
+
+
+                        let latestBatchStatus = commStatuses.Where(x => x.BatchId != null).FirstOrDefault()
+                        let latestStatus = commStatuses.FirstOrDefault()
+
+                        select new ParticipantPersonSevisDTO
+                        {
+                            ParticipantId = p.ParticipantId,
+                            SevisId = p.SevisId,
+                            ProjectId = participant.ProjectId,
+                            ParticipantType = participantTypeName,
+                            ParticipantStatus = participantStatusName,
+                            IsCancelled = p.IsCancelled,
+                            IsDS2019Printed = p.IsDS2019Printed,
+                            IsDS2019SentToTraveler = p.IsDS2019SentToTraveler,
+                            IsSentToSevisViaRTI = p.IsSentToSevisViaRTI,
+                            IsValidatedViaRTI = p.IsValidatedViaRTI,
+                            StartDate = p.StartDate,
+                            EndDate = p.EndDate,
+                            SevisCommStatuses = commStatuses,
+                            LastBatchDate = latestBatchStatus != null ? latestBatchStatus.AddedOn : default(DateTimeOffset?),
+                            SevisValidationResult = p.SevisValidationResult,
+                            SevisBatchResult = p.SevisBatchResult,
+                            SevisStatus = latestStatus != null ? latestStatus.SevisCommStatusName : NONE_SEVIS_COMM_STATUS_NAME,
+                            SevisStatusId = latestStatus != null ? latestStatus.SevisCommStatusId : NONE_SEVIS_COMM_STATUS_ID,
+                        };
             return query;
         }
 
@@ -59,18 +93,6 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int projectId, int participantId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetParticipantPersonsSevisDTOQuery(context)
-                .Where(p => p.ProjectId == projectId)
-                .Where(p => p.ParticipantId == participantId);
-            return query;
-        }
-
-
-        public static IQueryable<ParticipantPersonSevisDTO> CreateGetParticipantPersonsSevisDTOByIdQuery(EcaContext context, int participantId)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            int projectId = 0;
-
             var query = CreateGetParticipantPersonsSevisDTOQuery(context)
                 .Where(p => p.ProjectId == projectId)
                 .Where(p => p.ParticipantId == participantId);

@@ -37,21 +37,19 @@ namespace ECA.Business.Service.Persons
         /// <param name="updatedParticipantPersonSevis">The updated participant person SEVIS info.</param>
         /// <returns>The task.</returns>
         Task UpdateAsync(UpdatedParticipantPersonSevis updatedParticipantPersonSevis);
+        
+        /// <summary>
+        /// Sets sevis communication status for participant ids to queued
+        /// </summary>
+        /// <param name="participants">The participants that will be sent to sevis.</param>
+        /// <returns>List of participant ids that were updated</returns>
+        int[] SendToSevis(ParticipantsToBeSentToSevis participants);
 
         /// <summary>
-        /// Sets sevis communication status for participant ids
+        /// Sets sevis communication status for participant ids to queued
         /// </summary>
-        /// <param name="participantIds">The participant ids to update communcation status</param>
-        /// <param name="projectId">The id of the project the participants belong to.</param>
+        /// <param name="participants">The participants that will be sent to sevis.</param>
         /// <returns>List of participant ids that were updated</returns>
-        Task<int[]> SendToSevisAsync(int projectId, int[] participantIds);
-
-        /// <summary>
-        /// Sets sevis communication status for participant ids
-        /// </summary>
-        /// <param name="participantIds">The participant ids to update communcation status</param>
-        /// <param name="projectId">The id of the project the participants belong to.</param>
-        /// <returns>List of participant ids that were updated</returns>
-        int[] SendToSevis(int projectId, int[] participantIds);        
+        Task<int[]> SendToSevisAsync(ParticipantsToBeSentToSevis participants);
     }
 }

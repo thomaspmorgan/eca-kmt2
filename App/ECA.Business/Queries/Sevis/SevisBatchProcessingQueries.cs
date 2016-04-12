@@ -31,6 +31,8 @@ namespace ECA.Business.Queries.Sevis
                 SubmitDate = x.SubmitDate,
                 RetrieveDate = x.RetrieveDate,
                 SendString = x.SendString,
+                SevisOrgId = x.SevisOrgId,
+                SevisUsername = x.SevisUsername,
                 TransactionLogString = x.TransactionLogString,
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
@@ -98,7 +100,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to get participants that are queued to submit.</returns>
-        public static IQueryable<QueuedToSubmitParticipantDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
+        public static IQueryable<SevisGroupedQueuedToSubmitParticipantsDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var statusId = SevisCommStatus.QueuedToSubmit.Id;
@@ -110,13 +112,19 @@ namespace ECA.Business.Queries.Sevis
                                         .FirstOrDefault()
 
                         where latestStatus.SevisCommStatusId == statusId
-                        select new QueuedToSubmitParticipantDTO
+                        group participantPerson by new { SevisUsername = latestStatus.SevisUsername, SevisOrgId = latestStatus.SevisOrgId } into g
+                        select new SevisGroupedQueuedToSubmitParticipantsDTO
                         {
-                            ParticipantId = participantPerson.ParticipantId,
-                            ProjectId = participant.ProjectId,
-                            SevisId = participantPerson.SevisId
+                            Participants = g.Select(x => new QueuedToSubmitParticipantDTO
+                            {
+                                ParticipantId = x.ParticipantId,
+                                ProjectId = x.Participant.ProjectId,
+                                SevisId = x.SevisId,
+                            }),
+                            SevisOrgId = g.Key.SevisOrgId,
+                            SevisUsername = g.Key.SevisUsername
                         };
-            return query.OrderBy(x => x.ParticipantId);
+            return query.OrderBy(x => x.SevisUsername).ThenBy(x => x.SevisOrgId);
         }
 
         /// <summary>

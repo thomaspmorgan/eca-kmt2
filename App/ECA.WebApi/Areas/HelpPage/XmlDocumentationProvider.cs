@@ -35,18 +35,27 @@ namespace ECA.WebApi.Areas.HelpPage
             _documentNavigator = xpath.CreateNavigator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string GetDocumentation(HttpControllerDescriptor controllerDescriptor)
         {
             XPathNavigator typeNode = GetTypeNode(controllerDescriptor.ControllerType);
             return GetTagValue(typeNode, "summary");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual string GetDocumentation(HttpActionDescriptor actionDescriptor)
         {
             XPathNavigator methodNode = GetMethodNode(actionDescriptor);
             return GetTagValue(methodNode, "summary");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual string GetDocumentation(HttpParameterDescriptor parameterDescriptor)
         {
             ReflectedHttpParameterDescriptor reflectedParameterDescriptor = parameterDescriptor as ReflectedHttpParameterDescriptor;
@@ -67,12 +76,18 @@ namespace ECA.WebApi.Areas.HelpPage
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string GetResponseDocumentation(HttpActionDescriptor actionDescriptor)
         {
             XPathNavigator methodNode = GetMethodNode(actionDescriptor);
             return GetTagValue(methodNode, "returns");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string GetDocumentation(MemberInfo member)
         {
             string memberName = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
@@ -82,12 +97,18 @@ namespace ECA.WebApi.Areas.HelpPage
             return GetTagValue(propertyNode, "summary");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string GetDocumentation(Type type)
         {
             XPathNavigator typeNode = GetTypeNode(type);
             return GetTagValue(typeNode, "summary");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private XPathNavigator GetMethodNode(HttpActionDescriptor actionDescriptor)
         {
             ReflectedHttpActionDescriptor reflectedActionDescriptor = actionDescriptor as ReflectedHttpActionDescriptor;
@@ -100,6 +121,9 @@ namespace ECA.WebApi.Areas.HelpPage
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static string GetMemberName(MethodInfo method)
         {
             string name = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(method.DeclaringType), method.Name);
@@ -113,6 +137,9 @@ namespace ECA.WebApi.Areas.HelpPage
             return name;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static string GetTagValue(XPathNavigator parentNode, string tagName)
         {
             if (parentNode != null)
@@ -127,6 +154,9 @@ namespace ECA.WebApi.Areas.HelpPage
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private XPathNavigator GetTypeNode(Type type)
         {
             string controllerTypeName = GetTypeName(type);
@@ -134,6 +164,9 @@ namespace ECA.WebApi.Areas.HelpPage
             return _documentNavigator.SelectSingleNode(selectExpression);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static string GetTypeName(Type type)
         {
             string name = type.FullName;

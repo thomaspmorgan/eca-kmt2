@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Business.Test</RootNamespace>
     <AssemblyName>ECA.Business.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -18,6 +18,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -224,6 +225,7 @@
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantPersonsSevisQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueriesTest.cs" />
     <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
@@ -307,9 +309,10 @@
     <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorValidationServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveActionTest.cs" />
+    <Compile Include="Service\Persons\ParticipantsToBeSentToSevisTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
-    <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonsSevisServiceTest.cs" />
     <Compile Include="Service\Programs\ProgramStatusServiceTest.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
@@ -359,7 +362,6 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
-    <Compile Include="Sevis\Model\DispositionCodeTest.cs" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />
@@ -413,6 +415,7 @@
     <Compile Include="Validation\SimpleValidationResultTest.cs" />
     <Compile Include="Validation\SevisEnumHelperTest.cs" />
     <Compile Include="Validation\ParticipantSevisKeyTest.cs" />
+    <Compile Include="Validation\SuccessfulValidationResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -423,7 +426,9 @@
     <Fakes Include="Fakes\ECA.Business.fakes">
       <SubType>Designer</SubType>
     </Fakes>
-    <Fakes Include="Fakes\System.fakes" />
+    <Fakes Include="Fakes\System.fakes">
+      <SubType>Designer</SubType>
+    </Fakes>
     <Fakes Include="Fakes\mscorlib.fakes" />
     <None Include="InMemoryEcaDbContextGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -435,6 +440,10 @@
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Business</RootNamespace>
     <AssemblyName>ECA.Business</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -208,6 +209,7 @@
     <Compile Include="Queries\Models\Admin\SnapshotGraphDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryStopDTO.cs" />
     <Compile Include="Queries\Models\Itineraries\ItineraryParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Lookup\BirthCountryReasonDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\DependentBiographicalDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\ExchangeVisitorFundingDTO.cs" />
     <Compile Include="Queries\Models\Persons\ExchangeVisitor\SubjectFieldDTO.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultDTO.cs" />
     <Compile Include="Queries\Models\Sevis\ParticipantSevisBatchResultRecordDTO.cs" />
     <Compile Include="Queries\Models\Sevis\SevisBatchProcessingDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\SevisGroupedQueuedToSubmitParticipantsDTO.cs" />
     <Compile Include="Queries\Persons\EvaluationNoteQueries.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueries.cs" />
     <Compile Include="Queries\Persons\LanguageProficiencyQueries.cs" />
@@ -234,7 +237,7 @@
     <Compile Include="Queries\Persons\ParticipantPersonsSevisQueries.cs" />
     <Compile Include="Queries\Persons\ProfessionEducationQueries.cs" />
     <Compile Include="Queries\Projects\DefaultExchangeVisitorFundingQueries.cs" />
-    <Compile Include="Queries\Sevis\QueuedToSubmitParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Sevis\QueuedToSubmitParticipantDTO.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueries.cs" />
     <Compile Include="Search\AddressToEntityDocumentSaveAction.cs" />
     <Compile Include="Search\OrganizationDocumentSaveAction.cs" />
@@ -353,6 +356,7 @@
     <Compile Include="Service\Persons\ParticipantPersonServiceValidator.cs" />
     <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
+    <Compile Include="Service\Persons\ParticipantsToBeSentToSevis.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />
@@ -551,13 +555,6 @@
     <Compile Include="Service\Sevis\SevisBatchProcessingService.cs" />
     <Compile Include="Service\Sevis\SimpleSevisBatchErrorResult.cs" />
     <Compile Include="Service\Sevis\StagedSevisBatch.cs" />
-    <Compile Include="Service\Sevis\UpdatedSevisBatchProcessing.cs" />
-    <Compile Include="Sevis\Model\BatchDetailType.cs" />
-    <Compile Include="Sevis\Model\sevistranslog.cs">
-      <DependentUpon>SevisTransLog.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Sevis\Model\DispositionCode.cs" />
-    <Compile Include="Sevis\Model\TransactionLogTypeBatchDetailDownload.cs" />
     <Compile Include="Validation\SevisEnumHelper.cs" />
     <Compile Include="Validation\Sevis\Bio\AddedDependent.cs" />
     <Compile Include="Validation\Sevis\Bio\IBiographical.cs" />
@@ -566,6 +563,7 @@
     <Compile Include="Validation\Sevis\Bio\DependentValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonValidator.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependent.cs" />
+    <Compile Include="Validation\Sevis\IFluentValidatable.cs" />
     <Compile Include="Validation\Sevis\ParticipantSevisKey.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\DependentErrorPath.cs" />
     <Compile Include="Validation\Sevis\Exceptions\CodeTypeConversionException.cs" />
@@ -576,7 +574,6 @@
     <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
-    <Compile Include="Sevis\Model\create-updateexchangevisitor.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\AddressErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\BirthDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\CitizenshipErrorPath.cs" />
@@ -594,7 +591,7 @@
     <Compile Include="Validation\Sevis\ErrorPaths\StartDateErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\PositionCodeErrorPath.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\ProgramCategoryCodeErrorPath.cs" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="ExchangeVisitorDiagram.cd" />
     <Compile Include="Validation\Sevis\Bio\Person.cs" />
     <Compile Include="Validation\Sevis\Bio\BiographicalValidator.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitorValidator.cs" />
@@ -623,33 +620,22 @@
     <Compile Include="Service\User.cs" />
     <Compile Include="Validation\BusinessValidationResult.cs" />
     <Compile Include="Validation\Sevis\USAddress.cs" />
-    <None Include="Translog.cd" />
-    <None Include="Sevis\Model\SevisTransLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="SevisXSD.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComplexClassValidation.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Queries.Models.Reports.ProjectWithGrantNumberDTO.datasource" />
     <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
-    <None Include="Sevis\Model\common.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Sevis\Model\Create-UpdateExchangeVisitor.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Sevis\Model\Generate.bat" />
-    <None Include="Sevis\Model\SEVISTable.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
       <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>

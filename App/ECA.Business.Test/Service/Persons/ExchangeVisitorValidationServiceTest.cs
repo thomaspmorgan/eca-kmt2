@@ -71,7 +71,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantTypeIsNotForeignTravelingParticipant()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -93,15 +92,14 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
-				sevisId: null,
+                sevisId: null,
                 person: null,
-				financialInfo: null,
-				occupationCategoryCode: null,
-				programEndDate: DateTime.UtcNow,
-				programStartDate: DateTime.UtcNow,
-				siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
-				dependents: null
+                financialInfo: null,
+                occupationCategoryCode: null,
+                programEndDate: DateTime.UtcNow,
+                programStartDate: DateTime.UtcNow,
+                siteOfActivity: new Business.Queries.Models.Admin.AddressDTO(),
+                dependents: null
                 );
             exchangeVisitorService.Setup(x => x.GetExchangeVisitor(It.IsAny<int>(), It.IsAny<int>())).Returns(exchangeVisitor);
             exchangeVisitorService.Setup(x => x.GetExchangeVisitorAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(exchangeVisitor);
@@ -134,7 +132,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantStatusIsNotInListOfTrackedParticipantStatuses()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -157,7 +154,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -198,7 +194,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ParticipantDoesNotHaveParticipantStatus()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -221,7 +216,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -258,12 +252,11 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Never());
         }
-        
+
 
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ValidationSucceeds()
         {
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -286,7 +279,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -316,7 +308,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(SevisCommStatus.ReadyToSubmit.Id, commStatus.SevisCommStatusId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                Assert.IsNull(participantPerson.SevisValidationResult);
+                Assert.AreEqual(JsonConvert.SerializeObject(
+                    new SuccessfulValidationResult(),
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }), participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
@@ -332,8 +329,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_ValidationFails()
         {
-
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -356,7 +351,6 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -386,12 +380,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
+                Assert.AreEqual(JsonConvert.SerializeObject(
                     new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    }));
+                    }), participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
@@ -403,13 +397,11 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             exchangeVisitorValidator.Verify(x => x.Validate(It.IsAny<ExchangeVisitor>()), Times.Exactly(2));
         }
-        
+
 
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_DoesNotHaveACommStatus_ValidationFails()
         {
-
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -430,7 +422,6 @@ namespace ECA.Business.Test.Service.Persons
                 SevisValidationResult = "some string"
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -460,12 +451,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
+                Assert.AreEqual(JsonConvert.SerializeObject(
                     new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    }));
+                    }), participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
@@ -481,8 +472,6 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestRunParticipantSevisValidation_DoesHaveAnInformationRequiredCommStatus_ValidationFails()
         {
-
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -510,7 +499,6 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -541,12 +529,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
+                Assert.AreEqual(JsonConvert.SerializeObject(
                     new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    }));
+                    }), participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
@@ -563,7 +551,6 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestRunParticipantSevisValidation_DoesNotHaveAnInformationRequiredCommStatus_ValidationFails()
         {
             var yesterday = DateTime.UtcNow.AddDays(-1.0);
-            var sevisUserId = "sevisUserId";
             var project = new Project
             {
                 ProjectId = 1,
@@ -591,7 +578,6 @@ namespace ECA.Business.Test.Service.Persons
 
             };
             var exchangeVisitor = new ExchangeVisitor(
-                sevisUserId: sevisUserId,
                 sevisId: null,
                 person: null,
                 financialInfo: null,
@@ -624,12 +610,12 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(SevisCommStatus.InformationRequired.Id, commStatus.SevisCommStatusId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(commStatus.AddedOn, 20000);
 
-                Assert.AreEqual(participantPerson.SevisValidationResult, JsonConvert.SerializeObject(
+                Assert.AreEqual(JsonConvert.SerializeObject(
                     new SimpleValidationResult(validationResult),
                     new JsonSerializerSettings
                     {
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    }));
+                    }), participantPerson.SevisValidationResult);
             };
             context.Revert();
             var result = service.RunParticipantSevisValidation(project.ProjectId, participant.ParticipantId);
@@ -643,7 +629,7 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         #region ShouldRunValidation
-        
+
         [TestMethod]
         public void TestShouldRunValidation_ParticipantTypeIsNotForeignTravelingParticipant()
         {

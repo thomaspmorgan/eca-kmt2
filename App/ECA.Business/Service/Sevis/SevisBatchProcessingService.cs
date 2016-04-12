@@ -23,6 +23,7 @@ using FluentValidation.Results;
 using ECA.Core.Generation;
 using Newtonsoft.Json.Serialization;
 using ECA.Core.Settings;
+using System.Xml;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -40,7 +41,7 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// The number of queued to submit participants to page.
         /// </summary>
-        public const int QUERY_BATCH_SIZE = 20;
+        public const int QUERY_BATCH_SIZE = 5;
 
         private IDummyCloudStorage cloudStorageService;
         private ISevisBatchProcessingNotificationService notificationService;
@@ -49,7 +50,7 @@ namespace ECA.Business.Service.Sevis
         private AppSettings appSettings;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Action<SevisBatchProcessing, object> throwIfSevisBatchProcessingNotFound;
-        private readonly Func<List<StagedSevisBatch>, StagedSevisBatch> getNewStagedSevisBatch;
+        private readonly Func<string, string, List<StagedSevisBatch>, StagedSevisBatch> getNewStagedSevisBatch;
 
         /// <summary>
         /// Creates a new instance and initializes the context..
@@ -87,9 +88,9 @@ namespace ECA.Business.Service.Sevis
                     throw new ModelNotFoundException(String.Format("The SEVIS batch processing record with the batch id [{0}] was not found.", batchId));
                 }
             };
-            getNewStagedSevisBatch = (batches) =>
+            getNewStagedSevisBatch = (sevisUsername, sevisOrgId, batches) =>
             {
-                var stagedSevisBatch = GetNewStagedSevisBatch();
+                var stagedSevisBatch = GetNewStagedSevisBatch(sevisUsername, sevisOrgId);
                 batches.Add(stagedSevisBatch);
                 return stagedSevisBatch;
             };
@@ -131,6 +132,15 @@ namespace ECA.Business.Service.Sevis
             return CreateGetNextBatchRecordToUploadQuery().FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Returns the batch records to send to sevis.
+        /// </summary>
+        /// <returns>Gets the next batch record to send to sevis.</returns>
+        public Task<List<SevisBatchProcessingDTO>> GetBatchesToUploadAsync()
+        {
+            return CreateGetNextBatchRecordToUploadQuery().ToListAsync();
+        }
+
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchRecordToUploadQuery()
         {
             return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context);
@@ -167,23 +177,25 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
+        /// <param name="batchId">The string batch id of the transaciton log to process.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
+        public void ProcessTransactionLog(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             var transactionLog = DeserializeTransactionLogType(xml);
-            ProcessTransactionLog(user, xml, transactionLog, fileProvider);
+            ProcessTransactionLog(user, batchId, xml, transactionLog, fileProvider);
         }
 
         /// <summary>
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
+        /// <param name="batchId">The string batch id of the transaciton log to process.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
+        public Task ProcessTransactionLogAsync(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             var transactionLog = DeserializeTransactionLogType(xml);
-            return ProcessTransactionLogAsync(user, xml, transactionLog, fileProvider);
+            return ProcessTransactionLogAsync(user, batchId, xml, transactionLog, fileProvider);
         }
 
         /// <summary>
@@ -191,12 +203,13 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the transaction.</param>
         /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="batchId">The string batch id of the transaction log.</param>
         /// <param name="transactionLog">The deserialized transaction log.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public void ProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
+        public void ProcessTransactionLog(User user, string batchId, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
         {
-            var batch = CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefault();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            var batch = CreateGetSevisBatchProcessingByBatchIdQuery(batchId).FirstOrDefault();
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
             ProcessUpload(transactionLog.BatchDetail.Upload, batch);
             DoProcessTransactionLog(user, xml, transactionLog, batch);
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
@@ -211,12 +224,13 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user">The user performing the transaction.</param>
         /// <param name="xml">The transaction log xml as a string.</param>
+        /// <param name="batchId">The string batch id of the transaction log.</param>
         /// <param name="transactionLog">The deserialized transaction log.</param>
         /// <param name="fileProvider">The file provider.</param>
-        public async Task ProcessTransactionLogAsync(User user, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
+        public async Task ProcessTransactionLogAsync(User user, string batchId, string xml, TransactionLogType transactionLog, IDS2019FileProvider fileProvider)
         {
-            var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(transactionLog.BatchHeader.BatchID).FirstOrDefaultAsync();
-            throwIfSevisBatchProcessingNotFound(batch, transactionLog.BatchHeader.BatchID);
+            var batch = await CreateGetSevisBatchProcessingByBatchIdQuery(batchId).FirstOrDefaultAsync();
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
             await ProcessUploadAsync(transactionLog.BatchDetail.Upload, batch);
             DoProcessTransactionLog(user, xml, transactionLog, batch);
             if (transactionLog.BatchDetail != null && transactionLog.BatchDetail.Process != null)
@@ -229,7 +243,16 @@ namespace ECA.Business.Service.Sevis
         private void DoProcessTransactionLog(User user, string xml, TransactionLogType transactionLog, SevisBatchProcessing batch)
         {
             ProcessDownload(transactionLog.BatchDetail.Download, batch);
-            batch.TransactionLogString = xml;
+            using (var textWriter = new StringWriter())
+            {
+                var settings = new XmlWriterSettings();
+                settings.OmitXmlDeclaration = true;
+
+                var writer = XmlWriter.Create(textWriter, settings);
+                var serializer = new XmlSerializer(typeof(TransactionLogType));
+                serializer.Serialize(writer, transactionLog);
+                batch.TransactionLogString = textWriter.ToString();
+            }
         }
 
         /// <summary>
@@ -395,10 +418,10 @@ namespace ECA.Business.Service.Sevis
             var update = new Update(user);
             update.SetHistory(participantPerson);
             //sevis was successful
+            participantPerson.SevisBatchResult = GetSevisBatchResultTypeAsJson(result);
             if (result.status)
             {
                 participantPerson.SevisId = record.sevisID;
-                participantPerson.SevisBatchResult = null;
                 if (record.Dependent != null)
                 {
                     foreach (var processedDependent in record.Dependent)
@@ -411,10 +434,6 @@ namespace ECA.Business.Service.Sevis
                         UpdateDependent(user, processedDependent, dependentToUpdateQuery);
                     }
                 }
-            }//sevis was not successful
-            else
-            {
-                participantPerson.SevisBatchResult = GetSevisBatchErrorResultAsJson(result);
             }
         }
 
@@ -439,12 +458,17 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="resultType">The result type.</param>
         /// <returns>The json string.</returns>
-        public string GetSevisBatchErrorResultAsJson(ResultType resultType)
+        public string GetSevisBatchResultTypeAsJson(ResultType resultType)
         {
-            var instance = new SimpleSevisBatchErrorResult();
-            instance.ErrorCode = resultType.ErrorCode;
-            instance.ErrorMessage = resultType.ErrorMessage;
-            return JsonConvert.SerializeObject(new List<SimpleSevisBatchErrorResult> { instance }, GetSerializerSettings());
+            var list = new List<SimpleSevisBatchErrorResult>();
+            if (!resultType.status)
+            {
+                var instance = new SimpleSevisBatchErrorResult();
+                instance.ErrorCode = resultType.ErrorCode;
+                instance.ErrorMessage = resultType.ErrorMessage;
+                list.Add(instance);
+            }
+            return JsonConvert.SerializeObject(list, GetSerializerSettings());
         }
 
         /// <summary>
@@ -532,35 +556,38 @@ namespace ECA.Business.Service.Sevis
             while (newSevisParticipantsCount > 0)
             {
                 StagedSevisBatch stagedSevisBatch = null;
-                var participants = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context)
+                var groupedParticipants = SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context)
                     .Skip(() => skip)
                     .Take(() => QUERY_BATCH_SIZE)
                     .ToList();
 
-                foreach (var participant in participants)
+                foreach (var groupedParticipant in groupedParticipants)
                 {
-                    var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(participant.ProjectId, participant.ParticipantId);
-                    var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
-                    if (results.IsValid)
+                    foreach (var participant in groupedParticipant.Participants)
                     {
-                        var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, exchangeVisitor);
-                        if (accomodatingSevisBatch != null)
+                        var exchangeVisitor = this.exchangeVisitorService.GetExchangeVisitor(participant.ProjectId, participant.ParticipantId);
+                        var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
+                        if (results.IsValid)
                         {
-                            stagedSevisBatch = accomodatingSevisBatch;
+                            var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, exchangeVisitor, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
+                            if (accomodatingSevisBatch != null)
+                            {
+                                stagedSevisBatch = accomodatingSevisBatch;
+                            }
+                            else
+                            {
+                                PersistStagedSevisBatches(stagedSevisBatches);
+                                stagedSevisBatch = getNewStagedSevisBatch(groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId, stagedSevisBatches);
+                                this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
+                            }
+                            stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
+                            AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
                         }
                         else
                         {
-                            PersistStagedSevisBatches(stagedSevisBatches);
-                            stagedSevisBatch = getNewStagedSevisBatch(stagedSevisBatches);
-                            this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
+                            HandleInvalidExchangeVisitor(participant.ProjectId, participant.ParticipantId);
+                            notificationService.NotifyInvalidExchangeVisitor(exchangeVisitor);
                         }
-                        stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
-                        AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId);
-                    }
-                    else
-                    {
-                        HandleInvalidExchangeVisitor(participant.ProjectId, participant.ParticipantId);
-                        notificationService.NotifyInvalidExchangeVisitor(exchangeVisitor);
                     }
                     skip++;
                     newSevisParticipantsCount--;
@@ -585,38 +612,40 @@ namespace ECA.Business.Service.Sevis
             while (newSevisParticipantsCount > 0)
             {
                 StagedSevisBatch stagedSevisBatch = null;
-                var participants = await SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context)
+                var groupedParticipants = await SevisBatchProcessingQueries.CreateGetQueuedToSubmitParticipantDTOsQuery(this.Context)
                     .Skip(() => skip)
                     .Take(() => QUERY_BATCH_SIZE)
                     .ToListAsync();
-
-                foreach (var participant in participants)
+                foreach (var groupedParticipant in groupedParticipants)
                 {
-                    var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(participant.ProjectId, participant.ParticipantId);
-                    var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
-                    if (results.IsValid)
+                    foreach (var participant in groupedParticipant.Participants)
                     {
-                        var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, exchangeVisitor);
-                        if (accomodatingSevisBatch != null)
+                        var exchangeVisitor = await this.exchangeVisitorService.GetExchangeVisitorAsync(participant.ProjectId, participant.ParticipantId);
+                        var results = exchangeVisitor.Validate(this.exchangeVisitorValidationService.GetValidator());
+                        if (results.IsValid)
                         {
-                            stagedSevisBatch = accomodatingSevisBatch;
+                            var accomodatingSevisBatch = GetAccomodatingStagedSevisBatch(stagedSevisBatches, exchangeVisitor, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
+                            if (accomodatingSevisBatch != null)
+                            {
+                                stagedSevisBatch = accomodatingSevisBatch;
+                            }
+                            else
+                            {
+                                await PersistStagedSevisBatchesAsync(stagedSevisBatches);
+                                stagedSevisBatch = getNewStagedSevisBatch(groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId, stagedSevisBatches);
+                                this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
+                            }
+                            stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
+                            AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId, groupedParticipant.SevisUsername, groupedParticipant.SevisOrgId);
                         }
                         else
                         {
-                            await PersistStagedSevisBatchesAsync(stagedSevisBatches);
-                            stagedSevisBatch = getNewStagedSevisBatch(stagedSevisBatches);
-                            this.notificationService.NotifyStagedSevisBatchCreated(stagedSevisBatch);
+                            await HandleInvalidExchangeVisitorAsync(participant.ProjectId, participant.ParticipantId);
+                            notificationService.NotifyInvalidExchangeVisitor(exchangeVisitor);
                         }
-                        stagedSevisBatch.AddExchangeVisitor(exchangeVisitor);
-                        AddPendingSendToSevisStatus(participant.ParticipantId, stagedSevisBatch.BatchId);
+                        skip++;
+                        newSevisParticipantsCount--;
                     }
-                    else
-                    {
-                        await HandleInvalidExchangeVisitorAsync(participant.ProjectId, participant.ParticipantId);
-                        notificationService.NotifyInvalidExchangeVisitor(exchangeVisitor);
-                    }
-                    skip++;
-                    newSevisParticipantsCount--;
                 }
             }
             await PersistStagedSevisBatchesAsync(stagedSevisBatches);
@@ -667,15 +696,18 @@ namespace ECA.Business.Service.Sevis
         /// batches can accomodate the visitor.
         /// </summary>
         /// <param name="batches">The staged sevis batches.</param>
+        /// <param name="sevisOrgId">The sevis org id.</param>
+        /// <param name="sevisUsername">The sevis username.</param>
         /// <param name="visitor">The exchange visitor.</param>
         /// <returns>The first staged sevis batch that can accomodate the visitor, or null if none can accomodate.</returns>
-        public StagedSevisBatch GetAccomodatingStagedSevisBatch(List<StagedSevisBatch> batches, ExchangeVisitor visitor)
+        public StagedSevisBatch GetAccomodatingStagedSevisBatch(List<StagedSevisBatch> batches, ExchangeVisitor visitor, string sevisUsername, string sevisOrgId)
         {
             Contract.Requires(batches != null, "The batches must not be null.");
             Contract.Requires(visitor != null, "The exchange visitor must not be null.");
+            Contract.Requires(sevisOrgId != null, "The sevis org id must not be null.");
             foreach (var batch in batches)
             {
-                if (batch.CanAccomodate(visitor) && !batch.IsSaved)
+                if (!batch.IsSaved && batch.CanAccomodate(visitor, sevisUsername, sevisOrgId))
                 {
                     return batch;
                 }
@@ -683,26 +715,28 @@ namespace ECA.Business.Service.Sevis
             return null;
         }
 
-        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, string batchId)
+        private ParticipantPersonSevisCommStatus AddPendingSendToSevisStatus(int participantId, string batchId, string sevisUsername, string sevisOrgId)
         {
             var sevisCommStatus = new ParticipantPersonSevisCommStatus
             {
                 ParticipantId = participantId,
                 AddedOn = DateTimeOffset.UtcNow,
                 SevisCommStatusId = SevisCommStatus.PendingSevisSend.Id,
-                BatchId = batchId
+                BatchId = batchId,
+                SevisUsername = sevisUsername,
+                SevisOrgId = sevisOrgId
             };
             Context.ParticipantPersonSevisCommStatuses.Add(sevisCommStatus);
             return sevisCommStatus;
         }
 
 
-        private StagedSevisBatch GetNewStagedSevisBatch()
+        private StagedSevisBatch GetNewStagedSevisBatch(string sevisUsername, string sevisOrgId)
         {
             var stagedSevisBatch = new StagedSevisBatch(
-                sevisUserId: appSettings.SevisUserId,
+                sevisUsername: sevisUsername,
                 batchId: SequentialGuidGenerator.NewSqlServerSequentialGuid(),
-                orgId: appSettings.SevisOrgId,
+                sevisOrgId: sevisOrgId,
                 maxCreateExchangeVisitorRecordsPerBatch: this.MaxCreateExchangeVisitorRecordsPerBatch,
                 maxUpdateExchangeVisitorRecordPerBatch: this.MaxUpdateExchangeVisitorRecordsPerBatch);
             Context.SevisBatchProcessings.Add(stagedSevisBatch.SevisBatchProcessing);
@@ -831,7 +865,7 @@ namespace ECA.Business.Service.Sevis
                 {
                     ((IDisposable)this.notificationService).Dispose();
                     this.notificationService = null;
-                }                
+                }
             }
         }
         #endregion

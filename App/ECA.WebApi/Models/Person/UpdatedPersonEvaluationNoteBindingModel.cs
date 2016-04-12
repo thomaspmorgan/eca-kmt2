@@ -21,8 +21,14 @@ namespace ECA.WebApi.Models.Person
         /// </summary>
         public string EvaluationNote { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string UserName { get; set; }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTimeOffset RevisedOn { get; set; }
 
         /// <summary>
