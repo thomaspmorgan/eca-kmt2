@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Sevis.Model;
 using System;
-using System.Xml.Linq;
 
 namespace ECA.Business.Queries.Models.Sevis
 {
