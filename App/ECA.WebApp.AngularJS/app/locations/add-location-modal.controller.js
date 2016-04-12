@@ -385,9 +385,9 @@ angular.module('staticApp')
               .equal('locationTypeId', ConstantsService.locationType.city.id)
               .isNotNull('name')
               .sortBy('name');
-          //if ($scope.view.newLocation.countryId) {
-          //    citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
-          //}
+          if ($scope.view.newLocation.countryId) {
+              citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
+          }
           if (search) {
               citiesFilter = citiesFilter.like('name', search);
           }
