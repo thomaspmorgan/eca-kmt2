@@ -11,6 +11,15 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public interface IParticipantPersonsSevisService : ISaveable
     {
+
+        /// <summary>
+        /// Returns list of sevis participants
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>List of sevis participants</returns>
+        Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetSevisParticipantsByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
+
         /// <summary>
         /// Returns the participantPersonSevis by id
         /// </summary>

@@ -48,6 +48,26 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Gets list of sevis participants
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>List of sevis participants</returns>
+        [ResponseType(typeof(PagedQueryResults<ParticipantPersonSevisDTO>))]
+        [Route("Project/{projectId:int}/SevisParticipants")]
+        public async Task<IHttpActionResult> GetSevisParticipantsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<ParticipantPersonSevisDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await participantService.GetSevisParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                return Ok(results);
+            } else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Retrieves the participantPersonSevis with the given id.
         /// </summary>
         /// <param name="participantId">The id of the participant.</param>

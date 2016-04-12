@@ -12,6 +12,8 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 
 namespace ECA.Business.Service.Persons
 {
@@ -53,6 +55,10 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get
+        public Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetSevisParticipantsByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Returns a participantPersonSevis
