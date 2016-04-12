@@ -52,18 +52,15 @@ namespace ECA.Business.Validation.Sevis.Bio
                  printForm: printForm,
                  personId: personId,
                  participantId: participantId,
-                 isTravelingWithParticipant: isTravelingWithParticipant
+                 isTravelingWithParticipant: isTravelingWithParticipant,
+                 isDeleted: isDeleted
                  )
         {
             this.SevisId = sevisId;
             this.Remarks = remarks;
-            this.IsDeleted = isDeleted;
         }
 
-        /// <summary>
-        /// Gets whether the dependent has been deleted in the KMT system.
-        /// </summary>
-        public bool IsDeleted { get; private set; }
+
 
         /// <summary>
         /// Gets or sets the sevis id.

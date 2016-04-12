@@ -147,6 +147,17 @@ namespace ECA.Business.Test.Service.Sevis
             }
         }
 
+        private string GetXml(SEVISBatchCreateUpdateEV batch)
+        {
+            using (var textWriter = new StringWriter())
+            {
+                var serializer = new XmlSerializer(typeof(SEVISBatchCreateUpdateEV));
+                serializer.Serialize(textWriter, batch);
+                var xml = textWriter.ToString();
+                return xml;
+            }
+        }
+
         #region Constructor
         [TestMethod]
         public void TestConstructor()
@@ -1566,7 +1577,155 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestUpdateDependent_CheckProperties()
+        public void TestUpdateDependents_HasOneDependent_DependentIsSevisDeleted()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUserId = 2;
+            var user = new User(1);
+            
+            var personDependent = new PersonDependent
+            {
+                DependentId = 1
+            };
+            personDependent.History.CreatedBy = otherUserId;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUserId;
+            personDependent.History.RevisedOn = yesterday;
+            
+
+            var dependents = new List<PersonDependent>
+            {
+                personDependent
+            };
+            var dependentRecord = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "sevis id",
+                UserDefinedA = "1",
+                UserDefinedB = "B" + personDependent.DependentId
+            };
+            var updatedExchangeVisitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
+            var dependent = new SEVISEVBatchTypeExchangeVisitorDependent
+            {
+                Item = new SEVISEVBatchTypeExchangeVisitorDependentDelete
+                {
+                    dependentSevisID = dependentRecord.dependentSevisID
+                }
+            };
+            var updatedExchangeVisitor = new SEVISEVBatchTypeExchangeVisitor1
+            {
+                Item = dependent
+            };
+            updatedExchangeVisitors.Add(updatedExchangeVisitor);
+            var batch = new SEVISBatchCreateUpdateEV();
+            batch.UpdateEV = updatedExchangeVisitors.ToArray();
+
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent> { dependentRecord }.ToArray()
+            };
+
+            service.UpdateDependents(user, dependents, batch, record);
+            Assert.AreEqual(dependentRecord.dependentSevisID, personDependent.SevisId);
+            Assert.IsTrue(personDependent.IsSevisDeleted);
+            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
+            Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
+            Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(personDependent.History.RevisedOn, 20000);
+        }
+
+        [TestMethod]
+        public void TestUpdateDependents_HasOneDependent_RecordIsForOtherPersonDependent()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUserId = 2;
+            var user = new User(1);
+
+            var personDependent = new PersonDependent
+            {
+                DependentId = 1
+            };
+            personDependent.History.CreatedBy = otherUserId;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUserId;
+            personDependent.History.RevisedOn = yesterday;
+
+
+            var dependents = new List<PersonDependent>
+            {
+                personDependent
+            };
+            var dependentRecord = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "sevis id",
+                UserDefinedA = "1",
+                UserDefinedB = "B" + personDependent.DependentId + 1
+            };
+            var updatedExchangeVisitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
+            var batch = new SEVISBatchCreateUpdateEV();
+
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent> { dependentRecord }.ToArray()
+            };
+
+            service.UpdateDependents(user, dependents, batch, record);
+            Assert.IsNull(personDependent.SevisId);
+            Assert.IsFalse(personDependent.IsSevisDeleted);
+            Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
+            Assert.AreEqual(otherUserId, personDependent.History.RevisedBy);
+            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
+            Assert.AreEqual(yesterday, personDependent.History.RevisedOn);
+        }
+
+        [TestMethod]
+        public void TestUpdateDependents_NullDependents()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUserId = 2;
+            var user = new User(1);
+
+            var personDependent = new PersonDependent
+            {
+                DependentId = 1
+            };
+            personDependent.History.CreatedBy = otherUserId;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUserId;
+            personDependent.History.RevisedOn = yesterday;
+
+            var dependents = new List<PersonDependent>
+            {
+                personDependent
+            };
+
+            var batch = new SEVISBatchCreateUpdateEV();
+
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = "sevis Id",
+                Result = new ResultType
+                {
+                    status = true
+                },
+                Dependent = null
+            };
+
+            Action a = () => service.UpdateDependents(user, dependents, batch, record);
+            a.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void TestUpdateDependent_DependentWasNotDeleted_CheckProperties()
         {
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var otherUserId = 2;
@@ -1584,8 +1743,55 @@ namespace ECA.Business.Test.Service.Sevis
             personDependent.History.RevisedBy = otherUserId;
             personDependent.History.RevisedOn = yesterday;
 
-            service.UpdateDependent(user, dependentRecord, personDependent);
+            var batch = new SEVISBatchCreateUpdateEV();            
+
+            service.UpdateDependent(user, batch, dependentRecord, personDependent);
             Assert.AreEqual(dependentRecord.dependentSevisID, personDependent.SevisId);
+            Assert.IsFalse(personDependent.IsSevisDeleted);
+            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
+            Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
+            Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(personDependent.History.RevisedOn, 20000);
+        }
+
+        [TestMethod]
+        public void TestUpdateDependent_DependentWasDeleted_CheckProperties()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUserId = 2;
+            var user = new User(1);
+            var dependentRecord = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "sevis id"
+            };
+            var personDependent = new PersonDependent
+            {
+
+            };
+            personDependent.History.CreatedBy = otherUserId;
+            personDependent.History.CreatedOn = yesterday;
+            personDependent.History.RevisedBy = otherUserId;
+            personDependent.History.RevisedOn = yesterday;
+
+            var updatedExchangeVisitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
+            var dependent = new SEVISEVBatchTypeExchangeVisitorDependent
+            {
+                Item = new SEVISEVBatchTypeExchangeVisitorDependentDelete
+                {
+                    dependentSevisID = dependentRecord.dependentSevisID
+                }
+            };
+            var updatedExchangeVisitor = new SEVISEVBatchTypeExchangeVisitor1
+            {
+                Item = dependent
+            };
+            updatedExchangeVisitors.Add(updatedExchangeVisitor);
+            var batch = new SEVISBatchCreateUpdateEV();
+            batch.UpdateEV = updatedExchangeVisitors.ToArray();
+
+            service.UpdateDependent(user, batch, dependentRecord, personDependent);
+            Assert.AreEqual(dependentRecord.dependentSevisID, personDependent.SevisId);
+            Assert.IsTrue(personDependent.IsSevisDeleted);
             Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
             Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
             Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
@@ -1606,8 +1812,9 @@ namespace ECA.Business.Test.Service.Sevis
             personDependent.History.CreatedOn = yesterday;
             personDependent.History.RevisedBy = otherUserId;
             personDependent.History.RevisedOn = yesterday;
+            var batch = new SEVISBatchCreateUpdateEV();
 
-            service.UpdateDependent(user, null, personDependent);
+            service.UpdateDependent(user, batch, null, personDependent);
             Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
             Assert.AreEqual(yesterday, personDependent.History.RevisedOn);
             Assert.AreEqual(otherUserId, personDependent.History.CreatedBy);
@@ -1622,7 +1829,8 @@ namespace ECA.Business.Test.Service.Sevis
             {
                 dependentSevisID = "sevis id"
             };
-            service.UpdateDependent(user, dependentRecord, null);
+            var batch = new SEVISBatchCreateUpdateEV();
+            service.UpdateDependent(user, batch, dependentRecord, null);
         }
 
         [TestMethod]
@@ -1657,7 +1865,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Dependent = null
             };
 
-            service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
+            service.UpdateParticipant(user, participantPerson, record);
             Assert.AreEqual(record.sevisID, participantPerson.SevisId);
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
             Assert.AreEqual(otherUser.Id, participantPerson.History.CreatedBy);
@@ -1707,7 +1915,7 @@ namespace ECA.Business.Test.Service.Sevis
                 Dependent = null
             };
 
-            service.UpdateParticipant(user, participantPerson, new List<PersonDependent>(), record);
+            service.UpdateParticipant(user, participantPerson, record);
             Assert.IsNull(participantPerson.SevisId);
 
             Assert.AreEqual(yesterday, participantPerson.History.CreatedOn);
@@ -1726,137 +1934,6 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestUpdateParticipant_CheckDependentHasOneDependent_SuccessfulSevisRequest()
-        {
-            var user = new User(1);
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var otherUser = new User(user.Id + 1);
-
-            var person = new Data.Person
-            {
-                PersonId = 10,
-
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                Participant = participant,
-                SevisBatchResult = "sevis batch result",
-            };
-            participantPerson.History.CreatedBy = otherUser.Id;
-            participantPerson.History.CreatedOn = yesterday;
-            participantPerson.History.RevisedBy = otherUser.Id;
-            participantPerson.History.RevisedOn = yesterday;
-            participant.ParticipantPerson = participantPerson;
-            var personDependent = new PersonDependent
-            {
-                DependentId = 250,
-                Person = person,
-                PersonId = person.PersonId,
-                SevisId = null
-            };
-            personDependent.History.CreatedBy = otherUser.Id;
-            personDependent.History.CreatedOn = yesterday;
-            personDependent.History.RevisedBy = otherUser.Id;
-            personDependent.History.RevisedOn = yesterday;
-            var processedDepenent = new TransactionLogTypeBatchDetailProcessRecordDependent
-            {
-                dependentSevisID = "dep sevis id",
-            };
-            SetUserDefinedFields(processedDepenent, participant.ParticipantId, personDependent.DependentId);
-            var record = new TransactionLogTypeBatchDetailProcessRecord
-            {
-                sevisID = "sevis Id",
-                Result = new ResultType
-                {
-                    status = true
-                },
-                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent>
-                {
-                    processedDepenent
-                }.ToArray()
-            };
-
-            service.UpdateParticipant(user, participantPerson, new List<PersonDependent> { personDependent }, record);
-            Assert.AreEqual(yesterday, personDependent.History.CreatedOn);
-            Assert.AreEqual(otherUser.Id, personDependent.History.CreatedBy);
-            Assert.AreEqual(user.Id, personDependent.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(personDependent.History.RevisedOn, 20000);
-            Assert.AreEqual(processedDepenent.dependentSevisID, personDependent.SevisId);
-        }
-
-        [TestMethod]
-        public void TestUpdateParticipant_MultipleDependents_SuccessfulSevisRequest()
-        {
-            var user = new User(1);
-            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var otherUser = new User(user.Id + 1);
-
-            var person = new Data.Person
-            {
-                PersonId = 10,
-
-            };
-            var participant = new Participant
-            {
-                ParticipantId = 1
-            };
-            var participantPerson = new ParticipantPerson
-            {
-                ParticipantId = participant.ParticipantId,
-                Participant = participant,
-                SevisBatchResult = "sevis batch result",
-            };
-            participantPerson.History.CreatedBy = otherUser.Id;
-            participantPerson.History.CreatedOn = yesterday;
-            participantPerson.History.RevisedBy = otherUser.Id;
-            participantPerson.History.RevisedOn = yesterday;
-            participant.ParticipantPerson = participantPerson;
-            var personDependentToUpdate = new PersonDependent
-            {
-                DependentId = 250,
-                Person = person,
-                PersonId = person.PersonId,
-                SevisId = null
-            };
-            personDependentToUpdate.History.CreatedBy = otherUser.Id;
-            personDependentToUpdate.History.CreatedOn = yesterday;
-            personDependentToUpdate.History.RevisedBy = otherUser.Id;
-            personDependentToUpdate.History.RevisedOn = yesterday;
-            var otherPersonDependent = new PersonDependent
-            {
-                DependentId = 251
-            };
-            var processedDepenent = new TransactionLogTypeBatchDetailProcessRecordDependent
-            {
-                dependentSevisID = "dep sevis id",
-            };
-            SetUserDefinedFields(processedDepenent, participant.ParticipantId, personDependentToUpdate.DependentId);
-
-            var record = new TransactionLogTypeBatchDetailProcessRecord
-            {
-                sevisID = "sevis Id",
-                Result = new ResultType
-                {
-                    status = true
-                },
-                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent>
-                {
-                    processedDepenent
-                }.ToArray()
-            };
-
-            service.UpdateParticipant(user, participantPerson, new List<PersonDependent> { personDependentToUpdate, otherPersonDependent }, record);
-
-            Assert.IsNull(otherPersonDependent.SevisId);
-            Assert.AreEqual(processedDepenent.dependentSevisID, personDependentToUpdate.SevisId);
-        }
-
-        [TestMethod]
         public async Task TestProcessBatchDetailProcess_HasDS2019File()
         {
             var sevisId = "sevis id";
@@ -1869,12 +1946,15 @@ namespace ECA.Business.Test.Service.Sevis
             SevisBatchProcessing batch = null;
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -1968,12 +2048,15 @@ namespace ECA.Business.Test.Service.Sevis
             SevisBatchProcessing batch = null;
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2057,12 +2140,15 @@ namespace ECA.Business.Test.Service.Sevis
             SevisBatchProcessing batch = null;
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2146,12 +2232,15 @@ namespace ECA.Business.Test.Service.Sevis
             SevisBatchProcessing batch = null;
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2233,12 +2322,16 @@ namespace ECA.Business.Test.Service.Sevis
             SevisBatchProcessing batch = null;
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
+
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2329,12 +2422,15 @@ namespace ECA.Business.Test.Service.Sevis
 
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2399,12 +2495,15 @@ namespace ECA.Business.Test.Service.Sevis
 
             var participantId = 1;
             var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = "hello",
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2656,17 +2755,23 @@ namespace ECA.Business.Test.Service.Sevis
             var otherUser = new User(user.Id + 1);
             Participant participant = null;
             ParticipantPerson participantPerson = null;
+            PersonDependent dependent = null;
             Data.Person person = null;
             SevisBatchProcessing batch = null;
 
             var participantId = 1;
             var personId = 2;
+            var personDependentId = 12;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
+            
             context.SetupActions.Add(() =>
             {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
                 batch = new SevisBatchProcessing
                 {
                     BatchId = batchId,
-                    Id = 1
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
                 };
                 participant = new Participant
                 {
@@ -2688,6 +2793,10 @@ namespace ECA.Business.Test.Service.Sevis
                 {
                     PersonId = personId
                 };
+                dependent = new PersonDependent
+                {
+                    DependentId = personDependentId
+                };
                 participant.Person = person;
                 participant.PersonId = person.PersonId;
                 context.Participants.Add(participant);
@@ -2702,6 +2811,12 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(1, context.ParticipantPersonSevisCommStatuses.Count());
                 Assert.IsNotNull(batch.TransactionLogString);
             };
+            var dependentRecord = new TransactionLogTypeBatchDetailProcessRecordDependent
+            {
+                dependentSevisID = "sevis id",
+                UserDefinedA = participantId.ToString(),
+                UserDefinedB = "B" + personDependentId.ToString()
+            };
             var record = new TransactionLogTypeBatchDetailProcessRecord
             {
                 sevisID = sevisId,
@@ -2709,9 +2824,14 @@ namespace ECA.Business.Test.Service.Sevis
                 {
                     status = true,
                     statusSpecified = true
-                }
+                },
+                Dependent = new List<TransactionLogTypeBatchDetailProcessRecordDependent>
+                {
+                    dependentRecord
+                }.ToArray()
             };
             SetUserDefinedFields(record, participantId, personId);
+            
             var processDetail = new TransactionLogTypeBatchDetailProcess
             {
                 Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),

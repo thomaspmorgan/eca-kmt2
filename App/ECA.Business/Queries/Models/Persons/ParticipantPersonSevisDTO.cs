@@ -8,10 +8,6 @@ namespace ECA.Business.Queries.Models.Persons
     /// </summary>
     public class ParticipantPersonSevisDTO
     {
-        public ParticipantPersonSevisDTO()
-        {
-            SevisCommStatuses = new List<ParticipantPersonSevisCommStatusDTO>();
-        }
         /// <summary>
         /// Gets or sets the participant id.
         /// </summary>
@@ -43,6 +39,16 @@ namespace ECA.Business.Queries.Models.Persons
         public int ProjectId { get; set; }
 
         /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        public int PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full name.
+        /// </summary>
+        public string FullName { get; set; }
+
+        /// <summary>
         /// Get or sets the participant type
         /// </summary>
         public string ParticipantType { get; set; }
@@ -56,6 +62,11 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the participant status
         /// </summary>
         public string ParticipantStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant status id.
+        /// </summary>
+        public int? ParticipantStatusId { get; set; }
 
         /// <summary>
         /// has the participant been sent to Sevis via RTI (manual web interface)
@@ -91,12 +102,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// The end date of the visit
         /// </summary>
         public DateTimeOffset? EndDate { get; set; }
-
-        /// <summary>
-        /// List of Sevis Communication Statuses for this participant
-        /// </summary>
-        public IEnumerable<ParticipantPersonSevisCommStatusDTO> SevisCommStatuses { get; set; }
-
+        
         /// <summary>
         /// The most recent date of a batch status record being written for this participant
         /// </summary>
