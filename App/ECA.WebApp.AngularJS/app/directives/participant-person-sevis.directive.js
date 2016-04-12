@@ -54,6 +54,7 @@
                 $scope.view = {};
                 $scope.view.maxNumberOfSevisCommStatusesToShow = 20;
                 $scope.view.sevisCommStatusesPageSize = 20;
+                $scope.view.sevisCommStatuses = [];
                 $scope.view.PositionAndField = false;
                 $scope.view.PositionAndFieldEdit = false;
                 $scope.edit.isStartDatePickerOpen = false;
@@ -65,14 +66,25 @@
 
                 var sevisInfoCopy = null;
                 var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
+                var projectId = 0;
+                var participantId = $scope.participantid;
 
                 $scope.$watch(function () {
                     return $scope.sevisinfo;
                 }, function (newValue, oldValue) {
                     if (newValue && !sevisInfoCopy) {
                         sevisInfoCopy = angular.copy(newValue);
+                        projectId = newValue.projectId;
                     }
-                })
+                });
+
+                $scope.$watch(function () {
+                    return $scope.view.DHSStatus;
+                }, function (newValue, oldValue) {
+                    if (newValue && newValue != oldValue) {
+                        loadSevisCommStatuses(projectId, participantId);
+                    }
+                });
 
                 $scope.view.showNextSevisCommStatuses = function () {
                     $scope.view.maxNumberOfSevisCommStatusesToShow += $scope.view.sevisCommStatusesPageSize;
@@ -396,10 +408,26 @@
                     });
                 }
 
+                var participantSevisCommStatusFilter = FilterService.add('sevis_comm_status_participant_filter' + $scope.participantid);
+                function loadSevisCommStatuses(projectId, participantId) {
+                    participantSevisCommStatusFilter.reset();
+                    participantSevisCommStatusFilter = participantSevisCommStatusFilter.skip(0).take($scope.view.maxNumberOfSevisCommStatusesToShow);
+                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, participantId, participantSevisCommStatusFilter.toParams())
+                    .then(function (response) {
+                        $scope.view.sevisCommStatuses = response.data.results;
+                        return $scope.view.sevisCommStatuses;
+                    })
+                    .catch(function (response) {
+                        var message = "Unable to load sevis comm statuses for the participant.";
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
+                    })
+                }
+
                 loadPositions();
                 loadProgramCategories();
                 loadUSGovernmentAgencies();
-                loadInternationalOrganizations();
+                loadInternationalOrganizations();                
             }
         };
 

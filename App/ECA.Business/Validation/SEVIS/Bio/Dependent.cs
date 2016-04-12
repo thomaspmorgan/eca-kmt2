@@ -27,7 +27,8 @@ namespace ECA.Business.Validation.Sevis.Bio
             bool printForm,
             int personId,
             int participantId,
-            bool isTravelingWithParticipant
+            bool isTravelingWithParticipant,
+            bool isDeleted
             )
         {
             this.BirthCity = birthCity;
@@ -47,7 +48,13 @@ namespace ECA.Business.Validation.Sevis.Bio
             this.PersonId = personId;
             this.ParticipantId = participantId;
             this.IsTravelingWithParticipant = isTravelingWithParticipant;
+            this.IsDeleted = isDeleted;
         }
+
+        /// <summary>
+        /// Gets whether the dependent has been deleted in the KMT system.
+        /// </summary>
+        public bool IsDeleted { get; private set; }
 
         /// <summary>
         /// Gets whether or not the dependent will be traveling with the participant.

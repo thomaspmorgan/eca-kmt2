@@ -553,19 +553,9 @@ angular.module('staticApp')
             });
       };
 
-      $scope.view.updateSevisCommStatusView = function (participantId, participantPersonSevis) {
-          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
-              var participantIds = $scope.participants.map(function (p) { return p.participantId; });
-              var index = participantIds.indexOf(parseInt(participantId, 10));
-              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[0].sevisCommStatusName;
-              $scope.participants[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[0].sevisCommStatusId;
-          }
-      }
-
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
-              $scope.view.updateSevisCommStatusView(participantId, data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           })
