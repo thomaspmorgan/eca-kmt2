@@ -25,7 +25,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                   printForm: true,
                   personId: 10,
                   participantId:20,
-                  isTravelingWithParticipant: true
+                  isTravelingWithParticipant: true,
+                  isDeleted: false
                   )
         {
 

@@ -91,7 +91,8 @@ namespace ECA.Business.Queries.Models.Persons.ExchangeVisitor
                 printForm: true,
                 participantId: this.ParticipantId,
                 personId: this.PersonId,
-                isTravelingWithParticipant: this.IsTravelingWithParticipant
+                isTravelingWithParticipant: this.IsTravelingWithParticipant,
+                isDeleted: this.IsDeleted
                 );
         }
 

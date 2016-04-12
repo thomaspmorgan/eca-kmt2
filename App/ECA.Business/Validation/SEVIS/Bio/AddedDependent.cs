@@ -33,7 +33,8 @@ namespace ECA.Business.Validation.Sevis.Bio
                 bool printForm,
                 int personId,
                 int participantId,
-                bool isTravelingWithParticipant
+                bool isTravelingWithParticipant,
+                bool isDeleted
             )
             : base(
                 fullName: fullName,
@@ -52,7 +53,8 @@ namespace ECA.Business.Validation.Sevis.Bio
                 printForm: printForm,
                 participantId: participantId,
                 personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                isTravelingWithParticipant: isTravelingWithParticipant,
+                isDeleted: isDeleted
                 )
         {
 
@@ -154,7 +156,7 @@ namespace ECA.Business.Validation.Sevis.Bio
         /// <returns>False.</returns>
         public override bool IgnoreDependentValidation()
         {
-            return false;
+            return this.IsDeleted;
         }
     }
 }

@@ -78,25 +78,22 @@
             {{sevisinfo.sevisId}}
         </div>
     </div>
-    <div class="row4" ng-repeat="status in sevisinfo.sevisCommStatuses" ng-show="$index < view.maxNumberOfSevisCommStatusesToShow">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
+    <div class="row4" ng-repeat="status in view.sevisCommStatuses" ng-show="$index < view.maxNumberOfSevisCommStatusesToShow">
         <div class="col-md-2">
             <i class="material-icons md-dark md-12" style="color: green" ng-show="view.DHSStatus">check</i>
             {{ status.addedOn | date:'short' }}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             {{status.sevisCommStatusName}}
         </div>
         <div class="col-md-2">
             {{status.sevisOrgId}}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <a popover="{{status.emailAddress}}">{{status.displayName}}</a>
         </div>
-        <div class="col-md-1">
-            &nbsp;
+        <div class="col-md-2">
+            {{status.batchId}}
         </div>
     </div>
     <div class="row4" ng-show="view.maxNumberOfSevisCommStatusesToShow < sevisinfo.sevisCommStatuses.length">

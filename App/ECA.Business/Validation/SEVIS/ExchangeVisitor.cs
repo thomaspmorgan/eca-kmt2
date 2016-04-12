@@ -212,7 +212,7 @@ namespace ECA.Business.Validation.Sevis
         {
             var dependentsList = this.Dependents ?? new List<AddedDependent>();
             var addedDependents = new List<EVPersonTypeDependent>();
-            foreach (var dependent in dependentsList)
+            foreach (var dependent in dependentsList.Where(x => !x.IsDeleted).ToList())
             {
                 if (dependent.GetType() != typeof(AddedDependent))
                 {
@@ -229,7 +229,6 @@ namespace ECA.Business.Validation.Sevis
             {
                 instance.CreateDependent = null;
             }
-            
         }
 
         /// <summary>
