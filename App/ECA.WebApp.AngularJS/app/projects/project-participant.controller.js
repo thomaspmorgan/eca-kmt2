@@ -55,7 +55,7 @@ angular.module('staticApp')
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
-      $scope.view.tabInfo = false;
+      $scope.view.tabInfo = true;
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
@@ -203,7 +203,7 @@ angular.module('staticApp')
            });
       }
 
-      $scope.view.onDeleteParticipantClick = function (participant) {
+      function showDeleteConfirm(participant) {
           MessageBox.confirm({
               title: 'Confirm',
               message: 'Are you sure you wish to delete the participant named ' + participant.name + '?',
@@ -275,7 +275,7 @@ angular.module('staticApp')
               $scope.participantInfo[participant.participantId].isDeleting = false;
               delete $scope.participantInfo[participant.participantId];
               NotificationService.showSuccessMessage("Successfully deleted the participant " + participant.name + '.');
-              reloadParticipantTable();
+              getPage();
           })
           .catch(function (response) {
               $scope.participantInfo[participant.participantId].isDeleting = false;
@@ -325,7 +325,7 @@ angular.module('staticApp')
           })
           .then(function () {
               $scope.view.isAddingParticipant = false;
-              reloadParticipantTable();
+              getPage();
           });
           return dfd;
       }
@@ -358,11 +358,6 @@ angular.module('staticApp')
           origUsParticipantsActual = $scope.$parent.project.usParticipantsActual;
 
       });
-
-      function reloadParticipantTable() {
-          console.assert($scope.getParticipantsTableState, "The table state function must exist.");
-          $scope.getParticipants($scope.getParticipantsTableState());
-      }
 
       function clearAddParticipantView() {
           $scope.view.selectedExistingParticipant = null;
@@ -431,6 +426,7 @@ angular.module('staticApp')
           };
           config[ConstantsService.permission.editProject.value] = {
               hasPermission: function () {
+                  addDeleteAction();
                   $scope.permissions.editProject = true;
                   $log.info('User has edit project permission in project-participant.controller.js.');
               },
@@ -499,6 +495,15 @@ angular.module('staticApp')
               NotificationService.showErrorMessage('Unable to load project collaborator details.');
           });
       };
+
+      $scope.view.updateSevisCommStatusView = function(participantId, participantPersonSevis) {
+          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
+              var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
+              var index = participantIds.indexOf(parseInt(participantId, 10));
+              $scope.gridOptions.data[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
+              $scope.gridOptions.data[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusId;
+          }
+      }
 
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
@@ -574,6 +579,10 @@ angular.module('staticApp')
           if ($scope.permissions.hasEditSevisPermission && $scope.permissions.hasSendToSevisPermission) {
               $scope.actions["Send To SEVIS"] = 1;
           }
+      }
+
+      function addDeleteAction() {
+          $scope.actions["Delete"] = 2;
       }
 
       function loadExchangeVisitorInfo(participantId) {
@@ -660,37 +669,29 @@ angular.module('staticApp')
 
           modalInstance.result.then(function (participant) {
               if (participant) {
-                  reloadParticipantTable();
+                  getPage();
               }
           });
       };
 
-      $scope.selectAllChanged = function () {
-          if ($scope.selectAll) {
-              for (var i = 0; i < $scope.participants.length; i++) {
-                  var participantId = $scope.participants[0].participantId;
-                  $scope.selectedParticipants[participantId] = true;
-              }
-          } else {
-              $scope.selectedParticipants = {};
-          }
-      }
-
       $scope.selectedActionChanged = function () {
-          $scope.selectAll = false;
-          $scope.selectedParticipants = {};
-          var tableState = $scope.getParticipantsTableState();
-          tableState.filter = [];
           if ($scope.selectedAction === 1) {
-              tableState.filter = { property: 'sevisStatus', comparison: 'eq', value: 'Ready To Submit' };
-          }
-          $scope.getParticipants(tableState);
+              paginationOptions.filter = { property: 'sevisStatusId', comparison: 'eq', value: ConstantsService.sevisCommStatus.readyToSubmit.id };
+              $scope.gridApi.selection.setMultiSelect(true);
+          } else {
+              $scope.gridApi.selection.setMultiSelect(false);
+              paginationOptions.filter = null;
       }
 
-      $scope.selectedParticipants = {};
+          getPage();
+          }
 
-      $scope.selectedParticipantsEmpty = function () {
-          return Object.keys($scope.selectedParticipants).length === 0;
+      $scope.getSelectedParticipants = function () {
+          return $scope.gridApi.selection.getSelectedRows();
+      }
+
+      $scope.getSelectedParticipant = function () {
+          return $scope.getSelectedParticipants()[0];
       }
 
       $scope.applyAction = function () {
@@ -699,7 +700,8 @@ angular.module('staticApp')
               .then(function (response) {
                   var userInfo = response.data;
                   var doSendParticipantsToSevis = function (sevisUserAccount) {
-                      return sendParticipantsToSevis($scope.selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
+                      var selectedParticipants = $scope.getSelectedParticipants();
+                      return sendParticipantsToSevis(selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
                   }
                   var sevisUserAccounts = userInfo.sevisUserAccounts;
                   var sevisUserAccount = sevisUserAccounts[0];
@@ -715,17 +717,18 @@ angular.module('staticApp')
                   NotificationService.showErrorMessage(message);
                   $log.error(message);
               })
+          } else if ($scope.selectedAction === 2) {
+              var selectedParticipant = $scope.getSelectedParticipant();
+              showDeleteConfirm(selectedParticipant);
           }
       }
 
       function sendParticipantsToSevis(participants, sevisUsername, sevisOrgId) {
-          var participantIds = Object.keys(participants);
+          var participantIds = $scope.getSelectedParticipants().map(function (obj) { return obj.participantId });
           return ParticipantPersonsSevisService.sendToSevis(kmtId, projectId, participantIds, sevisUsername, sevisOrgId)
           .then(function (results) {
-              $scope.selectAll = false;
-              $scope.selectedParticipants = {};
               NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participantIds.length + " participants.");
-              reloadParticipantTable();
+                  getPage();
           }, function () {
               NotificationService.showErrorMessage("Failed to queue participants.");
           });
@@ -752,12 +755,6 @@ angular.module('staticApp')
           })
           .then(function () {
           });
-      }
-
-      $scope.selectedParticipant = function (participant, checked) {
-          if (!checked) {
-              delete $scope.selectedParticipants[participant.participantId];
-          }
       }
 
       $scope.view.isLoading = true;
@@ -789,4 +786,87 @@ angular.module('staticApp')
                    participantTypeId == ConstantsService.participantType.otherOrganization.id);
       };
 
+      var paginationOptions = {
+          pageNumber: 1,
+          pageSize: 25,
+          sort: null,
+          keyword: null,
+          filter: null
+      };
+
+      $scope.gridOptions = {
+          paginationPageSizes: [25, 50, 75],
+          paginationPageSize: 25,
+          useExternalPagination: true,
+          multiSelect: false,
+          columnDefs: [
+            { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
+            { name: 'participantType'},
+            { name: 'participantStatus' },
+            { name: 'sevisStatus' }
+          ],
+          onRegisterApi: function (gridApi) {
+              $scope.gridApi = gridApi;
+              $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                  if (sortColumns.length == 0) {
+                      paginationOptions.sort = null;
+                  } else {
+                      paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
+                      $scope.gridOptions.paginationCurrentPage = 1;
+                  }
+                  getPage();
+              });
+              gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                  paginationOptions.pageNumber = newPage;
+                  paginationOptions.pageSize = pageSize;
+                  getPage();
+              });
+          }
+      };
+
+      $scope.$watch('participantFilter', function (participantFilter) {
+          if (participantFilter && participantFilter.length > 0) {
+              paginationOptions.keyword = participantFilter;
+          } else {
+              paginationOptions.keyword = null;
+          }
+          getPage();
+      });
+
+      function getPage() {
+          var params = {
+              start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
+              limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
+              sort: paginationOptions.sort,
+              keyword: paginationOptions.keyword,
+              filter: paginationOptions.filter
+          };
+          ParticipantService.getParticipantsByProject(projectId, params)
+               .then(function (data) {
+                   $scope.gridOptions.totalItems = data.total;
+                   $scope.view.totalParticipants = data.total;
+                   angular.forEach(data.results, function (result, index) {
+                       if (result.personId) {
+                           result.href = StateService.getPersonState(result.personId);
+                       }
+                       else if (result.organizationId) {
+                           result.href = StateService.getOrganizationState(result.organizationId);
+                       }
+                       else {
+                           var message = 'Unable to generate href for participant because it is neither an organization or a person.';
+                           $log.error(message);
+                           NotificationService.showErrorMessage(message);
+                       }
+                   });
+                   $scope.gridOptions.data = data.results;
+                   $scope.view.hasRealActualParticipants = data.total > 0;
+                   handleParticipantState();
+               })
+               .catch(function (error) {
+                   $log.error('Unable to load project participants.');
+                   NotificationService.showErrorMessage('Unable to load project participants.');
+               });
+      }
+
+      getPage();
   });
