@@ -366,14 +366,6 @@ namespace ECA.Business.Service.Persons
         {
             if (dependentToDelete != null)
             {
-                //if (dependentToDelete.CountriesOfCitizenship != null)
-                //{
-                //    var countriesOfCitizenship = Context.PersonDependentCitizenCountries.Where(x => x.DependentId == dependentToDelete.DependentId);
-                //    foreach(var citizenCountry in countriesOfCitizenship)
-                //    {
-                //        Context.PersonDependentCitizenCountries.Remove(citizenCountry);
-                //    }
-                //}
                 var email = dependentToDelete.EmailAddresses.FirstOrDefault();
                 if (email != null)
                 {

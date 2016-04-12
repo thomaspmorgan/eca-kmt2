@@ -20,6 +20,8 @@ namespace ECA.Business.Sevis
 
         private string Thumbprint;
 
+        private static string boundary = "----ECAKMTBoundary" + DateTime.Now.Ticks.ToString("x");
+
         public SevisComm(AppSettings appSettings)
         {
             DownloadUri = new Uri(appSettings.SevisDownloadUri);
@@ -31,30 +33,39 @@ namespace ECA.Business.Sevis
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
-                using (var content = new MultipartFormDataContent())
+                httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");
+                httpClient.DefaultRequestHeaders.Expect.ParseAdd("100-continue");
+                using (var content = new MultipartFormDataContent(boundary))
                 {
+                    content.Headers.Remove("Content-Type");
+                    content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
+
                     var formValues = new[]
                     {
-                        new KeyValuePair<string, string>("batchid", batchId),
                         new KeyValuePair<string, string>("orgid", OrgId),
-                        new KeyValuePair<string, string>("userid",UserId)
+                        new KeyValuePair<string, string>("userid",UserId),
+                        new KeyValuePair<string, string>("batchid", batchId),
                     };
                     foreach (var keyValuePair in formValues)
                     {
-                        content.Add(new StringContent(keyValuePair.Value, Encoding.UTF8), "\"" + keyValuePair.Key + "\"");
-                        content.Headers.Remove("Content-Type");
+                        var newContent = new StringContent(keyValuePair.Value, Encoding.UTF8);
+                        newContent.Headers.Remove("Content-Type");
+                        content.Add(newContent,"\"" + keyValuePair.Key + "\"");
+
                     }
                     var xmlValuePair = new KeyValuePair<string, string>("xml", xml.ToString());
-                    var xmlContent = new StringContent(xmlValuePair.Value, Encoding.UTF8);
-                    xmlContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "\"xml\"", FileName = "\"batchfile.xml\"" };
-                    xmlContent.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+                    var xmlContent = new StringContent(xmlValuePair.Value + "\r\n", Encoding.UTF8);
+                    xmlContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "\"xml\"", FileName = "\"batchfile3.xml\"" };
+                    xmlContent.Headers.Remove("Content-Type");
+
                     content.Add(xmlContent, "\"" + xmlValuePair.Key + "\"");
 
-                var response = await httpClient.PostAsync(UploadUri, content);
+                    var response = await httpClient.PostAsync(UploadUri, content);
 
-                return response;
+                    return response;
+                }
             }
-        }
         }
 
         public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId, string OrgId, string UserId)
