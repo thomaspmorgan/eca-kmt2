@@ -103,11 +103,11 @@ namespace ECA.Business.Queries.Persons
                             GenderId = gender.GenderId,
                             FullName = new FullNameDTO
                             {
-                                FirstName = person.FirstName,
-                                LastName = person.LastName,
-                                Suffix = person.NameSuffix,
-                                MiddleName = person.MiddleName,
-                                PreferredName = person.Alias,
+                                FirstName = person.FirstName != null && person.FirstName.Trim().Length > 0 ? person.FirstName.Trim() : null,
+                                LastName = person.LastName != null && person.LastName.Trim().Length > 0 ? person.LastName.Trim() : null,
+                                Suffix = person.NameSuffix != null && person.NameSuffix.Trim().Length > 0 ? person.NameSuffix.Trim() : null,
+                                MiddleName = person.MiddleName != null && person.MiddleName.Trim().Length > 0 ? person.MiddleName.Trim() : null,
+                                PreferredName = person.Alias != null && person.Alias.Trim().Length > 0 ? person.Alias.Trim() : null,
                             },
                             BirthDate = person.DateOfBirth.HasValue
                                 && (!person.IsDateOfBirthEstimated.HasValue || !person.IsDateOfBirthEstimated.Value)
@@ -216,11 +216,11 @@ namespace ECA.Business.Queries.Persons
                             IsDeleted = dependent.IsDeleted,
                             FullName = new FullNameDTO
                             {
-                                FirstName = dependent.FirstName,
-                                LastName = dependent.LastName,
-                                Suffix = dependent.NameSuffix,
-                                PassportName = dependent.PassportName,
-                                PreferredName = dependent.PreferredName
+                                FirstName = dependent.FirstName != null && dependent.FirstName.Trim().Length > 0 ? dependent.FirstName.Trim() : null,
+                                LastName = dependent.LastName != null && dependent.LastName.Trim().Length > 0 ? dependent.LastName.Trim() : null,
+                                Suffix = dependent.NameSuffix != null && dependent.NameSuffix.Trim().Length > 0 ? dependent.NameSuffix.Trim() : null,
+                                PassportName = dependent.PassportName != null && dependent.PassportName.Trim().Length > 0 ? dependent.PassportName.Trim() : null,
+                                PreferredName = dependent.PreferredName != null && dependent.PreferredName.Trim().Length > 0 ? dependent.PreferredName.Trim() : null,
                             },
                             Gender = gender != null && sevisGender != null ? sevisGender : null,
                             GenderId = gender.GenderId,
