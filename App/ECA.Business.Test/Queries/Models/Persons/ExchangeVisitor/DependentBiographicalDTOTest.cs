@@ -212,7 +212,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 Relationship = "relationship",
                 SevisId = "sevisId",
                 IsDeleted = true,
-                IsTravelingWithParticipant = true
+                IsTravelingWithParticipant = true,
             };
             var instance = dto.GetAddedDependent(usAddress);
             Assert.IsTrue(object.ReferenceEquals(mailAddress, instance.MailAddress));
@@ -229,6 +229,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.IsTrue(instance.PrintForm);
             Assert.AreEqual(dto.Relationship, instance.Relationship);
             Assert.AreEqual(dto.IsTravelingWithParticipant, instance.IsTravelingWithParticipant);
+            Assert.AreEqual(dto.IsDeleted, instance.IsDeleted);
 
             Assert.AreEqual(dto.FullName.FirstName, instance.FullName.FirstName);
             Assert.AreEqual(dto.FullName.LastName, instance.FullName.LastName);

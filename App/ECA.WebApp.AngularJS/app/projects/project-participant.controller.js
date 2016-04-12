@@ -505,10 +505,62 @@ angular.module('staticApp')
           }
       }
 
+      $scope.participantsLoading = false;
+      $scope.getParticipants = function (tableState) {
+          $scope.participantInfo = {};
+          $scope.participantsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: tableState.filter ? tableState.filter : TableService.getFilter(),
+              keyword: TableService.getKeywords()
+          };
+
+          // Get the total number or participants
+          ParticipantService.getParticipantsByProject(projectId, { start: 0, limit: 1 })
+            .then(function (data) {
+                $scope.view.totalParticipants = data.total;
+            })
+            .catch(function () {
+                $log.error('Unable to load project participants.');
+                NotificationService.showErrorMessage('Unable to load project participants.');
+            });
+
+          ParticipantService.getParticipantsByProject(projectId, params)
+            .then(function (data) {
+                angular.forEach(data.results, function (result, index) {
+                    if (result.personId) {
+                        result.href = StateService.getPersonState(result.personId);
+                    }
+                    else if (result.organizationId) {
+                        result.href = StateService.getOrganizationState(result.organizationId);
+                    }
+                    else {
+                        var message = 'Unable to generate href for participant because it is neither an organization or a person.';
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
+                    }
+                });
+                $scope.participants = data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                $scope.view.hasRealActualParticipants = data.total > 0;
+                $scope.participantsLoading = false;
+                handleParticipantState();
+            })
+            .catch(function (error) {
+                $log.error('Unable to load project participants.');
+                NotificationService.showErrorMessage('Unable to load project participants.');
+            });
+      };
+
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
-              $scope.view.updateSevisCommStatusView(participantId, data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           })
@@ -525,8 +577,8 @@ angular.module('staticApp')
 
       function addSendToSevisAction() {
           if ($scope.permissions.hasEditSevisPermission && $scope.permissions.hasSendToSevisPermission) {
-          $scope.actions["Send To SEVIS"] = 1;
-      }
+              $scope.actions["Send To SEVIS"] = 1;
+          }
       }
 
       function addDeleteAction() {
@@ -593,7 +645,7 @@ angular.module('staticApp')
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
           loadSevisInfo(participantId);
-          loadExchangeVisitorInfo(participantId);          
+          loadExchangeVisitorInfo(participantId);
       };
 
       $scope.toggleParticipantInfo = function (participantId) {
@@ -629,14 +681,14 @@ angular.module('staticApp')
           } else {
               $scope.gridApi.selection.setMultiSelect(false);
               paginationOptions.filter = null;
-          }
+      }
 
           getPage();
-      }
+          }
 
       $scope.getSelectedParticipants = function () {
           return $scope.gridApi.selection.getSelectedRows();
-          }
+      }
 
       $scope.getSelectedParticipant = function () {
           return $scope.getSelectedParticipants()[0];
@@ -674,12 +726,12 @@ angular.module('staticApp')
       function sendParticipantsToSevis(participants, sevisUsername, sevisOrgId) {
           var participantIds = $scope.getSelectedParticipants().map(function (obj) { return obj.participantId });
           return ParticipantPersonsSevisService.sendToSevis(kmtId, projectId, participantIds, sevisUsername, sevisOrgId)
-              .then(function (results) {
-                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participantIds.length + " participants.");
+          .then(function (results) {
+              NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participantIds.length + " participants.");
                   getPage();
-              }, function () {
-                  NotificationService.showErrorMessage("Failed to queue participants.");
-              });
+          }, function () {
+              NotificationService.showErrorMessage("Failed to queue participants.");
+          });
       }
 
       function promptUserForSevisUserAccount(userInfo, okCallback, cancelCallback) {

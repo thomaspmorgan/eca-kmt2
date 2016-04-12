@@ -185,9 +185,9 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
-        public void TestGetExchangeVisitor_HasAddedDependent()
+        public void TestGetExchangeVisitor_CheckDependents()
         {
-            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
+            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true, false);
 
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -260,7 +260,7 @@ namespace ECA.Business.Test.Validation.Sevis
         public void TestGetExchangeVisitor_HasMultipleDependents()
         {
             var updatedDependent = new UpdatedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, null, null, 1, 2, true, true);
-            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true);
+            var addedDependent = new AddedDependent(null, null, null, null, null, null, null, null, null, null, null, null, null, true, 1, 2, true, false);
 
             var person = GetPerson();
             var financialInfo = GetFinancialInfo();
@@ -464,7 +464,7 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
-        public void TestGetSEVISBatchTypeExchangeVisitor_CheckDependents()
+        public void TestGetSEVISBatchTypeExchangeVisitor_CheckDependents_DependentIsNotDeleted()
         {
             var sevisId = "sevis id";
             var sevisUserId = "sevisUserId";
@@ -508,6 +508,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             var addedDependent = new AddedDependent(
                 fullName,
                 birthCity,
@@ -525,7 +526,8 @@ namespace ECA.Business.Test.Validation.Sevis
                 printForm,
                 personId,
                 participantId,
-                isTravelingWithParticipant
+                isTravelingWithParticipant,
+                isDeleted: isDeleted
                 );
             dependents.Add(addedDependent);
 
@@ -543,6 +545,89 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsNotNull(instance);
             Assert.AreEqual(1, instance.CreateDependent.Count());
             var firstDependent = instance.CreateDependent.First();
+        }
+
+        [TestMethod]
+        public void TestGetSEVISBatchTypeExchangeVisitor_CheckDependents_DependentIsDeleted()
+        {
+            var sevisId = "sevis id";
+            var sevisUserId = "sevisUserId";
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            var occupationCategoryCode = "99";
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            var personId = 100;
+            var participantId = 200;
+
+            var firstName = "first";
+            var lastName = "last";
+            var passport = "passport";
+            var preferred = "preferred";
+            var suffix = "Jr.";
+            var fullName = new FullName(firstName, lastName, passport, preferred, suffix);
+
+            var birthCity = "birth city";
+            var birthCountryCode = "CN";
+            var birthDate = DateTime.UtcNow;
+            var citizenshipCountryCode = "FR";
+            var email = "someone@isp.com";
+            var gender = Gender.SEVIS_MALE_GENDER_CODE_VALUE;
+            var permanentResidenceCountryCode = "MX";
+            var phone = "123-456-7890";
+            var mailAddress = new AddressDTO
+            {
+                AddressId = 1,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var usAddress = new AddressDTO
+            {
+                AddressId = 2,
+                Country = LocationServiceAddressValidator.UNITED_STATES_COUNTRY_NAME
+            };
+            var printForm = true;
+            var birthCountryReasonCode = USBornReasonType.Item01.ToString();
+            var relationship = DependentCodeType.Item01.ToString();
+            var isTravelingWithParticipant = true;
+            var isDeleted = true;
+            var addedDependent = new AddedDependent(
+                fullName,
+                birthCity,
+                birthCountryCode,
+                birthCountryReasonCode,
+                birthDate,
+                citizenshipCountryCode,
+                email,
+                gender,
+                permanentResidenceCountryCode,
+                phone,
+                relationship,
+                mailAddress,
+                usAddress,
+                printForm,
+                personId,
+                participantId,
+                isTravelingWithParticipant,
+                isDeleted: isDeleted
+                );
+            dependents.Add(addedDependent);
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
+            Assert.IsNotNull(instance);
+            Assert.IsNull(instance.CreateDependent);
         }
 
         [TestMethod]
