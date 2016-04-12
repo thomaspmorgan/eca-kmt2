@@ -80,10 +80,12 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
             Assert.AreEqual(status.Status, firstResult.ParticipantStatus);
+            Assert.AreEqual(status.ParticipantStatusId, firstResult.ParticipantStatusId);
             Assert.AreEqual(participant.ParticipantId, firstResult.ParticipantId);
             Assert.AreEqual(participantPerson.SevisId, firstResult.SevisId);
             Assert.AreEqual(participant.ProjectId, firstResult.ProjectId);
             Assert.AreEqual(participantType.Name, firstResult.ParticipantType);
+            Assert.AreEqual(participantType.ParticipantTypeId, firstResult.ParticipantTypeId);
             Assert.AreEqual(participantPerson.IsCancelled, firstResult.IsCancelled);
             Assert.AreEqual(participantPerson.IsDS2019Printed, firstResult.IsDS2019Printed);
             Assert.AreEqual(participantPerson.IsDS2019SentToTraveler, firstResult.IsDS2019SentToTraveler);

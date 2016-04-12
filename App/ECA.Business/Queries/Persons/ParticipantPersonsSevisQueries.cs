@@ -55,6 +55,8 @@ namespace ECA.Business.Queries.Persons
                             SevisId = p.SevisId,
                             ProjectId = participant.ProjectId,
                             ParticipantType = participantTypeName,
+                            ParticipantTypeId = participant.ParticipantTypeId,
+                            ParticipantStatusId = participant.ParticipantStatusId,
                             ParticipantStatus = participantStatusName,
                             IsCancelled = p.IsCancelled,
                             IsDS2019Printed = p.IsDS2019Printed,

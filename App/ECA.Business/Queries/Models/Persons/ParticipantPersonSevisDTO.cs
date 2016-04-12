@@ -54,9 +54,19 @@ namespace ECA.Business.Queries.Models.Persons
         public string ParticipantType { get; set; }
 
         /// <summary>
+        /// Gets or sets the participant type id.
+        /// </summary>
+        public int ParticipantTypeId { get; set; }
+
+        /// <summary>
         /// Gets or sets the participant status
         /// </summary>
         public string ParticipantStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant status id.
+        /// </summary>
+        public int? ParticipantStatusId { get; set; }
 
         /// <summary>
         /// has the participant been sent to Sevis via RTI (manual web interface)

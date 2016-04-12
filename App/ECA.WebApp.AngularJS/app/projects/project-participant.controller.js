@@ -496,15 +496,6 @@ angular.module('staticApp')
           });
       };
 
-      $scope.view.updateSevisCommStatusView = function(participantId, participantPersonSevis) {
-          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
-              var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
-              var index = participantIds.indexOf(parseInt(participantId, 10));
-              $scope.gridOptions.data[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
-              $scope.gridOptions.data[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusId;
-          }
-      }
-
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
           $scope.participantInfo = {};
@@ -561,6 +552,7 @@ angular.module('staticApp')
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
+              $scope.onParticipantUpdated(data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           })
@@ -681,10 +673,10 @@ angular.module('staticApp')
           } else {
               $scope.gridApi.selection.setMultiSelect(false);
               paginationOptions.filter = null;
-      }
+          }
 
           getPage();
-          }
+      }
 
       $scope.getSelectedParticipants = function () {
           return $scope.gridApi.selection.getSelectedRows();
@@ -692,6 +684,32 @@ angular.module('staticApp')
 
       $scope.getSelectedParticipant = function () {
           return $scope.getSelectedParticipants()[0];
+      }
+
+      $scope.onParticipantUpdated = function (updatedParticipant) {
+          var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
+          var index = participantIds.indexOf(parseInt(updatedParticipant.participantId, 10));
+          if (index != -1) {
+              var participantToUpdate = $scope.gridOptions.data[index];
+              if (updatedParticipant.participantType) {
+                  participantToUpdate.participantType = updatedParticipant.participantType;
+              }
+              if (updatedParticipant.participantTypeId) {
+                  participantToUpdate.participantTypeId = updatedParticipant.participantTypeId;
+              }
+              if (updatedParticipant.participantStatus) {
+                  participantToUpdate.participantStatus = updatedParticipant.participantStatus;
+              }
+              if (updatedParticipant.participantStatusId) {
+                  participantToUpdate.participantStatusId = updatedParticipant.participantStatusId;
+              }
+              if (updatedParticipant.sevisStatus) {
+                  participantToUpdate.sevisStatus = updatedParticipant.sevisStatus;
+              }
+              if (updatedParticipant.participantStatusId) {
+                  participantToUpdate.sevisStatusId = updatedParticipant.sevisStatusId;
+              }
+          }
       }
 
       $scope.applyAction = function () {
@@ -728,7 +746,7 @@ angular.module('staticApp')
           return ParticipantPersonsSevisService.sendToSevis(kmtId, projectId, participantIds, sevisUsername, sevisOrgId)
           .then(function (results) {
               NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participantIds.length + " participants.");
-                  getPage();
+              getPage();
           }, function () {
               NotificationService.showErrorMessage("Failed to queue participants.");
           });
@@ -801,7 +819,7 @@ angular.module('staticApp')
           multiSelect: false,
           columnDefs: [
             { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
-            { name: 'participantType'},
+            { name: 'participantType' },
             { name: 'participantStatus' },
             { name: 'sevisStatus' }
           ],
