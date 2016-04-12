@@ -110,7 +110,7 @@ angular.module('staticApp')
               $log.info('Auto populating country to location.');
               $scope.view.newLocation.countryId = $item.countryId;
           }
-          if ($item.division && !$scope.view.newLocation.divisionId) {
+          if ($item.division && $item.divisionId) {
               $log.info('Auto populating division to location.');
               $scope.view.newLocation.divisionId = $item.divisionId;
 
@@ -387,6 +387,9 @@ angular.module('staticApp')
               .sortBy('name');
           if ($scope.view.newLocation.countryId) {
               citiesFilter = citiesFilter.equal('countryId', $scope.view.newLocation.countryId);
+          }
+          if ($scope.view.newLocation.divisionId) {
+              citiesFilter = citiesFilter.equal('divisionId', $scope.view.newLocation.divisionId);
           }
           if (search) {
               citiesFilter = citiesFilter.like('name', search);
