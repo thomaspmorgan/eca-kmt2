@@ -864,6 +864,13 @@ angular.module('staticApp')
                   paginationOptions.pageSize = pageSize;
                   getPage();
               });
+              gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                  if ($scope.view.tabSevis && $scope.getSelectedParticipants().length === 1) {
+                      var participantId = row.entity.participantId;
+                      loadSevisInfo(participantId);
+                      loadExchangeVisitorInfo(participantId);
+                  }
+              });
           }
       };
 
