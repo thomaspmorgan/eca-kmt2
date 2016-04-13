@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.IO;
+using System.IO.Compression;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -73,14 +75,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             var timerInfo = new TimerInfo(new TestTimerSchedule());
             service.Setup(x => x.GetBatchesToUploadAsync()).ReturnsAsync(new List<SevisBatchProcessingDTO>());
 
-            await instance.ProcessTimer(timerInfo);
-            
-        }
-
-        [TestMethod]
-        public void TestGetFileProvider()
-        {
-            Assert.IsInstanceOfType(instance.GetFileProvider(), typeof(ZipArchiveDS2019FileProvider));
+            await instance.ProcessTimer(timerInfo);   
         }
 
         [TestMethod]

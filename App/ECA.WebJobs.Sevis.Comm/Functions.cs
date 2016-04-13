@@ -12,6 +12,7 @@ using ECA.WebJobs.Sevis.Core;
 using System.Xml.Linq;
 using NLog;
 using System.Xml.Serialization;
+using System.IO.Compression;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -84,8 +85,12 @@ namespace ECA.WebJobs.Sevis.Comm
                 if (response.IsSuccessStatusCode)
                 {
                     string xmlString = await response.Content.ReadAsStringAsync();
-                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, GetFileProvider());
-                    logger.Info("Processed Upload Response");
+                    var zipArchive = new ZipArchive(null);
+                    using (var fileProvider = new ZipArchiveDS2019FileProvider(zipArchive))
+                    {   
+                        await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, fileProvider);
+                        logger.Info("Processed Upload Response");
+                    }
                 }
                 else
                 {
@@ -116,16 +121,6 @@ namespace ECA.WebJobs.Sevis.Comm
             logger.Info("Finished Batch Processing.");
 
         }
-
-        /// <summary>
-        /// Returns a DS2019FileProvider.  Change this method to provide the list of files when ready.
-        /// </summary>
-        /// <returns>The file provider.</returns>
-        public IDS2019FileProvider GetFileProvider()
-        {
-            return new ZipArchiveDS2019FileProvider();
-        }
-
         /// <summary>
         /// Returns the system user.
         /// </summary>

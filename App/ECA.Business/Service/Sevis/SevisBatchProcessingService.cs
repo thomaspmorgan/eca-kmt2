@@ -351,7 +351,7 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(batch != null, "The batch must not be null.");
             Contract.Requires(batch.SendString != null, "The batch send string must not be null.");
             if (process != null)
-            {   
+            {
                 DoNotifyStartedProcessingBatchDetailProcessed(batch, process);
                 var dispositionCode = DispositionCode.ToDispositionCode(process.resultCode);
                 batch.ProcessDispositionCode = dispositionCode.Code;
@@ -365,13 +365,16 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, record);
                     UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-                    var ds2019Contents = fileProvider.GetDS2019File(participant.ParticipantId, batch.BatchId, record.sevisID);
-                    if (ds2019Contents != null && ds2019Contents.Length > 0)
-                    {
-                        var url = SaveDS2019Form(participant.ParticipantId, record.sevisID, ds2019Contents);
-                        participantPerson.DS2019FileUrl = url;
-                    }
 
+                    var stream = fileProvider.GetDS2019FileStream(participant.ParticipantId, batch.BatchId, record.sevisID);
+                    if (stream != null && stream.Length > 0L)
+                    {
+                        using (stream)
+                        {
+                            var url = SaveDS2019Form(participant.ParticipantId, record.sevisID, stream);
+                            participantPerson.DS2019FileUrl = url;
+                        }
+                    }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
@@ -403,11 +406,14 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, record);
                     UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-                    var ds2019Contents = await fileProvider.GetDS2019FileAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
-                    if (ds2019Contents != null && ds2019Contents.Length > 0)
+                    var stream = await fileProvider.GetDS2019FileStreamAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
+                    if (stream != null && stream.Length > 0L)
                     {
-                        var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, ds2019Contents);
-                        participantPerson.DS2019FileUrl = url;
+                        using (stream)
+                        {
+                            var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, stream);
+                            participantPerson.DS2019FileUrl = url;
+                        }
                     }
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
@@ -439,7 +445,7 @@ namespace ECA.Business.Service.Sevis
             AddResultTypeSevisCommStatus(record.Result, participantPerson);
             var update = new Update(user);
             update.SetHistory(participantPerson);
-            
+
             participantPerson.SevisBatchResult = GetSevisBatchResultTypeAsJson(result);
             if (result.status)
             {
@@ -458,9 +464,9 @@ namespace ECA.Business.Service.Sevis
                 {
                     var participantSevisKey = new ParticipantSevisKey(processedDependent);
                     var dependentToUpdate = (from dependent in dependents
-                                                  where dependent.SevisId == processedDependent.dependentSevisID
-                                                  || dependent.DependentId == participantSevisKey.PersonId
-                                                  select dependent).FirstOrDefault();
+                                             where dependent.SevisId == processedDependent.dependentSevisID
+                                             || dependent.DependentId == participantSevisKey.PersonId
+                                             select dependent).FirstOrDefault();
                     UpdateDependent(user, batch, processedDependent, dependentToUpdate);
                 }
             }
@@ -800,12 +806,12 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="participantId">The participant id.</param>
         /// <param name="sevisId">The sevis id.</param>
-        /// <param name="fileContents">The file contents.</param>
+        /// <param name="stream">The file stream.</param>
         /// <returns>The url of the saved file.</returns>
-        public string SaveDS2019Form(int participantId, string sevisId, byte[] fileContents)
+        public string SaveDS2019Form(int participantId, string sevisId, Stream stream)
         {
             var fileName = GetDS2019FileName(participantId, sevisId);
-            return this.cloudStorageService.SaveFile(fileName, fileContents, DS2019_CONTENT_TYPE);
+            return this.cloudStorageService.SaveFile(fileName, stream, DS2019_CONTENT_TYPE);
         }
 
         /// <summary>
@@ -813,12 +819,12 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="participantId">The participant id.</param>
         /// <param name="sevisId">The sevis id.</param>
-        /// <param name="fileContents">The file contents.</param>
+        /// <param name="stream">The file stream.</param>
         /// /// <returns>The url of the saved file.</returns>
-        public async Task<string> SaveDS2019FormAsync(int participantId, string sevisId, byte[] fileContents)
+        public async Task<string> SaveDS2019FormAsync(int participantId, string sevisId, Stream stream)
         {
             var fileName = GetDS2019FileName(participantId, sevisId);
-            return await cloudStorageService.SaveFileAsync(fileName, fileContents, DS2019_CONTENT_TYPE);
+            return await cloudStorageService.SaveFileAsync(fileName, stream, DS2019_CONTENT_TYPE);
         }
 
         /// <summary>
