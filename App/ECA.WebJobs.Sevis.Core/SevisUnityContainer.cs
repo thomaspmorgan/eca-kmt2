@@ -6,20 +6,21 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace ECA.WebJobs.Sevis.Core
 {
     public class DummyCloudStorage : IDummyCloudStorage
     {
-        public string SaveFile(string fileName, byte[] contents, string contentType)
+        public string SaveFile(string fileName, Stream contents, string contentType)
         {
-            throw new NotImplementedException();
+            return "filepath.pdf";
         }
 
-        public Task<string> SaveFileAsync(string fileName, byte[] contents, string contentType)
+        public Task<string> SaveFileAsync(string fileName, Stream contents, string contentType)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<string>("filepath.pdf");
         }
     }
 
@@ -36,7 +37,6 @@ namespace ECA.WebJobs.Sevis.Core
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             this.RegisterInstance<AppSettings>(appSettings);
-            this.RegisterType<ZipArchiveDS2019FileProvider>();
 
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
