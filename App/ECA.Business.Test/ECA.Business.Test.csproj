@@ -408,7 +408,7 @@
     <Compile Include="Validation\Sevis\ExchangeVisitorTest.cs" />
     <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
-    <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\SubjectFieldValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovernmentFundingValidatorTest.cs" />
     <Compile Include="Validation\Sevis\AddressDTOValidatorTest.cs" />
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
