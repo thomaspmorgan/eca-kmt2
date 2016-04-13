@@ -67,9 +67,9 @@ namespace ECA.WebJobs.Sevis.Core
                 return entry.Open();
             }
             else
-            {
-                return null;
-            }
+        {
+            return Task.FromResult(new byte[] { });
+        }
         }
 
         #region Dispose

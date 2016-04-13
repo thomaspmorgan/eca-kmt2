@@ -28,22 +28,22 @@ namespace ECA.Business.Service.Sevis
         Task<SevisBatchProcessingDTO> GetNextBatchToUploadAsync();
 
         /// <summary>
-        /// Returns the batch id of the next batch to download from the sevis api.
-        /// </summary>
-        /// <returns>The batch id of the next batch to download from sevis.</returns>
-        string GetNextBatchByBatchIdToDownload();
-
-        /// <summary>
         /// Returns the batch records to send to sevis.
         /// </summary>
         /// <returns>Gets the batch records to send to sevis.</returns>
         Task<List<SevisBatchProcessingDTO>> GetBatchesToUploadAsync();
 
         /// <summary>
-        /// Returns the batch id of the next batch to download from the sevis api.
+        /// Returns the batch record of the next batch to download from the sevis api.
         /// </summary>
-        /// <returns>The batch id of the next batch to download from sevis.</returns>
-        Task<string> GetNextBatchByBatchIdToDownloadAsync();
+        /// <returns>The batch record of the next batch to download from sevis.</returns>
+        SevisBatchProcessingDTO GetNextBatchToDownload();
+
+        /// <summary>
+        /// Returns the batch record of the next batch to download from the sevis api.
+        /// </summary>
+        /// <returns>The batch recorce of the next batch to download from sevis.</returns>
+        Task<SevisBatchProcessingDTO> GetNextBatchToDownloadAsync();
 
         /// <summary>
         /// Stages all queued to submit sevis participants into sevis batches that can then be sent to sevis for processing.
@@ -86,6 +86,8 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <returns>The task.</returns>
         Task DeleteProcessedBatchesAsync();
+
+
     }
 
     /// <summary>
@@ -115,7 +117,7 @@ namespace ECA.Business.Service.Sevis
         /// 
         /// </summary>
         /// <returns></returns>
-        public string GetNextBatchByBatchIdToDownload()
+        public SevisBatchProcessingDTO GetNextBatchToDownload()
         {
             return null;
         }
@@ -124,9 +126,9 @@ namespace ECA.Business.Service.Sevis
         /// 
         /// </summary>
         /// <returns></returns>
-        public Task<string> GetNextBatchByBatchIdToDownloadAsync()
+        public Task<SevisBatchProcessingDTO> GetNextBatchToDownloadAsync()
         {
-            return Task.FromResult<string>(null);
+            return Task.FromResult<SevisBatchProcessingDTO>(null);
         }        
 
         /// <summary>

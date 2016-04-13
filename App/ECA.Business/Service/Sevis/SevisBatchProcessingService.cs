@@ -147,26 +147,26 @@ namespace ECA.Business.Service.Sevis
         }
 
         /// <summary>
-        /// Returns the batch id of the next batch to download from the sevis api.
+        /// Returns the batch record of the next batch to download from the sevis api.
         /// </summary>
-        /// <returns>The batch id of the next batch to download from sevis.</returns>
-        public string GetNextBatchByBatchIdToDownload()
+        /// <returns>The batch record of the next batch to download from sevis.</returns>
+        public SevisBatchProcessingDTO GetNextBatchToDownload()
         {
-            return CreateGetNextBatchByBatchIdToDownload().FirstOrDefault();
+            return CreateGetNextBatchToDownload().FirstOrDefault();
         }
 
         /// <summary>
-        /// Returns the batch id of the next batch to download from the sevis api.
+        /// Returns the batch record of the next batch to download from the sevis api.
         /// </summary>
-        /// <returns>The batch id of the next batch to download from sevis.</returns>
-        public Task<string> GetNextBatchByBatchIdToDownloadAsync()
+        /// <returns>The batch record of the next batch to download from sevis.</returns>
+        public Task<SevisBatchProcessingDTO> GetNextBatchToDownloadAsync()
         {
-            return CreateGetNextBatchByBatchIdToDownload().FirstOrDefaultAsync();
+            return CreateGetNextBatchToDownload().FirstOrDefaultAsync();
         }
 
-        private IQueryable<string> CreateGetNextBatchByBatchIdToDownload()
+        private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchToDownload()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context).Select(x => x.BatchId);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context);
         }
         #endregion
 

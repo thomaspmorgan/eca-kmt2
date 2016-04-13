@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using NLog;
 using System.Xml.Serialization;
 using System.IO.Compression;
+using System.IO;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -73,15 +74,15 @@ namespace ECA.WebJobs.Sevis.Comm
             //and returned in the dtos.
 
             var batchComm = new SevisComm(settings);
-            var dtosToUpload = await service.GetBatchesToUploadAsync();
+            var dtoToUpload = await service.GetNextBatchToUploadAsync();
 
-            foreach (var dtoToUpload in dtosToUpload)
+            while (dtoToUpload != null)
             {
                 //do the send here
                 logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
                 var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
-                //process response message
 
+                //process response message
                 if (response.IsSuccessStatusCode)
                 {
                     string xmlString = await response.Content.ReadAsStringAsync();
@@ -89,32 +90,39 @@ namespace ECA.WebJobs.Sevis.Comm
                     using (var fileProvider = new ZipArchiveDS2019FileProvider(zipArchive))
                     {   
                         await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, fileProvider);
-                        logger.Info("Processed Upload Response");
-                    }
+                    logger.Info("Processed Upload Response");
+                }
                 }
                 else
                 {
                     logger.Error("Upload encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
                 }
+                dtoToUpload = await service.GetNextBatchToUploadAsync();
+            }
 
-            } // end for each upload
+            var dtoToDownload = await service.GetNextBatchToDownloadAsync();
 
-            //var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            //while (batchByIdToDownload != null)
-            //{
+            while (dtoToDownload != null)
+            {
+                // ask for download
+                logger.Info("Getting Download, BatchId: {0}", dtoToDownload.BatchId);
+                var response = await batchComm.DownloadAsync(dtoToDownload.BatchId, dtoToDownload.SevisOrgId, dtoToDownload.SevisUsername);
 
-            //    //processing methods here or possibly another webjob
-            //    //await service.ProcessTransactionLogAsync(string.Empty);
-            //    batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            //}
-
-
-            // Check for Downloads to get
-
-            //var batchesToDownload = service.GetSevisBatchesToDownload();
-
-            // Process any Downloads that have not been processed
-
+                //process response
+                if (response.IsSuccessStatusCode)
+                {
+                    ZipArchive archive = new ZipArchive(await response.Content.ReadAsStreamAsync());
+                    ZipArchiveEntry entryTransactionLog = archive.GetEntry("sevis_transaction_log.xml");
+                    var xmlFileStreamReader = new StreamReader(entryTransactionLog.Open());
+                    string transactionLogXml = await xmlFileStreamReader.ReadToEndAsync();
+                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToDownload.BatchId, transactionLogXml, GetFileProvider());
+                }
+                else
+                {
+                    logger.Error("Download encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                }
+                dtoToDownload = await service.GetNextBatchToDownloadAsync();
+            }
             logger.Debug("Removing processed batches");
             await service.DeleteProcessedBatchesAsync();
 
