@@ -42,14 +42,14 @@ namespace ECA.WebJobs.Sevis.Core
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
             this.RegisterType<IDummyCloudStorage, DummyCloudStorage>();
             //Register ECA Context
-            this.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
-            this.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
-            this.RegisterType<ISevisApiResponseHandler, ZipArchiveSevisApiResponseHandler>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
+            this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
+            this.RegisterType<ISevisApiResponseHandler, ZipArchiveSevisApiResponseHandler>(new InjectionFactory((c) =>
             {
                 return new ZipArchiveSevisApiResponseHandler(c.Resolve<ISevisBatchProcessingService>());
             }));
 
-            this.RegisterType<IExchangeVisitorService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
             {
                 var service = new ExchangeVisitorService(
                     context: c.Resolve<EcaContext>(),
@@ -58,7 +58,7 @@ namespace ECA.WebJobs.Sevis.Core
                 return service;
             }));
 
-            this.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            this.RegisterType<IExchangeVisitorValidationService>(new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
                 var service = new ExchangeVisitorValidationService(
@@ -71,7 +71,7 @@ namespace ECA.WebJobs.Sevis.Core
             }));
 
             //Register the SEVIS Batch Processing service
-            this.RegisterType<ISevisBatchProcessingService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
