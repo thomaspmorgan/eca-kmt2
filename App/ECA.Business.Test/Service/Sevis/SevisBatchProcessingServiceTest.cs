@@ -1382,7 +1382,7 @@ namespace ECA.Business.Test.Service.Sevis
         #region GetNextByBatchIdToDownload
 
         [TestMethod]
-        public async Task TestGetNextBatchByBatchIdToDownload_DoesNotHaveRetrieveDate()
+        public async Task TestGetNextBatchToDownload_DoesNotHaveRetrieveDate()
         {
             var model = new SevisBatchProcessing
             {
@@ -1399,19 +1399,19 @@ namespace ECA.Business.Test.Service.Sevis
             context.SevisBatchProcessings.Add(model);
             Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-            Action<string> tester = (s) =>
+            Action<SevisBatchProcessingDTO> tester = (s) =>
             {
                 Assert.IsNotNull(s);
-                Assert.AreEqual(model.BatchId, s);
+                Assert.AreEqual(model.BatchId, s.BatchId);
             };
-            var result = service.GetNextBatchByBatchIdToDownload();
+            var result = service.GetNextBatchToDownload();
             tester(result);
-            var asyncResult = await service.GetNextBatchByBatchIdToDownloadAsync();
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
             tester(asyncResult);
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchByBatchIdToDownload_HasGeneralUploadDownloadFailure()
+        public async Task TestGetNextBatchToDownload_HasGeneralUploadDownloadFailure()
         {
             var model = new SevisBatchProcessing
             {
@@ -1428,19 +1428,19 @@ namespace ECA.Business.Test.Service.Sevis
             context.SevisBatchProcessings.Add(model);
             Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-            Action<string> tester = (s) =>
+            Action<SevisBatchProcessingDTO> tester = (s) =>
             {
                 Assert.IsNotNull(s);
-                Assert.AreEqual(model.BatchId, s);
+                Assert.AreEqual(model.BatchId, s.BatchId);
             };
-            var result = service.GetNextBatchByBatchIdToDownload();
+            var result = service.GetNextBatchToDownload();
             tester(result);
-            var asyncResult = await service.GetNextBatchByBatchIdToDownloadAsync();
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
             tester(asyncResult);
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchByBatchIdToDownload_HasBatchNotYetProcessedDownloadCode()
+        public async Task TestGetNextBatchToDownload_HasBatchNotYetProcessedDownloadCode()
         {
             var model = new SevisBatchProcessing
             {
@@ -1457,27 +1457,27 @@ namespace ECA.Business.Test.Service.Sevis
             context.SevisBatchProcessings.Add(model);
             Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
 
-            Action<string> tester = (s) =>
+            Action<SevisBatchProcessingDTO> tester = (s) =>
             {
                 Assert.IsNotNull(s);
-                Assert.AreEqual(model.BatchId, s);
+                Assert.AreEqual(model.BatchId, s.BatchId);
             };
-            var result = service.GetNextBatchByBatchIdToDownload();
+            var result = service.GetNextBatchToDownload();
             tester(result);
-            var asyncResult = await service.GetNextBatchByBatchIdToDownloadAsync();
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
             tester(asyncResult);
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchByBatchIdToDownload_DoesNotHaveRecord()
+        public async Task TestGetNextBatchToDownload_DoesNotHaveRecord()
         {
             Action<SevisBatchProcessingDTO> tester = (dto) =>
             {
                 Assert.IsNull(dto);
             };
-            var result = service.GetNextBatchToUpload();
+            var result = service.GetNextBatchToDownload();
             tester(result);
-            var asyncResult = await service.GetNextBatchToUploadAsync();
+            var asyncResult = await service.GetNextBatchToDownloadAsync();
             tester(asyncResult);
         }
         #endregion

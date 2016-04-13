@@ -6,7 +6,6 @@ using System.Xml.Linq;
 using ECA.Core.Settings;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Http.Headers;
-using System.IO.Compression;
 using System.Text;
 
 namespace ECA.Business.Sevis
@@ -22,6 +21,10 @@ namespace ECA.Business.Sevis
 
         private static string boundary = "----ECAKMTBoundary" + DateTime.Now.Ticks.ToString("x");
 
+        /// <summary>
+        /// Constructor for the SEVIS Comm object, must be passed the application settings object to have the upload/download URLS and Cert thumbprint
+        /// </summary>
+        /// <param name="appSettings">The application settings object</param>
         public SevisComm(AppSettings appSettings)
         {
             DownloadUri = new Uri(appSettings.SevisDownloadUri);
@@ -29,6 +32,14 @@ namespace ECA.Business.Sevis
             Thumbprint = appSettings.SevisThumbprint;
         }
 
+        /// <summary>
+        /// This method uploads an XML file for a batch of users that need to be issued J-1 Visas by the SEVIS system
+        /// </summary>
+        /// <param name="xml">The xml file passed as an XElement</param>
+        /// <param name="batchId">The BatchID of the upload, to be used to download the results later</param>
+        /// <param name="OrgId">The Program ID in SEVIS</param>
+        /// <param name="UserId">The SEVIS user name performing the upload</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> UploadAsync(XElement xml, string batchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
@@ -68,31 +79,51 @@ namespace ECA.Business.Sevis
             }
         }
 
-        public async Task<SevisDownload> DownloadAsync(XElement xml, string batchId, string OrgId, string UserId)
+        /// <summary>
+        /// Downloads the results of a batch upload from SEVIS
+        /// </summary>
+        /// <param name="batchId">The BatchID to download</param>
+        /// <param name="OrgId">The Program ID</param>
+        /// <param name="UserId">The SEVIS User that is performing the download</param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DownloadAsync(string batchId, string OrgId, string UserId)
         {
             using (var httpClient = new HttpClient(GetWebRequestHandler()))
             {
-                var content = new StringContent(String.Format("batchid={0}&orgid={1}&userid={2}", batchId, OrgId, UserId));
-                var response = await httpClient.PostAsync(DownloadUri, content);
-                if (response.IsSuccessStatusCode)
+                httpClient.DefaultRequestHeaders.Accept.ParseAdd("*/*");
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("curl/7.46.0");
+                httpClient.DefaultRequestHeaders.Expect.ParseAdd("100-continue");
+                using (var content = new MultipartFormDataContent(boundary))
                 {
-                    var zipStream = await response.Content.ReadAsStreamAsync();
+                    content.Headers.Remove("Content-Type");
+                    content.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-                    ZipArchive archive = new ZipArchive(zipStream);
+                    var formValues = new[]
+                    {
+                        new KeyValuePair<string, string>("orgid", OrgId),
+                        new KeyValuePair<string, string>("userid",UserId),
+                        new KeyValuePair<string, string>("batchid", batchId),
+                    };
+                    foreach (var keyValuePair in formValues)
+                    {
+                        var newContent = new StringContent(keyValuePair.Value, Encoding.UTF8);
+                        newContent.Headers.Remove("Content-Type");
+                        content.Add(newContent, "\"" + keyValuePair.Key + "\"");
+                    }
+                    var response = await httpClient.PostAsync(DownloadUri, content);
 
-                    ZipArchiveEntry entry = archive.Entries[0];
-
-                    var sevisDownload = new SevisDownload();
-                    sevisDownload.TransactionLog = XElement.Parse("<root></root>");
-                    sevisDownload.Zipfile = null;
-                    return sevisDownload;
+                    return response;
                 }
-                else
-                    return null;
             }
  
         }
 
+        /// <summary>
+        /// Method to add the personal certificate to the request.  This certificate is tied to the Program that is uploading the data
+        /// The certificate has to have been previously uploaded via the Real Time interface
+        /// For Azure, this cert has to be added to the website.
+        /// </summary>
+        /// <returns>The WebRequestHandler with the certficate added.</returns>
         private WebRequestHandler GetWebRequestHandler()
         {
             var webRequestHandler = new WebRequestHandler();
