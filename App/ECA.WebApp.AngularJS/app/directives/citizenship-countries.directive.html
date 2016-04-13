@@ -4,13 +4,13 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseCitizenshipCountries">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseCitizenshipCountries">expand_more</i>
         </a>
-        <a ng-click="view.onAddCitizenshipCountryClick(model, model.dependentId)">
+        <a ng-click="view.onAddCitizenshipCountryClick(view.params.personId)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.dependent.countriesOfCitizenship.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.countriesOfCitizenship.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseCitizenshipCountries">
-        <div ng-repeat="country in model.countriesOfCitizenship">
+        <div ng-repeat="country in countries">
             <div ng-controller="CitizenshipCountryCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
                     <div class="bounce1"></div>
@@ -28,7 +28,7 @@
                             <a ng-show="view.isDeletingCitizenshipCountry">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-show="!view.showEditCitizenshipCountry && editMode" ng-click="view.onEditCitizenshipCountryClick()">
+                            <a ng-show="!view.showEditCitizenshipCountry && editMode" ng-click="view.onEditCountryClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>
@@ -37,7 +37,7 @@
                         Are you sure you want to delete this country?
                     </div>
                     <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
-                        <button ng-click="view.onDeleteCitizenshipCountryClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.onDeleteCountryClick()" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div in-context-form ng-show="view.showEditCitizenshipCountry">
@@ -64,8 +64,8 @@
                             </div>
                         </form>
                         <div class="row right" ng-show="view.showEditCitizenshipCountry">
-                            <button ng-click="view.saveCitizenshipCountryChanges()" class="btn btn-success" ng-disabled="form.countryForm.$invalid">Save</button>
-                            <button ng-click="view.cancelCitizenshipCountryChanges()" class="btn btn-cancel">Cancel</button>
+                            <button ng-click="view.saveCountryChanges()" class="btn btn-success" ng-disabled="form.countryForm.$invalid">Save</button>
+                            <button ng-click="view.cancelCountryChanges()" class="btn btn-cancel">Cancel</button>
                         </div>
                     </div>
                 </div>

@@ -22,17 +22,16 @@ angular.module('staticApp')
       $scope.view.params = $stateParams;
       $scope.view.collapseCitizenshipCountries = true;
       $scope.data = {};
+      $scope.countries = [];
       var tempCountryId = 0;
 
-      $scope.view.onAddCitizenshipCountryClick = function (entityCountries, entityId) {
-          console.assert(entityCountries, 'The entity countries is not defined.');
-          console.assert(entityCountries instanceof Array, 'The entity countries is defined but must be an array.');
+      $scope.view.onAddCitizenshipCountryClick = function (entityId) {
           var newCountry = {
               id: entityId,
               countryId: --tempCountryId,
               isNew: true
           };
-          entityCountries.splice(0, 0, newCountry);
+          $scope.countries.splice(0, 0, newCountry);
           $scope.view.collapseCitizenshipCountries = false;
       };
 

@@ -17,7 +17,7 @@ angular.module('staticApp')
         LookupService,
         LocationService,
         ConstantsService,
-        PersonService,
+        DependentService,
         NotificationService) {
 
       $scope.view = {};
@@ -34,7 +34,7 @@ angular.module('staticApp')
 
           if (isNewCountry($scope.country)) {
               var tempId = angular.copy($scope.country.id);
-              return CountryService.add($scope.country, modelId)
+              return DependentService.addCountry($scope.country, modelId)
                 .then(onSaveCountrySuccess)
                 .then(function () {
                     updateCountryFormDivId(tempId);
@@ -43,7 +43,7 @@ angular.module('staticApp')
                 .catch(onSaveCountryError);
           }
           else {
-              return CountryService.update($scope.country, modelId)
+              return DependentService.updateCountry($scope.country, modelId)
                   .then(onSaveCountrySuccess)
                   .catch(onSaveCountryError);
           }
@@ -72,7 +72,7 @@ angular.module('staticApp')
               $scope.view.isDeletingCountry = true;
               console.assert($scope.modelId, 'The entity model id must be defined.');
               var modelId = $scope.modelId;
-              return CountryService.delete($scope.country, modelId)
+              return DependentService.deleteCountry($scope.country, modelId)
               .then(function () {
                   NotificationService.showSuccessMessage("Successfully deleted country.");
                   $scope.view.isDeletingCountry = false;
@@ -108,7 +108,7 @@ angular.module('staticApp')
       }
 
       function getCountryFormDivIdPrefix() {
-          return 'emailAddressForm';
+          return 'countryForm';
       }
 
       function getCountryFormDivId() {

@@ -9,9 +9,10 @@
 angular.module('staticApp')
   .controller('AddDependentModalCtrl', function ($scope, $timeout, $modalInstance, $stateParams,
           PersonService, DependentService, LookupService, LocationService, ConstantsService,
-          NotificationService, FilterService, $q, DateTimeService) {
+          NotificationService, FilterService, $q, DateTimeService, person) {
 
       $scope.dependent = getNewDependent();
+      $scope.person = person;
       $scope.selectedCountriesOfCitizenship = [];
       $scope.countriesCitizenship = [];
       $scope.countriesResidence = [];
