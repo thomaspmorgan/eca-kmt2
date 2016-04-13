@@ -54,9 +54,9 @@ namespace ECA.Business.Queries.Models.Persons
         public string ParticipantType { get; set; }
 
         /// <summary>
-        /// Gets or sets the participant type id.
+        /// Gets or sets the participant type id
         /// </summary>
-        public int ParticipantTypeId { get; set; }
+        public int? ParticipantTypeId { get; set; }
 
         /// <summary>
         /// Gets or sets the participant status
