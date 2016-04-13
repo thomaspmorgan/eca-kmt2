@@ -110,6 +110,11 @@
             <button class="btn btn-primary" ng-disabled="getSelectedParticipants().length === 0 || selectedAction === undefined" ng-click="applyAction()">Apply</button>
             <input type="search" placeholder="Search Participants" class="form-control input-lg" ng-model="participantFilter" ng-model-options="{debounce: 500}" />
             <i class="material-icons md-18 contextual">search</i>
+            <span style="margin-left: 10px;">Grid View:</span>
+            <select class="form-control input-lg" ng-model="selectedGridView" ng-change="selectedGridViewChanged()">
+                <option>Default</option>
+                <option>Sevis</option>
+            </select>
         </div>
         <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-auto-resize style="margin-top: 20px; margin-left: 10px;"></div>
         <div class="col-md-12" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().personId">

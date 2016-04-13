@@ -72,6 +72,8 @@ angular.module('staticApp')
           "Select Action": undefined
       };
 
+      $scope.selectedGridView = 'Default';
+
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
@@ -678,6 +680,15 @@ angular.module('staticApp')
           getPage();
       }
 
+      $scope.selectedGridViewChanged = function () {
+          if ($scope.selectedGridView === 'Sevis') {
+              $scope.gridOptions.columnDefs = sevisColumnDefs;
+          } else {
+              $scope.gridOptions.columnDefs = defaultColumnDefs;
+          }
+          getPage();
+      }
+
       $scope.getSelectedParticipants = function () {
           return $scope.gridApi.selection.getSelectedRows();
       }
@@ -812,17 +823,30 @@ angular.module('staticApp')
           filter: null
       };
 
+      var defaultColumnDefs = [
+           { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
+           { name: 'participantType' },
+           { name: 'participantStatus' },
+           { name: 'sevisStatus' }
+      ];
+      var sevisColumnDefs = [
+           { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName}}</a>' },
+           { name: 'sevisStatus'},
+           { name: 'sevisId'},
+           { name: 'isCreatedViaBatch', displayName: 'Created via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCreatedViaBatch" ng-disabled="true">'},
+           { name: 'isSentToSevisViaRTI', displayName: 'Sent via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isSentToSevisViaRTI" ng-disabled="true">'},
+           { name: 'isValidatedViaBatch', displayName: 'Validated via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaBatch" ng-disabled="true">'},
+           { name: 'isValidatedViaRTI', displayName: 'Validated via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaRTI" ng-disabled="true">'},
+           { name: 'isCancelled', displayName: 'Cancelled', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCancelled" ng-disabled="true">'},
+           { name: 'isDS2019Printed', displayName: 'Printed', cellTemplate: '<input type="checkbox" ng-model="row.entity.isDS2019Printed" ng-disabled="true">'}
+      ];
+
       $scope.gridOptions = {
           paginationPageSizes: [25, 50, 75],
           paginationPageSize: 25,
           useExternalPagination: true,
           multiSelect: false,
-          columnDefs: [
-            { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
-            { name: 'participantType' },
-            { name: 'participantStatus' },
-            { name: 'sevisStatus' }
-          ],
+          columnDefs: defaultColumnDefs,
           onRegisterApi: function (gridApi) {
               $scope.gridApi = gridApi;
               $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
@@ -859,8 +883,14 @@ angular.module('staticApp')
               keyword: paginationOptions.keyword,
               filter: paginationOptions.filter
           };
-          ParticipantService.getParticipantsByProject(projectId, params)
-               .then(function (data) {
+          var promise;
+          if ($scope.selectedGridView === 'Sevis') {
+              promise = ParticipantPersonsSevisService.getSevisParticipantsByProjectId(projectId, params);
+          } else {
+              promise = ParticipantService.getParticipantsByProject(projectId, params);
+          }
+          promise.then(function (response) {
+                   var data = response.data || response;
                    $scope.gridOptions.totalItems = data.total;
                    $scope.view.totalParticipants = data.total;
                    angular.forEach(data.results, function (result, index) {
