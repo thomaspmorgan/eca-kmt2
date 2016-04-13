@@ -406,13 +406,16 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, record);
                     UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-                    var stream = await fileProvider.GetDS2019FileStreamAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
-                    if (stream != null && stream.Length > 0L)
+                    if (record.Result.ErrorCode == DispositionCode.SUCCESS_CODE) // record will only have an associated zip file if there are no errors
                     {
-                        using (stream)
+                        var stream = await fileProvider.GetDS2019FileStreamAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
+                        if (stream != null && stream.Length > 0L)
                         {
-                            var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, stream);
-                            participantPerson.DS2019FileUrl = url;
+                            using (stream)
+                            {
+                                var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, stream);
+                                participantPerson.DS2019FileUrl = url;
+                            }
                         }
                     }
                 }
