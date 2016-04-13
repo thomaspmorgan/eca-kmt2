@@ -159,6 +159,16 @@ angular.module('staticApp')
             });
       }
 
+      $scope.$watch('participantid', function () {
+          loadParticipantInfo(projectId, $scope.participantid)
+              .then(function (results) {
+                  $scope.view.isLoadingEditParticipantInfoRequiredData = false;
+              })
+              .catch(function () {
+                  $scope.view.isLoadingEditParticipantInfoRequiredData = false;
+              });
+      });
+
       function updateParentTableParticipantSevisStatus(participant) {          
           if ($scope.onparticipantupdated) {
               $scope.onparticipantupdated()(participant);

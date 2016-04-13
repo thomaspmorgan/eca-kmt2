@@ -73,6 +73,7 @@ angular.module('staticApp')
       };
 
       $scope.selectedGridView = 'Default';
+      $scope.test = true;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
