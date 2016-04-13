@@ -64,6 +64,16 @@ namespace ECA.Business.Queries.Models.Sevis
         public string DownloadDispositionCode { get; set; }
 
         /// <summary>
+        /// Gets or sets the upload tries counter.
+        /// </summary>
+        public int UploadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date after which an upload can be tried again.
+        /// </summary>
+        public DateTimeOffset? UploadCooldown { get; set; }
+
+        /// <summary>
         /// Returns the upload disposition code value as a Disposition Code.
         /// </summary>
         /// <returns>The update Dispoition code.</returns>

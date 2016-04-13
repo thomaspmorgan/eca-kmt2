@@ -119,6 +119,8 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(instance.GetBatchId(batchId), instance.SevisBatchProcessing.BatchId);
             Assert.AreEqual(sevisOrgId, instance.SevisBatchProcessing.SevisOrgId);
             Assert.AreEqual(sevisUsername, instance.SevisBatchProcessing.SevisUsername);
+            Assert.AreEqual(0, instance.SevisBatchProcessing.UploadTries);
+            Assert.IsNull(instance.SevisBatchProcessing.UploadCooldown);
 
             Assert.IsNotNull(instance.SEVISBatchCreateUpdateEV);
             Assert.AreEqual(sevisUsername, instance.SEVISBatchCreateUpdateEV.userID);

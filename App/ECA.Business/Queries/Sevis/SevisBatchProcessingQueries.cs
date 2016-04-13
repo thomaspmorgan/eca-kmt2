@@ -36,25 +36,9 @@ namespace ECA.Business.Queries.Sevis
                 TransactionLogString = x.TransactionLogString,
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
-                DownloadDispositionCode = x.DownloadDispositionCode
-            });
-        }
-
-        public static IQueryable<SevisBatchProcessingDTO>  CreateGetSevisBatchProcessingDTOForDownloadQuery(EcaContext context)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            return context.SevisBatchProcessings.Select(x => new SevisBatchProcessingDTO
-            {
-                Id = x.Id,
-                BatchId = x.BatchId,
-                SubmitDate = x.SubmitDate,
-                RetrieveDate = x.RetrieveDate,
-                SendString = x.SendString,
-                SevisOrgId = x.SevisOrgId,
-                SevisUsername = x.SevisUsername,
-                UploadDispositionCode = x.UploadDispositionCode,
-                ProcessDispositionCode = x.ProcessDispositionCode,
-                DownloadDispositionCode = x.DownloadDispositionCode
+                DownloadDispositionCode = x.DownloadDispositionCode,
+                UploadCooldown = x.UploadCooldown,
+                UploadTries = x.UploadTries
             });
         }
 
@@ -69,9 +53,10 @@ namespace ECA.Business.Queries.Sevis
             var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
             var batchNeverSubmittedFailureCode = DispositionCode.BatchNeverSubmitted.Code;
             var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
-                        where !dto.SubmitDate.HasValue 
+                        where (!dto.SubmitDate.HasValue 
                         || dto.UploadDispositionCode == generalUploadDownloadFailureCode
-                        || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode
+                        || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode)
+                        && (!dto.upload
                         orderby dto.Id
                         select dto;
             return query;
@@ -87,7 +72,7 @@ namespace ECA.Business.Queries.Sevis
             Contract.Requires(context != null, "The context must not be null.");
             var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
             var batchNotYetProcessedCode = DispositionCode.BatchNotYetProcessed.Code;
-            var query = from dto in CreateGetSevisBatchProcessingDTOForDownloadQuery(context)
+            var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
                         where !dto.RetrieveDate.HasValue
                         || dto.DownloadDispositionCode == generalUploadDownloadFailureCode
                         || dto.DownloadDispositionCode == batchNotYetProcessedCode

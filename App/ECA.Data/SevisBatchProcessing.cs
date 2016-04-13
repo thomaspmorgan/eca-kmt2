@@ -92,6 +92,15 @@ namespace ECA.Data
         /// </summary>
         [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
         public string DownloadDispositionCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the upload tries counter.
+        /// </summary>
+        public int UploadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date after which an upload can be tried again.
+        /// </summary>
+        public DateTimeOffset? UploadCooldown { get; set; }
     }
-    
 }

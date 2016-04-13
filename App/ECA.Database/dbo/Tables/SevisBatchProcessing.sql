@@ -10,7 +10,9 @@
     [TransactionLogXml] XML NULL, 
     [UploadDispositionCode] NCHAR(5) NULL, 
     [ProcessDispositionCode] NCHAR(5) NULL, 
-    [DownloadDispositionCode] NCHAR(5) NULL, 
+    [DownloadDispositionCode] NCHAR(5) NULL,
+	[UploadTries] INT NULL, 
+	[UploadCooldown] DATETIMEOFFSET NULL,
     CONSTRAINT [CK_SevisBatchProcessing_BatchId] UNIQUE (BatchId)
 )
 

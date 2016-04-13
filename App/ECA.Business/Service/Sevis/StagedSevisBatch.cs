@@ -103,7 +103,9 @@ namespace ECA.Business.Service.Sevis
             {
                 BatchId = this.BatchId,
                 SevisOrgId = this.SevisOrgId,
-                SevisUsername = this.SevisUsername
+                SevisUsername = this.SevisUsername,
+                UploadTries = 0,
+                UploadCooldown = null
             };
             this.SEVISBatchCreateUpdateEV = new SEVISBatchCreateUpdateEV();
             this.SEVISBatchCreateUpdateEV.userID = sevisUsername;
