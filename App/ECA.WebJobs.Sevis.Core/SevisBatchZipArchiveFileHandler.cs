@@ -21,9 +21,16 @@ namespace ECA.WebJobs.Sevis.Core
         public const string TRANSACTION_LOG_FILE_NAME = "sevis_transaction_log.xml";
 
         public SevisBatchZipArchiveHandler(Stream zipArchiveAsStream, string transactionLogFileName = TRANSACTION_LOG_FILE_NAME)
-            : this(new ZipArchive(zipArchiveAsStream), transactionLogFileName)
+            : this(() => new ZipArchive(zipArchiveAsStream), transactionLogFileName)
         {
             Contract.Requires(zipArchiveAsStream != null, "The zip archive as a stream must not be null.");
+            Contract.Requires(transactionLogFileName != null, "The transaction log file name must not be null.");
+        }
+
+        public SevisBatchZipArchiveHandler(Func<ZipArchive> zipArchiveDelegate, string transactionLogFileName = TRANSACTION_LOG_FILE_NAME)
+            : this(zipArchiveDelegate(), transactionLogFileName)
+        {
+            Contract.Requires(zipArchiveDelegate != null, "The zip archive delegate must not be null.");
             Contract.Requires(transactionLogFileName != null, "The transaction log file name must not be null.");
         }
 

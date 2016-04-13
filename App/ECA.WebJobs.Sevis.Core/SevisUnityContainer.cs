@@ -40,34 +40,38 @@ namespace ECA.WebJobs.Sevis.Core
 
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
-            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>(); 
+            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>();
             //Register ECA Context
-            this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
-            this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
+            this.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
+            this.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
+            this.RegisterType<ISevisApiResponseHandler, ZipArchiveSevisApiResponseHandler>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new ZipArchiveSevisApiResponseHandler(c.Resolve<ISevisBatchProcessingService>());
+            }));
 
-            this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
+            this.RegisterType<IExchangeVisitorService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
                 var service = new ExchangeVisitorService(
-                    context: c.Resolve<EcaContext>(), 
-                    appSettings: c.Resolve<AppSettings>(), 
+                    context: c.Resolve<EcaContext>(),
+                    appSettings: c.Resolve<AppSettings>(),
                     saveActions: null);
                 return service;
             }));
 
-            this.RegisterType<IExchangeVisitorValidationService>(new InjectionFactory((c) =>
+            this.RegisterType<IExchangeVisitorValidationService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
                 var service = new ExchangeVisitorValidationService(
                     context: c.Resolve<EcaContext>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
-                    exchangeVisitorValidator: null, 
+                    exchangeVisitorValidator: null,
                     saveActions: null
                     );
                 return service;
             }));
-            
+
             //Register the SEVIS Batch Processing service
-            this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
+            this.RegisterType<ISevisBatchProcessingService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
                 var context = c.Resolve<EcaContext>();
                 var service = new SevisBatchProcessingService(
@@ -96,7 +100,7 @@ namespace ECA.WebJobs.Sevis.Core
             LogMessage(String.Format("Using the connection string [{0}] to retrieve entities for documentation.", connectionString));
             return connectionString;
         }
-        
+
         /// <summary>
         /// Writes the given message to the console.
         /// </summary>

@@ -26,6 +26,7 @@ namespace ECA.WebJobs.Sevis.Comm
         // This function will be triggered based on the schedule you have set for this WebJob
 
         private ISevisBatchProcessingService service;
+        private ISevisApiResponseHandler responseHandler;
         private AppSettings appSettings;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -34,8 +35,12 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The sevis batch processing service.</param>
         /// <param name="appSettings">The app settings.</param>
-        public Functions(ISevisBatchProcessingService service, AppSettings appSettings)
+        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, AppSettings appSettings)
         {
+            Contract.Requires(service != null, "The service must not be null.");
+            Contract.Requires(responseHandler != null, "The response handler must not be null.");
+            Contract.Requires(appSettings != null, "The app settings must not be null.");
+            this.responseHandler = responseHandler;
             this.service = service;
             this.appSettings = appSettings;
         }
@@ -87,7 +92,7 @@ namespace ECA.WebJobs.Sevis.Comm
                 if (response.IsSuccessStatusCode)
                 {
                     var stream = await response.Content.ReadAsStreamAsync();
-                    await ProcessResponseStreamAsync(dtoToUpload, stream);
+                    await responseHandler.HandleUploadResponseStreamAsync(GetSystemUser(), dtoToUpload, stream);
                     logger.Info("Processed Upload Response");
                 }
                 else
@@ -109,7 +114,7 @@ namespace ECA.WebJobs.Sevis.Comm
                 if (response.IsSuccessStatusCode)
                 {
                     var stream = await response.Content.ReadAsStreamAsync();
-                    await ProcessResponseStreamAsync(dtoToDownload, stream);
+                    await responseHandler.HandleDownloadResponseStreamAsync(GetSystemUser(), dtoToDownload, stream);
                     logger.Info("Processed Download Response");
                 }
                 else
@@ -123,6 +128,9 @@ namespace ECA.WebJobs.Sevis.Comm
 
             logger.Info("Finished Batch Processing.");
         }
+
+
+
         /// <summary>
         /// Returns the system user.
         /// </summary>
@@ -132,14 +140,6 @@ namespace ECA.WebJobs.Sevis.Comm
             return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
 
-        public async Task ProcessResponseStreamAsync(SevisBatchProcessingDTO dto, Stream stream)
-        {
-            using (var sevisBatchFileHandler = new SevisBatchZipArchiveHandler(stream))
-            {
-                var transactionLogXml = await sevisBatchFileHandler.GetTransactionLogXmlAsync();
-                await service.ProcessTransactionLogAsync(GetSystemUser(), dto.BatchId, transactionLogXml, sevisBatchFileHandler);
-            }
-        }
 
         #region IDispose
 
@@ -165,6 +165,12 @@ namespace ECA.WebJobs.Sevis.Comm
                     logger.Trace("Disposing of service " + this.service.GetType());
                     ((IDisposable)this.service).Dispose();
                     this.service = null;
+                }
+                if (this.responseHandler is IDisposable)
+                {
+                    logger.Trace("Disposing of response handler " + this.responseHandler.GetType());
+                    ((IDisposable)this.responseHandler).Dispose();
+                    this.responseHandler = null;
                 }
             }
         }
