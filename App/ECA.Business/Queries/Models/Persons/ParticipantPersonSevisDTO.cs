@@ -79,6 +79,16 @@ namespace ECA.Business.Queries.Models.Persons
         public bool IsValidatedViaRTI { get; set; }
 
         /// <summary>
+        /// Gets or sets the flag
+        /// </summary>
+        public bool IsCreatedViaBatch { get; set; }
+
+        /// <summary>
+        /// Gets or sets the flag
+        /// </summary>
+        public bool IsValidatedViaBatch { get; set; }
+
+        /// <summary>
         /// has the participant been cancelled
         /// </summary>
         public bool IsCancelled { get; set; }

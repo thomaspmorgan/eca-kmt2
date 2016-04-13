@@ -45,6 +45,8 @@ namespace ECA.Business.Queries.Persons
                         let latestBatchStatus = commStatuses.Where(x => x.BatchId != null).FirstOrDefault()
                         let latestStatus = commStatuses.FirstOrDefault()
                         let latestStatusCommStatus = latestStatus != null ? latestStatus.SevisCommStatus : null
+                        let createdByBatch = commStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.CreatedByBatch.Id).FirstOrDefault()
+                        let validatedByBatch = commStatuses.Where(x => x.SevisCommStatusId == SevisCommStatus.ValidatedByBatch.Id).FirstOrDefault()
 
                         let person = participant.Person
 
@@ -73,6 +75,8 @@ namespace ECA.Business.Queries.Persons
                             SevisBatchResult = p.SevisBatchResult,
                             SevisStatus = latestStatusCommStatus != null ? latestStatusCommStatus.SevisCommStatusName : NONE_SEVIS_COMM_STATUS_NAME,
                             SevisStatusId = latestStatusCommStatus != null ? latestStatusCommStatus.SevisCommStatusId : NONE_SEVIS_COMM_STATUS_ID,
+                            IsCreatedViaBatch = createdByBatch != null ? true : false,
+                            IsValidatedViaBatch = validatedByBatch != null ? true : false
                         };
             return query;
         }
