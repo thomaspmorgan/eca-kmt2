@@ -4,13 +4,13 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseCitizenshipCountries">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseCitizenshipCountries">expand_more</i>
         </a>
-        <a ng-click="view.onAddCitizenshipCountryClick(model.countriesCitizenship, dependentId)" ng-show="editMode">
+        <a ng-click="view.onAddCitizenshipCountryClick(model, model.dependentId)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.countriesCitizenship.length > 0 ? model.countriesCitizenship.length : 0}})</div>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.dependent.countriesOfCitizenship.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseCitizenshipCountries">
-        <div ng-repeat="country in model.countriesCitizenship">
+        <div ng-repeat="country in model.countriesOfCitizenship">
             <div ng-controller="CitizenshipCountryCtrl" class="expandIndent">
                 <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
                     <div class="bounce1"></div>
