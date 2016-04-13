@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
-namespace ECA.Business.Test.Validation.Shared
+namespace ECA.Business.Test.Validation.Sevis
 {
     [TestClass]
     public class SubjectFieldValidatorTest

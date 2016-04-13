@@ -9,22 +9,6 @@ namespace ECA.Business.Sevis.Model
     /// </summary>
     public class DispositionCode
     {
-        private DispositionCode(string code, string description)
-        {
-            this.Code = code;
-            this.Description = description;
-        }
-
-        /// <summary>
-        /// Gets the code value.
-        /// </summary>
-        public string Code { get; private set; }
-
-        /// <summary>
-        /// Gets the error code description.
-        /// </summary>
-        public string Description { get; private set; }
-
         /// <summary>
         /// The sevis api success code.
         /// </summary>
@@ -80,6 +64,40 @@ namespace ECA.Business.Sevis.Model
         /// </summary>
         public const string DOWNLOAD_INVALID_BATCH_JOB_NOT_YET_SUBMITTED = "S0031";
 
+        private DispositionCode(string code, string description, bool isUploadCode, bool isDownloadCode, bool isProcessCode)
+        {
+            this.Code = code;
+            this.Description = description;
+            this.IsUploadCode = isUploadCode;
+            this.IsDownloadCode = isDownloadCode;
+            this.IsProcessCode = isProcessCode;
+        }
+
+        /// <summary>
+        /// Gets the code value.
+        /// </summary>
+        public string Code { get; private set; }
+
+        /// <summary>
+        /// Gets the error code description.
+        /// </summary>
+        public string Description { get; private set; }
+
+        /// <summary>
+        /// Gets whether this code is an upload disposition code.
+        /// </summary>
+        public bool IsUploadCode { get; private set; }
+
+        /// <summary>
+        /// Gets whether this code is a download diposition code.
+        /// </summary>
+        public bool IsDownloadCode { get; private set; }
+
+        /// <summary>
+        /// Gets whether or not this code is a process disposition code.
+        /// </summary>
+        public bool IsProcessCode { get; private set; }
+
         /// <summary>
         /// Gets the success disposition code.  Used when the sevis batch was processed successfully.  Used
         /// for upload, download, and processing statuses.
@@ -88,7 +106,11 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(SUCCESS_CODE, "Success");
+                return new DispositionCode(code: SUCCESS_CODE,
+                    description: "Success",
+                    isDownloadCode: true,
+                    isProcessCode: true,
+                    isUploadCode: true);
             }
         }
 
@@ -99,7 +121,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(GENERAL_UPLOAD_DOWNLOAD_FAILURE_CODE, "General upload/download failure");
+                return new DispositionCode(
+                    code: GENERAL_UPLOAD_DOWNLOAD_FAILURE_CODE,
+                    description: "General upload/download failure",
+                    isDownloadCode: true,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -110,7 +137,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(INVALID_ORGANIZATION_INFO_CODE, "Invalid organization information");
+                return new DispositionCode(
+                    code: INVALID_ORGANIZATION_INFO_CODE,
+                    description: "Invalid organization information",
+                    isDownloadCode: true,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -121,7 +153,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(INVALID_USER_ID_CODE, "Invalid User Id");
+                return new DispositionCode(
+                    code: INVALID_USER_ID_CODE,
+                    description: "Invalid User Id",
+                    isDownloadCode: true,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -132,7 +169,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(DUPLICATE_BATCH_ID_CODE, "Duplicate Batch ID");
+                return new DispositionCode(
+                    code: DUPLICATE_BATCH_ID_CODE,
+                    description: "Duplicate Batch ID",
+                    isDownloadCode: false,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -143,7 +185,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(DOCUMENT_NAME_INVALID_CODE, "Duplicate name invalid");
+                return new DispositionCode(
+                    code: DOCUMENT_NAME_INVALID_CODE,
+                    description: "Duplicate name invalid",
+                    isDownloadCode: false,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -154,7 +201,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(XML_NOT_WELL_FORMED_ERROR_CODE, "XML is not well-formed or does not agree with SEVIS-specific POSTing requirements.");
+                return new DispositionCode(
+                    code: XML_NOT_WELL_FORMED_ERROR_CODE,
+                    description: "XML is not well-formed or does not agree with SEVIS-specific POSTing requirements.",
+                    isDownloadCode: false,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -165,7 +217,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(XML_DOES_NOT_COMPLY_WITH_SEVIS_SCHEMA_ERROR_CODE, "XML does not comply with SEVIS schema.");
+                return new DispositionCode(
+                    code: XML_DOES_NOT_COMPLY_WITH_SEVIS_SCHEMA_ERROR_CODE,
+                    description: "XML does not comply with SEVIS schema.",
+                    isDownloadCode: false,
+                    isProcessCode: false,
+                    isUploadCode: true);
             }
         }
 
@@ -176,7 +233,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(BUSINESS_RULE_VIOLATIONS_ERROR_CODE, "One or more records failed processing due to business rule violations.");
+                return new DispositionCode(
+                    code: BUSINESS_RULE_VIOLATIONS_ERROR_CODE,
+                    description: "One or more records failed processing due to business rule violations.",
+                    isDownloadCode: false,
+                    isProcessCode: true,
+                    isUploadCode: false);
             }
         }
 
@@ -187,7 +249,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(DOWNLOAD_UNAVAILABLE_BATCH_JOB_NOT_YET_PROCESSED, "Download unavailable – batch job not yet processed.");
+                return new DispositionCode(
+                    code: DOWNLOAD_UNAVAILABLE_BATCH_JOB_NOT_YET_PROCESSED,
+                    description: "Download unavailable – batch job not yet processed.",
+                    isDownloadCode: true,
+                    isProcessCode: false,
+                    isUploadCode: false);
             }
         }
 
@@ -198,7 +265,12 @@ namespace ECA.Business.Sevis.Model
         {
             get
             {
-                return new DispositionCode(DOWNLOAD_INVALID_BATCH_JOB_NOT_YET_SUBMITTED, "Download invalid – batch job never submitted.");
+                return new DispositionCode(
+                    code: DOWNLOAD_INVALID_BATCH_JOB_NOT_YET_SUBMITTED,
+                    description: "Download invalid – batch job never submitted.",
+                    isDownloadCode: true,
+                    isProcessCode: false,
+                    isUploadCode: false);
             }
         }
 
