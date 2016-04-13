@@ -14,6 +14,7 @@ using NLog;
 using System.Xml.Serialization;
 using System.IO.Compression;
 using System.IO;
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -66,8 +67,8 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
-    
-        
+
+
             logger.Info("Starting SEVIS Batch Processing");
 
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
@@ -85,13 +86,9 @@ namespace ECA.WebJobs.Sevis.Comm
                 //process response message
                 if (response.IsSuccessStatusCode)
                 {
-                    string xmlString = await response.Content.ReadAsStringAsync();
-                    var zipArchive = new ZipArchive(null);
-                    using (var fileProvider = new ZipArchiveDS2019FileProvider(zipArchive))
-                    {   
-                        await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, fileProvider);
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await ProcessResponseStreamAsync(dtoToUpload, stream);
                     logger.Info("Processed Upload Response");
-                }
                 }
                 else
                 {
@@ -111,11 +108,9 @@ namespace ECA.WebJobs.Sevis.Comm
                 //process response
                 if (response.IsSuccessStatusCode)
                 {
-                    ZipArchive archive = new ZipArchive(await response.Content.ReadAsStreamAsync());
-                    ZipArchiveEntry entryTransactionLog = archive.GetEntry("sevis_transaction_log.xml");
-                    var xmlFileStreamReader = new StreamReader(entryTransactionLog.Open());
-                    string transactionLogXml = await xmlFileStreamReader.ReadToEndAsync();
-                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToDownload.BatchId, transactionLogXml, GetFileProvider());
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await ProcessResponseStreamAsync(dtoToDownload, stream);
+                    logger.Info("Processed Download Response");
                 }
                 else
                 {
@@ -127,7 +122,6 @@ namespace ECA.WebJobs.Sevis.Comm
             await service.DeleteProcessedBatchesAsync();
 
             logger.Info("Finished Batch Processing.");
-
         }
         /// <summary>
         /// Returns the system user.
@@ -137,6 +131,16 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
+
+        public async Task ProcessResponseStreamAsync(SevisBatchProcessingDTO dto, Stream stream)
+        {
+            using (var sevisBatchFileHandler = new SevisBatchZipArchiveHandler(stream))
+            {
+                var transactionLogXml = await sevisBatchFileHandler.GetTransactionLogXmlAsync();
+                await service.ProcessTransactionLogAsync(GetSystemUser(), dto.BatchId, transactionLogXml, sevisBatchFileHandler);
+            }
+        }
+
         #region IDispose
 
         /// <summary>

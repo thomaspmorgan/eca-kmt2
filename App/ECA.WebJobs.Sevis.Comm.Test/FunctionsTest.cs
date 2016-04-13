@@ -40,7 +40,7 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
-        private ZipArchiveDS2019FileProvider fileProvider;
+        private SevisBatchZipArchiveHandler fileProvider;
 
         [TestInitialize]
         public void TestInit()

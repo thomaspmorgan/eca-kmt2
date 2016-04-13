@@ -44,6 +44,8 @@
     <Reference Include="System.IO.Compression.4.0.0.0.Fakes">
       <HintPath>FakesAssemblies\System.IO.Compression.4.0.0.0.Fakes.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -58,10 +60,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ZipArchiveDS2019FileProviderTest.cs" />
+    <Compile Include="SevisBatchZipArchiveHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.WebJobs.Sevis.Core\ECA.WebJobs.Sevis.Core.csproj">
       <Project>{2988e91b-813b-4d9d-a623-488c35e4e5a1}</Project>
       <Name>ECA.WebJobs.Sevis.Core</Name>
