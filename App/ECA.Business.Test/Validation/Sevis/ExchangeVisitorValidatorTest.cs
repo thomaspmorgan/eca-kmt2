@@ -1320,6 +1320,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Business.Validation.Sevis.Bio.Person person = null;
 
             var isTravelingWithParticipant = true;
+            var isDeletedDependent = false;
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1373,7 +1374,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm: true,
                     personId: 10,
                     participantId: 20,
-                    isTravelingWithParticipant: isTravelingWithParticipant);
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeletedDependent);
             };
 
             var instance = createEntity();
@@ -1439,6 +1441,7 @@ namespace ECA.Business.Test.Validation.Sevis
             Business.Validation.Sevis.Bio.Person person = null;
 
             var isTravelingWithParticipant = true;
+            var isDeletedDependent = false;
             Func<ExchangeVisitor> createEntity = () =>
             {
                 person = new Business.Validation.Sevis.Bio.Person(
@@ -1492,7 +1495,8 @@ namespace ECA.Business.Test.Validation.Sevis
                     printForm: true,
                     personId: 10,
                     participantId: 20,
-                    isTravelingWithParticipant: isTravelingWithParticipant);
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeletedDependent);
             };
 
             var instance = createEntity();

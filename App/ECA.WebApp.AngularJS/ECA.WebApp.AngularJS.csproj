@@ -182,6 +182,9 @@
     <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />
+    <Content Include="app\directives\citizenship-countries.controller.js" />
+    <Content Include="app\directives\citizenship-countries.directive.js" />
+    <Content Include="app\directives\citizenship-country.controller.js" />
     <Content Include="app\directives\dependents.controller.js" />
     <Content Include="app\directives\dependents.directive.js" />
     <Content Include="app\directives\participant-person-info.directive.html" />
@@ -439,6 +442,7 @@
     <Content Include="app\projects\project-participant-info.controller.js" />
     <Content Include="app\directives\participantLocations.json" />
     <Content Include="app\directives\dependents.directive.html" />
+    <Content Include="app\directives\citizenship-countries.directive.html" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />

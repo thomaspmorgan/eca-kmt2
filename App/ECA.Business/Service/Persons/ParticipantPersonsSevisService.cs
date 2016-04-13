@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
+using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using NLog;
@@ -10,6 +12,8 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 
 namespace ECA.Business.Service.Persons
 {
@@ -51,6 +55,18 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get
+        /// <summary>
+        /// Returns list of sevis participants
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>List of sevis participants</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetSevisParticipantsByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
+        {
+            var sevisParticipants = ParticipantPersonsSevisQueries.CreateGetSevisParticipantsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved sevis participants by project id {0} and query operator {1}.", projectId, queryOperator);
+            return sevisParticipants;
+        }
 
         /// <summary>
         /// Returns a participantPersonSevis
@@ -78,6 +94,29 @@ namespace ECA.Business.Service.Persons
             return participantPersonSevis;
         }
 
+        /// <summary>
+        /// Returns the paged, filtered, sorted sevis comm statuses for the participant.
+        /// </summary>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
+        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetSevisCommStatusesByParticipantId(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            return ParticipantPersonsSevisQueries.CreateGetParticipantPersonSevisCommStatusesByParticipantIdQuery(this.Context, projectId, participantId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+        }
+
+        /// <summary>
+        /// Returns the paged, filtered, sorted sevis comm statuses for the participant.
+        /// </summary>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetSevisCommStatusesByParticipantIdAsync(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            return ParticipantPersonsSevisQueries.CreateGetParticipantPersonSevisCommStatusesByParticipantIdQuery(this.Context, projectId, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
         #endregion
 
         #region Send To Sevis

@@ -23,6 +23,11 @@ namespace ECA.Business.Queries.Models.Persons
         public int ParticipantId { get; set; }
 
         /// <summary>
+        /// Gets or sets the project id the participant belongs to.
+        /// </summary>
+        public int ProjectId { get; set; }
+
+        /// <summary>
         /// Gets or sets the SevisCommStatus id.
         /// </summary>
         public int SevisCommStatusId { get; set; }

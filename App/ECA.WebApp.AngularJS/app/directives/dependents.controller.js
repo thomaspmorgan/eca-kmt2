@@ -25,6 +25,7 @@ angular.module('staticApp')
       $scope.view.params = $stateParams;
       $scope.view.collapseDependents = false;
       $scope.selectedCountriesOfCitizenship = [];
+      $scope.view.edit = true;
       var tempId = 0;
 
       $scope.data = {};

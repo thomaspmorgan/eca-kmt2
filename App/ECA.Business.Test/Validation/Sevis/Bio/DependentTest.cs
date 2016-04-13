@@ -44,27 +44,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsTrue(instance.IsSpousalDependent());
             Assert.IsFalse(instance.IsChildDependent());
@@ -102,27 +103,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item02.ToString();
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsSpousalDependent());
             Assert.IsTrue(instance.IsChildDependent());
@@ -160,27 +162,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             string relationship = null;
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsSpousalDependent());
         }
@@ -217,27 +220,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             string relationship = String.Empty;
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsSpousalDependent());
         }
@@ -274,27 +278,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             string relationship = " ";
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsSpousalDependent());
         }
@@ -331,27 +336,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item02.ToString();
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsSpousalDependent());
             Assert.IsTrue(instance.IsChildDependent());
@@ -389,27 +395,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsTrue(instance.IsSpousalDependent());
             Assert.IsFalse(instance.IsChildDependent());
@@ -447,27 +454,28 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             string relationship = null;
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
-                fullName: fullName,
-                birthCity: birthCity,
-                birthCountryCode: birthCountryCode,
-                birthCountryReasonCode: birthCountryReasonCode,
-                birthDate: birthDate,
-                citizenshipCountryCode: citizenshipCountryCode,
-                emailAddress: email,
-                gender: gender,
-                permanentResidenceCountryCode: permanentResidenceCountryCode,
-                phoneNumber: phone,
-                relationship: relationship,
-                mailAddress: mailAddress,
-                usAddress: usAddress,
-                printForm: printForm,
-                participantId: participantId,
-                personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                    fullName: fullName,
+                    birthCity: birthCity,
+                    birthCountryCode: birthCountryCode,
+                    birthCountryReasonCode: birthCountryReasonCode,
+                    birthDate: birthDate,
+                    citizenshipCountryCode: citizenshipCountryCode,
+                    emailAddress: email,
+                    gender: gender,
+                    permanentResidenceCountryCode: permanentResidenceCountryCode,
+                    phoneNumber: phone,
+                    relationship: relationship,
+                    mailAddress: mailAddress,
+                    usAddress: usAddress,
+                    printForm: printForm,
+                    participantId: participantId,
+                    personId: personId,
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsChildDependent());
         }
@@ -504,7 +512,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             string relationship = String.Empty;
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
@@ -524,7 +532,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 printForm: printForm,
                 participantId: participantId,
                 personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsChildDependent());
         }
@@ -561,7 +570,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             string relationship = " ";
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
@@ -581,14 +590,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 printForm: printForm,
                 participantId: participantId,
                 personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.IsFalse(instance.IsChildDependent());
         }
-
-
-
-
 
         [TestMethod]
         public void TestGetAge_BornToday()
@@ -622,7 +628,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             var birthCountryReasonCode = USBornReasonType.Item01.ToString();
             var relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
-
+            var isDeleted = true;
 
             var birthDate = DateTime.UtcNow;
             var instance = new AddedDependent(
@@ -642,7 +648,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 printForm: printForm,
                 participantId: participantId,
                 personId: personId,
-                isTravelingWithParticipant: isTravelingWithParticipant
+                isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                 );
             Assert.AreEqual(0, instance.GetAge());
         }
@@ -686,8 +693,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
+                var isDeleted = true;
 
-                
                 var instance = new AddedDependent(
                     fullName: fullName,
                     birthCity: birthCity,
@@ -705,11 +712,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(1, instance.GetAge());
             }
-            
+
         }
 
         [TestMethod]
@@ -751,7 +759,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
-                
+                var isDeleted = true;
+
                 var instance = new AddedDependent(
                     fullName: fullName,
                     birthCity: birthCity,
@@ -769,11 +778,12 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(0, instance.GetAge());
             }
-            
+
         }
 
         [TestMethod]
@@ -815,6 +825,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
+                var isDeleted = true;
 
                 var instance = new AddedDependent(
                     fullName: fullName,
@@ -833,7 +844,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(1, instance.GetAge());
             }
@@ -878,6 +890,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
+                var isDeleted = true;
 
                 var instance = new AddedDependent(
                     fullName: fullName,
@@ -896,7 +909,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(0, instance.GetAge());
             }
@@ -941,6 +955,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
+                var isDeleted = true;
 
                 var instance = new AddedDependent(
                     fullName: fullName,
@@ -959,7 +974,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(0, instance.GetAge());
             }
@@ -1004,6 +1020,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
+                var isDeleted = true;
 
                 var instance = new AddedDependent(
                     fullName: fullName,
@@ -1022,7 +1039,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(1, instance.GetAge());
             }
@@ -1065,7 +1083,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
-
+                var isDeleted = true;
 
                 var instance = new AddedDependent(
                     fullName: fullName,
@@ -1084,7 +1102,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(-1, instance.GetAge());
             }
@@ -1127,7 +1146,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 var birthCountryReasonCode = USBornReasonType.Item01.ToString();
                 var relationship = DependentCodeType.Item01.ToString();
                 var isTravelingWithParticipant = true;
-
+                var isDeleted = true;
 
                 var instance = new AddedDependent(
                     fullName: fullName,
@@ -1146,7 +1165,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: printForm,
                     participantId: participantId,
                     personId: personId,
-                    isTravelingWithParticipant: isTravelingWithParticipant
+                    isTravelingWithParticipant: isTravelingWithParticipant,
+                    isDeleted: isDeleted
                     );
                 Assert.AreEqual(!instance.IgnoreDependentValidation(), instance.ShouldValidate());
             }

@@ -1,4 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 using ECA.Core.Service;
 using System.Threading.Tasks;
 
@@ -9,6 +11,15 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public interface IParticipantPersonsSevisService : ISaveable
     {
+
+        /// <summary>
+        /// Returns list of sevis participants
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>List of sevis participants</returns>
+        Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetSevisParticipantsByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator);
+
         /// <summary>
         /// Returns the participantPersonSevis by id
         /// </summary>
@@ -51,5 +62,23 @@ namespace ECA.Business.Service.Persons
         /// <param name="participants">The participants that will be sent to sevis.</param>
         /// <returns>List of participant ids that were updated</returns>
         Task<int[]> SendToSevisAsync(ParticipantsToBeSentToSevis participants);
+
+        /// <summary>
+        /// Returns the paged, filtered, sorted sevis comm statuses for the participant.
+        /// </summary>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
+        PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetSevisCommStatusesByParticipantId(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the paged, filtered, sorted sevis comm statuses for the participant.
+        /// </summary>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
+        Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetSevisCommStatusesByParticipantIdAsync(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator);
     }
 }

@@ -121,6 +121,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = "relations";
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -140,7 +141,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var validator = new DependentValidator();
@@ -183,6 +185,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -202,7 +205,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -258,6 +262,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -277,7 +282,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -327,6 +333,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -346,7 +353,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -396,6 +404,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -415,7 +424,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -477,6 +487,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item02.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -496,7 +507,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -541,6 +553,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item02.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -560,7 +573,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -617,6 +631,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item02.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -636,7 +651,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -693,6 +709,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -712,7 +729,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -765,6 +783,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -784,7 +803,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();
@@ -838,6 +858,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             string phoneNumber = "18505551212";
             string relationship = DependentCodeType.Item01.ToString();
             var isTravelingWithParticipant = true;
+            var isDeleted = false;
             Func<AddedDependent> createEntity = () =>
             {
                 return new AddedDependent(
@@ -857,7 +878,8 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                     printForm: true,
                     isTravelingWithParticipant: isTravelingWithParticipant,
                     personId: 10,
-                    participantId: 20);
+                    participantId: 20,
+                    isDeleted: isDeleted);
             };
 
             var instance = createEntity();

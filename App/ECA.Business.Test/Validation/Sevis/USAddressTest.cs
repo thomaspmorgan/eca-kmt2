@@ -93,5 +93,54 @@ namespace ECA.Business.Test.Validation.Sevis
             Assert.IsFalse(instance.ExplanationCodeSpecified);
             Assert.IsNull(instance.ExplanationCode);
         }
+
+        [TestMethod]
+        public void TestGetUSAddressDoctorType_HasState()
+        {
+            var address1 = "1";
+            var address2 = "2";
+            var city = "city";
+            var state = "FL";
+            var postalCode = "12345";
+            var explanationCode = USAddrDoctorTypeExplanationCode.OM;
+            var explanation = "explanation";
+            var address = new USAddress(
+                address1: address1,
+                address2: address2,
+                city: city,
+                state: state,
+                postalCode: postalCode,
+                explanationCode: explanationCode.ToString(),
+                explanation: explanation
+                );
+
+            var instance = address.GetUSAddressDoctorType();
+            Assert.AreEqual(state.GetStateCodeType(), instance.State);
+            Assert.IsTrue(instance.StateSpecified);
+        }
+
+        [TestMethod]
+        public void TestGetUSAddressDoctorType_DoesNotHaveState()
+        {
+            var address1 = "1";
+            var address2 = "2";
+            var city = "city";
+            string state = null;
+            var postalCode = "12345";
+            var explanationCode = USAddrDoctorTypeExplanationCode.OM;
+            var explanation = "explanation";
+            var address = new USAddress(
+                address1: address1,
+                address2: address2,
+                city: city,
+                state: state,
+                postalCode: postalCode,
+                explanationCode: explanationCode.ToString(),
+                explanation: explanation
+                );
+
+            var instance = address.GetUSAddressDoctorType();
+            Assert.IsFalse(instance.StateSpecified);
+        }
     }
 }

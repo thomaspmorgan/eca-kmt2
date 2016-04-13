@@ -50,10 +50,16 @@
             templateUrl: 'app/directives/participant-person-sevis.directive.html',
             controller: function ($scope, $attrs) {
                 var limit = 300;
+                var paginationOptions = {
+                    pageNumber: 1,
+                    pageSize: 25,
+                    sort: null,
+                    keyword: null,
+                    filter: null
+                };
+
                 $scope.edit = [];
                 $scope.view = {};
-                $scope.view.maxNumberOfSevisCommStatusesToShow = 20;
-                $scope.view.sevisCommStatusesPageSize = 20;
                 $scope.view.PositionAndField = false;
                 $scope.view.PositionAndFieldEdit = false;
                 $scope.edit.isStartDatePickerOpen = false;
@@ -63,16 +69,57 @@
                 $scope.positionAndFieldElementId = 'positionAndField' + $scope.participantid;
                 $scope.fundingElementId = 'funding' + $scope.participantid;
 
+                $scope.view.gridOptions = {
+                    paginationPageSizes: [25, 50, 75],
+                    paginationPageSize: 25,
+                    useExternalPagination: true,
+                    multiSelect: false,
+                    columnDefs: [
+                      { name: 'addedOn', displayName: 'Date', type: 'date', cellFilter: 'date:\'MMM dd, yyyy hh:mm a\'' },
+                      { name: 'sevisCommStatusName', displayName: 'Status' },
+                      { name: 'displayName', displayName: 'User' },
+                      { name: 'batchId' }
+                    ],
+                    onRegisterApi: function (gridApi) {
+                        $scope.gridApi = gridApi;
+                        $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                            if (sortColumns.length == 0) {
+                                paginationOptions.sort = null;
+                            } else {
+                                paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
+                                $scope.gridOptions.paginationCurrentPage = 1;
+                            }
+                            getSevisCommStatusesPage();
+                        });
+                        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                            paginationOptions.pageNumber = newPage;
+                            paginationOptions.pageSize = pageSize;
+                            getSevisCommStatusesPage();
+                        });
+                    }
+                };
+
                 var sevisInfoCopy = null;
                 var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
+                var projectId = 0;
+                var participantId = $scope.participantid;
 
                 $scope.$watch(function () {
                     return $scope.sevisinfo;
                 }, function (newValue, oldValue) {
                     if (newValue && !sevisInfoCopy) {
                         sevisInfoCopy = angular.copy(newValue);
+                        projectId = newValue.projectId;
                     }
-                })
+                });
+
+                $scope.$watch(function () {
+                    return $scope.view.DHSStatus;
+                }, function (newValue, oldValue) {
+                    if (newValue && newValue != oldValue) {
+                        getSevisCommStatusesPage();
+                    }
+                });
 
                 $scope.view.showNextSevisCommStatuses = function () {
                     $scope.view.maxNumberOfSevisCommStatusesToShow += $scope.view.sevisCommStatusesPageSize;
@@ -177,7 +224,7 @@
                         $scope.view.FundingEdit = true;
                         $scope.view.GovtAgency1Other = ($scope.exchangevisitorinfo.govtAgency1Id == ConstantsService.otherUSGovernmentAgencyId);
                         $scope.view.GovtAgency2Other = ($scope.exchangevisitorinfo.govtAgency2Id == ConstantsService.otherUSGovernmentAgencyId);
-                        $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantService.otherInternationalOrganizationId);
+                        $scope.view.IntlOrg1Other = ($scope.exchangevisitorinfo.intlOrg1Id == ConstantsService.otherInternationalOrganizationId);
                         $scope.view.IntlOrg2Other = ($scope.exchangevisitorinfo.intlOrg2Id == ConstantsService.otherInternationalOrganizationId);
                     };
                     var cancel = function () {
@@ -195,6 +242,27 @@
                         $scope.view.PositionAndFieldEdit = false;
                     };
                     promptUserToOverrideEdit(ok, cancel);
+                }
+
+                function getSevisCommStatusesPage() {
+                    var params = {
+                        start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
+                        limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
+                        sort: paginationOptions.sort,
+                        keyword: paginationOptions.keyword,
+                        filter: paginationOptions.filter
+                    };
+                    return ParticipantPersonsSevisService.getSevisCommStatuses(projectId, participantId, params)
+                    .then(function (response) {
+                        $scope.view.gridOptions.totalItems = response.data.total;
+                        $scope.view.gridOptions.data = response.data.results;
+                        return response.data.results;
+                    })
+                    .catch(function (response) {
+                        var message = "Unable to load sevis comm statuses for the participant.";
+                        $log.error(message);
+                        NotificationService.showErrorMessage(message);
+                    })
                 }
 
                 function onFormDateChange(form, sevisInfoPropertyName) {
@@ -399,7 +467,7 @@
                 loadPositions();
                 loadProgramCategories();
                 loadUSGovernmentAgencies();
-                loadInternationalOrganizations();
+                loadInternationalOrganizations();                
             }
         };
 
