@@ -192,9 +192,18 @@ namespace ECA.Business.Validation.Sevis
                 var addressDoctor = address.GetUSAddressDoctorType();
                 instance.USAddress = addressDoctor;
             }
+            
+            if(this.OccupationCategoryCode != null)
+            {
+                instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
+                instance.OccupationCategoryCodeSpecified = true;
+            }
+            else
+            {
+                instance.OccupationCategoryCodeSpecified = false;
+            }
+
             instance.ResidentialAddress = null;
-            instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
-            instance.OccupationCategoryCodeSpecified = true;
             instance.PositionCode = (short)Int32.Parse(this.Person.PositionCode);
             instance.PrgEndDate = this.ProgramEndDate;
             instance.PrgStartDate = this.ProgramStartDate;

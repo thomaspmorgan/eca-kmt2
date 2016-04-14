@@ -92,6 +92,25 @@ namespace ECA.Data
         /// </summary>
         [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
         public string DownloadDispositionCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the upload tries counter.
+        /// </summary>
+        public int UploadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the download tries counter.
+        /// </summary>
+        public int DownloadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last uploaded.
+        /// </summary>
+        public DateTimeOffset? LastUploadTry { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last downloaded.
+        /// </summary>
+        public DateTimeOffset? LastDownloadTry { get; set; }
     }
-    
 }

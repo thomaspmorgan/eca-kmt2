@@ -6,20 +6,21 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace ECA.WebJobs.Sevis.Core
 {
     public class DummyCloudStorage : IDummyCloudStorage
     {
-        public string SaveFile(string fileName, byte[] contents, string contentType)
+        public string SaveFile(string fileName, Stream contents, string contentType)
         {
-            throw new NotImplementedException();
+            return "filepath.pdf";
         }
 
-        public Task<string> SaveFileAsync(string fileName, byte[] contents, string contentType)
+        public Task<string> SaveFileAsync(string fileName, Stream contents, string contentType)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<string>("filepath.pdf");
         }
     }
 
@@ -36,20 +37,23 @@ namespace ECA.WebJobs.Sevis.Core
         {
             Contract.Requires(appSettings != null, "The app settings must not be null.");
             this.RegisterInstance<AppSettings>(appSettings);
-            this.RegisterType<ZipArchiveDS2019FileProvider>();
 
             var connectionString = GetConnectionString(appSettings);
             this.RegisterType<ISevisBatchProcessingNotificationService, TextWriterSevisBatchProcessingNotificationService>();
-            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>(); 
+            this.RegisterType<IDummyCloudStorage, DummyCloudStorage>();
             //Register ECA Context
             this.RegisterType<EcaContext>(new InjectionConstructor(connectionString));
             this.RegisterType<DbContext, EcaContext>(new InjectionConstructor(connectionString));
+            this.RegisterType<ISevisApiResponseHandler, ZipArchiveSevisApiResponseHandler>(new InjectionFactory((c) =>
+            {
+                return new ZipArchiveSevisApiResponseHandler(c.Resolve<ISevisBatchProcessingService>());
+            }));
 
             this.RegisterType<IExchangeVisitorService>(new InjectionFactory((c) =>
             {
                 var service = new ExchangeVisitorService(
-                    context: c.Resolve<EcaContext>(), 
-                    appSettings: c.Resolve<AppSettings>(), 
+                    context: c.Resolve<EcaContext>(),
+                    appSettings: c.Resolve<AppSettings>(),
                     saveActions: null);
                 return service;
             }));
@@ -60,12 +64,12 @@ namespace ECA.WebJobs.Sevis.Core
                 var service = new ExchangeVisitorValidationService(
                     context: c.Resolve<EcaContext>(),
                     exchangeVisitorService: c.Resolve<IExchangeVisitorService>(),
-                    exchangeVisitorValidator: null, 
+                    exchangeVisitorValidator: null,
                     saveActions: null
                     );
                 return service;
             }));
-            
+
             //Register the SEVIS Batch Processing service
             this.RegisterType<ISevisBatchProcessingService>(new InjectionFactory((c) =>
             {
@@ -96,7 +100,7 @@ namespace ECA.WebJobs.Sevis.Core
             LogMessage(String.Format("Using the connection string [{0}] to retrieve entities for documentation.", connectionString));
             return connectionString;
         }
-        
+
         /// <summary>
         /// Writes the given message to the console.
         /// </summary>

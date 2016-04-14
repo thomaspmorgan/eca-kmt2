@@ -14,6 +14,7 @@ using NLog;
 using System.Xml.Serialization;
 using System.IO.Compression;
 using System.IO;
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -25,6 +26,7 @@ namespace ECA.WebJobs.Sevis.Comm
         // This function will be triggered based on the schedule you have set for this WebJob
 
         private ISevisBatchProcessingService service;
+        private ISevisApiResponseHandler responseHandler;
         private AppSettings appSettings;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -33,8 +35,12 @@ namespace ECA.WebJobs.Sevis.Comm
         /// </summary>
         /// <param name="service">The sevis batch processing service.</param>
         /// <param name="appSettings">The app settings.</param>
-        public Functions(ISevisBatchProcessingService service, AppSettings appSettings)
+        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, AppSettings appSettings)
         {
+            Contract.Requires(service != null, "The service must not be null.");
+            Contract.Requires(responseHandler != null, "The response handler must not be null.");
+            Contract.Requires(appSettings != null, "The app settings must not be null.");
+            this.responseHandler = responseHandler;
             this.service = service;
             this.appSettings = appSettings;
         }
@@ -66,8 +72,8 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
-    
-        
+
+
             logger.Info("Starting SEVIS Batch Processing");
 
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
@@ -81,12 +87,12 @@ namespace ECA.WebJobs.Sevis.Comm
                 //do the send here
                 logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
                 var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
-                
+
                 //process response message
                 if (response.IsSuccessStatusCode)
                 {
-                    string xmlString = await response.Content.ReadAsStringAsync();
-                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToUpload.BatchId, xmlString, GetFileProvider());
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await responseHandler.HandleUploadResponseStreamAsync(GetSystemUser(), dtoToUpload, stream);
                     logger.Info("Processed Upload Response");
                 }
                 else
@@ -97,7 +103,7 @@ namespace ECA.WebJobs.Sevis.Comm
             }
 
             var dtoToDownload = await service.GetNextBatchToDownloadAsync();
-            
+
             while (dtoToDownload != null)
             {
                 // ask for download
@@ -107,11 +113,9 @@ namespace ECA.WebJobs.Sevis.Comm
                 //process response
                 if (response.IsSuccessStatusCode)
                 {
-                    ZipArchive archive = new ZipArchive(await response.Content.ReadAsStreamAsync());
-                    ZipArchiveEntry entryTransactionLog = archive.GetEntry("sevis_transaction_log.xml");
-                    var xmlFileStreamReader = new StreamReader(entryTransactionLog.Open());
-                    string transactionLogXml = await xmlFileStreamReader.ReadToEndAsync();
-                    await service.ProcessTransactionLogAsync(GetSystemUser(), dtoToDownload.BatchId, transactionLogXml, GetFileProvider());
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await responseHandler.HandleDownloadResponseStreamAsync(GetSystemUser(), dtoToDownload, stream);
+                    logger.Info("Processed Download Response");
                 }
                 else
                 {
@@ -123,17 +127,9 @@ namespace ECA.WebJobs.Sevis.Comm
             await service.DeleteProcessedBatchesAsync();
 
             logger.Info("Finished Batch Processing.");
-
         }
 
-        /// <summary>
-        /// Returns a DS2019FileProvider.  Change this method to provide the list of files when ready.
-        /// </summary>
-        /// <returns>The file provider.</returns>
-        public IDS2019FileProvider GetFileProvider()
-        {
-            return new ZipArchiveDS2019FileProvider();
-        }
+
 
         /// <summary>
         /// Returns the system user.
@@ -143,6 +139,8 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
+
+
         #region IDispose
 
         /// <summary>
@@ -167,6 +165,12 @@ namespace ECA.WebJobs.Sevis.Comm
                     logger.Trace("Disposing of service " + this.service.GetType());
                     ((IDisposable)this.service).Dispose();
                     this.service = null;
+                }
+                if (this.responseHandler is IDisposable)
+                {
+                    logger.Trace("Disposing of response handler " + this.responseHandler.GetType());
+                    ((IDisposable)this.responseHandler).Dispose();
+                    this.responseHandler = null;
                 }
             }
         }

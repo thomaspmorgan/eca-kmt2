@@ -67,7 +67,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -176,7 +176,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -269,7 +269,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -364,7 +364,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -461,7 +461,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -558,7 +558,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -654,7 +654,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -750,7 +750,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -842,7 +842,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -936,7 +936,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -1029,7 +1029,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -1122,7 +1122,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -1217,7 +1217,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -1313,7 +1313,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();
@@ -1434,7 +1434,7 @@ namespace ECA.Business.Test.Validation.Sevis
             var subjectFieldCode = "01.0102";
             var subjectField = new SubjectField(subjectFieldCode, null, null, "remarks");
             FinancialInfo financialInfo = new FinancialInfo(true, true, "1", null);
-            string occupationCategoryCode = ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE;
+            string occupationCategoryCode = null;
             DateTime startDate = DateTime.UtcNow.AddDays(-1.0);
             DateTime endDate = DateTime.UtcNow.AddDays(1.0);
             List<Dependent> dependents = new List<Dependent>();

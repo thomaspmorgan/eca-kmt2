@@ -59,7 +59,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await participantService.GetSevisParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await participantService.GetSevisParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.FullName, x => x.SevisStatus, x => x.SevisId));
                 return Ok(results);
             } else
             {

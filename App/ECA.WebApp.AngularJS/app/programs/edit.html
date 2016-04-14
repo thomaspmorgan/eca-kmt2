@@ -121,8 +121,8 @@
                     <div class="col-md-3 title-label">Themes<span class="asterisk"> *</span></div>
                     <div class="col-md-9">
                         <ui-select multiple
-                                   close-on-select="true"
                                    name="themes"
+                                   close-on-select="false"
                                    ng-model="view.selectedThemes"
                                    ui-validate="{minimum: 'view.validateMinimumThemes($value)'}"
                                    theme="select2" title="Choose a theme."
@@ -144,8 +144,8 @@
                     <div class="col-md-9">
                         <ui-select multiple
                                    name="goals"
+                                   close-on-select="false"
                                    ui-validate="{minimum: 'view.validateMinimumGoals($value)'}"
-                                   close-on-select="true"
                                    ng-model="view.selectedGoals"
                                    theme="select2"
                                    title="Choose a goal."
@@ -170,7 +170,7 @@
                     <div class="col-md-9">
                         <ui-select multiple
                                    name="regions"
-                                   close-on-select="true"
+                                   close-on-select="false"
                                    ng-model="view.selectedRegions"
                                    ui-validate="{minimum: 'view.validateMinimumRegions($value)'}"
                                    theme="select2"
