@@ -365,16 +365,7 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, record);
                     UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-
-                    var stream = fileProvider.GetDS2019FileStream(participant.ParticipantId, batch.BatchId, record.sevisID);
-                    if (stream != null && stream.Length > 0L)
-                    {
-                        using (stream)
-                        {
-                            var url = SaveDS2019Form(participant.ParticipantId, record.sevisID, stream);
-                            participantPerson.DS2019FileUrl = url;
-                        }
-                    }
+                    UploadDS2019(record, participantPerson, batch, fileProvider);
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
             }
@@ -406,17 +397,45 @@ namespace ECA.Business.Service.Sevis
                     var dependents = participant.Person.Family.ToList();
                     UpdateParticipant(user, participantPerson, record);
                     UpdateDependents(user, dependents, sevisBatchCreateUpdateEV, record);
-                    var stream = await fileProvider.GetDS2019FileStreamAsync(participant.ParticipantId, batch.BatchId, record.sevisID);
-                    if (stream != null && stream.Length > 0L)
-                    {
-                        using (stream)
-                        {
-                            var url = await SaveDS2019FormAsync(participant.ParticipantId, record.sevisID, stream);
-                            participantPerson.DS2019FileUrl = url;
-                        }
-                    }
+                    await UploadDS2019Async(record, participantPerson, batch, fileProvider);
                 }
                 notificationService.NotifyFinishedProcessingSevisBatchDetails(batch.BatchId, process.DispositionCode);
+            }
+        }
+
+        private async Task UploadDS2019Async(TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, SevisBatchProcessing batch, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            if (record.Result.status)
+            {
+                var stream = await fileProvider.GetDS2019FileStreamAsync(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
+                if (stream != null && stream.Length > 0L)
+                {
+                    using (stream)
+                    {
+                        var url = await SaveDS2019FormAsync(participantPerson.ParticipantId, record.sevisID, stream);
+                        participantPerson.DS2019FileUrl = url;
+                    }
+                }
+            }
+        }
+
+        private void UploadDS2019(TransactionLogTypeBatchDetailProcessRecord record, ParticipantPerson participantPerson, SevisBatchProcessing batch, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            if (record.Result.status)
+            {
+                var stream = fileProvider.GetDS2019FileStream(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
+                if (stream != null && stream.Length > 0L)
+                {
+                    using (stream)
+                    {
+                        var url = SaveDS2019Form(participantPerson.ParticipantId, record.sevisID, stream);
+                        participantPerson.DS2019FileUrl = url;
+                    }
+                }
             }
         }
 

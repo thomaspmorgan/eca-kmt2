@@ -2037,6 +2037,100 @@ namespace ECA.Business.Test.Service.Sevis
             fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(1));
         }
 
+        [TestMethod]
+        public async Task TestProcessBatchDetailProcess_HasDS2019FileButRecordStatusIsFalse()
+        {
+            var sevisId = "sevis id";
+            var user = new User(1);
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var otherUser = new User(user.Id + 1);
+            Participant participant = null;
+            ParticipantPerson participantPerson = null;
+            Data.Person person = null;
+            SevisBatchProcessing batch = null;
+            var participantId = 1;
+            var personId = 2;
+            SEVISBatchCreateUpdateEV createUpdateBatch = null;
+            context.SetupActions.Add(() =>
+            {
+                createUpdateBatch = new SEVISBatchCreateUpdateEV();
+                batch = new SevisBatchProcessing
+                {
+                    BatchId = "hello",
+                    Id = 1,
+                    SendString = GetXml(createUpdateBatch)
+                };
+                participant = new Participant
+                {
+                    ParticipantId = participantId
+                };
+                participantPerson = new ParticipantPerson
+                {
+                    ParticipantId = participant.ParticipantId,
+                    Participant = participant,
+                    SevisBatchResult = "sevis batch result",
+                };
+                participantPerson.History.CreatedBy = otherUser.Id;
+                participantPerson.History.CreatedOn = yesterday;
+                participantPerson.History.RevisedBy = otherUser.Id;
+                participantPerson.History.RevisedOn = yesterday;
+
+                participant.ParticipantPerson = participantPerson;
+                person = new Data.Person
+                {
+                    PersonId = personId
+                };
+                participant.Person = person;
+                participant.PersonId = person.PersonId;
+                context.Participants.Add(participant);
+                context.ParticipantPersons.Add(participantPerson);
+                context.People.Add(person);
+                context.SevisBatchProcessings.Add(batch);
+            });
+
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                sevisID = sevisId,
+                Result = new ResultType
+                {
+                    status = false
+                },
+                Dependent = null,
+            };
+            SetUserDefinedFields(record, participantId, personId);
+            var processDetail = new TransactionLogTypeBatchDetailProcess
+            {
+                Record = new List<TransactionLogTypeBatchDetailProcessRecord> { record }.ToArray(),
+                resultCode = DispositionCode.BusinessRuleViolations.Code,
+                RecordCount = new TransactionLogTypeBatchDetailProcessRecordCount
+                {
+                    Failure = "1",
+                    Success = "2"
+                }
+            };
+            var url = "url";
+            var fileContents = new byte[1] { (byte)1 };
+            var fileContentStream = new MemoryStream(fileContents);
+            var fileContentStreamAsync = new MemoryStream(fileContents);
+
+            fileProvider.Setup(x => x.GetDS2019FileStream(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>())).Returns(fileContentStream);
+            fileProvider.Setup(x => x.GetDS2019FileStreamAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(fileContentStreamAsync);
+            cloudStorageService.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).Returns(url);
+            cloudStorageService.Setup(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<string>())).ReturnsAsync(url);
+            Action tester = () =>
+            {
+                Assert.IsNull(participantPerson.DS2019FileUrl);
+            };
+            context.Revert();
+            service.ProcessBatchDetailProcess(user, processDetail, batch, fileProvider.Object);
+            tester();
+            fileProvider.Verify(x => x.GetDS2019FileStream(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+
+            context.Revert();
+            await service.ProcessBatchDetailProcessAsync(user, processDetail, batch, fileProvider.Object);
+            tester();
+            fileProvider.Verify(x => x.GetDS2019FileStreamAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+        }
 
         [TestMethod]
         public async Task TestProcessBatchDetailProcess_DS2019FileIsEmpty()
