@@ -892,7 +892,7 @@ angular.module('staticApp')
               filter: paginationOptions.filter
           };
           var promise;
-          if ($scope.selectedGridView === 'Sevis') {
+          if ($scope.selectedGridView === 'SEVIS') {
               promise = ParticipantPersonsSevisService.getSevisParticipantsByProjectId(projectId, params);
           } else {
               promise = ParticipantService.getParticipantsByProject(projectId, params);
