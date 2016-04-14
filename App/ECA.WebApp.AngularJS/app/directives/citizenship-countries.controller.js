@@ -22,32 +22,35 @@ angular.module('staticApp')
       $scope.view.params = $stateParams;
       $scope.view.collapseCitizenshipCountries = true;
       $scope.data = {};
-      $scope.countries = [];
+      $scope.countriesOfCitizenship = [];
+      $scope.view.isDeletingCountry = false;
+      $scope.view.isLoadingCountries = false;
       var tempCountryId = 0;
 
       $scope.view.onAddCitizenshipCountryClick = function (entityId) {
           var newCountry = {
               id: entityId,
+              name: "",
               countryId: --tempCountryId,
               isNew: true
           };
-          $scope.countries.splice(0, 0, newCountry);
+          $scope.countriesOfCitizenship.splice(0, 0, newCountry);
           $scope.view.collapseCitizenshipCountries = false;
       };
 
       $scope.$on(ConstantsService.removenewCountryEventName, function (event, newCountry) {
-          console.assert($scope.countries instanceof Array, 'The entity countries is defined but must be an array.');
+          console.assert($scope.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
 
-          var countries = $scope.countries;
+          var countries = $scope.countriesOfCitizenship;
           var index = countries.indexOf(newCountry);
           var removedItems = countries.splice(index, 1);
           $log.info('Removed one new country at index ' + index);
       });
 
       $scope.$on(ConstantsService.primaryCountryChangedEventName, function (event, primaryCountry) {
-          console.assert($scope.countries instanceof Array, 'The entity countries is defined but must be an array.');
+          console.assert($scope.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
 
-          var countries = $scope.countries;
+          var countries = $scope.countriesOfCitizenship;
           var primaryCountryIndex = countries.indexOf(primaryCountry);
           angular.forEach(countries, function (country, index) {
               if (primaryCountryIndex !== index) {
