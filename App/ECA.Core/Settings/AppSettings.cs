@@ -108,6 +108,16 @@ namespace ECA.Core.Settings
         /// </summary>
         public const string NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS = SEVIS_PREFIX + "NumberOfDaysToKeepProcessedSevisBatchRecords";
 
+        /// <summary>
+        /// The number of seconds to wait before trying to download a sevis batch from the sevis api again in seconds.
+        /// </summary>
+        public const string DOWNLOAD_COOLDOWN_IN_SECONDS = SEVIS_PREFIX + "DownloadCooldownInSeconds";
+
+        /// <summary>
+        /// The number of seconds to wait before trying to upload a sevis batch to the sevis api again in seconds.
+        /// </summary>
+        public const string UPLOAD_COOLDOWN_IN_SECONDS = SEVIS_PREFIX + "UploadCooldownInSeconds";
+
         #endregion
 
         #region Database Constants
@@ -267,6 +277,16 @@ namespace ECA.Core.Settings
         /// Gets the number of days to keep processed sevis batch records.
         /// </summary>
         public string NumberOfDaysToKeepProcessedSevisBatchRecords { get { return GetAppSetting(NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS); } }
+
+        /// <summary>
+        /// Gets the number of seconds to wait before requesting a sevis batch to the api again.
+        /// </summary>
+        public string SevisDownloadCooldownInSeconds { get { return GetAppSetting(DOWNLOAD_COOLDOWN_IN_SECONDS); } }
+
+        /// <summary>
+        /// Gets the number of seconds to wait before sending a sevis batch to the api again.
+        /// </summary>
+        public string SevisUploadCooldownInSeconds { get { return GetAppSetting(UPLOAD_COOLDOWN_IN_SECONDS); } }
 
         /// <summary>
         /// Gets the active directory client id.
