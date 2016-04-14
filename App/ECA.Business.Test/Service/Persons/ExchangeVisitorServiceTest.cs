@@ -143,7 +143,7 @@ namespace ECA.Business.Test.Service.Persons
                 {
                     Assert.AreEqual(1, exchangeVisitor.Dependents.Count());
                     Assert.IsNotNull(exchangeVisitor.FinancialInfo);
-                    Assert.AreEqual(ExchangeVisitorService.EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE, exchangeVisitor.OccupationCategoryCode);
+                    Assert.IsNull(exchangeVisitor.OccupationCategoryCode);
                     Assert.IsNotNull(exchangeVisitor.Person);
                     Assert.AreEqual(participantPerson.StartDate.Value.DateTime, exchangeVisitor.ProgramStartDate);
                     Assert.AreEqual(participantPerson.EndDate.Value.DateTime, exchangeVisitor.ProgramEndDate);

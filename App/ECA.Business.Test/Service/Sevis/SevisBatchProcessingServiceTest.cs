@@ -2580,11 +2580,11 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public void TestProcessDownload()
+        public void TestProcessDownload_IsNotSuccessCode()
         {
             var sevisBatch = new SevisBatchProcessing
             {
-
+                DownloadTries = 0
             };
             var downloadDetail = new TransactionLogTypeBatchDetailDownload
             {
@@ -2596,6 +2596,31 @@ namespace ECA.Business.Test.Service.Sevis
             Assert.AreEqual(downloadDetail.resultCode, sevisBatch.DownloadDispositionCode);
             Assert.IsNull(sevisBatch.UploadDispositionCode);
             Assert.IsNull(sevisBatch.ProcessDispositionCode);
+            Assert.AreEqual(1, sevisBatch.DownloadTries);
+            Assert.IsNotNull(sevisBatch.LastDownloadTry);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(sevisBatch.LastDownloadTry.Value, 20000);
+            notificationService.Verify(x => x.NotifyDownloadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void TestProcessDownload_IsSuccessCode()
+        {
+            var sevisBatch = new SevisBatchProcessing
+            {
+                DownloadTries = 0
+            };
+            var downloadDetail = new TransactionLogTypeBatchDetailDownload
+            {
+                resultCode = DispositionCode.Success.Code,
+            };
+
+            service.ProcessDownload(downloadDetail, sevisBatch);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(sevisBatch.RetrieveDate.Value, 20000);
+            Assert.AreEqual(downloadDetail.resultCode, sevisBatch.DownloadDispositionCode);
+            Assert.IsNull(sevisBatch.UploadDispositionCode);
+            Assert.IsNull(sevisBatch.ProcessDispositionCode);
+            Assert.AreEqual(0, sevisBatch.DownloadTries);
+            Assert.IsNull(sevisBatch.LastDownloadTry);
             notificationService.Verify(x => x.NotifyDownloadedBatchProcessed(It.IsAny<string>(), It.IsAny<DispositionCode>()), Times.Exactly(1));
         }
 
@@ -2646,7 +2671,8 @@ namespace ECA.Business.Test.Service.Sevis
                 person.ParticipantPersonSevisCommStatuses.Add(sentByBatch);
                 sevisBatch = new SevisBatchProcessing
                 {
-                    BatchId = batchId
+                    BatchId = batchId,
+                    UploadTries = 0,
                 };
                 context.ParticipantPersonSevisCommStatuses.Add(sentByBatch);
                 context.ParticipantPersons.Add(person);
@@ -2665,6 +2691,9 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.AreEqual(batchId, addedCommStatus.BatchId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedCommStatus.AddedOn, 20000);
                 Assert.AreEqual(SevisCommStatus.SentByBatch.Id, addedCommStatus.SevisCommStatusId);
+
+                Assert.IsNull(sevisBatch.LastUploadTry);
+                Assert.AreEqual(0, sevisBatch.UploadTries);
             };
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);
@@ -2700,7 +2729,8 @@ namespace ECA.Business.Test.Service.Sevis
                 };
                 sevisBatch = new SevisBatchProcessing
                 {
-                    BatchId = batchId
+                    BatchId = batchId,
+                    UploadTries = 0
                 };
                 context.ParticipantPersons.Add(person);
                 context.SevisBatchProcessings.Add(sevisBatch);
@@ -2712,6 +2742,9 @@ namespace ECA.Business.Test.Service.Sevis
                 Assert.IsNull(sevisBatch.DownloadDispositionCode);
                 Assert.IsNull(sevisBatch.ProcessDispositionCode);
                 Assert.AreEqual(0, context.ParticipantPersonSevisCommStatuses.Count());
+                Assert.AreEqual(1, sevisBatch.UploadTries);
+                Assert.IsNotNull(sevisBatch.LastUploadTry);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(sevisBatch.LastUploadTry.Value, 20000);
             };
             context.Revert();
             service.ProcessUpload(uploadDetail, sevisBatch);

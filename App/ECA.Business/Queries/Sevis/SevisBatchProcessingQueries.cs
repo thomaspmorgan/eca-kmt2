@@ -36,25 +36,11 @@ namespace ECA.Business.Queries.Sevis
                 TransactionLogString = x.TransactionLogString,
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
-                DownloadDispositionCode = x.DownloadDispositionCode
-            });
-        }
-
-        public static IQueryable<SevisBatchProcessingDTO>  CreateGetSevisBatchProcessingDTOForDownloadQuery(EcaContext context)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            return context.SevisBatchProcessings.Select(x => new SevisBatchProcessingDTO
-            {
-                Id = x.Id,
-                BatchId = x.BatchId,
-                SubmitDate = x.SubmitDate,
-                RetrieveDate = x.RetrieveDate,
-                SendString = x.SendString,
-                SevisOrgId = x.SevisOrgId,
-                SevisUsername = x.SevisUsername,
-                UploadDispositionCode = x.UploadDispositionCode,
-                ProcessDispositionCode = x.ProcessDispositionCode,
-                DownloadDispositionCode = x.DownloadDispositionCode
+                DownloadDispositionCode = x.DownloadDispositionCode,
+                UploadTries = x.UploadTries,
+                DownloadTries = x.DownloadTries,
+                LastDownloadTry = x.LastDownloadTry,
+                LastUploadTry = x.LastUploadTry
             });
         }
 
@@ -87,7 +73,7 @@ namespace ECA.Business.Queries.Sevis
             Contract.Requires(context != null, "The context must not be null.");
             var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
             var batchNotYetProcessedCode = DispositionCode.BatchNotYetProcessed.Code;
-            var query = from dto in CreateGetSevisBatchProcessingDTOForDownloadQuery(context)
+            var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
                         where !dto.RetrieveDate.HasValue
                         || dto.DownloadDispositionCode == generalUploadDownloadFailureCode
                         || dto.DownloadDispositionCode == batchNotYetProcessedCode

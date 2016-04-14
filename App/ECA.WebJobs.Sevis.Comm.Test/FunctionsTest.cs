@@ -75,8 +75,6 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             appSettings.Add(AppSettings.SEVIS_THUMBPRINT, "f14e780d72921fda4b8079d887114dfd1922d624");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
-            service.Setup(x => x.GetBatchesToUploadAsync()).ReturnsAsync(new List<SevisBatchProcessingDTO>());
-
             await instance.ProcessTimer(timerInfo);   
         }
 

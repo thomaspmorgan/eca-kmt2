@@ -28,12 +28,6 @@ namespace ECA.Business.Service.Sevis
         Task<SevisBatchProcessingDTO> GetNextBatchToUploadAsync();
 
         /// <summary>
-        /// Returns the batch records to send to sevis.
-        /// </summary>
-        /// <returns>Gets the batch records to send to sevis.</returns>
-        Task<List<SevisBatchProcessingDTO>> GetBatchesToUploadAsync();
-
-        /// <summary>
         /// Returns the batch record of the next batch to download from the sevis api.
         /// </summary>
         /// <returns>The batch record of the next batch to download from sevis.</returns>
@@ -86,8 +80,6 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <returns>The task.</returns>
         Task DeleteProcessedBatchesAsync();
-
-
     }
 
     /// <summary>

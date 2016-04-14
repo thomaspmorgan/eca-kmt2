@@ -26,11 +26,6 @@ namespace ECA.Business.Service.Persons
     public class ExchangeVisitorService : EcaService, IExchangeVisitorService
     {
         /// <summary>
-        /// The default exchange visitor occupation category code.
-        /// </summary>
-        public const string EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE = "99";
-
-        /// <summary>
         /// The max length of the subject field remarks.
         /// </summary>
         public const int SUBJECT_FIELD_REMARKS_MAX_LENGTH = 500;        
@@ -112,7 +107,7 @@ namespace ECA.Business.Service.Persons
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
-                occupationCategoryCode: EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE,
+                occupationCategoryCode: null,
                 dependents: dependents,
                 siteOfActivity: siteOfActivityAddress);
         }
@@ -152,7 +147,7 @@ namespace ECA.Business.Service.Persons
                 person: person,
                 financialInfo: financialInfo,
                 participantPerson: participantPerson,
-                occupationCategoryCode: EXCHANGE_VISITOR_OCCUPATION_CATEGORY_CODE,
+                occupationCategoryCode: null,
                 dependents: dependents,
                 siteOfActivity: siteOfActivityAddress);
         }

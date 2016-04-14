@@ -20,6 +20,16 @@ namespace ECA.Business.Test.Queries.Models.Sevis
         }
 
         [TestMethod]
+        public void TestGetUploadDispositionCodeAsCode_CodeIsNull()
+        {
+            var dto = new SevisBatchProcessingDTO
+            {
+                UploadDispositionCode = null
+            };
+            Assert.IsNull(dto.GetUploadDispositionCodeAsCode());
+        }
+
+        [TestMethod]
         public void TestGetDownloadDispositionCodeAsCode()
         {
             var code = DispositionCode.Success;
@@ -31,6 +41,16 @@ namespace ECA.Business.Test.Queries.Models.Sevis
         }
 
         [TestMethod]
+        public void TestGetDownloadDispositionCodeAsCode_CodeIsNull()
+        {
+            var dto = new SevisBatchProcessingDTO
+            {
+                DownloadDispositionCode = null
+            };
+            Assert.IsNull(dto.GetDownloadDispositionCodeAsCode());
+        }
+
+        [TestMethod]
         public void TestGetProcessDispositionCodeAsCode()
         {
             var code = DispositionCode.Success;
@@ -39,6 +59,16 @@ namespace ECA.Business.Test.Queries.Models.Sevis
                 ProcessDispositionCode = code.Code
             };
             Assert.AreEqual(code, dto.GetProcessDispositionCodeAsCode());
+        }
+
+        [TestMethod]
+        public void TestGetProcessDispositionCodeAsCode_ProcessCodeIsNull()
+        {
+            var dto = new SevisBatchProcessingDTO
+            {
+                ProcessDispositionCode = null
+            };
+            Assert.IsNull(dto.GetProcessDispositionCodeAsCode());
         }
     }
 }
