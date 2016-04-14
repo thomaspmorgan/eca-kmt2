@@ -220,6 +220,22 @@ namespace ECA.Core.Test.Settings
         }
 
         [TestMethod]
+        public void TestAppSettings_SevisUploadCooldownInSeconds()
+        {
+            var value = "3";
+            appSettings.Add(AppSettings.UPLOAD_COOLDOWN_IN_SECONDS, value);
+            Assert.AreEqual(value, settings.SevisUploadCooldownInSeconds);
+        }
+
+        [TestMethod]
+        public void TestAppSettings_SevisDownloadCooldownInSeconds()
+        {
+            var value = "3";
+            appSettings.Add(AppSettings.DOWNLOAD_COOLDOWN_IN_SECONDS, value);
+            Assert.AreEqual(value, settings.SevisDownloadCooldownInSeconds);
+        }
+
+        [TestMethod]
         public void TestConstructor_ZeroArgument_AppSettings()
         {
             var testSettings = new AppSettings();

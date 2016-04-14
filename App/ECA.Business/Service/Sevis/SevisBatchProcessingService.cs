@@ -134,7 +134,9 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchRecordToUploadQuery()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context);
+            var cooldownDate = GetCooldownDate(appSettings.SevisUploadCooldownInSeconds);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context)
+                .Where(x => !x.LastUploadTry.HasValue || (x.LastUploadTry.HasValue && x.LastUploadTry > cooldownDate));
         }
 
         /// <summary>
@@ -157,8 +159,98 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchToDownload()
         {
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context);
+            var cooldownDate = GetCooldownDate(appSettings.SevisDownloadCooldownInSeconds);
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context)
+                .Where(x => !x.LastDownloadTry.HasValue || (x.LastDownloadTry.HasValue && x.LastDownloadTry > cooldownDate));
         }
+
+        private DateTimeOffset GetCooldownDate(string cooldownSecondsAsString)
+        {
+            Contract.Requires(cooldownSecondsAsString != null, "The cooldwon seconds as string must not be null.");
+            var cooldownSeconds = Int32.Parse(cooldownSecondsAsString);
+            if (cooldownSeconds < 0)
+            {
+                cooldownSeconds = -1 * cooldownSeconds;
+            }
+            var coolDownDate = DateTimeOffset.UtcNow.AddSeconds((double)cooldownSeconds);
+            return coolDownDate;
+        }
+        #endregion
+
+        #region Error Handling
+
+        /// <summary>
+        /// Handles a failed batch upload.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to upload.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        public void HandleFailedUploadBatch(int batchId, Exception e)
+        {
+            var batch = Context.SevisBatchProcessings.Find(batchId);
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
+            DoHandleFailedUploadBatch(batch, e);
+            this.Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Handles a failed batch upload.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to upload.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        public async Task HandleFailedUploadBatchAsync(int batchId, Exception e)
+        {
+            var batch = await Context.SevisBatchProcessings.FindAsync(batchId);
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
+            DoHandleFailedUploadBatch(batch, e);
+            await this.Context.SaveChangesAsync();
+        }
+
+        private void DoHandleFailedUploadBatch(SevisBatchProcessing batch, Exception e)
+        {
+            batch.UploadTries++;
+            batch.LastUploadTry = DateTimeOffset.UtcNow;
+        }
+
+        /// <summary>
+        /// Handles a failed batch download.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to download.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        public void HandleFailedDownloadBatch(int batchId, Exception e)
+        {
+            var batch = Context.SevisBatchProcessings.Find(batchId);
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
+            DoHandleFailedDownloadBatch(batch, e);
+            this.Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Handles a failed batch download.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to download.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        public async Task HandleFailedDownloadBatchAsync(int batchId, Exception e)
+        {
+            var batch = await Context.SevisBatchProcessings.FindAsync(batchId);
+            throwIfSevisBatchProcessingNotFound(batch, batchId);
+            DoHandleFailedDownloadBatch(batch, e);
+            await this.Context.SaveChangesAsync();
+        }
+
+        private void DoHandleFailedDownloadBatch(SevisBatchProcessing batch, Exception e)
+        {
+            batch.DownloadTries++;
+            batch.LastDownloadTry = DateTimeOffset.UtcNow;
+        }
+
+        public void CancelBatch(int batchId)
+        {
+
+        }
+
+
+
+        
         #endregion
 
         #region Process Transaction Log
