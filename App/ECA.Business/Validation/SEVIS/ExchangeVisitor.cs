@@ -192,8 +192,8 @@ namespace ECA.Business.Validation.Sevis
                 var addressDoctor = address.GetUSAddressDoctorType();
                 instance.USAddress = addressDoctor;
             }
-            
-            if(this.OccupationCategoryCode != null)
+
+            if (this.OccupationCategoryCode != null)
             {
                 instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
                 instance.OccupationCategoryCodeSpecified = true;
@@ -230,7 +230,7 @@ namespace ECA.Business.Validation.Sevis
                 var addedDependent = (AddedDependent)dependent;
                 addedDependents.Add(addedDependent.GetEVPersonTypeDependent());
             }
-            if(addedDependents.Count > 0)
+            if (addedDependents.Count > 0)
             {
                 instance.CreateDependent = addedDependents.ToArray();
             }
