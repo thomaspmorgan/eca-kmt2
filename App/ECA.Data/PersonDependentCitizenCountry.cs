@@ -14,5 +14,11 @@ namespace ECA.Data
         /// Gets or sets the Location Id.
         /// </summary>
         public int LocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the is primary flag.
+        /// </summary>
+        public bool IsPrimary { get; set; }
+
     }
 }
