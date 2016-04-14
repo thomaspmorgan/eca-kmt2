@@ -69,6 +69,10 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/styles/fonts'));
     gulp.src('bower_components/select2/*.png')
         .pipe(gulp.dest('dist/images'));
+    gulp.src('bower_components/angular-ui-grid/ui-grid.woff')
+        .pipe(gulp.dest('dist/styles'));
+    gulp.src('bower_components/angular-ui-grid/ui-grid.ttf')
+        .pipe(gulp.dest('dist/styles'));
 });
 
 gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localstyles', 'cacheTemplates'], function () {
