@@ -242,14 +242,6 @@ namespace ECA.Business.Service.Sevis
             batch.DownloadTries++;
             batch.LastDownloadTry = DateTimeOffset.UtcNow;
         }
-
-        public void CancelBatch(int batchId)
-        {
-
-        }
-
-
-
         
         #endregion
 
@@ -507,7 +499,7 @@ namespace ECA.Business.Service.Sevis
             if (record.Result.status)
             {
                 var stream = await fileProvider.GetDS2019FileStreamAsync(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
-                if (stream != null && stream.Length > 0L)
+                if (stream != null)
                 {
                     using (stream)
                     {
@@ -525,7 +517,7 @@ namespace ECA.Business.Service.Sevis
             if (record.Result.status)
             {
                 var stream = fileProvider.GetDS2019FileStream(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
-                if (stream != null && stream.Length > 0L)
+                if (stream != null)
                 {
                     using (stream)
                     {

@@ -107,7 +107,7 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="batchId">The id of the batch that failed to download.</param>
         /// <param name="e">The exception that may have been caught.</param>
-        Task HandleFailedDownloadBatchAsync(int batchId, Exception e)
+        Task HandleFailedDownloadBatchAsync(int batchId, Exception e);
     }
 
     /// <summary>
