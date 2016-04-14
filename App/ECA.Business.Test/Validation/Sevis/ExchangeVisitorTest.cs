@@ -377,6 +377,33 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
+        public void TestGetSEVISBatchTypeExchangeVisitor_OccupationCategoryCodeIsNull()
+        {
+            var sevisId = "sevis id";
+            var sevisUserId = "sevisUserId";
+            var person = GetPerson();
+            var financialInfo = GetFinancialInfo();
+            string occupationCategoryCode = null;
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var startDate = DateTime.UtcNow.AddDays(-1.0);
+            var siteOfActivity = GetSOAAsAddressDTO();
+            var dependents = new List<Dependent>();
+
+            var exchangeVisitor = new ExchangeVisitor(
+                sevisId: sevisId,
+                person: person,
+                financialInfo: financialInfo,
+                occupationCategoryCode: occupationCategoryCode,
+                programEndDate: endDate,
+                programStartDate: startDate,
+                dependents: dependents,
+                siteOfActivity: siteOfActivity);
+
+            var instance = exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(sevisUserId);
+            Assert.IsFalse(instance.OccupationCategoryCodeSpecified);
+        }
+
+        [TestMethod]
         public void TestGetSEVISBatchTypeExchangeVisitor_MailAddressIsNull()
         {
             var sevisId = "sevis id";

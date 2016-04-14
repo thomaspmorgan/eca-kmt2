@@ -69,9 +69,19 @@ namespace ECA.Business.Queries.Models.Sevis
         public int UploadTries { get; set; }
 
         /// <summary>
-        /// Gets or sets the date after which an upload can be tried again.
+        /// Gets or sets the download tries counter.
         /// </summary>
-        public DateTimeOffset? UploadCooldown { get; set; }
+        public int DownloadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last uploaded.
+        /// </summary>
+        public DateTimeOffset? LastUploadTry { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last downloaded.
+        /// </summary>
+        public DateTimeOffset? LastDownloadTry { get; set; }
 
         /// <summary>
         /// Returns the upload disposition code value as a Disposition Code.
@@ -79,7 +89,14 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <returns>The update Dispoition code.</returns>
         public DispositionCode GetUploadDispositionCodeAsCode()
         {
-            return DispositionCode.ToDispositionCode(this.UploadDispositionCode);
+            if (this.UploadDispositionCode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DispositionCode.ToDispositionCode(this.UploadDispositionCode);
+            }
         }
 
         /// <summary>
@@ -88,7 +105,15 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <returns>The download Dispoition code.</returns>
         public DispositionCode GetDownloadDispositionCodeAsCode()
         {
-            return DispositionCode.ToDispositionCode(this.DownloadDispositionCode);
+            if (this.DownloadDispositionCode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DispositionCode.ToDispositionCode(this.DownloadDispositionCode);
+            }
+
         }
 
         /// <summary>
@@ -97,7 +122,14 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <returns>The process Dispoition code.</returns>
         public DispositionCode GetProcessDispositionCodeAsCode()
         {
-            return DispositionCode.ToDispositionCode(this.ProcessDispositionCode);
+            if (this.ProcessDispositionCode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DispositionCode.ToDispositionCode(this.ProcessDispositionCode);
+            }
         }
     }
 }

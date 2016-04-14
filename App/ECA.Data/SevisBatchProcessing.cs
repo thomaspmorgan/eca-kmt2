@@ -99,8 +99,18 @@ namespace ECA.Data
         public int UploadTries { get; set; }
 
         /// <summary>
-        /// Gets or sets the date after which an upload can be tried again.
+        /// Gets or sets the download tries counter.
         /// </summary>
-        public DateTimeOffset? UploadCooldown { get; set; }
+        public int DownloadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last uploaded.
+        /// </summary>
+        public DateTimeOffset? LastUploadTry { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last downloaded.
+        /// </summary>
+        public DateTimeOffset? LastDownloadTry { get; set; }
     }
 }

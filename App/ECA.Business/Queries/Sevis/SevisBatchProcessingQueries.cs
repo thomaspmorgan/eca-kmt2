@@ -37,8 +37,10 @@ namespace ECA.Business.Queries.Sevis
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
                 DownloadDispositionCode = x.DownloadDispositionCode,
-                UploadCooldown = x.UploadCooldown,
-                UploadTries = x.UploadTries
+                UploadTries = x.UploadTries,
+                DownloadTries = x.DownloadTries,
+                LastDownloadTry = x.LastDownloadTry,
+                LastUploadTry = x.LastUploadTry
             });
         }
 
@@ -53,10 +55,9 @@ namespace ECA.Business.Queries.Sevis
             var generalUploadDownloadFailureCode = DispositionCode.GeneralUploadDownloadFailure.Code;
             var batchNeverSubmittedFailureCode = DispositionCode.BatchNeverSubmitted.Code;
             var query = from dto in CreateGetSevisBatchProcessingDTOQuery(context)
-                        where (!dto.SubmitDate.HasValue 
+                        where !dto.SubmitDate.HasValue 
                         || dto.UploadDispositionCode == generalUploadDownloadFailureCode
-                        || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode)
-                        && (!dto.upload
+                        || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode
                         orderby dto.Id
                         select dto;
             return query;

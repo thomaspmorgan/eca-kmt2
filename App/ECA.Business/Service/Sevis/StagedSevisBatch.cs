@@ -105,7 +105,7 @@ namespace ECA.Business.Service.Sevis
                 SevisOrgId = this.SevisOrgId,
                 SevisUsername = this.SevisUsername,
                 UploadTries = 0,
-                UploadCooldown = null
+                DownloadTries = 0
             };
             this.SEVISBatchCreateUpdateEV = new SEVISBatchCreateUpdateEV();
             this.SEVISBatchCreateUpdateEV.userID = sevisUsername;

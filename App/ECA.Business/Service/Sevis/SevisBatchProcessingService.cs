@@ -275,11 +275,15 @@ namespace ECA.Business.Service.Sevis
                 var dispositionCode = uploadDetail.DispositionCode;
                 batch.UploadDispositionCode = dispositionCode.Code;
                 batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
-
                 if (dispositionCode == DispositionCode.Success)
                 {
                     var participantIds = CreateGetParticipantIdsByBatchId(batch.BatchId).ToList();
                     AddSuccessfulUploadSevisCommStatus(participantIds, batch);
+                }
+                else
+                {
+                    batch.UploadTries++;
+                    batch.LastUploadTry = DateTimeOffset.UtcNow;
                 }
                 notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
@@ -298,11 +302,15 @@ namespace ECA.Business.Service.Sevis
                 var dispositionCode = uploadDetail.DispositionCode;
                 batch.UploadDispositionCode = dispositionCode.Code;
                 batch.SubmitDate = uploadDetail.dateTimeStamp.ToUniversalTime();
-
                 if (dispositionCode == DispositionCode.Success)
                 {
                     var participantIds = await CreateGetParticipantIdsByBatchId(batch.BatchId).ToListAsync();
                     AddSuccessfulUploadSevisCommStatus(participantIds, batch);
+                }
+                else
+                {
+                    batch.UploadTries++;
+                    batch.LastUploadTry = DateTimeOffset.UtcNow;
                 }
                 notificationService.NotifyUploadedBatchProcessed(batch.BatchId, dispositionCode);
             }
@@ -335,6 +343,12 @@ namespace ECA.Business.Service.Sevis
             {
                 batch.DownloadDispositionCode = downloadDetail.DispositionCode.Code;
                 batch.RetrieveDate = DateTimeOffset.UtcNow;
+
+                if (downloadDetail.DispositionCode != DispositionCode.Success)
+                {
+                    batch.DownloadTries++;
+                    batch.LastDownloadTry = DateTimeOffset.UtcNow;
+                }
                 notificationService.NotifyDownloadedBatchProcessed(batch.BatchId, downloadDetail.DispositionCode);
             }
         }

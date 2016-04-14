@@ -11,8 +11,10 @@
     [UploadDispositionCode] NCHAR(5) NULL, 
     [ProcessDispositionCode] NCHAR(5) NULL, 
     [DownloadDispositionCode] NCHAR(5) NULL,
-	[UploadTries] INT NULL, 
-	[UploadCooldown] DATETIMEOFFSET NULL,
+	[UploadTries] INT NOT NULL DEFAULT 0, 
+	[DownloadTries] INT NOT NULL DEFAULT 0,
+    [LastUploadTry] DATETIMEOFFSET NULL, 
+    [LastDownloadTry] DATETIMEOFFSET NULL, 
     CONSTRAINT [CK_SevisBatchProcessing_BatchId] UNIQUE (BatchId)
 )
 
