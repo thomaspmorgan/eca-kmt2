@@ -142,7 +142,7 @@ namespace ECA.Business.Service.Sevis
             }
             var now = DateTimeOffset.UtcNow;
             return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context)
-                .Where(x => !x.LastUploadTry.HasValue || (DbFunctions.DiffSeconds(now, x.LastUploadTry.Value) > cooldownSeconds));
+                .Where(x => !x.LastUploadTry.HasValue || (DbFunctions.DiffSeconds(x.LastUploadTry.Value, now) > cooldownSeconds));
         }
 
         /// <summary>
@@ -172,8 +172,8 @@ namespace ECA.Business.Service.Sevis
             }
             var now = DateTimeOffset.UtcNow;
             return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context)
-                .Where(x => !x.LastDownloadTry.HasValue || (DbFunctions.DiffSeconds(now, x.LastDownloadTry.Value) > cooldownSeconds))
-                .Where(x => x.SubmitDate.HasValue && (DbFunctions.DiffSeconds(now, x.SubmitDate.Value) > cooldownSeconds));
+                .Where(x => !x.LastDownloadTry.HasValue || (DbFunctions.DiffSeconds(x.LastDownloadTry.Value, now) > cooldownSeconds))
+                .Where(x => x.SubmitDate.HasValue && (DbFunctions.DiffSeconds(x.SubmitDate.Value, now) > cooldownSeconds));
         }
         #endregion
 

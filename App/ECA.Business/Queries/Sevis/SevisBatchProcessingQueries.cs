@@ -58,7 +58,7 @@ namespace ECA.Business.Queries.Sevis
                         where !dto.SubmitDate.HasValue 
                         || dto.UploadDispositionCode == generalUploadDownloadFailureCode
                         || dto.DownloadDispositionCode == batchNeverSubmittedFailureCode
-                        orderby dto.Id
+                        orderby dto.Id descending
                         select dto;
             return query;
         }
@@ -77,7 +77,7 @@ namespace ECA.Business.Queries.Sevis
                         where !dto.RetrieveDate.HasValue
                         || dto.DownloadDispositionCode == generalUploadDownloadFailureCode
                         || dto.DownloadDispositionCode == batchNotYetProcessedCode
-                        orderby dto.Id
+                        orderby dto.Id descending
                         select dto;
             return query;
         }

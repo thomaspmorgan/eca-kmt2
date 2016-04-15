@@ -1295,21 +1295,21 @@ namespace ECA.Business.Test.Service.Sevis
 
         #region GetNextBatchToUpload
         [TestMethod]
-        public async Task TestGetNextBatchToUpload_HasRecordAndExceedCooldown()
+        public async Task TestGetNextBatchToUpload_ExceededUploadCooldown()
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1324,7 +1324,6 @@ namespace ECA.Business.Test.Service.Sevis
                     LastUploadTry = DateTimeOffset.UtcNow.AddDays(-1.0)
                 };
                 context.SevisBatchProcessings.Add(model);
-                Assert.IsNotNull(service.GetNextBatchToUpload());
 
                 Action<SevisBatchProcessingDTO> tester = (dto) =>
                 {
@@ -1339,21 +1338,21 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchToUpload_UploadCooldownNotYetSurpassed()
+        public async Task TestGetNextBatchToUpload_UploadCooldownNotYetPassed()
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1388,17 +1387,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1434,17 +1433,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1522,17 +1521,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1562,21 +1561,21 @@ namespace ECA.Business.Test.Service.Sevis
         }
 
         [TestMethod]
-        public async Task TestGetNextBatchToDownload_DownloadCooldownHasNotYetSurpassed()
+        public async Task TestGetNextBatchToDownload_DownloadCooldownHasNotYetPassed()
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1589,12 +1588,11 @@ namespace ECA.Business.Test.Service.Sevis
                     SubmitDate = DateTimeOffset.UtcNow.AddDays(-1.0),
                     TransactionLogString = "transaction log",
                     UploadDispositionCode = "upload code",
-                    LastDownloadTry = DateTimeOffset.UtcNow.AddSeconds(downloadCooldownInSeconds + 10.0)
+                    LastDownloadTry = DateTimeOffset.UtcNow
                 };
                 context.SevisBatchProcessings.Add(model);
                 Assert.AreEqual(1, SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(context).Count());
-
-                model.LastDownloadTry = DateTimeOffset.UtcNow;
+                
                 Action<SevisBatchProcessingDTO> tester = (s) =>
                 {
                     Assert.IsNull(s);
@@ -1611,17 +1609,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1656,17 +1654,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1702,17 +1700,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
@@ -1746,17 +1744,17 @@ namespace ECA.Business.Test.Service.Sevis
         {
             using (ShimsContext.Create())
             {
-                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (date1, date2) =>
+                System.Data.Entity.Fakes.ShimDbFunctions.DiffSecondsNullableOfDateTimeOffsetNullableOfDateTimeOffset = (startDate, endDate) =>
                 {
-                    if (!date1.HasValue)
+                    if (!startDate.HasValue)
                     {
                         return null;
                     }
-                    if (!date2.HasValue)
+                    if (!endDate.HasValue)
                     {
                         return null;
                     }
-                    return (int)((date1.Value - date2.Value).TotalSeconds);
+                    return (int)((endDate.Value - startDate.Value).TotalSeconds);
                 };
                 var model = new SevisBatchProcessing
                 {
