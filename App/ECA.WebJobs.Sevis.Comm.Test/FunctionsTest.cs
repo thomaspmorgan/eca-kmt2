@@ -1,4 +1,5 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Queries.Models.Sevis;
+using ECA.Business.Service;
 using ECA.Business.Service.Sevis;
 using ECA.Core.Settings;
 using ECA.WebJobs.Sevis.Comm;
@@ -8,8 +9,11 @@ using Microsoft.Azure.WebJobs.Extensions.Timers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.IO;
+using System.IO.Compression;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -32,11 +36,12 @@ namespace ECA.WebJobs.Sevis.Staging.Test
     public class FunctionsTest
     {
         private Mock<ISevisBatchProcessingService> service;
+        private Mock<ISevisApiResponseHandler> responseHandler;
         private Functions instance;
         private NameValueCollection appSettings;
         private ConnectionStringSettingsCollection connectionStrings;
         private AppSettings settings;
-        private ZipArchiveDS2019FileProvider fileProvider;
+        private SevisBatchZipArchiveHandler fileProvider;
 
         [TestInitialize]
         public void TestInit()
@@ -45,7 +50,8 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             connectionStrings = new ConnectionStringSettingsCollection();
             settings = new AppSettings(appSettings, connectionStrings);
             service = new Mock<ISevisBatchProcessingService>();
-            instance = new Functions(service.Object, settings);
+            responseHandler = new Mock<ISevisApiResponseHandler>();
+            instance = new Functions(service.Object, responseHandler.Object, settings);
         }
 
         [TestMethod]
@@ -66,20 +72,10 @@ namespace ECA.WebJobs.Sevis.Staging.Test
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
             appSettings.Add(AppSettings.SEVIS_UPLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchUpload");
             appSettings.Add(AppSettings.SEVIS_DOWNLOAD_URI_KEY, "https://egov.ice.gov/alphasevisbatch/action/batchDownload");
-            appSettings.Add(AppSettings.SEVIS_ORGID_KEY, "org id");
             appSettings.Add(AppSettings.SEVIS_MAX_UPDATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH, "1");
-            appSettings.Add(AppSettings.SEVIS_USERID_KEY, "10");
             appSettings.Add(AppSettings.SEVIS_THUMBPRINT, "f14e780d72921fda4b8079d887114dfd1922d624");
-            appSettings.Add(AppSettings.SEVIS_PASSPHRASE, "none");
             var timerInfo = new TimerInfo(new TestTimerSchedule());
-            await instance.ProcessTimer(timerInfo);
-            
-        }
-
-        [TestMethod]
-        public void TestGetFileProvider()
-        {
-            Assert.IsInstanceOfType(instance.GetFileProvider(), typeof(ZipArchiveDS2019FileProvider));
+            await instance.ProcessTimer(timerInfo);   
         }
 
         [TestMethod]
@@ -87,17 +83,67 @@ namespace ECA.WebJobs.Sevis.Staging.Test
         {
             var disposableService = new Mock<ISevisBatchProcessingService>();
             var disposable = disposableService.As<IDisposable>();
-            instance = new Functions(disposableService.Object, settings);
+            instance = new Functions(disposableService.Object, responseHandler.Object, settings);
             
             var serviceField = typeof(Functions).GetField("service", BindingFlags.NonPublic | BindingFlags.Instance);
-            var contextValue = serviceField.GetValue(instance);
+            var serviceValue = serviceField.GetValue(instance);
             Assert.IsNotNull(serviceField);
-            Assert.IsNotNull(contextValue);
+            Assert.IsNotNull(serviceValue);
 
             instance.Dispose();
-            contextValue = serviceField.GetValue(instance);
-            Assert.IsNull(contextValue);
+            serviceValue = serviceField.GetValue(instance);
+            Assert.IsNull(serviceValue);
             disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_Service_NotDisposable()
+        {
+            var disposableService = new Mock<ISevisBatchProcessingService>();
+            instance = new Functions(disposableService.Object, responseHandler.Object, settings);
+
+            var serviceField = typeof(Functions).GetField("service", BindingFlags.NonPublic | BindingFlags.Instance);
+            var serviceValue = serviceField.GetValue(instance);
+            Assert.IsNotNull(serviceField);
+            Assert.IsNotNull(serviceValue);
+
+            instance.Dispose();
+            serviceValue = serviceField.GetValue(instance);
+            Assert.IsNotNull(serviceValue);
+        }
+
+        [TestMethod]
+        public void TestDispose_ResponseHandler()
+        {
+            var disposableService = new Mock<ISevisApiResponseHandler>();
+            var disposable = disposableService.As<IDisposable>();
+            instance = new Functions(service.Object, disposableService.Object, settings);
+
+            var responseHandlerField = typeof(Functions).GetField("responseHandler", BindingFlags.NonPublic | BindingFlags.Instance);
+            var handlerValue = responseHandlerField.GetValue(instance);
+            Assert.IsNotNull(responseHandlerField);
+            Assert.IsNotNull(handlerValue);
+
+            instance.Dispose();
+            handlerValue = responseHandlerField.GetValue(instance);
+            Assert.IsNull(handlerValue);
+            disposable.Verify(x => x.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestDispose_ResponseHandler_NotDisposable()
+        {
+            var disposableService = new Mock<ISevisApiResponseHandler>();
+            instance = new Functions(service.Object, disposableService.Object, settings);
+
+            var responseHandlerField = typeof(Functions).GetField("responseHandler", BindingFlags.NonPublic | BindingFlags.Instance);
+            var handlerValue = responseHandlerField.GetValue(instance);
+            Assert.IsNotNull(responseHandlerField);
+            Assert.IsNotNull(handlerValue);
+
+            instance.Dispose();
+            handlerValue = responseHandlerField.GetValue(instance);
+            Assert.IsNotNull(handlerValue);
         }
     }
 }

@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.WebApp.AngularJS</RootNamespace>
     <AssemblyName>ECA.WebApp.AngularJS</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -25,6 +25,7 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/3d6f9d9a-0854-47e7-a31e-c6838bcb192f/resourcegroups/DevGroup/providers/microsoft.insights/components/kmt-dev</ApplicationInsightsResourceId>
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,9 +114,6 @@
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
@@ -127,6 +125,7 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -138,8 +137,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -165,13 +162,13 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\about\about.controller.js" />
@@ -185,8 +182,13 @@
     <Content Include="app\auth\logout-warning.html" />
     <Content Include="app\data-points\data-points.controller.js" />
     <Content Include="app\data-points\data-points.html" />
+    <Content Include="app\directives\citizenship-countries.controller.js" />
+    <Content Include="app\directives\citizenship-countries.directive.js" />
+    <Content Include="app\directives\citizenship-country.controller.js" />
     <Content Include="app\directives\dependents.controller.js" />
+    <Content Include="app\directives\eca-required.directive..js" />
     <Content Include="app\directives\dependents.directive.js" />
+    <Content Include="app\directives\eca-required.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.html" />
     <Content Include="app\directives\participant-person-info.directive.js" />
     <Content Include="app\directives\programs.directive.html" />
@@ -228,6 +230,8 @@
     <Content Include="app\projects\project-location-marker.controller.js" />
     <Content Include="app\projects\project-location-marker.html" />
     <Content Include="app\projects\projects.routes.js" />
+    <Content Include="app\projects\select-sevis-account-modal.html" />
+    <Content Include="app\projects\select-sevis-account..controller.js" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\reports\report.controller.js" />
     <Content Include="app\reports\report.html" />
@@ -440,6 +444,7 @@
     <Content Include="app\projects\project-participant-info.controller.js" />
     <Content Include="app\directives\participantLocations.json" />
     <Content Include="app\directives\dependents.directive.html" />
+    <Content Include="app\directives\citizenship-countries.directive.html" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\kmt-pre.pubxml" />

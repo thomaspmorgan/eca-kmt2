@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Azure.WebJobs;
 using System.Threading.Tasks;
 using ECA.Business.Service.Sevis;
@@ -10,6 +9,12 @@ using ECA.WebJobs.Sevis;
 using ECA.Business.Sevis;
 using ECA.Business.Service;
 using ECA.WebJobs.Sevis.Core;
+using System.Xml.Linq;
+using NLog;
+using System.Xml.Serialization;
+using System.IO.Compression;
+using System.IO;
+using ECA.Business.Queries.Models.Sevis;
 
 namespace ECA.WebJobs.Sevis.Comm
 {
@@ -21,18 +26,23 @@ namespace ECA.WebJobs.Sevis.Comm
         // This function will be triggered based on the schedule you have set for this WebJob
 
         private ISevisBatchProcessingService service;
+        private ISevisApiResponseHandler responseHandler;
         private AppSettings appSettings;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new Functions instance.
         /// </summary>
         /// <param name="service">The sevis batch processing service.</param>
         /// <param name="appSettings">The app settings.</param>
-        public Functions(ISevisBatchProcessingService service, AppSettings appSettings)
+        public Functions(ISevisBatchProcessingService service, ISevisApiResponseHandler responseHandler, AppSettings appSettings)
         {
+            Contract.Requires(service != null, "The service must not be null.");
+            Contract.Requires(responseHandler != null, "The response handler must not be null.");
+            Contract.Requires(appSettings != null, "The app settings must not be null.");
+            this.responseHandler = responseHandler;
             this.service = service;
             this.appSettings = appSettings;
-
         }
 
         /// <summary>
@@ -50,7 +60,7 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             await ProcessAsync(this.service, this.appSettings);
             var nextOccurrenceMessage = info.FormatNextOccurrences(1);
-            Console.WriteLine(nextOccurrenceMessage);
+            logger.Info(nextOccurrenceMessage);
         }
 
         /// <summary>
@@ -63,77 +73,65 @@ namespace ECA.WebJobs.Sevis.Comm
             Contract.Requires(service != null, "The SEVIS service must not be null.");
             Contract.Requires(settings != null, "The settings must not be null.");
 
-            Console.WriteLine("Starting SEVIS Batch Processing");
-            var systemUser = new User(Int32.Parse(settings.SystemUserId));
+
+            logger.Info("Starting SEVIS Batch Processing");
 
             //the staging of exchange visitors to send is now done in another web job, the xml will be pre populated
             //and returned in the dtos.
 
             var batchComm = new SevisComm(settings);
             var dtoToUpload = await service.GetNextBatchToUploadAsync();
-            //while (dtoToUpload != null)
-            //{
-            //    //do the send here
 
-            //    //string transactionLogXml = null;
-            //    //var fileProvider = GetFileProvider();
-            //    //await service.ProcessTransactionLogAsync(systemUser, transactionLogXml, fileProvider);
-            //    dtoToUpload = await service.GetNextBatchToUploadAsync();
-            //}
+            while (dtoToUpload != null)
+            {
+                //do the send here
+                logger.Info("Sending Upload, BatchId: {0}", dtoToUpload.BatchId);
+                var response = await batchComm.UploadAsync(XElement.Parse(dtoToUpload.SendString), dtoToUpload.BatchId, dtoToUpload.SevisOrgId, dtoToUpload.SevisUsername);
 
-            var batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            //while (batchByIdToDownload != null)
-            //{
+                //process response message
+                if (response.IsSuccessStatusCode)
+                {
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await responseHandler.HandleUploadResponseStreamAsync(GetSystemUser(), dtoToUpload, stream);
+                    logger.Info("Processed Upload Response");
+                }
+                else
+                {
+                    logger.Error("Upload encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                    await service.HandleFailedUploadBatchAsync(dtoToUpload.Id, null);
+                }
+                dtoToUpload = await service.GetNextBatchToUploadAsync();
+            }
 
-            //    //processing methods here or possibly another webjob
-            //    //await service.ProcessTransactionLogAsync(string.Empty);
-            //    batchByIdToDownload = await service.GetNextBatchByBatchIdToDownloadAsync();
-            //}
+            var dtoToDownload = await service.GetNextBatchToDownloadAsync();
 
+            while (dtoToDownload != null)
+            {
+                // ask for download
+                logger.Info("Getting Download, BatchId: {0}", dtoToDownload.BatchId);
+                var response = await batchComm.DownloadAsync(dtoToDownload.BatchId, dtoToDownload.SevisOrgId, dtoToDownload.SevisUsername);
+
+                //process response
+                if (response.IsSuccessStatusCode)
+                {
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await responseHandler.HandleDownloadResponseStreamAsync(GetSystemUser(), dtoToDownload, stream);
+                    logger.Info("Processed Download Response");
+                }
+                else
+                {
+                    logger.Error("Download encountered an error, status code: {0}, reason: {1}", response.StatusCode.ToString(), response.ReasonPhrase);
+                    await service.HandleFailedDownloadBatchAsync(dtoToUpload.Id, null);
+                }
+                dtoToDownload = await service.GetNextBatchToDownloadAsync();
+            }
+            logger.Debug("Removing processed batches");
             await service.DeleteProcessedBatchesAsync();
 
-            //foreach (var batch in batchesToBeSent)
-            //{
-            //    HttpResponseMessage status = new HttpResponseMessage();
-            //    try
-            //    {
-            //        status = await batchComm.UploadAsync(batch.SendXml, batch.BatchId);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(String.Format("Exception: {0}", e.Message));
-            //    }
-            //    if (status.IsSuccessStatusCode)
-            //    {
-            //        var updatedBatch = new UpdatedSevisBatchProcessing(batch);
-            //        updatedBatch.SubmitDate = DateTime.Now;
-            //        await service.UpdateAsync(updatedBatch);
-            //        Console.WriteLine("SEVIS Upload successful");
-            //    }
-            //    else
-            //        Console.WriteLine("SEVIS Upload failed, error: {0}", status.StatusCode.ToString());
-            //}
-
-            // Check for Downloads to get
-
-            //var batchesToDownload = service.GetSevisBatchesToDownload();
-
-            // Process any Downloads that have not been processed
-
-            //var batchesToProcess = service.GetSevisBatchesToProcess();
-
-            Console.WriteLine("Finished Batch Processing.");
-
+            logger.Info("Finished Batch Processing.");
         }
 
-        /// <summary>
-        /// Returns a DS2019FileProvider.  Change this method to provide the list of files when ready.
-        /// </summary>
-        /// <returns>The file provider.</returns>
-        public IDS2019FileProvider GetFileProvider()
-        {
-            return new ZipArchiveDS2019FileProvider();
-        }
+
 
         /// <summary>
         /// Returns the system user.
@@ -143,6 +141,7 @@ namespace ECA.WebJobs.Sevis.Comm
         {
             return new User(Int32.Parse(this.appSettings.SystemUserId));
         }
+
 
         #region IDispose
 
@@ -165,9 +164,15 @@ namespace ECA.WebJobs.Sevis.Comm
             {
                 if (this.service is IDisposable)
                 {
-                    Console.WriteLine("Disposing of service " + this.service.GetType());
+                    logger.Trace("Disposing of service " + this.service.GetType());
                     ((IDisposable)this.service).Dispose();
                     this.service = null;
+                }
+                if (this.responseHandler is IDisposable)
+                {
+                    logger.Trace("Disposing of response handler " + this.responseHandler.GetType());
+                    ((IDisposable)this.responseHandler).Dispose();
+                    this.responseHandler = null;
                 }
             }
         }

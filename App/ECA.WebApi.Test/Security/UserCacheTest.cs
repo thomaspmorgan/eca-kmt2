@@ -1,16 +1,44 @@
-﻿using System;
-using FluentAssertions;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.WebApi.Security;
-using System.Collections.Generic;
+﻿using CAM.Business.Model;
 using CAM.Business.Service;
+using ECA.WebApi.Security;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECA.WebApi.Test.Security
 {
     [TestClass]
     public class UserCacheTest
     {
+        [TestMethod]
+        public void TestConstructor_UserHasSevisAccounts()
+        {
+            var principalId = 1;
+            var isValidUser = true;
+            var camUser = new User();
+            camUser.PrincipalId = principalId;
+
+            var user = new DebugWebApiUser();
+            var firstSevisAccount = new SevisUserAccount
+            {
+                OrgId = "org 1",
+                Username = "user 1"
+            };
+            var secondSevisAccount = new SevisUserAccount
+            {
+                OrgId = "org 2",
+                Username = "user 2"
+            };
+            var accounts = new List<SevisUserAccount> { firstSevisAccount, secondSevisAccount };
+            camUser.SevisUserAccounts = accounts;
+            var userCache = new UserCache(user, camUser, isValidUser);
+            Assert.AreEqual(2, userCache.SevisUserAccounts.Count());
+            Assert.IsTrue(Object.ReferenceEquals(firstSevisAccount, userCache.SevisUserAccounts.First()));
+            Assert.IsTrue(Object.ReferenceEquals(secondSevisAccount, userCache.SevisUserAccounts.Last()));
+        }
+
         [TestMethod]
         public void TestConstructor_NullPermissons()
         {

@@ -33,5 +33,9 @@ angular
     'ui.utils.masks',
     'ui.calendar',
     'templates',
-    'ngIdle'
+    'ngIdle',
+    'ui.grid',
+    'ui.grid.pagination',
+    'ui.grid.autoResize',
+    'ui.grid.selection'
   ]);

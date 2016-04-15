@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace ECA.WebJobs.Search.Index.All
 {
-
     // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
 
     /// <summary>
@@ -16,8 +15,9 @@ namespace ECA.WebJobs.Search.Index.All
     /// </summary>
     public class Program
     {
-        // Please set the following connection strings in app.config for this WebJob to run:
-        // AzureWebJobsDashboard and AzureWebJobsStorage
+        /// <summary>
+        /// Please set the following connection strings in app.config for this WebJob to run: AzureWebJobsDashboard and AzureWebJobsStorage
+        /// </summary>
         public static void Main()
         {
             var unityContainer = new SearchUnityContainer(new AppSettings());

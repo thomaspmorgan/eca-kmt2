@@ -10,7 +10,7 @@ namespace ECA.Data
     /// </summary>
     public class SevisBatchProcessing
     {
-        private const int NAME_LENGTH = 5;
+        private const int DISPOSITION_CODE_LENGTH = 5;
 
         /// <summary>
         /// The Id of the batch record
@@ -32,6 +32,16 @@ namespace ECA.Data
         /// Date SEVIS Batch was retrieved after processing
         /// </summary>
         public DateTimeOffset? RetrieveDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis org id that requested the batch.
+        /// </summary>
+        public string SevisOrgId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis username that requested the batch.
+        /// </summary>
+        public string SevisUsername { get; set; }
 
         /// <summary>
         /// Storage for SEVIS Submission XML
@@ -68,20 +78,39 @@ namespace ECA.Data
         /// <summary>
         /// Error code for SEVIS Upload (submission)
         /// </summary>
-        [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
+        [MinLength(DISPOSITION_CODE_LENGTH), MaxLength(DISPOSITION_CODE_LENGTH)]
         public string UploadDispositionCode { get; set; }
 
         /// <summary>
         /// Error code for SEVIS processing
         /// </summary>
-        [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
+        [MinLength(DISPOSITION_CODE_LENGTH), MaxLength(DISPOSITION_CODE_LENGTH)]
         public string ProcessDispositionCode { get; set; }
 
         /// <summary>
         /// Error code for SEVIS retrieval (transaction log)
         /// </summary>
-        [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
+        [MinLength(DISPOSITION_CODE_LENGTH), MaxLength(DISPOSITION_CODE_LENGTH)]
         public string DownloadDispositionCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the upload tries counter.
+        /// </summary>
+        public int UploadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the download tries counter.
+        /// </summary>
+        public int DownloadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last uploaded.
+        /// </summary>
+        public DateTimeOffset? LastUploadTry { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last downloaded.
+        /// </summary>
+        public DateTimeOffset? LastDownloadTry { get; set; }
     }
-    
 }

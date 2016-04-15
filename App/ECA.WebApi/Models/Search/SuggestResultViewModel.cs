@@ -1,15 +1,17 @@
 ﻿using ECA.Business.Search;
 using Microsoft.Azure.Search.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Web;
 
 namespace ECA.WebApi.Models.Search
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SuggestResultViewModel
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public SuggestResultViewModel(SuggestResult<ECADocument> suggestedResult)
         {
             Contract.Requires(suggestedResult != null, "The suggested result must not be null.");

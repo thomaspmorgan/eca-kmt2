@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Sevis.Model;
 using System;
-using System.Xml.Linq;
 
 namespace ECA.Business.Queries.Models.Sevis
 {
@@ -30,6 +29,16 @@ namespace ECA.Business.Queries.Models.Sevis
         public DateTimeOffset? RetrieveDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the sevis username.
+        /// </summary>
+        public string SevisUsername { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sevis org id.
+        /// </summary>
+        public string SevisOrgId { get; set; }
+
+        /// <summary>
         /// Storage for SEVIS Submission XML
         /// </summary>
         public string SendString { get; set; }
@@ -55,12 +64,39 @@ namespace ECA.Business.Queries.Models.Sevis
         public string DownloadDispositionCode { get; set; }
 
         /// <summary>
+        /// Gets or sets the upload tries counter.
+        /// </summary>
+        public int UploadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the download tries counter.
+        /// </summary>
+        public int DownloadTries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last uploaded.
+        /// </summary>
+        public DateTimeOffset? LastUploadTry { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date this batch was last downloaded.
+        /// </summary>
+        public DateTimeOffset? LastDownloadTry { get; set; }
+
+        /// <summary>
         /// Returns the upload disposition code value as a Disposition Code.
         /// </summary>
         /// <returns>The update Dispoition code.</returns>
         public DispositionCode GetUploadDispositionCodeAsCode()
         {
-            return DispositionCode.ToDispositionCode(this.UploadDispositionCode);
+            if (this.UploadDispositionCode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DispositionCode.ToDispositionCode(this.UploadDispositionCode);
+            }
         }
 
         /// <summary>
@@ -69,7 +105,15 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <returns>The download Dispoition code.</returns>
         public DispositionCode GetDownloadDispositionCodeAsCode()
         {
-            return DispositionCode.ToDispositionCode(this.DownloadDispositionCode);
+            if (this.DownloadDispositionCode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DispositionCode.ToDispositionCode(this.DownloadDispositionCode);
+            }
+
         }
 
         /// <summary>
@@ -78,7 +122,14 @@ namespace ECA.Business.Queries.Models.Sevis
         /// <returns>The process Dispoition code.</returns>
         public DispositionCode GetProcessDispositionCodeAsCode()
         {
-            return DispositionCode.ToDispositionCode(this.ProcessDispositionCode);
+            if (this.ProcessDispositionCode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DispositionCode.ToDispositionCode(this.ProcessDispositionCode);
+            }
         }
     }
 }

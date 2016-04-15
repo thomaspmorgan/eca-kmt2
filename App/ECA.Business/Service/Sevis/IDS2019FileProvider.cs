@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +13,17 @@ namespace ECA.Business.Service.Sevis
     public interface IDS2019FileProvider
     {
         /// <summary>
-        /// Returns the file bytes for the file with the given file name.
+        /// Returns the file stream for the file with the given file name.
         /// </summary>
         /// <param name="fileName">The filename of the file to retrieve.</param>
-        /// <returns>The file bytes.</returns>
-        byte[] GetDS2019File(int participantId, string batchId, string sevisId);
+        /// <returns>The file stream.</returns>
+        Stream GetDS2019FileStream(int participantId, string batchId, string sevisId);
 
         /// <summary>
-        /// Returns the file bytes for the file with the given file name.
+        /// Returns the file stream for the file with the given file name.
         /// </summary>
         /// <param name="fileName">The filename of the file to retrieve.</param>
-        /// <returns>The file bytes.</returns>
-        Task<byte[]> GetDS2019FileAsync(int participantId, string batchId, string sevisId);
+        /// <returns>The file stream.</returns>
+        Task<Stream> GetDS2019FileStreamAsync(int participantId, string batchId, string sevisId);
     }
 }

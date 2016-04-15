@@ -32,7 +32,13 @@ namespace ECA.Business.Test.Queries.Sevis
                 SendString = "send string",
                 SubmitDate = DateTimeOffset.UtcNow.AddDays(2.0),
                 TransactionLogString = "transaction log",
-                UploadDispositionCode = "upload code"
+                UploadDispositionCode = "upload code",
+                SevisUsername = "user",
+                SevisOrgId = "org",
+                UploadTries = 1,
+                DownloadTries = 2,
+                LastUploadTry = DateTimeOffset.UtcNow.AddDays(-10.0),
+                LastDownloadTry = DateTimeOffset.UtcNow.AddDays(-5.0)
             };
             context.SevisBatchProcessings.Add(model);
 
@@ -49,6 +55,12 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.AreEqual(model.SubmitDate, firstResult.SubmitDate);
             Assert.AreEqual(model.TransactionLogString, firstResult.TransactionLogString);
             Assert.AreEqual(model.UploadDispositionCode, firstResult.UploadDispositionCode);
+            Assert.AreEqual(model.SevisUsername, firstResult.SevisUsername);
+            Assert.AreEqual(model.SevisOrgId, firstResult.SevisOrgId);
+            Assert.AreEqual(model.UploadTries, firstResult.UploadTries);
+            Assert.AreEqual(model.DownloadTries, firstResult.DownloadTries);
+            Assert.AreEqual(model.LastUploadTry, firstResult.LastUploadTry);
+            Assert.AreEqual(model.LastDownloadTry, firstResult.LastDownloadTry);
         }
         #endregion
         
@@ -127,7 +139,9 @@ namespace ECA.Business.Test.Queries.Sevis
                 AddedOn = DateTimeOffset.Now,
                 ParticipantId = participant.ParticipantId,
                 ParticipantPerson = participantPerson,
-                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id
+                SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
+                SevisOrgId = "org",
+                SevisUsername = "user"
             };
             participantPerson.ParticipantPersonSevisCommStatuses.Add(status);
 
@@ -140,10 +154,14 @@ namespace ECA.Business.Test.Queries.Sevis
             Assert.AreEqual(1, results.Count);
 
             var firstResult = results.First();
-            Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
-            Assert.AreEqual(participant.ParticipantId, firstResult.ParticipantId);
-            Assert.AreEqual(participantPerson.SevisId, firstResult.SevisId);
-        }
+            Assert.AreEqual(status.SevisOrgId, firstResult.SevisOrgId);
+            Assert.AreEqual(status.SevisUsername, firstResult.SevisUsername);
+            Assert.AreEqual(1, firstResult.Participants.Count());
+            var firstParticipant = firstResult.Participants.First();
+            Assert.AreEqual(participant.ParticipantId, firstParticipant.ParticipantId);
+            Assert.AreEqual(project.ProjectId, firstParticipant.ProjectId);
+            Assert.AreEqual(participantPerson.SevisId, firstParticipant.SevisId);
+        }        
 
         [TestMethod]
         public void CreateGetQueuedToSubmitParticipantDTOsQuery_CheckLatestSevisCommStatus()

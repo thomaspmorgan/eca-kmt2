@@ -3,6 +3,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #region ActorType
 namespace ECA.Data
 {
@@ -185,6 +203,55 @@ namespace ECA.Data
 }
 #endregion
 
+#region BirthCountryReason
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class BirthCountryReason : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Born to Foreign Diplomat lookup with id 1.
+		/// </summary>
+		public static StaticLookup BornToForeignDiplomat { get { return new StaticLookup("Born to Foreign Diplomat", 1); } }
+		/// <summary>
+		/// Returns the Expatriated lookup with id 2.
+		/// </summary>
+		public static StaticLookup Expatriated { get { return new StaticLookup("Expatriated", 2); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return BirthCountryReason.BornToForeignDiplomat;
+			if (2 == id) return BirthCountryReason.Expatriated;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Born to Foreign Diplomat".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return BirthCountryReason.BornToForeignDiplomat;
+			if ("Expatriated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return BirthCountryReason.Expatriated;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "BirthCountryReason", TableName = "BirthCountryReason", IdColumnName = "BirthCountryReasonId", ValueColumnName = "Description" };
+		}
+	}
+}
+#endregion
+
 #region DataPointCategory
 namespace ECA.Data
 {
@@ -338,6 +405,61 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DataPointProperty", TableName = "DataPointProperty", IdColumnName = "DataPointPropertyId", ValueColumnName = "DataPointPropertyName" };
+		}
+	}
+}
+#endregion
+
+#region DependentType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class DependentType : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Participant lookup with id 1.
+		/// </summary>
+		public static StaticLookup Participant { get { return new StaticLookup("Participant", 1); } }
+		/// <summary>
+		/// Returns the Spouse lookup with id 2.
+		/// </summary>
+		public static StaticLookup Spouse { get { return new StaticLookup("Spouse", 2); } }
+		/// <summary>
+		/// Returns the Child lookup with id 3.
+		/// </summary>
+		public static StaticLookup Child { get { return new StaticLookup("Child", 3); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return DependentType.Participant;
+			if (2 == id) return DependentType.Spouse;
+			if (3 == id) return DependentType.Child;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Participant;
+			if ("Spouse".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Spouse;
+			if ("Child".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Child;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "DependentType", TableName = "DependentType", IdColumnName = "DependentTypeId", ValueColumnName = "Name" };
 		}
 	}
 }
@@ -1338,61 +1460,6 @@ namespace ECA.Data
 }
 #endregion
 
-#region PersonType
-namespace ECA.Data
-{
-	using ECA.Core.Generation;
-	public partial class DependentType : ECA.Core.Generation.IStaticLookup
-	{
-		/// <summary>
-		/// Returns the Participant lookup with id 1.
-		/// </summary>
-		public static StaticLookup Participant { get { return new StaticLookup("Participant", 1); } }
-		/// <summary>
-		/// Returns the Spouse lookup with id 2.
-		/// </summary>
-		public static StaticLookup Spouse { get { return new StaticLookup("Spouse", 2); } }
-		/// <summary>
-		/// Returns the Child lookup with id 3.
-		/// </summary>
-		public static StaticLookup Child { get { return new StaticLookup("Child", 3); } }
-		///<summary>
-		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
-		///<param name="id">The lookup id.</param>
-		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
-		///</summary>
-		public static StaticLookup GetStaticLookup(int id)
-		{
-			if (1 == id) return DependentType.Participant;
-			if (2 == id) return DependentType.Spouse;
-			if (3 == id) return DependentType.Child;
-			return null;
-		}
-		///<summary>
-		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
-		///<param name="id">The lookup id.</param>
-		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
-		///</summary>
-		public static StaticLookup GetStaticLookup(string value)
-		{
-			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Participant;
-			if ("Spouse".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Spouse;
-			if ("Child".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return DependentType.Child;
-			return null;
-		}
-
-		/// <summary>
-		/// Returns the static lookup config used to generate this type's static lookups.
-		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
-		/// </summary>
-		public StaticLookupConfig GetConfig()
-		{
-			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "PersonType", TableName = "PersonType", IdColumnName = "PersonTypeId", ValueColumnName = "Name" };
-		}
-	}
-}
-#endregion
-
 #region PhoneNumberType
 namespace ECA.Data
 {
@@ -1769,6 +1836,10 @@ namespace ECA.Data
 		/// Returns the Created By Batch lookup with id 15.
 		/// </summary>
 		public static StaticLookup CreatedByBatch { get { return new StaticLookup("Created By Batch", 15); } }
+		/// <summary>
+		/// Returns the Validated By Batch lookup with id 16.
+		/// </summary>
+		public static StaticLookup ValidatedByBatch { get { return new StaticLookup("Validated By Batch", 16); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -1791,6 +1862,7 @@ namespace ECA.Data
 			if (13 == id) return SevisCommStatus.PendingSevisSend;
 			if (14 == id) return SevisCommStatus.SentByBatch;
 			if (15 == id) return SevisCommStatus.CreatedByBatch;
+			if (16 == id) return SevisCommStatus.ValidatedByBatch;
 			return null;
 		}
 		///<summary>
@@ -1815,6 +1887,7 @@ namespace ECA.Data
 			if ("Pending Sevis Send".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.PendingSevisSend;
 			if ("Sent By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.SentByBatch;
 			if ("Created By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.CreatedByBatch;
+			if ("Validated By Batch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SevisCommStatus.ValidatedByBatch;
 			return null;
 		}
 
@@ -1982,8 +2055,10 @@ namespace ECA.Data
 			var errors = new List<string>();
 			errors.AddRange(validator.Validate<ActorType>());
 			errors.AddRange(validator.Validate<AddressType>());
+			errors.AddRange(validator.Validate<BirthCountryReason>());
 			errors.AddRange(validator.Validate<DataPointCategory>());
 			errors.AddRange(validator.Validate<DataPointProperty>());
+			errors.AddRange(validator.Validate<DependentType>());
 			errors.AddRange(validator.Validate<EmailAddressType>());
 			errors.AddRange(validator.Validate<Gender>());
 			errors.AddRange(validator.Validate<ItineraryStatus>());
@@ -1995,7 +2070,6 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<OrganizationType>());
 			errors.AddRange(validator.Validate<ParticipantStatus>());
 			errors.AddRange(validator.Validate<ParticipantType>());
-			errors.AddRange(validator.Validate<DependentType>());
 			errors.AddRange(validator.Validate<PhoneNumberType>());
 			errors.AddRange(validator.Validate<ProgramStatus>());
 			errors.AddRange(validator.Validate<ProgramType>());

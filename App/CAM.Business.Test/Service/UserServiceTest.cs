@@ -180,7 +180,13 @@ namespace CAM.Business.Test.Service
 
 
             var id = Guid.NewGuid();
+            var principal = new Principal
+            {
+                PrincipalId = 2
+            };
             var userAccount = new UserAccount();
+            userAccount.Principal = principal;
+            userAccount.PrincipalId = principal.PrincipalId;
             userAccount.AdGuid = id;
             userAccount.AccountStatusId = accountStatus.AccountStatusId;
             userAccount.CreatedBy = 1;
@@ -192,17 +198,16 @@ namespace CAM.Business.Test.Service
             userAccount.LastAccessed = null; //leave this null specifically - should be updated by the call
             userAccount.LastName = "last name";
             userAccount.Note = "note";
-            userAccount.PrincipalId = 2;
             userAccount.PermissionsRevisedOn = permissionsRevisedDate;
             userAccount.RestoredDate = restoredOnDate;
             userAccount.RevisedBy = 2;
             userAccount.RevisedOn = revisedOnDate;
             userAccount.RevokedDate = revokedDate;
-
             userAccount.AccountStatus = accountStatus;
 
             context.UserAccounts.Add(userAccount);
             context.AccountStatuses.Add(accountStatus);
+            context.Principals.Add(principal);
             Action<User> tester = (u) =>
             {
                 Assert.AreEqual(accountStatus.Status, u.AccountStatus);
@@ -218,6 +223,7 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(userAccount.RestoredDate, u.RestoredDate);
                 Assert.AreEqual(userAccount.RevokedDate, u.RevokedDate);
                 Assert.AreEqual(userAccount.SuspendedDate, u.SuspendedDate);
+                Assert.AreEqual(0, u.SevisUserAccounts.Count());
             };
             var result = service.GetUserById(id);
             var resultAsync = await service.GetUserByIdAsync(id);
@@ -245,7 +251,13 @@ namespace CAM.Business.Test.Service
 
 
             var id = Guid.NewGuid();
+            var principal = new Principal
+            {
+                PrincipalId = 2
+            };
             var userAccount = new UserAccount();
+            userAccount.Principal = principal;
+            userAccount.PrincipalId = principal.PrincipalId;
             userAccount.AdGuid = id;
             userAccount.AccountStatusId = accountStatus.AccountStatusId;
             userAccount.CreatedBy = 1;
@@ -257,7 +269,6 @@ namespace CAM.Business.Test.Service
             userAccount.LastAccessed = null; //leave this null specifically - should be updated by the call
             userAccount.LastName = "last name";
             userAccount.Note = "note";
-            userAccount.PrincipalId = 2;
             userAccount.PermissionsRevisedOn = permissionsRevisedDate;
             userAccount.RestoredDate = restoredOnDate;
             userAccount.RevisedBy = 2;
@@ -268,10 +279,10 @@ namespace CAM.Business.Test.Service
 
             context.UserAccounts.Add(userAccount);
             context.AccountStatuses.Add(accountStatus);
+            context.Principals.Add(principal);
             Action<User> tester = (u) =>
             {
                 Assert.AreEqual(accountStatus.Status, u.AccountStatus);
-
                 Assert.AreEqual(userAccount.AccountStatusId, u.AccountStatusId);
                 Assert.AreEqual(userAccount.AdGuid, u.AdGuid);
                 Assert.AreEqual(userAccount.DisplayName, u.DisplayName);
@@ -283,9 +294,109 @@ namespace CAM.Business.Test.Service
                 Assert.AreEqual(userAccount.RestoredDate, u.RestoredDate);
                 Assert.AreEqual(userAccount.RevokedDate, u.RevokedDate);
                 Assert.AreEqual(userAccount.SuspendedDate, u.SuspendedDate);
+                Assert.AreEqual(0, u.SevisUserAccounts.Count());
             };
             var result = service.GetUserById(userAccount.PrincipalId);
             var resultAsync = await service.GetUserByIdAsync(userAccount.PrincipalId);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUserById_HasSevisUserAccounts()
+        {
+            var accountStatus = new AccountStatus
+            {
+                AccountStatusId = 1,
+                Status = "hello"
+            };
+            var id = Guid.NewGuid();
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                PrincipalId = 1,
+                Principal = principal,
+                AdGuid = id,
+                AccountStatus = accountStatus,
+                AccountStatusId = accountStatus.AccountStatusId
+            };
+            principal.UserAccount = userAccount;
+            var firstSevisUserAccount = new SevisAccount
+            {
+                Id = 1,
+                OrgId = "org 1",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Username = "username 1"
+            };
+            var secondSevisUserAccount = new SevisAccount
+            {
+                Id = 2,
+                OrgId = "org 2",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Username = "username 2"
+            };
+            principal.SevisAccounts.Add(firstSevisUserAccount);
+            principal.SevisAccounts.Add(secondSevisUserAccount);
+
+            context.UserAccounts.Add(userAccount);
+            context.AccountStatuses.Add(accountStatus);
+            context.Principals.Add(principal);
+            context.SevisAccounts.Add(firstSevisUserAccount);
+            context.SevisAccounts.Add(secondSevisUserAccount);
+            Action<User> tester = (u) =>
+            {
+                Assert.AreEqual(2, u.SevisUserAccounts.Count());
+                var first = u.SevisUserAccounts.First();
+                Assert.AreEqual(firstSevisUserAccount.OrgId, first.OrgId);
+                Assert.AreEqual(firstSevisUserAccount.Username, first.Username);
+
+                var last = u.SevisUserAccounts.Last();
+                Assert.AreEqual(secondSevisUserAccount.OrgId, last.OrgId);
+                Assert.AreEqual(secondSevisUserAccount.Username, last.Username);
+            };
+            var result = service.GetUserById(id);
+            var resultAsync = await service.GetUserByIdAsync(id);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUserById_HasNoSevisUserAccounts()
+        {
+            var accountStatus = new AccountStatus
+            {
+                AccountStatusId = 1,
+                Status = "hello"
+            };
+            var id = Guid.NewGuid();
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                PrincipalId = 1,
+                Principal = principal,
+                AdGuid = id,
+                AccountStatus = accountStatus,
+                AccountStatusId = accountStatus.AccountStatusId
+            };
+            principal.UserAccount = userAccount;
+
+            context.UserAccounts.Add(userAccount);
+            context.AccountStatuses.Add(accountStatus);
+            context.Principals.Add(principal);
+            Action<User> tester = (u) =>
+            {
+                Assert.AreEqual(0, u.SevisUserAccounts.Count());
+            };
+            var result = service.GetUserById(id);
+            var resultAsync = await service.GetUserByIdAsync(id);
             tester(result);
             tester(resultAsync);
         }
@@ -327,7 +438,10 @@ namespace CAM.Business.Test.Service
                 Status = "hello"
             };
             var id = Guid.NewGuid();
+            var principal = new Principal();
             var userAccount = new UserAccount();
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
             userAccount.AdGuid = id;
 
             userAccount.AccountStatus = accountStatus;
@@ -353,7 +467,10 @@ namespace CAM.Business.Test.Service
                 Status = "hello"
             };
             var id = Guid.NewGuid();
+            var principal = new Principal();
             var userAccount = new UserAccount();
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
             userAccount.AdGuid = id;
 
             userAccount.AccountStatus = accountStatus;

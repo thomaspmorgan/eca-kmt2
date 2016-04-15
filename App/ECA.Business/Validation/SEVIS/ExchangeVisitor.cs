@@ -33,7 +33,6 @@ namespace ECA.Business.Validation.Sevis
         /// <param name="siteOfActivity">The exchange visitor site of activity.</param>
         /// <param name="dependents">The dependents of the exchange visitor.</param>
         public ExchangeVisitor(
-            string sevisUserId,
             string sevisId,
             Bio.Person person,
             FinancialInfo financialInfo,
@@ -44,7 +43,6 @@ namespace ECA.Business.Validation.Sevis
             IEnumerable<Dependent> dependents
             )
         {
-            this.SevisUserId = sevisUserId;
             this.Person = person;
             this.FinancialInfo = financialInfo;
             this.OccupationCategoryCode = occupationCategoryCode;
@@ -89,11 +87,6 @@ namespace ECA.Business.Validation.Sevis
         /// Gets the program state date.
         /// </summary>
         public DateTime ProgramStartDate { get; private set; }
-
-        /// <summary>
-        /// Gets the user.
-        /// </summary>
-        public string SevisUserId { get; private set; }
 
         /// <summary>
         /// Gets the dependents.
@@ -170,17 +163,19 @@ namespace ECA.Business.Validation.Sevis
         /// <summary>
         /// Returns the Sevis model to create a new exchange visitor.
         /// </summary>
+        /// <param name="sevisUsername">The sevis username the exchange visitor is being sent under.</param>
         /// <returns>The sevis model to create a new exchange visitor.</returns>
-        public SEVISEVBatchTypeExchangeVisitor GetSEVISBatchTypeExchangeVisitor()
+        public SEVISEVBatchTypeExchangeVisitor GetSEVISBatchTypeExchangeVisitor(string sevisUsername)
         {
             Contract.Requires(this.Person != null, "The person must not be null.");
             Contract.Requires(this.Person.FullName != null, "The person full name must not be null.");
             Contract.Requires(this.Person.ProgramCategoryCode != null, "The program category code must not be null.");
             Contract.Requires(this.FinancialInfo != null, "The financial info code must not be null.");
             Contract.Requires(this.OccupationCategoryCode != null, "The occupation category code must not be null.");
+            Contract.Requires(sevisUsername != null, "The sevis username must not be null.");
 
             var instance = new SEVISEVBatchTypeExchangeVisitor();
-            instance.userID = this.SevisUserId;
+            instance.userID = sevisUsername;
             instance.Biographical = this.Person.GetEVPersonTypeBiographical();
             instance.CategoryCode = this.Person.ProgramCategoryCode.GetEVCategoryCodeType();
             instance.FinancialInfo = this.FinancialInfo.GetEVPersonTypeFinancialInfo();
@@ -197,9 +192,18 @@ namespace ECA.Business.Validation.Sevis
                 var addressDoctor = address.GetUSAddressDoctorType();
                 instance.USAddress = addressDoctor;
             }
+            
+            if(this.OccupationCategoryCode != null)
+            {
+                instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
+                instance.OccupationCategoryCodeSpecified = true;
+            }
+            else
+            {
+                instance.OccupationCategoryCodeSpecified = false;
+            }
+
             instance.ResidentialAddress = null;
-            instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
-            instance.OccupationCategoryCodeSpecified = true;
             instance.PositionCode = (short)Int32.Parse(this.Person.PositionCode);
             instance.PrgEndDate = this.ProgramEndDate;
             instance.PrgStartDate = this.ProgramStartDate;
@@ -217,7 +221,7 @@ namespace ECA.Business.Validation.Sevis
         {
             var dependentsList = this.Dependents ?? new List<AddedDependent>();
             var addedDependents = new List<EVPersonTypeDependent>();
-            foreach (var dependent in dependentsList)
+            foreach (var dependent in dependentsList.Where(x => !x.IsDeleted).ToList())
             {
                 if (dependent.GetType() != typeof(AddedDependent))
                 {
@@ -234,7 +238,6 @@ namespace ECA.Business.Validation.Sevis
             {
                 instance.CreateDependent = null;
             }
-            
         }
 
         /// <summary>
@@ -242,9 +245,11 @@ namespace ECA.Business.Validation.Sevis
         /// a name has changed, a dependent has been added, and another dependent has been updated.  This collection
         /// will contain all update sevis exchange visitor objects to perform those updates.
         /// </summary>
+        /// <param name="sevisUsername">The sevis username the exchange visitor is being sent with.</param>
         /// <returns>All update sevis batch objects.</returns>
-        public IEnumerable<SEVISEVBatchTypeExchangeVisitor1> GetSEVISEVBatchTypeExchangeVisitor1Collection()
+        public IEnumerable<SEVISEVBatchTypeExchangeVisitor1> GetSEVISEVBatchTypeExchangeVisitor1Collection(string sevisUsername)
         {
+            Contract.Requires(sevisUsername != null, "The sevis username must not be null.");
             var visitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
             Func<object, SEVISEVBatchTypeExchangeVisitor1> createUpdateExchangeVisitor = (item) =>
             {
@@ -254,7 +259,7 @@ namespace ECA.Business.Validation.Sevis
                     requestID = this.Person.ParticipantId.ToString(),
                     sevisID = this.SevisId,
                     statusCodeSpecified = false,
-                    userID = this.SevisUserId
+                    userID = sevisUsername
                 };
             };
             visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical()));

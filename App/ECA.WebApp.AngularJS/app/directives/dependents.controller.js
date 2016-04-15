@@ -25,6 +25,7 @@ angular.module('staticApp')
       $scope.view.params = $stateParams;
       $scope.view.collapseDependents = false;
       $scope.selectedCountriesOfCitizenship = [];
+      $scope.view.edit = true;
       var tempId = 0;
 
       $scope.data = {};
@@ -44,7 +45,7 @@ angular.module('staticApp')
           });
       };
 
-      $scope.view.onAddDependentClick = function () {
+      $scope.view.onAddDependentClick = function (person) {
           $scope.dependentLoading = false;
           var addDependentModalInstance = $modal.open({
               animation: true,
@@ -52,6 +53,9 @@ angular.module('staticApp')
               controller: 'AddDependentModalCtrl',
               size: 'lg',
               resolve: {
+                  person: function () {
+                      return person;
+                  }
               }
           });
           addDependentModalInstance.result.then(function (dependent) {

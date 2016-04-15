@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
+using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using NLog;
@@ -10,6 +12,8 @@ using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 
 namespace ECA.Business.Service.Persons
 {
@@ -51,6 +55,18 @@ namespace ECA.Business.Service.Persons
         }
 
         #region Get
+        /// <summary>
+        /// Returns list of sevis participants
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>List of sevis participants</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisDTO>> GetSevisParticipantsByProjectIdAsync(int projectId, QueryableOperator<ParticipantPersonSevisDTO> queryOperator)
+        {
+            var sevisParticipants = ParticipantPersonsSevisQueries.CreateGetSevisParticipantsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved sevis participants by project id {0} and query operator {1}.", projectId, queryOperator);
+            return sevisParticipants;
+        }
 
         /// <summary>
         /// Returns a participantPersonSevis
@@ -77,10 +93,33 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved participantPersonSevis by id [{0}].", participantId);
             return participantPersonSevis;
         }
-        
+
+        /// <summary>
+        /// Returns the paged, filtered, sorted sevis comm statuses for the participant.
+        /// </summary>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
+        public PagedQueryResults<ParticipantPersonSevisCommStatusDTO> GetSevisCommStatusesByParticipantId(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            return ParticipantPersonsSevisQueries.CreateGetParticipantPersonSevisCommStatusesByParticipantIdQuery(this.Context, projectId, participantId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+        }
+
+        /// <summary>
+        /// Returns the paged, filtered, sorted sevis comm statuses for the participant.
+        /// </summary>
+        /// <param name="projectId">The project id of the participant.</param>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted sevis comm statuses.</returns>
+        public Task<PagedQueryResults<ParticipantPersonSevisCommStatusDTO>> GetSevisCommStatusesByParticipantIdAsync(int projectId, int participantId, QueryableOperator<ParticipantPersonSevisCommStatusDTO> queryOperator)
+        {
+            return ParticipantPersonsSevisQueries.CreateGetParticipantPersonSevisCommStatusesByParticipantIdQuery(this.Context, projectId, participantId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
         #endregion
 
-        #region update
+        #region Send To Sevis
 
         private IQueryable<ParticipantPersonSevisCommStatus> CreateGetCommStatusesThatAreReadyToSubmitQuery(int projectId, IEnumerable<int> participantIds)
         {
@@ -95,26 +134,26 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Sets sevis communication status for participant ids to queued
         /// </summary>
-        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <param name="participants">The participants that will be sent to sevis.</param>
         /// <returns>List of participant ids that were updated</returns>
-        public async Task<int[]> SendToSevisAsync(int projectId, int[] participantIds)
+        public async Task<int[]> SendToSevisAsync(ParticipantsToBeSentToSevis participants)
         {
-            var statuses = await CreateGetCommStatusesThatAreReadyToSubmitQuery(projectId, participantIds).ToListAsync();
-            return DoSendToSevis(statuses).Select(x => x.ParticipantId).ToArray();
+            var statuses = await CreateGetCommStatusesThatAreReadyToSubmitQuery(participants.ProjectId, participants.ParticipantIds).ToListAsync();
+            return DoSendToSevis(participants, statuses).Select(x => x.ParticipantId).ToArray();
         }
 
         /// <summary>
         /// Sets sevis communication status for participant ids to queued
         /// </summary>
-        /// <param name="participantIds">The participant ids to update communcation status</param>
+        /// <param name="participants">The participants that will be sent to sevis.</param>
         /// <returns>List of participant ids that were updated</returns>
-        public int[] SendToSevis(int projectId, int[] participantIds)
+        public int[] SendToSevis(ParticipantsToBeSentToSevis participants)
         {
-            var statuses = CreateGetCommStatusesThatAreReadyToSubmitQuery(projectId, participantIds).ToList();
-            return DoSendToSevis(statuses).Select(x => x.ParticipantId).ToArray();
+            var statuses = CreateGetCommStatusesThatAreReadyToSubmitQuery(participants.ProjectId, participants.ParticipantIds).ToList();
+            return DoSendToSevis(participants, statuses).Select(x => x.ParticipantId).ToArray();
         }
 
-        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(IEnumerable<ParticipantPersonSevisCommStatus> readyToSubmitStatuses)
+        private IEnumerable<ParticipantPersonSevisCommStatus> DoSendToSevis(ParticipantsToBeSentToSevis model, IEnumerable<ParticipantPersonSevisCommStatus> readyToSubmitStatuses)
         {
             var addedParticipantStatuses = new List<ParticipantPersonSevisCommStatus>();
             foreach (var status in readyToSubmitStatuses)
@@ -123,14 +162,19 @@ namespace ECA.Business.Service.Persons
                 {
                     ParticipantId = status.ParticipantId,
                     SevisCommStatusId = SevisCommStatus.QueuedToSubmit.Id,
-                    AddedOn = DateTimeOffset.Now
+                    AddedOn = DateTimeOffset.Now,
+                    SevisOrgId = model.SevisOrgId,
+                    SevisUsername = model.SevisUsername,
+                    PrincipalId = model.Audit.User.Id
                 };
-
                 Context.ParticipantPersonSevisCommStatuses.Add(newStatus);
                 addedParticipantStatuses.Add(status);
             }
             return addedParticipantStatuses.ToList();
         }
+        #endregion
+
+        #region Update
 
         /// <summary>
         /// Updates a participant person SEVIS info with given updated SEVIS information.
@@ -166,7 +210,6 @@ namespace ECA.Business.Service.Persons
             participantPerson.IsValidatedViaRTI = updatedParticipantPersonSevis.IsValidatedViaRTI;
             participantPerson.IsCancelled = updatedParticipantPersonSevis.IsCancelled;
             participantPerson.IsDS2019Printed = updatedParticipantPersonSevis.IsDS2019Printed;
-            participantPerson.IsNeedsUpdate = updatedParticipantPersonSevis.IsNeedsUpdate;
             participantPerson.IsDS2019SentToTraveler = updatedParticipantPersonSevis.IsDS2019SentToTraveler;
             participantPerson.StartDate = updatedParticipantPersonSevis.StartDate;
             participantPerson.EndDate = updatedParticipantPersonSevis.EndDate;

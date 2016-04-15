@@ -14,7 +14,6 @@
     [IsValidatedViaRTI] BIT NOT NULL DEFAULT 0, 
     [IsCancelled] BIT NOT NULL DEFAULT 0, 
     [IsDS2019Printed] BIT NOT NULL DEFAULT 0, 
-    [IsNeedsUpdate] BIT NOT NULL DEFAULT 0, 
     [IsDS2019SentToTraveler] BIT NOT NULL DEFAULT 0, 
     [StartDate] DATETIMEOFFSET NULL, 
     [EndDate] DATETIMEOFFSET NULL, 

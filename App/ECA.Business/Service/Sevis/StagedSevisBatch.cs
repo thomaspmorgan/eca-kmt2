@@ -77,39 +77,58 @@ namespace ECA.Business.Service.Sevis
         public const string EXCHANGE_VISITOR_NAMESPACE_URL = "http://www.ice.gov/xmlschema/sevisbatch/alpha/Create-UpdateExchangeVisitor.xsd";
 
         private List<ExchangeVisitor> exchangeVisitors;
-        
+
         /// <summary>
         /// Creates a new default StagedSevisBatch.
         /// <param name="batchId">The id of the batch this staged batch belongs to.</param>
-        /// 
+        /// <param name="maxCreateExchangeVisitorRecordsPerBatch">The maximum number of create records this batch will contain.</param>
+        /// <param name="maxUpdateExchangeVisitorRecordPerBatch">The maximum number of update records this batch will contain.</param>
+        /// <param name="sevisOrgId">The sevis org, or program, id to submit this batch with.</param>
+        /// <param name="sevisUsername">The sevis username all exchange visitors will be submitted with.</param>
         /// </summary>
         public StagedSevisBatch(
-            Guid batchId, 
-            string sevisUserId, 
-            string orgId, 
+            Guid batchId,
+            string sevisUsername,
+            string sevisOrgId,
             int maxCreateExchangeVisitorRecordsPerBatch = MAX_CREATE_EXCHANGE_VISITOR_RECORDS_PER_BATCH_DEFAULT,
             int maxUpdateExchangeVisitorRecordPerBatch = MAX_UPDATE_EXCHANGE_VISITOR_RECORD_PER_BATCH_DEFAULT)
         {
             Contract.Requires(batchId != Guid.Empty, "The batch id must not be the empty guid.");
 
             this.BatchId = GetBatchId(batchId);
+            this.SevisUsername = sevisUsername;
+            this.SevisOrgId = sevisOrgId;
             this.exchangeVisitors = new List<ExchangeVisitor>();
             this.SevisBatchProcessing = new SevisBatchProcessing
             {
-                BatchId = this.BatchId
+                BatchId = this.BatchId,
+                SevisOrgId = this.SevisOrgId,
+                SevisUsername = this.SevisUsername,
+                UploadTries = 0,
+                DownloadTries = 0
             };
             this.SEVISBatchCreateUpdateEV = new SEVISBatchCreateUpdateEV();
-            this.SEVISBatchCreateUpdateEV.userID = sevisUserId;
+            this.SEVISBatchCreateUpdateEV.userID = sevisUsername;
             this.SEVISBatchCreateUpdateEV.BatchHeader = new BatchHeaderType
             {
                 BatchID = this.BatchId.ToString(),
-                OrgID = orgId
+                OrgID = this.SevisOrgId
             };
             this.SEVISBatchCreateUpdateEV.CreateEV = null;
             this.SEVISBatchCreateUpdateEV.UpdateEV = null;
             this.MaxCreateExchangeVisitorRecordsPerBatch = maxCreateExchangeVisitorRecordsPerBatch;
             this.MaxUpdateExchangeVisitorRecordPerBatch = maxUpdateExchangeVisitorRecordPerBatch;
         }
+
+        /// <summary>
+        /// Gets the sevis username the exchange visitors will be submitted with.
+        /// </summary>
+        public string SevisUsername { get; private set; }
+
+        /// <summary>
+        /// Gets the sevis org or program id this batch will be submitted with.
+        /// </summary>
+        public string SevisOrgId { get; private set; }
 
         /// <summary>
         /// Gets the batch id.
@@ -135,6 +154,7 @@ namespace ECA.Business.Service.Sevis
         /// Gets the maximum number of records to place in the UpdateEV array.
         /// </summary>
         public int MaxUpdateExchangeVisitorRecordPerBatch { get; private set; }
+
         /// <summary>
         /// Gets or sets the IsSaved flag.
         /// </summary>
@@ -142,12 +162,12 @@ namespace ECA.Business.Service.Sevis
         {
             get; set;
         }
-        
+
         public List<ExchangeVisitor> GetExchangeVisitors()
         {
             return this.exchangeVisitors;
-        }       
-        
+        }
+
         /// <summary>
         /// Returns the namespaces to add to the sevis exchange visitor document.
         /// </summary>
@@ -161,7 +181,7 @@ namespace ECA.Business.Service.Sevis
             namespaces.Add(XSD_NAMESPACE_PREFIX, XSD_NAMESPACE_URL);
             namespaces.Add(XSI_NAMESPACE_PREFIX, XSI_NAMESPACE_URL);
             return namespaces;
-        } 
+        }
 
         /// <summary>
         /// Serializes the SEVISBatchCreateUpdateEV object and saves it to the SevisBatchProcessing object.
@@ -184,9 +204,13 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="exchangeVisitor">The exchange visitor to add.</param>
         /// <returns>True, if the given exchange visitor can be added to this batch; otherwise false.</returns>
-        public bool CanAccomodate(ExchangeVisitor exchangeVisitor)
+        public bool CanAccomodate(ExchangeVisitor exchangeVisitor, string sevisUsername, string sevisOrgId)
         {
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
+            if (this.SevisUsername != sevisUsername|| this.SevisOrgId != sevisOrgId)
+            {
+                return false;
+            }
             if (String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
             {
                 var count = this.SEVISBatchCreateUpdateEV.CreateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.CreateEV.Count();
@@ -196,7 +220,7 @@ namespace ECA.Business.Service.Sevis
             else
             {
                 var count = this.SEVISBatchCreateUpdateEV.UpdateEV == null ? 0 : this.SEVISBatchCreateUpdateEV.UpdateEV.Count();
-                var addedItemCount = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection().Count();
+                var addedItemCount = exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(sevisUsername).Count();
                 return count + addedItemCount <= this.MaxCreateExchangeVisitorRecordsPerBatch;
             }
         }
@@ -209,7 +233,7 @@ namespace ECA.Business.Service.Sevis
         {
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
             Contract.Requires(exchangeVisitor.Person != null, "The exchange visitor person must not be null.");
-            
+
             var existingExchangeVisitor = this.exchangeVisitors.Where(x => x.Person.ParticipantId == exchangeVisitor.Person.ParticipantId).FirstOrDefault();
             if (existingExchangeVisitor != null)
             {
@@ -219,9 +243,9 @@ namespace ECA.Business.Service.Sevis
             if (String.IsNullOrWhiteSpace(exchangeVisitor.SevisId))
             {
                 var list = this.SEVISBatchCreateUpdateEV.CreateEV != null ? this.SEVISBatchCreateUpdateEV.CreateEV.ToList() : new List<SEVISEVBatchTypeExchangeVisitor>();
-                list.Add(exchangeVisitor.GetSEVISBatchTypeExchangeVisitor());
+                list.Add(exchangeVisitor.GetSEVISBatchTypeExchangeVisitor(this.SevisUsername));
                 this.SEVISBatchCreateUpdateEV.CreateEV = list.ToArray();
-                if(this.SEVISBatchCreateUpdateEV.CreateEV.Count() > this.MaxCreateExchangeVisitorRecordsPerBatch)
+                if (this.SEVISBatchCreateUpdateEV.CreateEV.Count() > this.MaxCreateExchangeVisitorRecordsPerBatch)
                 {
                     throw new NotSupportedException(message);
                 }
@@ -229,7 +253,7 @@ namespace ECA.Business.Service.Sevis
             else
             {
                 var list = this.SEVISBatchCreateUpdateEV.UpdateEV != null ? this.SEVISBatchCreateUpdateEV.UpdateEV.ToList() : new List<SEVISEVBatchTypeExchangeVisitor1>();
-                list.AddRange(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection());
+                list.AddRange(exchangeVisitor.GetSEVISEVBatchTypeExchangeVisitor1Collection(this.SevisUsername));
                 this.SEVISBatchCreateUpdateEV.UpdateEV = list.ToArray();
                 if (this.SEVISBatchCreateUpdateEV.UpdateEV.Count() > this.MaxUpdateExchangeVisitorRecordPerBatch)
                 {
@@ -249,7 +273,7 @@ namespace ECA.Business.Service.Sevis
             Contract.Requires(guid != Guid.Empty, "The provided guid must not be the empty guid.");
             var maxLength = 14;
             var guidString = guid.ToString();
-            guidString = guidString.Replace("-", String.Empty);            
+            guidString = guidString.Replace("-", String.Empty);
             var index = guidString.Length - maxLength;
             return guidString.Substring(index);
         }

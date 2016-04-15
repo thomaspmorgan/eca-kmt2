@@ -1,23 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-angular.module('staticApp').factory('ConstantsService', function() {
+﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
 		dataPointCategory: {
 			office: {id: 1, value: "Office"},
@@ -156,6 +137,23 @@ angular.module('staticApp').factory('ConstantsService', function() {
 			program: {id: 3, value: "Program"},
 			project: {id: 4, value: "Project"}
 		},
+		sevisCommStatus: {
+			informationRequired: {id: 1, value: "Information Required"},
+			readyToSubmit: {id: 2, value: "Ready To Submit"},
+			sentToDhs: {id: 3, value: "Sent To DHS"},
+			validated: {id: 4, value: "Validated"},
+			queuedToSubmit: {id: 5, value: "Queued To Submit"},
+			sentToDhsViaRti: {id: 6, value: "Sent to DHS via RTI"},
+			cancelled: {id: 7, value: "Cancelled"},
+			ds2019Signed: {id: 8, value: "DS-2019 Signed"},
+			ds2019Printed: {id: 9, value: "DS-2019 Printed"},
+			rtiRequestSuccessful: {id: 10, value: "RTI Request Successful"},
+			rtiRequestUnsuccessful: {id: 11, value: "RTI Request Unsuccessful"},
+			formI515aIssued: {id: 12, value: "Form I-515A Issued"},
+			pendingSevisSend: {id: 13, value: "Pending Sevis Send"},
+			sentByBatch: {id: 14, value: "Sent By Batch"},
+			createdByBatch: {id: 15, value: "Created By Batch"}
+		},
 		sevisErrorType: {
 			email: {id: 1, value: "Email"},
 			phoneNumber: {id: 2, value: "Phone Number"},
@@ -240,5 +238,4 @@ angular.module('staticApp').factory('ConstantsService', function() {
 		updateBreadcrumbsEventName: 'updateBreadcrumbs'
 	};
 });
-
 

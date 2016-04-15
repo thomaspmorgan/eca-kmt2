@@ -1225,4 +1225,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="BirthReasonCode" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="9653ad3a-5e14-4c5d-bd13-c54369c056f4" ChangeDateTime="04/14/2016 12:28:41">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[UploadCooldown]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DownloadTries" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ee5ec2f9-9aca-41b3-bbb8-9d7aac75e66e" ChangeDateTime="04/14/2016 13:11:25">
+    <Property Name="ElementName" Value="[dbo].[SevisBatchProcessing].[UploadCooldown]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[SevisBatchProcessing]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LastUploadTry" />
+  </Operation>
 </Operations>

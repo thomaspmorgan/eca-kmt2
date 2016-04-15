@@ -28,16 +28,16 @@ namespace ECA.Business.Service.Sevis
         Task<SevisBatchProcessingDTO> GetNextBatchToUploadAsync();
 
         /// <summary>
-        /// Returns the batch id of the next batch to download from the sevis api.
+        /// Returns the batch record of the next batch to download from the sevis api.
         /// </summary>
-        /// <returns>The batch id of the next batch to download from sevis.</returns>
-        string GetNextBatchByBatchIdToDownload();
+        /// <returns>The batch record of the next batch to download from sevis.</returns>
+        SevisBatchProcessingDTO GetNextBatchToDownload();
 
         /// <summary>
-        /// Returns the batch id of the next batch to download from the sevis api.
+        /// Returns the batch record of the next batch to download from the sevis api.
         /// </summary>
-        /// <returns>The batch id of the next batch to download from sevis.</returns>
-        Task<string> GetNextBatchByBatchIdToDownloadAsync();
+        /// <returns>The batch recorce of the next batch to download from sevis.</returns>
+        Task<SevisBatchProcessingDTO> GetNextBatchToDownloadAsync();
 
         /// <summary>
         /// Stages all queued to submit sevis participants into sevis batches that can then be sent to sevis for processing.
@@ -55,17 +55,19 @@ namespace ECA.Business.Service.Sevis
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
+        /// <param name="batchId">The batch id string of the transaction log.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The ds 2019 file provider.</param>
-        void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider);
+        void ProcessTransactionLog(User user, string batchId, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
         /// Processes a given sevis transaction log as an xml string and updates system data appropriately.
         /// </summary>
         /// <param name="user">The user performing the processing.</param>
+        /// <param name="batchId">The batch id string of the transaction log.</param>
         /// <param name="xml">The sevis transaction log xml as a string.</param>
         /// <param name="fileProvider">The ds 2019 file provider.</param>
-        Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider);
+        Task ProcessTransactionLogAsync(User user, string batchId, string xml, IDS2019FileProvider fileProvider);
 
         /// <summary>
         /// Deletes all processed batches from the context.
@@ -79,7 +81,33 @@ namespace ECA.Business.Service.Sevis
         /// <returns>The task.</returns>
         Task DeleteProcessedBatchesAsync();
 
+        /// <summary>
+        /// Handles a failed batch upload.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to upload.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        void HandleFailedUploadBatch(int batchId, Exception e);
 
+        /// <summary>
+        /// Handles a failed batch upload.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to upload.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        Task HandleFailedUploadBatchAsync(int batchId, Exception e);
+
+        /// <summary>
+        /// Handles a failed batch download.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to download.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        void HandleFailedDownloadBatch(int batchId, Exception e);
+
+        /// <summary>
+        /// Handles a failed batch download.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to download.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        Task HandleFailedDownloadBatchAsync(int batchId, Exception e);
     }
 
     /// <summary>
@@ -109,7 +137,7 @@ namespace ECA.Business.Service.Sevis
         /// 
         /// </summary>
         /// <returns></returns>
-        public string GetNextBatchByBatchIdToDownload()
+        public SevisBatchProcessingDTO GetNextBatchToDownload()
         {
             return null;
         }
@@ -118,9 +146,9 @@ namespace ECA.Business.Service.Sevis
         /// 
         /// </summary>
         /// <returns></returns>
-        public Task<string> GetNextBatchByBatchIdToDownloadAsync()
+        public Task<SevisBatchProcessingDTO> GetNextBatchToDownloadAsync()
         {
-            return Task.FromResult<string>(null);
+            return Task.FromResult<SevisBatchProcessingDTO>(null);
         }        
 
         /// <summary>
@@ -144,14 +172,10 @@ namespace ECA.Business.Service.Sevis
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="fileProvider"></param>
-        /// <param name="xml"></param>
-        public void ProcessTransactionLog(User user, string xml, IDS2019FileProvider fileProvider)
+        /// <returns></returns>
+        public Task<List<SevisBatchProcessingDTO>> GetBatchesToUploadAsync()
         {
-            Contract.Requires(user != null, "The user must not be null.");
-            Contract.Requires(xml != null, "The xml must not be null.");
-            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            return Task.FromResult<List<SevisBatchProcessingDTO>>(null);
         }
 
         /// <summary>
@@ -159,13 +183,30 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <param name="user"></param>
         /// <param name="fileProvider"></param>
+        /// <param name="batchId"></param>
         /// <param name="xml"></param>
-        /// <returns></returns>
-        public Task ProcessTransactionLogAsync(User user, string xml, IDS2019FileProvider fileProvider)
+        public void ProcessTransactionLog(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
         {
             Contract.Requires(user != null, "The user must not be null.");
             Contract.Requires(xml != null, "The xml must not be null.");
             Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(batchId != null, "The batch id must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="fileProvider"></param>
+        /// <param name="batchId"></param>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public Task ProcessTransactionLogAsync(User user, string batchId, string xml, IDS2019FileProvider fileProvider)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(xml != null, "The xml must not be null.");
+            Contract.Requires(fileProvider != null, "The file provider must not be null.");
+            Contract.Requires(batchId != null, "The batch id must not be null.");
             return Task.FromResult<object>(null);
         }
 
@@ -204,6 +245,48 @@ namespace ECA.Business.Service.Sevis
         public Task<List<StagedSevisBatch>> StageBatchesAsync()
         {
             return Task.FromResult<List<StagedSevisBatch>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        public void HandleFailedUploadBatch(int batchId, Exception e)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public Task HandleFailedUploadBatchAsync(int batchId, Exception e)
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        public void HandleFailedDownloadBatch(int batchId, Exception e)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public Task HandleFailedDownloadBatchAsync(int batchId, Exception e)
+        {
+            return Task.FromResult<object>(null);
         }
     }
 }

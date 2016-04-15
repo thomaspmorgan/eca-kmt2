@@ -11,8 +11,8 @@
         <form name="form.dependentForm" class="form-horizontal">
             <div class="col-md-6">
                 <div class="col-md-12">
-                    <div class="form-group row">
-                        <label for="dependenttype">DEPENDENT TYPE<span class="asterisk"> *</span></label>
+                    <div class="form-group">
+                        <label for="dependenttype">DEPENDENT TYPE <eca-required /></label>
                         <ui-select name="dependenttype" ng-model="dependent.dependentTypeId" theme="select2" required>
                             <ui-select-match placeholder="Select relationship">
                                 <div>{{$select.selected.name}}</div>
@@ -30,7 +30,7 @@
                         <input type="text" name="firstName" class="form-control" ng-model="dependent.firstName" />
                     </div>
                     <div class="form-group">
-                        <label for="lastName">LAST NAME<span class="asterisk"> *</span></label>
+                        <label for="lastName">LAST NAME <eca-required /></label>
                         <input type="text" name="lastName" class="form-control" ng-model="dependent.lastName" required />
                         <div ng-show="form.dependentForm.lastName.$dirty">
                             <div class="error" ng-show="form.dependentForm.lastName.$error.required">Please enter a last name.</div>
@@ -49,7 +49,7 @@
                         <input type="text" name="preferredName" class="form-control" ng-model="dependent.preferredName" />
                     </div>
                     <div class="form-group">
-                        <label for="gender">GENDER<span class="asterisk"> *</span></label>
+                        <label for="gender">GENDER <eca-required /></label>
                         <ui-select name="gender" ng-model="dependent.genderId" theme="select2" required>
                             <ui-select-match placeholder="Select gender">
                                 <div>{{$select.selected.value}}</div>
@@ -67,7 +67,7 @@
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="dateOfBirth">DATE OF BIRTH<span class="asterisk"> *</span></label>
+                        <label for="dateOfBirth">DATE OF BIRTH <eca-required /></label>
                         <div class="input-group">
                             <input type="text"
                                    class="form-control"
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="placeOfBirthId">CITY OF BIRTH<span class="asterisk"> *</span></label>
+                        <label for="placeOfBirthId">CITY OF BIRTH <eca-required /></label>
                         <ui-select ng-model="dependent.placeOfBirthId"
                                    theme="select2"
                                    name="placeOfBirthId" 
@@ -121,19 +121,10 @@
                     </div>
                     <div class="form-group">
                         <label for="selectedCountriesOfCitizenship">COUNTRIES OF CITIZENSHIP</label>
-                        <ui-select multiple name="selectedCountriesOfCitizenship" ng-model="$parent.selectedCountriesOfCitizenship"
-                                   theme="select2" style="min-width: 200px;"
-                                   title="Choose a country">
-                            <ui-select-match placeholder="Select countries...">
-                                <div>{{$item.name}}</div>
-                            </ui-select-match>
-                            <ui-select-choices refresh="searchDependentCountries($select.search)" refresh-delay="250" repeat="country in countriesCitizenship">
-                                <div ng-bind-html="country.name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
+                        <citizenshipcountries model="dependent" modelid="dependent.dependentId" modeltype="'personDependent'" editmode="true"></citizenshipcountries>
                     </div>
                     <div class="form-group">
-                        <label for="placeOfResidenceId">PERMANENT RESIDENCE COUNTRY<span class="asterisk"> *</span></label>
+                        <label for="placeOfResidenceId">PERMANENT RESIDENCE COUNTRY <eca-required /></label>
                         <select class="form-control" name="placeOfResidenceId"
                                 ng-options="t.id as t.name for t in countriesResidence"
                                 ng-model="dependent.placeOfResidenceId"

@@ -453,7 +453,6 @@ namespace ECA.Business.Test.Service.Admin
                 {
                     return context.People;
                 });
-                var creatorId = 1;
                 var yesterday = DateTimeOffset.Now.AddDays(-1.0);
                 var user = new User(5);
                 var phoneNumberId = 10;

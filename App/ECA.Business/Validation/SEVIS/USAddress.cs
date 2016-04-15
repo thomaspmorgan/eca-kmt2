@@ -82,13 +82,20 @@ namespace ECA.Business.Validation.Sevis
             {
                 explanationCodeInstance = this.ExplanationCode.GetUSAddrDoctorTypeExplanationCode();
             }
+            StateCodeType? stateCode = null;
+            if (isCodeSpecified(this.State))
+            {
+                stateCode = this.State.GetStateCodeType();
+            }
+
             return new USAddrDoctorType
             {
                 Address1 = this.Address1,
                 Address2 = this.Address2,
                 City = this.City,
                 PostalCode = this.PostalCode,
-                State = this.State.GetStateCodeType(),
+                State = stateCode,
+                StateSpecified = isCodeSpecified(this.State),
                 Explanation = this.Explanation,
                 ExplanationCodeSpecified = isCodeSpecified(this.ExplanationCode),
                 ExplanationCode = explanationCodeInstance

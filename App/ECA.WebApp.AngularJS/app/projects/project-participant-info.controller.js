@@ -45,7 +45,7 @@ angular.module('staticApp')
       $scope.view.isSavingUpdate = false;
       $scope.view.participantPerson = null;
       $scope.view.isInfoTabInEditMode = false;
-      
+
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
 
       $scope.editGeneral = function () {
@@ -159,16 +159,19 @@ angular.module('staticApp')
             });
       }
 
-      function updateParentTableParticipantSevisStatus(participant) {
-          var participants = $scope.$parent.$parent.participants;
-          var indexes = participants.map(function (p) { return p.participantId; });
-          var index = indexes.indexOf(participant.participantId);
-          if (index >= 0) {
-              $scope.$parent.$parent.participants[index].sevisStatus = participant.sevisStatus;
-              $scope.$parent.$parent.participants[index].sevisStatusId = participant.sevisStatusId;
-          }
-          else {
-              console.error('Unable able to find participant in participants table to update.');
+      $scope.$watch('participantid', function () {
+          loadParticipantInfo(projectId, $scope.participantid)
+              .then(function (results) {
+                  $scope.view.isLoadingEditParticipantInfoRequiredData = false;
+              })
+              .catch(function () {
+                  $scope.view.isLoadingEditParticipantInfoRequiredData = false;
+              });
+      });
+
+      function updateParentTableParticipantSevisStatus(participant) {          
+          if ($scope.onparticipantupdated) {
+              $scope.onparticipantupdated()(participant);
           }
       }
 

@@ -158,8 +158,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the birth country reason.
         /// </summary>
-        [NotMapped]
-        public virtual string BirthCountryReason { get; set; }
+        public virtual BirthCountryReason BirthCountryReason { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant
@@ -176,13 +175,19 @@ namespace ECA.Data
         /// </summary>
         public bool IsSevisDeleted { get; set; }
         
+        /// <summary>
+        /// Gets and sets the countries of citizenship
+        /// </summary>
         public ICollection<Location> CountriesOfCitizenship { get; set; }
+
+        /// <summary>
+        /// Gets and sets the email addresses
+        /// </summary>
         public ICollection<EmailAddress> EmailAddresses { get; set; }
 
         /// <summary>
         /// create/update time and user
         /// </summary>
         public History History { get; set; }
-
     }
 }

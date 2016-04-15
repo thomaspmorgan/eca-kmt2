@@ -6,9 +6,18 @@ using System.Linq;
 
 namespace ECA.Business.Test.Validation.Sevis.Bio
 {
+   
     [TestClass]
     public class FullNameValidatorTest
     {
+        private string personType;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            personType = "person type";
+        }
+
         public FullName GetValidFullName()
         {
             var firstName = "first";
@@ -23,7 +32,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestFirstName_Null()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -37,7 +46,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestFirstName_ExceedsMaxLength()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -46,14 +55,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.FIRST_NAME_ERROR_MESSAGE, personType, FullNameValidator.FIRST_NAME_MAX_LENGTH), 
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
         public void TestLastName_Null()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -62,14 +73,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FullNameValidator.LAST_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.LAST_NAME_ERROR_MESSAGE, personType, FullNameValidator.LAST_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
         public void TestLastName_ExceedsMaxLength()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -78,14 +91,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FullNameValidator.LAST_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.LAST_NAME_ERROR_MESSAGE, personType, FullNameValidator.LAST_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
         public void TestSuffix_Null()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -99,7 +114,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_CheckJuniorSuffixIsValid()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -113,7 +128,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_CheckSeniorSuffixIsValid()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -127,7 +142,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_CheckFirstSuffixIsValid()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -141,7 +156,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_CheckSecondSuffixIsValid()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -155,7 +170,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_CheckThirdSuffixIsValid()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -169,7 +184,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_CheckFourthSuffixIsValid()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -183,7 +198,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestSuffix_UnknownSuffix()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -192,17 +207,22 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
+            
             Assert.AreEqual(
-                String.Format(FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, instance.Suffix, 
-                    string.Join(FullNameValidator.JUNIOR_SUFFIX, FullNameValidator.SENIOR_SUFFIX, FullNameValidator.FIRST_SUFFIX, FullNameValidator.SECOND_SUFFIX, FullNameValidator.THIRD_SUFFIX, FullNameValidator.FOURTH_SUFFIX)), 
+                string.Format(
+                    FullNameValidator.SUFFIX_VALUE_ERROR_MESSAGE, 
+                    personType, 
+                    instance.Suffix, 
+                    string.Join(", ", FullNameValidator.JUNIOR_SUFFIX, FullNameValidator.SENIOR_SUFFIX, FullNameValidator.FIRST_SUFFIX, FullNameValidator.SECOND_SUFFIX, FullNameValidator.THIRD_SUFFIX, FullNameValidator.FOURTH_SUFFIX)),
                 result.Errors.First().ErrorMessage);
+
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
         public void TestPassportName_Null()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -215,7 +235,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestPassportName_ExceedsMaxLength()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -224,14 +244,16 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FullNameValidator.PASSPORT_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.PASSPORT_NAME_ERROR_MESSAGE, personType, FullNameValidator.PASSPORT_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
 
         [TestMethod]
         public void TestPreferredName_Null()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -244,7 +266,7 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
         [TestMethod]
         public void TestPreferredName_ExceedsMaxLength()
         {
-            var validator = new FullNameValidator();
+            var validator = new FullNameValidator(personType);
             var instance = GetValidFullName();
             var result = validator.Validate(instance);
             Assert.IsTrue(result.IsValid);
@@ -253,7 +275,9 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
             result = validator.Validate(instance);
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual(1, result.Errors.Count);
-            Assert.AreEqual(FullNameValidator.PREFFERED_NAME_ERROR_MESSAGE, result.Errors.First().ErrorMessage);
+            Assert.AreEqual(
+                string.Format(FullNameValidator.PREFFERED_NAME_ERROR_MESSAGE, personType, FullNameValidator.PREFERRED_NAME_MAX_LENGTH),
+                result.Errors.First().ErrorMessage);
             Assert.IsInstanceOfType(result.Errors.First().CustomState, typeof(FullNameErrorPath));
         }
     }

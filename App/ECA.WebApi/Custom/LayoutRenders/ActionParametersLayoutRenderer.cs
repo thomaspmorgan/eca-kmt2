@@ -1,16 +1,8 @@
 ﻿using ECA.WebApi.Custom.Filters;
 using NLog;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.Hosting;
-using System.Web.Http.Routing;
 
 namespace ECA.WebApi.Custom.LayoutRenders
 {
@@ -27,6 +19,9 @@ namespace ECA.WebApi.Custom.LayoutRenders
         [DefaultValue(false)]
         public bool IsEnabled { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void Append(StringBuilder builder, LogEventInfo logEvent)
         {
             if (IsEnabled)

@@ -25,11 +25,14 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                   printForm: true,
                   personId: 10,
                   participantId:20,
-                  isTravelingWithParticipant: true
+                  isTravelingWithParticipant: true,
+                  isDeleted: false
                   )
         {
 
         }
+
+        public bool IgnoreValidation { get; set; }
 
         public override object GetSevisExhangeVisitorDependentInstance()
         {
@@ -39,6 +42,11 @@ namespace ECA.Business.Test.Validation.Sevis.Bio
                 UserDefinedA = null,
                 UserDefinedB = null
             };
+        }
+
+        public override bool IgnoreDependentValidation()
+        {
+            return IgnoreValidation;
         }
     }
 }

@@ -96,6 +96,23 @@ namespace ECA.WebApi.Security
         /// <param name="idOfUserToImpersonate">The id of user to impersonate.</param>
         Task ImpersonateAsync(IWebApiUser impersonator, Guid idOfUserToImpersonate);
 
+        /// <summary>
+        /// Returns true, if the given user has the sevis user account credentials.
+        /// </summary>
+        /// <param name="user">The user to test.</param>
+        /// <param name="sevisUsername">The sevis username.</param>
+        /// <param name="sevisOrgId">The sevis org id.</param>
+        /// <returns>True, if the given user has the given sevis credentials, otherwise, false.</returns>
+        bool HasSevisUserAccount(IWebApiUser user, string sevisUsername, string sevisOrgId);
+
+        /// <summary>
+        /// Returns true, if the given user has the sevis user account credentials.
+        /// </summary>
+        /// <param name="user">The user to test.</param>
+        /// <param name="sevisUsername">The sevis username.</param>
+        /// <param name="sevisOrgId">The sevis org id.</param>
+        /// <returns>True, if the given user has the given sevis credentials, otherwise, false.</returns>
+        Task<bool> HasSevisUserAccountAsync(IWebApiUser user, string sevisUsername, string sevisOrgId);
     }
 
     /// <summary>
@@ -238,6 +255,36 @@ namespace ECA.WebApi.Security
         public void Dispose()
         {
             
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="sevisUsername"></param>
+        /// <param name="sevisOrgId"></param>
+        /// <returns></returns>
+        public bool HasSevisUserAccount(IWebApiUser user, string sevisUsername, string sevisOrgId)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(sevisUsername != null, "The sevis username must not be null.");
+            Contract.Requires(sevisOrgId != null, "The sevis org id must not be null.");
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="sevisUsername"></param>
+        /// <param name="sevisOrgId"></param>
+        /// <returns></returns>
+        public Task<bool> HasSevisUserAccountAsync(IWebApiUser user, string sevisUsername, string sevisOrgId)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
+            Contract.Requires(sevisUsername != null, "The sevis username must not be null.");
+            Contract.Requires(sevisOrgId != null, "The sevis org id must not be null.");
+            return Task.FromResult<bool>(true);
         }
     }
 }

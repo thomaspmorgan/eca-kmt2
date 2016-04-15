@@ -55,7 +55,7 @@ angular.module('staticApp')
       $scope.view.dateFormat = 'dd-MMMM-yyyy';
       $scope.view.totalParticipants = 0;
       $scope.view.tabSevis = false;
-      $scope.view.tabInfo = false;
+      $scope.view.tabInfo = true;
       $scope.view.tabExchangeVisitor = false;
       $scope.view.tabStudentVisitor = false;
       $scope.view.sevisCommStatuses = null;
@@ -72,10 +72,14 @@ angular.module('staticApp')
           "Select Action": undefined
       };
 
+      $scope.selectedGridView = 'Default';
+      $scope.test = true;
+
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       $scope.permissions.editProject = false;
       $scope.permissions.hasEditSevisPermission = false;
+      $scope.permissions.hasSendToSevisPermission = false;
       var projectId = $stateParams.projectId;
 
       var notifyStatuses = ConstantsService.sevisStatusIds.split(',');
@@ -84,21 +88,19 @@ angular.module('staticApp')
       var origUsParticipantsEst;
       var origNonUsParticipantsActual;
       var origUsParticipantsActual;
+      var kmtId = ConstantsService.kmtApplicationResourceId;
 
-      $scope.view.saveEstParticipants = function ()
-      {
+      $scope.view.saveEstParticipants = function () {
           $scope.view.editingEstParticipants = false;
           saveProject();
       }
 
-      $scope.view.saveActualParticipants = function ()
-      {
+      $scope.view.saveActualParticipants = function () {
           $scope.view.editingActualParticipants = false;
           saveProject();
       }
 
-      $scope.view.cancelEstParticipants = function ()
-      {
+      $scope.view.cancelEstParticipants = function () {
           $scope.view.editingEstParticipants = false;
           restoreOriginalEstParticipantValues();
       }
@@ -159,14 +161,12 @@ angular.module('staticApp')
           updateRelationshipIds(propertyName, 'regions');
       }
 
-      function restoreOriginalEstParticipantValues()
-      {
+      function restoreOriginalEstParticipantValues() {
           $scope.$parent.project.nonUsParticipantsEst = origNonUsParticipantsEst;
           $scope.$parent.project.usParticipantsEst = origUsParticipantsEst;
       }
 
-      function restoreOriginalActualParticipantValues()
-      {
+      function restoreOriginalActualParticipantValues() {
           $scope.$parent.project.nonUsParticipantsActual = origNonUsParticipantsActual;
           $scope.$parent.project.usParticipantsActual = origUsParticipantsActual;
       }
@@ -206,7 +206,7 @@ angular.module('staticApp')
            });
       }
 
-      $scope.view.onDeleteParticipantClick = function (participant) {
+      function showDeleteConfirm(participant) {
           MessageBox.confirm({
               title: 'Confirm',
               message: 'Are you sure you wish to delete the participant named ' + participant.name + '?',
@@ -278,7 +278,7 @@ angular.module('staticApp')
               $scope.participantInfo[participant.participantId].isDeleting = false;
               delete $scope.participantInfo[participant.participantId];
               NotificationService.showSuccessMessage("Successfully deleted the participant " + participant.name + '.');
-              reloadParticipantTable();
+              getPage();
           })
           .catch(function (response) {
               $scope.participantInfo[participant.participantId].isDeleting = false;
@@ -328,7 +328,7 @@ angular.module('staticApp')
           })
           .then(function () {
               $scope.view.isAddingParticipant = false;
-              reloadParticipantTable();
+              getPage();
           });
           return dfd;
       }
@@ -361,11 +361,6 @@ angular.module('staticApp')
           origUsParticipantsActual = $scope.$parent.project.usParticipantsActual;
 
       });
-
-      function reloadParticipantTable() {
-          console.assert($scope.getParticipantsTableState, "The table state function must exist.");
-          $scope.getParticipants($scope.getParticipantsTableState());
-      }
 
       function clearAddParticipantView() {
           $scope.view.selectedExistingParticipant = null;
@@ -418,7 +413,7 @@ angular.module('staticApp')
           });
       }
 
-      function loadPermissions() {
+      function loadProjectPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var resourceType = ConstantsService.resourceType.project.value;
           var config = {};
@@ -434,6 +429,7 @@ angular.module('staticApp')
           };
           config[ConstantsService.permission.editProject.value] = {
               hasPermission: function () {
+                  addDeleteAction();
                   $scope.permissions.editProject = true;
                   $log.info('User has edit project permission in project-participant.controller.js.');
               },
@@ -452,23 +448,33 @@ angular.module('staticApp')
                   $log.info('User not authorized to edit sevis in project-participant.controller.js.');
               }
           };
-          config[ConstantsService.permission.sendToSevis.value] = {
-              hasPermission: function () {
-                  addSendToSevisAction();
-                  $log.info('User has send to sevis permission in project-participant.controller.js.');
-              },
-              notAuthorized: function () {
-                  $log.info('User not authorized to send to sevis in project-participant.controller.js.');
-              }
-          };
-
-
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
             }, function () {
                 $log.error('Unable to load user permissions in project.js controller.');
             });
       };
+
+      function loadApplicationPermissions() {
+          console.assert(ConstantsService.resourceType.application.value, 'The constants service must have the application resource type value.');
+          var resourceType = ConstantsService.resourceType.application.value;
+          var config = {};
+          config[ConstantsService.permission.sendToSevis.value] = {
+              hasPermission: function () {
+                  $scope.permissions.hasSendToSevisPermission = true;
+                  $log.info('User has send to sevis permission in project-participant.controller.js.');
+              },
+              notAuthorized: function () {
+                  $scope.permissions.hasSendToSevisPermission = false;
+                  $log.info('User not authorized to send to sevis in project-participant.controller.js.');
+              }
+          };
+          return AuthService.getResourcePermissions(resourceType, kmtId, config)
+            .then(function (result) {
+            }, function () {
+                $log.error('Unable to load user permissions in project.js controller.');
+            });
+      }
 
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
@@ -546,19 +552,10 @@ angular.module('staticApp')
             });
       };
 
-      $scope.view.updateSevisCommStatusView = function(participantId, participantPersonSevis) {
-          if (participantId && participantPersonSevis && participantPersonSevis.sevisCommStatuses.length > 0) {
-              var participantIds = $scope.participants.map(function (p) { return p.participantId; });
-              var index = participantIds.indexOf(parseInt(participantId, 10));
-              $scope.participants[index].sevisStatus = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusName;
-              $scope.participants[index].sevisStatusId = participantPersonSevis.sevisCommStatuses[participantPersonSevis.sevisCommStatuses.length - 1].sevisCommStatusId;
-          }
-      }
-
       function loadSevisInfo(participantId) {
           return ParticipantPersonsSevisService.getParticipantPersonsSevisById(projectId, participantId)
           .then(function (data) {
-              $scope.view.updateSevisCommStatusView(participantId, data.data);
+              $scope.onParticipantUpdated(data.data);
               $scope.sevisInfo[participantId] = data.data;
               $scope.sevisInfo[participantId].show = true;
           })
@@ -574,7 +571,13 @@ angular.module('staticApp')
       };
 
       function addSendToSevisAction() {
-          $scope.actions["Send To SEVIS"] = 1;
+          if ($scope.permissions.hasEditSevisPermission && $scope.permissions.hasSendToSevisPermission) {
+              $scope.actions["Send To SEVIS"] = 1;
+          }
+      }
+
+      function addDeleteAction() {
+          $scope.actions["Delete"] = 2;
       }
 
       function loadExchangeVisitorInfo(participantId) {
@@ -637,7 +640,7 @@ angular.module('staticApp')
           $scope.view.tabSevis = true;
           $scope.view.tabInfo = false;
           loadSevisInfo(participantId);
-          loadExchangeVisitorInfo(participantId);          
+          loadExchangeVisitorInfo(participantId);
       };
 
       $scope.toggleParticipantInfo = function (participantId) {
@@ -661,64 +664,133 @@ angular.module('staticApp')
 
           modalInstance.result.then(function (participant) {
               if (participant) {
-                  reloadParticipantTable();
+                  getPage();
               }
           });
       };
 
-      $scope.selectAllChanged = function () {
-          if ($scope.selectAll) {
-              for (var i = 0; i < $scope.participants.length; i++) {
-                  var participantId = $scope.participants[0].participantId;
-                  $scope.selectedParticipants[participantId] = true;
-              }
-          } else {
-              $scope.selectedParticipants = {};
-          }
-      }
-
       $scope.selectedActionChanged = function () {
-          $scope.selectAll = false;
-          $scope.selectedParticipants = {};
-          var tableState = $scope.getParticipantsTableState();
-          tableState.filter = [];
           if ($scope.selectedAction === 1) {
-              tableState.filter = { property: 'sevisStatus', comparison: 'eq', value: 'Ready To Submit' };
+              paginationOptions.filter = { property: 'sevisStatusId', comparison: 'eq', value: ConstantsService.sevisCommStatus.readyToSubmit.id };
+              $scope.gridApi.selection.setMultiSelect(true);
+          } else {
+              $scope.gridApi.selection.setMultiSelect(false);
+              paginationOptions.filter = null;
           }
-          $scope.getParticipants(tableState);
+
+          getPage();
       }
 
-      $scope.selectedParticipants = {};
+      $scope.selectedGridViewChanged = function () {
+          if ($scope.selectedGridView === 'SEVIS') {
+              $scope.gridOptions.columnDefs = sevisColumnDefs;
+          } else {
+              $scope.gridOptions.columnDefs = defaultColumnDefs;
+          }
+          getPage();
+      }
 
-      $scope.selectedParticipantsEmpty = function () {
-          return Object.keys($scope.selectedParticipants).length === 0;
+      $scope.getSelectedParticipants = function () {
+          return $scope.gridApi.selection.getSelectedRows();
+      }
+
+      $scope.getSelectedParticipant = function () {
+          return $scope.getSelectedParticipants()[0];
+      }
+
+      $scope.onParticipantUpdated = function (updatedParticipant) {
+          var participantIds = $scope.gridOptions.data.map(function (p) { return p.participantId; });
+          var index = participantIds.indexOf(parseInt(updatedParticipant.participantId, 10));
+          if (index != -1) {
+              var participantToUpdate = $scope.gridOptions.data[index];
+              if (updatedParticipant.participantType) {
+                  participantToUpdate.participantType = updatedParticipant.participantType;
+              }
+              if (updatedParticipant.participantTypeId) {
+                  participantToUpdate.participantTypeId = updatedParticipant.participantTypeId;
+              }
+              if (updatedParticipant.participantStatus) {
+                  participantToUpdate.participantStatus = updatedParticipant.participantStatus;
+              }
+              if (updatedParticipant.participantStatusId) {
+                  participantToUpdate.participantStatusId = updatedParticipant.participantStatusId;
+              }
+              if (updatedParticipant.sevisStatus) {
+                  participantToUpdate.sevisStatus = updatedParticipant.sevisStatus;
+              }
+              if (updatedParticipant.participantStatusId) {
+                  participantToUpdate.sevisStatusId = updatedParticipant.sevisStatusId;
+              }
+          }
       }
 
       $scope.applyAction = function () {
           if ($scope.selectedAction === 1) {
-              var participants = Object.keys($scope.selectedParticipants).map(Number);
-              ParticipantPersonsSevisService.sendToSevis(projectId, participants)
-              .then(function (results) {
-                  $scope.selectAll = false;
-                  $scope.selectedParticipants = {};
-                  NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participants.length + " participants.");
-                  reloadParticipantTable();
-              }, function () {
-                  NotificationService.showErrorMessage("Failed to queue participants.");
-              });
+              return AuthService.getUserInfo()
+              .then(function (response) {
+                  var userInfo = response.data;
+                  var doSendParticipantsToSevis = function (sevisUserAccount) {
+                      var selectedParticipants = $scope.getSelectedParticipants();
+                      return sendParticipantsToSevis(selectedParticipants, sevisUserAccount.username, sevisUserAccount.orgId);
+                  }
+                  var sevisUserAccounts = userInfo.sevisUserAccounts;
+                  var sevisUserAccount = sevisUserAccounts[0];
+                  if (sevisUserAccounts.length > 1) {
+                      promptUserForSevisUserAccount(userInfo, doSendParticipantsToSevis, function () { });
+                  }
+                  else {
+                      doSendParticipantsToSevis(sevisUserAccount)
+                  }
+              })
+              .catch(function (response) {
+                  var message = "Unable to determine user info for the current user."
+                  NotificationService.showErrorMessage(message);
+                  $log.error(message);
+              })
+          } else if ($scope.selectedAction === 2) {
+              var selectedParticipant = $scope.getSelectedParticipant();
+              showDeleteConfirm(selectedParticipant);
           }
       }
 
-      $scope.selectedParticipant = function (participant, checked) {
-          if (!checked) {
-              delete $scope.selectedParticipants[participant.participantId];
-          }
+      function sendParticipantsToSevis(participants, sevisUsername, sevisOrgId) {
+          var participantIds = $scope.getSelectedParticipants().map(function (obj) { return obj.participantId });
+          return ParticipantPersonsSevisService.sendToSevis(kmtId, projectId, participantIds, sevisUsername, sevisOrgId)
+          .then(function (results) {
+              NotificationService.showSuccessMessage("Successfully queued " + results.data.length + " of " + participantIds.length + " participants.");
+              getPage();
+          }, function () {
+              NotificationService.showErrorMessage("Failed to queue participants.");
+          });
+      }
+
+      function promptUserForSevisUserAccount(userInfo, okCallback, cancelCallback) {
+          var modalInstance = $modal.open({
+              templateUrl: '/app/projects/select-sevis-account-modal.html',
+              controller: 'SelectSevisAccountCtrl',
+              backdrop: 'static',
+              resolve: {
+                  userInfo: function () {
+                      return userInfo;
+                  }
+              },
+          });
+          modalInstance.result.then(function (selectedAccount) {
+              console.assert(selectedAccount, "The selected sevis account must be defined.");
+              $log.info('Closing...');
+              okCallback(selectedAccount);
+          }, function () {
+              $log.info('Dismiss select sevis account dialog...');
+              cancelCallback();
+          })
+          .then(function () {
+          });
       }
 
       $scope.view.isLoading = true;
-      $q.all([loadPermissions(), loadCollaboratorDetails()])
+      $q.all([loadProjectPermissions(), loadApplicationPermissions(), loadCollaboratorDetails()])
       .then(function (results) {
-          
+          addSendToSevisAction();
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');
       })
@@ -744,4 +816,113 @@ angular.module('staticApp')
                    participantTypeId == ConstantsService.participantType.otherOrganization.id);
       };
 
+      var paginationOptions = {
+          pageNumber: 1,
+          pageSize: 10,
+          sort: null,
+          keyword: null,
+          filter: null
+      };
+
+      var defaultColumnDefs = [
+           { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
+           { name: 'participantType' },
+           { name: 'participantStatus' },
+           { name: 'sevisStatus', displayName: 'SEVIS Status' }
+      ];
+      var sevisColumnDefs = [
+           { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName}}</a>' },
+           { name: 'sevisStatus', displayName: 'SEVIS Status' },
+           { name: 'sevisId'},
+           { name: 'isCreatedViaBatch', displayName: 'Created via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCreatedViaBatch" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isSentToSevisViaRTI', displayName: 'Sent via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isSentToSevisViaRTI" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isValidatedViaBatch', displayName: 'Validated via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaBatch" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isValidatedViaRTI', displayName: 'Validated via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaRTI" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isCancelled', displayName: 'Cancelled', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCancelled" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isDS2019Printed', displayName: 'Printed', cellTemplate: '<input type="checkbox" ng-model="row.entity.isDS2019Printed" ng-disabled="true">', cellClass: 'text-center'}
+      ];
+
+      $scope.gridOptions = {
+          paginationPageSizes: [10, 25, 50],
+          paginationPageSize: 10,
+          useExternalPagination: true,
+          multiSelect: false,
+          columnDefs: defaultColumnDefs,
+          onRegisterApi: function (gridApi) {
+              $scope.gridApi = gridApi;
+              $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                  if (sortColumns.length == 0) {
+                      paginationOptions.sort = null;
+                  } else {
+                      paginationOptions.sort = { property: sortColumns[0].name, direction: sortColumns[0].sort.direction };
+                      $scope.gridOptions.paginationCurrentPage = 1;
+                  }
+                  getPage();
+              });
+              gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                  paginationOptions.pageNumber = newPage;
+                  paginationOptions.pageSize = pageSize;
+                  getPage();
+              });
+              gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                  if ($scope.view.tabSevis && $scope.getSelectedParticipants().length === 1) {
+                      var participantId = row.entity.participantId;
+                      loadSevisInfo(participantId);
+                      loadExchangeVisitorInfo(participantId);
+                  }
+              });
+          }
+      };
+
+      $scope.$watch('participantFilter', function (participantFilter) {
+          if (participantFilter && participantFilter.length > 0) {
+              paginationOptions.keyword = participantFilter;
+          } else {
+              paginationOptions.keyword = null;
+          }
+          getPage();
+      });
+
+      function getPage() {
+          var params = {
+              start: (paginationOptions.pageNumber - 1) * paginationOptions.pageSize,
+              limit: ((paginationOptions.pageNumber - 1) * paginationOptions.pageSize) + paginationOptions.pageSize,
+              sort: paginationOptions.sort,
+              keyword: paginationOptions.keyword,
+              filter: paginationOptions.filter
+          };
+          var promise;
+          if ($scope.selectedGridView === 'SEVIS') {
+              promise = ParticipantPersonsSevisService.getSevisParticipantsByProjectId(projectId, params);
+          } else {
+              promise = ParticipantService.getParticipantsByProject(projectId, params);
+          }
+          promise.then(function (response) {
+                   var data = response.data || response;
+                   $scope.gridOptions.totalItems = data.total;
+                   $scope.view.totalParticipants = data.total;
+                   angular.forEach(data.results, function (result, index) {
+                       if (result.personId) {
+                           result.href = StateService.getPersonState(result.personId);
+                       }
+                       else if (result.organizationId) {
+                           result.href = StateService.getOrganizationState(result.organizationId);
+                       }
+                       else {
+                           var message = 'Unable to generate href for participant because it is neither an organization or a person.';
+                           $log.error(message);
+                           NotificationService.showErrorMessage(message);
+                       }
+                   });
+                   $scope.gridOptions.data = data.results;
+                   $scope.view.hasRealActualParticipants = data.total > 0;
+                   handleParticipantState();
+               })
+               .catch(function (error) {
+                   $log.error('Unable to load project participants.');
+                   NotificationService.showErrorMessage('Unable to load project participants.');
+               });
+      }
+
+      getPage();
   });

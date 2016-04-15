@@ -31,10 +31,16 @@ namespace ECA.Business.Queries.Sevis
                 SubmitDate = x.SubmitDate,
                 RetrieveDate = x.RetrieveDate,
                 SendString = x.SendString,
+                SevisOrgId = x.SevisOrgId,
+                SevisUsername = x.SevisUsername,
                 TransactionLogString = x.TransactionLogString,
                 UploadDispositionCode = x.UploadDispositionCode,
                 ProcessDispositionCode = x.ProcessDispositionCode,
-                DownloadDispositionCode = x.DownloadDispositionCode
+                DownloadDispositionCode = x.DownloadDispositionCode,
+                UploadTries = x.UploadTries,
+                DownloadTries = x.DownloadTries,
+                LastDownloadTry = x.LastDownloadTry,
+                LastUploadTry = x.LastUploadTry
             });
         }
 
@@ -58,10 +64,10 @@ namespace ECA.Business.Queries.Sevis
         }
 
         /// <summary>
-        /// Returns a query to retrieve sevis batch processing dtos that are ready to be submitted to sevis.
+        /// Returns a query to retrieve sevis batch processing dtos that are ready to be downloaded from SEVIS.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <returns>The query to retrieve sevis batch processing dtos that are ready to be submitted to sevis.</returns>
+        /// <returns>The query to retrieve sevis batch processing dtos that are ready to be downloaded from SEVIS.</returns>
         public static IQueryable<SevisBatchProcessingDTO> CreateGetSevisBatchProcessingDTOsToDownloadQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -98,7 +104,7 @@ namespace ECA.Business.Queries.Sevis
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The query to get participants that are queued to submit.</returns>
-        public static IQueryable<QueuedToSubmitParticipantDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
+        public static IQueryable<SevisGroupedQueuedToSubmitParticipantsDTO> CreateGetQueuedToSubmitParticipantDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var statusId = SevisCommStatus.QueuedToSubmit.Id;
@@ -110,13 +116,19 @@ namespace ECA.Business.Queries.Sevis
                                         .FirstOrDefault()
 
                         where latestStatus.SevisCommStatusId == statusId
-                        select new QueuedToSubmitParticipantDTO
+                        group participantPerson by new { SevisUsername = latestStatus.SevisUsername, SevisOrgId = latestStatus.SevisOrgId } into g
+                        select new SevisGroupedQueuedToSubmitParticipantsDTO
                         {
-                            ParticipantId = participantPerson.ParticipantId,
-                            ProjectId = participant.ProjectId,
-                            SevisId = participantPerson.SevisId
+                            Participants = g.Select(x => new QueuedToSubmitParticipantDTO
+                            {
+                                ParticipantId = x.ParticipantId,
+                                ProjectId = x.Participant.ProjectId,
+                                SevisId = x.SevisId,
+                            }),
+                            SevisOrgId = g.Key.SevisOrgId,
+                            SevisUsername = g.Key.SevisUsername
                         };
-            return query.OrderBy(x => x.ParticipantId);
+            return query.OrderBy(x => x.SevisUsername).ThenBy(x => x.SevisOrgId);
         }
 
         /// <summary>

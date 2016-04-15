@@ -1044,7 +1044,8 @@ namespace ECA.Business.Test.Service.Persons
         public void GetDeletedEntityTypes()
         {
             var types = saveAction.GetDeletedEntityTypes();
-            Assert.AreEqual(3, types.Count);
+            Assert.AreEqual(4, types.Count);
+            Assert.IsTrue(types.Contains(typeof(PersonDependent)));
             Assert.IsTrue(types.Contains(typeof(PhoneNumber)));
             Assert.IsTrue(types.Contains(typeof(EmailAddress)));
             Assert.IsTrue(types.Contains(typeof(Address)));
@@ -2334,27 +2335,42 @@ namespace ECA.Business.Test.Service.Persons
                 context.People.Add(person);
                 context.PersonDependents.Add(dependent);
                 context.EmailAddresses.Add(email);
-                saveAction.Context = context;
-
-                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
-                propertyValues.GetValueOf1String<int?>((property) =>
-                {
-                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.DependentId), property);
-                    return email.DependentId;
-                });
-
-                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
-                dbEntityEntry.GetDatabaseValues = () => propertyValues;
-                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
-
-                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
-                {
-                    return dbEntityEntry;
-                });
+                saveAction.Context = context;               
 
                 Action<int?> tester = (personId) =>
                 {
                     Assert.AreEqual(person.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByEmailAddress(context, email);
+                var resultAsync = await saveAction.GetPersonIdByEmailAddressAsync(context, email);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByEmailAddress_EmailIsForContact()
+        {
+            using (ShimsContext.Create())
+            {
+                var contact = new Contact
+                {
+                    ContactId = 1,
+                };
+                var email = new EmailAddress
+                {
+                    EmailAddressId = 1,
+                    ContactId = contact.ContactId,
+                    Contact = contact
+                };
+                context.GetLocalDelegate = () => email;
+                context.Contacts.Add(contact);
+                context.EmailAddresses.Add(email);
+                saveAction.Context = context;
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.IsNull(personId);
                 };
 
                 var result = saveAction.GetPersonIdByEmailAddress(context, email);
@@ -2383,22 +2399,6 @@ namespace ECA.Business.Test.Service.Persons
                 context.PersonDependents.Add(dependent);
                 context.EmailAddresses.Add(email);
                 saveAction.Context = context;
-
-                var propertyValues = new System.Data.Entity.Infrastructure.Fakes.ShimDbPropertyValues();
-                propertyValues.GetValueOf1String<int?>((property) =>
-                {
-                    Assert.AreEqual(PropertyHelper.GetPropertyName<EmailAddress>(x => x.DependentId), property);
-                    return email.DependentId;
-                });
-
-                var dbEntityEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry<EmailAddress>();
-                dbEntityEntry.GetDatabaseValues = () => propertyValues;
-                dbEntityEntry.GetDatabaseValuesAsync = () => Task.FromResult<DbPropertyValues>(propertyValues);
-
-                System.Data.Entity.Fakes.ShimDbContext.AllInstances.EntryOf1M0<EmailAddress>((ctx, addr) =>
-                {
-                    return dbEntityEntry;
-                });
 
                 Action<int?> tester = (personId) =>
                 {
@@ -2573,6 +2573,56 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         [TestMethod]
+        public async Task TestGetPersonIdByObject_PersonDependent()
+        {
+            using (ShimsContext.Create())
+            {
+                var dependent = new PersonDependent
+                {
+                    DependentId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => dependent;
+                context.PersonDependents.Add(dependent);                
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(dependent.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, dependent);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, dependent);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetPersonIdByObject_PersonDependentProxyClass()
+        {
+            using (ShimsContext.Create())
+            {
+                var dependent = new PersonDependentProxyClass
+                {
+                    DependentId = 1,
+                    PersonId = 2
+                };
+                context.GetLocalDelegate = () => dependent;
+                context.PersonDependents.Add(dependent);
+
+                Action<int?> tester = (personId) =>
+                {
+                    Assert.AreEqual(dependent.PersonId, personId);
+                };
+
+                var result = saveAction.GetPersonIdByObject(context, dependent);
+                var resultAsync = await saveAction.GetPersonIdByObjectAsync(context, dependent);
+                tester(result);
+                tester(resultAsync);
+            }
+        }
+
+        [TestMethod]
         public async Task TestGetPersonIdByObject_PhoneNumber()
         {
             using (ShimsContext.Create())
@@ -2666,7 +2716,7 @@ namespace ECA.Business.Test.Service.Persons
         #endregion
 
         [TestMethod]
-        public void GetUnionedObjects()
+        public void TestGetUnionedObjects()
         {
             var a = 1;
             var b = 2;

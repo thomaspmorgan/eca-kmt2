@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Business.Test</RootNamespace>
     <AssemblyName>ECA.Business.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -18,6 +18,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -138,6 +139,9 @@
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="mscorlib.4.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\mscorlib.4.0.0.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -147,6 +151,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.4.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\System.4.0.0.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -218,6 +225,7 @@
     <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantExchangeVisitorQueriesTest.cs" />
     <Compile Include="Queries\Persons\ExchangeVisitorQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantPersonsSevisQueriesTest.cs" />
     <Compile Include="Queries\Projects\ProjectQueriesTest.cs" />
     <Compile Include="Queries\Sevis\SevisBatchProcessingQueriesTest.cs" />
     <Compile Include="Search\OrganizationDocumentSaveActionTest.cs" />
@@ -301,9 +309,10 @@
     <Compile Include="Service\Persons\ExchangeVisitorServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorValidationServiceTest.cs" />
     <Compile Include="Service\Persons\ExchangeVisitorSaveActionTest.cs" />
+    <Compile Include="Service\Persons\ParticipantsToBeSentToSevisTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonValidationEntityTest.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonTest.cs" />
-    <Compile Include="Service\Persons\ParticipantPersonSevisServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonsSevisServiceTest.cs" />
     <Compile Include="Service\Programs\ProgramStatusServiceTest.cs" />
     <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
@@ -353,7 +362,6 @@
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
     <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
-    <Compile Include="Sevis\Model\DispositionCodeTest.cs" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
     <Compile Include="Validation\BusinessValidatorBaseTest.cs" />
@@ -384,6 +392,7 @@
     <Compile Include="Validation\Sevis\Bio\ModifiedParticipantDependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\PersonTest.cs" />
     <Compile Include="Validation\Sevis\Bio\DependentValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\Bio\DependentTest.cs" />
     <Compile Include="Validation\Sevis\Bio\UpdatedDependentTest.cs" />
     <Compile Include="Validation\Sevis\Finance\FinancialInfoValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\OtherFundsValidatorTest.cs" />
@@ -399,13 +408,14 @@
     <Compile Include="Validation\Sevis\ExchangeVisitorTest.cs" />
     <Compile Include="Validation\Sevis\SubjectFieldTest.cs" />
     <Compile Include="Validation\Sevis\USAddressTest.cs" />
-    <Compile Include="Validation\Shared\SubjectFieldValidatorTest.cs" />
+    <Compile Include="Validation\Sevis\SubjectFieldValidatorTest.cs" />
     <Compile Include="Validation\Sevis\Finance\USGovernmentFundingValidatorTest.cs" />
     <Compile Include="Validation\Sevis\AddressDTOValidatorTest.cs" />
     <Compile Include="Validation\SimpleValidationFailureTest.cs" />
     <Compile Include="Validation\SimpleValidationResultTest.cs" />
     <Compile Include="Validation\SevisEnumHelperTest.cs" />
     <Compile Include="Validation\ParticipantSevisKeyTest.cs" />
+    <Compile Include="Validation\SuccessfulValidationResultTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -416,6 +426,10 @@
     <Fakes Include="Fakes\ECA.Business.fakes">
       <SubType>Designer</SubType>
     </Fakes>
+    <Fakes Include="Fakes\System.fakes">
+      <SubType>Designer</SubType>
+    </Fakes>
+    <Fakes Include="Fakes\mscorlib.fakes" />
     <None Include="InMemoryEcaDbContextGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>
@@ -426,6 +440,10 @@
     <ProjectReference Include="..\ECA.Business.Search\ECA.Business.Search.csproj">
       <Project>{7ffb7ec5-462a-4997-9704-736f5af245e9}</Project>
       <Name>ECA.Business.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business.Sevis.Model\ECA.Business.Sevis.Model.csproj">
+      <Project>{55a1102d-da8f-41e7-8955-85e62e9c01a6}</Project>
+      <Name>ECA.Business.Sevis.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>

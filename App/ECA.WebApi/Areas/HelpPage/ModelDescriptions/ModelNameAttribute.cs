@@ -8,11 +8,17 @@ namespace ECA.WebApi.Areas.HelpPage.ModelDescriptions
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum, AllowMultiple = false, Inherited = false)]
     public sealed class ModelNameAttribute : Attribute
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public ModelNameAttribute(string name)
         {
             Name = name;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; private set; }
     }
 }

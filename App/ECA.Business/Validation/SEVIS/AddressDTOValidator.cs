@@ -56,7 +56,7 @@ namespace ECA.Business.Validation.Sevis
         /// <summary>
         /// The postal code regex value.
         /// </summary>
-        public const string POSTAL_CODE_REGEX = @"^\d{5}$";
+        public const string POSTAL_CODE_REGEX = @"^\d{5}(?:[-\s]\d{4})?$";
 
         /// <summary>
         /// The error message to format when a postal code is invalid.

@@ -123,6 +123,48 @@ namespace ECA.Business.Test.Validation.Sevis
         }
 
         [TestMethod]
+        public void TestPostalCode_PostalCodeIsFiveDigits()
+        {
+            var name = "address name";
+            var validator = new AddressDTOValidator((a) => name);
+            var instance = GetValidUSAddress();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PostalCode = "12345";
+            result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+        }
+
+        [TestMethod]
+        public void TestPostalCode_PostalCodeHasDashAndFourDigitsAfter()
+        {
+            var name = "address name";
+            var validator = new AddressDTOValidator((a) => name);
+            var instance = GetValidUSAddress();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PostalCode = "12345-6789";
+            result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+        }
+
+        [TestMethod]
+        public void TestPostalCode_PostalCodeDoesNotHaveDash_HasFourDigitsAfter()
+        {
+            var name = "address name";
+            var validator = new AddressDTOValidator((a) => name);
+            var instance = GetValidUSAddress();
+            var result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+
+            instance.PostalCode = "12345 6789";
+            result = validator.Validate(instance);
+            Assert.IsTrue(result.IsValid);
+        }
+
+        [TestMethod]
         public void TestPostalCode_Null()
         {
             var name = "address name";

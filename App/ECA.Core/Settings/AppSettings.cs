@@ -84,13 +84,7 @@ namespace ECA.Core.Settings
 
         public const string SEVIS_DOWNLOAD_URI_KEY = SEVIS_PREFIX + "DownloadUri";
 
-        public const string SEVIS_USERID_KEY = SEVIS_PREFIX + "UserId";
-
-        public const string SEVIS_ORGID_KEY = SEVIS_PREFIX + "OrgId";
-
         public const string SEVIS_THUMBPRINT = SEVIS_PREFIX + "Thumbprint";
-
-        public const string SEVIS_PASSPHRASE = SEVIS_PREFIX + "Passphrase";
 
         /// <summary>
         /// The sevis site of activity address key.
@@ -113,6 +107,16 @@ namespace ECA.Core.Settings
         /// The number of days to keep processed sevic batch records in days.
         /// </summary>
         public const string NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS = SEVIS_PREFIX + "NumberOfDaysToKeepProcessedSevisBatchRecords";
+
+        /// <summary>
+        /// The number of seconds to wait before trying to download a sevis batch from the sevis api again in seconds.
+        /// </summary>
+        public const string DOWNLOAD_COOLDOWN_IN_SECONDS = SEVIS_PREFIX + "DownloadCooldownInSeconds";
+
+        /// <summary>
+        /// The number of seconds to wait before trying to upload a sevis batch to the sevis api again in seconds.
+        /// </summary>
+        public const string UPLOAD_COOLDOWN_IN_SECONDS = SEVIS_PREFIX + "UploadCooldownInSeconds";
 
         #endregion
 
@@ -250,24 +254,9 @@ namespace ECA.Core.Settings
         public string SevisDownloadUri { get { return GetAppSetting(SEVIS_DOWNLOAD_URI_KEY); } }
 
         /// <summary>
-        /// Gets the azure SEVIS User Id.
-        /// </summary>
-        public string SevisUserId { get { return GetAppSetting(SEVIS_USERID_KEY); } }
-
-        /// <summary>
-        /// Gets the azure SEVIS Org Id
-        /// </summary>
-        public string SevisOrgId { get { return GetAppSetting(SEVIS_ORGID_KEY); } }
-
-        /// <summary>
         /// Gets the azure SEVIS Client Certificate Thumbprint
         /// </summary>
         public string SevisThumbprint { get { return GetAppSetting(SEVIS_THUMBPRINT); } }
-
-        /// <summary>
-        /// Gets the azure SEVIS Client Certificate Passphrase
-        /// </summary>
-        public string SevisPassphrase { get { return GetAppSetting(SEVIS_PASSPHRASE); } }
 
         /// <summary>
         /// Gets the azure SEVIS site of activity.
@@ -288,6 +277,16 @@ namespace ECA.Core.Settings
         /// Gets the number of days to keep processed sevis batch records.
         /// </summary>
         public string NumberOfDaysToKeepProcessedSevisBatchRecords { get { return GetAppSetting(NUMBER_OF_DAYS_TO_KEEP_PROCESSED_SEVIS_BATCH_RECORDS); } }
+
+        /// <summary>
+        /// Gets the number of seconds to wait before requesting a sevis batch to the api again.
+        /// </summary>
+        public string SevisDownloadCooldownInSeconds { get { return GetAppSetting(DOWNLOAD_COOLDOWN_IN_SECONDS); } }
+
+        /// <summary>
+        /// Gets the number of seconds to wait before sending a sevis batch to the api again.
+        /// </summary>
+        public string SevisUploadCooldownInSeconds { get { return GetAppSetting(UPLOAD_COOLDOWN_IN_SECONDS); } }
 
         /// <summary>
         /// Gets the active directory client id.

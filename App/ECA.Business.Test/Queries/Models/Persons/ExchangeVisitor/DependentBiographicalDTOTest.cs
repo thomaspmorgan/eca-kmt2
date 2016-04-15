@@ -21,7 +21,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",
@@ -62,10 +62,10 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
-                EmailAddress = "somone@isp.com",
+                EmailAddress = "someone@isp.com",
                 EmailAddressId = 1,
                 FullName = new FullNameDTO
                 {
@@ -103,7 +103,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",
@@ -144,7 +144,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",
@@ -184,7 +184,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 155,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthCountryReasonCode = "birth country reason code",
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
@@ -212,7 +212,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
                 Relationship = "relationship",
                 SevisId = "sevisId",
                 IsDeleted = true,
-                IsTravelingWithParticipant = true
+                IsTravelingWithParticipant = true,
             };
             var instance = dto.GetAddedDependent(usAddress);
             Assert.IsTrue(object.ReferenceEquals(mailAddress, instance.MailAddress));
@@ -229,6 +229,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             Assert.IsTrue(instance.PrintForm);
             Assert.AreEqual(dto.Relationship, instance.Relationship);
             Assert.AreEqual(dto.IsTravelingWithParticipant, instance.IsTravelingWithParticipant);
+            Assert.AreEqual(dto.IsDeleted, instance.IsDeleted);
 
             Assert.AreEqual(dto.FullName.FirstName, instance.FullName.FirstName);
             Assert.AreEqual(dto.FullName.LastName, instance.FullName.LastName);
@@ -242,12 +243,12 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
         {
             var mailAddress = new AddressDTO();
             var usAddress = new AddressDTO();
-            var remarks = "remarks";
+
             var dto = new DependentBiographicalDTO
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",
@@ -281,7 +282,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 155,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthCountryReasonCode = "birth country reason code",
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
@@ -344,7 +345,7 @@ namespace ECA.Business.Test.Queries.Models.Persons.ExchangeVisitor
             {
                 BirthCity = "birth city",
                 BirthCountryCode = "birth country code",
-                BirthCountryReasonId = 1,
+                BirthCountryReasonId = BirthCountryReason.BornToForeignDiplomat.Id,
                 BirthDate = DateTime.Now,
                 CitizenshipCountryCode = "citizenship country code",
                 EmailAddress = "somone@isp.com",

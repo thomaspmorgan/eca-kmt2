@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.Business.Sevis</RootNamespace>
     <AssemblyName>ECA.Business.Sevis</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
@@ -101,7 +101,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SevisComm.cs" />
-    <Compile Include="SevisDownload.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
