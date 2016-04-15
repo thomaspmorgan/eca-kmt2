@@ -143,10 +143,11 @@ namespace ECA.Business.Queries.Sevis
         {
             Contract.Requires(context != null, "The context must not be null.");
             var successCode = DispositionCode.Success.Code;
+            var businessValidationErrorCode = DispositionCode.BusinessRuleViolations.Code;
             var query = from batch in context.SevisBatchProcessings
                         where batch.DownloadDispositionCode == successCode
                         && batch.UploadDispositionCode == successCode
-                        && batch.ProcessDispositionCode == successCode
+                        && (batch.ProcessDispositionCode == successCode || batch.ProcessDispositionCode == businessValidationErrorCode)
                         && batch.RetrieveDate < cutOffDate
                         select batch.Id;
             return query;

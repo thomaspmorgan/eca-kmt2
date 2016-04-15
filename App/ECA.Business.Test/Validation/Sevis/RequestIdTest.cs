@@ -8,6 +8,7 @@ using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Sevis.Model;
 using FluentAssertions;
+using ECA.Business.Sevis.Model.TransLog;
 
 namespace ECA.Business.Test.Validation
 {
@@ -119,6 +120,8 @@ namespace ECA.Business.Test.Validation
             var testInstance = new RequestId(idString);
             Assert.AreEqual(person.ParticipantId, testInstance.Id);
             Assert.AreEqual(RequestIdType.Participant, testInstance.RequestIdType);
+            Assert.IsTrue(testInstance.IsParticipantId);
+            Assert.IsFalse(testInstance.IsPersonDependentId);
         }
 
         [TestMethod]
@@ -190,6 +193,8 @@ namespace ECA.Business.Test.Validation
             var testInstance = new RequestId(idString);
             Assert.AreEqual(addedDependent.PersonId, testInstance.Id);
             Assert.AreEqual(RequestIdType.Dependent, testInstance.RequestIdType);
+            Assert.IsFalse(testInstance.IsParticipantId);
+            Assert.IsTrue(testInstance.IsPersonDependentId);
         }
 
         [TestMethod]
@@ -205,6 +210,8 @@ namespace ECA.Business.Test.Validation
             var testInstance = new RequestId(idString);
             Assert.AreEqual(person.ParticipantId, testInstance.Id);
             Assert.AreEqual(RequestIdType.FinancialInfo, testInstance.RequestIdType);
+            Assert.IsTrue(testInstance.IsParticipantId);
+            Assert.IsFalse(testInstance.IsPersonDependentId);
         }
 
         [TestMethod]
@@ -218,6 +225,22 @@ namespace ECA.Business.Test.Validation
             var testInstance = new RequestId(idString);
             Assert.AreEqual(person.ParticipantId, testInstance.Id);
             Assert.AreEqual(RequestIdType.SubjectField, testInstance.RequestIdType);
+            Assert.IsTrue(testInstance.IsParticipantId);
+            Assert.IsFalse(testInstance.IsPersonDependentId);
+        }
+
+        [TestMethod]
+        public void TestConstructor_TransactionLogTypeBatchDetailProcessRecord()
+        {
+            var person = GetPerson();
+            var requestId = new RequestId(person);
+            var record = new TransactionLogTypeBatchDetailProcessRecord
+            {
+                requestID = requestId.ToString()
+            };
+            var testRequestId = new RequestId(record);
+            Assert.AreEqual(requestId.ToString(), testRequestId.ToString());
+            Assert.IsTrue(requestId.Equals(testRequestId));
         }
 
         [TestMethod]

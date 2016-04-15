@@ -354,7 +354,7 @@ namespace ECA.Business.Test.Queries.Sevis
 
         #region CreateGetProcessedSevisBatchIdsForDeletionQuery
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_AllCodesSuccess()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -372,7 +372,25 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulProcessDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_HasSuccessfulUploadAndDownload_HasBusinessValidationProcessCode()
+        {
+            var cutOffDate = DateTime.UtcNow;
+            var batch = new SevisBatchProcessing
+            {
+                Id = 1,
+                RetrieveDate = cutOffDate.AddDays(-1.0),
+                DownloadDispositionCode = DispositionCode.Success.Code,
+                UploadDispositionCode = DispositionCode.Success.Code,
+                ProcessDispositionCode = DispositionCode.BusinessRuleViolations.Code
+            };
+            context.SevisBatchProcessings.Add(batch);
+            var results = SevisBatchProcessingQueries.CreateGetProcessedSevisBatchIdsForDeletionQuery(context, cutOffDate);
+            Assert.AreEqual(1, results.Count());
+            Assert.AreEqual(batch.Id, results.First());
+        }
+
+        [TestMethod]
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulProcessDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -389,7 +407,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulUploadDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulUploadDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing
@@ -406,7 +424,7 @@ namespace ECA.Business.Test.Queries.Sevis
         }
 
         [TestMethod]
-        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHavSuccessfulDownloadDispositionCode()
+        public void TestCreateGetProcessedSevisBatchIdsForDeletionQuery_DoesNotHaveSuccessfulDownloadDispositionCode()
         {
             var cutOffDate = DateTime.UtcNow;
             var batch = new SevisBatchProcessing

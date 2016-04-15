@@ -2,7 +2,10 @@
 using ECA.Business.Service.Sevis;
 using ECA.Core.Settings;
 using ECA.Data;
+using Microsoft.Azure;
 using Microsoft.Practices.Unity;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Data.Entity;
 using System.Diagnostics.Contracts;
@@ -18,9 +21,32 @@ namespace ECA.WebJobs.Sevis.Core
             return "filepath.pdf";
         }
 
-        public Task<string> SaveFileAsync(string fileName, Stream contents, string contentType)
+        public async Task<string> SaveFileAsync(string fileName, Stream contents, string contentType)
         {
-            return Task.FromResult<string>("filepath.pdf");
+            try
+            {
+                // Retrieve storage account from connection string.
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+                    CloudConfigurationManager.GetSetting("StorageConnectionString"));
+
+                // Create the blob client.
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+                // Retrieve a reference to a container.
+                CloudBlobContainer container = blobClient.GetContainerReference("ds2019files");
+
+                // Create the container if it doesn't already exist.
+                container.CreateIfNotExists();
+
+                // Retrieve reference to a blob named "myblob".
+                CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+                await blockBlob.UploadFromStreamAsync(contents);
+                return blockBlob.Uri.ToString();
+            }
+            catch(Exception e)
+            {
+                return e.Message.Substring(0, 4000);
+            }
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using ECA.Business.Validation.Sevis.Bio;
+﻿using ECA.Business.Sevis.Model.TransLog;
+using ECA.Business.Validation.Sevis.Bio;
 using ECA.Business.Validation.Sevis.Finance;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,16 @@ namespace ECA.Business.Validation.Sevis
         }
 
         /// <summary>
+        /// Creates a new RequestId instance from the given process record.
+        /// </summary>
+        /// <param name="record">The process record.</param>
+        public RequestId(TransactionLogTypeBatchDetailProcessRecord record)
+            :this(record.requestID)
+        {
+            Contract.Requires(record != null, "The record must not be null.");
+        }
+
+        /// <summary>
         /// Creates a new request id with the given string and parses it.
         /// </summary>
         /// <param name="requestId">The request id string.  This value must be created with another RequestId instance.</param>
@@ -108,6 +119,7 @@ namespace ECA.Business.Validation.Sevis
                 throw new NotSupportedException("The request id string is not a valid request id.");
             }
             Parse(requestId);
+            this.requestId = requestId;
         }
 
         private RequestId(int objectId, string objectTypeChar, RequestIdType requestIdType)
@@ -117,13 +129,33 @@ namespace ECA.Business.Validation.Sevis
             this.requestId = String.Format(REQUEST_ID_FORMAT_STRING, (int)requestIdType, objectTypeChar, objectId);
         }
 
-        
-
         private void Parse(string requestId)
         {
             var splitStrings = requestId.Split(new string[] { PARTICIPANT_CHAR, DEPENDENT_CHAR }, StringSplitOptions.RemoveEmptyEntries);
             this.RequestIdType = (RequestIdType)Enum.Parse(typeof(RequestIdType), splitStrings[0]);
             this.Id = Int32.Parse(splitStrings[1]);
+        }
+
+        /// <summary>
+        /// Gets a flag specifiying whether this request id contains a Participant Id.
+        /// </summary>
+        public bool IsParticipantId
+        {
+            get
+            {
+                return this.requestId.Contains(PARTICIPANT_CHAR);
+            }
+        }
+
+        /// <summary>
+        /// Gets a flag specifying whether this request id contains a Person Depdendent Id.
+        /// </summary>
+        public bool IsPersonDependentId
+        {
+            get
+            {
+                return this.requestId.Contains(DEPENDENT_CHAR);
+            }
         }
 
         /// <summary>
