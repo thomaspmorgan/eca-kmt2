@@ -31,7 +31,7 @@ angular.module('staticApp')
               id: entityId,
               name: "",
               isPrimary: false,
-              countryId: --tempCountryId,
+              locationId: --tempCountryId,
               isNew: true
           };
           $scope.$parent.$parent.countriesOfCitizenship.splice(0, 0, newCountry);

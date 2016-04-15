@@ -29,7 +29,7 @@ namespace ECA.WebApi.Test.Models.Person
             var birthCountryReasonId = 0;
             var permanentResidenceCountryCode = 193;
             var emailAddress = "test@test.com";
-            var countriesOfCitizenship = new List<int>();
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
             bool isTravellingWithParticipant = true;
             bool isDeleted = false;
             bool isSevisDeleted = false;

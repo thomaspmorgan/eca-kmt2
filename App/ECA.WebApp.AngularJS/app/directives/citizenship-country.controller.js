@@ -92,19 +92,6 @@ angular.module('staticApp')
           return getCountries($viewValue);
       }
 
-      $scope.view.onSelectCountry = function ($item, $model, $label) {
-          $scope.address.country = $item.name;
-          $scope.address.countryId = $item.id;
-          $scope.view.isCountryInactive = !$item.isActive;
-      }
-
-      $scope.view.onSelectCountryBlur = function ($event) {
-          if ($scope.address.country === '') {
-              delete $scope.address.countryId;
-              delete $scope.address.country;
-          }
-      };
-
       $scope.view.onIsPrimaryChange = function () {
           $scope.$emit(ConstantsService.removeNewCitizenshipCountryEventName, $scope.country);
       }

@@ -146,7 +146,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -160,7 +159,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(1, result.Count);
             var biography = result.First();
             Assert.AreEqual(dependent.CountriesOfCitizenship.Count(), biography.NumberOfCitizenships);
-            Assert.AreEqual(sevisCountryOfCitizenship.CountryCode, biography.CitizenshipCountryCode);
+            Assert.AreEqual(countryOfCitizenship.Location.LocationIso, biography.CitizenshipCountryCode);
 
             Assert.AreEqual(dependent.FirstName, biography.FullName.FirstName);
             Assert.AreEqual(dependent.LastName, biography.FullName.LastName);
@@ -317,7 +316,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -455,7 +454,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -589,7 +588,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -708,7 +707,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -891,6 +890,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Location = countryOfBirth,
                 IsPrimary = true
             };
+            var countryOfCitizenship2 = new PersonDependentCitizenCountry
+            {
+                LocationId = 67,
+                Location = countryOfBirth,
+                IsPrimary = true
+            };
             var gender = new Gender
             {
                 GenderId = 1,
@@ -927,6 +932,7 @@ namespace ECA.Business.Test.Queries.Persons
                 PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
+            dependent.CountriesOfCitizenship.Add(countryOfCitizenship2);
 
             var person = new Data.Person
             {
@@ -970,14 +976,13 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
-            context.Locations.Add(otherCountryOfCitizenship);
+            context.PersonDependents.Add(dependent);            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
             context.BirthCountries.Add(sevisResidenceCountry);
             context.BirthCountries.Add(sevisCountryOfCitizenship);
+            context.Locations.Add(otherCountryOfCitizenship);
             context.Locations.Add(sevisResidenceLocation);
             context.DependentTypes.Add(spousePersonType);
 
@@ -1088,7 +1093,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1227,7 +1232,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1355,7 +1360,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1518,7 +1523,6 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.PersonDependentCitizenCountries.Add(dependentCountryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.Locations.Add(addressLocation);
@@ -1659,7 +1663,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1805,7 +1809,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1951,7 +1955,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
+            
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);

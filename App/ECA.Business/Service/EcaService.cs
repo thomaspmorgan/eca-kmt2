@@ -697,42 +697,6 @@ namespace ECA.Business.Service
         }
         
         /// <summary>
-        /// Get a list of locations
-        /// </summary>
-        /// <param name="locationIds">Ids to lookup</param>
-        /// <returns>A list of locations</returns>
-        protected List<PersonDependentCitizenCountry> GetCitizenshipCountriesById(List<int> locationIds)
-        {
-            var locations = CreateGetCitizenshipCountriesById(locationIds).ToList();
-            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
-            return locations;
-        }
-
-        /// <summary>
-        /// Get a list of countries of citizenship
-        /// </summary>
-        /// <param name="locationIds">Ids to lookup</param>
-        /// <returns>A list of countries of citizenship</returns>
-        protected async Task<List<PersonDependentCitizenCountry>> GetCitizenshipCountriesByIdAsync(List<int> locationIds)
-        {
-            var locations = await CreateGetCitizenshipCountriesById(locationIds).ToListAsync();
-            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
-            return locations;
-        }
-
-        /// <summary>
-        /// Creates query for looking up a list of countries of citizenship
-        /// </summary>
-        /// <param name="locationIds">Ids to lookup</param>
-        /// <returns>Queryable list of countries of citizenship</returns>
-        private IQueryable<PersonDependentCitizenCountry> CreateGetCitizenshipCountriesById(List<int> locationIds)
-        {
-            var locations = Context.PersonDependentCitizenCountries.Where(x => locationIds.Contains(x.LocationId));
-            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
-            return locations;
-        }
-
-        /// <summary>
         /// Gets a location by id
         /// </summary>
         /// <param name="locationId">Location id to lookup</param>

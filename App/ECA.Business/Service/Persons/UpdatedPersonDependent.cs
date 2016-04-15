@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -46,7 +47,7 @@ namespace ECA.Business.Service.Persons
             int placeOfResidenceId,
             int? birthCountryReasonId,
             string emailAddress,
-            List<int> countriesOfCitizenship,
+            List<PersonDependentCitizenCountry> countriesOfCitizenship,
             bool isTravelWithParticipant,
             bool isDeleted,
             bool isSevisDeleted)
@@ -152,7 +153,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public List<int> CountriesOfCitizenship { get; set; }
+        public List<PersonDependentCitizenCountry> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets or sets depended travelling with participant

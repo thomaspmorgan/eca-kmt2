@@ -163,7 +163,7 @@ namespace ECA.Business.Queries.Persons
                             DateOfBirth = dependent.DateOfBirth,
                             PlaceOfBirthId = dependent.PlaceOfBirthId,
                             PlaceOfBirth = locationOfBirth,
-                            CountriesOfCitizenship = dependent.CountriesOfCitizenship.Select(x => new PersonDependentCitizenCountryDTO { LocationId = x.LocationId, IsPrimary = x.IsPrimary, Name = x.Location.LocationName }).OrderBy(l => l.Name),
+                            CountriesOfCitizenship = dependent.CountriesOfCitizenship.OrderBy(l => l.Location.LocationName),
                             PlaceOfResidenceId = dependent.PlaceOfResidenceId,
                             PlaceOfResidence = permanentResidence,
                             BirthCountryReasonId = dependent.BirthCountryReasonId,

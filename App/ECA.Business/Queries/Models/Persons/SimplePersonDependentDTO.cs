@@ -1,7 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
 using ECA.Business.Service.Lookup;
-using ECA.Business.Service.Persons;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 
@@ -14,7 +14,7 @@ namespace ECA.Business.Queries.Models.Persons
     {
         public SimplePersonDependentDTO()
         {
-            CountriesOfCitizenship = new List<PersonDependentCitizenCountryDTO>();
+            CountriesOfCitizenship = new List<PersonDependentCitizenCountry>();
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets the countries of citizenship
         /// </summary>
-        public IEnumerable<PersonDependentCitizenCountryDTO> CountriesOfCitizenship { get; set; }
+        public IEnumerable<PersonDependentCitizenCountry> CountriesOfCitizenship { get; set; }
 
         /// <summary>
         /// Gets and sets the email addresses
