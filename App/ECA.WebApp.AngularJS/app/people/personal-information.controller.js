@@ -5,7 +5,7 @@
  */
 angular.module('staticApp')
   .controller('PersonInformationCtrl', function ($scope, $stateParams, $state, $timeout, $q, $filter, $log,
-                                                smoothScroll, MessageBox, StateService, ConstantsService, ParticipantPersonsService) {
+                                                smoothScroll, MessageBox, StateService, ConstantsService, ParticipantPersonsService, NotificationService) {
 
       $scope.showEvalNotes = true;
       $scope.showEduEmp = true;

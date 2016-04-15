@@ -207,7 +207,7 @@ namespace ECA.Business.Service.Sevis
         public bool CanAccomodate(ExchangeVisitor exchangeVisitor, string sevisUsername, string sevisOrgId)
         {
             Contract.Requires(exchangeVisitor != null, "The exchange visitor must not be null.");
-            if (this.SevisUsername != sevisUsername|| this.SevisOrgId != sevisOrgId)
+            if (this.SevisUsername != sevisUsername || this.SevisOrgId != sevisOrgId)
             {
                 return false;
             }

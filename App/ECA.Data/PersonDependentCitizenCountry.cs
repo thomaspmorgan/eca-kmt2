@@ -9,7 +9,7 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int DependentId { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the Location Id.
         /// </summary>

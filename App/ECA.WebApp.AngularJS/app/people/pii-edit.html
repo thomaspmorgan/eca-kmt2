@@ -18,13 +18,13 @@
         <form name="piiForm" class="form-horizontal">
             <div class="col-md-6">
                 <div class="form-group row">
-                    <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
+                    <label class="col-md-4 title-label">First name <eca-required /></label>
                     <div class="col-md-8">
                         <input type="text" name="firstName" class="form-control" ng-model="pii.firstName" required />
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
+                    <label class="col-md-4 title-label">Last name <eca-required /></label>
                     <div class="col-md-8">
                         <input type="text" name="lastName" class="form-control" ng-model="pii.lastName" required />
                     </div>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-4 title-label">Gender<span class="asterisk"> *</span></div>
+                    <div class="col-md-4 title-label">Gender <eca-required /></div>
                     <div class="col-md-8">
                         <ui-select name="gender" ng-model="pii.genderId" theme="select2" ng-change="updateGender()" required>
                             <ui-select-match placeholder="Select gender">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-4 title-label">City of Birth<span class="asterisk" ng-show="!pii.isPlaceOfBirthUnknown"> *</span></div>
+                    <div class="col-md-4 title-label">City of Birth <eca-required ng-show="!pii.isPlaceOfBirthUnknown"/></div>
                     <div class="col-md-8">
                         <div class="input-group" style="margin-top:5px;">
                             <label>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-4 title-label">Date of Birth</div>
+                    <div class="col-md-4 title-label">Date of Birth <eca-required colorclass="preferred" tooltiptext="Required for SEVIS" iconfontname="label_outline"/></div>
                     <div class="col-md-8">
                         <div>
                             <label>
@@ -162,7 +162,7 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-4 title-label">Countries of Citizenship</div>
+                    <div class="col-md-4 title-label">Countries of Citizenship <eca-required colorclass="preferred" tooltiptext="Required for SEVIS" iconfontname="label_outline"/></div>
                     <div class="col-md-8">
                         <div class="form-group">
                             <label class="col-md-4 title-label"></label>

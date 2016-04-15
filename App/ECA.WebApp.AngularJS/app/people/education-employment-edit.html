@@ -54,7 +54,7 @@
                                     <div in-context-form ng-show="view.showEditEducation">
                                         <form name="form.educationForm" class="row form-horizontal" id="educationForm{{education.professionEducationId}}">
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="educationTitleValue">School<span class="asterisk"> *</span></label>
+                                                <label class="title-label col-md-3" for="educationTitleValue">School <eca-required /></label>
                                                 <input name="educationTitleValue"
                                                        ng-maxlength="120"
                                                        ng-model="education.title"
@@ -76,7 +76,7 @@
                                                 </div>
                                             </div>
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="educationStartDate">Start Date<span class="asterisk"> *</span></label>
+                                                <label class="title-label col-md-3" for="educationStartDate">Start Date <eca-required /></label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="educationStartDate" id="educationStartDate" ng-model="education.startDate"
@@ -159,7 +159,7 @@
                                     <div in-context-form ng-show="view.showEditEmployment">
                                         <form name="form.employmentForm" class="row form-horizontal" id="employmentForm{{employment.professionEducationId}}">
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="employmentTitleValue">Company<span class="asterisk"> *</span></label>
+                                                <label class="title-label col-md-3" for="employmentTitleValue">Company <eca-required /></label>
                                                 <div class="col-md-9">
                                                     <input name="employmentTitleValue"
                                                            maxlength="120"
@@ -183,7 +183,7 @@
                                                 </div>
                                             </div>
                                             <div class="row form-group">
-                                                <label class="title-label col-md-3" for="employmentStartDate">Start Date<span class="asterisk"> *</span></label>
+                                                <label class="title-label col-md-3" for="employmentStartDate">Start Date <eca-required /></label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="employmentStartDate" id="employmentStartDate" ng-model="employment.startDate"

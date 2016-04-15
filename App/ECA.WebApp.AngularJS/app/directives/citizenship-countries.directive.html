@@ -42,7 +42,7 @@
                     <div in-context-form ng-show="view.showEditCitizenshipCountry">
                         <form name="form.countryForm" class="row form-horizontal">
                             <div class="form-group" id="countryForm{{country.id}}">
-                                <label for="country">Country<span class="asterisk"> *</span></label>
+                                <label for="country">Country <eca-required /></label>
                                 <select class="form-control" name="country"
                                         ng-options="t.id as t.name for t in countries"
                                         ng-model="country.id"

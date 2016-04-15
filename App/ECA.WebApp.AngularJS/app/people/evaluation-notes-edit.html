@@ -49,7 +49,7 @@
                         <div in-context-form ng-show="view.showEditEvaluation">
                             <form name="form.evaluationForm" class="row form-horizontal">
                                 <div class="row form-group" id="evaluationForm{{evaluation.evaluationNoteId}}">
-                                    <label class="title-label col-md-3" for="evaluationValue">Note<span class="asterisk"> *</span></label>
+                                    <label class="title-label col-md-3" for="evaluationValue">Note <eca-required /></label>
                                     <textarea name="evaluationValue"
                                                 maxlength="{{view.maxDescriptionLength}}"
                                                 class="largerArea"

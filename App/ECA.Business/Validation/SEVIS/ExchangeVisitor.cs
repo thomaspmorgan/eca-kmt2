@@ -192,8 +192,8 @@ namespace ECA.Business.Validation.Sevis
                 var addressDoctor = address.GetUSAddressDoctorType();
                 instance.USAddress = addressDoctor;
             }
-            
-            if(this.OccupationCategoryCode != null)
+
+            if (this.OccupationCategoryCode != null)
             {
                 instance.OccupationCategoryCode = this.OccupationCategoryCode.GetEVOccupationCategoryCodeType();
                 instance.OccupationCategoryCodeSpecified = true;
@@ -208,7 +208,7 @@ namespace ECA.Business.Validation.Sevis
             instance.PrgEndDate = this.ProgramEndDate;
             instance.PrgStartDate = this.ProgramStartDate;
             instance.printForm = true;
-            instance.requestID = this.Person.ParticipantId.ToString();
+            instance.requestID = new RequestId(this.Person).ToString();
             instance.SubjectField = this.Person.SubjectField.GetEVPersonTypeSubjectField();
             SetDependents(instance);
 
@@ -230,7 +230,7 @@ namespace ECA.Business.Validation.Sevis
                 var addedDependent = (AddedDependent)dependent;
                 addedDependents.Add(addedDependent.GetEVPersonTypeDependent());
             }
-            if(addedDependents.Count > 0)
+            if (addedDependents.Count > 0)
             {
                 instance.CreateDependent = addedDependents.ToArray();
             }
@@ -251,28 +251,28 @@ namespace ECA.Business.Validation.Sevis
         {
             Contract.Requires(sevisUsername != null, "The sevis username must not be null.");
             var visitors = new List<SEVISEVBatchTypeExchangeVisitor1>();
-            Func<object, SEVISEVBatchTypeExchangeVisitor1> createUpdateExchangeVisitor = (item) =>
+            Func<object, RequestId, SEVISEVBatchTypeExchangeVisitor1> createUpdateExchangeVisitor = (item, requestId) =>
             {
                 return new SEVISEVBatchTypeExchangeVisitor1
                 {
                     Item = item,
-                    requestID = this.Person.ParticipantId.ToString(),
+                    requestID = requestId.ToString(),
                     sevisID = this.SevisId,
                     statusCodeSpecified = false,
                     userID = sevisUsername
                 };
             };
-            visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical()));
-            visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo()));
+            visitors.Add(createUpdateExchangeVisitor(this.Person.GetSEVISEVBatchTypeExchangeVisitorBiographical(), new RequestId(this.Person)));
+            visitors.Add(createUpdateExchangeVisitor(this.FinancialInfo.GetSEVISEVBatchTypeExchangeVisitorFinancialInfo(), new RequestId(this.Person, this.FinancialInfo)));
             foreach (var dependent in this.Dependents)
             {
                 var modifiedDependent = new ModifiedParticipantDependent(dependent);
-                visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent()));
+                visitors.Add(createUpdateExchangeVisitor(modifiedDependent.GetSEVISEVBatchTypeExchangeVisitorDependent(), new RequestId(dependent)));
             }
 
             var exchangeVisitorProgram = new SEVISEVBatchTypeExchangeVisitorProgram();
             exchangeVisitorProgram.Item = this.Person.SubjectField.GetSEVISEVBatchTypeExchangeVisitorProgramEditSubject();
-            visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram));
+            visitors.Add(createUpdateExchangeVisitor(exchangeVisitorProgram, new RequestId(this.Person, this.Person.SubjectField)));
 
             return visitors;
         }

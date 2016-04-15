@@ -53,7 +53,7 @@
                     <div in-context-form ng-show="view.showEditLanguageProficiency">
                             <form name="form.languageProficiencyForm" class="row form-horizontal">
                                 <div class="form-group row" id="languageProficiencyForm{{languageProficiency.languageId}}" name="languageProficiencyForm{{languageProficiency.languageId}}">
-                                    <label class="title-label col-md-4" for="languageprof">Language<span class="asterisk"> *</span></label>
+                                    <label class="title-label col-md-4" for="languageprof">Language <eca-required /></label>
                                     <div class="col-md-8">
                                         <ui-select ng-model="languageProficiency.languageId" theme="select2" tabindex="1" ng-required="false">
                                             <ui-select-match allow-clear="true" placeholder="Select a language...">{{$select.selected.name}}</ui-select-match>
