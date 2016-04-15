@@ -38,13 +38,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -56,6 +49,12 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "country of birth",
                 BirthCountryId = sevisBirthCountry.BirthCountryId,
                 BirthCountry = sevisBirthCountry
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var cityOfBirth = new Location
             {
@@ -147,7 +146,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -210,13 +209,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -236,6 +228,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -319,7 +317,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -349,13 +347,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -375,6 +366,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -458,7 +455,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -486,13 +483,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -512,6 +502,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -593,7 +589,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -619,13 +615,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -645,6 +634,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -713,7 +708,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -863,13 +858,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var otherCountryOfCitizenship = new Location
             {
                 LocationId = 92,
@@ -896,6 +884,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -933,7 +927,6 @@ namespace ECA.Business.Test.Queries.Persons
                 PlaceOfResidenceId = sevisResidenceLocation.LocationId
             };
             dependent.CountriesOfCitizenship.Add(countryOfCitizenship);
-            dependent.CountriesOfCitizenship.Add(otherCountryOfCitizenship);
 
             var person = new Data.Person
             {
@@ -978,7 +971,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(otherCountryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
@@ -1006,13 +999,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1032,6 +1018,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1096,7 +1088,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1123,13 +1115,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1149,6 +1134,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1236,7 +1227,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1258,13 +1249,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1284,6 +1268,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1365,7 +1355,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1413,6 +1403,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var dependentCountryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1522,7 +1518,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.ParticipantPersons.Add(participantPerson);
             context.Genders.Add(gender);
             context.People.Add(person);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(dependentCountryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.Locations.Add(addressLocation);
@@ -1555,13 +1551,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1581,6 +1570,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1664,7 +1659,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1702,13 +1697,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1728,6 +1716,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1811,7 +1805,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);
@@ -1849,13 +1843,6 @@ namespace ECA.Business.Test.Queries.Persons
                 BirthCountryId = 1000978,
                 CountryCode = "country of citizenship code"
             };
-            var countryOfCitizenship = new Location
-            {
-                LocationId = 87,
-                LocationName = "citizenship",
-                BirthCountry = sevisCountryOfCitizenship,
-                BirthCountryId = sevisCountryOfCitizenship.BirthCountryId
-            };
             var sevisBirthCountry = new BirthCountry
             {
                 BirthCountryId = 698,
@@ -1875,6 +1862,12 @@ namespace ECA.Business.Test.Queries.Persons
                 Country = countryOfBirth,
                 CountryId = countryOfBirth.LocationId,
                 LocationTypeId = LocationType.City.Id
+            };
+            var countryOfCitizenship = new PersonDependentCitizenCountry
+            {
+                LocationId = 87,
+                Location = countryOfBirth,
+                IsPrimary = true
             };
             var gender = new Gender
             {
@@ -1958,7 +1951,7 @@ namespace ECA.Business.Test.Queries.Persons
             context.Genders.Add(gender);
             context.People.Add(person);
             context.PersonDependents.Add(dependent);
-            context.Locations.Add(countryOfCitizenship);
+            context.PersonDependentCitizenCountries.Add(countryOfCitizenship);
             context.Locations.Add(cityOfBirth);
             context.Locations.Add(countryOfBirth);
             context.BirthCountries.Add(sevisBirthCountry);

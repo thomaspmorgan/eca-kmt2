@@ -50,7 +50,11 @@ angular.module('staticApp')
 
       function updateCountries(country) {
           var index = $scope.$parent.$parent.$parent.$parent.countriesOfCitizenship.map(function (e) { return e.id; }).indexOf(country.id);
-          $scope.$parent.$parent.$parent.$parent.countriesOfCitizenship[index] = country;
+          if (index < 0) {
+              $scope.$parent.$parent.$parent.$parent.countriesOfCitizenship.splice(0, 0, country);
+          } else {
+              $scope.$parent.$parent.$parent.$parent.countriesOfCitizenship[index] = country;
+          }
       };
 
       function getCountryName(country) {
@@ -101,9 +105,9 @@ angular.module('staticApp')
           }
       };
 
-      //$scope.view.onIsPrimaryChange = function () {
-      //    $scope.$emit(ConstantsService.primaryCountryChangedEventName, $scope.country);
-      //}
+      $scope.view.onIsPrimaryChange = function () {
+          $scope.$emit(ConstantsService.removeNewCitizenshipCountryEventName, $scope.country);
+      }
 
       $scope.view.onEditCountryClick = function () {
           $scope.view.showEditCitizenshipCountry = true;

@@ -121,16 +121,7 @@
                     </div>
                     <div class="form-group">
                         <label for="selectedCountriesOfCitizenship">COUNTRIES OF CITIZENSHIP</label>
-                        <ui-select multiple name="selectedCountriesOfCitizenship" ng-model="$parent.selectedCountriesOfCitizenship"
-                                   theme="select2" style="min-width: 200px;"
-                                   title="Choose a country">
-                            <ui-select-match placeholder="Select countries...">
-                                <div>{{$item.name}}</div>
-                            </ui-select-match>
-                            <ui-select-choices refresh="searchDependentCountries($select.search)" refresh-delay="250" repeat="country in countriesCitizenship">
-                                <div ng-bind-html="country.name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
+                        <citizenshipcountries model="dependent" modelid="dependent.dependentId" modeltype="'personDependent'" editmode="true"></citizenshipcountries>
                     </div>
                     <div class="form-group">
                         <label for="placeOfResidenceId">PERMANENT RESIDENCE COUNTRY<span class="asterisk"> *</span></label>

@@ -187,9 +187,9 @@ namespace ECA.Business.Queries.Persons
                         let birthDate = dependent.DateOfBirth
 
                         let numberOfCitizenships = dependent.CountriesOfCitizenship.Count()
-                        let countryOfCitizenship = dependent.CountriesOfCitizenship.FirstOrDefault()
-                        let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.BirthCountry : null
-                        let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.CountryCode : null
+                        let countryOfCitizenship = dependent.CountriesOfCitizenship.OrderByDescending(x => x.IsPrimary).FirstOrDefault()
+                        let sevisCountryOfCitizenship = countryOfCitizenship != null ? countryOfCitizenship.Location : null
+                        let sevisCountryOfCitizenshipCode = sevisCountryOfCitizenship != null ? sevisCountryOfCitizenship.LocationIso : null
 
                         let relationship = context.DependentTypes.Where(x => x.DependentTypeId == dependent.DependentTypeId).FirstOrDefault()
                         let relationshipCode = relationship != null ? relationship.SevisDependentTypeCode : null

@@ -57,6 +57,7 @@
 	otherConstants["primaryAddressChangedEventName"] = "primaryAddressChanged";
 	otherConstants["primaryEmailAddressChangedEventName"] = "primaryEmailAddressChanged";
 	otherConstants["primaryPhoneNumberChangedEventName"] = "primaryPhoneNumberChanged";
+	otherConstants["primaryCitizenshipCountryChangedEventName"] = "primaryCitizenshipCountryChanged";
 	otherConstants["removeNewSocialMediaEventName"] = "removeNewSocialMedia";
 	otherConstants["removeNewMembershipsEventName"] = "removeNewMembership";
 	otherConstants["removeNewLanguageProficiencyEventName"] = "removeNewLanguageProficiency";
@@ -67,7 +68,8 @@
 	otherConstants["removeNewEmploymentEventName"] = "removeNewEmployment";
 	otherConstants["removeNewEvaluationEventName"] = "removeNewEvaluation";
 	otherConstants["itineraryStopExpandedEventName"] = "itineraryStopExpanded";
-	otherConstants["removeNewDependentEventName"] = "newDependent";
+	otherConstants["removeNewDependentEventName"] = "removeNewDependent";
+	otherConstants["removeNewCitizenshipCountryEventName"] = "removeNewCitizenshipCountry";
 
 	otherConstants["ascending"] = SortDirection.Ascending.Value;
 	otherConstants["descending"] = SortDirection.Descending.Value;

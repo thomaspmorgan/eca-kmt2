@@ -30,6 +30,7 @@ angular.module('staticApp')
           var newCountry = {
               id: entityId,
               name: "",
+              isPrimary: false,
               countryId: --tempCountryId,
               isNew: true
           };
@@ -37,7 +38,7 @@ angular.module('staticApp')
           $scope.view.collapseCitizenshipCountries = false;
       };
 
-      $scope.$on(ConstantsService.removenewCountryEventName, function (event, newCountry) {
+      $scope.$on(ConstantsService.removeNewCitizenshipCountryEventName, function (event, newCountry) {
           console.assert($scope.$parent.$parent.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
 
           var countries = $scope.$parent.$parent.countriesOfCitizenship;
@@ -46,7 +47,7 @@ angular.module('staticApp')
           $log.info('Removed one new country at index ' + index);
       });
 
-      $scope.$on(ConstantsService.primaryCountryChangedEventName, function (event, primaryCountry) {
+      $scope.$on(ConstantsService.primaryCitizenshipCountryChangedEventName, function (event, primaryCountry) {
           console.assert($scope.$parent.$parent.countriesOfCitizenship instanceof Array, 'The entity countries is defined but must be an array.');
 
           var countries = $scope.$parent.$parent.countriesOfCitizenship;

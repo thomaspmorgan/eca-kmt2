@@ -228,7 +228,7 @@ namespace ECA.Business.Service.Persons
         public async Task<PersonDependent> CreateDependentAsync(NewPersonDependent newDependent)
         {
             Contract.Requires(newDependent != null, "The dependent must not be null.");
-            var citizenship = await GetLocationsByIdAsync(newDependent.CountriesOfCitizenship);            
+            var citizenship = await GetCitizenshipCountriesByIdAsync(newDependent.CountriesOfCitizenship);            
             var emails = new List<EmailAddress>();
             if (!string.IsNullOrEmpty(newDependent.EmailAddress))
             {
@@ -252,7 +252,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="newPerson">The person to create</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         /// <returns></returns>
-        private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<Location> countriesOfCitizenship, List<EmailAddress> emails)
+        private PersonDependent CreatePersonDependent(NewPersonDependent newPerson, List<PersonDependentCitizenCountry> countriesOfCitizenship, List<EmailAddress> emails)
         {
             var dependent = new PersonDependent
             {
@@ -288,10 +288,10 @@ namespace ECA.Business.Service.Persons
         {
             var personToUpdate = await GetPersonDependentModelByIdAsync(updatedDependent.DependentId);
 
-            var countriesOfCitizenship = new List<Location>();
+            var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
             if (updatedDependent.CountriesOfCitizenship != null)
             {
-                countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
+                countriesOfCitizenship = await GetCitizenshipCountriesByIdAsync(updatedDependent.CountriesOfCitizenship);
             }
 
             var emails = await Context.EmailAddresses.Where(x => x.DependentId == updatedDependent.DependentId).ToListAsync();
@@ -313,7 +313,7 @@ namespace ECA.Business.Service.Persons
             return personToUpdate;
         }
 
-        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent dependent, List<Location> countriesOfCitizenship, List<EmailAddress> emails)
+        private void DoDependentUpdate(UpdatedPersonDependent updateDependent, PersonDependent dependent, List<PersonDependentCitizenCountry> countriesOfCitizenship, List<EmailAddress> emails)
         {
             dependent.DependentTypeId = updateDependent.DependentTypeId;
             dependent.FirstName = updateDependent.FirstName;
@@ -344,10 +344,10 @@ namespace ECA.Business.Service.Persons
             if (!string.IsNullOrEmpty(dependent.SevisId))
             {
                 updatedDependent.IsDeleted = true;
-                var countriesOfCitizenship = new List<Location>();
+                var countriesOfCitizenship = new List<PersonDependentCitizenCountry>();
                 if (updatedDependent.CountriesOfCitizenship != null)
                 {
-                    countriesOfCitizenship = await GetLocationsByIdAsync(updatedDependent.CountriesOfCitizenship);
+                    countriesOfCitizenship = await GetCitizenshipCountriesByIdAsync(updatedDependent.CountriesOfCitizenship);
                 }
                 var emails = new List<EmailAddress>();
                 if (!string.IsNullOrEmpty(updatedDependent.EmailAddress))
@@ -846,7 +846,7 @@ namespace ECA.Business.Service.Persons
             return query.Where(p => p.PersonId == personId);
         }
         
-        private void SetDependentCountriesOfCitizenship(List<Location> countriesOfCitizenship, PersonDependent dependent)
+        private void SetDependentCountriesOfCitizenship(List<PersonDependentCitizenCountry> countriesOfCitizenship, PersonDependent dependent)
         {
             Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
             Contract.Requires(dependent != null, "The dependent entity must not be null.");

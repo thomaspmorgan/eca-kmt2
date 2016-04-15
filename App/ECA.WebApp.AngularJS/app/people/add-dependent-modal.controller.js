@@ -13,7 +13,6 @@ angular.module('staticApp')
 
       $scope.dependent = getNewDependent();
       $scope.person = person;
-      $scope.selectedCountriesOfCitizenship = [];
       $scope.countriesOfCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
@@ -112,26 +111,8 @@ angular.module('staticApp')
                 });
           }
       }
-
-      //function loadDependentCitizenshipCountries(search) {
-      //        var params = {
-      //            limit: 300,
-      //            filter: [
-      //              { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-      //              { property: 'isActive', comparison: 'eq', value: true }
-      //            ]
-      //        };
-      //        if (search) {
-      //            params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-      //        }
-      //        return LocationService.get(params)
-      //          .then(function (data) {
-      //              $scope.countriesOfCitizenship = data.results;
-      //              return $scope.countriesOfCitizenship;
-      //          });
-      //    }
-
-        function loadResidenceCountries() {
+      
+      function loadResidenceCountries() {
             var params = {
                 limit: 300,
                 filter: [
@@ -145,9 +126,9 @@ angular.module('staticApp')
                 $scope.countriesResidence = data.results;
                 return $scope.countriesResidence;
             });
-        }
+      }
 
-        function loadGenders() {
+      function loadGenders() {
             LookupService.getAllGenders({
                 limit: 300,
                 filter: [{

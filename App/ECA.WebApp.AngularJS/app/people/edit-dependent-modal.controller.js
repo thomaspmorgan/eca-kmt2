@@ -12,14 +12,13 @@ angular.module('staticApp')
           NotificationService, FilterService, $q, DateTimeService, dependent) {
       
       $scope.dependent = loadDependent(dependent.id);
-      $scope.selectedCountriesOfCitizenship = [];
-      $scope.countriesCitizenship = [];
+      $scope.countriesOfCitizenship = [];
       $scope.countriesResidence = [];
       $scope.cities = [];
-      $scope.isDependentLoading = true;
-      $scope.isSavingDependent = false;
       $scope.datePickerOpen = false;
       $scope.maxDateOfBirth = new Date();
+      $scope.isDependentLoading = true;
+      $scope.isSavingDependent = false;
 
       function loadDependent(dependentId) {
           $scope.isDependentLoading = true;
@@ -27,7 +26,7 @@ angular.module('staticApp')
              .then(function (data) {
                  $scope.dependent = data;
                  if ($scope.dependent.countriesOfCitizenship) {
-                     $scope.selectedCountriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
+                     $scope.countriesOfCitizenship = $scope.dependent.countriesOfCitizenship.map(function (obj) {
                          var location = {};
                          location.id = obj.id;
                          location.name = obj.value;
@@ -87,7 +86,7 @@ angular.module('staticApp')
       };
 
       function setupDependent() {
-          $scope.dependent.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
+          $scope.dependent.countriesOfCitizenship = $scope.countriesOfCitizenship.map(function (obj) {
               return obj.id;
           });
           if ($scope.dependent.dateOfBirth) {
@@ -145,24 +144,6 @@ angular.module('staticApp')
                     return $scope.cities;
                 });
           }
-      }
-
-      function loadDependentCitizenshipCountries(search) {
-          var params = {
-              limit: 300,
-              filter: [
-                { property: 'locationTypeId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.locationType.country.id },
-                { property: 'isActive', comparison: 'eq', value: true }
-              ]
-          };
-          if (search) {
-              params.filter.push({ property: 'name', comparison: ConstantsService.likeComparisonType, value: search });
-          }
-          return LocationService.get(params)
-            .then(function (data) {
-                $scope.countriesCitizenship = data.results;
-                return $scope.countriesCitizenship;
-            });
       }
 
       function loadResidenceCountries() {

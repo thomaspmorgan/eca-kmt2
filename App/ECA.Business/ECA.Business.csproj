@@ -357,6 +357,7 @@
     <Compile Include="Service\Persons\ParticipantExchangeVisitorService.cs" />
     <Compile Include="Service\Persons\ParticipantPersonsSevisService.cs" />
     <Compile Include="Service\Persons\ParticipantsToBeSentToSevis.cs" />
+    <Compile Include="Service\Persons\PersonDependentCitizenCountryDTO.cs" />
     <Compile Include="Service\Persons\PersonSevisServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantExchangeVisitor.cs" />
     <Compile Include="Service\Persons\UpdatedParticipantPersonSevis.cs" />

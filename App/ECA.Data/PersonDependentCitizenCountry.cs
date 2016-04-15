@@ -9,11 +9,16 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int DependentId { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the Location Id.
         /// </summary>
         public int LocationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        public virtual Location Location { get; set; }
 
         /// <summary>
         /// Gets or sets the is primary flag.
