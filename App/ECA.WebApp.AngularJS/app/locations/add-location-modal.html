@@ -14,7 +14,7 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group" ng-class="{ 'has-warning': view.locationExists, 'has-feedback': view.locationExists}">
-                                <label for="locationName">Name<span class="asterisk"> *</span></label>
+                                <label for="locationName">Name <eca-required /></label>
                                 <input name="locationName"
                                        id="locationName"
                                        ng-model="view.newLocation.name"
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="locationTypeId">Type<span class="asterisk"> *</span></label>
+                                <label for="locationTypeId">Type <eca-required /></label>
                                 <select class="form-control"
                                         id="locationTypeId"
                                         name="locationTypeId"
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="countryId">Country<span class="asterisk"> *</span></label>
+                                <label for="countryId">Country <eca-required /></label>
                                 <select class="form-control"
                                         id="countryId"
                                         name="countryId"
@@ -100,7 +100,7 @@
                                 <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingCities">autorenew</i>
                             </div>
                             <div class="form-group">
-                                <label for="latitude">Latitude<span class="asterisk" ng-show="view.isLatitudeRequired"> *</span></label>
+                                <label for="latitude">Latitude <eca-required ng-show="view.isLatitudeRequired"/></label>
                                 <p class="input-group">
                                     <input name="latitude"
                                            ng-model="view.newLocation.latitude"
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="longitude">Longitude<span class="asterisk" ng-show="view.isLongitudeRequired"> *</span></label>
+                                <label for="longitude">Longitude <eca-required ng-show="view.isLongitudeRequired"/></label>
                                 <input name="longitude"
                                        ng-model="view.newLocation.longitude"
                                        form-element guidance="The longitude of the location."

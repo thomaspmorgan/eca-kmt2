@@ -20,7 +20,7 @@
             <hr />
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label>Status<span class="asterisk"> *</span></label>
+                    <label>Status <eca-required /></label>
                     <div>
                         <select class="form-control"
                                 id="moneyFlowStatus"
@@ -49,8 +49,8 @@
                     <div>
                         &nbsp;
                     </div>
-                    <label ng-show="!view.moneyFlow.isOutgoing">Source Type<span class="asterisk"> *</span></label>
-                    <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <span class="asterisk"> *</span></label>
+                    <label ng-show="!view.moneyFlow.isOutgoing">Source Type <eca-required /></label>
+                    <label ng-show="view.moneyFlow.isOutgoing">Recipient Type <eca-required /></label>
                     <div>
                         <select class="form-control"
                                 id="peerEntityTypeId"
@@ -95,7 +95,7 @@
                 <div class="form-group col-md-4">
                     <label>
                         {{view.moneyFlow.isOutgoing ? 'Recipient' : 'Source'}}
-                        <span ng-show="view.isSourceRecipientFieldRequired" class="asterisk"> *</span>
+                        <eca-required ng-show="view.isSourceRecipientFieldRequired"/>
                     </label>
                     <div>
                         <span class="mute">Showing {{Math.min(view.searchLimit, view.peerCount)}} of {{view.peerCount}}.</span>
@@ -134,7 +134,7 @@
             <hr />
             <div class="row">
                 <div class="form-group col-md-4">
-                    <label>Transaction Date<span class="asterisk"> *</span></label>
+                    <label>Transaction Date <eca-required /></label>
                     <p class="input-group">
                         <input name="transactionDate"
                                type="text"
@@ -155,7 +155,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Reference Fiscal Year<span class="asterisk"> *</span></label>
+                    <label>Reference Fiscal Year <eca-required /></label>
                     <ui-select ng-model="view.moneyFlow.fiscalYear"
                                search-enabled="false"
                                on-select="view.onFiscalYearChange($item, $model)"
@@ -252,7 +252,7 @@
                     <p ng-show="view.selectedSourceMoneyFlow === null">No Source Funding Item Selected</p>
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Amount<span class="asterisk"> *</span></label>
+                    <label>Amount <eca-required /></label>
                     <input type="text"
                            step="any"
                            id="amount"
@@ -278,7 +278,7 @@
             <hr />
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label>Description<span class="asterisk"> *</span></label>
+                    <label>Description <eca-required /></label>
                     <div>
                         <textarea name="description"
                                   maxlength="{{view.maxDescriptionLength}}"

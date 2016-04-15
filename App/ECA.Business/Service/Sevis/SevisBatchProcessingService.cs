@@ -415,7 +415,7 @@ namespace ECA.Business.Service.Sevis
             if (record.Result.status)
             {
                 var stream = await fileProvider.GetDS2019FileStreamAsync(participantPerson.ParticipantId, batch.BatchId, record.sevisID);
-                if (stream != null && stream.Length > 0L)
+                if (stream != null)
                 {
                     using (stream)
                     {

@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="type">Type<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="type">Type <eca-required /></label>
                                 <div class="col-md-9">
                                     <select class="form-control"
                                             id="type"
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="city">City<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="city">City <eca-required /></label>
                                 <div class="col-md-9">
                                     <input type="search"
                                            id="city"
@@ -164,7 +164,7 @@
                                 
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="division">Division<span ng-show="address.country === 'United States'" class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="division">Division <eca-required ng-show="address.country === 'United States'" /></label>
                                 <div class="col-md-9">
                                     <input type="search"
                                            id="division"
@@ -193,7 +193,7 @@
                                 </div>                                
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="country">Country<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="country">Country <eca-required/></label>
                                 <div class="col-md-9">
                                     <input type="search"
                                            id="country"
@@ -222,7 +222,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="postalCode">Postal Code<span ng-show="address.country === 'United States'" class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="postalCode">Postal Code <eca-required ng-show="address.country === 'United States'" /></label>
                                 <div class="col-md-9">
                                     <input name="postalCode"
                                            maxlength="50"
