@@ -24,6 +24,7 @@ using ECA.Core.Generation;
 using Newtonsoft.Json.Serialization;
 using ECA.Core.Settings;
 using System.Xml;
+using System.Data.Entity.Core.Objects;
 
 namespace ECA.Business.Service.Sevis
 {
@@ -134,9 +135,14 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchRecordToUploadQuery()
         {
-            var cooldownDate = GetCooldownDate(appSettings.SevisUploadCooldownInSeconds);
+            var cooldownSeconds = Int32.Parse(appSettings.SevisUploadCooldownInSeconds);
+            if (cooldownSeconds < 0)
+            {
+                cooldownSeconds = -1 * cooldownSeconds;
+            }
+            var now = DateTimeOffset.UtcNow;
             return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToUploadQuery(this.Context)
-                .Where(x => !x.LastUploadTry.HasValue || (x.LastUploadTry.HasValue && x.LastUploadTry > cooldownDate));
+                .Where(x => !x.LastUploadTry.HasValue || (DbFunctions.DiffSeconds(now, x.LastUploadTry.Value) > cooldownSeconds));
         }
 
         /// <summary>
@@ -159,21 +165,15 @@ namespace ECA.Business.Service.Sevis
 
         private IQueryable<SevisBatchProcessingDTO> CreateGetNextBatchToDownload()
         {
-            var cooldownDate = GetCooldownDate(appSettings.SevisDownloadCooldownInSeconds);
-            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context)
-                .Where(x => !x.LastDownloadTry.HasValue || (x.LastDownloadTry.HasValue && x.LastDownloadTry > cooldownDate));
-        }
-
-        private DateTimeOffset GetCooldownDate(string cooldownSecondsAsString)
-        {
-            Contract.Requires(cooldownSecondsAsString != null, "The cooldwon seconds as string must not be null.");
-            var cooldownSeconds = Int32.Parse(cooldownSecondsAsString);
+            var cooldownSeconds = Int32.Parse(appSettings.SevisDownloadCooldownInSeconds);
             if (cooldownSeconds < 0)
             {
                 cooldownSeconds = -1 * cooldownSeconds;
             }
-            var coolDownDate = DateTimeOffset.UtcNow.AddSeconds((double)cooldownSeconds);
-            return coolDownDate;
+            var now = DateTimeOffset.UtcNow;
+            return SevisBatchProcessingQueries.CreateGetSevisBatchProcessingDTOsToDownloadQuery(this.Context)
+                .Where(x => !x.LastDownloadTry.HasValue || (DbFunctions.DiffSeconds(now, x.LastDownloadTry.Value) > cooldownSeconds))
+                .Where(x => x.SubmitDate.HasValue && (DbFunctions.DiffSeconds(now, x.SubmitDate.Value) > cooldownSeconds));
         }
         #endregion
 
@@ -242,7 +242,7 @@ namespace ECA.Business.Service.Sevis
             batch.DownloadTries++;
             batch.LastDownloadTry = DateTimeOffset.UtcNow;
         }
-        
+
         #endregion
 
         #region Process Transaction Log
