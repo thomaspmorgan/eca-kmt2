@@ -572,6 +572,7 @@
     <Compile Include="Validation\Sevis\IRemarkable.cs" />
     <Compile Include="Validation\Sevis\ISevisIdentifable.cs" />
     <Compile Include="Validation\Sevis\ExchangeVisitor.cs" />
+    <Compile Include="Validation\Sevis\RequestId.cs" />
     <Compile Include="Validation\SimpleValidationFailure.cs" />
     <Compile Include="Validation\SimpleValidationResult.cs" />
     <Compile Include="Validation\Sevis\ErrorPaths\AddressErrorPath.cs" />
