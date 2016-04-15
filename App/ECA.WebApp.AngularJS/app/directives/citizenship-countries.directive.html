@@ -4,31 +4,30 @@
             <i class="material-icons md-dark md-24 pull-right" ng-show="view.collapseCitizenshipCountries">expand_less</i>
             <i class="material-icons md-dark md-24 pull-right" ng-show="!view.collapseCitizenshipCountries">expand_more</i>
         </a>
-        <a ng-click="view.onAddCitizenshipCountryClick(model, model.dependentId)">
+        <a ng-click="view.onAddCitizenshipCountryClick(view.params.personId)">
             <i class="material-icons md-24 md-dark pull-right">add</i>
         </a>
-        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{model.dependent.countriesOfCitizenship.length}})</div>
+        <div class="pull-right" style="margin-top: 3px;" ng-show="view.collapseCitizenshipCountries">({{$parent.$parent.countriesOfCitizenship.length}})</div>
     </div>
     <div class="col-md-12" collapse="view.collapseCitizenshipCountries">
-        <div ng-repeat="country in model.countriesOfCitizenship">
+        <div ng-repeat="country in $parent.$parent.countriesOfCitizenship track by $index">
             <div ng-controller="CitizenshipCountryCtrl" class="expandIndent">
-                <div class="spinner" ng-show="view.isSavingChanges || view.isLoadingRequiredData">
+                <div class="spinner" ng-show="view.isSavingChanges">
                     <div class="bounce1"></div>
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <div class="row" ng-show="!view.isSavingChanges && !view.isLoadingRequiredData">
+                <div class="row" ng-show="!view.isSavingChanges">
                     <div ng-class="{true: '', false: 'row2'}[editMode]" ng-show="!view.showEditCitizenshipCountry">
-                        {{country.name}}
+                        <span>{{country.name}}</span>
                         <div class="pull-right" ng-show="!view.showEditCitizenshipCountry">
-                            <span>{{country.name}}</span>
-                            <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCitizenshipCountry && editMode" ng-click="view.showConfirmDelete = true">
+                            <a ng-show="!view.showEditCitizenshipCountry && !view.isDeletingCountry && editMode" ng-click="view.showConfirmDelete = true">
                                 <i class="material-icons md-dark">delete</i>
                             </a>
-                            <a ng-show="view.isDeletingCitizenshipCountry">
+                            <a ng-show="view.isDeletingCountry">
                                 <i class="material-icons md-dark material-icons-spin">refresh</i>
                             </a>
-                            <a ng-show="!view.showEditCitizenshipCountry && editMode" ng-click="view.onEditCitizenshipCountryClick()">
+                            <a ng-show="!view.showEditCitizenshipCountry && editMode" ng-click="view.onEditCountryClick()">
                                 <i class="material-icons md-dark">edit</i>
                             </a>
                         </div>
@@ -37,35 +36,34 @@
                         Are you sure you want to delete this country?
                     </div>
                     <div ng-show="view.showConfirmDelete" style="margin-top:10px;" class="text-center">
-                        <button ng-click="view.onDeleteCitizenshipCountryClick()" class="btn btn-danger">Delete</button>
+                        <button ng-click="view.onDeleteCountryClick()" class="btn btn-danger">Delete</button>
                         <button ng-click="view.showConfirmDelete = !view.showConfirmDelete" class="btn btn-cancel">Cancel</button>
                     </div>
                     <div in-context-form ng-show="view.showEditCitizenshipCountry">
                         <form name="form.countryForm" class="row form-horizontal">
                             <div class="form-group" id="countryForm{{country.id}}">
-                                <label class="title-label col-md-3" for="countryValue">Country<span class="asterisk"> *</span></label>
-                                <div class="col-md-9">
-                                    
-                                </div>
-                                <div ng-show="form.countryForm.countryValue.$dirty || form.countryForm.countryValue.$error.required">
-                                    <div class="error" ng-show="form.countryForm.countryValue.$error.required">Please select a country.</div>
+                                <label for="country">Country <eca-required /></label>
+                                <select class="form-control" name="country"
+                                        ng-options="t.id as t.name for t in countries"
+                                        ng-model="country.id"
+                                        required />
+                                <div ng-show="form.addressForm.country.$dirty || form.addressForm.country.$error.required">
+                                    <div class="error" ng-show="form.addressForm.country.$error.required">Please select a country.</div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="isPrimary">Is Primary</label>
-                                <div class="col-md-9">
+                                <label class="title-label col-md-6" for="isPrimary">Is Primary</label>
+                                <div class="col-md-6">
                                     <input name="isPrimary"
                                            type="checkbox"
                                            ng-model="country.isPrimary"
-                                           ng-change="view.onIsPrimaryChange()"
-                                           id="isPrimary"
-                                           />
+                                           id="isPrimary" />
                                 </div>
                             </div>
                         </form>
                         <div class="row right" ng-show="view.showEditCitizenshipCountry">
-                            <button ng-click="view.saveCitizenshipCountryChanges()" class="btn btn-success" ng-disabled="form.countryForm.$invalid">Save</button>
-                            <button ng-click="view.cancelCitizenshipCountryChanges()" class="btn btn-cancel">Cancel</button>
+                            <button ng-click="view.saveCountryChanges()" class="btn btn-success" ng-disabled="form.countryForm.$invalid">Save</button>
+                            <button ng-click="view.cancelCountryChanges()" class="btn btn-cancel">Cancel</button>
                         </div>
                     </div>
                 </div>

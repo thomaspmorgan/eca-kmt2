@@ -43,7 +43,7 @@
                     <div in-context-form ng-show="view.showEditPhoneNumber">
                         <form name="form.phoneNumberForm" class="row form-horizontal">
                             <div class="form-group">
-                                <label class="title-label col-md-3" for="type">Type<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="type">Type <eca-required /></label>
                                 <div class="col-md-9">
                                     <select class="form-control"
                                             id="type"
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="form-group" id="phoneNumberForm{{phoneNumber.id}}">
-                                <label class="title-label col-md-3" for="phoneNumberValue">Phone<span class="asterisk"> *</span></label>
+                                <label class="title-label col-md-3" for="phoneNumberValue">Phone <eca-required /></label>
                                 <div class="col-md-9">
                                     <input name="phoneNumberValue"
                                            maxlength="100"

@@ -1,7 +1,7 @@
 ﻿<div in-context-form ng-controller="OrganizationEditDetailsCtrl">
     <form name="form.organizationForm" class="form-horizontal">
         <div class="form-group row">
-            <label class="col-md-2 title-label" for="projectName">Name <span class="asterisk"> *</span></label>
+            <label class="col-md-2 title-label" for="projectName">Name <eca-required /></label>
             <div class="col-md-10">
                 <input name="name"
                        ng-model="organization.name"
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-2 title-label" for="description">Description <span class="asterisk"> *</span></label>
+            <label class="col-md-2 title-label" for="description">Description <eca-required /></label>
             <div class="col-md-10">
                 <textarea name="description"
                           ng-model="organization.description"

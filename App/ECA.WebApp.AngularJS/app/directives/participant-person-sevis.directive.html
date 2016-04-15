@@ -225,7 +225,7 @@
     <form name="formPositionAndFieldForm" ng-show="view.PositionAndField">
         <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Position<span class="asterisk"> *</span></label>
+                <label class="title-label">Position <eca-required /></label>
             </div>
             <div class="col-md-6">
                 <ui-select ng-model="exchangevisitorinfo.positionId" theme="select2" tabindex="1" ng-required="true">
@@ -242,7 +242,7 @@
         </div>
         <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Program Category<span class="asterisk"> *</span></label>
+                <label class="title-label">Program Category <eca-required /></label>
             </div>
             <div class="col-md-6">
                 <ui-select ng-model="exchangevisitorinfo.programCategoryId" theme="select2" tabindex="1" ng-required="true">
@@ -259,7 +259,7 @@
         </div>
         <div class="row row4">
             <div class="col-md-3">
-                <label class="title-label">Field Of Study<span class="asterisk"> *</span></label>
+                <label class="title-label">Field Of Study <eca-required /></label>
             </div>
             <div class="col-md-6">
                 <ui-select ng-model="exchangevisitorinfo.fieldOfStudyId" theme="select2" tabindex="1" ng-required="true">

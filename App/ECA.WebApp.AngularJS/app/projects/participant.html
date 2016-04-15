@@ -113,10 +113,10 @@
             <span style="margin-left: 10px;">Grid View:</span>
             <select class="form-control input-lg" ng-model="selectedGridView" ng-change="selectedGridViewChanged()">
                 <option>Default</option>
-                <option>Sevis</option>
+                <option>SEVIS</option>
             </select>
         </div>
-        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-auto-resize style="margin-top: 20px; margin-left: 10px;"></div>
+        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui-grid-auto-resize style="margin-top: 20px; margin-left: 10px; height: 381px;"></div>
         <div class="col-md-12" ng-if="getSelectedParticipants().length === 1 && getSelectedParticipant().personId">
             <tabset>
                 <tab heading="Participant Information" class="tab" select="onInfoTabSelected(getSelectedParticipants()[0].participantId)" active="view.tabInfo" deselect="view.tabInfo=false">

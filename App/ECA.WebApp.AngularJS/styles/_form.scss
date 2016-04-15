@@ -51,7 +51,11 @@
 }
 
 .asterisk {
-    color: $required;
+    color: firebrick;
+}
+
+.preferred {
+    color: blue;
 }
 
 .dropdown-menu .btn {

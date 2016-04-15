@@ -194,7 +194,7 @@
                                     <form name="form.moneyFlowForm" ng-show="!moneyFlow.isSavingUpdate">
                                         <div class="row">
                                             <div class="form-group col-md-4">
-                                                <label for="transactionDate{{moneyFlow.id}}">Transaction Date<span class="asterisk"> *</span></label>
+                                                <label for="transactionDate{{moneyFlow.id}}">Transaction Date <eca-required /></label>
                                                 <p class="input-group">
                                                     <input name="transactionDate"
                                                            id="transactionDate{{moneyFlow.id}}"
@@ -217,7 +217,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="moneyFlowStatus{{moneyFlow.id}}">Status<span class="asterisk"> *</span></label>
+                                                <label for="moneyFlowStatus{{moneyFlow.id}}">Status <eca-required /></label>
                                                 <select class="form-control"
                                                         id="moneyFlowStatus{{moneyFlow.id}}"
                                                         name="moneyFlowStatusId"
@@ -276,7 +276,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-md-4">
-                                                <label for="fiscalYear">Reference Fiscal Year<span class="asterisk"> *</span></label>
+                                                <label for="fiscalYear">Reference Fiscal Year <eca-required /></label>
                                                 <select class="form-control"
                                                         id="fiscalYear{{moneyFlow.id}}"
                                                         name="fiscalYear"
@@ -289,7 +289,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="amount{{moneyFlow.id}}">Amount<span class="asterisk"> *</span></label>
+                                                <label for="amount{{moneyFlow.id}}">Amount <eca-required /></label>
                                                 <input name="amount"
                                                        ng-model="moneyFlow.editableAmount"
                                                        max="{{moneyFlow.parentMoneyFlow ? moneyFlow.parentMoneyFlow.moneyFlowLineItemMaximumAmount : view.maxAmount}}"
@@ -341,7 +341,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-md-12">
-                                                <label for="description{{moneyFlow.id}}">Description<span class="asterisk"> *</span></label>
+                                                <label for="description{{moneyFlow.id}}">Description <eca-required /></label>
                                                 <textarea name="description"
                                                           maxlength="{{view.maxDescriptionLength}}"
                                                           class="largerArea"

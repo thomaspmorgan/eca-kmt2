@@ -682,7 +682,7 @@ angular.module('staticApp')
       }
 
       $scope.selectedGridViewChanged = function () {
-          if ($scope.selectedGridView === 'Sevis') {
+          if ($scope.selectedGridView === 'SEVIS') {
               $scope.gridOptions.columnDefs = sevisColumnDefs;
           } else {
               $scope.gridOptions.columnDefs = defaultColumnDefs;
@@ -818,7 +818,7 @@ angular.module('staticApp')
 
       var paginationOptions = {
           pageNumber: 1,
-          pageSize: 25,
+          pageSize: 10,
           sort: null,
           keyword: null,
           filter: null
@@ -828,23 +828,23 @@ angular.module('staticApp')
            { name: 'name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.name}}</a>' },
            { name: 'participantType' },
            { name: 'participantStatus' },
-           { name: 'sevisStatus' }
+           { name: 'sevisStatus', displayName: 'SEVIS Status' }
       ];
       var sevisColumnDefs = [
            { name: 'fullName', displayName: 'Name', cellTemplate: '<a href="{{row.entity.href}}">{{row.entity.fullName}}</a>' },
-           { name: 'sevisStatus'},
+           { name: 'sevisStatus', displayName: 'SEVIS Status' },
            { name: 'sevisId'},
-           { name: 'isCreatedViaBatch', displayName: 'Created via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCreatedViaBatch" ng-disabled="true">'},
-           { name: 'isSentToSevisViaRTI', displayName: 'Sent via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isSentToSevisViaRTI" ng-disabled="true">'},
-           { name: 'isValidatedViaBatch', displayName: 'Validated via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaBatch" ng-disabled="true">'},
-           { name: 'isValidatedViaRTI', displayName: 'Validated via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaRTI" ng-disabled="true">'},
-           { name: 'isCancelled', displayName: 'Cancelled', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCancelled" ng-disabled="true">'},
-           { name: 'isDS2019Printed', displayName: 'Printed', cellTemplate: '<input type="checkbox" ng-model="row.entity.isDS2019Printed" ng-disabled="true">'}
+           { name: 'isCreatedViaBatch', displayName: 'Created via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCreatedViaBatch" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isSentToSevisViaRTI', displayName: 'Sent via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isSentToSevisViaRTI" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isValidatedViaBatch', displayName: 'Validated via Batch', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaBatch" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isValidatedViaRTI', displayName: 'Validated via RTI', cellTemplate: '<input type="checkbox" ng-model="row.entity.isValidatedViaRTI" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isCancelled', displayName: 'Cancelled', cellTemplate: '<input type="checkbox" ng-model="row.entity.isCancelled" ng-disabled="true">', cellClass: 'text-center'},
+           { name: 'isDS2019Printed', displayName: 'Printed', cellTemplate: '<input type="checkbox" ng-model="row.entity.isDS2019Printed" ng-disabled="true">', cellClass: 'text-center'}
       ];
 
       $scope.gridOptions = {
-          paginationPageSizes: [25, 50, 75],
-          paginationPageSize: 25,
+          paginationPageSizes: [10, 25, 50],
+          paginationPageSize: 10,
           useExternalPagination: true,
           multiSelect: false,
           columnDefs: defaultColumnDefs,
@@ -892,7 +892,7 @@ angular.module('staticApp')
               filter: paginationOptions.filter
           };
           var promise;
-          if ($scope.selectedGridView === 'Sevis') {
+          if ($scope.selectedGridView === 'SEVIS') {
               promise = ParticipantPersonsSevisService.getSevisParticipantsByProjectId(projectId, params);
           } else {
               promise = ParticipantService.getParticipantsByProject(projectId, params);
