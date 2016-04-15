@@ -80,6 +80,34 @@ namespace ECA.Business.Service.Sevis
         /// </summary>
         /// <returns>The task.</returns>
         Task DeleteProcessedBatchesAsync();
+
+        /// <summary>
+        /// Handles a failed batch upload.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to upload.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        void HandleFailedUploadBatch(int batchId, Exception e);
+
+        /// <summary>
+        /// Handles a failed batch upload.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to upload.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        Task HandleFailedUploadBatchAsync(int batchId, Exception e);
+
+        /// <summary>
+        /// Handles a failed batch download.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to download.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        void HandleFailedDownloadBatch(int batchId, Exception e);
+
+        /// <summary>
+        /// Handles a failed batch download.
+        /// </summary>
+        /// <param name="batchId">The id of the batch that failed to download.</param>
+        /// <param name="e">The exception that may have been caught.</param>
+        Task HandleFailedDownloadBatchAsync(int batchId, Exception e);
     }
 
     /// <summary>
@@ -217,6 +245,48 @@ namespace ECA.Business.Service.Sevis
         public Task<List<StagedSevisBatch>> StageBatchesAsync()
         {
             return Task.FromResult<List<StagedSevisBatch>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        public void HandleFailedUploadBatch(int batchId, Exception e)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public Task HandleFailedUploadBatchAsync(int batchId, Exception e)
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        public void HandleFailedDownloadBatch(int batchId, Exception e)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public Task HandleFailedDownloadBatchAsync(int batchId, Exception e)
+        {
+            return Task.FromResult<object>(null);
         }
     }
 }

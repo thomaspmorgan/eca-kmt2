@@ -10,7 +10,7 @@ namespace ECA.Data
     /// </summary>
     public class SevisBatchProcessing
     {
-        private const int NAME_LENGTH = 5;
+        private const int DISPOSITION_CODE_LENGTH = 5;
 
         /// <summary>
         /// The Id of the batch record
@@ -78,19 +78,19 @@ namespace ECA.Data
         /// <summary>
         /// Error code for SEVIS Upload (submission)
         /// </summary>
-        [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
+        [MinLength(DISPOSITION_CODE_LENGTH), MaxLength(DISPOSITION_CODE_LENGTH)]
         public string UploadDispositionCode { get; set; }
 
         /// <summary>
         /// Error code for SEVIS processing
         /// </summary>
-        [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
+        [MinLength(DISPOSITION_CODE_LENGTH), MaxLength(DISPOSITION_CODE_LENGTH)]
         public string ProcessDispositionCode { get; set; }
 
         /// <summary>
         /// Error code for SEVIS retrieval (transaction log)
         /// </summary>
-        [MinLength(NAME_LENGTH), MaxLength(NAME_LENGTH)]
+        [MinLength(DISPOSITION_CODE_LENGTH), MaxLength(DISPOSITION_CODE_LENGTH)]
         public string DownloadDispositionCode { get; set; }
 
         /// <summary>
