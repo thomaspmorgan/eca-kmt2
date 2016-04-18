@@ -232,6 +232,8 @@
     <Content Include="app\projects\projects.routes.js" />
     <Content Include="app\projects\select-sevis-account-modal.html" />
     <Content Include="app\projects\select-sevis-account..controller.js" />
+    <Content Include="app\projects\sevis-batch-processing-info-modal.controller.js" />
+    <Content Include="app\projects\sevis-batch-processing-info-modal.html" />
     <Content Include="app\reports\reports.routes.js" />
     <Content Include="app\reports\report.controller.js" />
     <Content Include="app\reports\report.html" />
